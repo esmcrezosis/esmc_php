@@ -1,0 +1,607 @@
+﻿<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<?php
+$type = $sessionmembre->type;
+$desctype = $sessionmembre->desctype;
+?>
+<?php if(isset($sessionmembre->code_membre)) {
+
+	  $tegc = new Application_Model_EuTegc();
+      $m_tegc = new Application_Model_EuTegcMapper();
+
+	  $findte = $m_tegc->findByMembre($sessionmembre->code_membre,$tegc);
+
+      $acteur = new Application_Model_EuActeur();
+      $m_acteur = new Application_Model_EuActeurMapper() ;
+      $findacteur = $m_acteur->findByBpf($sessionmembre->code_membre);
+
+      $acteur2 = new Application_Model_EuActeur();
+      $m_acteur2 = new Application_Model_EuActeurMapper() ;
+      $findacteur2 = $m_acteur2->findByActeur($sessionmembre->code_membre);
+      $current_membre  = $sessionmembre->code_membre;
+
+      $acteurtechno = new Application_Model_EuActeur();
+      $m_acteurtechno = new Application_Model_EuActeurMapper() ;
+      $findacteurtechno = $m_acteurtechno->findByAdministrateur($sessionmembre->code_membre,"TECHNOPOLE");
+
+      $acteurfiliere = new Application_Model_EuActeur();
+      $m_acteurfiliere = new Application_Model_EuActeurMapper() ;
+      $findacteurfiliere = $m_acteurfiliere->findByAdministrateur($sessionmembre->code_membre,"FILIERE");
+
+      $acteuracnev = new Application_Model_EuActeur();
+      $m_acteuracnev = new Application_Model_EuActeurMapper() ;
+      $findacteuracnev = $m_acteuracnev->findByAdministrateur($sessionmembre->code_membre,"ACNEV");
+	  
+
+?>
+
+<div class="navbar navbar-inverse" style="position: static;">
+              <div class="navbar-inner">
+                <div class="container">
+                  <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </a>
+                  <div class="nav-collapse collapse navbar-inverse-collapse">
+                    <ul class="nav" style="margin-right:0;"><!-- class="active"-->
+                  <a class="brand" href="<?php echo $this->baseUrl();?>/espacepersonnel"><i class="icon-white icon-home"></i><!--Mon espace--></a>
+                      <?php /*?><li><a href="<?php echo $this->baseUrl();?>/espacepersonnel"><i class="icon-white icon-home"></i></a></li><?php */?>
+                  <?php
+                                $integrateur_mapper = new Application_Model_EuIntegrateurMapper();
+                                $integrateur = $integrateur_mapper->fetchAllByCodeMembre($sessionmembre->code_membre);
+
+                                $offreur_projet_mapper = new Application_Model_EuOffreurProjetMapper();
+                                $offreur_projet = $offreur_projet_mapper->fetchAllByMembre($sessionmembre->code_membre);
+
+                                if(count($integrateur) > 0 || count($offreur_projet) > 0){
+
+                              ?>
+                  <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Activation & Codes <b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                            <?php /*?><li class="nav-header">Activation </li>
+                            <li><a href="<?php echo $this->baseUrl();?>/espacepersonnel/activationcaps">Activation pour tiers PP</a></li><?php */?>
+							<li class="nav-header">MUTATION CMFH </li>
+                            <li><a href="<?php echo $this->baseUrl();?>/espacepersonnel/mutation"> Mutation de titre CMFH Offreur de Comptes Marchands </a></li>
+							
+							<li class="nav-header">SOUSCRIPTION CMFH </li>
+                            <li><a href="<?php echo $this->baseUrl();?>/espacepersonnel/listsouscriptioncmfh">Liste souscription cmfh</a></li>
+							
+                            <li class="nav-header">Codes d'activation </li>
+                            <li><a href="<?php echo $this->baseUrl();?>/codeactivation/listcodeactivation0">Liste des activations non utilisés</a></li>
+                            <li><a href="<?php echo $this->baseUrl();?>/codeactivation/listcodeactivation1">Liste des activations déjà utilisés</a></li>
+                            <li class="nav-header">Allocation de codes </li>
+                            <li><a href="<?php echo $this->baseUrl();?>/espacepersonnel/addallocationcmfh">Allocation de codes aux intégrateurs</a></li>
+                            <li><a href="<?php echo $this->baseUrl();?>/espacepersonnel/listallocationcmfh">Liste de mes allocations de codes</a></li>
+                          </ul>
+
+
+                      </li>
+                      <?php }?>
+
+											<?php if($_SERVER['SERVER_ADDR'] == Util_Utils::getParamEsmc(9)):?>
+												<?php $domaine = Util_Utils::getParamEsmcLib(9); //prod.gacsource.net ?>
+
+											<?php else: ?>
+												<?php $domaine = Util_Utils::getParamEsmcLib(10); //prod.esmcgacsource.com ?>
+											<?php endif; ?>
+											<li><a href="http://tom<?php echo str_replace("prod", "", $domaine); ?>/jmcnp/login" target="blank">Terminal d'échange</a></li>
+
+
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Les Manuels <b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                            <li class="nav-header"> UTILISATEURS </li>
+                            <li><a href="<?php echo $this->baseUrl();?>/publicites/Manuel_utilisateur_esmc.pdf" target="blank">Manuel de l'utilisateur</a></li>
+                            <li class="nav-header">INTEGRATEURS </li>
+                            <li><a href="<?php echo $this->baseUrl();?>/publicites/guide_integrateur.pdf" target="blank">Le Guide de l'intégrateur</a></li>
+                          </ul>
+                      </li>
+											<li class="dropdown">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown">La convention <b class="caret"></b></a>
+													<ul class="dropdown-menu">
+														<li class="nav-header"> LECTURE </li>
+														<li>
+                              <a href="<?php echo $this->baseUrl();?>/convention/lecture/param/1">Lire la convention</a>
+                            </li>
+															<li class="nav-header">TELECHARGEMENT </li>
+															<li class="text-left">
+	                              <a href="<?php echo $this->baseUrl();?>/publicites/convention_collaboration.pdf" target="blank">Telecharger la convention</a>
+	                          </li>
+													</ul>
+											</li>
+                   <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Comptes <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li class="nav-header">Certificat de Compte Marchand</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/certificatpdf/membre/<?php echo $sessionmembre->code_membre; ?>" target="_blank">Imprimer le Certificat de Compte Marchand</a></li>
+
+                          <?php if($findacteur2 != false || $findte != false) { ?>
+						  <li class="nav-header">Création des Terminaux de Vente</li>
+                          <!-- <li><a href="<?php echo $this->baseUrl();?>/compteuserte/newte">Ajouter TE</a></li> -->
+						  <li><a href="<?php echo $this->baseUrl();?>/compteuserte/listte">Liste des Terminaux de vente</a></li>
+
+						  <li class="nav-header">Création utilisateur des TE BPS </li>
+                          <li><a href="<?php echo $this->baseUrl();?>/compteuserte/new">Ajouter utilisateur</a></li>
+						  <li><a href="<?php echo $this->baseUrl();?>/compteuserte/listuser">Liste des utilisateurs</a></li>
+
+						  <?php } ?>
+
+						  <?php if($findacteur != false) { ?>
+						  <li class="nav-header">Création utilisateur des TE PBF  </li>
+                          <li><a href="<?php echo $this->baseUrl();?>/compteuserte/newpbf">Ajouter utilisateur</a></li>
+						  <li><a href="<?php echo $this->baseUrl();?>/compteuserte/listuserpbf">Liste des utilisateurs</a></li>
+                          <?php }  ?>
+
+                          <?php if($findacteurtechno != false || $findacteurfiliere != false || $findacteuracnev != false) { ?>
+				<li class="nav-header">Création utilisateur des TE SMCIPN  </li>
+                                <li><a href="<?php echo $this->baseUrl();?>/compteuserte/newsmcipn">Ajouter utilisateur</a></li>
+				<li><a href="<?php echo $this->baseUrl();?>/compteuserte/listusersmcipn">Liste des utilisateurs</a></li>
+                          <?php }  ?>
+
+
+
+
+                        </ul>
+
+
+
+                      </li>
+
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+
+
+                          <!--<li class="nav-header">Bons d'Achat neutre (BAn)</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/addsouscriptionbanperso">Souscrire au Bon d'Achat neutre (<strong>BAn</strong>)</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/listbonachatneutre">Liste des Bons d'Achat neutre</a></li>
+                          -->
+
+
+                                <li class="nav-header">Bons d'Achat neutre </li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons d'Achat neutre (BAn) <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-header">Bons d'Achat neutre </li>
+                                        <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/addsouscriptionbanperso">Souscrire au Bon d'Achat neutre (<strong>BAn</strong>)</a></li>
+                                        <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/listbonachatneutre">Liste de mes Bons d'Achat neutre (<strong>BAn</strong>)</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-header">Bons d'Achat </li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons d'Achat (BA) <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-header">Bons d'Achat </li>
+                                        <li><a href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbons/bontype/BA"> Liste de mes Bons d'Achat (<strong>BA</strong>)</a></li>
+              <?php if($findacteur2 != false || $findte != false) {?>
+                                        <li><a href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbonsdistributeur/bontype/BA"> Liste des Bons d'Achat de mes ventes (<strong>BA</strong>)</a></li>
+              <?php }  ?>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-header">Code du Bon de Consommation </li>
+                                <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/codebonconso">Code du Bon de Consommation</a></li>
+
+              <?php /*if($sessionmembre->type_fournisseur == "utilisateur") {?>
+                                <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/codebonconso2">Code du Bon de Commande</a></li>
+              <?php } */ ?>
+
+                                <li class="nav-header">Bons de Consommation récurrent </li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons de Consommation récurrent (BCr) <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-header">Bons de Consommation récurrent </li>
+                                        <li><a href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbons/bontype/BCr"> Liste de mes Bons de Consommation récurrent (<strong>BCr</strong>)</a></li>
+              <?php if($findacteur2 != false || $findte != false) {?>
+                                        <li><a href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbonsdistributeur/bontype/BCr"> Liste des Bons de Consommation récurrent de mes ventes (<strong>BCr</strong>)</a></li>
+              <?php }  ?>
+                                    </ul>
+                                </li>
+                                <li class="nav-header">Bons de Consommation non récurrent </li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons de Consommation non récurrent (BCnr) <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-header">Bons de Consommation non récurrent </li>
+                                        <li><a href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbons/bontype/BCnr"> Liste de mes Bons de Consommation non récurrent (<strong>BCnr</strong>)</a></li>
+              <?php if($findacteur2 != false || $findte != false) {?>
+                                        <li><a href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbonsdistributeur/bontype/BCnr"> Liste des Bons de Consommation non récurrent de mes ventes (<strong>BCnr</strong>)</a></li>
+              <?php }  ?>
+                                    </ul>
+                                </li>
+                                <li class="nav-header">Bons de Commande </li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons de Commande (BC) <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-header">Bons de Commande </li>
+                                        <li><a href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbons/bontype/BC"> Liste de mes Bons de Commande (<strong>BC</strong>)</a></li>
+               <?php if($findacteur2 != false || $findte != false) {?>
+                                       <li><a href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbonsdistributeur/bontype/BC"> Liste des Bons de Commande de mes ventes (<strong>BC</strong>)</a></li>
+              <?php }  ?>
+                                    </ul>
+                                </li>
+                                <li class="nav-header">Bons de Livraison </li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons de Livraison (BL) <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-header">Bons de Livraison </li>
+                                        <li><a href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbons/bontype/BL"> Liste de mes Bons de Livraison (<strong>BL</strong>)</a></li>
+              <?php if($findacteur2 != false || $findte != false) {?>
+                                        <li><a href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbonsdistributeur/bontype/BL"> Liste des Bons de Livraison de mes ventes (<strong>BL</strong>)</a></li>
+              <?php }  ?>
+                                        <li class="nav-header">Cumul des ventes </li>
+                                        <li><a href="<?php echo $this->baseUrl();?>/bons/listdestegc"> Cumul des ventes par TE</a></li>
+
+                                    </ul>
+                                </li>
+
+
+                      <li class="nav-header">Ordre de Prélèvement Irrévocable </li>
+
+
+                      <li class="dropdown-submenu text-left">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ordre de Prélèvement Irrévocable (OPI) <!--<b class="caret"></b>--></a>
+                      <ul class="dropdown-menu">
+                <?php if($findacteur2 != false)  { ?>
+                <?php  if($findacteur == false) { ?>
+                      <li class="nav-header">Souscription aux Bons de Commandes </li>
+                      <li><a href="<?php echo $this->baseUrl();?>/opi/newbc">Souscrire aux Bons de Commandes (<strong>BC</strong>)</a></li>
+
+              <?php } if($findacteur != false) { ?>
+
+                     <li class="nav-header">Ordre de Prélèvement Irrévocable PBF </li>
+                     <?php /*?><li><a href="<?php echo $this->baseUrl();?>/opi/listtraite11">Liste des <strong>OPI-PBF</strong></a></li><?php */?>
+                     <li><a href="<?php echo $this->baseUrl();?>/opi/listtraite12">Liste des <strong>OPI-PBF</strong> archivés</a></li>
+
+              <?php } if($findacteur == false) { ?>
+                    <li class="nav-header">Ordre de Prélèvement Irrévocable </li>
+                    <li><a href="<?php echo $this->baseUrl();?>/opi/listtraite">Liste de mes <strong>OPI</strong></a></li>
+                    <li><a href="<?php echo $this->baseUrl();?>/opi/listtraite2">Liste de mes <strong>OPI</strong> archivés</a></li>
+              <?php }  ?>
+              <?php } else{ ?>
+                    <li class="nav-header">Ordre de Prélèvement Irrévocable </li>
+                    <li><a href="<?php echo $this->baseUrl();?>/opi/listtraite">Liste de mes <strong>OPI</strong></a></li>
+                    <li><a href="<?php echo $this->baseUrl();?>/opi/listtraite2">Liste de mes <strong>OPI</strong> archivés</a></li>
+              <?php }  ?>
+                                    </ul>
+                                </li>
+
+
+                                <li class="nav-header">Bons de Salaire </li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons de Salaire (BS) <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-header">Bons de Salaire </li>
+                                        <li><a href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbons/bontype/BS"> Liste de mes Bons de Salaire (<strong>BS</strong>)</a></li>
+              <?php if($findacteur2 != false || $findte != false) {?>
+                                        <li><a href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbonsdistributeur/bontype/BS"> Liste des Bons de Salaire de mes ventes (<strong>BS</strong>)</a></li>
+              <?php }  ?>
+                                    </ul>
+                                </li>
+
+
+
+
+
+
+
+                      </ul>
+                      </li>
+
+
+
+
+                        <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Approvisionnement<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                  <li class="nav-header">Approvisionnement de BAn </li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/addbanappro">Approvisionnement de BAn</a></li>
+                                  <?php /*?><li><a href="<?php echo $this->baseUrl();?>/opi/opiban">Approvisionnement de BAn par OPI</a></li><?php */?>
+                                   <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/listbanapproapporteur">Liste de mes approvisionnements de BAn</a></li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/listbanapprobeneficiaire">Liste des approvisionnements de BAn pour moi</a></li>
+                                  <li class="nav-header">Approvisionnement de BAn pour CM</li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/addbanapprocm">Approvisionnement de BAn pour Compte Marchand</a></li>
+
+
+                                  <li class="nav-header"> Approvisionnement de BC </li>
+				                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/addbcappro">Approvisionnement de BC</a></li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/listbcapproapporteur">Liste des approvisionnements de BC effectués</a></li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/listbcapprobeneficiaire">Liste de mes approvisionnements de BC </a></li>
+
+								  <li class="nav-header"> Approvisionnement de BL </li>
+				                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/addblappro"> Approvisionnement de BL</a></li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/listblapproapporteur">Liste des approvisionnements de BL </a></li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/listblapprobeneficiaire">Liste de mes approvisionnements de BL </a></li>
+
+				                  <?php if(substr($sessionmembre->code_membre, -1) == "P") { ?>
+
+				                  <li class="nav-header"> Approvisionnement de BS </li>
+				                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/addbsappro">Approvisionnement de BS</a></li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/listbsapproapporteur">Liste des approvisionnements de BS effectués</a></li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/listbsapprobeneficiaire">Liste de mes approvisionnements de BS </a></li>
+
+                                   <?php }  ?>
+
+				  <li class="nav-header"> Approvisionnement de BAi</li>
+				  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/addintappro">Approvisionnement de BAi</a></li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/listintapproapporteur">Liste des approvisionnements de BAi effectués</a></li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/listintapprobeneficiaire">Liste de mes approvisionnements de BAi </a></li>
+
+                                  </ul>
+                            </li>
+
+
+                            <?php /*?><li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">BAn pour Tiers <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                  <li class="nav-header">Souscription au BAn pour Tiers </li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/addbantiers">Souscription au BAn pour tiers</a></li>
+                                  <li class="nav-header">BAn pour Tiers </li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/listbantiersapporteur">Liste de mes souscriptions au BAn pour tiers</a></li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/souscriptionbon/listbantiersbeneficiaire">Liste des souscritions pour moi</a></li>
+                                </ul>
+                            </li><?php */?>
+
+
+
+			<li class="dropdown">
+			    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Demande de subventions <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+				    <?php if(substr($sessionmembre->code_membre,19,1) == 'M') { ?>
+				    <li><a href="<?php echo $this->baseUrl();?>/smcipn/addfraisprojet">Lancer une demande de subvention</a></li>
+                    <li><a href="<?php echo $this->baseUrl();?>/smcipn/listdemandefrais">Liste des demandes de subvention déclenchées</a></li>
+					<?php }  ?>
+					<li><a href="<?php echo $this->baseUrl();?>/smcipn/listmesdemandefrais">Liste de mes demandes de subvention</a></li>
+					<?php if($sessionmembre->code_groupe == "executante_acnev" ) { ?>
+					<li><a href="<?php echo $this->baseUrl();?>/administration/listdemandefrais/valider/1">Liste des demandes de subvention à valider</a></li>
+					<?php } ?>
+
+					<?php if($sessionmembre->code_groupe == "surveillance_filiere" ) { ?>
+					<li><a href="<?php echo $this->baseUrl();?>/administration/listdemandefrais/valider/2">Liste des demandes de subvention à valider</a></li>
+					<?php } ?>
+
+					<?php if($sessionmembre->code_groupe == "detentrice_technopole" ) { ?>
+					<li><a href="<?php echo $this->baseUrl();?>/administration/listdemandefrais/valider/3">Liste des demandes de subvention à valider</a></li>
+					<?php } ?>
+
+			    </ul>
+			</li>
+
+                        <?php if(substr($sessionmembre->code_membre,19,1) == 'M') { ?>
+
+                        <li class="dropdown">
+			     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Service Pointage<b class="caret"></b></a>
+				 <ul class="dropdown-menu">
+				     <li class="nav-header">Création des postes de service</li>
+					 <li><a href="<?php echo $this->baseUrl();?>/pointage/addpostepointage"> Ajouter un poste </a></li>
+					 <li><a href="<?php echo $this->baseUrl();?>/pointage/listpostepointage"> Liste des postes existents </a></li>
+
+					 <li class="nav-header">Pointage</li>
+					 <li><a href="<?php echo $this->baseUrl();?>/pointage/addpointage"> Enrégistrer un pointage </a></li>
+					 <li><a href="<?php echo $this->baseUrl();?>/pointage/listpointage">Liste des pointages effectués</a></li>
+
+					 <?php /*?><li class="nav-header">Demande de paiement</li>
+				     <li><a href="<?php echo $this->baseUrl();?>/pointage/adddemande">Emettre une demande de paiement</a></li>
+					 <li><a href="<?php echo $this->baseUrl();?>/pointage/listdemande">Liste des demandes de payement effectués</a></li><?php */?>
+			     </ul>
+			 </li>
+
+       <li class="dropdown">
+         <ul class="dropdown-menu">
+           <li><a href="<?php echo $this->baseUrl();?>/bons/declarelessalarie"> Declaration des salariés</a></li>
+           <li><a href="<?php echo $this->baseUrl();?>/bons/interfacedaffectationdesalairesauxsalariersparlemployeur"> Affectation de salaire</a></li>
+         </ul>
+       </li>
+                         <?php }  ?>
+
+       <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Demande de paiement<b class="caret"></b></a>
+         <ul class="dropdown-menu">
+
+          <li><a href="<?php echo $this->baseUrl();?>/contratlivraison/detaildemande">Liste des demandes de payement prestataire effectués</a></li>
+          <?php /*?><li class="nav-header">Pointage</li>
+          <li><a href="<?php echo $this->baseUrl();?>/pointage/adddemande">Emettre une demande de paiement des pointages</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/pointage/listdemande">Liste des demandes de payement des pointages effectués</a></li><?php */?>
+          <?php /*?><li class="nav-header">Prestataire</li>
+          <li><a href="<?php echo $this->baseUrl();?>/contratlivraison/adddemande">Emettre une demande de paiement prestataire</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/contratlivraison/listdemande">Liste des demandes de payement prestataire effectués</a></li><?php */?>
+           </ul>
+       </li>
+
+
+       <li class="dropdown">
+         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Téléphone <b class="caret"></b></a>
+         <ul class="dropdown-menu">
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/espacepersonnel/addtelephone">
+               Ajouter un nouveau numéro de téléphone
+             </a>
+           </li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/espacepersonnel/listtelephone">
+               Liste de mes numéros de téléphone
+             </a>
+           </li>
+         </ul>
+
+       </li>
+
+
+       <li class="dropdown">
+         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Compte Bancaire <b class="caret"></b></a>
+         <ul class="dropdown-menu">
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/espacepersonnel/addcomptebancaire">
+               Ajouter un nouveau compte bancaire
+             </a>
+           </li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/espacepersonnel/listcomptebancaire">
+               Liste de mes comptes bancaires
+             </a>
+           </li>
+         </ul>
+
+       </li>
+
+
+
+
+       <li class="dropdown">
+         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Articles <b class="caret"></b></a>
+         <ul class="dropdown-menu">
+           <li class="nav-header">Categories</li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/boutiqueligne/addarticlestockescategorie">
+               Ajouter une categorie d'article
+             </a>
+           </li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/boutiqueligne/listarticlestockescategorie">
+               Liste des categories des articles
+             </a>
+           </li>
+           <li class="nav-header">Stocks</li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/boutiqueligne/addarticle">
+               Ajouter un article
+             </a>
+           </li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/boutiqueligne/listarticle">
+               Liste de mes articles
+             </a>
+           </li>
+           <li class="nav-header">Additifs</li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/boutiqueligne/addarticlestockesadditif">
+               Ajouter un additif d'article
+             </a>
+           </li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/boutiqueligne/listarticlestockesadditif">
+               Liste des additifs des articles
+             </a>
+           </li>
+           <li class="nav-header">Ventes</li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/boutiqueligne/listarticlevendu">
+               Liste de mes ventes
+             </a>
+           </li>
+           <li class="nav-header">Achats</li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/boutiqueligne/listarticleachat">
+               Liste de mes achats
+             </a>
+           </li>
+           <li class="nav-header">Livraison</li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/boutiqueligne/panierlivrer">
+               Livraison des commandes encours
+             </a>
+           </li>
+           <li class="nav-header">Les commandes</li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/boutiqueligne/listarticlecommande">
+               Listes des articles commandés 
+             </a>
+           </li>
+         </ul>
+
+       </li>
+
+<li class="dropdown">
+         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tarifs de livraison <b class="caret"></b></a>
+         <ul class="dropdown-menu">
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/boutiqueligne/addtariflivraison">
+               Ajouter un tarif de livraison
+             </a>
+           </li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/boutiqueligne/listtariflivraison">
+               Liste de mes tarifs de livraison
+             </a>
+           </li>
+         </ul>
+
+       </li>
+
+
+       <li class="dropdown">
+         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contrat de livraison <b class="caret"></b></a>
+         <ul class="dropdown-menu">
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/contratlivraison/addcontrat">
+               Etablir un contrat de livraison irrévocable
+             </a>
+           </li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/contratlivraison/listcontrat">
+               Liste de mes contrats de livraison irrévocable
+             </a>
+           </li>
+         </ul>
+
+       </li>
+
+
+
+
+
+       <li class="dropdown">
+         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ticket de support <b class="caret"></b></a>
+         <ul class="dropdown-menu">
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/ticketsupport/ticketpersonontraite">
+               Liste des tickets de support émis
+             </a>
+           </li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/ticketsupport/ticketenvoiepersonnel">
+               Liste des tickets de support traités
+             </a>
+           </li>
+         </ul>
+
+       </li>
+			 <?php if(substr($sessionmembre->code_membre, -1) == "P") { ?>
+			 <li>
+				 <a href="<?php echo $this->baseUrl();?>/bons/achteurrevendeur">
+					 Acheteur-Revendeur
+				 </a>
+			 </li>
+			 <?php }?>
+                    </ul>
+                    <ul class="nav pull-right" style="margin-right: -20px;">
+                      <?php /*?><li><a href="<?php echo $this->baseUrl();?>/documents/<?php echo $sessionmembre->code_groupe;?>.pdf" target="_blank">Manuel</a></li>
+                      <li><a href="<?php echo $this->baseUrl();?>/documents/manuel.pdf" target="_blank">Manuel</a></li><?php */?>
+                      <li class="divider-vertical" style="margin:0;"></li>
+                      <?php /*?><li><a href="<?php echo $this->baseUrl();?>/index2" target="_blank" title="Plateforme MCNP"><i class="icon-white icon-globe"></i></a></li><?php */?>
+                    </ul>
+
+                    <?php /*?><ul class="nav pull-right">
+                      <li class="divider-vertical"></li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php if(substr($sessionmembre->code_membre, -1) == "P"){?><i class="icon-white icon-user"></i><?php }else if(substr($sessionmembre->code_membre, -1) == "M"){?><i class="icon-white icon-home"></i><?php }?> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a><?php if(substr($sessionmembre->code_membre, -1) == "P"){?><i class="icon-user"></i> <?php echo htmlentities($sessionmembre->nom_membre); ?> <?php echo htmlentities($sessionmembre->prenom_membre); ?><?php }else if(substr($sessionmembre->code_membre, -1) == "M"){?><i class="icon-home"></i> <?php echo htmlentities($sessionmembre->raison_sociale); ?><?php }?></a></li>
+                            <li><a href="<?php echo $this->baseUrl();?>/espacepersonnel/password"><i class="icon-edit"></i> Modifier le code secret</a></li>
+                            <li><a href="<?php echo $this->baseUrl();?>/espacepersonnel/nocompte"><i class="icon-off"></i> Déconnexion</a></li>
+                        </ul>
+                      </li>
+                    </ul><?php */?>
+                  </div><!-- /.nav-collapse -->
+                </div>
+              </div><!-- /navbar-inner -->
+            </div>
+
+            <div align="right" style="margin-top: -15px;">
+<?php if(substr($sessionmembre->code_membre, -1) == "P"){?><i class="icon-user"></i> <?php echo htmlentities($sessionmembre->nom_membre); ?> <?php echo htmlentities($sessionmembre->prenom_membre); ?><?php }else if(substr($sessionmembre->code_membre, -1) == "M"){?><i class="icon-home"></i> <?php echo htmlentities($sessionmembre->raison_sociale); ?><?php }?>
+            <a href="<?php echo $this->baseUrl();?>/espacepersonnel/profil"><i class="icon-user"></i> Modifier le profil</a>
+            <a href="<?php echo $this->baseUrl();?>/espacepersonnel/password"><i class="icon-edit"></i> Modifier le code secret</a>
+            <a href="<?php echo $this->baseUrl();?>/espacepersonnel/nocompte"><i class="icon-off"></i> Déconnexion</a>
+			</div>
+
+<?php }?>

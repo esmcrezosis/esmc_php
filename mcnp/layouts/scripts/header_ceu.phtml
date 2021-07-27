@@ -1,0 +1,729 @@
+<?php $sessionpanier = new Zend_Session_Namespace('panier');?>
+<style>
+body{
+ font-size:11.0pt;
+font-family:'Lato', Calibri, Arial, sans-serif;
+}
+ .lien {
+    font-weight: 600;
+    padding: 10px 5px;
+    color: #aa325f;
+    display: inline-block;
+  }
+
+  .lien:hover {
+    font-weight: 600;
+    padding: 10px 5px;
+    color: #ffffff;
+    display: inline-block;
+    background-color: #aa325f;
+  }
+
+/* Examples for media queries */
+
+@media screen and (max-width: 52.75em) { 
+
+  .lien {
+    font-size: 80%;
+  }
+
+  .lien:hover {
+    font-size: 80%;
+  }
+}
+
+@media screen and (max-width: 43em) { 
+
+  .lien {
+    font-size: 120%;
+    border: none;
+    display: block;
+    border-bottom: 1px solid #aa325f;
+    padding: 1em 3em;
+  }
+  .lien:hover {
+    font-size: 120%;
+    border: none;
+    display: block;
+    border-bottom: 1px solid #aa325f;
+    padding: 1em 3em;
+    color: #ffffff;
+  }
+
+}
+
+@media screen and (max-width: 36em) { 
+
+}
+
+
+</style>
+  <div class="row">
+    <div class="col-xl-1" align="center">
+            <span><!-- -->
+              <a  class="lien" href="<?php echo $domaine2; ?>/"><i class="fa fa-home" aria-hidden="true"></i></a>
+            </span>
+    </div>
+    <div class="col-xl-7">
+<nav id="cbp-hrmenu" class="cbp-hrmenu">
+          <ul>
+
+
+
+<!-- ///////////////////////////////communaute///////////////////////////////////////////////////// -->
+
+<?php
+$menuM = new Application_Model_EuMenuMapper();
+$menu = new Application_Model_EuMenu();
+if($menuM->find(16, $menu)){
+?>                        
+            <li>
+              <a href="#"><?php echo ($menu->menu_libelle); ?></a>
+<?php
+        $menusous = new Application_Model_EuMenuSousMapper();
+        $entriesmenusous = $menusous->fetchAllByMenu($menu->menu_id);
+?>
+<?php if(count($entriesmenusous)>0){?>
+              <div class="cbp-hrsub">
+                <div class="cbp-hrsub-inner">
+<?php /*?>
+<?php $y=0; ?>
+<?php foreach ($entriesmenusous as $entrymenusous){ ?>
+<?php if($entrymenusous->menusous_url != ""){?>
+                  <div>
+                    <h4><a href="<?php echo $domaine2; ?>/<?php echo $entrymenusous->menusous_url; ?>"><?php echo ($entrymenusous->menusous_libelle); ?></a></h4>
+                  </div>
+<?php }else{?>
+                  <div>
+                    <h4><?php echo ($entrymenusous->menusous_libelle); ?></h4>
+<?php
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAllByMenuSousMenu($entrymenusous->menusous_menu, $entrymenusous->menusous_id);
+?>
+<?php if(count($entriespage)>0){?>
+                    <ul>
+<?php foreach ($entriespage as $entrypage){ ?>
+<?php if($entrypage->liendirect != ""){?>
+                      <li><a href="<?php echo $entrypage->liendirect; ?>"><?php echo ($entrypage->titre_autre); ?></a></li>
+<?php }else{?>
+                      <li><a href="<?php echo $domaine2; ?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php echo ($entrypage->titre_autre); ?></a></li>
+<?php }?>
+<?php }?>
+                    </ul>
+<?php }?>
+                  </div>
+<?php }?>
+
+<?php $y++; ?>
+<?php }?>
+<?php */?>
+                <div>
+                    <h4>OE</h4>
+                    <ul>
+                       <li><a href="http://<?php echo $domaine;?>/convention/signatureconvention">Signature de la convention</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/1">Franchise GUIUC/OE/OP</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/2">Franchise GUIUC/OE/PPP</a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/lecturedelengagementdelivraisonirrevocable">Lecture de l'Engagement de livraison irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/publicites/ELI.pdf">Telecharger (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/engagementdelivraisonirrevocablebps">Signature de l'Engagement de Livraison Irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/index/addeli">Etablir un Engagement de Livraison Irrévocable (ELI) </a></li>
+                    </ul>
+                </div> 
+                <div>
+                <h4> &nbsp; </h4>
+                
+                <ul>
+                    <li><a href="http://<?php echo $domaine;?>/index/addeli" title="Engagement de Livraison Irrévocable">Etablir un ELI </a></li>
+                    <li><a href="http://<?php echo $domaine;?>/index/listcmfh">Fiche CMFH - Liste des CMFH</a></li>
+                    <li><a href="http://<?php echo $domaine;?>/index/addintegration/param_int/1">Intégrateurs</a></li>
+                    <li><a href="http://<?php echo $domaine;?>/index/addintegration/param_int/2">Surveillance (CMFH)</a></li>
+                    <li><a href="http://<?php echo $domaine;?>/index/addintegration/param_int/3">Travailleurs de la Production Commune</a></li>
+					<li><a href="http://<?php echo $domaine;?>/index/inscriptionbc"> Offrir une intégration au Programme BC pour Tiers </a></li>
+                    <li><a href="http://<?php echo $domaine;?>/projet/addprojetindex">Soumission des offres de projet</a></li>
+                    <li><a href="http://<?php echo $domaine;?>/travailleur/addtravailleurindex">Soumission des offres de travail</a></li>
+					
+     
+                    </ul>
+                </div>
+
+                                <div>
+                    <h4>OSE</h4>
+                    <ul>
+                      <li><a href="http://<?php echo $domaine;?>/convention/lecture/param/1" target="_blank">Lire la convention</a></li> 
+                       <li><a href="http://<?php echo $domaine;?>/convention/signatureconvention">Signature de la convention</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/1">Franchise GUIUC/OE/OP</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/2">Franchise GUIUC/OE/PPP</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/3">Franchise GUIUC/OSE</a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/lecturedelengagementdelivraisonirrevocable" title="Engagement de livraison irrévocable ">Lecture de l'ELI </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/publicites/ELI.pdf">Telecharger (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/engagementdelivraisonirrevocablebps" title="Engagement de livraison irrévocable">Signature de l'ELI </a></li>
+                    </ul>
+                </div>
+                <div>
+                <h4>&nbsp;</h4>
+                    <ul>
+                       <li><a href="http://<?php echo $domaine;?>/index/addeli" title="Engagement de Livraison Irrévocable">Etablir un ELI</a></li>
+                      <li><a href="http://<?php echo $domaine;?>/index/listcmfh">Fiche CMFH - Liste des CMFH</a></li>
+                      <li><a href="http://<?php echo $domaine;?>/index/addintegration/param_int/1">Intégrateurs</a></li>
+                      <li><a href="http://<?php echo $domaine;?>/index/addintegration/param_int/2">Surveillance (CMFH)</a></li>
+                      <li><a href="http://<?php echo $domaine;?>/index/addintegration/param_int/3">Travailleurs de la Production Commune</a></li>
+					  <li><a href="http://<?php echo $domaine;?>/index/inscriptionbc"> Offrir une intégration au Programme BC pour Tiers </a></li>
+                      <li><a href="http://<?php echo $domaine;?>/projet/addprojetindex">Soumission des offres de projet</a></li>
+                      <li><a href="http://<?php echo $domaine;?>/travailleur/addtravailleurindex">Soumission des offres de travail</a></li>
+     
+                    </ul>
+                
+                </div>
+                <!--<div>
+                    <h4>SOUSCRIRE</h4>
+                    <ul>
+                      <li><a href="http://<?php echo $domaine;?>/souscriptionbon/addsouscriptionban">Souscrire au Bon d'Achat</a></li>
+                      <li><a href="http://<?php echo $domaine;?>/souscriptionbon/enrolementsms2">Souscription pour Soi - Personnes Physiques</a></li>
+                      <li><a href="http://<?php echo $domaine;?>/souscriptionbon/enrolementpmsms2">Souscription pour Soi - Personnes Morales</a></li>
+                      <li><a href="http://<?php echo $domaine;?>/souscriptionbon/inscriptioncaps">Fiche ODD - Offrir une intégration </a></li>
+                      <li><a href="http://<?php echo $domaine;?>/index/listcmfh">Fiche CMFH - Liste des CMFH</a></li>
+                    </ul>
+                </div> 
+
+                <div>
+                    <h4>TRAVAILLER</h4>
+                    <ul>
+                      <li><a href="http://<?php echo $domaine;?>/index/addintegration/param_int/1">Intégrateurs</a></li>
+                      <li><a href="http://<?php echo $domaine;?>/index/addintegration/param_int/2">Surveillance (CMFH)</a></li>
+                      <li><a href="http://<?php echo $domaine;?>/index/addintegration/param_int/3">Travailleurs de la Production Commune</a></li>
+                      
+                    </ul>
+                </div>
+
+                  <div>
+                    <h4>PRESTATAIRES DE LA PRODUCTION COMMUNE</h4>
+                    <ul>
+                      <li><a href="http://<?php echo $domaine;?>/projet/addprojetindex">Soumission des offres de projet</a></li>
+                      <li><a href="http://<?php echo $domaine;?>/travailleur/addtravailleurindex">Soumission des offres de travail</a></li>
+                      
+                    </ul>
+                  </div>
+-->
+<?php /*/////////////////PUB MENU //communaute//////////////
+$publicite = new Application_Model_EuPubliciteMapper();
+$entriespublicite = $publicite->fetchAllByTypeCategorieBoxInterfaceMenu(1, 1, 2, 1, (4 - $y));
+if(count($entriespublicite) > 0){?>
+<?php foreach ($entriespublicite as $valuepublicite) {?>
+                  <div>
+                    <h4>
+                    <a href="<?php echo ($valuepublicite->lien_publicite); ?>">
+                    <img src="<?php echo $this->baseUrl();?>/<?php echo ($valuepublicite->desc_publicite); ?>" class="img-fluid" alt="<?php echo ($valuepublicite->libelle_publicite); ?>" title="<?php echo ($valuepublicite->libelle_publicite); ?>">
+                    </a>
+                    </h4>
+                  </div>
+<?php }?>
+<?php } */?>
+
+
+                </div><!-- /cbp-hrsub-inner -->
+              </div><!-- /cbp-hrsub -->
+<?php }?>
+            </li>
+<?php }?>
+
+
+
+
+<!-- ///////////////////////////////utilisateurs///////////////////////////////////////////////////// -->
+
+<?php
+$menuM = new Application_Model_EuMenuMapper();
+$menu = new Application_Model_EuMenu();
+if($menuM->find(17, $menu)){
+?>                        
+            <li>
+              <a href="#"><?php echo ($menu->menu_libelle); ?></a>
+<?php
+        $menusous = new Application_Model_EuMenuSousMapper();
+        $entriesmenusous = $menusous->fetchAllByMenu($menu->menu_id);
+?>
+<?php if(count($entriesmenusous)>0){?>
+              <div class="cbp-hrsub">
+                <div class="cbp-hrsub-inner">
+<?php /*?>
+<?php $y=0; ?>
+<?php foreach ($entriesmenusous as $entrymenusous){ ?>
+<?php if($entrymenusous->menusous_url != ""){?>
+                  <div>
+                    <h4><a href="<?php echo $domaine2; ?>/<?php echo $entrymenusous->menusous_url; ?>"><?php echo ($entrymenusous->menusous_libelle); ?></a></h4>
+                  </div>
+<?php }else{?>
+                  <div>
+                    <h4><?php echo ($entrymenusous->menusous_libelle); ?></h4>
+<?php
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAllByMenuSousMenu($entrymenusous->menusous_menu, $entrymenusous->menusous_id);
+?>
+<?php if(count($entriespage)>0){?>
+                    <ul>
+<?php foreach ($entriespage as $entrypage){ ?>
+<?php if($entrypage->liendirect != ""){?>
+                      <li><a href="<?php echo $entrypage->liendirect; ?>"><?php echo ($entrypage->titre_autre); ?></a></li>
+<?php }else{?>
+                      <li><a href="<?php echo $domaine2; ?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php echo ($entrypage->titre_autre); ?></a></li>
+<?php }?>
+<?php }?>
+                    </ul>
+<?php }?>
+                  </div>
+<?php }?>
+
+<?php $y++; ?>
+<?php }?>
+<?php */?>
+
+                <div>
+                    <h4>Personne Physique (PP)</h4>
+                    <ul>
+                       <li><a href="http://<?php echo $domaine;?>/convention/lecture/param/1" target="_blank">Lire la convention</a></li>
+                       <li><a href="http://<?php echo $domaine;?>/convention/signatureconvention">Signature de la convention</a></li>                       
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/lecturedelengagementdelivraisonirrevocable">Lecture de l'Engagement de livraison irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/engagementdelivraisonirrevocablebps">Signature de l'Engagement de Livraison Irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/index/addeli">Etablir un Engagement de Livraison Irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/souscriptionbon/addsouscriptionban">Souscrire au Bon d'Achat</a></li>                       
+                       <li><a href="http://<?php echo $domaine;?>/souscriptionbon/enrolementsms2">Souscription pour Soi - Personnes Physiques</a></li>
+                       <li><a href="http://<?php echo $domaine;?>/index/addintegration/param_int/5">Intégrateurs (Utilisateurs)</a></li>
+					   <li><a href="http://<?php echo $domaine;?>/index/inscriptionbc"> Offrir une intégration au Programme BC pour Tiers </a></li>
+                       
+                       
+                    </ul>
+                </div> 
+                <div>
+                    <h4>Personne Morale (PM)</h4>
+                    <ul>
+                       <li><a href="http://<?php echo $domaine;?>/convention/signatureconvention">Signature de la convention</a></li>
+                       <li><a href="http://<?php echo $domaine;?>/convention/lecture/param/1" target="_blank">Lire la convention</a></li>
+                       
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/lecturedelengagementdelivraisonirrevocable">Lecture de l'Engagement de livraison irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/engagementdelivraisonirrevocablebps">Signature de l'Engagement de Livraison Irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/index/addeli">Etablir un Engagement de Livraison Irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/souscriptionbon/addsouscriptionban">Souscrire au Bon d'Achat</a></li>
+                       <li><a href="http://<?php echo $domaine;?>/souscriptionbon/enrolementpmsms2">Souscription pour Soi - Personnes Morales</a></li>
+                       <li><a href="http://<?php echo $domaine;?>/index/addintegration/param_int/5">Intégrateurs (Utilisateurs)</a></li>
+					   <li><a href="http://<?php echo $domaine;?>/index/inscriptionbc"> Offrir une intégration au Programme BC pour Tiers </a></li>
+                       
+                    </ul>
+                </div> 
+                <!-- <div>
+                    <h4>SOUSCRIRE</h4>
+                    <ul>
+                        <li><a href="http://<?php echo $domaine;?>/souscriptionbon/addsouscriptionban">Souscrire au Bon d'Achat</a></li>
+                        <li><a href="http://<?php echo $domaine;?>/souscriptionbon/enrolementsms2">Souscription pour Soi - Personnes Physiques</a></li>
+                        <li><a href="http://<?php echo $domaine;?>/souscriptionbon/enrolementpmsms2">Souscription pour Soi - Personnes Morales</a></li>
+                    </ul>
+                </div>
+				  
+				  
+				<div>
+                  <h4>TRAVAILLER</h4>
+                  <ul>
+                    <li><a href="http://<?php echo $domaine;?>/index/addintegration/param_int/5">Intégrateurs (Utilisateurs)</a></li>
+                  </ul>
+                </div>
+				
+				<div>
+                    <h4>ACTEURS</h4>
+					<ul>
+					    <li><a href="http://<?php echo $domaine;?>/index/addacteur/param_int/1">Acteur Offreur de Bien,Produit ou Service (BPS)</a></li>
+                        <li><a href="http://<?php echo $domaine;?>/index/addacteur/param_int/2">Acteur Partenaire Bancaire et Financier (PBF)</a></li>
+					</ul>
+				</div>
+				
+      
+      <div>
+        <h4 title="ACHATS-VENTES RECIPROQUES">AVR - OE/OSE</h4>
+        <ul>
+        <li><a href="/formsguichet/franchiseguiucoeop/id/1">Franchise GUIUC/OE/OP</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/2">Franchise GUIUC/OE/PPP</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/3">Franchise GUIUC/OSE</a></li>
+          </ul>
+        </div>
+
+      <div>
+        <h4 title="ACHATS-VENTES RECIPROQUES">AVR - BPS</h4>
+        <ul>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/4">Franchise GUIUU/BPS/B</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/5">Franchise GUIUU/BPS/P</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/6">Franchise GUIUU/BPS/S</a></li>
+          </ul>
+        </div>
+
+      <div>
+        <h4 title="ACHATS-VENTES RECIPROQUES">AVR - PBF</h4>
+        <ul>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/7">Franchise GUIUU/PBF/A-OPI</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/8">Franchise GUIUU/PBF/AP-OPI</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/9">Franchise GUIUU/PBF/B</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/10">Franchise GUIUU/PBF/PS-OPI</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/11">Franchise GUIUU/PBF/SFD</a></li>
+          </ul>
+        </div>
+
+      <div>
+        <h4 title="ACHATS-VENTES RECIPROQUES">AVR - PODD</h4>
+        <ul>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/12">Franchise GUIUU/PODD/POE/FE</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/13">Franchise GUIUU/PODD/POE/FS</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/14">Franchise GUIUU/PODD/POSE</a></li>
+          </ul>
+        </div>
+
+      <div>
+        <h4 title="ACHATS-VENTES RECIPROQUES">AVR - ELI</h4>
+        <ul>
+               <li><a href="http://<?php echo $domaine;?>/formsguichet/lecturedelengagementdelivraisonirrevocable">Lecture de l'Engagement de livraison irrévocable (ELI) </a></li>
+               <li><a href="http://<?php echo $domaine;?>/publicites/ELI.pdf">Telecharger (ELI) </a></li>
+               <li><a href="http://<?php echo $domaine;?>/formsguichet/engagementdelivraisonirrevocablebps">Signature de l'Engagement de Livraison Irrévocable (ELI) </a></li>
+               <li><a href="http://<?php echo $domaine;?>/index/addeli">Etablir un Engagement de Livraison Irrévocable (ELI) </a></li>
+          </ul>
+        </div>
+      
+				
+				<!--
+				<div>
+                    <h4>CENTRALE DE PRODUCTION</h4>
+					<ul>
+					  <li><a href="http://<?php echo $domaine;?>/index/addoffreurprojet/param/9">Boutique</a></li>
+					  <li><a href="http://<?php echo $domaine;?>/index/addoffreurprojet/param/8">Magasin</a></li>
+                      <li><a href="http://<?php echo $domaine;?>/index/addoffreurprojet/param/7">Entrepôt</a></li>
+                    </ul>
+				</div>
+				
+				<div>
+                    <h4>CENTRALE DE TRANSFORMATION</h4>
+					<ul>
+					  <li><a href="http://<?php echo $domaine;?>/index/addoffreurprojet/param/6">Boutique</a></li>
+					  <li><a href="http://<?php echo $domaine;?>/index/addoffreurprojet/param/5">Magasin</a></li>
+                      <li><a href="http://<?php echo $domaine;?>/index/addoffreurprojet/param/4">Entrepôt</a></li>
+                    </ul>
+				</div>-->
+				
+
+<?php /*/////////////////PUB MENU //utilisateurs//////////////
+$publicite = new Application_Model_EuPubliciteMapper();
+$entriespublicite = $publicite->fetchAllByTypeCategorieBoxInterfaceMenu(1, 1, 2, 2, (4 - $y));
+if(count($entriespublicite) > 0){?>
+<?php foreach ($entriespublicite as $valuepublicite) {?>
+                  <div>
+                    <h4>
+                    <a href="<?php echo ($valuepublicite->lien_publicite); ?>">
+                    <img src="<?php echo $this->baseUrl();?>/<?php echo ($valuepublicite->desc_publicite); ?>" class="img-fluid" alt="<?php echo ($valuepublicite->libelle_publicite); ?>" title="<?php echo ($valuepublicite->libelle_publicite); ?>">
+                    </a>
+                    </h4>
+                  </div>
+<?php }?>
+<?php } */?>
+
+
+                </div><!-- /cbp-hrsub-inner -->
+              </div><!-- /cbp-hrsub -->
+<?php }?>
+            </li>
+<?php }?>
+
+
+
+
+
+
+
+<!-- ///////////////////////////////partenariat odd///////////////////////////////////////////////////// -->
+
+<?php
+$menuM = new Application_Model_EuMenuMapper();
+$menu = new Application_Model_EuMenu();
+if($menuM->find(18, $menu)){
+?>                        
+            <li>
+              <a href="#"><?php echo ($menu->menu_libelle); ?></a>
+<?php
+        $menusous = new Application_Model_EuMenuSousMapper();
+        $entriesmenusous = $menusous->fetchAllByMenu($menu->menu_id);
+?>
+<?php if(count($entriesmenusous)>0){?>
+              <div class="cbp-hrsub">
+                <div class="cbp-hrsub-inner">
+<?php /*?>
+<?php $y=0; ?>
+<?php foreach ($entriesmenusous as $entrymenusous){ ?>
+<?php if($entrymenusous->menusous_url != ""){?>
+                  <div>
+                    <h4><a href="<?php echo $domaine2; ?>/<?php echo $entrymenusous->menusous_url; ?>"><?php echo ($entrymenusous->menusous_libelle); ?></a></h4>
+                  </div>
+<?php }else{?>
+                  <div>
+                    <h4><?php echo ($entrymenusous->menusous_libelle); ?></h4>
+<?php
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAllByMenuSousMenu($entrymenusous->menusous_menu, $entrymenusous->menusous_id);
+?>
+<?php if(count($entriespage)>0){?>
+                    <ul>
+<?php foreach ($entriespage as $entrypage){ ?>
+<?php if($entrypage->liendirect != ""){?>
+                      <li><a href="<?php echo $entrypage->liendirect; ?>"><?php echo ($entrypage->titre_autre); ?></a></li>
+<?php }else{?>
+                      <li><a href="<?php echo $domaine2; ?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php echo ($entrypage->titre_autre); ?></a></li>
+<?php }?>
+<?php }?>
+                    </ul>
+<?php }?>
+                  </div>
+<?php }?>
+
+<?php $y++; ?>
+<?php }?>
+<?php */?>
+
+                <div>
+                    <h4>PBF</h4>
+                    <ul>
+                       <li><a href="http://<?php echo $domaine;?>/convention/signatureconvention">Signature de la convention</a></li>
+                       <li><a href="http://<?php echo $domaine;?>/convention/lecture/param/1" target="_blank">Lire la convention</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/7">Franchise GUIUU/PBF/A-OPI</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/8">Franchise GUIUU/PBF/AP-OPI</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/9">Franchise GUIUU/PBF/B</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/10">Franchise GUIUU/PBF/PS-OPI</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/11">Franchise GUIUU/PBF/SFD</a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/lecturedelengagementdelivraisonirrevocable">Lecture de l'Engagement de livraison irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/engagementdelivraisonirrevocablebps">Signature de l'Engagement de Livraison Irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/index/addeli">Etablir un Engagement de Livraison Irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/formulaireassociativedebpsvenduetdebpsacheterventereciproques">Formulaire d'Achat & Vente Reciproque (AVR) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/formulairedebudgetennatureavr">Formulaire d'Achat & Vente Reciproque (AVR) </a></li>                       
+                    </ul>
+                </div> 
+
+                <div>
+                    <h4>BPS</h4>
+                    <ul>
+                       <li><a href="http://<?php echo $domaine;?>/convention/signatureconvention">Signature de la convention</a></li>
+                       <li><a href="http://<?php echo $domaine;?>/convention/lecture/param/1" target="_blank">Lire la convention</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/4">Franchise GUIUU/BPS/B</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/5">Franchise GUIUU/BPS/P</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/6">Franchise GUIUU/BPS/S</a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/lecturedelengagementdelivraisonirrevocable">Lecture de l'Engagement de livraison irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/engagementdelivraisonirrevocablebps">Signature de l'Engagement de Livraison Irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/index/addeli">Etablir un Engagement de Livraison Irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/formulaireassociativedebpsvenduetdebpsacheterventereciproques">Formulaire d'Achat & Vente Reciproque (AVR) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/formulairedebudgetennatureavr">Formulaire d'Achat & Vente Reciproque (AVR) </a></li>                       
+                    </ul>
+                </div> 
+
+                <div>
+                    <h4>POSE</h4>
+                    <ul>
+                       <li><a href="http://<?php echo $domaine;?>/convention/signatureconvention">Signature de la convention</a></li>
+                       <li><a href="http://<?php echo $domaine;?>/convention/lecture/param/1" target="_blank">Lire la convention</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/12">Franchise GUIUU/PODD/POE/FE</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/13">Franchise GUIUU/PODD/POE/FS</a></li>
+                       <li><a href="/formsguichet/franchiseguiucoeop/id/14">Franchise GUIUU/PODD/POSE</a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/lecturedelengagementdelivraisonirrevocable">Lecture de l'Engagement de livraison irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/engagementdelivraisonirrevocablebps">Signature de l'Engagement de Livraison Irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/index/addeli">Etablir un Engagement de Livraison Irrévocable (ELI) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/formulaireassociativedebpsvenduetdebpsacheterventereciproques">Formulaire d'Achat & Vente Reciproque (AVR) </a></li>
+                       <li><a href="http://<?php echo $domaine;?>/formsguichet/formulairedebudgetennatureavr">Formulaire d'Achat & Vente Reciproque (AVR) </a></li>                       
+                    </ul>
+                </div> 
+
+
+               <!--   <div>
+                    <h4>SOUSCRIRE</h4>
+                    <ul>
+                      <li><a href="http://<?php echo $domaine;?>/souscriptionbon/addsouscriptionban">Souscrire au Bon d'Achat</a></li>
+					  <li><a href="http://<?php echo $domaine;?>/souscriptionbon/enrolementsms2">Souscription pour Soi - Personnes Physiques</a></li>
+                      <li><a href="http://<?php echo $domaine;?>/souscriptionbon/enrolementpmsms2">Souscription pour Soi - Personnes Morales</a></li>
+                      <!--<li><a href="http://<?php //echo $domaine;?>/souscriptionbon/enrolementsms2">Souscription pour Soi - Personnes Physiques</a></li>
+                      <li><a href="http://<?php //echo $domaine;?>/souscriptionbon/enrolementpmsms2">Souscription pour Soi - Personnes Morales</a></li>
+                      <li><a href="http://<?php //echo $domaine;?>/souscriptionbon/inscriptioncaps">Fiche ODD - Offrir une intégration </a></li>
+                      <li><a href="http://<?php //echo $domaine;?>/index/listcmfh">Fiche CMFH - Liste des CMFH</a></li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h4>ODD</h4>
+                    <ul>
+                      <li><a href="http://<?php echo $domaine;?>/index/addintegration/param_int/4">Partenaire ODD</a></li>
+                    </ul>
+                  </div>
+				  
+      
+      <div>
+        <h4 title="ACHATS-VENTES RECIPROQUES">AVR - OE/OSE</h4>
+        <ul>
+        <li><a href="/formsguichet/franchiseguiucoeop/id/1">Franchise GUIUC/OE/OP</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/2">Franchise GUIUC/OE/PPP</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/3">Franchise GUIUC/OSE</a></li>
+          </ul>
+        </div>
+
+      <div>
+        <h4 title="ACHATS-VENTES RECIPROQUES">AVR - BPS</h4>
+        <ul>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/4">Franchise GUIUU/BPS/B</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/5">Franchise GUIUU/BPS/P</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/6">Franchise GUIUU/BPS/S</a></li>
+          </ul>
+        </div>
+
+      <div>
+        <h4 title="ACHATS-VENTES RECIPROQUES">AVR - PBF</h4>
+        <ul>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/7">Franchise GUIUU/PBF/A-OPI</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/8">Franchise GUIUU/PBF/AP-OPI</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/9">Franchise GUIUU/PBF/B</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/10">Franchise GUIUU/PBF/PS-OPI</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/11">Franchise GUIUU/PBF/SFD</a></li>
+          </ul>
+        </div>
+
+      <div>
+        <h4 title="ACHATS-VENTES RECIPROQUES">AVR - PODD</h4>
+        <ul>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/12">Franchise GUIUU/PODD/POE/FE</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/13">Franchise GUIUU/PODD/POE/FS</a></li>
+               <li><a href="/formsguichet/franchiseguiucoeop/id/14">Franchise GUIUU/PODD/POSE</a></li>
+          </ul>
+        </div>
+
+      <div>
+        <h4 title="ACHATS-VENTES RECIPROQUES">AVR - ELI</h4>
+        <ul>
+               <li><a href="http://<?php echo $domaine;?>/formsguichet/lecturedelengagementdelivraisonirrevocable">Lecture de l'Engagement de livraison irrévocable (ELI) </a></li>
+               <li><a href="http://<?php echo $domaine;?>/publicites/ELI.pdf">Telecharger (ELI) </a></li>
+               <li><a href="http://<?php echo $domaine;?>/formsguichet/engagementdelivraisonirrevocablebps">Signature de l'Engagement de Livraison Irrévocable (ELI) </a></li>
+               <li><a href="http://<?php echo $domaine;?>/index/addeli">Etablir un Engagement de Livraison Irrévocable (ELI) </a></li>
+          </ul>
+        </div>
+      -->
+
+<?php /*/////////////////PUB MENU //partenariat odd//////////////
+$publicite = new Application_Model_EuPubliciteMapper();
+$entriespublicite = $publicite->fetchAllByTypeCategorieBoxInterfaceMenu(1, 1, 2, 3, (4 - $y));
+if(count($entriespublicite) > 0){?>
+<?php foreach ($entriespublicite as $valuepublicite) {?>
+                  <div>
+                    <h4>
+                    <a href="<?php echo ($valuepublicite->lien_publicite); ?>">
+                    <img src="<?php echo $this->baseUrl();?>/<?php echo ($valuepublicite->desc_publicite); ?>" class="img-fluid" alt="<?php echo ($valuepublicite->libelle_publicite); ?>" title="<?php echo ($valuepublicite->libelle_publicite); ?>">
+                    </a>
+                    </h4>
+                  </div>
+<?php }?>
+<?php } */?>
+
+
+                </div><!-- /cbp-hrsub-inner -->
+              </div><!-- /cbp-hrsub -->
+<?php }?>
+            </li>
+<?php }?>
+
+
+
+<!-- ///////////////////////////////fournisseur bps///////////////////////////////////////////////////// -->
+
+<?php
+$menuM = new Application_Model_EuMenuMapper();
+$menu = new Application_Model_EuMenu();
+if($menuM->find(19, $menu)){
+?>                        
+            <li>
+              <a href="#"><?php echo ($menu->menu_libelle); ?></a>
+<?php
+        $menusous = new Application_Model_EuMenuSousMapper();
+        $entriesmenusous = $menusous->fetchAllByMenu($menu->menu_id);
+?>
+<?php if(count($entriesmenusous)>0){?>
+              <div class="cbp-hrsub">
+                <div class="cbp-hrsub-inner">
+<?php $y=0; ?>
+<?php foreach ($entriesmenusous as $entrymenusous){ ?>
+<?php if($entrymenusous->menusous_url != ""){?>
+                  <div>
+                    <h4><a href="<?php echo $domaine2; ?>/<?php echo $entrymenusous->menusous_url; ?>"><?php echo ($entrymenusous->menusous_libelle); ?></a></h4>
+                  </div>
+<?php }else{?>
+                  <div>
+                    <h4><?php echo ($entrymenusous->menusous_libelle); ?></h4>
+<?php
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAllByMenuSousMenu($entrymenusous->menusous_menu, $entrymenusous->menusous_id);
+?>
+<?php if(count($entriespage)>0){?>
+                    <ul>
+<?php foreach ($entriespage as $entrypage){ ?>
+<?php if($entrypage->liendirect != ""){?>
+                      <li><a href="<?php echo $domaine2; ?><?php echo $entrypage->liendirect; ?>"><?php echo ($entrypage->titre_autre); ?></a></li>
+<?php }else{?>
+                      <li><a href="<?php echo $domaine2; ?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php echo ($entrypage->titre_autre); ?></a></li>
+<?php }?>
+<?php }?>
+                    </ul>
+<?php }?>
+                  </div>
+<?php }?>
+
+<?php $y++; ?>
+<?php }?>
+
+<?php /*/////////////////PUB MENU //fournisseur bps//////////////
+$publicite = new Application_Model_EuPubliciteMapper();
+$entriespublicite = $publicite->fetchAllByTypeCategorieBoxInterfaceMenu(1, 1, 2, 4, (4 - $y));
+if(count($entriespublicite) > 0){?>
+<?php foreach ($entriespublicite as $valuepublicite) {?>
+                  <div>
+                    <h4>
+                    <a href="<?php echo ($valuepublicite->lien_publicite); ?>">
+                    <img src="<?php echo $this->baseUrl();?>/<?php echo ($valuepublicite->desc_publicite); ?>" class="img-fluid" alt="<?php echo ($valuepublicite->libelle_publicite); ?>" title="<?php echo ($valuepublicite->libelle_publicite); ?>">
+                    </a>
+                    </h4>
+                  </div>
+<?php }?>
+<?php } */?>
+
+
+                </div><!-- /cbp-hrsub-inner -->
+              </div><!-- /cbp-hrsub -->
+<?php }?>
+            </li>
+<?php }?>
+
+
+          </ul>
+        </nav>
+    </div>
+    <div class="col-xl-4" style="margin-left:-27px">
+            <span style="margin-left:4px;"><!--  -->
+              
+              <a class="lien" href="<?php echo $domaine2; ?>/publicites/legalite_esmc.pdf">Legalite d'ESMC</a>
+              <a class="lien" href="<?php echo $this->baseUrl();?>/index/listblog">Blog</a>
+              <?php 
+              if($_SERVER['SERVER_ADDR'] == Util_Utils::getParamEsmc(9)) {
+      $domainewebtv = "tv.gatsingo.com/videogallery/le-savoir-des-humains-universels-au-defi-des-o-m-d/?admin=1";
+    }else{
+      //$domaine = "webtv1.esmcgacsource.com";
+      $domainewebtv = "tv.gatsingo.com/videogallery/le-savoir-des-humains-universels-au-defi-des-o-m-d/?admin=1";
+    }
+    ?>
+              <a class="lien" href="<?php echo $domaine2; ?>/index/webtv" target="_blank">Web TV</a>
+              <!--  <a class="lien" href="https://www.youtube.com/channel/UC6IhJ7EzMXP1fE8X1AQLtOg?view_as=subscriber" target="_blank">Web TV</a>-->
+              <!--<a class="lien" href="#">Web Radio</a>-->
+            </span><!--  -->
+
+          <span style="float: right; margin: 8px 0;">
+              <a target="_blank" href="https://www.facebook.com/ESMCODD"><img src="<?php echo $this->baseUrl();?>/assets/img/facebook.png" style="border-radius: -0.75rem; width: 25px;" class="rounded img-fluid" alt="Facebook"></a>
+              <a target="_blank" href="https://plus.google.com/u/0/102764118738408183863"><img src="<?php echo $this->baseUrl();?>/assets/img/googleplus.png" style="border-radius: -0.75rem; width: 25px;" class="rounded img-fluid" alt="Google +"></a>
+              <a target="_blank" href="https://twitter.com/esmc_odd"><img src="<?php echo $this->baseUrl();?>/assets/img/twitter.png" style="border-radius: -0.75rem; width: 25px;" class="rounded img-fluid" alt="Twitter"></a>
+              <a target="_blank" href="https://www.youtube.com/channel/UC6IhJ7EzMXP1fE8X1AQLtOg?view_as=subscriber"><img src="<?php echo $this->baseUrl();?>/assets/img/youtube.png" style="border-radius: -0.75rem; width: 25px;" class="rounded img-fluid" alt="YouTube"></a>
+              <a target="_blank" href="https://www.instagram.com/esmc_odd/"><img src="<?php echo $this->baseUrl();?>/assets/img/instagram.png" style="border-radius: -0.75rem; width: 25px;" class="rounded img-fluid" alt="Instagram"></a>
+              <?php /*?><a target="_blank" href="#"><img src="<?php echo $this->baseUrl();?>/assets/img/soundcloud.png" style="border-radius: -0.75rem; width: 25px;" class="rounded img-fluid" alt="Soundcloud"></a>
+              <a target="_blank" href="#"><img src="<?php echo $this->baseUrl();?>/assets/img/linkedin.png" style="border-radius: -0.75rem; width: 25px;" class="rounded img-fluid" alt="linkedIn"></a><?php */?>
+            </span>
+    </div>
+  </div>
+

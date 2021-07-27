@@ -1,0 +1,116 @@
+<?php 
+              if($_SERVER['SERVER_ADDR'] == Util_Utils::getParamEsmc(9)) {
+      $domaine = "esmcgie.com";
+        $domaine2 = "https://esmc.esmcgie.com";
+      $domaine3 = "https://esmcgie.com";
+
+    }else{
+      $domaine = "esmcgie.com";
+        $domaine2 = "https://esmcgie.com";
+      $domaine3 = "https://esmcgie.com";
+    }
+    ?>
+  <div class="row" style="background-color: #aa325f; color: #ffffff; font-size: small;">
+
+    <div class="col-xl-1" align="center"></div>
+
+    <div class="col-xl-2" align="center">
+<button id="footer1" type="button" class="btn btn-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true"  data-container="body" title="Besoin d'aide?" style="margin:10px;border: 1px solid #aa325f;background-color: #ffffff;color: #aa325f;width: 180px; cursor: pointer;"><img class="img-circle" src="<?php echo $this->baseUrl();?>/pages/icon_aide.jpg"> Besoin d'aide?
+</button>
+<div id="popover-footer1" class="list-group" style="display: none;">
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/addcontactesmc">Nous contacter</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="http://<?php echo $domaine;?>/ticketsupport/add" target="_blank">Envoyer un ticket de support</a>
+        </div>
+    </div>
+
+    <div class="col-xl-2" align="center">
+<button id="footer4" type="button" class="btn btn-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true"  data-container="body" title="Mode de paiement" style="margin:10px;border: 1px solid #aa325f;background-color: #ffffff;color: #aa325f;width: 180px; cursor: pointer;"><img class="img-circle" src="<?php echo $this->baseUrl();?>/pages/icon_paiement.jpg"> Mode de paiement
+</button>
+
+<div id="popover-footer4" class="list-group" style="display: none;">
+<?php /*?>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #63a153;"><strong>BAT : </strong> 40181660003</a>  
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #63a153;"><strong>BOA : </strong> 001608630006</a> 
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>UTB : </strong>   214357610004</a> 
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>ECOBANK : </strong>  7090121421892501</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>ORABANK : </strong> 63642300101</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"><strong>WARI : </strong>     </a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"><strong>T-MONEY : </strong>  </a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"><strong>FLOOZ : </strong>    </a>
+<?php */?>
+
+<a href="#" class="list-group-item active">Institutions financières</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #63a153;"><strong>BAT : </strong>&nbsp; 40181660003</a>  
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #63a153;"><strong>BOA : </strong>&nbsp; 001608630006</a> 
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>UTB : </strong>&nbsp;  214357610004</a> 
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>ECOBANK : </strong>&nbsp;  7090121421892501</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>ORABANK : </strong>&nbsp; 63642300101</a>
+
+<a href="#" class="list-group-item active">Mode de paiement en ligne</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="#" target="_blank"><strong>Carte Visa </strong> </a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="#" target="_blank"><strong>MasterCard </strong>  </a>
+
+<a href="#" class="list-group-item active">Mobile Money</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"><strong>WARI : </strong>     </a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="#" target="_blank"><strong>Paiement par T-MONEY</strong>  </a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine3;?>/souscriptionbon/addbantmoneyflooz" target="_blank"><strong>Paiement par FLOOZ</strong>    </a>
+
+</div>
+    </div>
+
+    <div class="col-xl-2" align="center">
+<button id="footer2" type="button" class="btn btn-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true"  data-container="body" title="<strong><span style='color:#F00;'>R</span><span style='color:#00B0F0;'>e</span><span style='color:#F00;'>D</span><span style='color:#00B0F0;'>é</span><span style='color:#F00;'>M</span><span style='color:#00B0F0;'>a</span><span style='color:#F00;'>R</span><span style='color:#00B0F0;'>e</span></strong>" style="margin:10px;border: 1px solid #aa325f;background-color: #ffffff;color: #aa325f;width: 180px; cursor: pointer;"><strong><img class="img-circle" src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/pages/MCNP-16112015150037-logo_ceu_Copie.jpg&amp;w=20&amp;h=20&amp;zc=1&amp;q=100"> <span style="color:#F00;">R</span><span style="color:#00B0F0;">e</span><span style="color:#F00;">D</span><span style="color:#00B0F0;">é</span><span style="color:#F00;">M</span><span style="color:#00B0F0;">a</span><span style="color:#F00;">R</span><span style="color:#00B0F0;">e</span></strong>
+</button>
+<div id="popover-footer2" class="list-group" style="display: none;">
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 45px;"><img class="img-circle" src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/pages/MCNP-16112015150037-logo_ceu_Copie.jpg&amp;w=150&amp;h=150&amp;zc=1&amp;q=100"></a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/pageceu/id/32">Demande de relevé</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/pageceu/id/34">Validation du relevé</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/pageceu/id/33">Réactivation du CM</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="/ticketsupport/add">Réclamation</a>
+<!--
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="#">Recouvrement</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="#">Règlement</a>
+  -->
+        </div>
+    </div>
+
+    <div class="col-xl-2" align="center">
+<button id="footer3" type="button" class="btn btn-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true"  data-container="body" title="<strong style='color: #ff0000;'>MCNP</strong>" style="margin:10px;border: 1px solid #aa325f;background-color: #ffffff;color: #aa325f;width: 180px; cursor: pointer;"><strong style="color: #ff0000;"><img class="img-circle" src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/pages/MCNP-16112015150157-MCNPCopie.jpg&amp;w=20&amp;h=20&amp;zc=1&amp;q=100"> MCNP</strong>
+</button>
+
+<div id="popover-footer3" class="list-group" style="display: none;">
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"><img class="img-circle" src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/pages/MCNP-16112015150157-MCNPCopie.jpg&amp;w=150&amp;h=150&amp;zc=1&amp;q=100"></a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/pagemcnp/id/43">Demande de relevé</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/pagemcnp/id/44">Validation du relevé</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/pagemcnp/id/45">Réactivation du CM</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="/ticketsupport/add">Réclamation</a>
+<!--
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="#">Recouvrement</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="#">Règlement</a>
+-->
+
+</div>
+    </div>
+
+    <div class="col-xl-2" align="center">
+<button id="footer5" type="button" class="btn btn-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true"  data-container="body" title="<strong style='color: #aa325f;'>ESMC</strong>" style="margin:10px;border: 1px solid #aa325f;background-color: #ffffff;color: #aa325f;width: 180px; cursor: pointer;"><strong style="color: #aa325f;"><img class="img-circle" src="<?php echo $this->baseUrl();?>/pages/ESMC.jpg"> ESMC SARLU</strong>
+</button>
+
+<div id="popover-footer5" class="list-group" style="display: none;">
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"><img class="img-circle" src="<?php echo $this->baseUrl();?>/pages/ESMC_100_100.jpg"></a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="http://<?php echo $domaine;?>/convention/lecture/param/1" target="_blank">Lire la convention</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="http://<?php echo $domaine;?>/formsguichet/lecturedelafranchise" target="_blank">Lire la franchise</a>
+
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"  href="http://<?php echo $domaine;?>/formsguichet/lecturedelengagementdelivraisonirrevocable">Lecture de l'Engagement de livraison irrévocable (ELI) </a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="http://<?php echo $domaine;?>/publicites/Manuel_utilisateur_esmc.pdf" target="_blank">Manuel de l'utilisateur</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="http://<?php echo $domaine;?>/publicites/guide_integrateur.pdf" target="_blank">Le guide de l'intégrateur</a>
+</div>
+    </div>
+
+    <div class="col-xl-1" align="center"></div>
+
+    <div class="col-xl-12" align="center">
+    <span style="font-size: small;">&copy; ESMC, Conseils en Organisation des Affaires Commerciales, Recherche &amp; Développement de Logiciel, Exploitation du Progiciel <strong style="color:#F00">MCNP</strong>, Commerce sur Internet</span><br />
+    <span style="font-size: small;">RCCM N° TG-LOM 2018 M 203 - N° FISCAL 145587D - N° CNSS 42425</span>
+    </div>
+  </div>

@@ -1,0 +1,538 @@
+﻿<?php
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('ESMC - Entreprise Sociale de Marché Commun');
+echo $this->doctype();
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+         <?php echo $this->headMeta(),
+        $this->headTitle(); ?>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap -->
+    <link href="<?php echo $this->baseUrl();?>/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl();?>/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl();?>/bootstrap/css/mcnppublic.css" rel="stylesheet" media="screen" />
+        <link href="<?php echo $this->baseUrl();?>/bootstrap/css/convention.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl(); ?>/js/primeui/primeui.min.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl(); ?>/js/primeui/themes/bootstrap/theme.css" rel="stylesheet" media="screen" />
+
+    <link href="<?php echo $this->baseUrl(); ?>/app/site.css" rel="stylesheet" media="screen" />
+
+
+	<!-- The fav icon -->
+	<link rel="shortcut icon" href="<?php echo $this->baseUrl();?>/images/favicon_esmc.png" />
+
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/panierss.js"></script><?php */?>
+
+    <link href="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" media="screen" />
+    <style>
+.esmc_communique_clignontant{
+    animation: Test 0.6s infinite;
+    font-size: 1.2em;
+    color: #fe0000;
+    text-decoration: none;
+    text-align: center;
+
+}
+
+.esmc_communique_clignontant:hover{
+    color:  #fe0000;
+    text-decoration: none;
+    
+}
+@keyframes Test{
+       0%{opacity: 1;}
+       50%{opacity: 0;}
+       100%{opacity: 1;}
+    }
+</style>
+</head>
+  <body>
+<?php $sessionpanier = new Zend_Session_Namespace('panier');?>
+<div class="container" align="center">
+<div class="well2">
+<div class="row-fluid">
+  <div class="span2"><a href="<?php echo $this->baseUrl();?>/index"><img src="<?php echo $this->baseUrl();?>/images/logo.esmc.gif" <?php list($width, $height, $type, $attr) = getimagesize("images/logo.esmc.gif");echo $attr; ?> alt="ESMS" /></a></div>
+  <div class="span8">
+<h1 style="font-size:70px;color:#974578;font-family:'Maiandra GD';">ESMC</h1>
+  <h2 style="font-family:Cambria, 'Cambria Math';">Entreprise Sociale de Marché Commun</h2>
+  </div>
+  <div class="span2"></div>
+  </div>
+<span>ESMC, Conseils en Organisation des Affaires Commerciales, Recherche &amp; Développement de Logiciel, Exploitation du Progiciel <strong style="color:#F00">MCNP</strong>, Commerce sur Internet</span>
+</div>
+
+<div class="navbar navbar-inverse" style="position: static; margin-bottom:0;">
+              <div class="navbar-inner">
+                <div class="container arrondi">
+                  <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </a>
+                  <!--<a class="brand" href="#">MCNP</a>-->
+                  <div class="nav-collapse collapse navbar-inverse-collapse">
+                    <ul class="nav">
+        <li><a href="<?php echo $this->baseUrl();?>/"><i class="icon-home icon-white"></i><!--Accueil--></a></li>
+
+<?php
+        $menu = new Application_Model_EuMenuMapper();
+        $entriesmenu = $menu->fetchAll3("ESMC");
+?>
+<?php if(count($entriesmenu)>0){?>
+        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Programmes<b class="caret"></b></a>
+                        <ul class="dropdown-menu" style="width:100%">
+<?php foreach ($entriesmenu as $entry): ?>
+<?php
+$pageM = new Application_Model_EuPageMapper();
+$page = new Application_Model_EuPage();
+if($pageM->find3($entry->menu_id, 0, $page)){
+?>
+        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $page->id_page; ?>"><?php echo $entry->menu_libelle; ?></a></li>
+<?php }else{?>
+        <li class="dropdown-submenu text-left">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $entry->menu_libelle; ?> <!--<b class="caret"></b>--></a>
+                        <ul class="dropdown-menu">
+<?php
+        $menusous = new Application_Model_EuMenuSousMapper();
+        $entriesmenusous = $menusous->fetchAll3($entry->menu_id);
+?>
+<?php if(count($entriesmenusous)>0){?>
+<?php foreach ($entriesmenusous as $entrymenusous): ?>
+<?php
+$pageM = new Application_Model_EuPageMapper();
+$page = new Application_Model_EuPage();
+if($pageM->find3($entrymenusous->menusous_menu, $entrymenusous->menusous_id, $page)){
+?>
+         <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $page->id_page; ?>"><?php echo ($entrymenusous->menusous_libelle); ?></a></li>
+		<?php }else{?>
+         <li class="text-left"><a href="<?php echo $this->baseUrl();?>/<?php echo $entrymenusous->menusous_url; ?>"><?php echo ($entrymenusous->menusous_libelle); ?></a></li>
+		<?php }?>
+<?php endforeach; ?>
+                        <?php }?>
+                        </ul>
+                      </li>
+<?php }?>
+<?php endforeach; ?>
+                        </ul>
+
+                      </li>
+                        <?php } ?>
+
+
+                        <li class="dropdown">
+
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscrire <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                            <li class="text-left">
+                                 <a href="<?php echo $this->baseUrl();?>/souscriptionbon/addsouscriptionban/paramban/1"> Souscrire au Bon d'Achat<!--<b class="caret"></b>--></a>
+                            </li>
+                            <li class="text-left">
+                              <a href="<?php echo $this->baseUrl();?>/convention/lecture/param/1">Lire la convention</a>
+                            </li>
+                            <li class="text-left">
+                              <a href="/publicites/convention_collaboration.pdf" target="blank">Telecharger la convention</a>
+                          </li>
+
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscription pour Soi <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="text-left"><a href="/souscriptionbon/enrolementsms2">Personnes Physiques</a></li>
+                                        <li class="text-left"><a href="/souscriptionbon/enrolementpmsms2">Personnes Morales</a></li>
+                                    </ul>
+
+                                </li>
+                            </ul>
+                        </li>
+						
+						<?php
+						    //$date_id = new Zend_Date(Zend_Date::ISO_8601);
+                            //$date_idd = clone $date_id;
+						    //if($date_idd->toString('yyyy-MM-dd') <= "2018-01-31")   {
+						
+						?>
+						
+						
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> ODD <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="text-left">
+                                  <a href="<?php echo $this->baseUrl();?>/souscriptionbon/addsouscriptionban/paramban/3">
+                                   Souscrire au Bon d'Achat<!--<b class="caret"></b>--></a>
+                                </li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/21">OSE</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/24">Maison</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Vendre <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="text-left">
+                                    <a href="<?php echo $this->baseUrl();?>/souscriptionbon/addsouscriptionban/paramban/5">
+                                        Souscrire au Bon d'Achat<!--<b class="caret"></b>-->
+                                    </a>
+                                </li>
+								
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/1">Grossistes</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/2">Semi-Grossistes</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/3">Détaillants</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/adddemandeconfig">Faire la demande de Configuration du Terminal d'Echange des produits</a></li>
+                            </ul>
+                        </li>
+
+
+                        <!--<li><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/4">Transformer</a></li>-->
+                        <?php ?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Transformer <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="text-left">
+                                  <a href="<?php echo $this->baseUrl();?>/souscriptionbon/addsouscriptionban/paramban/6"> Souscrire au Bon d'Achat<!--<b class="caret"></b>--></a>
+                                </li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/4">National</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/5">Régional</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/6">Cantonal</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/adddemandeconfig">Faire la demande de Configuration du Terminal d'Echange des produits</a></li>
+                            </ul>
+                        </li><?php ?>
+
+
+                        <!--<li><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/5">Produire</a></li>-->
+                        <?php ?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Produire <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="text-left">
+                                   <a href="<?php echo $this->baseUrl();?>/souscriptionbon/addsouscriptionban/paramban/7"> Souscrire au Bon d'Achat<!--<b class="caret"></b>--></a>
+                                </li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/7">National</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/8">Régional</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/9">Cantonal</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/adddemandeconfig">Faire la demande de Configuration du Terminal d'Echange des produits</a></li>
+                            </ul>
+                        </li><?php ?>
+
+
+                        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Travailler <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="text-left">
+                                   <a href="<?php echo $this->baseUrl();?>/souscriptionbon/addsouscriptionban/paramban/4"> Souscrire au Bon d'Achat<!--<b class="caret"></b>--></a>
+                                </li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Integrateurs humains sans-laisses-pour-compte <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/1">Individus Ambulants</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/2">Personnes Morales Fixes</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdown-submenu text-left">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs des vendeurs</a>
+                                            <ul class="dropdown-menu">
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/3">Individus Ambulants</a></li>
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/4">Personnes Morales Fixes</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown-submenu text-left">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs des transformateurs</a>
+                                            <ul class="dropdown-menu">
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/5">Individus Ambulants</a></li>
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/6">Personnes Morales Fixes</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown-submenu text-left">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs des producteurs</a>
+                                            <ul class="dropdown-menu">
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/7">Individus Ambulants</a></li>
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/8">Personnes Morales Fixes</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="dropdown-submenu text-left">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs des OSE</a>
+                                            <ul class="dropdown-menu">
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/25">Individus Ambulants</a></li>
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/26">Personnes Morales Fixes</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="dropdown-submenu text-left">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs des maisons</a>
+                                            <ul class="dropdown-menu">
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/27">Individus Ambulants</a></li>
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/28">Personnes Morales Fixes</a></li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <?php /*?><li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/12">Intégrateurs des vendeurs</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/13">Intégrateurs des transformateurs</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/14">Intégrateurs des producteurs</a></li>
+                                    </ul>
+                                </li><?php */?>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Surveillance (CMFH) <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/22">CMFH Honorifique</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/15">CMFH Conseillers Consultatifs</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/16">CMFH Conseillers Administration</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/17">CMFH Managers</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/18">CMFH Ingenieurs</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/29">CMFH Entrepreneurs</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/30">CMFH Experts</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Travailleurs de la Production Commune <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/19">Travailleurs</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/20">Autres</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+						
+							<?php //} ?>
+
+                        <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscrire <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscription pour Soi <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/10">Personnes Physiques</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/11">Personnes Morales</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscription pour Tiers <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/1">CMFH Titre Honorifique</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/2">CMFH Conseillers Consultatifs</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/3">CMFH Conseillers Administration</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/4">CMFH Managers</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/5">CMFH Ingenieurs, Entrepreneurs, Experts, Consultants</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/6">CMFH Offreurs de projets</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/7">CMFH Offreurs de Biens, Produits et Services (BPS)</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/8">CMFH CAPS</a></li>
+                                        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/9">Travailleurs de la Production Commune</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li><?php */?>
+
+
+        <?php /*?><li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateur <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur">Ajout d'intégrateur</a></li>
+            </ul>
+        </li><?php */?>
+        
+		
+		<li class="dropdown">
+		    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Fiche CMFH/ODD<b class="caret"></b></a>
+		    <ul class="dropdown-menu">
+                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/123">NOTE D'INFORMATION</a></li>
+			    <li class="nav-header text-left">Fiche CMFH</li>
+				<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/listcmfh">Liste des CMFH</a></li>
+				
+				<li class="nav-header text-left">Fiche ODD</li>
+				<li class="text-left"><a href="<?php echo $this->baseUrl();?>/souscriptionbon/inscriptioncaps"> Offrir une intégration </a></li>
+			</ul>
+		</li>
+
+
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Calcul<b class="caret"></b></a>
+	    <ul class="dropdown-menu">
+            <li class="nav-header text-left">BON DE CONSOMMATION (BC) POUR SOI</li>
+            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermsbcnr">Calculer le montant de la souscription au <strong><span style="color:blue">BCnr</span></strong></a></li>
+            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermsbcr">Calculer le montant de la souscription au <strong><span style="color:blue">BCr</span></strong></a></li>
+            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermsbcrj">Calculer le montant de la souscription au <strong><span style="color:blue">BCr/j</span></strong></a></li>
+            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermsbcnrpre">Calculer le montant de la souscription au <strong><span style="color:blue">BCnrPRE</span></strong></a></li>
+	    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermbcnr">Calculer le montant du <strong><span style="color:blue">BCnr</span></strong></a></li>
+	    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermbcr">Calculer le montant du <strong><span style="color:blue">BCr</span></strong></a></li>
+            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermbcrj">Calculer le montant du <strong><span style="color:blue">BCr/j</span></strong></a></li>
+            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermbcnrpre">Calculer le montant du <strong><span style="color:blue">BCnrPRE</span></strong></a></li>
+
+            <li class="nav-header text-left"> BON DE CONSOMMATION (BC) POUR FORMATION </li>
+            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermsbcf">Calculer le montant de souscription au <strong><span style="color:blue">BC</span></strong> pour un cycle de formation </a></li>
+	    <!--<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermbcf">Calculer le montant du <strong><span style="color:blue">BC</span></strong> pour un cycle de formation </a></li>-->
+
+
+        <li class="nav-header text-left">BON DE CONSOMMATION (BC) POUR TIERS</li>
+	    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermsbcm">Calculer le montant de la souscription au <strong><span style="color:blue">BC</span></strong> pour tiers (Marchand)</a></li>
+	    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermsbcnm">Calculer le montant de la souscription au <strong><span style="color:blue">BC</span></strong> pour tiers (Non Marchand)</a></li>
+	    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermbcm">Calculer le nombre de bénéficiaires de la souscription au <strong><span style="color:blue">BC</span></strong>  pour tiers (Marchand)</a></li>
+	    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermbcnm">Calculer le nombre de bénéficiaires de la souscription au  <strong><span style="color:blue">BC</span></strong>  pour tiers (Non Marchand)</a></li>
+	    
+		
+		<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermbcbps"> Calculer le nombre de bénéficiaires de la souscription au  <strong><span style="color:blue"> BC </span></strong> pour tiers contre BPS </a></li>
+		
+		
+		<li class="nav-header text-left">ORDRE DE PRELEVEMENT IRREVOCABLE (OPI)</li>
+	    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculernopi">Calculer le nombre d' <strong><span style="color:black">OPI</span></strong> au montant de souscription insuffisant</a></li>
+            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculerpj">Calculer le montant d'<strong><span style="color:black">OPI</span></strong> Vendeur</a></li>
+            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculerpbps">Calculer le montant d'<strong><span style="color:black">OPI</span></strong> Achat-Vente Réciproque</a></li>
+
+            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculermsbcnrar">Calculer le montant de souscription au <strong><span style="color:blue">BCnr</span></strong> Acheteur-Revendeur contre <strong><span style="color:black"> OPI </span></strong></a></li>
+            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/calculeropi">Calculer le montant d'<strong><span style="color:black">OPI</span></strong> Acheteur-Revendeur</a></li>
+
+            </ul>
+	 </li>
+
+
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contacts<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addcontactesmc">Contactez nous</a></li>
+              <li class="text-left"><a href="<?php echo $this->baseUrl();?>/ticketsupport/add">Ticket de support</a></li>
+          </ul>
+        </li>
+
+
+                <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Rechercher <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li class="text-left"><a href="<?php echo $this->baseUrl(); ?>/index/rechercheractivation">Recherche de Code Membre</a></li>
+                <li class="text-left"><a href="<?php echo $this->baseUrl(); ?>/index/rechercheoffreur">Offreurs de Projets</a></li>
+                <li class="text-left"><a href="<?php echo $this->baseUrl(); ?>/index/rechercheintegrateur">Intégrateurs</a></li>
+            </ul>
+        </li>
+                    </ul>
+
+                    <?php /*?><ul class="nav pull-right">
+                      <li class="divider-vertical"></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/facebook.png" title="Facebook" /></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/youtube.png" title="Youtube" /></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/twitter.png" title="Twitter" /></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/linkedin.png" title="Linkedin" /></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/rss.png" title="RSS" /></a></li>
+                    </ul><?php */?>
+
+                    <ul class="nav pull-right">
+                      <li class="divider-vertical"></li>
+        <li><a href="<?php echo $this->baseUrl();?>/index/mcnp" target="_blank"><strong>MCNP</strong></a></li>
+        <li><a href="<?php echo $this->baseUrl();?>/index/ceu" target="_blank"><strong>ReD&eacute;MaRe</strong></a></li>
+                    </ul>
+
+                </div>
+              </div><!-- /navbar-inner -->
+            </div>
+
+        <?php
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAll6("ESMC");
+	?>
+<?php if(count($entriespage)>0){?>
+<marquee onmousemove="stop();" onmouseout="start();">
+<?php foreach ($entriespage as $entrypage): ?>
+<a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php echo ($entrypage->titre); ?></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<?php endforeach; ?>
+</marquee>
+<?php }?>
+
+
+<div class="alert alert-success">
+<strong>
+Communiqué : FIN DES PRE-SOUSCRIPTIONS  <a href="/comunique/lire" class="esmc_communique_clignontant">Cliquez ici !!</a>
+</strong>
+</div>
+<!--
+
+<div class="alert alert-danger">
+<strong>
+COMMUNIQUE : LA DIRECTION GENERALE DE L’ESMC INFORME SA CLIENTELE QUE LE SITE SUBIRA QUELQUES PERTUBATIONS CE LUNDI 03 Avril 2018 de 09H20 à 10H20 POUR RAISON DE MAINTENANCE. ELLE PRESENTE SES EXCUSES POUR TOUS LES DESAGREMENTS. MERCI POUR VOTRE FIDELITE !!
+
+</strong>
+</div>
+
+
+
+<div class="alert alert-success">
+<strong>
+COMMUNIQUE : LA DIRECTION GENERALE DE L’ESMC INFORME SA CLIENTELE QUE LE SITE SERA INDISPONIBLE LE JEUDI 30 Novembre 2017 de 10H00 au Vendredi 01 Decembre à 17H30 POUR RAISON DE MAINTENANCE. ELLE PRESENTE SES EXCUSES POUR TOUS LES DESAGREMENTS. MERCI POUR VOTRE FIDELITE !!
+</strong>
+</div>
+
+<div class="alert alert-success">
+<strong>
+COMMUNIQUE : Suite aux difficultés d'accès à l'internet dans certaines localités les semaines passées et en vue de donner la chance à tous les postulants potentiels, la date de clôture du recrutement des Opérateurs de Saisie initialement prévue pour le 25 Octobre 2017 est prorogée au 31 Octobre 2017. Merci
+
+</strong>
+</div>
+
+<!
+<div class="alert alert-danger">
+<strong>
+COMMUNIQUE : LA DIRECTION GENERALE DE L’ESMC INFORME TOUS LES INTEGRATEURS DES DISPOSITIONS PRISES POUR LA MISE EN ŒUVRE DE LA NOUVELLE INTERFACE INTEGRATEUR.
+IL EST VIVEMENT RECOMMANDE AUX RETARDATAIRES D’EXPRIMER LEURS QUITTANCES EN ATTENTE DANS LES FORMULAIRES (<a href="https://prod.gacsource.net/integrateur/login" target="blank">Cliquez ici</a>). POUR PLUS D’INFORMATIONS SUR LA NOUVELLE INTERFACE, CONSULTER <a href="/publicites/Manuel_utilisateur_esmc.pdf" target="blank">LE MANUEL DE L’UTILISATEUR </a> ET <a href="/publicites/guide_integrateur.pdf" target="blank">LE GUIDE DE L’INTEGRATEUR REACTUALISE</a>
+</strong>
+</div>
+-->
+<?php echo $this->layout()->content ?>
+
+      <!-- FOOTER -->
+	<?php include("../application/layouts/scripts/footer.phtml"); ?>
+
+</div>
+
+<?php if(!isset($this->tabletri)){?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+<?php }?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap.min.js"></script>
+
+<script>
+$('.carousel').carousel({
+  interval: 5000
+})
+</script>
+<script src="<?php echo $this->baseUrl(); ?>/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/primeui/x-tag-core.min.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/primeui/primeui.min.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/primeui/plugins/plugins-all.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/primeui/primeelements.min.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/ticket.js"></script>
+
+<script src="<?php echo $this->baseUrl();?>/app/app.js"></script>
+<script src="<?php echo $this->baseUrl();?>/app/app_bon.js"></script>
+<script src="<?php echo $this->baseUrl();?>/app/app_bon_int.js"></script>
+
+
+<script src="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/locales/bootstrap-datepicker.fr.min.js"></script>
+<script>
+$('.datepicker').datepicker({
+weekStart: 1,
+format: 'yyyy-mm-dd',
+language: 'fr',
+todayBtn: 'linked',
+//startDate: '-3d'
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1494 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<?php if(isset($sessionutilisateur->login)){?>
+<div class="navbar navbar-inverse" style="position: static;">
+              <div class="navbar-inner">
+                <div class="container">
+                  <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </a>
+                  <div class="nav-collapse collapse navbar-inverse-collapse">
+                  <a class="brand" href="<?php echo $this->baseUrl();?>/administration"><i class="icon-home icon-white"></i><!-- Administration--></a>
+                    <ul class="nav"><!-- class="active"-->
+<?php if($sessionutilisateur->code_groupe == "agregat" || $sessionutilisateur->code_groupe == "detentrice"){?>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Licences <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addlicence">Ajouter une licence</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listlicence">Liste des licences</a></li>
+                        </ul>
+                      </li>
+<?php }?>
+
+
+
+<?php if ($sessionutilisateur->login == "acnevanima2"): ?>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/addinterne">Formulaire de ticket interne de support</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/list">Sécrétariat:Collecte</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listinvalidticket">Listing des Tickets invalides</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalideniveauone">Suivi des Tickets</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/archivesticketsecretariat">La Liste des tickets traités et archivés</a></li>
+
+<?php endif; ?>
+<?php if ($sessionutilisateur->login == "acnevanima3"): ?>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ticket de Support <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveauthreesection/valid/3">Section: traitement de ticket de support</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/addinterne">Formulaire de ticket interne de support</a></li>
+
+    </ul>
+  </li>
+<?php endif; ?>
+
+
+
+<?php if (in_array($sessionutilisateur->code_groupe,array('SLE-DEVELOPPEURS','SLE-SYSTEME','SLE','SIF','SCMRP','SAJRH','Sous-section juridique'))): ?>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ticket de Support <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveauthreesection/valid/3">Section: traitement de ticket de support</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/historybyintervenant">L'historique de mes tickets traités</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/addinterne">Formulaire de ticket interne de support</a></li>
+
+<?php if ($sessionutilisateur->nom_utilisateur === "BABA" && $sessionutilisateur->prenom_utilisateur === "RODRIGUE" ): ?>
+<li><a href="<?php echo $this->baseUrl();?>/ticketsupport/updatephonemembre">Mise à jour des numeros de telephone dans la base</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/administration/modifiercm">Modification de Compte Marchand</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/administration/listtelephone">Modification des numéros de téléphone</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/list">Sécrétariat:Collecte</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listinvalidticket">Listing des Tickets invalides</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalideniveauone">Suivi des Tickets</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/archivesticketsecretariat">La Liste des tickets traités et archivés</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalideniveauonegerant/valid/1">Gérant:Premier Visa</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalideniveautwo/valid/2">Gérant:Tickets premièrement visés</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveaufifthgerant/valid/5">Gérant: Deuxieme Visa</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveaufifthgerant/valid/5">Gérant:Tickets deuxiemement visés</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveautwodispatch/valid/2">Dispatcheur:dispatching</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveauthree/valid/3">Dispatcheur:Tickets dispatchés</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveauforth/valid/4">Dispatcheur:tickets traités</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveauforthdispatch/valid/4">Dispatcheur:Ticket non traités ou en cours de traitement</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveaufifth/valid/5">Dispatcheur:Tickets de support envoyés au gérant</a></li>
+  <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/statistiqueticket">Statistique des tickets des support </a></li>
+
+<?php endif; ?>
+    </ul>
+  </li>
+<?php endif; ?>
+
+<?php if (in_array($sessionutilisateur->code_groupe,array('Gérant'))): ?>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ticket de Support <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li class="nav-header">GERANT</li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalideniveauonegerant/valid/1">Gérant:Premier Visa</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalideniveautwo/valid/2">Gérant:Tickets premièrement visés</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveaufifthgerant/valid/5">Gérant: Deuxieme Visa</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveaufifthgerant/valid/5">Gérant:Tickets deuxiemement visés</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalideniveauone">Suivi des Tickets</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/archivesticketsecretariat">La Liste des tickets traités et archivés</a></li>
+
+    </ul>
+  </li>
+<?php endif; ?>
+
+
+
+
+
+<?php if ($sessionutilisateur->login == "atiyodi"): ?>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ticket de Support <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li class="nav-header">DISPATCHEUR</li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/addinterne">Formulaire de ticket interne de support</a></li>
+      <li class="nav-header">DISPATCHEUR</li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveautwodispatch/valid/2">Dispatcheur:dispatching</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveauthree/valid/3">Dispatcheur:Tickets dispatchés</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveauforth/valid/4">Dispatcheur:tickets traités ou non traités</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveauforthdispatch/valid/4">Dispatcheur:Ticket en cours de traitement</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveaufifth/valid/5">Dispatcheur:Tickets de support envoyés au gérant</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalideniveauone">Suivi des Tickets</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listinvalidticket">Listing des Tickets invalides</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/listevalidationniveauthreesection/valid/3">Section: traitement de ticket de support</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/historybyintervenant">L'historique de mes tickets traités</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/archivesticketsecretariat">La Liste des tickets traités et archivés</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/ticketsupport/statistiqueticket">Statistique des tickets des support </a></li>
+
+</ul>
+<?php endif; ?>
+
+
+
+<?php if($sessionutilisateur->code_groupe == "admin_site") {?>
+						<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Menu</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addmenu">Ajouter un menu</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listmenu">Liste des menus</a></li>
+                          <li class="divider"></li>
+	                      <li class="nav-header">Sous Menu</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addmenusous">Ajouter un sous menu</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listmenusous">Liste des sous menus</a></li>
+                          <li class="divider"></li>
+	                      <li class="nav-header">Pages</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addpage">Ajouter une page</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listpage">Liste des pages</a></li>
+                          <li class="divider"></li>
+	                      <li class="nav-header">Taches</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addtache">Ajouter une tache</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtache">Liste des taches</a></li>
+	                      <li class="nav-header">Postes</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addposte">Ajouter un poste</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listposte">Liste des postes</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Publicité <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Publicités</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addpublicite">Ajouter une publicité</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listpublicite">Liste des publicités</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Multimedia <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Téléchargement</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addfichier">Ajouter un fichier</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listfichier">Liste des fichiers</a></li>
+                          <li class="divider"></li>
+	                      <li class="nav-header">Videos</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addvideo">Ajouter une video</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listvideo">Liste des videos</a></li>
+                          <li class="divider"></li>
+	                      <li class="nav-header">Actualités</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addactualite">Ajouter une actualite</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listactualite">Liste des actualites</a></li>
+                          <li class="divider"></li>
+                        </ul>
+                      </li>
+
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Galerie des photos<b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                              <li class="nav-header">Galerie</li>
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/addgalerie">Ajouter une galerie</a></li>
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/listgalerie">Liste des galeries</a></li>
+                              <li class="divider"></li>
+
+                              
+                              <li class="nav-header">Photo</li>
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/addphoto">Ajouter une photo</a></li>
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/listphoto">Liste des photos</a></li>
+                              <li class="divider"></li>
+                          </ul>
+
+                      </li>
+
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Partenaires<b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/addpartenaire">Ajouter un partenaire</a></li>
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/listpartenaire">Liste des partenaires</a></li>
+                          </ul>
+                      </li>
+                      
+                      
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">ODD<b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/addodd">Ajouter un ODD</a></li>
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/listodd">Liste des ODD</a></li>
+                              <li class="nav-header">Pays ODD</li>
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/addoddpays">Ajouter un pays ODD</a></li>
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/listoddpays">Liste des pays ODD</a></li>
+                          </ul>
+                      </li>
+
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Communiques<b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/addcommunique">Ajouter un communique</a></li>
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/listcommunique">Liste des communiques</a></li>
+                          </ul>
+                      </li>
+                      
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Notifications<b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/addnotification">Ajouter un notification</a></li>
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/listnotification">Liste des notifications</a></li>
+                          </ul>
+                      </li>
+
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">CMFH <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Candidats</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listcandidat">Liste des candidats</a></li>
+                          <li class="divider"></li>
+	                      <li class="nav-header">Quittances</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listquittance">Liste des quittances</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Licences <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addlicence">Ajouter une licence</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listlicence">Liste des licences</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Centres <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Centres d'enrôlements</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addcentre">Ajouter un centre</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listcentre">Liste des centres</a></li>
+                        </ul>
+                      </li>
+                        <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Achat de Code SMS <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Code SMS</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur">Liste des achats de Code SMS Personnes Physiques</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteurpm">Liste des achats de Code SMS Personnes Morales</a></li>
+	                      <li class="nav-header">Code SMS Archivés</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteurarchive">Liste des achats de Code SMS Personnes Physiques Archivés</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteurpmarchive">Liste des achats de Code SMS Personnes Morales Archivés</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pré-inscription <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Personnes Physiques</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listpreinscription">Liste des pré-inscriptions des membres physiques</a></li>
+                          <li class="divider"></li>
+	                      <li class="nav-header">Personnes Morales</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listpreinscriptionmorale">Liste des pré-inscriptions des membres morales</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">ZPPE <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">ZPPE</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addzppe">Ajouter une ZPPE</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listzppe">Liste des ZPPEs</a></li>
+	                      <li class="nav-header">BPS</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addrecubps">Ajouter un BPS</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listrecubps">Liste des BPS</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Bons</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addbon">Ajouter un bon</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listbon">Liste des bons</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Traites<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        <li class="nav-header">Traites</li>
+                          <li class="nav-header">Traites - ACNEV</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraite1">Liste des traites</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraitevalider">Liste des traites validées</a></li>
+                          <li class="nav-header">Traites - Filière</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraite2">Liste des traites</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraitevalider">Liste des traites validées</a></li>
+                          <li class="nav-header">Traites - Technopole</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraite3">Liste des traites</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraitevalider">Liste des traites validées</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reçu<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Reçu</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addrecu">Ajouter un reçu</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listrecu">Liste des reçus</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Factures<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Factures</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addfacture">Ajouter un facture</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listfacture">Liste des factures</a></li>
+                        </ul>
+                      </li><?php */?>
+
+
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Agrément OSE/OE <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Agrément OSE/OE</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addassociation">Créer un agrément OSE/OE</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listassociation">Liste des agréments OSE/OE</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listassociation2">Liste des agréments OSE/OE potentiels guichets</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listassociationguichet">Liste des agréments OSE/OE guichets validés</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscriptions <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Souscriptions - ACNEV</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription1">Liste des souscriptions non vérifiées</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription5">Liste des souscriptions validées avec quittance</a></li>
+	                      <li class="nav-header">Souscriptions - Filière</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription2">Liste des souscriptions vérifiées à valider</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription4">Liste des souscriptions validées avec quittance</a></li>
+	                      <li class="nav-header">Souscriptions - Technopole</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription3">Liste des souscriptions validées</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription41">Liste des souscriptions validées avec quittance</a></li>
+
+
+	                      <li class="nav-header">Erreurs - Souscriptions</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionerreur">Liste des souscriptions erronnées</a></li>
+	                      <?php /*?><li class="nav-header">Caractéristiques</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listcaracteristique">Liste des caractéristiques des souscriptions</a></li><?php */?>
+	                      <li class="nav-header">Souscriptions - Réactivation</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionreactivationgie">Liste des demandes de souscriptions de réactivation de GIE/ReDéMaRe</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionreactivationmcnp">Liste des demandes de souscriptions de réactivation de MCNP</a></li>
+
+
+                        <li class="nav-header">Etats de toutes les commissions </li>
+                        <?php /*?><li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat233all">Etats de toutes les commissions des intégrateurs</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat2233all">Etats de toutes les commissions des utilisateurs</a></li><?php */?>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/listactivationintegrateurall">Etats de toutes les commissions des intégrateurs</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listactivationutilisateurall">Etats de toutes les commissions des utilisateurs</a></li>
+
+                        <?php /*?><li class="nav-header">Payements des commissions</li>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/addpayementcommissionassociation">Payement de commissions intégrateurs</a></li>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/addpayementcommissionmembreasso">Payement de commissions utilisateurs</a></li>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/listpayementcommissionassociation">Liste des payements de commissions intégrateurs</a></li>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/listpayementcommissionmembreasso">Liste des payements de commissions utilisateurs</a></li><?php */?>
+
+                        </ul>
+                      </li>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons de Consommation <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Bons de Consommation - ACNEV</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur1">Liste des bons de Consommation non vérifiées</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur5">Liste des bons de Consommation validées avec quittance</a></li>
+	                      <li class="nav-header">Bons de Consommation - Filière</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur2">Liste des bons de Consommation vérifiées à valider</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur4">Liste des bons de Consommation validées avec quittance</a></li>
+	                      <li class="nav-header">Bons de Consommation - Technopole</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur3">Liste des bons de Consommation validées</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur41">Liste des bons de Consommation validées avec quittance</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons de Livraison <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Bons de Livraison - ACNEV</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listlivraison1">Liste des bons de Livraison non vérifiées</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listlivraison5">Liste des bons de Livraison validées avec quittance</a></li>
+	                      <li class="nav-header">Bons de Livraison - Filière</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listlivraison2">Liste des bons de Livraison vérifiées à valider</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listlivraison4">Liste des bons de Livraison validées avec quittance</a></li>
+	                      <li class="nav-header">Bons de Livraison - Technopole</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listlivraison3">Liste des bons de Livraison validées</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listlivraison41">Liste des bons de Livraison validées avec quittance</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">CMFH <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Liste par type de CMFH</li>
+        <?php $ttype_candidat = new Application_Model_DbTable_EuTypeCandidat();
+        $results = $ttype_candidat->fetchAll();?>
+    <?php foreach ($results as $type_candidat): ?>
+    <?php if($type_candidat->id_type_candidat != 8){?>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptioncmfh/type/<?php echo $type_candidat->id_type_candidat; ?>"><?php echo ($type_candidat->libelle_type_candidat); ?></a></li>
+						  <?php }?>
+    <?php endforeach; ?>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptioncmfhrecherche/type/8">CMFH CAPS</a></li>
+                        </ul>
+                      </li>
+					  
+					  <li class="dropdown">
+					      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Acteurs<b class="caret"></b></a>        
+					      <ul class="dropdown-menu">
+					          <li><a href="<?php echo $this->baseUrl();?>/administration/listacteurs/type/OE">Liste des Acteurs OE </a></li>   
+					          <li><a href="<?php echo $this->baseUrl();?>/administration/listacteurs/type/POE">Liste des Acteurs POE </a></li>
+					          <li><a href="<?php echo $this->baseUrl();?>/administration/listacteurs/type/OSE">Liste des Acteurs OSE </a></li>
+							  <li><a href="<?php echo $this->baseUrl();?>/administration/listacteurs/type/POSE">Liste des Acteurs POSE </a></li>
+					      </ul>
+					  </li>
+					  
+					  <li class="dropdown">
+					      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Acheteurs-Revendeurs<b class="caret"></b></a>
+					      <ul class="dropdown-menu">
+					          <li><a href="<?php echo $this->baseUrl();?>/administration/listachrev">Liste des Membres Acheteurs-Revendeurs</a></li>
+					      </ul>
+					  </li>
+					  
+					  
+
+                        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relevés Bancaires<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Les relevés bancaires</li>
+<?php if ($sessionutilisateur->login == "filiereanima4"): ?>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addrelevebancaire">Ajout de relevé bancaire</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listrelevebancaire">Liste des relevés bancaires</a></li>
+	                      <li class="nav-header"></li>
+<?php endif; ?>
+
+                          <?php
+				    $tablereleveb = new Application_Model_DbTable_EuRelevebancaire();
+					    $select = $tablereleveb->select();
+					    $select->distinct();
+		                $select->from(array('eu_relevebancaire'),array('relevebancaire_banque'));
+	                $rowsreleveb = $tablereleveb->fetchAll($select);
+					foreach ($rowsreleveb as $entry){
+						  ?>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listrelevebancairedetail2/code/<?php echo $entry->relevebancaire_banque; ?>">Les relevés de <?php echo $entry->relevebancaire_banque; ?></a></li>
+						<?php }?>
+
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contentieux <b class="caret"></b></a>
+			<ul class="dropdown-menu">
+			    <li class="nav-header text-left"><strong style="color:#F00;">Service Réclamation</strong></li>
+			    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/verifierrpgi">Verification <strong style="color:#00F;">RPG/I</strong></a></li>
+                            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/verifiergcp">Verification <strong style="color:#00F;">GCp</strong></a></li>
+			    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/verifiermf11000">Verification <strong style="color:#000;">MF11000</strong></a></li>
+			    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/verifiermf107">Verification <strong style="color:#000;">MF107</strong></a></li></li>
+
+
+
+                            <li class="nav-header text-left"><strong style="color:#F00;">Service Recouvrement</strong></li>
+                            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/recouvrerrpgi"><strong style="color:#00F;">RPG/I</strong></a></li>
+                            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/recouvrergcp"><strong style="color:#00F;">GCp</strong></a></li>
+			    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/recouvrermf11000"><strong style="color:#000;">MF11000</strong></a></li>
+			    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/recouvrermf107"><strong style="color:#000;">MF107 AVEC RESSOURCES</strong></a></li></li>
+                            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/recouvrermf107s"><strong style="color:#000;">MF107 SANS RESSOURCES</strong></a></li></li>
+
+
+                            <li class="nav-header text-left"><strong style="color:#F00;">Service Règlement</strong></li>
+                            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/reglerrpgi"><strong style="color:#00F;">RPG/I</strong></a></li>
+                            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/reglergcp"><strong style="color:#00F;">GCp</strong></a></li>
+			    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/reglermf11000"><strong style="color:#000;">MF11000</strong></a></li>
+                            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/reglermf107"><strong style="color:#000;">MF107 AVEC RESSOURCES</strong></a></li></li>
+                            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/reglermf107s"><strong style="color:#000;">MF107 SANS RESSOURCES</strong></a></li></li>
+
+                         </ul>
+        </li>
+
+<?php }?>
+
+<?php if($sessionutilisateur->code_groupe == "surveillance_filiere" || $sessionutilisateur->code_groupe == "executante_acnev" || $sessionutilisateur->code_groupe == "detentrice_technopole"){?>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscriptions <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+<?php if($sessionutilisateur->code_groupe == "executante_acnev"){?>
+	                      <li class="nav-header">Souscriptions - ACNEV</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription1">Liste des souscriptions à valider</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription5">Liste des souscriptions validées avec quittance</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription6">Liste des souscriptions validées automatiquement</a></li>
+
+	                      <li class="nav-header">Souscriptions - Mes validations</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionvalidation/publier/1">Liste de mes souscriptions validées</a></li>
+
+	                      <li class="nav-header">Erreurs - Souscriptions</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionerreur/publier/0">Liste des souscriptions erronnées</a></li>
+<?php }?>
+<?php if($sessionutilisateur->code_groupe == "surveillance_filiere") { ?>
+	                      <li class="nav-header">Souscriptions - Filière</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription2">Liste des souscriptions à valider</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription4">Liste des souscriptions validées avec quittance</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription6">Liste des souscriptions validées automatiquement</a></li>
+
+	                  <li class="nav-header">Souscriptions - Mes validations</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionvalidation/publier/2">Liste de mes souscriptions validées</a></li>
+	                  <li class="nav-header">Erreurs - Souscriptions</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionerreur/publier/1">Liste des souscriptions erronnées</a></li>
+
+                          <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Acteurs intérimaires<b class="caret"></b></a>
+                              <ul class="dropdown-menu">
+                                  <li><a href="<?php echo $this->baseUrl();?>/administration/addacteurinterim">Ajouter acteur marchand</a></li>
+				  <li><a href="<?php echo $this->baseUrl();?>/administration/addacteurinterimpbf">Ajouter acteur PBF </a></li>
+                                  <li><a href="<?php echo $this->baseUrl();?>/administration/listacteurinterim">Liste des acteurs intérimaires</a></li>
+                              </ul>
+                          </li>
+
+<?php }?>
+<?php if($sessionutilisateur->code_groupe == "detentrice_technopole"){?>
+	                      <li class="nav-header">Souscriptions - Technopole</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription3">Liste des souscriptions à valider</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription41">Liste des souscriptions validées avec quittance</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription6">Liste des souscriptions validées automatiquement</a></li>
+
+	                      <li class="nav-header">Souscriptions - Mes validations</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionvalidation/publier/3">Liste de mes souscriptions validées</a></li>
+
+	                      <li class="nav-header">Erreurs - Souscriptions</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionerreur/publier/2">Liste des souscriptions erronnées</a></li>
+<?php }?>
+	                      <li class="nav-header">Souscriptions - Mes validations</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionvalidation">Liste de mes souscriptions validées</a></li>
+
+	                      <?php /*?><li class="nav-header">Erreurs - Souscriptions</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionerreur">Liste des souscriptions erronnées</a></li><?php */?>
+
+	                      <li class="nav-header">Souscriptions - Réactivation</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionreactivationgie">Liste des demandes de souscriptions de réactivation de GIE/ReDéMaRe</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionreactivationmcnp">Liste des demandes de souscriptions de réactivation de MCNP</a></li>
+
+
+                        <li class="nav-header">Les activations</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listactivationmpp">Membres Personnes Physiques</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listactivationmpm">Membres Personnes Morales</a></li>
+
+
+	                      <li class="nav-header">Etats des commissions par quizaine</li>
+                          <?php /*?><li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat233">Etats des commissions des OSE/OE</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat2233">Etats des commissions des utilisateurs</a></li><?php */?>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/listactivationintegrateurall">Etats de toutes les commissions des intégrateurs</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listactivationutilisateurall">Etats de toutes les commissions des utilisateurs</a></li>
+
+                          <?php /*?><li class="nav-header">Demande de payement de commission</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listpayementcommission">Demande de payement de commission</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listpayementcommission2">Demande de payement de commission déjà payer</a></li>
+                          <li class="nav-header">Etats des commissions non calculés</li>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat231">Etat des commissions des OSE/OE non calculés</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat2231">Etat de mes commissions des utilisateurs non calculés</a></li>
+                        <li class="nav-header">Etats de toutes les commissions </li>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat233all">Etats de toutes les commissions des intégrateurs</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat2233all">Etats de toutes les commissions des utilisateurs</a></li>
+
+                        <li class="nav-header">Payements des commissions</li>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/addpayementcommissionassociation">Payement de commissions intégrateurs</a></li>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/addpayementcommissionmembreasso">Payement de commissions utilisateurs</a></li>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/listpayementcommissionassociation">Liste des payements de commissions intégrateurs</a></li>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/listpayementcommissionmembreasso">Liste des payements de commissions utilisateurs</a></li><?php */?>
+
+                          <?php /*?><li class="nav-header">Etats des commissions</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat23">Etats des commissions des intégrateurs</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat223">Etats des commissions des utilisateurs</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listpayementcommission">Demande de payement de commission</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listpayementcommission2">Demande de payement de commission déjà payer</a></li>
+                        <li class="nav-header">Etats des commissions non calculés</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat231">Etat des commissions des intégrateurs non calculés</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat2231">Etat de mes commissions des utilisateurs non calculés</a></li><?php */?>
+	                      <?php /*?><li class="nav-header">Etats des commissions</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat">Etats des commissions - Souscriptions</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listintegrateuretat">Etats des commissions - Integrateurs</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listoffreurprojetetat">Etats des commissions - Offreurs de projets</a></li><?php */?>
+
+
+                        </ul>
+                      </li>
+                      <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Traites<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        <li class="nav-header">Traites</li>
+<?php if($sessionutilisateur->code_groupe == "executante_acnev"){?>
+                          <li class="nav-header">Traites - ACNEV</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraite1">Liste des traites</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraitevalider">Liste des traites validées</a></li>
+<?php }?>
+<?php if($sessionutilisateur->code_groupe == "surveillance_filiere"){?>
+                          <li class="nav-header">Traites - Filière</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraite2">Liste des traites</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraitevalider">Liste des traites validées</a></li>
+<?php }?>
+<?php if($sessionutilisateur->code_groupe == "detentrice_technopole"){?>
+                          <li class="nav-header">Traites - Technopole</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraite3">Liste des traites</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraitevalider">Liste des traites validées</a></li>
+<?php }?>
+                        </ul>
+                      </li>-->
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">SMS <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        <li class="nav-header">Recharge du compte SMS</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addsmsnbre">Recharger le compte SMS</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">CMFH <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        <li class="nav-header">Liste par type de CMFH</li>
+                        <?php $ttype_candidat = new Application_Model_DbTable_EuTypeCandidat();
+                        $results = $ttype_candidat->fetchAll();?>
+                         <?php foreach ($results as $type_candidat): ?>
+                         <?php if($type_candidat->id_type_candidat != 8){?>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptioncmfh/type/<?php echo $type_candidat->id_type_candidat; ?>"><?php echo ($type_candidat->libelle_type_candidat); ?></a></li>
+                        <?php }?>
+                        <?php endforeach; ?>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptioncmfhrecherche/type/8">CMFH CAPS</a></li>
+                        </ul>
+                      </li>
+					  
+					  <li class="dropdown">
+					      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Acteurs<b class="caret"></b></a>        
+					      <ul class="dropdown-menu">
+					          <li><a href="<?php echo $this->baseUrl();?>/administration/listacteurs/type/OE">Liste des Acteurs OE </a></li>   
+					          <li><a href="<?php echo $this->baseUrl();?>/administration/listacteurs/type/POE">Liste des Acteurs POE </a></li>
+					          <li><a href="<?php echo $this->baseUrl();?>/administration/listacteurs/type/OSE">Liste des Acteurs OSE </a></li>
+							  <li><a href="<?php echo $this->baseUrl();?>/administration/listacteurs/type/POSE">Liste des Acteurs POSE </a></li>
+					      </ul>
+					  </li>
+					  
+					  <li class="dropdown">
+					      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Acheteurs-Revendeurs<b class="caret"></b></a>
+					      <ul class="dropdown-menu">
+					          <li><a href="<?php echo $this->baseUrl();?>/administration/listachrev">Liste des Membres Acheteurs-Revendeurs</a></li>
+					      </ul>
+					  </li>
+
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons de Consommation <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+<?php if($sessionutilisateur->code_groupe == "executante_acnev"){?>
+	                      <li class="nav-header">Bons de Consommation - ACNEV</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur1">Liste des bons de Consommation à valider</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur5">Liste des bons de Consommation validées avec quittance</a></li>
+<?php }?>
+<?php if($sessionutilisateur->code_groupe == "surveillance_filiere"){?>
+	                      <li class="nav-header">Bons de Consommation - Filière</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur2">Liste des bons de Consommation à valider</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur4">Liste des bons de Consommation validées avec quittance</a></li>
+<?php }?>
+<?php if($sessionutilisateur->code_groupe == "detentrice_technopole"){?>
+	                      <li class="nav-header">Bons de Consommation - Technopole</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur3">Liste des bons de Consommation à valider</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur41">Liste des bons de Consommation validées avec quittance</a></li>
+<?php }?>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons de Livraison <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+<?php if($sessionutilisateur->code_groupe == "executante_acnev"){?>
+	                      <li class="nav-header">Bons de Livraison - ACNEV</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listlivraison1">Liste des bons de Livraison à valider</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listlivraison5">Liste des bons de Livraison validées avec quittance</a></li>
+<?php }?>
+<?php if($sessionutilisateur->code_groupe == "surveillance_filiere"){?>
+	                      <li class="nav-header">Bons de Livraison - Filière</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listlivraison2">Liste des bons de Livraison à valider</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listlivraison4">Liste des bons de Livraison validées avec quittance</a></li>
+<?php }?>
+<?php if($sessionutilisateur->code_groupe == "detentrice_technopole"){?>
+	                      <li class="nav-header">Bons de Livraison - Technopole</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listlivraison3">Liste des bons de Livraison à valider</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listlivraison41">Liste des bons de Livraison validées avec quittance</a></li>
+<?php }?>
+                        </ul>
+                      </li><?php */?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relevés Bancaires<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Les relevés bancaires</li>
+<?php if ($sessionutilisateur->login == "filiereanima4"): ?>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addrelevebancaire">Ajout de relevé bancaire</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listrelevebancaire">Liste des relevés bancaires</a></li>
+	                      <li class="nav-header"></li>
+<?php endif; ?>
+
+                          <?php
+				    $tablereleveb = new Application_Model_DbTable_EuRelevebancaire();
+					    $select = $tablereleveb->select();
+					    $select->distinct();
+		                $select->from(array('eu_relevebancaire'),array('relevebancaire_banque'));
+	                $rowsreleveb = $tablereleveb->fetchAll($select);
+					foreach ($rowsreleveb as $entry){
+						  ?>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listrelevebancairedetail2/code/<?php echo $entry->relevebancaire_banque; ?>">Les relevés de <?php echo $entry->relevebancaire_banque; ?></a></li>
+						<?php }?>
+
+                        </ul>
+                      </li>
+<?php }?>
+
+<?php if($sessionutilisateur->code_groupe == "caps"){?>
+						<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscriptions <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscription6">Liste des souscriptions validées avec quittance</a></li>
+                        </ul>
+                      </li>
+<?php } ?>
+
+<?php if($sessionutilisateur->code_groupe == "surveillance_technopole") { ?>
+<li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tableau de bord <b class="caret"></b></a>
+      <ul class="dropdown-menu">
+          <!--<li class="nav-header">Tableau de bord Récapitulatif</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/souscriptiontableaudebord">Tableau de bord Récapitulatif</a></li>-->
+          <li class="nav-header">Etats CM (Comptes Marchands)</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listmembretableaudebord3">Etats CM (Comptes Marchands)</a></li>
+
+          <!--<li class="nav-header">Tableau de bord</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptiontableaudebord">Tableau de bord Souscription</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptiontableaudebordreactivation">Tableau de bord Réactivation</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listbandetailtableaudebord">Tableau de bord Bon d'Achat neutre BAn</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listmembretableaudebord">Tableau de bord Activation Membres Personnes Physiques</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listmembremoraletableaudebord">Tableau de bord Activation Membres Personnes Morales</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listintegrateurtableaudebord">Tableau de bord des intégrateurs</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listoffreurprojettableaudebord">Tableau de bord des offreurs de projets</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listcountfstableaudebord">Tableau de bord des FS utilisés</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listcountfltableaudebord">Tableau de bord des FL utilisés</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listcountfcpstableaudebord">Tableau de bord des FCPS utilisés</a></li>
+
+
+
+          <li class="nav-header">Effectifs des Tableaux de bord</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptiontableaudebord2">Effectifs Souscription</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptiontableaudebordreactivation2">Effectifs Réactivation</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listbandetailtableaudebord2">Effectifs Bon d'Achat neutre BAn</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listmembretableaudebord2">Effectifs Activation Membres Personnes Physiques</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listmembremoraletableaudebord2">Effectifs Activation Membres Personnes Morales</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listintegrateurtableaudebord2">Effectifs des intégrateurs</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listoffreurprojettableaudebord2">Effectifs des offreurs de projets</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listcountfstableaudebord2">Effectifs des FS utilisés</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listcountfltableaudebord2">Effectifs des FL utilisés</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listcountfcpstableaudebord2">Effectifs des FCPS utilisés</a></li>-->
+
+      </ul>
+  </li>
+
+  <!--<li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Redondance des achats & des ventes <b class="caret"></b></a>
+      <ul class="dropdown-menu">
+      <li><a href="<?php echo $this->baseUrl();?>/articlesvendu/listarticlevendudistributeur">Liste des ventes effectuées chez soi même</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/articlesvendu/listarticlevendurepresentant">Liste des ventes effectuées chez soi même par son représentant</a></li>
+      </ul>
+  </li>
+
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Rechercher<b class="caret"></b></a>
+  <ul class="dropdown-menu">
+      <li><a href="<?php echo $this->baseUrl();?>/administration/rechercheractivation">Activation pour soi et pour tiers</a></li>
+    <li><a href="<?php echo $this->baseUrl();?>/administration/recherchercodeactivation">Code d'activation</a></li>
+    </ul>
+</li>-->
+<?php } ?>
+
+<?php if($sessionutilisateur->code_groupe == "executante_acnev" || $sessionutilisateur->code_groupe == "surveillance_filiere" || $sessionutilisateur->code_groupe == "detentrice_technopole" || $sessionutilisateur->code_groupe == "admin_site" || $sessionutilisateur->code_groupe == "surveillance_technopole") { ?>
+<li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Découpage Géographique <b class="caret"></b></a>
+      <ul class="dropdown-menu">
+          <li class="nav-header">Zone</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/addzone"> Ajouter une zone </a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listezones"> Liste des zones </a></li>
+
+
+          <li class="nav-header">Pays</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/addpays">Ajouter un pays</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listepays"> Liste des pays </a></li>
+
+          <li class="nav-header">Régions</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/addregion">Ajouter une région</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listeregions"> Liste des pays </a></li>
+
+          <li class="nav-header">Secteur</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/addsecteur">Ajouter un secteur</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listesecteurs"> Liste des secteurs </a></li>
+
+
+          <li class="nav-header">Agence</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/addagence">Ajouter une agence</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listeagences"> Liste des agences </a></li>
+      </ul>
+</li>
+
+
+<li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tableau de bord <b class="caret"></b></a>
+      <ul class="dropdown-menu">
+          <li class="nav-header">Tableau de bord Récapitulatif</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/souscriptiontableaudebord">Tableau de bord Récapitulatif</a></li>
+          <li class="nav-header">Etats CM (Comptes Marchands)</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listmembretableaudebord3">Etats CM (Comptes Marchands)</a></li>
+
+          <li class="nav-header">Tableau de bord</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptiontableaudebord">Tableau de bord Souscription</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptiontableaudebordreactivation">Tableau de bord Réactivation</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listbandetailtableaudebord">Tableau de bord Bon d'Achat neutre BAn</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listmembretableaudebord">Tableau de bord Activation Membres Personnes Physiques</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listmembremoraletableaudebord">Tableau de bord Activation Membres Personnes Morales</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listintegrateurtableaudebord">Tableau de bord des intégrateurs</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listoffreurprojettableaudebord">Tableau de bord des offreurs de projets</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listcountfstableaudebord">Tableau de bord des FS utilisés</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listcountfltableaudebord">Tableau de bord des FL utilisés</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listcountfcpstableaudebord">Tableau de bord des FCPS utilisés</a></li>
+
+
+
+          <li class="nav-header">Effectifs des Tableaux de bord</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptiontableaudebord2">Effectifs Souscription</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptiontableaudebordreactivation2">Effectifs Réactivation</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listbandetailtableaudebord2">Effectifs Bon d'Achat neutre BAn</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listmembretableaudebord2">Effectifs Activation Membres Personnes Physiques</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listmembremoraletableaudebord2">Effectifs Activation Membres Personnes Morales</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listintegrateurtableaudebord2">Effectifs des intégrateurs</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listoffreurprojettableaudebord2">Effectifs des offreurs de projets</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listcountfstableaudebord2">Effectifs des FS utilisés</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listcountfltableaudebord2">Effectifs des FL utilisés</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listcountfcpstableaudebord2">Effectifs des FCPS utilisés</a></li>
+
+      </ul>
+</li>
+<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Traites<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        <li class="nav-header">Traites</li>
+                          <?php /* ?><li><a href="<?php echo $this->baseUrl();?>/administration/listtraite">Liste des traites</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraite2">Liste des traites archivées</a></li><?php */ ?>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraite12">Liste des traites PBF</a></li>
+                        </ul>
+                      </li>
+
+
+
+    <?php if($sessionutilisateur->code_groupe != "executante_acnev" || $sessionutilisateur->code_groupe == "SIF") { ?>
+    <li class="dropdown">
+	    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tableau des Etats Quotidiens<b class="caret"></b></a>
+	        <ul class="dropdown-menu">
+			    <li><a href="<?php echo $this->baseUrl();?>/administration/etatqban">Etat quotidien des BAn </a></li>
+		        <li><a href="<?php echo $this->baseUrl();?>/administration/etatqbankacm">Etat quotidien d'expression des BAn en KACM</a></li>
+			    <li><a href="<?php echo $this->baseUrl();?>/administration/etatqbanbc">Etat quotidien d'expression des BAn en BC</a></li>
+			    <li><a href="<?php echo $this->baseUrl();?>/administration/etatqbanr">Etat quotidien des BAn restants</a></li>
+			    <li><a href="<?php echo $this->baseUrl();?>/administration/etatqvgcp">Etat quotidien des ventes effectuées sur TEGCP </a></li>
+			    <li><a href="<?php echo $this->baseUrl();?>/administration/etatqvgcsc">Etat quotidien des ventes effectuées sur TEGCSC </a></li>
+			    <li><a href="<?php echo $this->baseUrl();?>/administration/etatqopi">Tableau d'échéancier des OPI</a></li>
+				<li><a href="<?php echo $this->baseUrl();?>/administration/etatqopiban">Tableau des OPI matures passés au BAn</a></li>
+				<li><a href="<?php echo $this->baseUrl();?>/administration/etatqopibc">Tableau des OPI matures passés au Bon de Commande</a></li>
+				<li class="dropdown-submenu text-left">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Balance des Comptes Bancaires</a>
+                        <ul class="dropdown-menu">
+                            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/addmouvement">Enrégistrer un mouvement bancaire</a></li>
+							<li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/listmb">Liste des mouvements bancaires effectués</a></li>
+							<li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/addbalance">Etablir une balance des comptes bancaires</a></li>
+                            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/etatbalance">Visualiser le tableau des balances </a></li>
+                        </ul>
+                </li>
+			    <li><a href="<?php echo $this->baseUrl();?>/administration/etatsolvable">Tableau du niveau de Solvabilité</a></li>
+		    </ul>
+	</li>
+
+	<?php }  ?>
+
+  <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Redondance des achats & des ventes <b class="caret"></b></a>
+      <ul class="dropdown-menu">
+      <li><a href="<?php echo $this->baseUrl();?>/articlesvendu/listarticlevendudistributeur">Liste des ventes effectuées chez soi même</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/articlesvendu/listarticlevendurepresentant">Liste des ventes effectuées chez soi même par son représentant</a></li>
+      </ul>
+  </li>
+
+  
+
+
+
+
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Rechercher<b class="caret"></b></a>
+	<ul class="dropdown-menu">
+	    <li><a href="<?php echo $this->baseUrl();?>/administration/rechercheractivation">Activation pour soi et pour tiers</a></li>
+		<li><a href="<?php echo $this->baseUrl();?>/administration/recherchercodeactivation">Code d'activation</a></li>
+    </ul>
+</li>
+<?php } ?>
+
+<?php if($sessionutilisateur->code_groupe == "agrement_acnev" ||  $sessionutilisateur->code_groupe == "agrement_filiere" || $sessionutilisateur->code_groupe == "agrement_technopole") { ?>
+
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown">Terminaux de Vente<b class="caret"></b></a>
+   <ul class="dropdown-menu">
+
+<?php if($sessionutilisateur->code_groupe == "agrement_acnev" ) { ?>
+<li class="nav-header">Terminaux de Vente - ACNEV</li>
+<li><a href="<?php echo $this->baseUrl();?>/administration/addacteurinterim">Ajouter TE intérim</a></li>
+<li><a href="<?php echo $this->baseUrl();?>/administration/addtep">Ajouter TE prestataire</a></li>
+<li><a href="<?php echo $this->baseUrl();?>/administration/adduserte">Ajouter un utilisateur des TE intérim</a></li>
+<li><a href="<?php echo $this->baseUrl();?>/administration/listuser">Liste des utilisateurs des TE intérim</a></li>
+<li><a href="<?php echo $this->baseUrl();?>/administration/listdemandeconfigte/valider/1">Liste des demandes de configuration des TE en cours de validation</a></li>
+<?php } ?>
+
+
+<?php if($sessionutilisateur->code_groupe == "agrement_filiere") { ?>
+                        <li class="nav-header">Terminaux de Vente - Filière</li>
+<li><a href="<?php echo $this->baseUrl();?>/administration/listdemandeconfigte/valider/2">Liste des demandes de configuration des TE en cours de validation</a></li>
+   <?php } ?>
+<?php if($sessionutilisateur->code_groupe == "agrement_technopole") { ?>
+                        <li class="nav-header">Terminaux de Vente - Technopole</li>
+<li><a href="<?php echo $this->baseUrl();?>/administration/listdemandeconfigte/valider/3">Liste des demandes de configuration des TE en cours de validation</a></li>
+   <?php } ?>
+   <li><a href="<?php echo $this->baseUrl();?>/administration/listdemandeconfigtevalider">Liste des demandes de configuration des TE validées</a></li>
+   <li><a href="<?php echo $this->baseUrl();?>/administration/listacteurinterim">Liste des Terminaux de Vente</a></li>
+   <!--<li><a href="<?php echo $this->baseUrl();?>/administration/misechaine">Mettre sur Chaine</a></li>-->
+   </ul>
+</li>
+
+<?php }  ?>
+
+
+<?php if($sessionutilisateur->code_groupe == "agrement_acnev" || $sessionutilisateur->code_groupe == "agrement_filiere" || $sessionutilisateur->code_groupe == "agrement_technopole"){?>
+
+  <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Divisions<b class="caret"></b></a>
+      <ul class="dropdown-menu">
+          <li><a href="<?php echo $this->baseUrl();?>/administration/adddivision">Ajouter une division</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listdivision">Liste des divisions</a></li>
+      </ul>
+  </li>
+
+  <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sous-Divisions<b class="caret"></b></a>
+      <ul class="dropdown-menu">
+          <li><a href="<?php echo $this->baseUrl();?>/administration/addsousdivision">Ajouter une sous-division</a></li>
+		  <li><a href="<?php echo $this->baseUrl();?>/administration/listsousdivision">Liste des sous-divisions</a></li>
+      </ul>
+  </li>
+
+  <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Filières<b class="caret"></b></a>
+      <ul class="dropdown-menu">
+      <li><a href="<?php echo $this->baseUrl();?>/administration/addfiliere">Ajouter une filiere</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/administration/listfiliere">Liste des filières</a></li>
+      </ul>
+  </li>
+
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Agréments <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li><a href="<?php echo $this->baseUrl();?>/administration/addagrement">Ajouter un agrément</a></li>
+        <li><a href="<?php echo $this->baseUrl();?>/administration/listagrement">Liste des agréments</a></li>
+        <li><a href="<?php echo $this->baseUrl();?>/administration/list2agrement">Liste des agréments déjà utilisés</a></li>
+    </ul>
+</li>
+
+<?php if($sessionutilisateur->code_groupe == "agrement_acnev" || $sessionutilisateur->code_groupe == "agrement_filiere") { ?>
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mise sur chaine<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li><a href="<?php echo $this->baseUrl();?>/administration/misechaine">Mettre sur chaine</a></li>
+	    <li><a href="<?php echo $this->baseUrl();?>/administration/listmisechaine">Liste des acteurs</a></li>
+    </ul>
+   </li>
+
+<?php } }  ?>
+
+
+<?php if($sessionutilisateur->code_groupe == "pbf_detaillant"){?>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Achat de Code SMS Enrôlement<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Code SMS Enrôlement</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur">Liste des achats de Code SMS Personnes Physiques</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteurpm">Liste des achats de Code SMS Personnes Morales</a></li>
+	                      <li class="nav-header">Code SMS Archivés</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteurarchive">Liste des achats de Code SMS Personnes Physiques Archivés</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteurpmarchive">Liste des achats de Code SMS Personnes Morales Archivés</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pré-inscription <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Personnes Physiques</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listpreinscription">Liste des pré-inscriptions des membres physiques</a></li>
+                          <li class="divider"></li>
+	                      <li class="nav-header">Personnes Morales</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listpreinscriptionmorale">Liste des pré-inscriptions des membres morales</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">CMFH <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Candidats CMFH</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listcandidat">Liste des candidats CMFH</a></li>
+                          <li class="divider"></li>
+	                      <li class="nav-header">Quittances CMFH</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listquittance">Liste des quittances CMFH</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">CAPS <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Quittances CAPS</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listquittance">Liste des quittances CAPS</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/smss.js"></script>
+<script>
+setInterval("ouvre_smss(1)", 5000);
+</script>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Achat de Code SMS CAPA <span id="nivsms"></span><b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Code SMS CAPA</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteur">Liste des achats de Code SMS Personnes Physiques</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteurpm">Liste des achats de Code SMS Personnes Morales</a></li>
+	                      <li class="nav-header">Code SMS Archivés</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteurarchive">Liste des achats de Code SMS Personnes Physiques Archivés</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listacheteurpmarchive">Liste des achats de Code SMS Personnes Morales Archivés</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <?php /*?><li><a href="<?php echo $this->baseUrl();?>/administration/liresmsrecu" target="_blank">SMS</a></li><?php */?>
+<?php }?>
+
+<?php if($sessionutilisateur->code_groupe == "surveillance_technopole"){?>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">ZPPE <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">ZPPE</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addzppe">Ajouter un ZPPE</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listzppe">Liste des ZPPEs</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Bons</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addbon">Ajouter un bon</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listbon">Liste des bons</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Traites<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Traites</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraite">Liste des traites</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraite2">Liste des traites archivées</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listtraite12">Liste des traites PBF</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">SMS <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Recharge du compte SMS</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addsmsnbre">Recharger le compte SMS</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relevés Bancaires<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Les relevés bancaires</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addrelevebancaire">Ajout de relevé bancaire</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listrelevebancaire">Liste des relevés bancaires</a></li>
+                        </ul>
+                      </li>
+
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscriptions <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+
+	                      <li class="nav-header">Etats des commissions</li>
+                          <?php /*?><li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat23">Etats des commissions des OSE/OE</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat223">Etats des commissions des utilisateurs</a></li><?php */?>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/listactivationintegrateurall">Etats de toutes les commissions des intégrateurs</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listactivationutilisateurall">Etats de toutes les commissions des utilisateurs</a></li>
+
+                          <?php /*?><li><a href="<?php echo $this->baseUrl();?>/administration/listpayementcommission">Demande de payement de commission</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listpayementcommission2">Demande de payement de commission déjà payer</a></li><?php */?>
+						              <?php /*?><li class="nav-header">Souscriptions - Etats des commissions</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat">Etats des commissions</a></li>
+                          <?php */?>
+                          <?php /*?><li class="nav-header">Etats des commissions non calculés</li>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat231">Etat des commissions des OSE/OE non calculés</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptionetat2231">Etat de mes commissions des utilisateurs non calculés</a></li><?php */?>
+                         </ul>
+                      </li>
+<?php }?>
+
+<?php if($sessionutilisateur->code_groupe == "cnp_tegcp"){?>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">BPS <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">BPS</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addrecubps">Ajouter un BPS</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listrecubps">Liste des BPS</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reçu<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Reçu</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addrecu">Ajouter un reçu</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listrecu">Liste des reçus</a></li>
+                        </ul>
+                      </li><?php */?>
+<?php }?>
+<?php if($sessionutilisateur->code_groupe == "pbf_detaillant"){?>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Factures<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Factures</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addfacture">Ajouter un facture</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listfacture">Liste des factures</a></li>
+                        </ul>
+                      </li><?php */?>
+<?php }?>
+
+<?php if($sessionutilisateur->code_groupe == "detentrice" || $sessionutilisateur->code_groupe == "detentrice_pays" || $sessionutilisateur->code_groupe == "detentrice_region" || $sessionutilisateur->code_groupe == "detentrice_secteur" || $sessionutilisateur->code_groupe == "detentrice_agence"){?>
+                        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Recrutements <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Documents DAC Administratrice</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/adddocument3">Ajouter un document</a></li>
+                          <?php /*?><li><a href="<?php echo $this->baseUrl();?>/administration/listdocument3">Liste des documents</a></li><?php */?>
+                          <li class="divider"></li>
+	                      <li class="nav-header">Documents DAC Animatrice</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/adddocument">Ajouter un document</a></li>
+                          <li class="divider"></li>
+	                      <li class="nav-header">Liste Documents DAC</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listdocument">Liste des documents</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listdocument2">Liste des documents archivés</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Adjudicataires définitifs <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">DAC Administratrice</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addappeloffres3">Ajouter un DAC</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listappeloffres3">Liste des Adjudicataires Administratrices</a></li>
+                          <li class="divider"></li>
+	                      <li class="nav-header">DAC Animatrice</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listappeloffres">Liste des Adjudicataires Animatrices</a></li>
+                          <li class="divider"></li>
+	                      <li class="nav-header">Liste DAC archivés</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listappeloffres2">Liste des Adjudicataires archivés</a></li>
+                        </ul>
+                      </li>
+<?php }?>
+<?php if($sessionutilisateur->code_groupe == "executante" || $sessionutilisateur->code_groupe == "executante_pays" || $sessionutilisateur->code_groupe == "executante_region" || $sessionutilisateur->code_groupe == "executante_secteur" || $sessionutilisateur->code_groupe == "executante_agence"){?>
+                        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Recrutements <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Documents</li>
+                          <?php /*?><li><a href="<?php echo $this->baseUrl();?>/administration/adddocument">Ajouter un document</a></li><?php */?>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listdocument">Liste des documents</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listdocument2">Liste des documents archivés</a></li>
+                        </ul>
+                      </li>
+<?php }?>
+
+<?php if($sessionutilisateur->code_groupe == "surveillance" || $sessionutilisateur->code_groupe == "surveillance_pays" || $sessionutilisateur->code_groupe == "surveillance_region" || $sessionutilisateur->code_groupe == "surveillance_secteur" || $sessionutilisateur->code_groupe == "surveillance_agence" || $sessionutilisateur->code_groupe == "executante" || $sessionutilisateur->code_groupe == "executante_pays" || $sessionutilisateur->code_groupe == "executante_region" || $sessionutilisateur->code_groupe == "executante_secteur" || $sessionutilisateur->code_groupe == "executante_agence"){?>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DAC <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <?php /*?><li><a href="<?php echo $this->baseUrl();?>/administration/addappeloffres">Ajouter un DAC</a></li><?php */?>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listappeloffres">Liste des DAC</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listappeloffres2">Liste des DAC Archivés</a></li>
+                        </ul>
+                      </li>
+<?php }?>
+<?php
+$utilisateur = new Application_Model_EuUtilisateur();
+$utilisateur_m = new Application_Model_EuUtilisateurMapper();
+$utilisateur_m->find($sessionutilisateur->id_utilisateur_parent, $utilisateur);
+//if($sessionutilisateur->code_groupe == "detentrice_filiere" || $sessionutilisateur->code_groupe == "executante_acnev" || $sessionutilisateur->code_groupe == "surveillance_technopole"){
+
+if($sessionutilisateur->code_groupe == "surveillance_filiere" || $sessionutilisateur->code_groupe == "executante_acnev" || $sessionutilisateur->code_groupe == "detentrice_technopole"){?>
+                      <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Agréments <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addagrement">Ajouter un agrément</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listagrement">Liste des agréments</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/list2agrement">Liste des agréments déjà utilisés</a></li>
+                        </ul>
+                      </li>-->
+<?php }?>
+
+<?php $utilisateur = new Application_Model_EuUtilisateur();
+$utilisateur_m = new Application_Model_EuUtilisateurMapper();
+$utilisateur_m->find($sessionutilisateur->id_utilisateur_parent, $utilisateur);?>
+<?php if($sessionutilisateur->code_groupe == "executante" || $sessionutilisateur->code_groupe == "executante_pays" || $sessionutilisateur->code_groupe == "executante_region" || $sessionutilisateur->code_groupe == "executante_secteur" || $sessionutilisateur->code_groupe == "executante_agence"){?>
+						<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Demandes de BPS <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listdemande">Liste des demandes de BPS</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listdemandefrais">Les demandes de BPS facturées</a></li>
+                        </ul>
+                      </li>
+<?php }?>
+<?php if($sessionutilisateur->code_groupe == "executante" || $sessionutilisateur->code_groupe == "executante_pays" || $sessionutilisateur->code_groupe == "executante_region" || $sessionutilisateur->code_groupe == "executante_secteur" || $sessionutilisateur->code_groupe == "executante_agence"){
+	// || $utilisateur->code_groupe == "technopole" || $sessionutilisateur->code_groupe == "surveillance_technopole"
+?>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Appels Offres <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/addappeloffre">Ajouter un appel d'offre</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listappeloffre">Liste des appels d'offres</a></li>
+                        </ul>
+                      </li>
+<?php }?>
+<?php if($sessionutilisateur->code_groupe == "contentieux"){?>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contentieux <b class="caret"></b></a>
+			<ul class="dropdown-menu">
+			    <li class="nav-header text-left">Réclamation des anciens comptes marchands du <strong style="color:#F00;">MCNP</strong></li>
+			    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/verifierrpgi">Verification <strong style="color:#00F;">RPG/I</strong></a></li>
+			    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/verifiermf11000">Verification <strong style="color:#000;">MF11000</strong></a></li>
+
+                            <li class="nav-header text-left"><strong>Service Recouvrement</strong></li>
+                            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/recouvrerrpgi"><strong style="color:#00F;">RPG/I</strong></a></li>
+			    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/recouvrermf11000"><strong style="color:#000;">MF11000</strong></a></li>
+
+
+                            <li class="nav-header text-left"><strong>Service Reglement</strong></li>
+                            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/reglerrpgi"><strong style="color:#00F;">RPG/I</strong></a></li>
+			    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/reglermf11000"><strong style="color:#000;">MF11000</strong></a></li>
+                        </ul>
+        </li>
+<?php }?>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tâches <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Mes tâches</li>
+<?php
+$tache = new Application_Model_EuTacheMapper();
+$tacheentries = $tache->fetchAllByCodeGroupe3($sessionutilisateur->code_groupe, $sessionutilisateur->id_utilisateur);
+foreach ($tacheentries as $entry):
+?>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/detailstache/id/<?php echo $entry->tache_id; ?>"><?php echo ($entry->tache_libelle); ?></a></li>
+<?php endforeach; ?>
+                        </ul>
+                      </li>
+
+                      <li class="dropdown">
+                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banques<b class="caret"></b></a>
+                           <ul class="dropdown-menu">
+                              <!-- <li><a href="<?php echo $this->baseUrl();?>/administration/addbanque">Ajout d'utilisateurs Banques</a></li> -->
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/addbanqueuser">Ajout d'utilisateurs Banques</a></li>
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/listbanqueuser">Liste d'utilisateurs Banques</a></li>
+                           </ul>
+                      </li>
+
+
+                      <?php if($sessionutilisateur->code_groupe == "admin_site") { ?>
+            <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Terminaux de Vente<b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                              <li><a href="<?php echo $this->baseUrl();?>/administration/addacteurinterim">Ajouter TE intérim</a></li>
+							  <li><a href="<?php echo $this->baseUrl();?>/administration/addtep">Ajouter TE prestataire</a></li>
+							  <li><a href="<?php echo $this->baseUrl();?>/administration/adduserte">Ajouter un utilisateur des TE intérim</a></li>
+							  <li><a href="<?php echo $this->baseUrl();?>/administration/listuser">Liste des utilisateurs des TE intérim</a></li>
+
+                        <li class="nav-header">Terminaux de Vente - ACNEV</li>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/listdemandeconfigte/valider/1">Liste des demandes de configuration des TE en cours de validation</a></li>
+                         <li class="nav-header">Terminaux de Vente - Filière</li>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/listdemandeconfigte/valider/2">Liste des demandes de configuration des TE en cours de validation</a></li>
+                        <li class="nav-header">Terminaux de Vente - Technopole</li>
+                        <li><a href="<?php echo $this->baseUrl();?>/administration/listdemandeconfigte/valider/3">Liste des demandes de configuration des TE en cours de validation</a></li>
+                         <li><a href="<?php echo $this->baseUrl();?>/administration/listdemandeconfigtevalider">Liste des demandes de configuration des TE validées</a></li>
+                         <li><a href="<?php echo $this->baseUrl();?>/administration/listacteurinterim">Liste des Terminaux de Vente</a></li>
+       <!--<li><a href="<?php echo $this->baseUrl();?>/administration/misechaine">Mettre sur Chaine</a></li>-->
+                        </ul>
+                      </li>
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tableau de bord hétérogène<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                <li><a href="<?php echo $this->baseUrl();?>/administration/subvention"><span style="color:#F00;">SMCIPN</span></a></li>
+                <li><a href="<?php echo $this->baseUrl();?>/administration/subasolder"><span style="color:#F00;">SMCIPN</span> A SOLDER</a></li>
+                <li><a href="<?php echo $this->baseUrl();?>/administration/fgfnmoney"><span >FGFN REMONETISER</span></a></li>
+                <li><a href="<?php echo $this->baseUrl();?>/administration/fgfnnn"><span >FGFN NN</span></a></li>
+                <li><a href="<?php echo $this->baseUrl();?>/administration/fgfnelectro"><span>FGFN ELECTRONIQUE</span></a></li>
+                <li><a href="<?php echo $this->baseUrl();?>/administration/fgfnespece"><span>FGFN ESPECE</span></a></li>
+                <li><a href="<?php echo $this->baseUrl();?>/administration/tpsattente"><span>TPS EN ATTENTE</span></a></li>
+                <li><a href="<?php echo $this->baseUrl();?>/administration/fgfn"><span>FGFN</span></a></li>
+                 <!--<li><a href="<?php echo $this->baseUrl();?>/administration/kacm"><span>KACM</span></a></li>-->
+                </ul>
+             </li>
+
+             <li class="dropdown">
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Rechercher<b class="caret"></b></a>
+	             <ul class="dropdown-menu">
+	                 <li><a href="<?php echo $this->baseUrl();?>/administration/rechercheractivation">Activation pour soi et pour tiers</a></li>
+		         <li><a href="<?php echo $this->baseUrl();?>/administration/recherchercodeactivation">Code d'activation</a></li>
+                         <li><a href="<?php echo $this->baseUrl();?>/administration/modifiercm">Modification de Compte Marchand</a></li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listtelephone">Modification des numéros de téléphone</a></li>
+                 </ul>
+             </li>
+
+
+             <li class="dropdown">
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Divisions<b class="caret"></b></a>
+                 <ul class="dropdown-menu">
+                 <li><a href="<?php echo $this->baseUrl();?>/administration/adddivision">Ajouter une division</a></li>
+		 <li><a href="<?php echo $this->baseUrl();?>/administration/listdivision">Liste des divisions</a></li>
+                 </ul>
+              </li>
+
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sous-Divisions<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                  <li><a href="<?php echo $this->baseUrl();?>/administration/addsousdivision">Ajouter une sous-division</a></li>
+		          <li><a href="<?php echo $this->baseUrl();?>/administration/listsousdivision">Liste des sous-divisions</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Filières<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                      <li><a href="<?php echo $this->baseUrl();?>/administration/addfiliere">Ajouter une filiere</a></li>
+		             <li><a href="<?php echo $this->baseUrl();?>/administration/listfiliere">Liste des filières</a></li>
+                  </ul>
+                </li>
+
+               <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Agréments <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="<?php echo $this->baseUrl();?>/administration/addagrement">Ajouter un agrément</a></li>
+            <li><a href="<?php echo $this->baseUrl();?>/administration/listagrement">Liste des agréments</a></li>
+            <li><a href="<?php echo $this->baseUrl();?>/administration/list2agrement">Liste des agréments déjà utilisés</a></li>
+        </ul>
+   </li>
+   
+   <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mise sur chaine<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="<?php echo $this->baseUrl();?>/administration/misechaine">Mettre sur chaine</a></li>
+			<li><a href="<?php echo $this->baseUrl();?>/administration/listmisechaine">Liste des acteurs</a></li>
+        </ul>
+   </li>
+
+				<li class="dropdown">
+	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tableau des Etats Quotidiens<b class="caret"></b></a>
+	                <ul class="dropdown-menu">
+					    <li><a href="<?php echo $this->baseUrl();?>/administration/etatqban">Etat quotidien des BAn </a></li>
+		                <li><a href="<?php echo $this->baseUrl();?>/administration/etatqbankacm">Etat quotidien d'expression des BAn en KACM</a></li>
+			            <li><a href="<?php echo $this->baseUrl();?>/administration/etatqbanbc">Etat quotidien d'expression des BAn en BC</a></li>
+			            <li><a href="<?php echo $this->baseUrl();?>/administration/etatqbanr">Etat quotidien des BAn restants</a></li>
+			            <li><a href="<?php echo $this->baseUrl();?>/administration/etatqvgcp">Etat quotidien des ventes effectuées sur TEGCP </a></li>
+			            <li><a href="<?php echo $this->baseUrl();?>/administration/etatqvgcsc">Etat quotidien des ventes effectuées sur TEGCSC </a></li>
+			            <li><a href="<?php echo $this->baseUrl();?>/administration/etatqopi">Tableau d'échéancier des OPI</a></li>
+						<li><a href="<?php echo $this->baseUrl();?>/administration/etatqopiban">Tableau des OPI matures passés au BAn</a></li>
+				        <li><a href="<?php echo $this->baseUrl();?>/administration/etatqopibc">Tableau des OPI matures passés au Bon de Commande</a></li>
+
+						<li class="dropdown-submenu text-left">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Balance des Comptes Bancaires</a>
+                            <ul class="dropdown-menu">
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/addmouvement">Enrégistrer un mouvement bancaire</a></li>
+							    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/listmb">Liste des mouvements bancaires effectués</a></li>
+							    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/addbalance">Etablir une balance des comptes bancaires</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/administration/etatbalance">Visualiser le tableau des balances </a></li>
+                            </ul>
+                        </li>
+			            <li><a href="<?php echo $this->baseUrl();?>/administration/etatsolvable">Tableau du niveau de Solvabilité</a></li>
+
+		            </ul>
+	            </li>
+
+          <?php } ?>
+
+
+<?php if($sessionutilisateur->code_groupe == "secretariat"){?>
+						<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Offreurs d'emplois <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <?php /*?><li class="nav-header">Liste par type de CMFH</li>
+        <?php $ttype_candidat = new Application_Model_DbTable_EuTypeCandidat();
+        $results = $ttype_candidat->fetchAll();?>
+    <?php foreach ($results as $type_candidat): ?>
+    <?php if($type_candidat->id_type_candidat != 8){?>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptioncmfh/type/<?php echo $type_candidat->id_type_candidat; ?>"><?php echo ($type_candidat->libelle_type_candidat); ?></a></li>
+						  <?php }?>
+    <?php endforeach; ?>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptioncmfhrecherche/type/8">CMFH CAPS</a></li><?php */?>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listsouscriptioncmfh/type/9">Fonctionnaires de la Production Commune</a></li>
+                        </ul>
+                      </li>
+						<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listintegrateur">Liste des intégrateurs non publiés</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listintegrateur1">Liste des intégrateurs publiés</a></li>
+                        </ul>
+                      </li>
+<?php }?>
+
+
+
+       <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Demande de paiement<b class="caret"></b></a>
+         <ul class="dropdown-menu">
+          <li class="nav-header">Prestataire</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listdemandeprestataire">Liste des demandes de payement prestataire à valider</a></li>
+           </ul>
+       </li>
+
+
+
+       <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Doublons des Membres<b class="caret"></b></a>
+         <ul class="dropdown-menu">
+          <li class="nav-header">Personnes Physiques</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listmembredoublon">Liste des doublons de Membres Personnes Physiques</a></li>
+          <!--<li class="nav-header">Personnes Morales</li>
+          <li><a href="<?php echo $this->baseUrl();?>/administration/listmembremoraledoublon">Liste des doublons de Membres Personnes Morales</a></li>-->
+           </ul>
+       </li>
+
+
+<li class="dropdown">
+         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Articles <b class="caret"></b></a>
+         <ul class="dropdown-menu">
+           
+           <li class="nav-header">Les commandes</li>
+           <li>
+             <a href="<?php echo $this->baseUrl();?>/administration/listarticlecommande">
+               Listes des articles commandés 
+             </a>
+           </li>
+         </ul>
+
+       </li>
+                    </ul>
+
+                    <ul class="nav pull-right" style="margin-right: -20px;">
+<?php if($sessionutilisateur->code_groupe == "admin_site" || $sessionutilisateur->code_groupe == "espace_bps_ei" || $sessionutilisateur->code_groupe == "espace_bps_gp" || $sessionutilisateur->code_groupe == "espace_capa" || $sessionutilisateur->code_groupe == "espace_caps" || $sessionutilisateur->code_groupe == "espace_cmfh" || $sessionutilisateur->code_groupe == "espace_gp_mcnp" || $sessionutilisateur->code_groupe == "espace_gp_mf107" || $sessionutilisateur->code_groupe == "espace_gp_mf11000" || $sessionutilisateur->code_groupe == "espace_gp_redemare" || $sessionutilisateur->code_groupe == "espace_kacm" || $sessionutilisateur->code_groupe == "espace_tc_pm" || $sessionutilisateur->code_groupe == "espace_tc_pp" || $sessionutilisateur->code_groupe == "espace_traite" || $sessionutilisateur->code_groupe == "espace_tr_pm" || $sessionutilisateur->code_groupe == "espace_zppe" || $sessionutilisateur->code_groupe == "espace_bourse"){?>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contacts <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Les messages de la rubrique "Nous contacter"</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/administration/listcontact">Messages</a></li>
+                        </ul>
+                      </li>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/questionreponses1.js"></script>
+<script>
+setInterval("ouvre_questionreponses1('<?php echo $sessionutilisateur->code_groupe; ?>')", 5000);
+</script>
+<?php */?>
+                      <li><a href="<?php echo $this->baseUrl();?>/administration/listquestionreponse">Questions&amp;Réponses <!--<span id="nivoalerte"></span>--></a></li>
+<?php }?>
+                     <?php /*?><li><a href="<?php echo $this->baseUrl();?>/documents/manuel.pdf" target="_blank">Manuel</a></li>
+                      <li><a href="<?php echo $this->baseUrl();?>/documents/<?php echo $sessionutilisateur->code_groupe;?>.pdf" target="_blank">Manuel</a></li><?php */?>
+                      <li class="divider-vertical" style="margin:0;"></li>
+                      <li><a href="<?php echo $this->baseUrl();?>/index2" target="_blank" title="Plateforme MCNP"><i class="icon-white icon-globe"></i></a></li>
+                    </ul>
+
+                    <?php /*?><ul class="nav pull-right">
+                      <li class="divider-vertical"></li>
+                      <li><a href="<?php echo $this->baseUrl();?>/administration/nocompte"><i class="icon-white icon-off"></i> </a></li>
+                    </ul><?php */?>
+                  </div><!-- /.nav-collapse -->
+                </div>
+              </div><!-- /navbar-inner -->
+            </div>
+
+
+            <div align="right" style="margin-top: -15px;">
+<i class="icon-home"></i> <?php echo ($sessionutilisateur->raison_sociale); ?>
+<i class="icon-globe"></i> <?php echo ($sessionutilisateur->nom_filiere); ?>
+<i class="icon-user"></i> <?php echo ($sessionutilisateur->nom_utilisateur); ?> <?php echo ($sessionutilisateur->prenom_utilisateur); ?>
+<!--<br />-->
+            <a href="<?php echo $this->baseUrl();?>/administration/password"><i class="icon-edit"></i> Modifier le mot de passe</a>
+            <a href="<?php echo $this->baseUrl();?>/administration/nocompte"><i class="icon-off"></i> Déconnexion</a>
+			</div>
+
+			<?php }?>

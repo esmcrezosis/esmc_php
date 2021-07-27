@@ -1,0 +1,39 @@
+<?php
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('..Connexion..');
+echo $this->doctype();
+?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <?php
+        echo $this->headMeta(),
+        $this->headTitle(),
+        $this->headLink()->appendStylesheet('/css/layout.css');
+        ?>
+    </head>
+    <body>
+        <div style="position:relative;">
+
+            <div style="height:485px; position: relative; top: 90px; left: 150px;">
+                <img src="images/cn.jpg">
+            </div>
+            <div style="position: relative; top: -200px; left: 280px; width: 425px">
+                <div id ="message" class="cntError ui-corner-all" style="margin-bottom: 3px;">
+                    <?php echo $this->message; ?>
+                </div>
+                <?php echo $this->layout()->content; ?>
+            </div>
+        </div>
+
+<!--        <table width="700" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+        <td height="85">&nbsp;</td>
+    </tr>
+    <tr>
+        <td height="485" background="images/cn.jpg" width="100"><?php //echo $this->layout()->content;  ?></td>
+    </tr>
+
+</table>-->
+    </body>
+</html>

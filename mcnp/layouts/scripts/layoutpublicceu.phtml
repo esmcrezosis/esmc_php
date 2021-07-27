@@ -1,0 +1,782 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<?php
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('ESMC - Entreprise Sociale de Marché Commun');
+echo $this->doctype();//echo $_SERVER['SERVER_NAME'];
+?>
+<?php 
+              if($_SERVER['SERVER_ADDR'] == Util_Utils::getParamEsmc(9)) {
+      $domaine = "esmcgie.com";
+        $domaine2 = "https://esmc.esmcgie.com";
+
+    }else{
+      $domaine = "esmcgie.com";
+        $domaine2 = "https://esmcgie.com";
+    }
+    ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="<?php echo $this->baseUrl();?>/images/favicon_esmc.png">
+    
+         <?php echo $this->headMeta(),
+        $this->headTitle(); ?>
+
+    <!-- <link href="<?php echo $this->baseUrl();?>/assets/css/esmccss.css" rel="stylesheet" media="screen" /> -->
+    <!-- Bootstrap core CSS -->
+    <link href="<?php echo $this->baseUrl();?>/assets/css/bootstrap.css" rel="stylesheet">
+    <!-- <link href="<?php echo $this->baseUrl();?>/assets/css/bootstrap-grid.css" rel="stylesheet">
+    <link href="<?php echo $this->baseUrl();?>/assets/css/bootstrap-reboot.css" rel="stylesheet"> -->
+
+
+
+
+    <!-- <link href="<?php echo $this->baseUrl();?>/bootstrap/css/mcnppublic.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl();?>/bootstrap/css/convention.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl(); ?>/js/primeui/primeui.min.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl(); ?>/js/primeui/themes/bootstrap/theme.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl(); ?>/app/site.css" rel="stylesheet" media="screen" /> -->
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/assets/HorizontalDropDownMenu/css/default.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/assets/HorizontalDropDownMenu/css/component.css" />
+    <script src="<?php echo $this->baseUrl();?>/assets/HorizontalDropDownMenu/js/modernizr.custom.js"></script>
+
+<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/assets/font-awesome-4.7.0/css/font-awesome.min.css">
+
+<style>
+@import "bootstrap/bootstrap-flex";
+
+@media (min-width:34em) {
+    .card-deck > .card
+    {
+        width: 10%;
+        flex-wrap: wrap;
+        flex: initial; 
+    }
+}
+
+
+/* control image height */
+.card-img-top-250 {
+    max-height: 250px;
+    overflow:hidden;
+}
+
+.card-img-top-150 {
+    max-height: 150px;
+    overflow:hidden;
+}
+
+
+/* smoother transitions */
+.carousel-inner>.carousel-item.next.left,
+.carousel-inner>.carousel-item.prev.right,
+{
+    transition: all 1s ease;
+}
+</style>
+    <script language="javascript1.3" src="<?php echo $this->baseUrl();?>/paniers.js"></script>
+
+    <link href="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" media="screen" />
+    <style>
+.esmc_communique_clignontant{
+    animation: Test 0.6s infinite;
+    font-size: 1.2em;
+    color: #fe0000;
+    text-decoration: none;
+    text-align: center;
+
+}
+
+.esmc_communique_clignontant:hover{
+    color:  #fe0000;
+    text-decoration: none;
+    
+}
+@keyframes Test{
+       0%{opacity: 1;}
+       50%{opacity: 0;}
+       100%{opacity: 1;}
+    }
+</style>
+  </head>
+
+
+  <body>
+<?php $sessionpanier = new Zend_Session_Namespace('panier');?>
+<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+ <?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+  <div class="container" style="background-color: #f7f7f9">
+  <!-- debut header -->
+
+  <div class="row" style="background-color: #aa325f;">
+    <div class="col-xl-6" style="margin: 7px 0px 4px 0px; padding: 3px 0px 3px 7px;">
+    <?php $pageM = new Application_Model_EuPageMapper();
+          $page = new Application_Model_EuPage();
+          if($pageM->find(117, $page)){?>
+          <?php if($page->liendirect != ""){?>
+    <a href="<?php echo $page->liendirect; ?>" target="_blank" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><?php echo ($page->titre_autre); ?></a>
+            <?php }else{?>
+    <a href="<?php echo $domaine2; ?>/index/pageesmc/id/<?php echo $page->id_page; ?>" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><?php echo ($page->titre_autre); ?></a>
+            <?php }?>
+    <?php }?>
+    <?php $pageM = new Application_Model_EuPageMapper();
+          $page = new Application_Model_EuPage();
+          if($pageM->find(118, $page)){?>
+          <?php if($page->liendirect != ""){?>
+    <a href="<?php echo $page->liendirect; ?>" target="_blank" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><?php echo ($page->titre_autre); ?></a>
+            <?php }else{?>
+    <a href="<?php echo $domaine2; ?>/index/pageesmc/id/<?php echo $page->id_page; ?>" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><?php echo ($page->titre_autre); ?></a>
+            <?php }?>
+    <?php }?>
+    <?php $pageM = new Application_Model_EuPageMapper();
+          $page = new Application_Model_EuPage();
+          if($pageM->find(119, $page)){?>
+          <?php if($page->liendirect != ""){?>
+    <a href="<?php echo $page->liendirect; ?>" target="_blank" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><?php echo ($page->titre_autre); ?></a>
+            <?php }else{?>
+    <a href="<?php echo $domaine2; ?>/index/pageesmc/id/<?php echo $page->id_page; ?>" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><?php echo ($page->titre_autre); ?></a>
+            <?php }?>
+    <?php }?>
+    <?php $pageM = new Application_Model_EuPageMapper();
+          $page = new Application_Model_EuPage();
+          if($pageM->find(120, $page)){?>
+          <?php if($page->liendirect != ""){?>
+    <a href="<?php echo $page->liendirect; ?>" target="_blank" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><?php echo ($page->titre_autre); ?></a>
+            <?php }else{?>
+    <a href="<?php echo $domaine2; ?>/index/pageesmc/id/<?php echo $page->id_page; ?>" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><?php echo ($page->titre_autre); ?></a>
+            <?php }?>
+    <?php }?>
+    <?php $pageM = new Application_Model_EuPageMapper();
+          $page = new Application_Model_EuPage();
+          if($pageM->find(121, $page)){?>
+          <?php if($page->liendirect != ""){?>
+    <a href="<?php echo $page->liendirect; ?>" target="_blank" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><?php echo ($page->titre_autre); ?></a>
+            <?php }else{?>
+    <a href="<?php echo $domaine2; ?>/index/pageesmc/id/<?php echo $page->id_page; ?>" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><?php echo ($page->titre_autre); ?></a>
+            <?php }?>
+    <?php }?>
+  </div>
+    <div class="col-xl-5" style="margin: 7px 0px 4px 0px; color: #ffffff;">
+<?php /////////////////////////////////
+$communique = new Application_Model_EuCommuniqueMapper();
+$entriescommunique = $communique->fetchAllByHome();
+if(count($entriescommunique) > 0){?>
+    <marquee onmousemove="stop();" onmouseout="start();">
+<?php foreach ($entriescommunique as $valuecommunique) {?>
+                        <?php if($valuecommunique->liendirect != ""){?>
+                            <a href="<?php echo $valuecommunique->liendirect; ?>" style="color: #ffffff;" target="_blank">
+                            <?php echo ($valuecommunique->titre); ?> - 
+                            </a>
+                        <?php }else{ ?>
+                            <a href="<?php echo $domaine2; ?>/index/detailcommunique/id/<?php echo $valuecommunique->id_communique; ?>" style="color: #ffffff;">
+                            <?php echo ($valuecommunique->titre); ?> - 
+                            </a>
+                        <?php }?>    
+<?php }?>
+    </marquee>
+<?php }?>
+    </div>
+    <div class="col-xl-1" style="margin: 7px 0px 0px 0px; padding: 0;"><a href="#"><img src="<?php echo $this->baseUrl();?>/assets/img/appstore.jpg" class="img-fluid" alt="ESMC App Mobile"></a></div>
+  </div>
+
+  <div class="row" style="background-color: #ffffff; border-bottom: 1px solid #aa325f;">
+    <div class="col-xl-12" align="center">
+      <a href="<?php echo $this->baseUrl();?>/"><img src="<?php echo $this->baseUrl();?>/pages/banniere_de_haut.jpg" class="img-fluid"></a>
+    </div>  
+    <?php /*?>
+    <div class="col-xl-2" align="center" style="margin: auto;"><a href="<?php echo $this->baseUrl();?>/"><img src="<?php echo $this->baseUrl();?>/assets/img/logo_esmc.png" class="img-fluid" alt="Logo ESMC"></a></div>
+    <div class="col-xl-10" align="center">
+    <h2 style="font-size:40px;color:#aa325f;font-family:'Maiandra GD';"><strong>ESMC</strong></h2>
+    <h4 style="font-family:Cambria, 'Cambria Math';">Entreprise Sociale de Marché Commun</h4>
+    <span style="font-size: small;"><span style="color:#aa325f;font-weight: bold; ">ESMC</span>, Conseils en Organisation des Affaires Commerciales, Recherche &amp; Développement de Logiciel, Exploitation du Progiciel <strong style="color:#F00">MCNP</strong>, Commerce sur Internet</span>
+    </div>
+    <?php */?>
+  </div>
+
+
+  <div class="row">
+    <div class="col-xl-12" style="padding-right: 0 !important; padding-left: 0 !important; ">
+    <!-- <img src="<?php echo $this->baseUrl();?>/assets/img/banniere.jpg" class="img-fluid" alt="Bannière"> -->
+<?php /////////////////PUB BOX////////////////
+$publicite = new Application_Model_EuPubliciteMapper();
+$entriespublicite = $publicite->fetchAllByTypeCategorieBoxInterfaceAncien(1, 0, 1, 0, 2);
+if(count($entriespublicite) > 0){?>
+<div id="carouselExampleIndicators" class="carousel slide" data-interval="10000" data-ride="carousel">
+  <!-- <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol> -->
+  <div class="carousel-inner" role="listbox">
+<?php $i = 0;?>
+<?php foreach ($entriespublicite as $valuepublicite) {?>
+<?php $i++;?>
+    <div class="carousel-item <?php if($i == 1){echo ' active';}?>">
+      <a href="<?php echo ($valuepublicite->lien_publicite); ?>">
+      <img class="img-fluid" src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/<?php echo ($valuepublicite->desc_publicite); ?>&w=1140&h=200&zc=1&q=100" alt="<?php echo ($valuepublicite->libelle_publicite); ?>">
+      </a>
+      <!-- <div class="carousel-caption d-none d-md-block">
+    <h3><?php echo ($valuepublicite->libelle_publicite); ?></h3>
+  </div> -->
+    </div>
+<?php }?>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<?php }?>
+
+    </div>
+  </div>
+
+  <!-- fin header -->
+  </div>
+
+  <div class="container">
+  <!-- debut menu -->
+
+  <div class="row">
+    <div class="col-xl-12" style="border-bottom: 1px solid #aa325f; border-top: 1px solid #aa325f;">
+              
+      <!-- header -->
+  <?php include("../application/layouts/scripts/header_ceu.phtml"); ?>
+
+  
+    </div>
+  </div>
+
+  <!-- fin menu -->
+  </div>
+
+  <div class="container" style="background-color: #f7f7f9">
+  <!-- debut play store -->
+
+  <div class="row">
+    <div class="col-xl-2">&nbsp;</div>
+    <div class="col-xl-7">&nbsp;</div>
+    <div class="col-xl-3">&nbsp;</div>
+  <!-- Initialize Bootstrap functionality -->
+  </div>
+
+  <!-- fin play store -->
+  </div>
+
+
+  <div class="container" style="background-color: #f7f7f9">
+  <!-- debut content -->
+
+  <div class="row">
+    <div class="col-xl-2" align="center">
+      <br />
+    <!--     
+<img src="<?php echo $this->baseUrl();?>/assets/img/recherche.jpg" class="img-fluid" alt="recherche"> -->
+
+
+
+
+<button id="content6" type="button" class="btn btn-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true"  data-container="body" title="Calculer BC" style="margin:0px 0px 5px 10px;padding:0px 0px 0px 10px;border-color: #f7f7f9;background-color: #f7f7f9; cursor: pointer;">
+<img src="<?php echo $this->baseUrl();?>/assets/img/calculs.png" alt="Calculer BC"><br /><span style="color: #aa325f">Calculer BC</span><!-- class="img-fluid"-->
+</button>
+<div id="popover-content6" class="list-group" style="display: none;">
+
+  
+          <a href="#" class="list-group-item active">Calculer BC pour soi</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermsbcnr">Souscription au<strong>&nbsp;<span style="color:blue">BCnr</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermsbcr">Souscription au<strong>&nbsp;<span style="color:blue">BCr</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermsbcrj">Souscription au<strong>&nbsp;<span style="color:blue">BCr/j</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermsbcnrpre">Souscription au<strong>&nbsp;<span style="color:blue">BCnrPRE</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermbcnr">Montant du<strong>&nbsp;<span style="color:blue">BCnr</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermbcr">Montant du<strong>&nbsp;<span style="color:blue">BCr</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermbcrj">Montant du<strong>&nbsp;<span style="color:blue">BCr/j</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermbcnrpre">Montant du<strong>&nbsp;<span style="color:blue">BCnrPRE</span></strong></a>
+            <a href="#" class="list-group-item active">Calculer BC pour formation</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermsbcf">Souscription au<strong>&nbsp;<span style="color:blue">BC</span></strong></a>
+            <a href="#" class="list-group-item active">Calculer BC pour tiers</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermsbcm">Souscription au<strong>&nbsp;<span style="color:blue">BC</span>&nbsp;</strong>pour tiers (M) </a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermsbcnm">Souscription au<strong>&nbsp;<span style="color:blue">BC</span>&nbsp;</strong>pour tiers (NM)</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermbcm">Nombre de bénéficiaires au<strong>&nbsp;<span style="color:blue">BC</span>&nbsp;</strong>pour tiers (M)</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermbcnm">Nombre de bénéficiaires au<strong>&nbsp;<span style="color:blue">BC</span>&nbsp;</strong>pour tiers (NM) </a>
+            
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermbcbps">Nombre de bénéficiaires au<strong>&nbsp;<span style="color:blue">BC</span>&nbsp;</strong> pour tiers contre BPS </a>
+        </div>
+
+<br><br>
+
+<button id="content7" type="button" class="btn btn-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true"  data-container="body" title="Calculer OPI" style="margin:0px 0px 5px 10px;padding:0px 0px 0px 10px;border-color: #f7f7f9;background-color: #f7f7f9; cursor: pointer;">
+<img src="<?php echo $this->baseUrl();?>/assets/img/calculsopi.png" alt="Calculer OPI"><br /><span style="color: #aa325f">Calculer OPI</span><!-- class="img-fluid"-->
+</button>
+<div id="popover-content7" class="list-group" style="display: none;">
+
+  
+          <a href="#" class="list-group-item active">Calculer OPI</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculernopi">Nombre d'<strong><span style="color:black">OPI</span>&nbsp;</strong>au montant insuffisant</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculerpj">Montant d'<strong><span style="color:black">OPI</span>&nbsp;</strong>Vendeur</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculerpbps">Montant d'<strong><span style="color:black">OPI</span>&nbsp;</strong>Achat-Vente Réciproque</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculermsbcnrar">Souscription au<strong>&nbsp;<span style="color:blue">BCnr</span>&nbsp;</strong>Acheteur-Revendeur contre<strong>&nbsp;<span style="color:black">OPI</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculeropi">Montant d'<strong><span style="color:black">OPI</span>&nbsp;</strong>Acheteur-Revendeur</a>
+
+            <a href="#" class="list-group-item active">Calculer Commision PBF</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/calculerpbfcommission">Commission sur le BAn PBF</a>
+            
+
+            
+        </div>
+
+
+<br><br>
+
+<button id="content8" type="button" class="btn btn-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true"  data-container="body" title="Nous concernant" style="margin:0px 0px 5px 10px;padding:0px 0px 0px 10px;border-color: #f7f7f9;background-color: #f7f7f9; cursor: pointer;">
+<img src="<?php echo $this->baseUrl();?>/assets/img/logo_esmc.png" alt="Nous concernant" style="width:127px"><br /><span style="color: #aa325f">Nous concernant</span><!-- class="img-fluid"-->
+</button>
+<div id="popover-content8" class="list-group" style="display: none;">
+
+<?php
+$menuM = new Application_Model_EuMenuMapper();
+$menu = new Application_Model_EuMenu();
+if($menuM->find(16, $menu)){
+?>                        
+<a href="#" class="list-group-item active"><?php echo ($menu->menu_libelle); ?></a>
+<?php
+        $menusous = new Application_Model_EuMenuSousMapper();
+        $entriesmenusous = $menusous->fetchAllByMenu($menu->menu_id);
+?>
+<?php if(count($entriesmenusous)>0){?>
+<?php $y=0; ?>
+<?php foreach ($entriesmenusous as $entrymenusous){ ?>
+<?php if($entrymenusous->menusous_url != ""){?>
+<?php }else{?>
+<?php
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAllByMenuSousMenu($entrymenusous->menusous_menu, $entrymenusous->menusous_id);
+?>
+<?php if(count($entriespage)>0){?>
+<?php foreach ($entriespage as $entrypage){ ?>
+<?php if($entrypage->liendirect != ""){?>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $entrypage->liendirect; ?>"><?php echo ($entrypage->titre_autre); ?></a>
+<?php }else{?>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php echo ($entrypage->titre_autre); ?></a>
+<?php }?>
+<?php }?>
+<?php }?>
+<?php }?>
+<?php $y++; ?>
+<?php }?>
+<?php }?>
+<?php }?>
+
+
+
+<?php
+$menuM = new Application_Model_EuMenuMapper();
+$menu = new Application_Model_EuMenu();
+if($menuM->find(17, $menu)){
+?>                        
+<a href="#" class="list-group-item active"><?php echo ($menu->menu_libelle); ?></a>
+<?php
+        $menusous = new Application_Model_EuMenuSousMapper();
+        $entriesmenusous = $menusous->fetchAllByMenu($menu->menu_id);
+?>
+<?php if(count($entriesmenusous)>0){?>
+<?php $y=0; ?>
+<?php foreach ($entriesmenusous as $entrymenusous){ ?>
+<?php if($entrymenusous->menusous_url != ""){?>
+<?php }else{?>
+<?php
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAllByMenuSousMenu($entrymenusous->menusous_menu, $entrymenusous->menusous_id);
+?>
+<?php if(count($entriespage)>0){?>
+<?php foreach ($entriespage as $entrypage){ ?>
+<?php if($entrypage->liendirect != ""){?>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $entrypage->liendirect; ?>"><?php echo ($entrypage->titre_autre); ?></a>
+<?php }else{?>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php echo ($entrypage->titre_autre); ?></a>
+<?php }?>
+<?php }?>
+<?php }?>
+<?php }?>
+<?php $y++; ?>
+<?php }?>
+<?php }?>
+<?php }?>
+
+  
+
+<?php
+$menuM = new Application_Model_EuMenuMapper();
+$menu = new Application_Model_EuMenu();
+if($menuM->find(18, $menu)){
+?>                        
+<a href="#" class="list-group-item active"><?php echo ($menu->menu_libelle); ?></a>
+<?php
+        $menusous = new Application_Model_EuMenuSousMapper();
+        $entriesmenusous = $menusous->fetchAllByMenu($menu->menu_id);
+?>
+<?php if(count($entriesmenusous)>0){?>
+<?php $y=0; ?>
+<?php foreach ($entriesmenusous as $entrymenusous){ ?>
+<?php if($entrymenusous->menusous_url != ""){?>
+<?php }else{?>
+<?php
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAllByMenuSousMenu($entrymenusous->menusous_menu, $entrymenusous->menusous_id);
+?>
+<?php if(count($entriespage)>0){?>
+<?php foreach ($entriespage as $entrypage){ ?>
+<?php if($entrypage->liendirect != ""){?>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $entrypage->liendirect; ?>"><?php echo ($entrypage->titre_autre); ?></a>
+<?php }else{?>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php echo ($entrypage->titre_autre); ?></a>
+<?php }?>
+<?php }?>
+<?php }?>
+<?php }?>
+<?php $y++; ?>
+<?php }?>
+<?php }?>
+<?php }?>
+
+
+
+
+            
+        </div>
+<br><br>
+
+<button id="content2" type="button" class="btn btn-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true"  data-container="body" title="Rechercher" style="margin:0px 0px 5px 10px;padding:0px 0px 0px 10px;border-color: #f7f7f9;background-color: #f7f7f9; cursor: pointer;">
+<img src="<?php echo $this->baseUrl();?>/assets/img/recherche.png" alt="Rechercher"><br /><span style="color: #aa325f">Rechercher</span><!-- class="img-fluid"-->
+</button>
+<div id="popover-content2" class="list-group" style="display: none;">
+          <!-- <a href="#" class="list-group-item active">Cras justo odio</a> -->
+          <a href="<?php echo $this->baseUrl(); ?>/index/rechercheractivation" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Code Membre</a>
+          <a href="<?php echo $this->baseUrl(); ?>/index/rechercheoffreur" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Offreurs de Projets</a>
+          <a href="<?php echo $this->baseUrl(); ?>/index/rechercheintegrateur" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Intégrateurs</a>
+        </div>
+
+
+<br><br>
+
+
+<button id="content3" type="button" class="btn btn-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true"  data-container="body" title="Contacter" style="margin:0px 0px 5px 10px;padding:0px 0px 0px 10px;border-color: #f7f7f9;background-color: #f7f7f9; cursor: pointer;">
+<img src="<?php echo $this->baseUrl();?>/assets/img/contacts.png" alt="Contacter"><br /><span style="color: #aa325f">Contacter</span><!-- class="img-fluid"-->
+</button>
+<div id="popover-content3" class="list-group" style="display: none;">
+          <a href="<?php echo $domaine2; ?>/index/addcontactesmc" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Contactez nous</a>
+          <a href="http://<?php echo $domaine;?>/ticketsupport/add" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank">Ticket de support</a>
+        </div>
+
+
+    </div>
+    <div class="col-xl-10">
+
+<!-- ///////////////////////////////////////////////////////////////////////////////// -->
+
+<?php echo $this->layout()->content ?>
+
+<!-- ///////////////////////////////////////////////////////////////////////////////// -->
+
+    </div>
+
+  </div>
+
+  <!-- fin content -->
+  </div>
+
+  <div class="container" style="background-color: #f7f7f9">
+  <!-- debut footer -->
+
+  <div class="row">
+              
+    <div class="col-xl-12">
+
+      <!-- footer -->
+  <?php include("../application/layouts/scripts/footer2.phtml"); ?>
+ 
+    </div>
+
+  </div>
+
+  <!-- fin footer -->
+  </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  
+    <!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script> -->
+    <script src="<?php echo $this->baseUrl();?>/assets/js/jquery-3.1.1.slim.min.js"></script>
+
+<!-- Tether -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script> -->
+    <script src="<?php echo $this->baseUrl();?>/assets/js/tether.min.js"></script>
+
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+    <!-- <script src="<?php echo $this->baseUrl();?>/assets/js/1.11.1/jquery.min.js"></script> -->
+    <script src="<?php echo $this->baseUrl();?>/assets/js/bootstrap.js"></script>
+
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+    <!-- <script src="<?php echo $this->baseUrl();?>/assets/js/1.9.1/jquery.min.js"></script> -->
+    <script src="<?php echo $this->baseUrl();?>/assets/HorizontalDropDownMenu/js/cbpHorizontalMenu.js"></script>
+    <script>
+      $(function() {
+        cbpHorizontalMenu.init();
+      });
+    </script>
+<script>
+$(function () {
+  //$('[data-toggle="popover"]').popover()
+
+/*$("[data-toggle=popover]").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content1').html();
+        }
+});*/
+
+/*$("#content1").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content1').html();
+        }
+});*/
+
+$("#content2").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content2').html();
+        }
+});
+
+$("#content3").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content3').html();
+        }
+});
+
+/*$("#content4").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content4').html();
+        }
+});
+
+$("#content5").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content5').html();
+        }
+});*/
+
+$("#content6").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content6').html();
+        }
+});
+
+$("#content7").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content7').html();
+        }
+});
+
+$("#content8").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content8').html();
+        }
+});
+
+
+$("#codesecret1").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-codesecret1').html();
+        }
+});
+
+$("#moyenpaiement1").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-moyenpaiement1').html();
+        }
+});
+
+
+$("#moyenpaiement2").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-moyenpaiement2').html();
+        }
+});
+
+
+$("#moyenpaiement3").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-moyenpaiement3').html();
+        }
+});
+
+$("#moyenpaiement4").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-moyenpaiement4').html();
+        }
+});
+
+$("#footer1").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-footer1').html();
+        }
+});
+
+
+
+$("#footer2").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-footer2').html();
+        }
+});
+
+
+$("#footer3").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-footer3').html();
+        }
+});
+
+
+$("#footer4").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-footer4').html();
+        }
+});
+
+
+$("#footer5").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-footer5').html();
+        }
+});
+
+
+/*
+$('.carousel').carousel({
+  interval: 2000
+});*/
+
+
+    // manual carousel controls
+    $('.next').click(function(){ $('#carousel_odd').carousel('next');return false; });
+    $('.prev').click(function(){ $('#carousel_odd').carousel('prev');return false; });
+    
+    $('#carousel_odd').each(function(){
+      var next = $(this).next();
+      if (!next.length) {
+        next = $(this).siblings(':first');
+      }
+      next.children(':first-child').clone().appendTo($(this));
+      
+      if (next.next().length>0) {
+        next.next().children(':first-child').clone().appendTo($(this));
+      }
+      else {
+        $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+      }
+    });
+
+
+
+/*
+    // manual carousel controls
+    $('.next').click(function(){ $('#carousel_certificat').carousel('next');return false; });
+    $('.prev').click(function(){ $('#carousel_certificat').carousel('prev');return false; });
+    
+    $('#carousel_certificat').each(function(){
+      var next = $(this).next();
+      if (!next.length) {
+        next = $(this).siblings(':first');
+      }
+      next.children(':first-child').clone().appendTo($(this));
+      
+      if (next.next().length>0) {
+        next.next().children(':first-child').clone().appendTo($(this));
+      }
+      else {
+        $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+      }
+    });
+*/
+
+})
+
+
+</script>
+
+<!--  -->
+
+<?php if(!isset($this->tabletri)){?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+<?php }?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap.min.js"></script>
+
+<script>
+$('.carousel').carousel({
+  interval: 5000
+})
+</script>
+<script src="<?php echo $this->baseUrl(); ?>/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/primeui/x-tag-core.min.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/primeui/primeui.min.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/primeui/plugins/plugins-all.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/primeui/primeelements.min.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/ticket.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/formsguichet.js"></script> 
+ 
+
+<script src="<?php echo $this->baseUrl();?>/app/app.js"></script>
+<script src="<?php echo $this->baseUrl();?>/app/app_bon.js"></script>
+<script src="<?php echo $this->baseUrl();?>/app/app_bon_int.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/formsguichet.js"></script> 
+
+
+<script src="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/locales/bootstrap-datepicker.fr.min.js"></script>
+<script>
+$('.datepicker').datepicker({
+weekStart: 1,
+format: 'yyyy-mm-dd',
+language: 'fr',
+todayBtn: 'linked',
+//startDate: '-3d'
+});
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,179 @@
+<?php $sessionbanqueopi = new Zend_Session_Namespace('banqueopi');?>
+<?php if(isset($sessionbanqueopi->login)) { ?>
+
+
+<?php if(($sessionbanqueopi->role == "B_ADMIN")) { ?>
+
+                      <div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Banques</button>
+    <div class="dropdown-menu">
+                              <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/addbanqueuser">Ajout d'utilisateurs Banques</a>
+                              <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/listbanqueuser">Liste d'utilisateurs Banques</a>
+                           </div>
+                      </div>
+<?php } ?>
+
+<?php if(($sessionbanqueopi->role == "B_ADMIN")) { ?>
+                      <div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Les fichiers</button>
+    <div class="dropdown-menu">
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/addfichier">Ajouter un fichier</a>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/listfichier">Liste des fichiers</a>
+                        </div>
+                      </div>
+      <?php } ?>
+
+                      <?php /* ?><div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Utilisateurs</button>
+    <div class="dropdown-menu">
+                        <div class="nav-header text-left">Utilisateurs Banques</div>     
+      <?php if($sessionbanqueopi->role == 'B_ADMIN') { ?>
+         <a class="dropdown-item" href="/banqueopi/addbanque">Ajout d'utilisateurs</a>
+      <?php } ?>
+                        </div>
+                      </div><?php */ ?>
+<?php /* ?>
+            <div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Relevés bancaires</button>
+    <div class="dropdown-menu">
+                        <div class="nav-header text-left">Versements</div>
+      <?php if($sessionbanqueopi->role != 'cnp_tegcp_pbf') { ?>
+      <a class="dropdown-item" href="/banqueopi/listrelevebancaire">Liste des versements
+          enregistrés</a>
+      </div>
+      <a class="dropdown-item" href="/banqueopi/addreleve">Ajout de versement</a>
+      <?php } ?>                        
+                        </div>
+                      </div>
+
+            <div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">BAn</button>
+    <div class="dropdown-menu">
+                        <div class="nav-header text-left">Bon d'Achat neutre </div>
+      <?php if($sessionbanqueopi->role != 'cnp_tegcp_pbf') { ?>
+      <a class="dropdown-item" href="/banqueopi/addreleveban">Souscription au BAn</a>
+      <?php } ?>
+                        </div>
+                      </div>
+<?php */ ?>
+<?php /* ?>
+            <div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">OPI</button>
+    <div class="dropdown-menu">
+                        <div class="nav-header text-left">Ordre de Prélèvement Irrévocable</div>
+      <?php if($sessionbanqueopi->role != 'cnp_tegcp_pbf') { ?>
+      <a class="dropdown-item" href="/banqueopi/rechercheopibanque">OPI</a>
+      <?php } ?>
+      
+      <?php if($sessionbanqueopi->role == 'cnp_tegcp_pbf') { ?>
+      <a class="dropdown-item" href="/banqueopi/listtraite">OPI-PBF</a>
+      <?php } ?>
+                        </div>
+                      </div>
+<?php */ ?>
+<?php /* ?>
+                      <div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">E-mail</button>
+    <div class="dropdown-menu">
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/addemail">Ajouter un e-mail</a>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/listemail">Liste des e-mails</a>
+                        </div>
+                      </div>
+
+                      <div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Téléphone</button>
+    <div class="dropdown-menu">
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/addtelephone">Ajouter un numéro de telephone</a>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/listtelephone">Liste des numéros de telephone</a>
+                        </div>
+                      </div>
+<?php */ ?>
+                      <div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">OPI</button>
+    <div class="dropdown-menu">
+                        <div class="nav-header text-left">Liste des traites</div>
+<?php if(($sessionbanqueopi->code_banque == "")) { ?>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/detailstraitejour">Liste des traites effectuées aujourd'hui</a>
+      <?php } ?>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/detailstraite">Liste des traites arrivées à echéance aujourd'hui</a>
+<?php if(($sessionbanqueopi->code_banque == "")) { ?>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/detailstraite2">Liste des traites effectuées par date</a>
+      <?php } ?>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/detailstraite2jour">Liste des traites arrivées à echéance par date</a>
+                        <div class="nav-header text-left">Rachats des OPI</div>
+      <a class="dropdown-item" href="/banqueopi/rechercheopibanque">OPI</a>
+                        </div>
+                      </div>
+<?php /* ?>
+                      
+<?php if(($sessionbanqueopi->role == "B_ADMIN")) { ?>
+                      <div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">% de commission de BAn</button>
+    <div class="dropdown-menu">
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/addpcommission">Ajouter un pourcentage de commission</a>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/listpcommission">Liste des pourcentages de commission</a>
+                        </div>
+                      </div>
+      <?php } ?>
+<?php */ ?>                       
+                      
+                      <div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">BAn en gros</button>
+    <div class="dropdown-menu">
+      <?php 
+	        if($sessionbanqueopi->role == 'B_ADMIN' && $sessionbanqueopi->code_banque == "ESMC") { ?>
+                        <div class="nav-header text-left">BAn Source</div>
+                              <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/listbanpbf">Liste des BAn en gros émis par la source</a>
+                              <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/listbanpbfvendu">Liste des BAn en gros (émis par la source) vendus</a>
+                        <div class="nav-header text-left">BAn en gros</div>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/addbangros">Souscrire au Bon d'Achat neutre (BAn) en gros</a>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/addbangroscodemembre">Souscrire au Bon d'Achat neutre (BAn) en gros avec Code Membre</a>
+                          <!--<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/addsouscriptionban">Souscrire au Bon d'Achat neutre (BAn) en gros</a>-->
+      <?php } ?>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/listbonachatneutre">Liste Bon d'Achat neutre (BAn) en gros</a>
+                        <div class="nav-header text-left">Approvisionnement BAn</div>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/addbanappro">Approvisionnement de BAn</a>
+                        <div class="nav-header text-left">Approvisionnement BAn pour CM</div>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/addbanapprocm">Approvisionnement de BAn pour Compte Marchand</a>
+                        <div class="nav-header text-left">Liste Approvisionnement BAn</div>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/banqueopi/listbanapproapporteur">Liste des approvisionnements de BAn</a>
+                        </div>
+                      </div>
+<?php /* ?>
+                      <?php */ ?>
+ 
+                      
+                      <div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">FICHE ODD</button>
+    <div class="dropdown-menu">
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/inscriptionpbf/listmembrefifovalider">Liste des offres d'intégration sans liste Validés pour le Programme de Souscription BC pour tiers</a>
+                        </div>
+                      </div>
+
+
+
+<?php if(($sessionbanqueopi->code_banque == "")) { ?>
+                      <div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Offres de Travail</button>
+    <div class="dropdown-menu">
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/travailleur/listtravailleurpbf">Liste des offres de travail</a>
+                        </div>
+                      </div>
+<?php } ?>
+
+<br>
+<br>
+
+            <div align="right" style="margin-top: -15px;">
+<i class="icon-home"></i> <?php echo ($sessionbanqueopi->code_banque); ?>
+<i class="icon-globe"></i> <?php $banqueM = new Application_Model_EuBanqueMapper();
+$banque = new Application_Model_EuBanque();
+$banqueM->find($sessionbanqueopi->code_banque, $banque);
+echo ($banque->libelle_banque); ?>
+<i class="icon-user"></i> <?php echo ($sessionbanqueopi->nom_banque_user); ?> <?php echo ($sessionbanqueopi->prenom_banque_user); ?>
+<!--<br />-->
+            <a href="<?php echo $this->baseUrl();?>/banqueopi/password"><i class="icon-edit"></i> Modifier le mot de passe</a>
+            <a href="<?php echo $this->baseUrl();?>/banqueopi/nocompte"><i class="icon-off"></i> Déconnexion</a>
+			</div>
+
+			<?php }?>

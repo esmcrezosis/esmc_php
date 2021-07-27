@@ -1,0 +1,1333 @@
+﻿<div id = "menuMain">
+    <ul>
+        <li style="margin-left: -40px;"><a href = "<?php echo $this->url(array('controller' => 'index2'), 'default', true) ?>">Accueil</a></li> 
+        <?php
+        $gp_user = $this->user->code_groupe;
+        if ($gp_user == 'admin') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-zone'), 'default', true) ?>">Zone</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-pays'), 'default', true) ?>">Pays</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-section'), 'default', true) ?>">Section</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-region'), 'default', true) ?>">Region</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-secteur'), 'default', true) ?>">Secteur</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-agence'), 'default', true) ?>">Agence</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-taxe'), 'default', true) ?>">Taxe</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-type-contrat'), 'default', true) ?>">Contrats</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-activite'), 'default', true) ?>">Activités</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-acteur'), 'default', true) ?>">Acteurs</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-produit'), 'default', true) ?>">Produits</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-user-group'), 'default', true) ?>">Groupes d'utilisateurs</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-user-group-sous'), 'default', true) ?>">Sous Groupes</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-user'), 'default', true) ?>">Utilisateurs</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-categorie-compte'), 'default', true) ?>">Comptes</a></li>
+        <?php } else if ($gp_user == 'dist') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-consommation'), 'default', true) ?>">TE</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-consommation', 'action' => 'gcp'), 'default', true) ?>">Compte GCP</a></li>
+        <?php } else if ($gp_user == 'boutique') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-consommation'), 'default', true) ?>">TE</a></li>
+        <?php } elseif ($gp_user == 'compta') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-general'), 'default', true) ?>">Comptes Généraux</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-affectation'), 'default', true) ?>">Salaire</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-carte', 'action' => 'licence'), 'default', true) ?>">Licences</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-source'), 'default', true) ?>">Gestion des fonds</a></li>
+        <?php } elseif ($gp_user == 'echange_nb') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+        <?php } elseif ($gp_user == 'echange_nn') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-placement'), 'default', true) ?>">Achat du PA</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange', 'action' => 'payement'), 'default', true) ?>">Payement des E/E</a></li>
+        <?php } elseif ($gp_user == 'banque') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-placement'), 'default', true) ?>">Achat du PA</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-krr'), 'default', true) ?>">KrR</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange', 'action' => 'payement'), 'default', true) ?>">Payement des E/E</a></li>
+        <?php } else if ($gp_user == 'cps') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+        <?php } else if ($gp_user == 'fl') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-carte', 'action' => 'licence'), 'default', true) ?>">Licences</a></li>
+        <?php } else if ($gp_user == 'recharge') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-placement'), 'default', true) ?>">Recharge</a></li>
+        <?php } elseif ($gp_user == 'rpgnr_sortie') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-cnp'), 'default', true) ?>">CNP Sortie</a></li>
+        <?php } elseif ($gp_user == 'ir_sortie') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-cnp'), 'default', true) ?>">CNP Sortie</a></li>
+        <?php } elseif ($gp_user == 'inr_sortie') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-cnp'), 'default', true) ?>">CNP Sortie</a></li>
+        <?php } elseif ($gp_user == 'rpgr_sortie') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-cnp'), 'default', true) ?>">CNP Sortie</a></li>
+        <?php } elseif ($gp_user == 'ee_entree') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-cnp'), 'default', true) ?>">CNP Entrée</a></li>
+        <?php } elseif ($gp_user == 'gcp_entree') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-cnp'), 'default', true) ?>">CNP Entrée</a></li>
+        <?php } elseif ($gp_user == 'fs_entree') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-cnp'), 'default', true) ?>">CNP Entrée</a></li>
+        <?php } elseif ($gp_user == 'par_entree') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-cnp'), 'default', true) ?>">CNP Entrée</a></li>
+        <?php } elseif ($gp_user == 'panu_entree') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-cnp'), 'default', true) ?>">CNP Entrée</a></li>
+        <?php } elseif ($gp_user == 'sal_affect') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-affectation'), 'default', true) ?>">Salaire</a></li>
+        <?php } elseif ($gp_user == 'efgrpg_nn') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-krr'), 'default', true) ?>">KrR</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange', 'action' => 'payement'), 'default', true) ?>">Payement des E/E</a></li>
+        <?php } elseif ($gp_user == 'efgi_nn') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-krr'), 'default', true) ?>">KrR</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange', 'action' => 'payement'), 'default', true) ?>">Payement des E/E</a></li>
+        <?php } elseif ($gp_user == 'efggcp_nn') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange', 'action' => 'payement'), 'default', true) ?>">Payement des E/E</a></li>
+        <?php } elseif ($gp_user == 'efggcp_inr') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+        <?php } elseif ($gp_user == 'efggcp_rpgnr') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+        <?php } elseif ($gp_user == 'ecncsr_nn') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange', 'action' => 'payement'), 'default', true) ?>">Payement des E/E</a></li>
+        <?php } elseif ($gp_user == 'ecncsnr_nn') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange', 'action' => 'payement'), 'default', true) ?>">Payement des E/E</a></li>
+        <?php } elseif ($gp_user == 'ecncsr_nb') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+        <?php } elseif ($gp_user == 'ecncsnr_nb') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+        <?php } elseif ($gp_user == 'efgi_nb') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+        <?php } elseif ($gp_user == 'apacncs') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-placement'), 'default', true) ?>">Achat du PA</a></li>
+        <?php } elseif ($gp_user == 'aparpg') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-placement'), 'default', true) ?>">Achat du PA</a></li>
+        <?php } elseif ($gp_user == 'apai') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-placement'), 'default', true) ?>">Achat du PA</a></li>
+        <?php } elseif ($gp_user == 'compens') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'compensation'), 'default', true) ?>">Compensation PBF</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-dom-pbf'), 'default', true) ?>">Domiciliation PBF</a></li>
+        <?php } elseif ($gp_user == 'esc_pbf') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'compensation'), 'default', true) ?>">Echange Escompte PBF</a></li>
+        <?php } elseif ($gp_user == 'fgi') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-fg'), 'default', true) ?>">FGFN Compensé</a></li>
+        <?php } elseif ($gp_user == 'fgrpg') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-fg'), 'default', true) ?>">FGFN Compensé</a></li>
+        <?php } elseif ($gp_user == 'fgcncsr') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-fg'), 'default', true) ?>">FGFN Compensé</a></li>
+        <?php } elseif ($gp_user == 'fgcncsnr') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-fg'), 'default', true) ?>">FGFN Compensé</a></li>
+        <?php } elseif ($gp_user == 'fggcp') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-fg'), 'default', true) ?>">FGFN Compensé</a></li>
+        <?php } elseif ($gp_user == 'apa') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-placement'), 'default', true) ?>">Achat du P.A</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-mf'), 'default', true) ?>">Achat du MF</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-krr'), 'default', true) ?>">KrR</a></li> 
+        <?php } elseif ($gp_user == 'e_nn_achatpppm_mf107') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-mf'), 'default', true) ?>">Achat du MF107</a></li>
+        <?php } elseif ($gp_user == 'e_nn_achatpppm_mf11000') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-mf'), 'default', true) ?>">Achat du MF11000</a></li>
+        <?php } elseif ($gp_user == 'e_nn_achatpppm_mfl') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-mf'), 'default', true) ?>">Achat du MFL</a></li>
+        <?php } elseif ($gp_user == 'krr') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-krr'), 'default', true) ?>">KrR</a></li>
+        <?php } elseif ($gp_user == 'echange') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+        <?php } elseif ($gp_user == 'gac') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-pays'), 'default', true) ?>">Pays</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-section'), 'default', true) ?>">Section</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-region'), 'default', true) ?>">Region</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-secteur'), 'default', true) ?>">Secteur</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-agence'), 'default', true) ?>">Agence</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac'), 'default', true) ?>">GAC</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac-filiere', 'action' => 'smcipngac2'), 'default', true) ?>">SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-proforma'), 'default', true) ?>">Proforma</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-commande'), 'default', true) ?>">Commande</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture'), 'default', true) ?>">Facture</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-budget'), 'default', true) ?>">Budget</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn'), 'default', true) ?>">Demande SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp'), 'default', true) ?>">SMCIPNP</a></li>
+        <?php } elseif ($gp_user == 'gacp') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-section'), 'default', true) ?>">Section</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-region'), 'default', true) ?>">Region</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-secteur'), 'default', true) ?>">Secteur</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-agence'), 'default', true) ?>">Agence</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac'), 'default', true) ?>">GAC</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac-filiere', 'action' => 'smcipngac2'), 'default', true) ?>">SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-proforma'), 'default', true) ?>">Proforma</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-commande'), 'default', true) ?>">Commande</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture'), 'default', true) ?>">Facture</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-budget'), 'default', true) ?>">Budget</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn'), 'default', true) ?>">Demande SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp'), 'default', true) ?>">SMCIPNP</a></li>
+        <?php } elseif ($gp_user == 'gacse') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-region'), 'default', true) ?>">Region</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-secteur'), 'default', true) ?>">Secteur</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-agence'), 'default', true) ?>">Agence</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac'), 'default', true) ?>">GAC</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac-filiere', 'action' => 'smcipngac2'), 'default', true) ?>">SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-proforma'), 'default', true) ?>">Proforma</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-commande'), 'default', true) ?>">Commande</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture'), 'default', true) ?>">Facture</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-budget'), 'default', true) ?>">Budget</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn'), 'default', true) ?>">Demande SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp'), 'default', true) ?>">SMCIPNP</a></li>
+        <?php } elseif ($gp_user == 'gacr') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-secteur'), 'default', true) ?>">Secteur</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-agence'), 'default', true) ?>">Agence</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac'), 'default', true) ?>">GAC</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac-filiere', 'action' => 'smcipngac2'), 'default', true) ?>">SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-proforma'), 'default', true) ?>">Proforma</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-commande'), 'default', true) ?>">Commande</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture'), 'default', true) ?>">Facture</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-budget'), 'default', true) ?>">Budget</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn'), 'default', true) ?>">Demande SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp'), 'default', true) ?>">SMCIPNP</a></li>
+        <?php } elseif ($gp_user == 'gacs_old') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-agence'), 'default', true) ?>">Agence</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac'), 'default', true) ?>">GAC</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac-filiere', 'action' => 'smcipngac2'), 'default', true) ?>">SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-proforma'), 'default', true) ?>">Proforma</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-commande'), 'default', true) ?>">Commande</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture'), 'default', true) ?>">Facture</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-budget'), 'default', true) ?>">Budget</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn'), 'default', true) ?>">Demande SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp'), 'default', true) ?>">SMCIPNP</a></li>    
+        <?php } elseif ($gp_user == 'gaca') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac-filiere', 'action' => 'smcipngac2'), 'default', true) ?>">SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-proforma'), 'default', true) ?>">Proforma</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-commande'), 'default', true) ?>">Commande</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture'), 'default', true) ?>">Facture</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-budget'), 'default', true) ?>">Budget</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn'), 'default', true) ?>">Demande SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp'), 'default', true) ?>">SMCIPNP</a></li>
+        <?php } elseif ($gp_user == 'gacsu') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-agence'), 'default', true) ?>">Agence</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac'), 'default', true) ?>">GAC</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac-filiere', 'action' => 'smcipngac2'), 'default', true) ?>">SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-besoin'), 'default', true) ?>">Besoin</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-proforma'), 'default', true) ?>">Proforma</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-commande'), 'default', true) ?>">Commande</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture'), 'default', true) ?>">Facture</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-budget'), 'default', true) ?>">Budget</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn'), 'default', true) ?>">Demande SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp'), 'default', true) ?>">SMCIPNP</a></li> 
+        <?php } elseif ($gp_user == 'gacex_gac') { ?><!-- || $gp_user == 'acnev'-->
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-agence'), 'default', true) ?>">Agence</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-cyber'), 'default', true) ?>">Comptes</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-filiere'), 'default', true) ?>">Filière</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac-filiere'), 'default', true) ?>">GAC-Filière</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn', 'action' => 'frais'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'smcipnpsend'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>p</a></li>
+        <?php } elseif ($gp_user == 'gacreg' || $gp_user == 'gacco' || $gp_user == 'gacpro') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-agence'), 'default', true) ?>">Agence</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-cyber'), 'default', true) ?>">Comptes</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac-filiere'), 'default', true) ?>">SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-besoin'), 'default', true) ?>">Besoin</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-proforma'), 'default', true) ?>">Proforma</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-commande'), 'default', true) ?>">Commande</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture'), 'default', true) ?>">Facture</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-budget'), 'default', true) ?>">Budget</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn', 'action' => 'frais'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'smcipnpsend'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>p</a></li>
+        <?php } elseif ($gp_user == 'gac_pbf' || $gp_user == 'gacp_pbf' || $gp_user == 'gacex_pbf') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-agence'), 'default', true) ?>">Agence</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-cyber'), 'default', true) ?>">Comptes</a></li>
+            <?php if ($gp_user != 'gacex_pbf') { ?>
+                <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac'), 'default', true) ?>">GAC</a></li>
+            <?php } ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac-filiere'), 'default', true) ?>">GAC-Filières PBF</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-filiere'), 'default', true) ?>">Filière</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-besoin'), 'default', true) ?>">Besoin</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-proforma'), 'default', true) ?>">Proforma</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-commande'), 'default', true) ?>">Commande</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture'), 'default', true) ?>">Facture</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-budget'), 'default', true) ?>">Budget</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn', 'action' => 'frais'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'smcipnpsend'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>p</a></li>
+        <?php } elseif ($gp_user == 'gacsu_pbf' || $gp_user == 'gacse_pbf' || $gp_user == 'gacr_pbf' || $gp_user == 'gacs_pbf') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-agence'), 'default', true) ?>">Agence</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-cyber'), 'default', true) ?>">Comptes</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-gac'), 'default', true) ?>">GAC</a></li>            
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac-filiere'), 'default', true) ?>">GAC-Filières PBF</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-filiere'), 'default', true) ?>">Filière</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-besoin'), 'default', true) ?>">Besoin</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-proforma'), 'default', true) ?>">Proforma</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-commande'), 'default', true) ?>">Commande</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture'), 'default', true) ?>">Facture</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-budget'), 'default', true) ?>">Budget</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn', 'action' => 'frais'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'smcipnpsend'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>p</a></li>
+        <?php } elseif ($gp_user == 'gaca_pbf') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-agence'), 'default', true) ?>">Agence</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-cyber'), 'default', true) ?>">Comptes</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-gac-filiere'), 'default', true) ?>">GAC-Filières PBF</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-filiere'), 'default', true) ?>">Filière</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-besoin'), 'default', true) ?>">Besoin</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-proforma'), 'default', true) ?>">Proforma</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-commande'), 'default', true) ?>">Commande</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture'), 'default', true) ?>">Facture</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-budget'), 'default', true) ?>">Budget</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn', 'action' => 'frais'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'smcipnpsend'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>p</a></li>
+        <?php } elseif ($gp_user == 'filieresmcipn') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-creneau'), 'default', true) ?>">Créneaux / SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-acteur-creneau'), 'default', true) ?>">Acteurs</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-mdv'), 'default', true) ?>">MDV</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-besoin'), 'default', true) ?>">Besoin</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-proforma'), 'default', true) ?>">Proforma</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-commande'), 'default', true) ?>">Commande</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture'), 'default', true) ?>">Facture</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-budget'), 'default', true) ?>">Budget</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn', 'action' => 'frais'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'smcipnpre'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>p</a></li>
+        <?php } elseif ($gp_user == 'filiere_pbf') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-creneau'), 'default', true) ?>">Créneaux PBF</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-acteur-creneau'), 'default', true) ?>">Acteurs</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-mdv'), 'default', true) ?>">MDV</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-besoin'), 'default', true) ?>">Besoin</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-proforma'), 'default', true) ?>">Proforma</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-commande'), 'default', true) ?>">Commande</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture'), 'default', true) ?>">Facture</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-budget'), 'default', true) ?>">Budget</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn', 'action' => 'frais'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'smcipnpre'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>p</a></li>
+        <?php } elseif ($gp_user == 'creneau') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-filiere'), 'default', true) ?>">Filière</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-activite'), 'default', true) ?>">Activités</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-acteur-creneau'), 'default', true) ?>">Acteurs</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn', 'action' => 'demande2'), 'default', true) ?>">Demande SMCIPN</a></li>
+        <?php } elseif ($gp_user == 'acteur') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-stand'), 'default', true) ?>">Stand</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-stand-produit'), 'default', true) ?>">Produit</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture-smcipnwi'), 'default', true) ?>">Facture <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn', 'action' => 'mesrecu'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'smcipnpre'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>p</a></li>
+        <?php } elseif ($gp_user == 'acteur_pbf') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-zone'), 'default', true) ?>">Zone</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-pays'), 'default', true) ?>">Pays</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-secteur'), 'default', true) ?>">Secteur</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-agence'), 'default', true) ?>">Agence</a></li>
+                <!-- <li><a href = "<?php echo $this->url(array('controller' => 'eu-stand'), 'default', true) ?>">Stand</a></li>
+                <li><a href = "<?php echo $this->url(array('controller' => 'eu-stand-produit'), 'default', true) ?>">Produit</a></li>-->
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-besoin'), 'default', true) ?>">Besoin</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-proforma'), 'default', true) ?>">Proforma</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-commande'), 'default', true) ?>">Commande</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture'), 'default', true) ?>">Facture</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-budget'), 'default', true) ?>">Budget</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn'), 'default', true) ?>">Gestion SMCIPN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp'), 'default', true) ?>">Gestion SMCIPNP</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'distrib'), 'default', true) ?>">Distributeur</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-tegcp'), 'default', true) ?>">TEGCp</a></li>
+        <?php } elseif ($gp_user == 'assurance' || $gp_user == 'ass_smcii' || $gp_user == 'ass_smcpnw') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-domiciliation'), 'default', true) ?>">Domiciliation</a></li>
+        <?php } elseif ($gp_user == 'ass_smcip' || $gp_user == 'ass_smcpnp') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'domiciliationass'), 'default', true) ?>">Domiciliation</a></li>
+        <?php } elseif ($gp_user == 'acnev') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp'), 'default', true) ?>">Gestion SMCIPNP</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-domiciliation-vbpsp'), 'default', true) ?>">Domiciliation d'achat du VBPSP</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+        <?php } elseif ($gp_user == 'alerte') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-alerte'), 'default', true) ?>">Gestion des alertes</a></li>
+        <?php } elseif ($gp_user == 'gaca_protect' || $gp_user == 'gacs_protect' || $gp_user == 'gacr_protect' || $gp_user == 'gacp_protect') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-appel-nn'), 'default', true) ?>">APPEL NN CAPAnrPRE</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-repartition-nn'), 'default', true) ?>">REPARTITION NN </a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-domiciliation'), 'default', true) ?>">Domiciliation</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-alerte'), 'default', true) ?>">Gestion des alertes</a></li>
+        <?php } elseif ($gp_user == 'procuration') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-procuration'), 'default', true) ?>">Procuration</a></li>		
+        <?php } elseif ($gp_user == 'cm') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre'), 'default', true) ?>">Nouveaux Membres</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien'),'default',true) ?>">Anciens Membres</a></li>			
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-contrat'), 'default', true) ?>">Contrats</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpp2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'cmp') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre'), 'default', true) ?>">Membres</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-contrat'), 'default', true) ?>">Contrats</a></li>
+        <?php } elseif ($gp_user == 'agregat') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-nn', 'action' => 'new'), 'default', true) ?>">Création NN</a></li>
+    <!--<li><a href="<?php echo $this->url(array('controller' => 'eu-gac'), 'default', true) ?>">Gestion GAC</a></li>-->
+        <?php } elseif ($gp_user == 'detentrice') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php } elseif ($gp_user == 'detentrice_pays') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php }elseif ($gp_user == 'detentrice_region') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php }elseif ($gp_user == 'detentrice_secteur') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php }elseif ($gp_user == 'detentrice_agence') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php }
+		 elseif ($gp_user == 'surveillance') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn', 'action' => 'frais'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'smcipnpre'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>p</a></li>
+        <?php }
+		elseif ($gp_user == 'surveillance_pays') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn', 'action' => 'frais'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'smcipnpre'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>p</a></li>
+
+        <?php }elseif ($gp_user == 'surveillance_region') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn', 'action' => 'frais'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'smcipnpre'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>p</a></li>
+
+        <?php }elseif ($gp_user == 'surveillance_secteur') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn', 'action' => 'frais'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'smcipnpre'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>p</a></li>
+
+        <?php }elseif ($gp_user == 'surveillance_agence') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipn', 'action' => 'frais'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'smcipnpre'), 'default', true) ?>">Gestion <font color="red">SMCIPN</font>p</a></li>
+        <?php }
+		 elseif ($gp_user == 'executante') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php } 
+		elseif ($gp_user == 'executante_pays') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php }
+		elseif ($gp_user == 'executante_secteur') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php }
+		elseif ($gp_user == 'executante_agence') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php }
+		elseif ($gp_user == 'reglementation') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php } elseif ($gp_user == 'controlefn') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php } elseif ($gp_user == 'tegcppbf') { ?>
+			    <li><a href = "<?php echo $this->url(array('controller' => 'eu-placement'), 'default', true) ?>">CAPARPGNRPREKIT</a></li> 
+
+        <?php } elseif ($gp_user == 'nn_tegcp_pbf') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-echange'), 'default', true) ?>">Echange</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'compensation'), 'default', true) ?>">Compensation</a></li>
+        <?php } elseif ($gp_user == 'ti') {
+            ?>
+
+        <?php } elseif ($gp_user == 'tpn') {
+            ?>
+
+        <?php } elseif ($gp_user == 'tesmcipnp') {
+            ?>      
+        <?php } elseif ($gp_user == 'tesmcipnwi') {
+            ?>      
+        <?php } elseif ($gp_user == 'protection') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php } elseif ($gp_user == 'servicebnp') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php } elseif ($gp_user == 'enrolement') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-consulter-m', 'action' => 'index'), 'default', true) ?>">Statistiques</a></li>
+        <?php } elseif ($gp_user == 'mise_chainepmoe') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+        <?php } elseif ($gp_user == 'mise_chainepmpbf') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+        <?php } 
+		     elseif ($gp_user == 'mise_chainepmd') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+        <?php } 
+		     elseif ($gp_user == 'mise_chainepms') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+        <?php }
+		     elseif ($gp_user == 'mise_chainepmex') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+        <?php }  
+		    elseif ($gp_user == 'mise_chainepmkr') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+        
+        <?php } elseif ($gp_user == 'mise_chainepmose') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+        <?php } elseif ($gp_user == 'mise_chainepmpoe') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+        <?php } elseif ($gp_user == 'mise_chainepmpose') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+        <?php } elseif ($gp_user == 'mise_chainepmmaison') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+        <?php } elseif ($gp_user == 'escompte') {
+        ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-escompte'), 'default', true) ?>">ESCOMPTE</a></li>
+		<?php } elseif ($gp_user == 'compensation') {
+        ?>
+        <li><a href = "<?php echo $this->url(array('controller' => 'eu-compensation'), 'default', true) ?>">COMPENSATION</a></li>
+		<?php } elseif ($gp_user == 'filiere') {
+        ?>
+        <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>"> Membres Personnes Morales </a></li>
+        <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+	    <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+        <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+
+        <!--<li><a href = "<?php echo $this->url(array('controller' => 'eu-filiere'), 'default', true) ?>">Filière</a></li>
+        <li><a href = "<?php echo $this->url(array('controller' => 'eu-activite'), 'default', true) ?>">Activités</a></li>
+        <li><a href = "<?php echo $this->url(array('controller' => 'eu-mise-chaine'), 'default', true) ?>">Mise sur chaîne</a></li>
+        <li><a href = "<?php echo $this->url(array('controller' => 'eu-agrement'), 'default', true) ?>">Agrément</a></li>-->
+        <?php } elseif ($gp_user == 'gacd') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } 
+		elseif ($gp_user == 'gacdm') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		elseif ($gp_user == 'gacdz') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		
+		elseif ($gp_user == 'gacdp') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		
+		elseif ($gp_user == 'gacdregion') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		elseif ($gp_user == 'gacdsecteur') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		elseif ($gp_user == 'gacdagence') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php
+		} elseif ($gp_user == 'gacs') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } 
+		
+		elseif ($gp_user == 'gacsm') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		elseif ($gp_user == 'gacsz') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		
+		elseif ($gp_user == 'gacsp') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		
+		elseif ($gp_user == 'gacsregion') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		elseif ($gp_user == 'gacssecteur') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		elseif ($gp_user == 'gacsagence') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		
+		elseif ($gp_user == 'gacex') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } 
+		elseif ($gp_user == 'gacexm') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		elseif ($gp_user == 'gacexz') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		
+		elseif ($gp_user == 'gacexp') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		
+		elseif ($gp_user == 'gacexregion') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		
+		elseif ($gp_user == 'gacexsecteur') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		elseif ($gp_user == 'gacexagence') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'listgac'), 'default', true) ?>">GAC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		
+		
+		elseif ($gp_user == 'scmacnev') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Personnes Morales</a></li>
+			
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li> 
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>   
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'scmpmaoe') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Personnes Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Personnes Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'productiong') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Personnes Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Personnes Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'e_nn_achatpp_nn_krr_rpgr') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-krr'),'default',true) ?>">KrR</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-tegcp'), 'default', true) ?>">KrR En Nature</a></li>			
+        <?php } elseif ($gp_user == 'productionsg') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Personnes Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-preinscription', 'action' => 'morale'), 'default', true) ?>">Pre-inscription</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>  
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'productiond') {?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Personnes Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'transformationg') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Personnes Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'transformationsg') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Personnes Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+			
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'transformationd') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Personnes Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'distributiong') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Personnes Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'distributionsg') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Personnes Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'distributiond') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Personnes Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>  
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'scmd') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales OSE</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'scmdpbf') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales PBF</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <!--<li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>-->  
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'scmdkr') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales KR</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+         <?php } elseif ($gp_user == 'scmdd') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales </a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+			
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+		
+		 <?php } elseif ($gp_user == 'scmds') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales </a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+			
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+		
+		<?php } elseif ($gp_user == 'scmdex') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales </a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+		
+        <?php } elseif ($gp_user == 'scmsgpbf') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales PBF</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>  
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'scmsgkr') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales KR</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>  
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'scmsgd') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+		
+		  <?php } elseif ($gp_user == 'scmsgs') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales </a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+		
+		<?php } elseif ($gp_user == 'scmsgex') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+		
+        <?php } elseif ($gp_user == 'scmpmapbf') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales PBF</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>  
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		elseif ($gp_user == 'scmgpbf') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales PBF</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>  
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'scmgkr') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales KR</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } 
+		      elseif ($gp_user == 'scmpmad') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales </a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+		
+		<?php }
+		
+		elseif ($gp_user == 'scmgd') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales </a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+		
+		<?php } elseif ($gp_user == 'scmpmas') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales </a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+		
+		<?php } 
+		elseif ($gp_user == 'scmgs') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales </a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+		
+		<?php } 
+		elseif ($gp_user == 'scmpmaex') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+		
+        <?php }
+		
+		elseif ($gp_user == 'scmgex') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+		
+        <?php } elseif ($gp_user == 'scmsg') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales OSE</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } 
+		     elseif ($gp_user == 'scmpmaose') {
+        ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales OSE</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>  
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		       elseif ($gp_user == 'scmg') {
+        ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Morales OSE</a></li>
+			<li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien', 'action' => 'morale'), 'default', true) ?>">Anciens Membres Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>  
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'scmdm') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-maison'), 'default', true) ?>">Maisons</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'scmsgm') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-maison'), 'default', true) ?>">Maisons</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        
+		<?php } elseif ($gp_user == 'scmpmam') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-maison'), 'default', true) ?>">Maisons</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php }
+		elseif ($gp_user == 'scmgm') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-maison'), 'default', true) ?>">Maisons</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'tableau_bord') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-tableau'), 'default', true) ?>" style="font-size:12px;font-family:Arial Black">Tableau de bord hétérogène</a></li>
+            <?php } elseif ($gp_user == 'technopole') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Personnes Morales</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpm2'), 'default', true) ?>">Tableau de bord des effectifs</a></li>
+        <?php } elseif ($gp_user == 'mise_chaine') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-filiere'), 'default', true) ?>">Divisions</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-consulter-m', 'action' => 'index'), 'default', true) ?>">Statistiques</a></li>
+        <?php } elseif ($gp_user == 'mise_chainep') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-filiere'), 'default', true) ?>">Divisions</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-consulter-m', 'action' => 'index'), 'default', true) ?>">Statistiques</a></li>
+        <?php }
+		elseif ($gp_user == 'mise_chainer') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-filiere'), 'default', true) ?>">Divisions</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-consulter-m', 'action' => 'index'), 'default', true) ?>">Statistiques</a></li>
+        <?php }
+		elseif ($gp_user == 'mise_chaines') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-filiere'), 'default', true) ?>">Divisions</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-consulter-m', 'action' => 'index'), 'default', true) ?>">Statistiques</a></li>
+        <?php }
+		elseif ($gp_user == 'mise_chainea') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-filiere'), 'default', true) ?>">Divisions</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-consulter-m', 'action' => 'index'), 'default', true) ?>">Statistiques</a></li>
+        <?php }
+		
+		elseif ($gp_user == 'serviceapa') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>"> Comptes Users </a> </li>
+        <?php } elseif ($gp_user == 'paraenro') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-zone'), 'default', true) ?>">Zone</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-pays'), 'default', true) ?>">Pays</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-region'), 'default', true) ?>">Region</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-secteur'), 'default', true) ?>">Secteur</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-agence'), 'default', true) ?>">Agence</a></li>
+			<!--<li><a href = "<?php echo $this->url(array('controller' => 'eu-canton'), 'default', true) ?>">Canton</a></li>-->
+        <?php } elseif ($gp_user == 'domiciliation') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-domiciliation'), 'default', true) ?>">Domiciliation nrPRE</a></li>
+        <?php } elseif ($gp_user == 'serviceapa') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>"> Comptes Users </a> </li>
+        <?php } elseif ($gp_user == 'collecte') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-appel-nn'), 'default', true) ?>">COLLECTE NN CAPAnrPRE</a></li>
+        <?php } elseif ($gp_user == 'escompte') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-escompte'), 'default', true) ?>">ESCOMPTE</a></li>
+        <?php
+         } elseif ($gp_user == 'repartition') {
+            ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-repartition-nn'), 'default', true) ?>">REPARTITION NN </a></li>
+        <?php } elseif ($gp_user == 'smc_entree_r') {
+            ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'cncsrin'), 'default', true) ?>">CNCSr entrée</a></li>
+        <?php } elseif ($gp_user == 'smc_entree_nr') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'cncsnrin'), 'default', true) ?>">CNCSnr entrée</a></li>
+        <?php } elseif ($gp_user == 'smc_sortie_r') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'cncsrout'), 'default', true) ?>">CNCSr sortie</a></li>
+        <?php } elseif ($gp_user == 'smc_sortie_nr') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'cncsnrout'), 'default', true) ?>">CNCSnr sortie</a></li>
+        <?php } elseif ($gp_user == 'rap_ir2irsc') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'rapir2'), 'default', true) ?>">Rapprochement Ir2/IrSC</a></li>
+        <?php } elseif ($gp_user == 'rap_inr2inrsc') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'rapinr2'), 'default', true) ?>">Rapprochement Inr2/InrSC</a></li>   
+        <?php } elseif ($gp_user == 'rap_ir4irsc') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'rapir4'), 'default', true) ?>">Rapprochement Ir4/IrSC</a></li>
+        <?php } elseif ($gp_user == 'rap_inr4inrsc') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'rapinr4'), 'default', true) ?>">Rapprochement Inr4/InrSC</a></li>
+        <?php } elseif ($gp_user == 'rap_gcp11inrsc') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'rapgcp11'), 'default', true) ?>">Rapprochement GCP11/InrSC</a></li>
+        <?php } elseif ($gp_user == 'rap_gcp12rpgnr') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'rapgcp12'), 'default', true) ?>">Rapprochement GCP12/RPGnr</a></li> 
+        <?php } elseif ($gp_user == 'rap_fgrpg1rpgr') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'raprpgr'), 'default', true) ?>">Rapprochement FGRPG1/RPGr</a></li>
+        <?php } elseif ($gp_user == 'rap_fgrpg1rpgnr') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'raprpgnr'), 'default', true) ?>">Rapprochement FGRPG1/RPGnr</a></li>
+        <?php } elseif ($gp_user == 'rap_cncsr6rpgnr') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'rapcncsr'), 'default', true) ?>">Rapprochement CNCSr6/RPGnr</a></li>
+        <?php } elseif ($gp_user == 'rap_cncsnr5rpgnr') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'rapcncsnr'), 'default', true) ?>">Rapprochement CNCSnr5/RPGnr</a></li>		
+        <?php } elseif ($gp_user == 'NN') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-nn', 'action' => 'index'), 'default', true) ?>">Source NN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user-group-sous'), 'default', true) ?>">Sous Comptes Users</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-nn', 'action' => 'new'), 'default', true) ?>">Création NN</a></li>
+        <?php } elseif ($gp_user == 'CNP') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => ''), 'default', true) ?>">Source CNP</a></li>  
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user-group-sous'), 'default', true) ?>">Sous Comptes Users</a></li>
+        <?php } elseif ($gp_user == 'SMC') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-smc', 'action' => 'cncsrin'), 'default', true) ?>">Source SMC</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user-group-sous'), 'default', true) ?>">Sous Comptes Users</a></li>
+        <?php } elseif ($gp_user == 'FN') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-fn', 'action' => 'irentree'), 'default', true) ?>">Source FN</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user-group-sous'), 'default', true) ?>">Sous Comptes Users</a></li>
+        <?php } elseif ($gp_user == 'FGNN') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php } elseif ($gp_user == 'd_fgcnp') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>      
+        <?php } elseif ($gp_user == 'FGNR') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+        <?php } elseif ($gp_user == 'acnevpbftpstps') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+        <?php } elseif ($gp_user == 'acnevtpsbps') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+        <?php } elseif ($gp_user == 'acnevtpstps') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <?php /* ?><?php } elseif ($gp_user == 'FGNBBPS' || $gp_user == 'FGNNFGNB' || $gp_user == 'FGNNFGNN' || $gp_user == 'FGNNFGNR' ||   $gp_user == 'PMOE'   || $gp_user == 'PMPOE'   || $gp_user == 'PMOSE'   || $gp_user == 'PMPOSE'    || $gp_user == 'PMM' || $gp_user == 'scmgm' || $gp_user == 'scmsgm' || $gp_user == 'scmdm' || $gp_user == 'PP'  || $gp_user == 'E_FGNN'  || $gp_user == 'E_FGCNP' 
+
+              || $gp_user == 'EP_FGNN'  || $gp_user == 'EP_FGCNP'
+              || $gp_user == 'ED_FGNN'  || $gp_user == 'ED_FGCNP'
+              || $gp_user == 'SG_FGNN'  || $gp_user == 'SG_FGCNP'
+              || $gp_user == 'G_FGNN'  || $gp_user == 'G_FGCNP'
+              || $gp_user == 'Admin-terrain'	 || $gp_user == 'AT_FGNN'  || $gp_user == 'AT_FGCNP'
+
+
+              ) { ?>
+              <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+              <?php } elseif ($gp_user == 'd_achatpppm' || $gp_user == 'v_rscaps' || $gp_user == 'd_achatpp' || $gp_user == 'd_achatpm' || $gp_user == 'd_reapropm'  || $gp_user == 'E_ACHATPP' || $gp_user == 'E_ACHATPM' || $gp_user == 'E_RSCAPS' || $gp_user == 'E_REAPROPM' || $gp_user == 'E_ACHATPPPM'   || $gp_user == 'E_CONSOPP'  || $gp_user == 'E_CONSOPM'  || $gp_user == 'E_REAPRO.PM'
+
+              || $gp_user == 'EP_ACHATPPPM'   || $gp_user == 'EP_CONSOPP'  || $gp_user == 'EP_CONSOPM'  || $gp_user == 'EP_REAPRO.PM'
+              || $gp_user == 'ED_ACHATPPPM'   || $gp_user == 'ED_CONSOPP'  || $gp_user == 'ED_CONSOPM'  || $gp_user == 'ED_REAPRO.PM'
+              || $gp_user == 'SG_ACHATPPPM'  || $gp_user == 'SG_CONSOPP' || $gp_user == 'SG_CONSOPM' || $gp_user == 'SG_REAPRO.PM'
+              || $gp_user == 'G_ACHATPPPM'   || $gp_user == 'G_CONSOPP'  || $gp_user == 'G_CONSOPM'  || $gp_user == 'G_REAPRO.PM'
+              || $gp_user == 'AT_ACHATPPPM'   || $gp_user == 'AT_CONSOPP'  || $gp_user == 'AT_CONSOPM'  || $gp_user == 'AT_REAPRO.PM'
+
+              || $gp_user == 'd_consopp' || $gp_user == 'd_consopm' || $gp_user == 'd_reapropm' || $gp_user == 'd_fgsmc' || $gp_user == 'SMCINR' || $gp_user == 'DD' || $gp_user == 'RDD' || $gp_user == 'RDS' || $gp_user == 'RDG' || $gp_user == 'RFP' || $gp_user == 'RFA' || $gp_user == 'RDF' || $gp_user == 'RDA' || $gp_user == 'RDP' || $gp_user == 'ENBRPG' || $gp_user == 'ENBI' || $gp_user == 'ENBRPGnr' || $gp_user == 'ENNMF' || $gp_user == 'EMNRCNCSnr' || $gp_user == 'ENRNN' || $gp_user == 'ENBNN' || $gp_user == 'ENBNB'
+              || $gp_user == 'EFGNN'   || $gp_user == 'FGNNE'   || $gp_user == 'FGNBE'   || $gp_user == 'EFGNB' || $gp_user == 'FGRPG' || $gp_user == 'FGIB' || $gp_user == 'FGIR' || $gp_user == 'FGCNCS' || $gp_user == 'FGNNPP'
+              || $gp_user == 'FGNBFGNN' ||  $gp_user == 'FGNRFGNN' || $gp_user == 'FGNBFGNB' || $gp_user == 'E_FGSMC' || $gp_user == 'E_FGFGFN') { ?>
+              <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user-group-sous'), 'default', true) ?>">Sous Comptes Users</a></li><?php */ ?>
+        <?php } elseif ($gp_user == 'dg') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => ''), 'default', true) ?>">Source CNP</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-smc', 'action' => 'cncsrin'), 'default', true) ?>">Source SMC</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-fn', 'action' => 'irentree'), 'default', true) ?>">Source FN</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-rapprochement', 'action' => 'rapir2'), 'default', true) ?>">Table de rapprochement</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => ''), 'default', true) ?>">Rapprochement FGFN</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-parametres'), 'default', true) ?>">Paramètres</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-fs-mf11000'), 'default', true) ?>">Création du FS</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-gac'), 'default', true) ?>">Gestion des GAC</a></li>
+        <?php } elseif ($gp_user == 'rappro') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-rapprochement', 'action' => 'rapir2'), 'default', true) ?>">Table de rapprochement</a></li>
+        <?php } elseif ($gp_user == 'bnp') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'caps'), 'default', true) ?>">CAPS</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'cacb', 'type' => 'CSCOE'), 'default', true) ?>">CSCOE</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'cacb', 'type' => 'CACB'), 'default', true) ?>">CACB</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'newtype', 'type' => 'CAPU'), 'default', true) ?>">CAPU</a></li> 
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'newtype', 'type' => 'CMIT'), 'default', true) ?>">CMIT</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'newtype', 'type' => 'CAIPC'), 'default', true) ?>">CAIPC</a></li>  
+        <?php } elseif ($gp_user == 'caps') { ?>
+            <!--<li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'caps'), 'default', true) ?>">CAPS</a></li>-->
+            <!--<li><a href="<?php echo $this->url(array('controller' => 'consultation'), 'default', true) ?>">Demande de Relevé</a></li>-->
+	    <li><a href="<?php echo $this->url(array('controller' => 'eu-membre'), 'default', true) ?>">Enrôlement</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre-ancien'),'default',true) ?>">Anciens Membres</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-carte'), 'default', true) ?>">Cartes Numériques</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-contrat'), 'default', true) ?>">Contrats</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-reglement-mf', 'action' => 'listreglt'), 'default', true) ?>">Anciennes Ressources</a></li>   
+            
+        <?php } elseif ($gp_user == 'cscoe') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'index'), 'default', true) ?>">CSCOE</a></li>
+        <?php } elseif ($gp_user == 'cacb') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'index'), 'default', true) ?>">CACB</a></li>
+        <?php } elseif ($gp_user == 'capu') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'index'), 'default', true) ?>">CAPU</a></li>
+        <?php } elseif ($gp_user == 'cmit') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'newtype', 'type' => 'CMIT'), 'default', true) ?>">CMIT</a></li>
+        <?php } elseif ($gp_user == 'caipc') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'index'), 'default', true) ?>">CAIPC</a></li>
+        <?php } elseif ($gp_user == 'e_nn_achatpp_caipc') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'index'), 'default', true) ?>">CAIPC</a></li>
+        <?php } elseif ($gp_user == 'e_nn_achatpp_cmit') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'newtype', 'type' => 'CMIT'), 'default', true) ?>">CMIT</a></li>
+        <?php } elseif ($gp_user == 'e_nn_achatpp_cmitnr_pre_kit_tec') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'newtype', 'type' => 'CMITNRPREKITTEC'), 'default', true) ?>">CMITNRPREKITTEC</a></li>
+        <?php } elseif ($gp_user == 'e_nn_achatpp_capunr_pre_kit_tec') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'newtype', 'type' => 'CAPUNRPREKITTEC'), 'default', true) ?>">CAPUNRPREKITTEC</a></li>
+        <?php } elseif ($gp_user == 'e_nn_achatpp_caipcnr_pre_kit_tec') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'newtype', 'type' => 'CAIPCNRPREKITTEC'), 'default', true) ?>">CAIPCNRPREKITTEC</a></li>
+        <?php } elseif ($gp_user == 'e_nn_achatpp_capu') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'index'), 'default', true) ?>">CAPU</a></li>
+        <?php } elseif ($gp_user == 'e_nn_achatpm_cscoe') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'index'), 'default', true) ?>">CSCOE</a></li>
+        <?php } elseif ($gp_user == 'e_nn_achatpm_cacb') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-bnp', 'action' => 'index'), 'default', true) ?>">CACB</a></li>
+        <?php } elseif ($gp_user == 'zone') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-etat-zone'), 'default', true) ?>">Gestion des GAC</a></li>
+        <?php } elseif ($gp_user == 'secteur') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-etat-secteur'), 'default', true) ?>">Gestion des GAC filières</a></li>
+        <?php } elseif ($gp_user == 'agence') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-etat-agence'), 'default', true) ?>">Gestion des créneaux</a></li>
+        <?php } elseif ($gp_user == 'fs') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-fs'), 'default', true) ?>">FS</a></li>
+        <?php } elseif ($gp_user == 'pck') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-pck'), 'default', true) ?>">PCK</a></li>
+        <?php } elseif ($gp_user == 'prk') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-prk'), 'default', true) ?>">PRK</a></li>
+        <?php } elseif ($gp_user == 'quota') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-quota'), 'default', true) ?>">QUOTA</a></li>
+        <?php } elseif ($gp_user == 'sqmaxui') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-sqmax'), 'default', true) ?>">SQMAXUI</a></li>
+        <?php } elseif ($gp_user == 'fn_entree_r') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'irentree'), 'default', true) ?>">Ir entrée</a></li>	
+        <?php } elseif ($gp_user == 'fn_entree_nr') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'inrentree'), 'default', true) ?>">Inr entrée</a></li>
+        <?php } elseif ($gp_user == 'fn_sortie_r') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'irsortie'), 'default', true) ?>">Ir sortie</a></li>	
+        <?php } elseif ($gp_user == 'fn_sortie_nr') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-source', 'action' => 'inrsortie'), 'default', true) ?>">Inr sortie</a></li>
+        <?php } elseif ($gp_user == 'contrat') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-consulter-contrat', 'action' => 'index'), 'default', true) ?>">Contrat</a></li>
+        <?php } elseif ($gp_user == 'periode') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-periode'), 'default', true) ?>">Periode</a></li>
+        <?php } elseif ($gp_user == 'mf') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre-fondateur107'), 'default', true) ?>">Membres Fondateurs 107</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre-fondateur11000'), 'default', true) ?>">Membres Fondateurs 11000</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-domiciliation-mf11000'), 'default', true) ?>">Domiciliation MF11000</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-reglement-mf11000', 'action' => 'listreglt'), 'default', true) ?>">Règlement MF11000</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-domiciliation-mf107'), 'default', true) ?>">Domiciliation MF107</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-reglement-mf107'), 'default', true) ?>">Règlement MF107</a></li>
+        <?php } elseif ($gp_user == 'mf_rep') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre-fondateur107'), 'default', true) ?>">Membres Fondateurs 107</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre-fondateur11000'), 'default', true) ?>">Membres Fondateurs 11000</a></li>
+        <?php } elseif ($gp_user == 'mf_bank') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-domiciliation-mf11000'), 'default', true) ?>">Domiciliation MF11000</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-reglement-mf11000', 'action' => 'listreglt'), 'default', true) ?>">Règlement MF11000</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-domiciliation-mf107'), 'default', true) ?>">Domiciliation MF107</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-reglement-mf107'), 'default', true) ?>">Règlement MF107</a></li>
+        <?php } elseif ($gp_user == 'ag_m') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-proprietaire'), 'default', true) ?>">Propriétaires</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-maison'), 'default', true) ?>">Maisons</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-appartement'), 'default', true) ?>">Appartements</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-tegcp'), 'default', true) ?>">Loyer</a></li>
+        <?php } elseif ($gp_user == 'mise_chainete') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-filiere'), 'default', true) ?>">Filière</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-activite'), 'default', true) ?>">Activités</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-membre', 'action' => 'morale'), 'default', true) ?>">Membres Personnes Morales</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-contrat', 'action' => 'consultation'), 'default', true) ?>">Contrat</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-mise-chaine'), 'default', true) ?>">Mise sur chaîne des acteurs</a></li>
+        <?php } elseif ($gp_user == 'domi_nrpre') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-domiciliation'), 'default', true) ?>">Domiciliation</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-appel-nn'), 'default', true) ?>">APPEL NN CAPAnrPRE</a></li>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-repartition-nn'), 'default', true) ?>">REPARTITION NN </a></li>
+        <?php } elseif ($gp_user == 'fn_ti') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture-smcipnwi'), 'default', true) ?>">Facture <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+        <?php } elseif ($gp_user == 'smc_tpn') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-facture-smcipnwi'), 'default', true) ?>">Facture <font color="red">SMCIPN</font>w<font color="blue">i</font></a></li>
+        <?php } elseif ($gp_user == 'smc_tesmcipnwi') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp'), 'default', true) ?>">Transfert TI / TPN</a></li>
+        <?php } elseif ($gp_user == 'smc_tesmcipnp') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp'), 'default', true) ?>">Transfert TI / TPN</a></li>
+
+        <?php } elseif ($gp_user == 'parametre') { ?>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-parametres'), 'default', true) ?>">Paramètres</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-pck'), 'default', true) ?>">PCK</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-prk'), 'default', true) ?>">PRK</a></li>
+            <li><a href="<?php echo $this->url(array('controller' => 'eu-quota'), 'default', true) ?>">QUOTA</a></li>
+
+        <?php } elseif ($gp_user == 'cnp_tegcp') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-consommation', 'action' => 'gcp'), 'default', true) ?>">Compte GCP</a></li>
+			<li><a href = "<?php echo $this->url(array('controller' => 'eu-tegcp'), 'default', true) ?>">KrR En Nature</a></li>
+        <?php } elseif ($gp_user == 'cnp_tegcp_pbf') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-consommation', 'action' => 'gcp'), 'default', true) ?>">Compte GCP PBF</a></li>
+        <?php } elseif ($gp_user == 'cnp_tegcsc') { ?>
+              <li><a href = "<?php echo $this->url(array('controller' => 'eu-consommation', 'action' => 'gcp'), 'default', true) ?>">Compte GCsc</a></li>
+        <?php } elseif ($gp_user == 'ir_nonconso' || $gp_user == 'rpgr_nonconso') { ?>
+            <li><a href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'cnnc2', 'ssgrp' => $gp_user), 'default', true) ?>"><?php
+            $tab = new Application_Model_DbTable_EuUserGroup();
+            $sel = $tab->select();
+            $sel->where('code_groupe = ?', $gp_user);
+            $ngac = $tab->fetchRow($sel);
+            echo $ngac->libelle_groupe;
+        ?></a></li>
+        
+		<?php } elseif ($gp_user == 'e_nn_achatpp_capa_rpgnr_pre_kit_tec') { ?>
+		      <li><a href = "<?php echo $this->url(array('controller' => 'eu-placement'), 'default', true) ?>">CAPARPGnrPREKIT</a></li>
+              <li><a href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'debitcredit2', 'ssgrp' => $gp_user), 'default', true) ?>"><?php
+              $tab = new Application_Model_DbTable_EuUserGroup();
+              $sel = $tab->select();
+              $sel->where('code_groupe = ?', $gp_user);
+              $ngac = $tab->fetchRow($sel);
+              echo $ngac->libelle_groupe;
+        ?> </a></li>
+        <?php }
+	          elseif ($gp_user == 'e_nn_achatpm_capa_inr_pre_kit_tec') { ?>
+		      <li><a href = "<?php echo $this->url(array('controller' => 'eu-placement'), 'default', true) ?>">CAPAInrPREKIT</a></li>
+              <li><a href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'debitcredit2', 'ssgrp' => $gp_user), 'default', true) ?>"><?php
+              $tab = new Application_Model_DbTable_EuUserGroup();
+              $sel = $tab->select();
+              $sel->where('code_groupe = ?', $gp_user);
+              $ngac = $tab->fetchRow($sel);
+              echo $ngac->libelle_groupe;
+        ?> </a></li>
+        <?php }
+        elseif (strpos($gp_user, 'repartition')) { ?>
+        <li><a href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'debitcredit2', 'ssgrp' => $gp_user), 'default', true) ?>">
+                    <?php
+                    $tab = new Application_Model_DbTable_EuUserGroup();
+                    $sel = $tab->select();
+                    $sel->where('code_groupe = ?', $gp_user);
+                    $ngac = $tab->fetchRow($sel);
+                    echo $ngac->libelle_groupe;
+                    ?>
+                </a></li>
+
+        <?php } else { ?>
+
+            <?php
+            $tab2 = new Application_Model_DbTable_EuUserGroup();
+            $sel2 = $tab2->select();
+            $sel2->where('code_groupe_parent = ?', $gp_user);
+            $sel2->order('libelle_groupe ASC');
+            $group2 = $tab2->fetchAll($sel2);
+            if (count($group2) > 0 || ($gp_user == 'detentrice'  ||  $gp_user == 'detentrice_pays'  ||  $gp_user == 'detentrice_region'  ||  $gp_user == 'detentrice_secteur'  ||  $gp_user == 'detentrice_agence'  || $gp_user == 'surveillance_filiere' || $gp_user == 'agrement_filiere' || $gp_user == 'surveillance'  ||  $gp_user == 'surveillance_pays'  ||  $gp_user == 'surveillance_region' ||  $gp_user == 'surveillance_secteur' ||  $gp_user == 'surveillance_agence' || $gp_user == 'detentrice_technopole' || $gp_user == 'agrement_technopole' || $gp_user == 'executante' ||  $gp_user == 'executante_pays'  ||  $gp_user == 'executante_region'  ||   $gp_user == 'executante_secteur'  ||  $gp_user == 'executante_agence' || $gp_user == 'executante_acnev' || $gp_user == 'agrement_acnev' || $gp_user == 'pbf_grossiste' || $gp_user == 'pbf_semi_grossiste' || $gp_user == 'pbf_detaillant' || $gp_user == 'oe_grossiste' || $gp_user == 'oe_semi_grossiste' || $gp_user == 'oe_detaillant' || $gp_user == 'ose_grossiste' || $gp_user == 'ose_semi_grossiste' || $gp_user == 'ose_detaillant' || $gp_user == 'personne_physique')) {
+                ?>
+                <li><a href = "<?php echo $this->url(array('controller' => 'eu-compte-user'), 'default', true) ?>">Comptes Users</a></li>
+            <?php } ?>
+
+            <?php if ($gp_user == 'detentrice_technopole') { ?>
+                <li><a href = "<?php echo $this->url(array('controller' => 'eu-codebarre'), 'default', true) ?>">Codebarres Générés</a></li>
+            <?php } ?>
+            <?php
+              $table = new Application_Model_DbTable_EuUserGroup();
+              $select = $table->select();
+              $select->where('code_groupe_parent = ?', $gp_user);
+              $select->where('id_cm_utilisateur <= ?', 3);
+              $select->order('code_groupe ASC');
+              $Rows = $table->fetchAll($select);
+              if (count($Rows) == 0) {
+            ?>
+            <?php
+                $tab = new Application_Model_DbTable_EuUserGroup();
+                $sel = $tab->select();
+                $sel->where('code_groupe = ?', $gp_user);
+                if ($ngac = $tab->fetchRow($sel)) {
+                    ?>
+                    <?php if ($ngac->id_cm_utilisateur == 1) { ?>
+                        <li><a href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'transfert2', 'ssgrp' => $ngac->code_groupe), 'default', true) ?>"><?php echo ucfirst($ngac->libelle_groupe); ?></a></li>
+                    <?php } else if ($ngac->id_cm_utilisateur == 2) { ?>
+                        <li><a href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'echange2', 'ssgrp' => $ngac->code_groupe), 'default', true) ?>"><?php echo ucfirst($ngac->libelle_groupe); ?></a></li>
+                    <?php } else if ($ngac->id_cm_utilisateur == 3) { ?>
+                        <li><a href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'debitcredit2', 'ssgrp' => $ngac->code_groupe), 'default', true) ?>"><?php echo ucfirst($ngac->libelle_groupe); ?></a></li>
+                    <?php } ?>
+                <?php } ?>
+            <?php } ?>
+        <?php } ?> 
+        <?php /* ?> <?php if (($gp_user == 'detentrice' ||  $gp_user == 'detentrice_pays'  ||  $gp_user == 'detentrice_region'  ||  $gp_user == 'detentrice_secteur'  ||  $gp_user == 'detentrice_agence' ||  $gp_user == 'detentrice_filiere' || $gp_user == 'agrement_filiere' || $gp_user == 'surveillance' || $gp_user == 'surveillance_pays'  || $gp_user == 'surveillance_region'  || $gp_user == 'surveillance_secteur'  || $gp_user == 'surveillance_agence'  || $gp_user == 'surveillance_technopole' || $gp_user == 'executante'  || $gp_user == 'executante_pays'  || $gp_user == 'executante_region'  || $gp_user == 'executante_secteur'  || $gp_user == 'executante_agence' ||   $gp_user == 'executante_acnev' || $gp_user == 'agrement_acnev' || $gp_user == 'pbf_grossiste' || $gp_user == 'pbf_semi_grossiste' || $gp_user == 'pbf_detaillant' || $gp_user == 'oe_grossiste' || $gp_user == 'oe_semi_grossiste' || $gp_user == 'oe_detaillant' || $gp_user == 'ose_grossiste' || $gp_user == 'ose_semi_grossiste' || $gp_user == 'ose_detaillant')){?>
+          <?php
+          $compte = new Application_Model_EuCompte();
+          $compte_mapper = new Application_Model_EuCompteMapper();
+          $result = $compte_mapper->find("NB-TPAGCP-".$this->user->code_membre, $compte);
+          if($result != FALSE){
+          ?>
+          <li><a href = "<?php echo $this->url(array('controller' => 'eu-consommation', 'action' => 'gcp'), 'default', true) ?>">Compte GCP</a></li>
+          <?php }?>
+          <?php }?><?php */ ?>
+
+<?php if (($gp_user == 'detentrice'  || $gp_user == 'detentrice_pays'  || $gp_user == 'detentrice_region'  || $gp_user == 'detentrice_secteur' || $gp_user == 'detentrice_agence' || $gp_user == 'surveillance' || $gp_user == 'surveillance_pays'  || $gp_user == 'surveillance_region'  || $gp_user == 'surveillance_secteur'  || $gp_user == 'surveillance_agence'  || $gp_user == 'executante' || $gp_user == 'executante_pays'  || $gp_user == 'executante_region'  || $gp_user == 'executante_secteur'   || $gp_user == 'executante_agence'   || $gp_user == 'pbf_grossiste' || $gp_user == 'pbf_semi_grossiste' || $gp_user == 'pbf_detaillant' || $gp_user == 'oe_grossiste' || $gp_user == 'oe_semi_grossiste' || $gp_user == 'oe_detaillant' || $gp_user == 'ose_grossiste' || $gp_user == 'ose_semi_grossiste' || $gp_user == 'ose_detaillant'))  {  ?>
+    <li><a href = "<?php echo $this->url(array('controller' => 'eu-representation'),'default',true) ?>">Gestion des représentations</a></li>
+<?php } ?>
+
+
+<?php if (($gp_user == 'detentrice'  || $gp_user == 'detentrice_pays'  || $gp_user == 'detentrice_region'  || $gp_user == 'detentrice_secteur' || $gp_user == 'detentrice_agence'  || $gp_user == 'surveillance_filiere' || $gp_user == 'agrement_filiere' || $gp_user == 'surveillance' || $gp_user == 'surveillance_pays'  || $gp_user == 'surveillance_region'  || $gp_user == 'surveillance_secteur'  || $gp_user == 'surveillance_agence' ||  $gp_user == 'detentrice_technopole' || $gp_user == 'agrement_technopole' || $gp_user == 'executante' || $gp_user == 'executante_pays'  || $gp_user == 'executante_region'  || $gp_user == 'executante_secteur'   || $gp_user == 'executante_agence'   || $gp_user == 'executante_acnev' || $gp_user == 'agrement_acnev' || $gp_user == 'pbf_grossiste' || $gp_user == 'pbf_semi_grossiste' || $gp_user == 'pbf_detaillant' || $gp_user == 'oe_grossiste' || $gp_user == 'oe_semi_grossiste' || $gp_user == 'oe_detaillant' || $gp_user == 'ose_grossiste' || $gp_user == 'ose_semi_grossiste' || $gp_user == 'ose_detaillant' || $gp_user == 'personne_physique')) { ?>
+         <li> <a target="_blank" href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'transfert2'), 'default', true) ?>">Tdb transferts</a> </li>
+         <li> <a target="_blank" href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'echange2'), 'default', true) ?>">Tdb échanges</a> </li>
+         <li> <a target="_blank" href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'debitcredit2'), 'default', true) ?>">Tdb débits/crédits</a> </li>
+<?php } ?>
+<?php if ($gp_user == 'detentrice' || $gp_user == 'surveillance') { ?>
+<li><a target="_blank" href="<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'mpp2'), 'default', true) ?>">Tdb eff. MPP/MPM</a></li>
+<?php } ?>
+
+<?php 
+$acteur = new Application_Model_EuActeur();
+if($acteurRow = $acteur->findByCodeActeur2($this->user->code_acteur)){
+$code_division = $acteurRow->code_division;
+}else{
+$code_division = "";
+}
+?>
+<?php /*if ($gp_user == 'detentrice_filiere' && ($code_division == 'DETENTRICE' || $code_division == 'SURVEILLANCE' || $code_division == 'EXECUTANTE')) { ?>
+         <li> <a target="_blank" href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'transfert3'), 'default', true) ?>">Tdb transferts Ad.</a> </li>
+         <li> <a target="_blank" href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'echange3'), 'default', true) ?>">Tdb échanges Ad.</a> </li>
+         <li> <a target="_blank" href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'debitcredit3'), 'default', true) ?>">Tdb débits/crédits Ad.</a> </li>
+		 <li><a href = "<?php echo $this->url(array('controller' => 'eu-smcipnp', 'action' => 'smcipnpre'), 'default', true) ?>"><font color="red">SMCIPN</font>p</a></li>
+<?php } */?>
+
+<?php /*if ($gp_user == 'executante_acnev' && ($code_division == 'DETENTRICE' || $code_division == 'SURVEILLANCE' || $code_division == 'EXECUTANTE')) { ?>
+         <li> <a target="_blank" href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'transfert3'), 'default', true) ?>">Tdb transferts Ad.</a> </li>
+         <li> <a target="_blank" href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'echange3'), 'default', true) ?>">Tdb échanges Ad.</a> </li>
+         <li> <a target="_blank" href = "<?php echo $this->url(array('controller' => 'eu-user', 'action' => 'debitcredit3'), 'default', true) ?>">Tdb débits/crédits Ad.</a> </li>
+<?php } */?>
+
+
+
+
+    </ul>
+</div>

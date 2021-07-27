@@ -1,0 +1,87 @@
+<?php $sessionsouscription = new Zend_Session_Namespace('souscription');?>
+<?php if(isset($sessionsouscription->login)){?>
+<div class="navbar navbar-inverse" style="position: static;">
+              <div class="navbar-inner">
+                <div class="container">
+                  <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </a>
+                  <div class="nav-collapse collapse navbar-inverse-collapse">
+                  <a class="brand" href="<?php echo $this->baseUrl();?>/souscription"><i class="icon-home icon-white"></i><!-- Administration--></a>
+                    <ul class="nav"><!-- class="active"-->
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscriptions <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Souscriptions</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscription/listsouscription2">Liste de mes souscriptions</a></li>
+                          <?php /*?><li><a href="<?php echo $this->baseUrl();?>/souscription/listsouscription3">Liste des souscriptions de l'agrément OSE/OE</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscription/listsouscription3">Enregistrer membres tiers à enrôler</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscription/listsouscription4">Liste de mes membres tiers à enrôler</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscription/listsouscription5">Générer les codes de souscription des membres tiers à enrôler</a></li><?php */?>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscription/listsouscription6">Liste des codes d'activation de comptes marchands des membres tiers</a></li>
+                        </ul>
+                      </li>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">CMFH <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Liste par type de CMFH</li>
+        <?php $ttype_candidat = new Application_Model_DbTable_EuTypeCandidat();
+        $results = $ttype_candidat->fetchAll();?>
+    <?php foreach ($results as $type_candidat): ?>
+    <?php if($type_candidat->id_type_candidat != 8){?>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscription/listsouscriptioncmfh/type/<?php echo $type_candidat->id_type_candidat; ?>"><?php echo ($type_candidat->libelle_type_candidat); ?></a></li>
+						  <?php }?>
+    <?php endforeach; ?>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscription/listsouscriptioncmfhrecherche/type/8">CMFH CAPS</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Membres Tiers <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Membres Tiers</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscription/addmembretiers">Enregistrer membres tiers à enrôler</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscription/listmembretiers">Liste de mes membres tiers à enrôler</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Caractéristiques <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Type Caractéristique</li>
+<?php 
+        $typecaracteristique = new Application_Model_EuTypeCaracteristiqueMapper();
+        $entriestypecaracteristique = $typecaracteristique->fetchAll2($sessionsouscription->souscription_type_candidat);
+?>                          
+<?php foreach ($entriestypecaracteristique as $entry): ?>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscription/addcaracteristique/type/<?php echo ($entry->id_type_caracteristique); ?>">Ajouter  <?php echo ($entry->libelle_type_caracteristique); ?></a></li>
+<?php endforeach; ?>
+	                      <li class="nav-header">Caractéristiques</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscription/listcaracteristique">Liste de mes caractéristiques</a></li>
+                        </ul>
+                      </li><?php */?>
+                      <?php /*?><?php if($sessionsouscription->code_membre != ""){?>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dépôts Ventes <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Dépôts Ventes</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/souscription/listdepotvente">Liste des dépôts ventes</a></li>
+                        </ul>
+                      </li>
+					  <?php }?><?php */?>
+                    </ul>
+                    
+
+                  </div><!-- /.nav-collapse -->
+                </div>
+              </div><!-- /navbar-inner -->
+            </div>
+            
+            
+            <div align="right" style="margin-top: -15px;">
+<i class="icon-user"></i> <?php if($sessionsouscription->souscription_personne == "PP"){?><?php echo ($sessionsouscription->souscription_nom); ?> <?php echo ($sessionsouscription->souscription_prenom); ?><?php }else{?><?php echo ($sessionsouscription->souscription_raison); ?><?php }?>
+            <a href="<?php echo $this->baseUrl();?>/souscription/password"><i class="icon-edit"></i> Modifier le mot de passe</a>
+            <a href="<?php echo $this->baseUrl();?>/souscription/nocompte"><i class="icon-off"></i> Déconnexion</a>
+			</div>
+
+			<?php }?>

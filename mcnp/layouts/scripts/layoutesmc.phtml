@@ -1,0 +1,1217 @@
+<?php
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('ESMC - Entreprise Sociale de Marché Commun');
+echo $this->doctype();//echo $_SERVER['SERVER_NAME'];
+?>
+<?php 
+              if($_SERVER['SERVER_ADDR'] == Util_Utils::getParamEsmc(9)) {
+      $domaine = "esmcgie.com";
+        $domaine2 = "https://esmc.esmcgie.com";
+      $domaine3 = "https://esmcgie.com";
+
+    }else{
+      $domaine = "esmcgie.com";
+        $domaine2 = "https://esmcgie.com";
+      $domaine3 = "https://esmcgie.com";
+    }
+    ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="<?php echo $this->baseUrl();?>/images/favicon.png">
+
+         <?php echo $this->headMeta(),
+        $this->headTitle(); ?>
+
+    <!-- <link href="<?php echo $this->baseUrl();?>/assets/css/esmccss.css" rel="stylesheet" media="screen" /> -->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/assets/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/bootstrap/css/complement.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/assets/HorizontalDropDownMenu/css/default.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/assets/HorizontalDropDownMenu/css/component.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/assets/datatables.css" />
+
+    <script src="<?php echo $this->baseUrl();?>/assets/HorizontalDropDownMenu/js/modernizr.custom.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/assets/js/datatables.js"></script>
+
+
+
+<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/assets/font-awesome-4.7.0/css/font-awesome.min.css">
+
+<style>
+@import "bootstrap/bootstrap-flex";
+
+@media (min-width:34em) {
+    .card-deck > .card
+    {
+        width: 10%;
+        flex-wrap: wrap;
+        flex: initial; 
+    }
+}
+
+
+/* control image height */
+.card-img-top-250 {
+    max-height: 250px;
+    overflow:hidden;
+}
+
+.card-img-top-150 {
+    max-height: 150px;
+    overflow:hidden;
+}
+
+
+/* smoother transitions */
+.carousel-inner>.carousel-item.next.left,
+.carousel-inner>.carousel-item.prev.right,
+{
+    transition: all 1s ease;
+}
+
+.container {
+
+width: 1202px;
+}
+</style>
+    <script language="javascript1.3" src="<?php echo $this->baseUrl();?>/paniers.js"></script>
+    <link href="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" media="screen" />
+  </head>
+
+
+  <body>
+<?php $sessionpanier = new Zend_Session_Namespace('panier');?>
+<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+ <?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+  <div class="container" style="background-color: #f7f7f9">
+  <!-- debut header -->
+
+  <div class="row" style="background-color: #aa325f;margin-top:-22px">
+
+    <div class="col-xl-6" style="margin: 7px 0px 4px 0px; padding: 3px 0px 3px 7px;">
+
+    <a href="<?php echo $this->baseUrl();?>/documents/interfacegroupement" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;">LE GROUPEMENT</a>
+
+    <a href="<?php echo $this->baseUrl();?>/documents/interfaceconcept" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;">LE CONCEPT</a>
+
+
+    <a href="<?php echo $this->baseUrl();?>/documents/interfaceprojet" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;">LE PROJET</a>
+
+    <a href="<?php echo $this->baseUrl();?>/documents/interfacecommercialisation" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;">COMMERCIALISATION</a>
+
+
+    <!--?php $pageM = new Application_Model_EuPageMapper(); 
+          $page = new Application_Model_EuPage();
+          if($pageM->find(117, $page)){?>
+          <!-?php if($page->liendirect != ""){?>
+    <a href="<!-?php echo $page->liendirect; ?>" target="_blank" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><!?php echo ($page->titre_autre); ?></a>
+		    <!-?php }else{?>
+    <a href="<!-?php echo $this->baseUrl();?>/index/pageesmc/id/<!?php echo $page->id_page; ?>" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><!?php echo ($page->titre_autre); ?></a>
+		    <!?php }?>
+    <!?php }?>
+
+    -->
+
+    <!--?php $pageM = new Application_Model_EuPageMapper();
+          $page = new Application_Model_EuPage();
+          if($pageM->find(118, $page)){?>
+          <!-?php if($page->liendirect != ""){?>
+    <a href="<!-?php echo $page->liendirect; ?>" target="_blank" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><!?php echo ($page->titre_autre); ?></a>
+		    <!?php }else{?>
+    <a href="<!?php echo $this->baseUrl();?>/index/pageesmc/id/<!?php echo $page->id_page; ?>" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><!?php echo ($page->titre_autre); ?></a>
+		    <!?php }?>
+    <!-?php }?>
+    <§?php $pageM = new Application_Model_EuPageMapper();
+          $page = new Application_Model_EuPage();
+          if($pageM->find(119, $page)){?>
+          <!?php if($page->liendirect != ""){?>
+    <a href="<!?php echo $page->liendirect; ?>" target="_blank" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><!?php echo ($page->titre_autre); ?></a>
+		    <!?php }else{?>
+    <a href="<!?php echo $this->baseUrl();?>/index/pageesmc/id/<!?php echo $page->id_page; ?>" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><!?php echo ($page->titre_autre); ?></a>
+		    <!?php }?>
+    <!?php }?>
+    <!?php $pageM = new Application_Model_EuPageMapper();
+          $page = new Application_Model_EuPage();
+          if($pageM->find(120, $page)){?>
+          <!?php if($page->liendirect != ""){?>
+    <a href="<!?php echo $page->liendirect; ?>" target="_blank" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><!?php echo ($page->titre_autre); ?></a>
+		    <!?php }else{?>
+    <a href="<!?php echo $this->baseUrl();?>/index/pageesmc/id/<!?php echo $page->id_page; ?>" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><!?php echo ($page->titre_autre); ?></a>
+		    <!?php }?>
+    <!?php }?>
+    <!?php $pageM = new Application_Model_EuPageMapper();
+          $page = new Application_Model_EuPage();
+          if($pageM->find(121, $page)){?>
+          <!?php if($page->liendirect != ""){?>
+    <a href="<!?php echo $page->liendirect; ?>" target="_blank" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><!?php echo ($page->titre_autre); ?></a>
+		    <!?php }else{?>
+    <a href="<!?php echo $this->baseUrl();?>/index/pageesmc/id/<!?php echo $page->id_page; ?>" class="" style="border: 1px solid #ffffff;padding: 2px 4px 2px 3px;color: #ffffff;"><!?php echo ($page->titre_autre); ?></a>
+		    <!?php }?>
+    <!?php }?> -->
+  </div>
+    <div class="col-xl-4" style="margin: 7px 0px 4px 0px; color: #ffffff;">
+<?php /////////////////////////////////
+$communique = new Application_Model_EuCommuniqueMapper();
+$entriescommunique = $communique->fetchAllByHome();
+if(count($entriescommunique) > 0){?>
+    <marquee onmousemove="stop();" onmouseout="start();">
+<?php foreach ($entriescommunique as $valuecommunique) {?>
+                        <?php if($valuecommunique->liendirect != ""){?>
+                            <a href="<?php echo $valuecommunique->liendirect; ?>" style="color: #ffffff;" target="_blank">
+                            <?php echo ($valuecommunique->titre); ?> - 
+                            </a>
+                        <?php }else{ ?>
+                            <a href="<?php echo $this->baseUrl();?>/index/detailcommunique/id/<?php echo $valuecommunique->id_communique; ?>" style="color: #ffffff;">
+                            <?php echo ($valuecommunique->titre); ?> - 
+                            </a>
+                        <?php }?>    
+<?php }?>
+    </marquee>
+<?php }?>
+    </div>
+    <div class="col-xl-2" style="margin: 7px 0px 0px 0px; padding: 0;"> 
+    
+         <a href="http://webfiles.esmcgie.com/EsmcBioV1.0.zip" style="color: #000;display: inline-block;margin-left: -182px;margin-right: 9px;background: #05dfc1;padding-right: 18px;padding-left: 18px;padding-top: 2px;padding-bottom: 2px;border-radius: 4px;font-weight: bold;margin-top: -2px;">Télécharger le package d'installation</a>
+         
+         <a href="https://play.google.com/store/apps/details?id=com.esmc.mcnp&hl=fr" target="_blank" style="position: absolute;top: -3px;width:109px"><img src="<?php echo $this->baseUrl();?>/assets/img/play_store_badge.png" class="img-fluid" alt="ESMC App Mobile"></a>
+         
+    </div>
+         
+    </div>
+  </div>
+
+  <div class="row" style="background-color: #ffffff; border-bottom: 1px solid #aa325f;">
+    <div class="col-xl-12" align="center">
+      <a href="<?php echo $this->baseUrl();?>/"><img src="<?php echo $this->baseUrl();?>/pages/banniere_de_haut.jpg" class="img-fluid"></a>
+    </div>  
+    <?php /*?>
+    <div class="col-xl-2" align="center" style="margin: auto;"><a href="<?php echo $this->baseUrl();?>/"><img src="<?php echo $this->baseUrl();?>/assets/img/logo_esmc.png" class="img-fluid" alt="Logo ESMC"></a></div>
+    <div class="col-xl-10" align="center">
+    <h2 style="font-size:40px;color:#aa325f;font-family:'Maiandra GD';"><strong>ESMC</strong></h2>
+    <h4 style="font-family:Cambria, 'Cambria Math';">Entreprise Sociale de Marché Commun</h4>
+    <span style="font-size: small;"><span style="color:#aa325f;font-weight: bold; ">ESMC</span>, Conseils en Organisation des Affaires Commerciales, Recherche &amp; Développement de Logiciel, Exploitation du Progiciel <strong style="color:#F00">MCNP</strong>, Commerce sur Internet</span>
+    </div>
+    <?php */?>
+  </div>
+
+
+  <div class="row">
+    <div class="col-xl-12" style="padding-right: 0 !important; padding-left: 0 !important; ">
+    <!-- <img src="<?php echo $this->baseUrl();?>/assets/img/banniere.jpg" class="img-fluid" alt="Bannière"> -->
+<?php /////////////////PUB BOX////////////////
+$publicite = new Application_Model_EuPubliciteMapper();
+$entriespublicite = $publicite->fetchAllByTypeCategorieBoxInterfaceAncien(1, 0, 1, 0, 2);
+if(count($entriespublicite) > 0){?>
+<div id="carouselExampleIndicators" class="carousel slide" data-interval="10000" data-ride="carousel">
+  <!-- <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol> -->
+  <div class="carousel-inner" role="listbox">
+<?php $i = 0;?>
+<?php foreach ($entriespublicite as $valuepublicite) {?>
+<?php $i++;?>
+    <div class="carousel-item <?php if($i == 1){echo ' active';}?>">
+      <a href="<?php echo ($valuepublicite->lien_publicite); ?>">
+      <img class="img-fluid" src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/<?php echo ($valuepublicite->desc_publicite); ?>&w=1140&h=200&zc=1&q=100" alt="<?php echo ($valuepublicite->libelle_publicite); ?>">
+      </a>
+      <!-- <div class="carousel-caption d-none d-md-block">
+    <h3><?php echo ($valuepublicite->libelle_publicite); ?></h3>
+  </div> -->
+    </div>
+<?php }?>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<?php }?>
+
+    </div>
+  </div>
+
+  <!-- fin header -->
+  </div>
+
+  <div class="container">
+  <!-- debut menu -->
+
+  <div class="row">
+    <div class="col-xl-12" style="border-bottom: 1px solid #aa325f; border-top: 1px solid #aa325f;">
+              
+      <!-- header -->
+  <?php include("../application/layouts/scripts/header.phtml"); ?>
+
+  
+    </div>
+  </div>
+
+  <!-- fin menu -->
+  </div>
+
+  <div class="container" style="background-color: #f7f7f9">
+  <!-- debut play store -->
+
+  <div class="row">
+    <div class="col-xl-2">&nbsp;</div>
+    <div class="col-xl-7">&nbsp;</div>
+    <div class="col-xl-3">&nbsp;</div>
+  <!-- Initialize Bootstrap functionality -->
+  </div>
+
+  <!-- fin play store -->
+  </div>
+
+
+  <div class="container" style="background-color: #f7f7f9">
+  <!-- debut content -->
+
+  <div class="row">
+    <div class="col-xl-3" align="center">
+      <br />
+    <!--     
+<img src="<?php echo $this->baseUrl();?>/assets/img/recherche.jpg" class="img-fluid" alt="recherche"> -->
+
+
+
+<?php /*?>
+<button id="content1" type="button" class="btn btn-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true"  data-container="body" title="Calculer" style="margin:0px 0px 5px 10px;padding:0px 0px 0px 10px;border-color: #f7f7f9;background-color: #f7f7f9; cursor: pointer;">
+<img src="<?php echo $this->baseUrl();?>/assets/img/calculs.png" alt="Calculer"><br /><span style="color: #aa325f">Calculer</span><!-- class="img-fluid"-->
+</button>
+<div id="popover-content1" class="list-group" style="display: none;">
+
+  
+          <a href="#" class="list-group-item active">Calculer BC pour soi</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcnr">Souscription au <strong><span style="color:blue">BCnr</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcr">Souscription au <strong><span style="color:blue">BCr</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcrj">Souscription au <strong><span style="color:blue">BCr/j</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcnrpre">Souscription au <strong><span style="color:blue">BCnrPRE</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermbcnr">Montant du <strong><span style="color:blue">BCnr</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermbcr">Montant du <strong><span style="color:blue">BCr</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermbcrj">Montant du <strong><span style="color:blue">BCr/j</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermbcnrpre">Montant du <strong><span style="color:blue">BCnrPRE</span></strong></a>
+          <a href="#" class="list-group-item active">Calculer BC pour formation</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcf">Souscription au <strong><span style="color:blue">BC</span></strong></a>
+          <a href="#" class="list-group-item active">Calculer BC pour tiers</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcm">Souscription au <strong><span style="color:blue">BC</span></strong> pour tiers (M) </a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcnm">Souscription au <strong><span style="color:blue">BC</span></strong> pour tiers (NM)</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermbcm">Nb de bénéficiaires au <strong><span style="color:blue">BC</span></strong> pour tiers (M)</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermbcnm">Nb de bénéficiaires au <strong><span style="color:blue">BC </span></strong> pour tiers (NM) </a>
+          <a href="#" class="list-group-item active">Calculer OPI</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculernopi">Nombre d'<strong><span style="color:black">OPI</span></strong> au montant insuffisant</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculerpj">Montant d'<strong><span style="color:black">OPI</span></strong> Vendeur</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculerpbps">Montant d'<strong><span style="color:black">OPI</span></strong> Achat-Vente Réciproque</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcnrar">Souscription au <strong><span style="color:blue">BCnr</span></strong> Acheteur-Revendeur contre <strong><span style="color:black">OPI</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculeropi">Montant d'<strong><span style="color:black">OPI</span></strong> Acheteur-Revendeur</a>
+
+            
+        </div>
+<?php */?>
+
+<button id="content6" type="button" class="btn btn-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true"  data-container="body" title="Calculer BC" style="margin:0px 0px 5px 10px;padding:0px 0px 0px 10px;border-color: #f7f7f9;background-color: #f7f7f9; cursor: pointer;">
+<img src="<?php echo $this->baseUrl();?>/assets/img/calculs.png" alt="Calculer BC"><br /><span style="color: #aa325f">Calculer BC</span><!-- class="img-fluid"-->
+</button>
+<div id="popover-content6" class="list-group" style="display: none;">
+
+  
+          <a href="#" class="list-group-item active">Calculer BC pour soi</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcnr">Souscription au<strong>&nbsp;<span style="color:blue">BCnr</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcr">Souscription au<strong>&nbsp;<span style="color:blue">BCr</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcrj">Souscription au<strong>&nbsp;<span style="color:blue">BCr/j</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcnrpre">Souscription au<strong>&nbsp;<span style="color:blue">BCnrPRE</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermbcnr">Montant du<strong>&nbsp;<span style="color:blue">BCnr</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermbcr">Montant du<strong>&nbsp;<span style="color:blue">BCr</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermbcrj">Montant du<strong>&nbsp;<span style="color:blue">BCr/j</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermbcnrpre">Montant du<strong>&nbsp;<span style="color:blue">BCnrPRE</span></strong></a>
+            <a href="#" class="list-group-item active">Calculer BC pour formation</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcf">Souscription au<strong>&nbsp;<span style="color:blue">BC</span></strong></a>
+            <a href="#" class="list-group-item active">Calculer BC pour tiers</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcm">Souscription au<strong>&nbsp;<span style="color:blue">BC</span>&nbsp;</strong>pour tiers (M) </a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcnm">Souscription au<strong>&nbsp;<span style="color:blue">BC</span>&nbsp;</strong>pour tiers (NM)</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermbcm">Nombre de bénéficiaires au<strong>&nbsp;<span style="color:blue">BC</span>&nbsp;</strong>pour tiers (M)</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermbcnm">Nombre de bénéficiaires au<strong>&nbsp;<span style="color:blue">BC</span>&nbsp;</strong>pour tiers (NM) </a>
+            
+			<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermbcbps">Nombre de bénéficiaires au<strong>&nbsp;<span style="color:blue">BC</span>&nbsp;</strong> pour tiers contre BPS </a>
+        </div>
+
+<br><br>
+
+<button id="content7" type="button" class="btn btn-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true"  data-container="body" title="Calculer OPI" style="margin:0px 0px 5px 10px;padding:0px 0px 0px 10px;border-color: #f7f7f9;background-color: #f7f7f9; cursor: pointer;">
+<img src="<?php echo $this->baseUrl();?>/assets/img/calculsopi.png" alt="Calculer OPI"><br /><span style="color: #aa325f">Calculer OPI</span><!-- class="img-fluid"-->
+</button>
+<div id="popover-content7" class="list-group" style="display: none;">
+
+  
+          <a href="#" class="list-group-item active">Calculer OPI</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculernopi">Nombre d'<strong><span style="color:black">OPI</span>&nbsp;</strong>au montant insuffisant</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculerpj">Montant d'<strong><span style="color:black">OPI</span>&nbsp;</strong>Vendeur</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculerpbps">Montant d'<strong><span style="color:black">OPI</span>&nbsp;</strong>Achat-Vente Réciproque</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculermsbcnrar">Souscription au<strong>&nbsp;<span style="color:blue">BCnr</span>&nbsp;</strong>Acheteur-Revendeur contre<strong>&nbsp;<span style="color:black">OPI</span></strong></a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculeropi">Montant d'<strong><span style="color:black">OPI</span>&nbsp;</strong>Acheteur-Revendeur</a>
+
+            <a href="#" class="list-group-item active">Calculer Commision PBF</a>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/calculerpbfcommission">Commission sur le BAn PBF</a>
+            
+
+            
+        </div>
+
+
+<br><br>
+<button id="content8" type="button" class="btn btn-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true"  data-container="body" title="Nous concernant" style="margin:0px 0px 5px 10px;padding:0px 0px 0px 10px;border-color: #f7f7f9;background-color: #f7f7f9; cursor: pointer;">
+<img src="<?php echo $this->baseUrl();?>/assets/img/logo_esmc.png" alt="Nous concernant" style="width:150px"><br /><span style="color: #aa325f">Nous concernant</span><!-- class="img-fluid"-->
+</button>
+<div id="popover-content8" class="list-group" style="display: none;">
+<a href="#" class="list-group-item active">Réponse à l'appel modial ODD (Personne Physique ou Personne Morale)</a>
+
+   <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="/publicites/REPONSE_A_APPEL_MONDIAL_ODD_PP_ou_PM.pdf">Telecharger la Réponse à l'appel modial odd pour la personne physique ou la personne morale</a>
+   <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="/bons/framevideoappelmodialpppm">Lire la video sur la réponse à l'appel modial ODD (Personne Physique ou Personne Morale)</a>
+   <a href="/bons/frameaudioappelmodialpppm" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Ecouter l'audio sur la réponse à l'appel modial ODD (Personne Physique ou Personne Morale)</a> <br>
+
+   <a href="#" class="list-group-item active">Réponse à l'appel modial ODD (Ancien Membre Personne Physique ou Personne Morale)</a>
+   
+   <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="/publicites/REPONSE_A_APPEL_MONDIAL_ODD_POUR_LES_PP_OU_PM_ANCIENS.pdf">Telecharger la réponse à l'appel modial ODD (Ancien Membre Personne Physique ou Personne Morale)</a>
+    <a href="/bons/framevideoappelmodialancienpppm" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" >Lire la réponse à l'appel modial ODD (Personne Physique ou Personne Morale)</a>
+    <a href="/bons/frameaudioappelmodialancienpppm" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Ecouter l'audio sur la réponse à l'appel modial ODD (Personne Physique ou Personne Morale)</a> <br>
+
+  <a href="#" class="list-group-item active">Réponse à l'appel modial ODD (FOADDIP)</a>
+
+    <a href="/publicites/REPONSE_MONDIAL_A_APPEL_ODD_POUR_LES_F-BPS-PEI.pdf" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Telecharger la réponse à l'appel modial odd (FOADDIP)</a>
+    <a href="/bons/framevideoappelmodialfoaddip" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Lire la video sur la réponse à l'appel modial odd (FOADDIP)</a>
+    <a href="/bons/frameaudioappelmodialfoaddip" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Ecouter l'audio sur la réponse à l'appel modial odd (FOADDIP)</a> <br>
+
+  <a href="#" class="list-group-item active">Réponse à l'appel modial ODD (FOADDIP)</a>
+
+    <a href="/publicites/REPONSE_A_APPEL_MONDIAL_ODD_POUR_LES_PBF.pdf" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Telecharger la réponse à l'appel modial odd (PBF)</a>
+    <a href="/bons/framevideoappelmodialpbf" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Lire la video sur la réponse à l'appel modial odd (PBF)</a>
+    <a href="/bons/frameaudioappelmodialpbf" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Ecouter l'audio sur la réponse à l'appel modial odd (PBF)</a> <br>
+
+  <a href="#" class="list-group-item active">Legalité de l'ESMC</a>
+    <a href="/publicites/legalite_esmc.pdf" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Telecharger la legalite de l'ESMC</a>
+    <a href="/bons/framevideolegaliteesmc" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Lire la video sur la legalite de l'ESMC</a>
+    <a href="/bons/frameaudiolegaliteesmc" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Ecouter l'audio sur la legalite de l'ESMC</a>
+<?php
+/*
+$menuM = new Application_Model_EuMenuMapper();
+$menu = new Application_Model_EuMenu();
+if($menuM->find(16, $menu)){
+?>                        
+<a href="#" class="list-group-item active"><?php echo ($menu->menu_libelle); ?></a>
+<?php
+        $menusous = new Application_Model_EuMenuSousMapper();
+        $entriesmenusous = $menusous->fetchAllByMenu($menu->menu_id);
+?>
+<?php if(count($entriesmenusous)>0){?>
+<?php $y=0; ?>
+<?php foreach ($entriesmenusous as $entrymenusous){ ?>
+<?php if($entrymenusous->menusous_url != ""){?>
+<?php }else{?>
+<?php
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAllByMenuSousMenu($entrymenusous->menusous_menu, $entrymenusous->menusous_id);
+?>
+<?php if(count($entriespage)>0){?>
+<?php foreach ($entriespage as $entrypage){ ?>
+<?php if($entrypage->liendirect != ""){?>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $entrypage->liendirect; ?>"><?php echo ($entrypage->titre_autre); ?></a>
+<?php }else{?>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php echo ($entrypage->titre_autre); ?></a>
+<?php }?>
+<?php }?>
+<?php }?>
+<?php }?>
+<?php $y++; ?>
+<?php }?>
+<?php }?>
+<?php }?>
+
+
+
+<?php
+$menuM = new Application_Model_EuMenuMapper();
+$menu = new Application_Model_EuMenu();
+if($menuM->find(17, $menu)){
+?>                        
+<a href="#" class="list-group-item active"><?php echo ($menu->menu_libelle); ?></a>
+<?php
+        $menusous = new Application_Model_EuMenuSousMapper();
+        $entriesmenusous = $menusous->fetchAllByMenu($menu->menu_id);
+?>
+<?php if(count($entriesmenusous)>0){?>
+<?php $y=0; ?>
+<?php foreach ($entriesmenusous as $entrymenusous){ ?>
+<?php if($entrymenusous->menusous_url != ""){?>
+<?php }else{?>
+<?php
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAllByMenuSousMenu($entrymenusous->menusous_menu, $entrymenusous->menusous_id);
+?>
+<?php if(count($entriespage)>0){?>
+<?php foreach ($entriespage as $entrypage){ ?>
+<?php if($entrypage->liendirect != ""){?>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $entrypage->liendirect; ?>"><?php echo ($entrypage->titre_autre); ?></a>
+<?php }else{?>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine2; ?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php echo ($entrypage->titre_autre); ?></a>
+<?php }?>
+<?php }?>
+<?php }?>
+<?php }?>
+<?php $y++; ?>
+<?php }?>
+<?php }?>
+<?php }?>
+
+  
+
+<?php
+$menuM = new Application_Model_EuMenuMapper();
+$menu = new Application_Model_EuMenu();
+if($menuM->find(18, $menu)){
+?>                        
+<a href="#" class="list-group-item active"><?php echo ($menu->menu_libelle); ?></a>
+<?php
+        $menusous = new Application_Model_EuMenuSousMapper();
+        $entriesmenusous = $menusous->fetchAllByMenu($menu->menu_id);
+?>
+<?php if(count($entriesmenusous)>0){?>
+<?php $y=0; ?>
+<?php foreach ($entriesmenusous as $entrymenusous){ ?>
+<?php if($entrymenusous->menusous_url != ""){?>
+<?php }else{?>
+<?php
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAllByMenuSousMenu($entrymenusous->menusous_menu, $entrymenusous->menusous_id);
+?>
+<?php if(count($entriespage)>0){?>
+<?php foreach ($entriespage as $entrypage){ ?>
+<?php if($entrypage->liendirect != ""){?>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $entrypage->liendirect; ?>"><?php echo ($entrypage->titre_autre); ?></a>
+<?php }else{?>
+            <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php echo ($entrypage->titre_autre); ?></a>
+<?php }?>
+<?php }?>
+<?php }?>
+<?php }?>
+<?php $y++; ?>
+<?php }?>
+<?php }?>
+<?php } */?>
+
+
+
+
+            
+        </div>
+<br><br>
+
+<button id="content2" type="button" class="btn btn-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true"  data-container="body" title="Rechercher" style="margin:0px 0px 5px 10px;padding:0px 0px 0px 10px;border-color: #f7f7f9;background-color: #f7f7f9; cursor: pointer;">
+<img src="<?php echo $this->baseUrl();?>/assets/img/recherche.png" alt="Rechercher"><br /><span style="color: #aa325f">Rechercher</span><!-- class="img-fluid"-->
+</button>
+<div id="popover-content2" class="list-group" style="display: none;">
+          <!-- <a href="#" class="list-group-item active">Cras justo odio</a> -->
+          <a href="<?php echo $this->baseUrl(); ?>/index/rechercheractivation" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Code Membre</a>
+          <a href="<?php echo $this->baseUrl(); ?>/index/rechercheoffreur" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Offreurs de Projets</a>
+          <a href="<?php echo $this->baseUrl(); ?>/index/rechercheintegrateur" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Intégrateurs</a>
+        </div>
+
+
+<br><br>
+
+
+<button id="content3" type="button" class="btn btn-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true"  data-container="body" title="Contacter" style="margin:0px 0px 5px 10px;padding:0px 0px 0px 10px;border-color: #f7f7f9;background-color: #f7f7f9; cursor: pointer;">
+<img src="<?php echo $this->baseUrl();?>/assets/img/contacts.png" alt="Contacter"><br /><span style="color: #aa325f">Contacter</span><!-- class="img-fluid"-->
+</button>
+<div id="popover-content3" class="list-group" style="display: none;">
+          <a href="<?php echo $this->baseUrl();?>/index/addcontactesmc" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;">Contactez nous</a>
+          <a href="http://<?php echo $domaine;?>/ticketsupport/add" class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank">Ticket de support</a>
+        </div>
+
+
+
+
+
+<?php /*?>
+<button id="content4" type="button" class="btn btn-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true"  data-container="body" title="<strong><span style='color:#F00;'>R</span><span style='color:#00B0F0;'>e</span><span style='color:#F00;'>D</span><span style='color:#00B0F0;'>é</span><span style='color:#F00;'>M</span><span style='color:#00B0F0;'>a</span><span style='color:#F00;'>R</span><span style='color:#00B0F0;'>e</span></strong>" style="margin:0px 0px 5px 10px;padding:0px 0px 0px 10px;border-color: #f7f7f9;background-color: #f7f7f9; cursor: pointer;">
+<img src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/ReDeMaRe.png&amp;w=75&amp;h=75&amp;zc=1&amp;q=100" alt="ReDéMaRe"><br /><strong><span style="color:#F00;">R</span><span style="color:#00B0F0;">e</span><span style="color:#F00;">D</span><span style="color:#00B0F0;">é</span><span style="color:#F00;">M</span><span style="color:#00B0F0;">a</span><span style="color:#F00;">R</span><span style="color:#00B0F0;">e</span></strong><!-- class="img-fluid"-->
+</button>
+<div id="popover-content4" class="list-group" style="display: none;">
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/pageceu/id/32">Demande de relevé</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/pageceu/id/34">Validation du relevé</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/pageceu/id/33">Réactivation du CM</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/reclamer/id/1">Réclamation</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/reclamer/id/1">Recouvrement</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/reclamer/id/1">Règlement</a>
+        </div>
+
+
+
+
+
+<button id="content5" type="button" class="btn btn-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true"  data-container="body" title="<strong style='color: #ff0000;'>MCNP</strong>" style="margin:0px 0px 5px 10px;padding:0px 0px 0px 10px;border-color: #f7f7f9;background-color: #f7f7f9; cursor: pointer;">
+<img src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/MCNP.png&amp;w=75&amp;h=75&amp;zc=1&amp;q=100" alt="MCNP"><br /><strong style="color: #ff0000;">MCNP</strong><!-- class="img-fluid"-->
+</button>
+<div id="popover-content5" class="list-group" style="display: none;">
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/pagemcnp/id/43">Demande de relevé</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/pagemcnp/id/44">Validation du relevé</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/pagemcnp/id/45">Réactivation du CM</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/reclamer/id/2">Réclamation</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/reclamer/id/2">Recouvrement</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" target="_blank" href="http://<?php echo $domaine;?>/index/reclamer/id/2">Règlement</a>
+        </div>
+<?php */?>
+
+
+
+
+    </div>
+    <div class="col-xl-6">
+
+<!-- ///////////////////////////////////////////////////////////////////////////////// -->
+
+<?php echo $this->layout()->content ?>
+
+<!-- ///////////////////////////////////////////////////////////////////////////////// -->
+
+    </div>
+
+    <div class="col-xl-3">
+                  <div class="lien"><a id="nivpanier" href="<?php echo $this->baseUrl();?>/boutiqueligne/panier"><?php if(isset($sessionpanier->produit)){?><i class="fa fa-shopping-cart"></i> Mon Panier (<?php echo count($sessionpanier->produit); ?>)<?php }?></a></div>
+
+    <!-- <img src="<?php echo $this->baseUrl();?>/assets/img/connexion.jpg" class="img-fluid" alt="connexion"> -->
+<form method="post" id="connexion" action="<?php echo $domaine3;?>/espacepersonnel/login">
+
+  <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin != ""){?>
+  <div class="alert alert-error" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+      <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+  </div>
+  <?php }?>
+
+    <div class="form-group" align="center">
+      <h4><i class="fa fa-user-circle-o" aria-hidden="true"></i> <a name="login"></a>Connexion</h4>
+    </div>
+    <div class="form-group" align="center">
+      <input class="form-control form-control-sm" name="code_membre" type="text" id="code_membre" placeholder="Code Membre" required="true" />
+    </div>
+    <div class="form-group" align="center">
+      <input class="form-control form-control-sm" name="codesecret" type="password" id="codesecret" placeholder="Code Secret" required="true" />
+    </div>
+    <div class="form-group" align="left">
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <button type="submit" class="btn btn-primary btn-sm">Connexion</button>
+    </div>
+
+    <a class="link" href="<?php echo $this->baseUrl();?>/index/rechercheractivation">Pour retrouver son Code Membre</a>
+<!-- <br />
+<a data-toggle="collapse" href="#demo" aria-expanded="false" aria-controls="demo">Si vous avez oublié votre Code Secret</a>
+<div class="collapse" id="demo">
+  <div class="card card-block">
+  Utilisez le Code Secret standard : <span class="label label-success">123456</span> pour vous connecter. Veuillez suivre correctement la procédure d'authentification. Merci
+  </div>
+</div> -->
+
+<button id="codesecret1" type="button" class="btn btn-secondary" data-toggle="popover" data-placement="bottom" data-trigger="focus" data-html="true"  data-container="body" title="Code Secret" style="margin: 0;padding: 0;border-color: #f7f7f9;background-color: #f7f7f9;font-size: 14px;color: #aa325f; cursor: pointer;">
+Si vous avez oublié votre Code Secret
+</button>
+<div id="popover-codesecret1" style="display: none;">
+          Utilisez le Code Secret standard : <span class="label label-success">123456</span> pour vous connecter. Veuillez suivre correctement la procédure d'authentification. Merci
+        </div>
+</form>
+
+<a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/122"><img src="<?php echo $this->baseUrl();?>/assets/img/gif2.gif" class="img-fluid" alt="Souscription au Compte Marchand"></a>
+<br />
+
+    <!-- <img src="<?php echo $this->baseUrl();?>/assets/img/galerie.jpg" class="img-fluid" alt="galerie"> -->
+<?php /* ?>
+<?php /////////////////////////////////
+$photogalerie = new Application_Model_EuPhotoGalerieMapper();
+$entriesphotogalerie = $photogalerie->fetchAllByOne();
+if(count($entriesphotogalerie) > 0){?>
+<br />
+<img src="<?php echo $this->baseUrl();?>/<?php echo ($entriesphotogalerie->photo); ?>" class="img-fluid" alt="<?php echo ($entriesphotogalerie->libelle); ?>" title="<?php echo ($entriesphotogalerie->libelle); ?>">
+<?php } ?>
+<?php */ ?>
+
+<?php /* ?><a href="#"><img src="<?php echo $this->baseUrl();?>/souscription pour soi.jpg" class="img-fluid" alt="souscription pour soi" title="souscription pour soi.jpg" class="img-fluid"></a>
+<a href="#"><img src="<?php echo $this->baseUrl();?>/production commune.jpg" class="img-fluid" alt="production commune" title="production commune" class="img-fluid"></a>
+<a href="#"><img src="<?php echo $this->baseUrl();?>/acheteur revendeur opi.jpg" class="img-fluid" alt="acheteur revendeur opi" title="acheteur revendeur opi" class="img-fluid"></a>
+<a href="#"><img src="<?php echo $this->baseUrl();?>/achats ventes reciproque.jpg" class="img-fluid" alt="achats ventes reciproque" title="achats ventes reciproque" class="img-fluid"></a>
+<?php */ ?>
+
+
+
+<?php //if($this->index == "esmc"){ ?>
+<?php //}else{ ?>
+<?php /////////////////////////////////
+$publicite = new Application_Model_EuPubliciteMapper();
+$entriespublicite = $publicite->fetchAllByTypeCategorieBoxInterfaceAncienOne(2, 0, 2, 0, 2);
+//var_dump($entriespublicite);
+if(count($entriespublicite) > 0){?>
+<a href="<?php echo ($entriespublicite->lien_publicite); ?>"><img src="<?php echo $this->baseUrl();?>/<?php echo ($entriespublicite->desc_publicite); ?>" class="img-fluid" alt="<?php echo ($entriespublicite->libelle_publicite); ?>" title="<?php echo ($entriespublicite->libelle_publicite); ?>"></a>
+<?php } ?>
+<?php //} ?>
+
+
+
+<?php /*?>
+
+<button id="moyenpaiement1" type="button" class="btn btn-secondary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true"  data-container="body" title="Institutions financières" style="margin: 0;padding: 0;border-color: #f7f7f9;background-color: #f7f7f9;font-size: smaller;color: #aa325f; cursor: pointer;"><img src="<?php echo $this->baseUrl();?>/assets/img/banque.png" alt="Institutions financières">
+</button>
+<div id="popover-moyenpaiement1" class="list-group" style="display: none;">
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #63a153;"><strong>BAT : </strong> 40181660003</a>  
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #63a153;"><strong>BOA : </strong> 001608630006</a> 
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>UTB : </strong>  214357610004</a> 
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>ECOBANK : </strong>  7090121421892501</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>ORABANK : </strong> 63642300101</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"><strong>WARI : </strong>     </a>
+</div>
+
+
+<button id="moyenpaiement2" type="button" class="btn btn-secondary" data-toggle="popover" data-placement="left" data-trigger="focus" data-html="true"  data-container="body" title="Mode de paiement en ligne" style="margin: 0;padding: 0;border-color: #f7f7f9;background-color: #f7f7f9;font-size: smaller;color: #aa325f; cursor: pointer;"><img src="<?php echo $this->baseUrl();?>/assets/img/visa.png" alt="Mode de paiement en ligne">
+</button>
+<div id="popover-moyenpaiement2" class="list-group" style="display: none;">
+</div>
+
+
+
+<button id="moyenpaiement3" type="button" class="btn btn-secondary" data-toggle="popover" data-placement="bottom" data-trigger="focus" data-html="true"  data-container="body" title="Mobile Money" style="margin: 0;padding: 0;border-color: #f7f7f9;background-color: #f7f7f9;font-size: smaller;color: #aa325f; cursor: pointer;"><img src="<?php echo $this->baseUrl();?>/assets/img/mobilemoney.png" alt="Mobile Money">
+</button>
+<div id="popover-moyenpaiement3" class="list-group" style="display: none;">
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"><strong>T-MONEY : </strong>  </a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"><strong>FLOOZ : </strong>    </a>
+</div>
+
+<?php */?>
+
+<br><br>
+
+<button id="moyenpaiement4" type="button" class="btn btn-secondary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true"  data-container="body" title="Mode de paiement" style="margin: 0;padding: 0;border-color: #f7f7f9;background-color: #f7f7f9;font-size: 14px;color: #aa325f; cursor: pointer;"><img src="<?php echo $this->baseUrl();?>/assets/img/moyen_paiement.png" alt="Mode de paiement"><br>Mode de paiement
+</button>
+<div id="popover-moyenpaiement4" class="list-group" style="display: none;">
+
+<a href="#" class="list-group-item active">Institutions financières</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #63a153;"><strong>BAT : </strong>&nbsp; 40181660003</a>  
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #63a153;"><strong>BOA : </strong>&nbsp; 001608630006</a> 
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>UTB : </strong>&nbsp;  214357610004</a> 
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>ECOBANK : </strong>&nbsp;  7090121421892501</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>ORABANK : </strong>&nbsp; 63642300101</a>
+
+<a href="#" class="list-group-item active">Mode de paiement en ligne</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="#" target="_blank"><strong>Carte Visa </strong> </a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="#" target="_blank"><strong>MasterCard </strong>  </a>
+
+<a href="#" class="list-group-item active">Mobile Money</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"><strong>WARI : </strong>     </a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="#" target="_blank"><strong>Paiement par T-MONEY</strong>  </a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $domaine3;?>/souscriptionbon/addbantmoneyflooz" target="_blank"><strong>Paiement par FLOOZ</strong>    </a>
+
+</div>
+
+
+    </div>
+  </div>
+
+  <!-- fin content -->
+<br />
+  </div>
+
+  <div class="container" style="background-color: #f7f7f9">
+  <!-- debut footer -->
+
+  <div class="row">
+              
+
+
+
+
+<?php /*////////////////////////////////
+$partenaire = new Application_Model_EuPartenaireMapper();
+$entriespartenaire = $partenaire->fetchAllByHome(6);
+if(count($entriespartenaire) > 0){?>
+
+    <div class="col-xl-12">
+<h3 align="center">Nos Partenaires</h3>
+</div>
+
+<?php foreach ($entriespartenaire as $valuepartenaire) {?>
+<div class="col-xl-1">&nbsp;</div>
+<div class="col-xl-1"> <!-- d-flex align-items-center justify-content-center -->
+<img src="<?php echo $this->baseUrl();?>/<?php echo ($valuepartenaire->vignette); ?>" class="img-fluid" alt="<?php echo ($valuepartenaire->titre); ?>" title="<?php echo ($valuepartenaire->titre); ?>">
+</div>
+<?php }?>
+<?php } */?>
+
+
+
+<?php if($this->index == "esmc"){ ?>
+<?php $part = rand(0, 1); ?>
+<?php if($part == 0){ ?>
+
+<?php /////////////////////////////////
+$partenaire = new Application_Model_EuPartenaireMapper();
+$entriespartenaire = $partenaire->fetchAllByHome(18);
+if(count($entriespartenaire) > 0){?>
+    <div class="col-xl-12">
+<h3 align="center">Les Partenaires ODD </h3>
+</div>
+
+        <div class="col-xl-12">
+<section id="carousel_partenaire" class="carousel slide" data-ride="carousel" id="postsCarousel">
+    <!-- <div class="container">
+        <div class="row">
+            <div class="col-xs-12 text-md-right lead">
+                <a class="btn btn-secondary-outline prev" href="" title="go back"><i class="fa fa-lg fa-chevron-left"></i></a>
+                <a class="btn btn-secondary-outline next" href="" title="more"><i class="fa fa-lg fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </div> -->
+    <div class="container p-t-0 m-t-2">
+        <div class="row m-t-0">
+            <div class="col-md-12">
+                <div class="carousel-inner">
+                <div class="card-deck carousel-item active">
+<?php $i = 0;?>
+<?php foreach ($entriespartenaire as $valuepartenaire) {?>
+<?php $i++;?>
+<?php if($i < 7){?>
+                    <div class="card" style="margin: 0px 35px 5px 35px !important; background-color: rgba(250, 235, 215, 0) !important; border: none !important;">
+                        <div class="card-img-top card-img-top-250">
+                        <?php if($valuepartenaire->liendirect != ""){?>
+                            <a href="<?php echo $valuepartenaire->liendirect; ?>">
+                            <img class="img-fluid" src="<?php echo $this->baseUrl();?>/<?php echo ($valuepartenaire->vignette); ?>"  alt="<?php echo ($valuepartenaire->titre); ?>" title="<?php echo ($valuepartenaire->titre); ?>">
+                            </a>
+                        <?php }else{ ?>
+                            <a href="<?php echo $this->baseUrl();?>/index/detailpartenaire/id/<?php echo $valuepartenaire->id_partenaire; ?>">
+                            <img class="img-fluid" src="<?php echo $this->baseUrl();?>/<?php echo ($valuepartenaire->vignette); ?>"  alt="<?php echo ($valuepartenaire->titre); ?>" title="<?php echo ($valuepartenaire->titre); ?>">
+                            </a>
+                        <?php }?>
+                        </div>
+                    </div>
+
+<?php }elseif($i >= 7 && $i < 13){ ?>
+
+<?php if($i == 7){?>
+                </div>
+                <div class="card-deck carousel-item">
+<?php }?>
+                    <div class="card" style="margin: 0px 35px 5px 35px !important; background-color: rgba(250, 235, 215, 0) !important; border: none !important;">
+                        <div class="card-img-top card-img-top-250">
+                        <?php if($valuepartenaire->liendirect != ""){?>
+                            <a href="<?php echo $valuepartenaire->liendirect; ?>">
+                            <img class="img-fluid" src="<?php echo $this->baseUrl();?>/<?php echo ($valuepartenaire->vignette); ?>"  alt="<?php echo ($valuepartenaire->titre); ?>" title="<?php echo ($valuepartenaire->titre); ?>">
+                            </a>
+                        <?php }else{ ?>
+                            <a href="<?php echo $this->baseUrl();?>/index/detailpartenaire/id/<?php echo $valuepartenaire->id_partenaire; ?>">
+                            <img class="img-fluid" src="<?php echo $this->baseUrl();?>/<?php echo ($valuepartenaire->vignette); ?>"  alt="<?php echo ($valuepartenaire->titre); ?>" title="<?php echo ($valuepartenaire->titre); ?>">
+                            </a>
+                        <?php }?>
+                        </div>
+                    </div>
+<?php }else{ ?>
+
+<?php if($i == 13){?>
+                </div>
+                <div class="card-deck carousel-item">
+<?php }?>
+                    <div class="card" style="margin: 0px 35px 5px 35px !important; background-color: rgba(250, 235, 215, 0) !important; border: none !important;">
+                        <div class="card-img-top card-img-top-250">
+                        <?php if($valuepartenaire->liendirect != ""){?>
+                            <a href="<?php echo $valuepartenaire->liendirect; ?>">
+                            <img class="img-fluid" src="<?php echo $this->baseUrl();?>/<?php echo ($valuepartenaire->vignette); ?>"  alt="<?php echo ($valuepartenaire->titre); ?>" title="<?php echo ($valuepartenaire->titre); ?>">
+                            </a>
+                        <?php }else{ ?>
+                            <a href="<?php echo $this->baseUrl();?>/index/detailpartenaire/id/<?php echo $valuepartenaire->id_partenaire; ?>">
+                            <img class="img-fluid" src="<?php echo $this->baseUrl();?>/<?php echo ($valuepartenaire->vignette); ?>"  alt="<?php echo ($valuepartenaire->titre); ?>" title="<?php echo ($valuepartenaire->titre); ?>">
+                            </a>
+                        <?php }?>
+                        </div>
+                    </div>
+<?php }?>
+<?php }?>
+                    
+                </div>
+                <!--<a class="btn btn-secondary-outline prev" href="" title="go back"><i class="fa fa-lg fa-chevron-left"></i></a>
+                <a class="btn btn-secondary-outline next" href="" title="more"><i class="fa fa-lg fa-chevron-right"></i></a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        </div>
+
+<?php } ?>
+
+<?php }else if($part == 1){ ?>
+
+<?php /////////////////////////////////
+$odd = new Application_Model_EuOddMapper();
+$entriesodd = $odd->fetchAllByHome(18);
+if(count($entriesodd) > 0){?>
+    <div class="col-xl-12">
+<h3 align="center">Les 17 Objectifs de Développement Durable (ODD) </h3>
+</div>
+
+        <div class="col-xl-12">
+<section id="carousel_odd" class="carousel slide" data-ride="carousel" id="postsCarousel">
+    <!-- <div class="container">
+        <div class="row">
+            <div class="col-xs-12 text-md-right lead">
+                <a class="btn btn-secondary-outline prev" href="" title="go back"><i class="fa fa-lg fa-chevron-left"></i></a>
+                <a class="btn btn-secondary-outline next" href="" title="more"><i class="fa fa-lg fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </div> -->
+    <div class="container p-t-0 m-t-2">
+        <div class="row m-t-0">
+            <div class="col-md-12">
+                <div class="carousel-inner">
+                <div class="card-deck carousel-item active">
+<?php $i = 0;?>
+<?php foreach ($entriesodd as $valueodd) {?>
+<?php $i++;?>
+<?php if($i < 7){?>
+                    <div class="card" style="margin: 0px 35px 5px 35px !important; background-color: rgba(250, 235, 215, 0) !important; border: none !important;">
+                        <div class="card-img-top card-img-top-250">
+                        <?php if($valueodd->liendirect != ""){?>
+                            <a href="<?php echo $valueodd->liendirect; ?>">
+                            <img class="img-fluid" src="<?php echo $this->baseUrl();?>/<?php echo ($valueodd->vignette); ?>"  alt="<?php echo ($valueodd->titre); ?>" title="<?php echo ($valueodd->titre); ?>">
+                            </a>
+                        <?php }else{ ?>
+                            <a href="<?php echo $this->baseUrl();?>/index/detailodd/id/<?php echo $valueodd->id_odd; ?>">
+                            <img class="img-fluid" src="<?php echo $this->baseUrl();?>/<?php echo ($valueodd->vignette); ?>"  alt="<?php echo ($valueodd->titre); ?>" title="<?php echo ($valueodd->titre); ?>">
+                            </a>
+                        <?php }?>
+                        </div>
+                    </div>
+
+<?php }elseif($i >= 7 && $i < 13){ ?>
+
+<?php if($i == 7){?>
+                </div>
+                <div class="card-deck carousel-item">
+<?php }?>
+                    <div class="card" style="margin: 0px 35px 5px 35px !important; background-color: rgba(250, 235, 215, 0) !important; border: none !important;">
+                        <div class="card-img-top card-img-top-250">
+                        <?php if($valueodd->liendirect != ""){?>
+                            <a href="<?php echo $valueodd->liendirect; ?>">
+                            <img class="img-fluid" src="<?php echo $this->baseUrl();?>/<?php echo ($valueodd->vignette); ?>"  alt="<?php echo ($valueodd->titre); ?>" title="<?php echo ($valueodd->titre); ?>">
+                            </a>
+                        <?php }else{ ?>
+                            <a href="<?php echo $this->baseUrl();?>/index/detailodd/id/<?php echo $valueodd->id_odd; ?>">
+                            <img class="img-fluid" src="<?php echo $this->baseUrl();?>/<?php echo ($valueodd->vignette); ?>"  alt="<?php echo ($valueodd->titre); ?>" title="<?php echo ($valueodd->titre); ?>">
+                            </a>
+                        <?php }?>
+                        </div>
+                    </div>
+<?php }else{ ?>
+
+<?php if($i == 13){?>
+                </div>
+                <div class="card-deck carousel-item">
+<?php }?>
+                    <div class="card" style="margin: 0px 35px 5px 35px !important; background-color: rgba(250, 235, 215, 0) !important; border: none !important;">
+                        <div class="card-img-top card-img-top-250">
+                        <?php if($valueodd->liendirect != ""){?>
+                            <a href="<?php echo $valueodd->liendirect; ?>">
+                            <img class="img-fluid" src="<?php echo $this->baseUrl();?>/<?php echo ($valueodd->vignette); ?>"  alt="<?php echo ($valueodd->titre); ?>" title="<?php echo ($valueodd->titre); ?>">
+                            </a>
+                        <?php }else{ ?>
+                            <a href="<?php echo $this->baseUrl();?>/index/detailodd/id/<?php echo $valueodd->id_odd; ?>">
+                            <img class="img-fluid" src="<?php echo $this->baseUrl();?>/<?php echo ($valueodd->vignette); ?>"  alt="<?php echo ($valueodd->titre); ?>" title="<?php echo ($valueodd->titre); ?>">
+                            </a>
+                        <?php }?>
+                        </div>
+                    </div>
+<?php }?>
+<?php }?>
+                    
+                </div>
+                <!--<a class="btn btn-secondary-outline prev" href="" title="go back"><i class="fa fa-lg fa-chevron-left"></i></a>
+                <a class="btn btn-secondary-outline next" href="" title="more"><i class="fa fa-lg fa-chevron-right"></i></a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        </div>
+
+<?php } ?>
+
+<?php } ?>
+
+<?php }?>
+
+
+
+
+
+    <div class="col-xl-12">
+
+      <!-- footer -->
+  <?php include("../application/layouts/scripts/footer2.phtml"); ?>
+
+  
+    </div>
+
+
+  </div>
+
+  <!-- fin footer -->
+  </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  
+    <!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script> -->
+    <script src="<?php echo $this->baseUrl();?>/assets/js/jquery-3.1.1.slim.min.js"></script>
+
+<!-- Tether -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script> -->
+    <script src="<?php echo $this->baseUrl();?>/assets/js/tether.min.js"></script>
+
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+    <!-- <script src="<?php echo $this->baseUrl();?>/assets/js/1.11.1/jquery.min.js"></script> -->
+    <script src="<?php echo $this->baseUrl();?>/assets/js/bootstrap.js"></script>
+
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+    <!-- <script src="<?php echo $this->baseUrl();?>/assets/js/1.9.1/jquery.min.js"></script> -->
+    <script src="<?php echo $this->baseUrl();?>/assets/HorizontalDropDownMenu/js/cbpHorizontalMenu.js"></script>
+    <script>
+      $(function() {
+        cbpHorizontalMenu.init();
+      });
+    </script>
+<script>
+$(function () {
+  //$('[data-toggle="popover"]').popover()
+
+/*$("[data-toggle=popover]").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content1').html();
+        }
+});*/
+
+/*$("#content1").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content1').html();
+        }
+});*/
+
+$("#content2").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content2').html();
+        }
+});
+
+$("#content3").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content3').html();
+        }
+});
+
+/*$("#content4").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content4').html();
+        }
+});
+
+$("#content5").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content5').html();
+        }
+});*/
+
+$("#content6").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content6').html();
+        }
+});
+
+$("#content7").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content7').html();
+        }
+});
+
+$("#content8").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-content8').html();
+        }
+});
+
+
+$("#codesecret1").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-codesecret1').html();
+        }
+});
+
+$("#moyenpaiement1").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-moyenpaiement1').html();
+        }
+});
+
+
+$("#moyenpaiement2").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-moyenpaiement2').html();
+        }
+});
+
+
+$("#moyenpaiement3").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-moyenpaiement3').html();
+        }
+});
+
+$("#moyenpaiement4").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-moyenpaiement4').html();
+        }
+});
+
+$("#footer1").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-footer1').html();
+        }
+});
+
+
+
+$("#footer2").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-footer2').html();
+        }
+});
+
+
+$("#footer3").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-footer3').html();
+        }
+});
+
+
+$("#footer4").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-footer4').html();
+        }
+});
+
+
+$("#footer5").popover({
+    html: true, 
+  content: function() {
+          return $('#popover-footer5').html();
+        }
+});
+
+
+/*
+$('.carousel').carousel({
+  interval: 2000
+});*/
+
+
+    // manual carousel controls
+    $('.next').click(function(){ $('#carousel_odd').carousel('next');return false; });
+    $('.prev').click(function(){ $('#carousel_odd').carousel('prev');return false; });
+    
+    $('#carousel_odd').each(function(){
+      var next = $(this).next();
+      if (!next.length) {
+        next = $(this).siblings(':first');
+      }
+      next.children(':first-child').clone().appendTo($(this));
+      
+      if (next.next().length>0) {
+        next.next().children(':first-child').clone().appendTo($(this));
+      }
+      else {
+        $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+      }
+    });
+
+
+
+/*
+    // manual carousel controls
+    $('.next').click(function(){ $('#carousel_certificat').carousel('next');return false; });
+    $('.prev').click(function(){ $('#carousel_certificat').carousel('prev');return false; });
+    
+    $('#carousel_certificat').each(function(){
+      var next = $(this).next();
+      if (!next.length) {
+        next = $(this).siblings(':first');
+      }
+      next.children(':first-child').clone().appendTo($(this));
+      
+      if (next.next().length>0) {
+        next.next().children(':first-child').clone().appendTo($(this));
+      }
+      else {
+        $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+      }
+    });
+*/
+
+})
+
+
+</script>
+
+<script src="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/locales/bootstrap-datepicker.fr.min.js"></script>
+<script>
+$('.datepicker').datepicker({
+weekStart: 1,
+format: 'yyyy-mm-dd',
+language: 'fr',
+todayBtn: 'linked',
+//startDate: '-3d'
+});
+</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,80 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+
+<?php /////////////////PUB BOX////////////////
+$date = Zend_Date::now();
+$publicite = new Application_Model_EuPubliciteMapper();
+$entries = $publicite->fetchAllByTypeCategorieBoxInterfaceAncien(2, 1, 2, 0, 1);
+?>
+<ul class="thumbnails">
+<?php if(count($entries) > 0){?>
+	<?php foreach ($entries as $value) {?>
+<?php 
+/*$datedebut = $value->date_publicite;
+$datefin = $date->toString('yyyy-MM-dd');
+
+list($jour1,$mois1,$annee1) = explode('-', $datedebut);
+switch(strtolower($mois1)) { 
+    case 'jan': $mois1 = '01'; break; 
+    case 'feb': $mois1 = '02'; break; 
+    case 'mar': $mois1 = '03'; break; 
+    case 'apr': $mois1 = '04'; break; 
+    case 'may': $mois1 = '05'; break; 
+    case 'jun': $mois1 = '06'; break; 
+    case 'jul': $mois1 = '07'; break; 
+    case 'aug': $mois1 = "08"; break; 
+    case 'sep': $mois1 = "09"; break; 
+    case 'sept': $mois1 = "09"; break; 
+    case 'oct': $mois1 = '10'; break; 
+    case 'nov': $mois1 = '11'; break; 
+    case 'dec': $mois1 = '12'; break; 
+  } 
+$datedebut = date("Y-m-d", mktime(0, 0, 0, $mois1, $jour1, $annee1));
+ 
+list($annee1,$mois1,$jour1) = explode('-', $datedebut);
+list($annee2,$mois2,$jour2) = explode('-', $datefin);
+
+$timestamp1 = mktime(0,0,0,$mois1,$jour1,$annee1); 
+$timestamp2 = mktime(0,0,0,$mois2,$jour2,$annee2); 
+$duree = intval(abs($timestamp2 - $timestamp1)/86400); 
+
+if($duree <= $value->duree_publicite){*/
+?>
+<?php 
+              if($_SERVER['SERVER_ADDR'] == Util_Utils::getParamEsmc(9)) {
+      $domaine = "prod.gacsource.net";
+    }else{
+      $domaine = "prod.esmcgacsource.com";
+    }
+    ?>
+<li class="" id="box1">
+    <div class="thumbnail" id="box12">
+    <div class="boxicone"><span class="icon"><i class="icon-globe" style="margin-top:9px;"></i></span></div>
+      <h4 id="box13"><a href="http://<?php echo $domaine;?>/<?php echo ($value->lien_publicite); ?>"><?php echo htmlentities($value->libelle_publicite); ?></a></h4>
+      <?php if($value->desc_publicite != ""){?><p><a href="http://<?php echo $domaine;?>/<?php echo ($value->lien_publicite); ?>"><img src="<?php echo $this->baseUrl(); ?>/<?php echo ($value->desc_publicite); ?>" class="img-rounded" /></a></p><?php }?>
+    </div>
+  </li>
+<?php //}?>
+<?php }?>
+<?php }?>
+
+
+        <?php 
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAll4("ESMC");
+	?>
+<?php if(count($entriespage)>0 && $this->index != "esmc"){?> 
+<?php foreach ($entriespage as $entrypage): ?>
+<li class="" id="box1">
+    <div class="thumbnail" id="box12">
+    <div class="boxicone"><span class="icon"><i class="icon-globe" style="margin-top:9px;"></i></span></div>
+      <h4 id="box13"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php $menusous = new Application_Model_EuMenuSous();
+        $menusousM = new Application_Model_EuMenuSousMapper();
+        $menusousM->find($entrypage->menusous, $menusous);?>
+          <?php echo ($menusous->menusous_libelle); ?></a></h4>
+      <?php if($entrypage->vignette != ""){?><p><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><img class="img-circle" src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/<?php echo ($entrypage->vignette); ?>&w=150&h=150&zc=1&q=100" /></a></p><?php }?>
+    </div>
+  </li>
+<?php endforeach; ?>
+<?php }?>
+</ul>

@@ -1,0 +1,280 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+<?php if(isset($sessionmembreasso->login)){?>
+<div class="navbar navbar-inverse" style="position: static;">
+              <div class="navbar-inner">
+                <div class="container">
+                  <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </a>
+                  <div class="nav-collapse collapse navbar-inverse-collapse">
+                  <a class="brand" href="<?php echo $this->baseUrl();?>/association"><i class="icon-home icon-white"></i><!-- Administration--></a>
+                    <ul class="nav"><!-- class="active"-->
+<?php if($sessionmembreasso->membreasso_type == "1"){?>
+						<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Utilisateurs <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Utilisateurs de l'agrément OSE/OE</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/association/addmembreasso">Ajouter un nouvel utilisateur</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/association/listmembreasso">Liste des utilisateurs</a></li>
+                        </ul>
+                      </li>
+                      <?php }?>
+                      
+<?php if($sessionmembreasso->membreasso_type == "1" || $sessionmembreasso->membreasso_type == "2") { ?>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscriptions  <b class="caret"></b></a>
+                            <ul class="dropdown-menu">  
+                                <li class="nav-header">Enregistrer une souscription</li>
+
+								<li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscription pour Soi <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">  
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addsouscription/param/10">Personnes Physiques</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addsouscription/param/11">Personnes Morales</a></li>
+									</ul>
+								</li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscription pour Tiers <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">  
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addsouscription/param/1">CMFH Titre Honorifique</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addsouscription/param/2">CMFH Conseillers Consultatifs</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addsouscription/param/3">CMFH Conseillers Administration</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addsouscription/param/4">CMFH Managers</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addsouscription/param/5">CMFH Ingenieurs, Entrepreneurs, Experts, Consultants</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addsouscription/param/6">CMFH Offreurs de projets</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addsouscription/param/7">CMFH Offreurs de Biens, Produits et Services (BPS)</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addsouscription/param/8">CMFH CAPS</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addsouscription/param/9">Travailleurs de la Production Commune</a></li>
+									</ul>
+								</li>
+                                
+<?php if($sessionmembreasso->membreasso_type == "1") { ?>
+ 	                      <li class="nav-header">Souscriptions</li>
+                          <?php /*?><li><a href="<?php echo $this->baseUrl();?>/association/addsouscription">Enregistrer une souscription</a></li><?php */?>
+                          <li><a href="<?php echo $this->baseUrl();?>/association/addsouscriptioncomplement">Enregistrer un complément de souscription</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/association/listsouscription2">Liste de mes souscriptions</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/association/listsouscription3">Liste des souscriptions de l'agrément OSE/OE</a></li>
+                      <?php } ?>
+                          
+<?php if($sessionmembreasso->membreasso_type == "2") { ?>
+                          <li class="nav-header">Souscriptions</li>
+                          <?php /*?><li><a href="<?php echo $this->baseUrl();?>/association/addsouscription">Enregistrer une souscription</a></li><?php */?>
+                          <li><a href="<?php echo $this->baseUrl();?>/association/addsouscriptioncomplement">Enregistrer un complément de souscription</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/association/listsouscription2">Liste de mes souscriptions</a></li>
+                      <?php } ?>
+                                
+							</ul>
+						</li>
+                      <?php }?>
+                        
+					  
+                      
+                      
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ré-activation <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-header text-left">
+                                Demande de quittance de ré-activation des anciens comptes marchands du <strong>GIE/<span style="color:#F00;">R</span><span style="color:#09F;">e</span><span style="color:#F00;">D</span><span style="color:#09F;">é</span><span style="color:#F00;">M</span><span style="color:#09F;">a</span><span style="color:#F00;">R</span><span style="color:#09F;">e</span></strong>
+                            </li>
+                            <li class="text-left">
+                                <a href="<?php echo $this->baseUrl();?>/association/ancienpp">Membre Physique du <strong>GIE/<span style="color:#F00;">R</span><span style="color:#09F;">e</span><span style="color:#F00;">D</span><span style="color:#09F;">é</span><span style="color:#F00;">M</span><span style="color:#09F;">a</span><span style="color:#F00;">R</span><span style="color:#09F;">e</span></strong></a>
+                            </li>
+                            <li class="text-left">
+                                <a href="<?php echo $this->baseUrl();?>/association/ancienpm">Membre Moral du <strong>GIE/<span style="color:#F00;">R</span><span style="color:#09F;">e</span><span style="color:#F00;">D</span><span style="color:#09F;">é</span><span style="color:#F00;">M</span><span style="color:#09F;">a</span><span style="color:#F00;">R</span><span style="color:#09F;">e</span></strong></a>
+                            </li>
+                            <li class="divider"></li>
+
+                            <li class="nav-header text-left">
+                                Demande de quittance de ré-activation des anciens comptes marchands du <strong style="color:#F00;">MCNP</strong>
+                            </li>
+                            
+                            <li class="text-left">
+                                <a href="<?php echo $this->baseUrl();?>/association/ancienppmcnp">Membre Physique du <strong style="color:#F00;">MCNP</strong></a>
+                            </li>
+                            <li class="text-left">
+                                <a href="<?php echo $this->baseUrl();?>/association/ancienpmmcnp">Membre Moral du <strong style="color:#F00;">MCNP</strong></a>
+                            </li>
+
+                        </ul>
+
+                      </li>
+                      
+                      <li class="dropdown">
+		            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Activation  <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+			            <li class="nav-header text-left">Activation Pour Soi de Compte Marchand</li>
+                            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/enrolementsms2">Activation Compte Marchand Membre Personne Physique</a></li>
+                            <li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/enrolementpmsms2">Activation Compte Marchand Membre Personne Morale</a></li>
+                        <li class="nav-header text-left">Activation Pour Tiers de Compte Marchand</li>
+						    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/activationcaps">Activation Compte Marchand Membre Personne Physique</a></li>
+						</ul>
+					
+                    </li>
+                      
+                      
+                      <?php /*?><?php if($sessionmembreasso->souscription_id != ""){?>
+                      <?php 
+        $m_integrateur2 = new Application_Model_EuIntegrateurMapper();
+		$integrateur2 = $m_integrateur2->fetchAllBySouscription($sessionmembreasso->souscription_id);
+		
+		if(count($integrateur2) > 0){
+					  
+					  ?><?php */?>
+					  <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Integrateurs <b class="caret"></b></a>
+                            <ul class="dropdown-menu">  
+                                                      
+                        
+                        <li class="dropdown-submenu pull-left">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Travailler </a>
+                            <ul class="dropdown-menu"> 
+                            <?php //if($integrateur2->integrateur_type == 1 || $integrateur2->integrateur_type == 2){?> 
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Integrateurs humains sans-laisses-pour-compte <!----></a>
+                                    <ul class="dropdown-menu">  
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addintegrateur/param/1">Individus Ambulants</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addintegrateur/param/2">Personnes Morales Fixes</a></li>
+									</ul>
+								</li>
+							<?php //}?>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs <!----></a>
+                                    <ul class="dropdown-menu">  
+                            <?php //if($integrateur2->integrateur_type == 3 || $integrateur2->integrateur_type == 4){?> 
+										<li class="dropdown-submenu text-left">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs des vendeurs</a>
+                                        	<ul class="dropdown-menu">
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addintegrateur/param/3">Individus Ambulants</a></li>
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addintegrateur/param/4">Personnes Morales Fixes</a></li>
+                                            </ul>
+                                        </li>
+							<?php //}?>
+                            <?php //if($integrateur2->integrateur_type == 5 || $integrateur2->integrateur_type == 6){?> 
+                                        <li class="dropdown-submenu text-left">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs des transformateurs</a>
+                                        	<ul class="dropdown-menu">
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addintegrateur/param/5">Individus Ambulants</a></li>
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addintegrateur/param/6">Personnes Morales Fixes</a></li>
+                                            </ul>
+                                        </li>
+							<?php //}?>
+                            <?php //if($integrateur2->integrateur_type == 7 || $integrateur2->integrateur_type == 8){?> 
+                                        <li class="dropdown-submenu text-left">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs des producteurs</a>
+                                        	<ul class="dropdown-menu">
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addintegrateur/param/7">Individus Ambulants</a></li>
+                                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addintegrateur/param/8">Personnes Morales Fixes</a></li>
+                                            </ul>
+                                        </li>
+							<?php //}?>
+									</ul>
+								</li>
+                            <?php //if($integrateur2->integrateur_type == 1 || $integrateur2->integrateur_type == 2){?> 
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Surveillance (CMFH) <!----></a>
+                                    <ul class="dropdown-menu">  
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addintegrateur/param/15">CMFH Conseillers Consultatifs</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addintegrateur/param/16">CMFH Conseillers Administration</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addintegrateur/param/17">CMFH Managers</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addintegrateur/param/18">CMFH Ingenieurs, Entrepreneurs, Experts, Consultants</a></li>
+									</ul>
+								</li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Travailleurs de la Production Commune <!----></a>
+                                    <ul class="dropdown-menu">  
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addintegrateur/param/19">Travailleurs</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addintegrateur/param/20">Autres</a></li>
+									</ul>
+								</li>
+							<?php //}?>
+
+							</ul>
+						</li>
+                          <li class="nav-header">Intégrateurs</li>
+<?php if($sessionmembreasso->membreasso_type == "1") { ?>
+                          <li><a href="<?php echo $this->baseUrl();?>/association/listintegrateur">Liste de mes intégrateurs</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/association/listintegrateur1">Liste des intégrateurs </a></li>
+<?php }?>
+<?php if($sessionmembreasso->membreasso_type == "2") { ?>
+                          <li><a href="<?php echo $this->baseUrl();?>/association/listintegrateur1">Liste des intégrateurs </a></li>
+<?php }?>
+
+							</ul>
+						</li>
+                        
+                        <?php //}?>
+                        
+                        
+                      <?php /*?><?php 
+        $m_offreur_projet2 = new Application_Model_EuOffreurProjetMapper();
+		$offreur_projet2 = $m_offreur_projet2->fetchAllBySouscription($souscription_id);
+		
+		if(count($offreur_projet2) > 0){
+					  
+					  ?><?php */?>
+                        
+                        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Offreurs de projets <b class="caret"></b></a>
+                            <ul class="dropdown-menu">  
+                                                      
+                      
+                            <?php //if($integrateur2->integrateur_type == 3 || $integrateur2->integrateur_type == 4){?> 
+                        <li class="dropdown-submenu text-left">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Vendre </a>
+							<ul class="dropdown-menu">  
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addoffreurprojet/param/1">Grossistes</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addoffreurprojet/param/2">Semi-Grossistes</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/association/addoffreurprojet/param/3">Détaillants</a></li>
+							</ul>
+						</li>
+                        <?php //}?>
+                        
+                            <?php //if($integrateur2->integrateur_type == 5 || $integrateur2->integrateur_type == 6){?> 
+						<li><a href="<?php echo $this->baseUrl();?>/association/addoffreurprojet/param/4">Transformer</a></li>
+                        <?php //}?>
+                        
+                        
+                            <?php //if($integrateur2->integrateur_type == 7 || $integrateur2->integrateur_type == 8){?> 
+						<li><a href="<?php echo $this->baseUrl();?>/association/addoffreurprojet/param/5">Produire</a></li>
+                        <?php //}?>
+                        
+                        
+                        
+                          <li class="nav-header">Liste des offreurs de projets</li>
+<?php if($sessionmembreasso->membreasso_type == "1") { ?>
+                          <li><a href="<?php echo $this->baseUrl();?>/association/listoffreurprojet">Liste de mes offreurs de projets</a></li>
+                          <li><a href="<?php echo $this->baseUrl();?>/association/listoffreurprojet1">Liste des offreurs de projets </a></li>
+<?php }?>
+<?php if($sessionmembreasso->membreasso_type == "2") { ?>
+                          <li><a href="<?php echo $this->baseUrl();?>/association/listoffreurprojet1">Liste des offreurs de projets </a></li>
+<?php }?>
+
+							</ul>
+						</li>
+                        <?php //}?>
+                        
+                        
+                        
+					  <?php //}?>
+					  
+                      
+					  
+                    </ul>
+					
+                    
+
+                  </div><!-- /.nav-collapse -->
+                </div>
+              </div><!-- /navbar-inner -->
+            </div>
+            
+            
+            <div align="right" style="margin-top: -15px;">
+<i class="icon-user"></i> <?php echo ($sessionmembreasso->membreasso_nom); ?> <?php echo ($sessionmembreasso->membreasso_prenom); ?>
+            <a href="<?php echo $this->baseUrl();?>/association/password"><i class="icon-edit"></i> Modifier le mot de passe</a>
+            <a href="<?php echo $this->baseUrl();?>/association/nocompte"><i class="icon-off"></i> Déconnexion</a>
+			</div>
+
+			<?php }?>

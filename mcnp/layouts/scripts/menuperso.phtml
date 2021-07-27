@@ -1,0 +1,1047 @@
+
+<style>
+
+.nav-header {
+
+    font-weight: bold;
+    
+    color: #AA325F;
+    
+    margin-left: 9px;
+}
+
+
+</style>
+
+
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<?php
+
+$type = $sessionmembre->type;
+
+$desctype = $sessionmembre->desctype;
+
+?>
+
+
+<?php if(isset($sessionmembre->code_membre)): ?>
+
+    <?php 
+
+      $tegc = new Application_Model_EuTegc();
+
+      $m_tegc = new Application_Model_EuTegcMapper();
+
+      $findte = $m_tegc->findByMembre($sessionmembre->code_membre,$tegc);
+
+      $acteur = new Application_Model_EuActeur();
+
+      $m_acteur = new Application_Model_EuActeurMapper() ;
+
+      $findacteur = $m_acteur->findByBpf($sessionmembre->code_membre);
+
+      $acteur2 = new Application_Model_EuActeur();
+
+      $m_acteur2 = new Application_Model_EuActeurMapper() ;
+
+      $findacteur2 = $m_acteur2->findByActeur($sessionmembre->code_membre);
+
+      $current_membre  = $sessionmembre->code_membre;
+
+      $acteurtechno = new Application_Model_EuActeur();
+
+      $m_acteurtechno = new Application_Model_EuActeurMapper() ;
+
+      $findacteurtechno = $m_acteurtechno->findByAdministrateur($sessionmembre->code_membre,"TECHNOPOLE");
+
+      $acteurfiliere = new Application_Model_EuActeur();
+
+      $m_acteurfiliere = new Application_Model_EuActeurMapper() ;
+
+      $findacteurfiliere = $m_acteurfiliere->findByAdministrateur($sessionmembre->code_membre,"FILIERE");
+
+      $acteuracnev = new Application_Model_EuActeur();
+
+      $m_acteuracnev = new Application_Model_EuActeurMapper() ;
+
+      $findacteuracnev = $m_acteuracnev->findByAdministrateur($sessionmembre->code_membre,"ACNEV");
+
+      $domaine = Util_Utils::getParamEsmcLib(9);
+
+    ?>
+
+    <?php
+
+        $integrateur_mapper = new Application_Model_EuIntegrateurMapper();
+
+        $integrateur = $integrateur_mapper->fetchAllByCodeMembre($sessionmembre->code_membre);
+
+        $offreur_projet_mapper = new Application_Model_EuOffreurProjetMapper();
+
+        $offreur_projet = $offreur_projet_mapper->fetchAllByMembre($sessionmembre->code_membre);
+
+    ?>
+
+        <?php if(count($integrateur) > 0 || count($offreur_projet) > 0):?>
+
+            <div class="btn-group">
+
+                 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Activation & Codes </button>
+                  
+                 <div class="dropdown-menu">
+
+                    <div class="nav-header text-left">MUTATION CMFH </div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/espacepersonnel/mutation"> Mutation de titre CMFH Offreur de Comptes Marchands </a>
+                                          
+                    <div class="nav-header text-left">SOUSCRIPTION CMFH </div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/espacepersonnel/listsouscriptioncmfh">Liste souscription cmfh</a>
+                                          
+                        <div class="nav-header text-left">Codes d'activation </div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/codeactivation/listcodeactivation0">Liste des activations non utilisés</a>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/codeactivation/listcodeactivation1">Liste des activations déjà utilisés</a>
+
+                        <div class="nav-header text-left">Allocation de codes </div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/espacepersonnel/addallocationcmfh">Allocation de codes aux intégrateurs</a>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/espacepersonnel/listallocationcmfh">Liste de mes allocations de codes</a>
+
+                </div>
+
+            </div>
+
+        <?php endif ?>
+
+        <div class="btn-group">
+
+             <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Terminal d'échange </button>
+
+             <div class="dropdown-menu">
+
+                 <a class="dropdown-item" href="https://tom.<?php echo str_replace("prod", "", $domaine); ?>/jmcnp/login" target="blank">Terminal d'échange</a>
+
+             </div>
+
+        </div>
+
+        
+        <div class="btn-group">
+
+            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Bons</button>
+         
+                <div class="dropdown-menu">
+
+                    <div class="nav-header text-left">Paiement par FLOOZ</div>
+
+                    <a class="dropdown-item" href="<?php echo $domaine3;?>/espacepersonnel/addbantmoneyflooz">Souscrire au Bon d'Achat neutre (<strong>BAn</strong>) par FLOOZ</a>
+
+                    <div class="nav-header text-left">Bons d'Achat neutre (BAn) </div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/souscriptionbon/addsouscriptionbanperso">Souscrire au Bon d'Achat neutre (<strong>BAn</strong>)</a>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/souscriptionbon/listbonachatneutre">Liste de mes Bons d'Achat neutre (<strong>BAn</strong>)</a>
+
+                    <div class="nav-header text-left">Bons d'Achat interne (BAi) </div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/souscriptionbon/listbonachatinterne">Liste de mes Bons d'Achat interne (<strong>BAi</strong>)</a>
+
+                    <div class="nav-header text-left">Bons d'Achat </div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbons/bontype/BA"> Liste de mes Bons d'Achat (<strong>BA</strong>)</a>
+
+                    <?php if($findacteur2 != false || $findte != false):?>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbonsdistributeur/bontype/BA"> Liste des Bons d'Achat de mes ventes (<strong>BA</strong>)</a>
+                    
+                    <?php endif  ?>
+
+                        <div class="nav-header text-left">Code du Bon de Consommation </div>
+
+                            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/souscriptionbon/codebonconso">Code du Bon de Consommation</a>
+
+                        <div class="nav-header text-left">Bons de Consommation récurrent </div>
+
+                            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbons/bontype/BCr"> Liste de mes Bons de Consommation récurrent (<strong>BCr</strong>)</a>
+
+                    <?php if($findacteur2 != false || $findte != false):?>
+
+                            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbonsdistributeur/bontype/BCr"> Liste des Bons de Consommation récurrent de mes ventes (<strong>BCr</strong>)</a>
+              
+                    <?php endif  ?>
+
+                        <div class="nav-header text-left">Bons de Consommation non récurrent </div>
+
+                            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbons/bontype/BCnr"> Liste de mes Bons de Consommation non récurrent (<strong>BCnr</strong>)</a>
+                          
+                    <?php if($findacteur2 != false || $findte != false): ?>
+
+                            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbonsdistributeur/bontype/BCnr"> Liste des Bons de Consommation non récurrent de mes ventes (<strong>BCnr</strong>)</a>
+              
+                    <?php endif  ?>
+
+                        <div class="nav-header text-left">Bons de Commande </div>
+
+                            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbons/bontype/BC"> Liste de mes Bons de Commande (<strong>BC</strong>)</a>
+
+                    <?php if($findacteur2 != false || $findte != false):?>
+
+                            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbonsdistributeur/bontype/BC"> Liste des Bons de Commande de mes ventes (<strong>BC</strong>)</a>
+              
+                    <?php endif  ?>
+
+                        <div class="nav-header text-left">Bons de Livraison </div>
+
+                            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbons/bontype/BL"> Liste de mes Bons de Livraison (<strong>BL</strong>)</a>
+                            
+                            <?php if($findacteur2 != false || $findte != false):?>
+
+                                <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbonsdistributeur/bontype/BL"> Liste des Bons de Livraison de mes ventes (<strong>BL</strong>)</a>
+                            
+                            <?php endif  ?>
+
+                        <div class="nav-header text-left">Cumul des ventes </div>
+
+                            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/bons/listdestegc"> Cumul des ventes par TE</a>
+
+                <?php if($findacteur2 != false): ?>
+
+                    <?php  if($findacteur == false): ?>
+
+                        <div class="nav-header text-left">Ordre de Prélèvement Irrévocable </div>
+
+                        <div class="nav-header text-left">Souscription aux Bons de Commandes </div>
+
+                            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/opi/newbc">Souscrire aux Bons de Commandes (<strong>BC</strong>)</a>
+
+                        <div class="nav-header text-left">Ordre de Prélèvement Irrévocable </div>
+                        
+                             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/opi/listtraite">Liste de mes <strong>OPI</strong></a>
+                    
+                             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/opi/listtraite2">Liste de mes <strong>OPI</strong> archivés</a>
+                    
+                    <?php endif ?>
+
+                    <?php if($findacteur != false): ?>
+
+                        <div class="nav-header text-left">Ordre de Prélèvement Irrévocable PBF </div>
+                     
+                             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/opi/listtraite12">Liste des <strong>OPI-PBF</strong> archivés</a>
+
+                    <?php endif ?>
+
+                <?php else: ?>
+
+                    <div class="nav-header text-left">Ordre de Prélèvement Irrévocable </div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/opi/listtraite">Liste de mes <strong>OPI</strong></a>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/opi/listtraite2">Liste de mes <strong>OPI</strong> archivés</a>
+              
+                <?php endif  ?>
+
+                    <div class="nav-header text-left">Bons de Salaire </div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbons/bontype/BS"> Liste de mes Bons de Salaire (<strong>BS</strong>)</a>
+              
+                <?php if($findacteur2 != false || $findte != false):?>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/bons/listdesdifferentsbonsdistributeur/bontype/BS"> Liste des Bons de Salaire de mes ventes (<strong>BS</strong>)</a>
+              
+                <?php endif   ?>
+
+                    </div>
+                    
+            </div>
+
+        <?php if(substr($sessionmembre->code_membre,19,1) == 'M'):?>
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Les Manuels </button>
+                          
+                    <div class="dropdown-menu">
+
+                         <div class="nav-header text-left"> UTILISATEURS </div>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/CONNEXION_A_LESPACE_PERSONNEL_PM.pdf" target="blank">Connexion à l'espace personnel</a>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/ACHAT-VENTE_DANS_BOUTIQUE_PHYSIQUE_PM.pdf" target="blank">Achat & Vente dans boutique physique</a>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/SOUSCRIPTION_AU_BCri_POUR_TIERS_PM-PBF.pdf" target="blank">Souscription au Bon de Consommation pour tiers Personne morale PBF</a>
+
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/SOUSCRIPTION_AU_BCri_POUR_TIERS_PM.pdf" target="blank">Souscription au Bon de consommation récurrente pour tiers</a>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/SOUSCRIPTION_AUTONOME_AU_COMPTE_MARCHAND_POUR_SOI_PM-PBF.pdf" target="blank">Souscription autonome au compte marchand pour soi personne morale PBF</a>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/SOUSCRIPTION_AUTONOME_AU_COMPTE_MARCHAND_POUR_SOI_PM.pdf" target="blank">Souscription autonome au compte marchand pour soi </a>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/UTILISATION_DE_ESPACE_PROF_PBF.pdf" target="blank">Souscription autonome au compte marchand pour soi </a>
+
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/VENTE_DE_BPS_DANS_BOUTIQUE_EN_LIGNE-PM.pdf" target="blank">Boutique en ligne: Vente de BPS </a>
+
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/UTILISATION_DE_ESPACE_PROF_PBF.pdf" target="blank">Utilisation de l'espace professionnel PBF </a>
+                            
+
+                    </div>
+
+            </div>
+
+            <div class="btn-group">
+                
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">La convention </button>
+                    
+                    <div class="dropdown-menu">
+                        
+                        <div class="nav-header text-left"> Impression </div>
+                                                                                    
+                        <a href="<?php echo $this->baseUrl();?>/bons/conventiongenererpdf">Imprimer ma convention</a>
+
+                        <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/bons/franchisegenererpdf" target="_blank">Imprimer ma franchise</a>
+
+                        <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"  href="<?php echo $this->baseUrl();?>/bons/engagementdelivraisonirrevocablegenererpdf" target="_blank">Imprimer mon contrat d'Engagement de Livraison Irrévocable (ELI) </a>
+
+                        <div class="nav-header text-left">TELECHARGEMENT </div>
+
+                        <a href="<?php echo $this->baseUrl();?>/publicites/CONVENTION_DE_COLLABORATION.pdf" target="blank">Telecharger la convention</a>
+
+                        <a href="<?php echo $this->baseUrl();?>/publicites/ELI.pdf" target="blank">Telecharger le contrat d'engagement de livraison irrevocable</a>
+
+                        <div class="nav-header text-left">Certificat de Compte Marchand</div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/souscriptionbon/certificatpdf/membre/<?php echo $sessionmembre->code_membre; ?>" target="_blank">Imprimer le Certificat de Compte Marchand</a><!--  -->
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/souscriptionbon/certificatpdfqrcode/membre/<?php echo $sessionmembre->code_membre; ?>" target="_blank">Imprimer le Certificat de Compte Marchand avec QRcode</a>
+
+                    </div>
+
+            </div>
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+                        
+                   AGR OI (Offreurs d'intégration)
+                        
+                </button>
+                        
+                <div class="dropdown-menu">
+                                             
+					<a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/inscriptionbc" target="_blank">Offrir une intégration au Programme BC pour Tiers</a>
+
+					<a class="dropdown-item" href="https://tom.esmcgie/jmcnp/login" target="_blank">OI Individus</a>
+
+					<a class="dropdown-item" href="https://tom.esmcgie/jmcnp/login" target="_blank">OI Menages</a>
+                        
+                </div>
+
+            </div>
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+                        
+                    AGR OKSU (Offreurs de Kits de Solvabilité Universelle)
+                        
+                </button>
+                        
+                <div class="dropdown-menu">
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/souscriptionbon/addsouscriptionban">Souscrire au Bon d'Achat</a>  
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/souscriptionbon/enrolementsms2">Souscription pour Soi - Personnes Physiques</a></li>
+                                             
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/souscriptionbon/enrolementpmsms2">Souscription pour Soi - Personnes Morales</a></li>
+
+                    <div class="nav-header text-left">Souscription aux Bons de Commandes </div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/opi/newbc">Souscrire aux Bons de Commandes (<strong>BC</strong>)</a>
+                
+                    <div class="nav-header text-left">Souscription aux Bons de Consommation </div>
+
+                    <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/souscriptionbon/addsouscriptionbc">Souscription au bons de consommation pour tiers</a>
+                    
+                    <div class="nav-header text-left">Souscription pour Tiers - ODD </div>
+
+                    <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addintegrateur/param/21">OSE</a>
+
+                    <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addintegrateur/param/24">Maison</a>
+
+                    <div class="nav-header text-left">Souscription pour Tiers - Vendre</div>
+
+                    <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addoffreurprojet/param/1">Grossistes</a>
+
+                    <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addoffreurprojet/param/2">Semi-grossistes</a>
+
+                    <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addoffreurprojet/param/3">Détaillant</a>
+
+                    <div class="nav-header text-left">Souscription pour Tiers - Transformer</div>
+
+                    <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addoffreurprojet/param/4">National</a>
+
+                    <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addoffreurprojet/param/5">Régional</a>
+
+                    <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addoffreurprojet/param/6">Cantonal</a>
+
+                </div>
+
+            </div>
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+                        
+                    AGR OBPSD (Offreurs de Biens Produits et Services Dématérialisés)
+                        
+                </button>
+                        
+                <div class="dropdown-menu">
+
+                    <div class="nav-header text-left">Souscription Partenaires ODD </div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addintegration/param_int/4">Partenaires ODD</a>
+
+                    <div class="nav-header text-left">Souscription OBPSD </div>
+                   
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/bons/achteurrevendeur">Acheteur-Revendeur contre OPI</a>
+
+                    <div class="nav-header text-left">Souscription PBF OBPSD </div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addacteur/param_int/2">Acteur Partenaire Bancaire et Financier (PBF)</a>
+
+                    <?php if($findacteur != false): ?>
+
+                         <div class="nav-header text-left">Création utilisateur des TE PBF  </div>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/compteuserte/newpbf">Ajouter utilisateur</a>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/compteuserte/listuserpbf">Liste des utilisateurs</a>
+
+                    <?php endif  ?>
+
+                    <div class="nav-header text-left">FRANCHISE IMPLANTATION LOCALE</div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/guichets/interfaceachatdefranchise/getfranchise/implantation_locale">Acheter la franchise</a>
+              
+                    <div class="nav-header text-left">FRANCHISE ENTITE LOCALITE MEMBRE DU GIE ESMC</div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/guichets/interfaceachatdefranchise/getfranchise/entite_local_membre">Acheter la franchise</a>
+
+                    <div class="nav-header text-left">FRANCHISE FRANCHISE LOCALE DE BASE</div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/guichets/interfaceachatdefranchise/getfranchise/local_base">Acheter la franchise</a>
+
+
+                </div>
+
+
+            </div>
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+                        
+                    AGR OBPS(Offreurs de Biens Produits et Services)
+                        
+                </button>
+                        
+                <div class="dropdown-menu">
+
+                    <div class="nav-header text-left">Souscription OBPS </div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/contratlivraison/addeli">
+
+                              Etablir une Vente Reciproque (VR)
+
+                        </a>
+
+			            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/contratlivraison/listdemandeelicontracte">
+
+                              Liste de mes VR (Vente Reciproques) contractés
+
+                        </a>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/formsguichet/formulaireassociativedebpsvenduetdebpsacheterventereciproques2">
+               
+                              Etablir un Achat Vente Reciproque (AVR)
+                       </a>
+                       <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/achatventereciproque/interfaceavrgrandpublic">
+
+                            Etablir un Achat Reciproque réapprovisionement (ARreappro)
+
+                       </a>
+
+                       <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/achatventereciproque/listedetouslesavrparmembre">
+
+                            Liste de vos Achats Reciproques réapprovisionement (ARreappro)
+
+                      </a>
+
+                      <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/projet/listformavr">
+
+                            Liste des Achats Ventes Reciproques (AVR)
+                      </a>
+
+                </div>
+
+            </div>
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+                        
+                    AGR OP (Offreurs de Projet)
+                        
+                </button>
+                        
+                <div class="dropdown-menu">
+                     
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/offreursprojets/addoffreprojet" target="_blank">Offrir un (des) aspect(s) de mon projet à la production communes</a>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/offreursprojets/listdetouslesprojetsavendreparcodemembre" target="_blank">Liste de mes projets</a>
+
+                </div>
+
+            </div>
+
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Procédure administrative - TDR (Termes De Référence) </button>
+         
+                     <div class="dropdown-menu">
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/tdr/addtdr">
+
+                             Ajouter un TDR
+                        </a>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/tdr/listtdr">
+
+                            Liste des TDR
+
+                        </a>
+             
+                        <div class="nav-header text-left">Demandes de propositions </div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/tdr/listtdrddepropo">
+
+                            Liste des demandes de propositions 
+
+                        </a>
+             
+                        <div class="nav-header text-left">ELI proposés </div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/tdr/listelitdr">
+
+                            Liste des ELI proposés 
+
+                        </a>
+
+                        <div class="nav-header text-left">Propositions </div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/tdr/addtdrpropo">
+
+                            Faire des propositions 
+
+                        </a>             
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/tdr/listtdrpropo">
+
+                            Liste des propositions 
+
+                        </a>
+             
+                        <div class="nav-header text-left">Procès Verbal </div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/tdr/listtdrpv">
+
+                            Liste des PV 
+
+                        </a>
+
+                    </div>
+
+                </div>
+                
+            </div>
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+         
+                    Procédure administrative - Demande d'achat - Proforma
+             
+                </button>
+         
+                <div class="dropdown-menu">
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/procedureachat/listedesavisenvoyerenfonctiondesfournisseurspouretablissementdelafactureproforma">
+               
+                         Liste des avis envoyés pour établissement du proforma
+
+                    </a>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/procedureachat/listedesfactureproformaetablitparfournisseur">
+
+                        Liste des mes proforma
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">BOUTIQUE EN LIGNE - Articles </button>
+        
+                <div class="dropdown-menu">
+
+                    <div class="nav-header text-left">Categories</div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligne/addarticlestockescategorie">
+
+                            Ajouter une categorie d'article
+
+                        </a>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligne/listarticlestockescategorie">
+
+                            Liste des categories des articles
+
+                        </a>
+
+                    <div class="nav-header text-left">Stocks</div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligne/addarticleone">
+
+                            Ajouter un article 
+
+                        </a>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligne/listarticle">
+
+                            Liste de mes articles
+
+                        </a>
+
+                    <div class="nav-header text-left">Additifs</div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligne/addarticlestockesadditif">
+
+                            Ajouter un additif d'article
+
+                        </a>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligne/listarticlestockesadditif">
+
+                            Liste des additifs des articles
+
+                        </a>
+
+                    <div class="nav-header text-left">Ventes</div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligne/listarticlevendu">
+
+                            Liste de mes ventes
+
+                        </a>
+
+                    <div class="nav-header text-left">Achats</div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligne/listarticleachat">
+
+                            Liste de mes achats
+
+                        </a>
+
+                    <div class="nav-header text-left">Livraison</div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligne/panierlivrer">
+
+                            Livraison des commandes encours
+
+                        </a>
+
+                    <div class="nav-header text-left">Les commandes</div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligne/listarticlecommande">
+
+                            Listes des articles commandés 
+
+                        </a>
+
+                </div>
+
+            </div>            
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">BOUTIQUE EN LIGNE - Tarifs de livraison </button>
+         
+                <div class="dropdown-menu">
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligne/addtariflivraison">
+
+                        Ajouter un tarif de livraison
+
+                    </a>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligne/listtariflivraison">
+
+                        Liste de mes tarifs de livraison
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Service Pointage</button>
+                         
+                <div class="dropdown-menu">
+
+                    <div class="nav-header text-left">Création des postes de service</div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/pointage/addpostepointage"> Ajouter un poste </a>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/pointage/listpostepointage"> Liste des postes existents </a>
+                        
+                    <div class="nav-header text-left">Pointage</div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/pointage/addpointage"> Enrégistrer un pointage </a>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/pointage/listpointage">Liste des pointages effectués</a>
+
+                               <?php /*?><div class="nav-header text-left">Demande de paiement</div>
+                             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/pointage/adddemande">Emettre une demande de paiement</a>
+                               <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/pointage/listdemande">Liste des demandes de payement effectués</a><?php */?>
+                </div>
+
+            </div>
+
+
+        <?php endif ?>
+
+        <?php if(substr($sessionmembre->code_membre,19,1) == 'P'):?>
+
+        
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+                        
+                    AGR OKSU (Offreurs de Kits de Solvabilité Universelle)
+                        
+                </button>
+                        
+                <div class="dropdown-menu">
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/souscriptionbon/addsouscriptionban">Souscrire au Bon d'Achat</a>  
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/souscriptionbon/enrolementsms2">Souscription pour Soi - Personnes Physiques</a></li>
+                                             
+                    <div class="nav-header" style ="font-weight: bold;color: #AA325F;margin-left: 9px;">Souscription aux Bons de Commandes </div>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/opi/newbc">Souscrire aux Bons de Commandes (<strong>BC</strong>)</a>
+
+                    <div class="nav-header" style ="font-weight: bold;color: #AA325F;margin-left: 9px;">Souscription aux Bons de Consommation </div>
+
+                         <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/souscriptionbon/addsouscriptionbc">Souscription au bons de consommation pour tiers</a>
+                    
+                    <div class="nav-header" style ="font-weight: bold;color: #AA325F;margin-left: 9px;">Souscription pour Tiers - ODD </div>
+
+                         <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addintegrateur/param/21">OSE</a>
+
+                         <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addintegrateur/param/24">Maison</a>
+
+                    <div class="nav-header" style ="font-weight: bold;color: #AA325F;margin-left: 9px;">Souscription pour Tiers - Vendre</div>
+
+                         <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addoffreurprojet/param/1">Grossistes</a>
+
+                         <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addoffreurprojet/param/2">Semi-grossistes</a>
+
+                         <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addoffreurprojet/param/3">Détaillant</a>
+
+                    <div class="nav-header" style ="font-weight: bold;color: #AA325F;margin-left: 9px;">Souscription pour Tiers - Transformer</div>
+
+                         <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addoffreurprojet/param/4">National</a>
+
+                         <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addoffreurprojet/param/5">Régional</a>
+
+                         <a href="#" class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/index/addoffreurprojet/param/6">Cantonal</a>
+                
+                </div>
+
+            </div>
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+                        
+                    AGR OBPSD (Offreurs de Biens Produits et Services Dématérialisés)
+                        
+                </button>
+                        
+                <div class="dropdown-menu">
+
+                    <div class="nav-header text-left">Souscription OBPSD </div>
+                   
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/bons/achteurrevendeur">Acheteur-Revendeur contre OPI</a>
+
+                    <?php if($findacteur != false): ?>
+
+                         <div class="nav-header text-left">Création utilisateur des TE PBF  </div>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/compteuserte/newpbf">Ajouter utilisateur</a>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/compteuserte/listuserpbf">Liste des utilisateurs</a>
+
+                    <?php endif  ?>
+              
+                </div>
+
+
+            </div>
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+                        
+                    AGR OP (Offreurs de Projet)
+                        
+                </button>
+                        
+                <div class="dropdown-menu">
+                     
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/offreursprojets/addoffreprojet" target="_blank">Offrir un (des) aspect(s) de mon projet à la production communes</a>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/offreursprojets/listdetouslesprojetsavendreparcodemembre" target="_blank">Liste de mes projets</a>
+
+                </div>
+
+            </div>
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+                        
+                    AGR OT (Offreurs de Travail)
+                        
+                </button>
+                        
+                <div class="dropdown-menu">
+
+                   <a class = "" href=""></a>
+                    
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl(); ?>/gestionoffredetravail/listedesappelsacandidatureapostuler" target="_blank">Liste des appels à candidatures</a>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/administration">Accéder à mon espace OT</a>
+
+                    <div class="nav-header">Salle de formation</div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/gestionoffredetravail/obtenirleliendelaformationot">Obtenir le lien d'accès à la salle de formation</a>
+
+                    <div class="nav-header">Support intrant/extrant</div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/travailleur/addtravailleurindex">Soumissionner Support Extrant</a>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/travailleur/listtravailleur">Liste de mes supports Extrant</a>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/gestionoffredetravail/signatureducontratdeprestation">Signature du contrat</a>
+
+
+                    <div class="nav-header">CODES</div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/gestionoffredetravail/interfacedobtentiondesoncodedetransfertdetechnologie">Obtenir le code de transfert de technologie</a>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/gestionoffredetravail/interfacedobtentiondesoncodedaccesalasalle">Obtenir le code d'accès à la salle de formation</a>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/gestionoffredetravail/interfacedobtentiondesoncodepouvoirfaire">Obtenir le code de validation de votre pouvoir-faire</a>
+
+                    <div class="nav-header">Achat & Vente Réciproque (AVR)</div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/achatventereciproque/interfaceavrgrandpublic">AVR - ACHAT</a>
+
+                </div>
+
+            </div>
+
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Les Manuels </button>
+                          
+                    <div class="dropdown-menu">
+
+                         <div class="nav-header text-left"> UTILISATEURS </div>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/SOUSCRIPTION_AUTONOME_AU_COMPTE_MARCHAND_POUR_SOI_PP.pdf" target="blank">Souscription autonome au compte marchand pour soi</a>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/UTILISATION_DE_ESPACE_PERSONNEL_PP.pdf" target="blank">Utilisation de l'espace personnel</a>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/SOUSCRIPTION_AU_BCri_POUR_TIERS_PP_DEJA_MEMBRE.pdf" target="blank">Souscription au bon de consommation recurrente illimité</a>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/CONSOMMATION_ACHAT_DANS-BOUTIQUE_EN_LIGNE_PP.pdf" target="blank">Consommation achat boutique en ligne</a>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/CONSOMMATION_ACHAT_DANS-BOUTIQUE_PHYSIQUE_PP.pdf" target="blank">Consommation achat dans boutique physique</a>
+
+                         <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/manuel_utilisation/CONNEXION_A_ESPACE_PERSONNEL_PP.pdf" target="blank">Connexion à l'espace personnel</a>
+
+                    </div>
+
+            </div>
+
+            <div class="btn-group">
+                
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">La convention </button>
+                    
+                    <div class="dropdown-menu">
+                        
+                        <div class="nav-header text-left"> Impression </div>
+                                                                                    
+                        <a href="<?php echo $this->baseUrl();?>/bons/conventiongenererpdf">Imprimer ma convention</a>
+
+                        <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="<?php echo $this->baseUrl();?>/bons/franchisegenererpdf" target="_blank">Imprimer ma franchise</a>
+
+                        <a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"  href="<?php echo $this->baseUrl();?>/bons/engagementdelivraisonirrevocablegenererpdf" target="_blank">Imprimer mon contrat d'Engagement de Livraison Irrévocable (ELI) </a>
+
+                        <div class="nav-header text-left">TELECHARGEMENT </div>
+
+                        <a href="<?php echo $this->baseUrl();?>/publicites/CONVENTION_DE_COLLABORATION.pdf" target="blank">Telecharger la convention</a>
+
+                        <a href="<?php echo $this->baseUrl();?>/publicites/ELI.pdf" target="blank">Telecharger le contrat d'engagement de livraison irrevocable</a>
+                                    
+
+                    </div>
+
+            </div>
+
+
+        <?php endif ?>
+
+        <div class="btn-group">
+
+            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Comptes </button>
+                        
+            <div class="dropdown-menu">
+
+                <div class="nav-header text-left">Certificat de Compte Marchand</div>
+
+                <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/souscriptionbon/certificatpdf/membre/<?php echo $sessionmembre->code_membre; ?>" target="_blank">Imprimer le Certificat de Compte Marchand</a><!--  -->
+
+                <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/souscriptionbon/certificatpdfqrcode/membre/<?php echo $sessionmembre->code_membre; ?>" target="_blank">Imprimer le Certificat de Compte Marchand avec QRcode</a>
+
+                <?php if($findacteur2 != false || $findte != false): ?>
+                    
+                    <div class="nav-header text-left">Création des Terminaux de Vente</div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/compteuserte/listte">Liste des Terminaux de vente</a>
+
+                    <div class="nav-header text-left">Création utilisateur des TE BPS </div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/compteuserte/new">Ajouter utilisateur</a>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/compteuserte/listuser">Liste des utilisateurs</a>
+
+                <?php endif ?>
+
+                <?php if($findacteur != false): ?>
+
+                    <div class="nav-header text-left">Création utilisateur des TE PBF  </div>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/compteuserte/newpbf">Ajouter utilisateur</a>
+
+                    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/compteuserte/listuserpbf">Liste des utilisateurs</a>
+
+                <?php endif  ?>
+
+                <?php if($findacteurtechno != false || $findacteurfiliere != false || $findacteuracnev != false): ?>
+
+                    <div class="nav-header text-left">Création utilisateur des TE SMCIPN  </div>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/compteuserte/newsmcipn">Ajouter utilisateur</a>
+
+                        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/compteuserte/listusersmcipn">Liste des utilisateurs</a>
+                
+                <?php endif  ?>
+
+            </div>
+
+        </div>
+
+        <div class="btn-group">
+
+            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Téléphone </button>
+
+            <div class="dropdown-menu">
+
+                <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/espacepersonnel/addtelephone">
+
+                     Ajouter un nouveau numéro de téléphone
+
+                </a>
+
+                <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/espacepersonnel/listtelephone">
+
+                    Liste de mes numéros de téléphone
+
+                </a>
+
+            </div>
+
+       </div>
+
+
+       <div class="btn-group">
+
+         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Compte Bancaire </button>
+         
+         <div class="dropdown-menu">
+
+             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/espacepersonnel/addcomptebancaire">
+
+               Ajouter un nouveau compte bancaire
+
+             </a>
+
+             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/espacepersonnel/listcomptebancaire">
+
+               Liste de mes comptes bancaires
+
+             </a>
+
+         </div>
+
+       </div>
+
+       <div align="right">
+
+        
+            <?php if(substr($sessionmembre->code_membre, -1) == "P"):?>
+
+                 <i class="fa fa-user"></i> <?php echo htmlentities($sessionmembre->nom_membre); ?> <?php echo htmlentities($sessionmembre->prenom_membre); ?>
+
+            <?php elseif(substr($sessionmembre->code_membre, -1) == "M"):?>
+
+                <i class="fa fa-home"></i> <?php echo htmlentities($sessionmembre->raison_sociale); ?>
+     
+            <?php endif ?>
+
+            <a href="<?php echo $this->baseUrl();?>/espacepersonnel/profil"><i class="fa fa-user"></i> Modifier le profil</a>
+
+            <a href="<?php echo $this->baseUrl();?>/espacepersonnel/password"><i class="fa fa-edit"></i> Modifier le code secret</a>
+
+            <a href="<?php echo $this->baseUrl();?>/espacepersonnel/nocompte"><i class="fa fa-off"></i> Déconnexion</a>
+
+        </div>
+
+<?php endif ?>

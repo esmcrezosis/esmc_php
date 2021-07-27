@@ -1,0 +1,116 @@
+<?php
+$this->headTitle('MCNP');
+echo $this->doctype();
+?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+	<!-- The fav icon -->
+	<link rel="shortcut icon" href="<?php echo $this->baseUrl();?>/images/favicon.png">
+   
+         <?php echo $this->headMeta() ?>
+		 <?php echo $this->jQuery()->addStyleSheet($this->baseUrl('/css/jquery-ui-1.9.2.custom.min.css')); ?>
+         <?php echo $this->headLink()->appendStylesheet($this->baseUrl('/css/ui.jqgrid.css')); ?>
+         <?php echo $this->headLink()->appendStylesheet('/css/menuv.css'); ?>
+         <?php echo $this->headLink()->appendStylesheet('/css/jquery.multiselect.css'); ?>
+         <?php echo $this->headLink()->appendStylesheet('/css/jquery.multiselect.filter.css'); ?>
+         <?php echo $this->headLink()->appendStylesheet('/css/template.css'); ?>
+		 <?php echo $this->headLink()->appendStylesheet('/css/prime-ui-0.3-min.css'); ?>
+         <?php echo $this->headLink()->appendStylesheet('/css/validationEngine.jquery.css'); ?>
+         <?php echo $this->headLink()->appendStylesheet('/css/ui.selectmenu.css'); ?>
+         <?php
+         //echo $this->jQuery();
+         echo $this->headTitle(), $this->headLink()->appendStylesheet('/css/layout.css');
+         ?>
+         <?php
+         echo $this->headScript()
+                ->appendFile($this->baseUrl('/js/i18n/jquery-ui-i18n.min.js'))
+                ->appendFile($this->baseUrl('/js/jquery.validationEngine.js'))
+                ->appendFile($this->baseUrl('/js/jquery.validationEngine-fr.js'))
+                ->appendFile($this->baseUrl('/js/i18n/grid.locale-fr.js'))
+                ->appendFile($this->baseUrl('/js/jquery.jqGrid.min.js'))
+                ->appendFile($this->baseUrl('/js/browserdetect.js'))
+                ->appendFile($this->baseUrl('/js/dynMenu.js'))
+                ->appendFile($this->baseUrl('/js/jquery.corner.js'))
+                ->appendFile($this->baseUrl('/js/js.js'))
+                ->appendFile($this->baseUrl('/js/prime-ui-0.3-min.js'))
+                ->appendFile($this->baseUrl('/js/jquery.inputmask.js'))
+                ->appendFile($this->baseUrl('/js/jquery.inputmask.extensions.js'))
+                ->appendFile($this->baseUrl('/js/jquery.inputmask.date.extensions.js'))
+                ->appendFile($this->baseUrl('/js/jquery.inputmask.custom.extensions.js'))
+                ->appendFile($this->baseUrl('/js/jquery.inputmask.numeric.extensions.js'))
+                ->appendFile($this->baseUrl('/js/jquery.multiselect.min.js'))
+                ->appendFile($this->baseUrl('/js/jquery.multiselect.filter.min.js'))
+                ->appendFile($this->baseUrl('/js/ui.selectmenu.js'));;
+        ?> 
+        <?php echo $this->headStyle() ?>
+    </head>
+    <body>
+        <div id="mainPage">
+            <div id="header">
+                 <h1 style="position: absolute; left: 100px;color: red; top: 0px;font-size: 45px;">MCNP</h1>
+				 <h3 style="position: absolute; left: 100px;color: black; top: 40px;font-size: 15px;">Marché de Crédit en Nature Pérenne</h3>
+                    <span style="text-align:left ; top:-10px; font-size:8px">
+                        <h2>Utilisateur : <?php echo ucfirst($this->user->nom_utilisateur.' '.$this->user->prenom_utilisateur); ?> </h2>
+					    <?php
+                          	/*$t_filiere = new Application_Model_DbTable_EuFiliere();
+                            $selection = $t_filiere->select();
+							if($this->user->id_filiere != null) {
+                                $selection->where('id_filiere = ?',$this->user->id_filiere);
+                                $resultat = $t_filiere->fetchAll($selection);
+                                $rowcount = $resultat->current();
+								$division = utf8_encode($rowcount->nom_filiere);
+                            } else {
+                                $division = '';
+                            }*/
+							$division = '';  
+					        $t_groupe = new Application_Model_DbTable_EuUserGroup();
+		                    $select = $t_groupe->select();
+                            $select->where('code_groupe = ?',$this->user->code_groupe);
+		                    $results = $t_groupe->fetchAll($select);
+                            $row = $results->current();
+						  
+					    ?>
+					    <h2> PROFIL : <?php echo ucfirst($row->libelle_groupe).'  '.$division; ?> </h2>
+						<div style="text-align:right ; font-size:8px">
+					     <h2>
+					         <a href="<?php echo $this->url(array('controller' => 'login', 'action' => 'logout'), 'default', true) ?>">
+                                 Déconnexion
+                             </a>
+					     </h2> 
+				    </div>    
+					</span>
+					
+					
+					
+                    
+					
+                    
+            </div> 
+            <div id="top_menu">
+                <?php include 'topmenu.phtml'; ?>
+            </div>
+
+            <div id="page_body">  
+                <div id="side_menu">
+                    <ul id="menu">
+                        <?php echo $this->placeholder("menu"); ?>
+                    </ul>
+                    <div>
+                        <?php echo $this->placeholder("menu_accordeon"); ?> 
+                    </div>
+                </div>
+                <div id="content">
+                    <div id ="message" class="cntError ui-corner-all" style="margin-bottom: 3px;">
+                        <?php echo $this->message; ?>
+                    </div>
+                    <?php echo $this->layout()->content; ?>
+                </div>
+            </div>
+            <div id="footer">
+            </div>
+        </div> 
+        <script type="text/javascript">
+            initMenu();
+        </script>
+    </body>
+</html>

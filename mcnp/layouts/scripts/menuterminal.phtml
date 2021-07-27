@@ -1,0 +1,82 @@
+<?php $sessionterminal = new Zend_Session_Namespace('terminal');?>
+
+       <!--
+       <div class="btn-group">
+         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Parametres </button>
+         <div class="dropdown-menu">
+           <div class="nav-header text-left">Additifs</div>
+             <a class="dropdown-item" href="<?php //echo $this->baseUrl();?>/terminal/addarticlestockesadditif">
+               Ajouter un additif d'article
+             </a>
+             <a class="dropdown-item" href="<?php //echo $this->baseUrl();?>/terminal/listarticlestockesadditif">
+               Liste des additifs des articles
+             </a>
+           <div class="nav-header text-left">Tarifs de livraison</div>
+             <a class="dropdown-item" href="<?php //echo $this->baseUrl();?>/terminal/addtariflivraison">
+               Ajouter un tarif de livraison
+             </a>
+             <a class="dropdown-item" href="<?php //echo $this->baseUrl();?>/terminal/listtariflivraison">
+               Liste de mes tarifs de livraison
+             </a>
+         </div>
+       </div>
+	   
+
+       <div class="btn-group">
+         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Stocks Articles </button>
+         <div class="dropdown-menu">
+           <div class="nav-header text-left">Categories</div>
+             <a class="dropdown-item" href="<?php //echo $this->baseUrl();?>/terminal/addarticlestockescategorie">
+               Ajouter une categorie d'article
+             </a>
+             <a class="dropdown-item" href="<?php //echo $this->baseUrl();?>/terminal/listarticlestockescategorie">
+               Liste des categories des articles
+             </a>
+           <div class="nav-header text-left">Stocks</div>
+             <a class="dropdown-item" href="<?php //echo $this->baseUrl();?>/terminal/addarticleone">
+               Ajouter un article 
+             </a>
+             <!--<a class="dropdown-item" href="<?php //echo $this->baseUrl();?>/terminal/addarticle">
+               Ajouter plusieurs articles
+             </a>-->
+			 
+		<div class="btn-group">
+         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Stocks Articles </button>
+         <div class="dropdown-menu">
+              <div class="nav-header text-left">Stocks</div>		 
+             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/terminal/listarticle">
+               Liste de mes articles
+             </a>
+           <div class="nav-header text-left">Ventes</div>
+             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/terminal/listarticlevendu">
+               Liste de mes ventes
+             </a>
+           <div class="nav-header text-left">Achats</div>
+             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/terminal/listarticleachat">
+               Liste de mes achats
+             </a>
+           <div class="nav-header text-left">Les commandes</div>
+             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/terminal/listarticlecommandetoday">
+               Liste des commandes d'aujourd'hui
+             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/terminal/listarticlecommande">
+               Liste des commandes par date
+             </a>
+         </div>
+       </div>
+
+
+
+
+
+
+                  
+<br />
+<br />
+            <div align="right" style="margin-top: -15px;">
+			<i class="fa fa-home"></i><?php echo htmlentities($sessionterminal->nom_tegc); ?>
+            <i class="fa fa-user"></i> <?php echo htmlentities($sessionterminal->nom_utilisateur); ?> <?php echo htmlentities($sessionterminal->prenom_utilisateur); ?>
+            <!--<a href="<?php echo $this->baseUrl();?>/terminal/profil"><i class="fa fa-user"></i> Modifier le profil</a>-->
+            <a href="<?php echo $this->baseUrl();?>/terminal/password"><i class="fa fa-edit"></i> Modifier le code secret</a>
+            <a href="<?php echo $this->baseUrl();?>/terminal/nocompte"><i class="fa fa-off"></i> Déconnexion</a>
+                  </div>
+

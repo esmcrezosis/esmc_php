@@ -1,0 +1,416 @@
+﻿<?php
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('ESMC - Entreprise Sociale de Marché Commun');
+echo $this->doctype();
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+         <?php echo $this->headMeta(),
+        $this->headTitle(); ?>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap -->
+    <link href="<?php echo $this->baseUrl();?>/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl();?>/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl();?>/bootstrap/css/mcnppublic.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl(); ?>/js/primeui/primeui.min.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl(); ?>/js/primeui/themes/bootstrap/theme.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl(); ?>/app/site.css" rel="stylesheet" media="screen" />
+		
+	<!-- The fav icon -->
+	<link rel="shortcut icon" href="<?php echo $this->baseUrl();?>/images/favicon_esmc.png" />
+
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/panierss.js"></script><?php */?>
+    
+    <link href="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" media="screen" />
+    
+</head>
+  <body>
+<?php $sessionpanier = new Zend_Session_Namespace('panier');?>
+<div class="container" align="center">
+<div class="well2">
+<div class="row-fluid">
+  <div class="span2"><a href="<?php echo $this->baseUrl();?>/index"><img src="<?php echo $this->baseUrl();?>/images/logo.esmc.gif" <?php list($width, $height, $type, $attr) = getimagesize("images/logo.esmc.gif");echo $attr; ?> alt="ESMS" /></a></div>
+  <div class="span8">
+<h1 style="font-size:70px;color:#974578;font-family:'Maiandra GD';">ESMC</h1>
+  <h2 style="font-family:Cambria, 'Cambria Math';">Entreprise Sociale de Marché Commun</h2>
+  </div>
+  <div class="span2"></div>
+  </div>
+<span>ESMC, Conseils en Organisation des Affaires Commerciales, Recherche &amp; Développement de Logiciel, Exploitation du Progiciel <strong style="color:#F00">MCNP</strong>, Commerce sur Internet</span>
+</div>
+
+<div class="navbar navbar-inverse" style="position: static; margin-bottom:0;">
+              <div class="navbar-inner">
+                <div class="container arrondi">
+                  <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </a>
+                  <!--<a class="brand" href="#">MCNP</a>-->
+                  <div class="nav-collapse collapse navbar-inverse-collapse">
+                    <ul class="nav">
+        <li><a href="<?php echo $this->baseUrl();?>/"><i class="icon-home icon-white"></i><!--Accueil--></a></li>
+        
+<?php 
+        $menu = new Application_Model_EuMenuMapper();
+        $entriesmenu = $menu->fetchAll3("ESMC");
+?>
+<?php if(count($entriesmenu)>0){?> 
+        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Programmes<b class="caret"></b></a>
+                        <ul class="dropdown-menu" style="width:100%">  
+<?php foreach ($entriesmenu as $entry): ?>
+<?php 
+$pageM = new Application_Model_EuPageMapper();
+$page = new Application_Model_EuPage();
+if($pageM->find3($entry->menu_id, 0, $page)){
+?>
+        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $page->id_page; ?>"><?php echo $entry->menu_libelle; ?></a></li>
+<?php }else{?>
+        <li class="dropdown-submenu text-left">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $entry->menu_libelle; ?> <!--<b class="caret"></b>--></a>
+                        <ul class="dropdown-menu">  
+<?php 
+        $menusous = new Application_Model_EuMenuSousMapper();
+        $entriesmenusous = $menusous->fetchAll3($entry->menu_id);
+?>
+<?php if(count($entriesmenusous)>0){?> 
+<?php foreach ($entriesmenusous as $entrymenusous): ?>
+<?php 
+$pageM = new Application_Model_EuPageMapper();
+$page = new Application_Model_EuPage();
+if($pageM->find3($entrymenusous->menusous_menu, $entrymenusous->menusous_id, $page)){
+?>
+         <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $page->id_page; ?>"><?php echo ($entrymenusous->menusous_libelle); ?></a></li>
+		<?php }else{?>
+         <li class="text-left"><a href="<?php echo $this->baseUrl();?>/<?php echo $entrymenusous->menusous_url; ?>"><?php echo ($entrymenusous->menusous_libelle); ?></a></li>
+		<?php }?>
+<?php endforeach; ?>
+                        <?php }?>
+                        </ul>
+                      </li>
+<?php }?>
+<?php endforeach; ?>
+                        </ul>
+
+                      </li>
+                        <?php } ?>
+						
+                        
+                        <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Transformer <b class="caret"></b></a>
+                            <ul class="dropdown-menu">  
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/6">Grossistes</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/7">Semi-Grossistes</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/8">Détaillants</a></li>
+							</ul>
+						</li><?php */?>
+                        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscrire <b class="caret"></b></a>
+                            <ul class="dropdown-menu">  
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscription pour Soi <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">  
+                    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/68">Personnes Physiques</a></li>
+                    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/69">Personnes Morales</a></li>
+                  </ul>
+                </li>
+                    <li class="dropdown-submenu text-left">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscription pour Tiers <!--<b class="caret"></b>--></a>
+                    <ul class="dropdown-menu">  
+                    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/70">CMFH Titre Honorifique</a></li>
+                    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/71">CMFH Conseillers Consultatifs</a></li>
+                    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/72">CMFH Conseillers Administration</a></li>
+                    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/73">CMFH Managers</a></li>
+                    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/74">CMFH Ingenieurs</a></li>
+                    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/85">CMFH Entrepreneurs</a></li>
+		    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/86">CMFH Experts</a></li>
+                    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/75">CMFH Offreurs de projets</a></li>
+                    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/76">CMFH Offreurs de Biens, Produits et Services (BPS)</a></li>
+                    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/77">CMFH Offreur de Compte Marchand Pour tiers</a></li>
+                    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/78">CMFH Offreur de Travail pour la Production Commune</a></li>
+                    <li class="dropdown-submenu text-left">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">ODD</a>
+			<ul class="dropdown-menu">
+			    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/89">OSE</a></li>
+			    <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/90">Maison</a></li>
+			</ul>
+		   </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>                        
+   <li  class="dropdown">
+         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Integrateurs Professionnels<b class="caret"></b></a>
+          <ul class="dropdown-menu">  
+            <li class="dropdown-submenu text-left">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Integrateurs humains sans-laisses-pour-compte <!--<b class="caret"></b>--></a>
+              <ul class="dropdown-menu">  
+                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/1">Individus Ambulants</a></li>
+                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/2">Personnes Morales Fixes</a></li>
+              </ul>
+            </li>
+          <li class="dropdown-submenu text-left">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs des vendeurs</a>
+            <ul class="dropdown-menu">
+             <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/3">Individus Ambulants</a></li>
+             <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/4">Personnes Morales Fixes</a></li>
+            </ul>
+         </li>
+         <li class="dropdown-submenu text-left">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs des transformateurs</a>
+                <ul class="dropdown-menu">
+                 <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/5">Individus Ambulants</a></li>
+                 <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/6">Personnes Morales Fixes</a></li>
+                </ul>
+         </li>
+		 
+         <li class="dropdown-submenu text-left">
+               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs des producteurs</a>
+                <ul class="dropdown-menu">
+                  <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/7">Individus Ambulants</a></li>
+                  <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/8">Personnes Morales Fixes</a></li>
+                </ul>
+         </li>
+		 
+		 <li class="dropdown-submenu text-left">
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs des OSE</a>
+             <ul class="dropdown-menu">
+                 <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/25">Individus Ambulants</a></li>
+                 <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/26">Personnes Morales Fixes</a></li>
+             </ul>
+         </li>
+										
+         <li class="dropdown-submenu text-left">
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs des maisons</a>
+             <ul class="dropdown-menu">
+                 <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/27">Individus Ambulants</a></li>
+                 <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/28">Personnes Morales Fixes</a></li>
+             </ul>
+         </li>
+         </ul>
+
+       </li>                     
+						
+                        <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Produire <b class="caret"></b></a>
+                            <ul class="dropdown-menu">  
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/9">Grossistes</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/10">Semi-Grossistes</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/11">Détaillants</a></li>
+							</ul>
+						</li><?php */?>
+                        <li class="dropdown">
+						    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> ODD <b class="caret"></b></a>
+                            <ul class="dropdown-menu">  
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/21">OSE</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/22">CMFH Honorifique</a></li>
+                                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/23">CMFH Offreur de Comptes Marchands pour Tiers </a></li>
+								<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/24">Maison</a></li>
+							</ul>							
+					  </li>
+                          
+                        
+                        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Travailler <b class="caret"></b></a>
+                            <ul class="dropdown-menu">  
+				<?php /*?><li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateurs <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">  
+					<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/12">Intégrateurs des vendeurs</a></li>
+					<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/13">Intégrateurs des transformateurs</a></li>
+					<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/14">Intégrateurs des producteurs</a></li>
+				    </ul>
+				</li><?php */?>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Surveillance (CMFH) <!--<b class="caret"></b>--></a>
+                                   <ul class="dropdown-menu">  
+				       <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/15">CMFH Conseillers Consultatifs</a></li>
+				       <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/16">CMFH Conseillers Administration</a></li>
+				       <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/17">CMFH Managers</a></li>
+				       <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/18">CMFH Ingenieurs</a></li>
+                                       <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/29">CMFH Entrepreneurs</a></li>
+				       <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/30">CMFH Experts</a></li>
+				    </ul>
+				</li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Travailleurs de la Production Commune <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">  
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/19">Travailleurs</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur/param/20">Autres</a></li>
+									</ul>
+								</li>
+
+							</ul>
+						</li>
+                        
+                        <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscrire <b class="caret"></b></a>
+                            <ul class="dropdown-menu">  
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscription pour Soi <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">  
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/10">Personnes Physiques</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/11">Personnes Morales</a></li>
+									</ul>
+								</li>
+                                <li class="dropdown-submenu text-left">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Souscription pour Tiers <!--<b class="caret"></b>--></a>
+                                    <ul class="dropdown-menu">  
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/1">CMFH Titre Honorifique</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/2">CMFH Conseillers Consultatifs</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/3">CMFH Conseillers Administration</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/4">CMFH Managers</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/5">CMFH Ingenieurs, Entrepreneurs, Experts, Consultants</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/6">CMFH Offreurs de projets</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/7">CMFH Offreurs de Biens, Produits et Services (BPS)</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/8">CMFH CAPS</a></li>
+										<li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addsouscription/param/9">Travailleurs de la Production Commune</a></li>
+									</ul>
+								</li>
+							</ul>
+						</li><?php */?>
+
+                        
+                        
+                        
+                        
+                        
+                        
+		<?php /*?><li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Intégrateur <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addintegrateur">Ajout d'intégrateur</a></li>
+            </ul>
+        </li><?php */?>				
+        
+        
+        <?php /*?><li><a href="<?php echo $this->baseUrl();?>/index/fichierlisteesmc">Bibliothèque</a></li><?php */?>
+        
+        <?php /*?><li><a href="<?php echo $this->baseUrl();?>/index/addsouscription">Souscription</a></li><?php */?>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Vendre <b class="caret"></b></a>
+               <ul class="dropdown-menu">  
+                   <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/1">Grossistes</a></li>
+                   <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/2">Semi-Grossistes</a></li>
+                   <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/3">Détaillants</a></li>
+               </ul>
+        </li>
+                        
+        <!--<li><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/5">Produire</a></li>     
+        <li><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/4">Transformer</a></li>-->   
+
+		<?php ?>
+		<li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Transformer <b class="caret"></b></a>
+               <ul class="dropdown-menu">  
+                   <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/4">National</a></li>
+                   <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/5">Régional</a></li>
+                   <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/6">Cantonal</a></li>
+			   </ul>
+		</li>
+		<?php ?>
+                                       
+		<!--<li><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/5">Produire</a></li>-->
+        <?php ?>
+		<li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Produire <b class="caret"></b></a>
+               <ul class="dropdown-menu">  
+                   <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/7">National</a></li>
+                   <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/8">Régional</a></li>
+                   <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addoffreurprojet/param/9">Cantonal</a></li>
+			   </ul>
+			</li>
+		<?php ?>
+		
+		
+		
+		
+        <li><a href="<?php echo $this->baseUrl();?>/index/addcontactesmc">Contacts</a></li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Rechercher <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li class="text-left"><a href="<?php echo $this->baseUrl(); ?>/index/rechercheoffreur">Offreurs de Projets</a></li>
+                <li class="text-left"><a href="<?php echo $this->baseUrl(); ?>/index/rechercheintegrateur">Intégrateurs</a></li>
+            </ul>
+        </li>
+
+                    <?php /*?><ul class="nav pull-right">
+                      <li class="divider-vertical"></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/facebook.png" title="Facebook" /></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/youtube.png" title="Youtube" /></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/twitter.png" title="Twitter" /></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/linkedin.png" title="Linkedin" /></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/rss.png" title="RSS" /></a></li>
+                    </ul><?php */?>
+                </div>
+              </div><!-- /navbar-inner -->
+            </div>
+            
+        <?php 
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAll6("ESMC");
+	?>
+<?php if(count($entriespage)>0){?> 
+<marquee onmousemove="stop();" onmouseout="start();">
+<?php foreach ($entriespage as $entrypage): ?>
+<a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php if(isset($entrypage->titre_deroulant) || $entrypage->titre_deroulant !== ""){ echo $entrypage->titre_deroulant ;} else {echo $entrypage->titre} ?></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<?php endforeach; ?>
+</marquee>
+<?php }?>
+
+<?php echo $this->layout()->content ?>
+
+
+
+      <!-- FOOTER -->
+	<?php include("../application/layouts/scripts/footer.phtml"); ?>
+
+</div>    
+    
+<?php if(!isset($this->tabletri)){?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+<?php }?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap.min.js"></script>
+
+<script>
+$('.carousel').carousel({
+  interval: 5000
+})
+</script>
+<script src="<?php echo $this->baseUrl(); ?>/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/primeui/x-tag-core.min.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/primeui/primeui.min.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/primeui/plugins/plugins-all.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/primeui/primeelements.min.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/app/app.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/locales/bootstrap-datepicker.fr.min.js"></script>
+<script>
+$('.datepicker').datepicker({
+weekStart: 1,
+format: 'yyyy-mm-dd',
+language: 'fr',
+todayBtn: 'linked',
+//startDate: '-3d'
+});
+</script>
+    
+  </div></body>
+</html>

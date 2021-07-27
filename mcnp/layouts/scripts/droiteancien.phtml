@@ -1,0 +1,156 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<ul class="thumbnails">
+<?php if (!isset($sessionzppe->zppe_login)) {?>
+  <li class="" id="box1">
+    <div class="thumbnail" id="box12">
+    <div class="boxicone"><span class="icon"><i class="icon-globe" style="margin-top:9px;"></i></span></div>
+<?php if(substr($sessionmembre->code_membre, -1) == "P"){?>
+      <h4 id="box13"><a href="<?php echo $this->baseUrl();?>/espacepersonnel">Espace Personnel</a></h4>
+<?php }else if(substr($sessionmembre->code_membre, -1) == "M"){?>
+      <h4 id="box13"><a href="<?php echo $this->baseUrl();?>/espacepersonnel">Espace Professionnel</a></h4>
+<?php }else{?>  
+      <h4 id="box13">Connexion</h4>
+<?php }?>  
+    <?php if(isset($sessionmembre->code_membre) && $sessionmembre->code_membre != ""){?>
+<p>
+</p><small>
+<address>
+<?php if(substr($sessionmembre->code_membre, -1) == "P"){?>
+<?php /*?><?php 
+$eumembre = new Application_Model_DbTable_EuMembre();
+$select = $eumembre->select()->from(array('eu_membre'), array('code_membre', 'photompp'))->where('code_membre = ?', $sessionmembre->code_membre);
+$rowseumembre = $eumembre->fetchRow($select);
+
+$img = $rowseumembre->photompp->load();
+    header("Content-type: image/jpg");
+    print $img;
+
+
+//echo $rowseumembre->photompp; ?>
+<?php if($rowseumembre->photompp != NULL){?>
+<?php 
+//header('Content-Type: image/gif');
+//echo $rowseumembre->photompp;?> 
+<img src="data:image/png;base64,<?php echo $rowseumembre->photompp;?>" class="img-rounded">
+<br><?php }?><?php */?>
+  <i class="icon-user"></i> <strong><?php echo htmlentities($sessionmembre->nom_membre); ?> <?php echo htmlentities($sessionmembre->prenom_membre); ?></strong><br />
+<span class="label label-info"><?php echo $sessionmembre->code_membre; ?></span><br />
+  Né le <?php echo $sessionmembre->date_nais_membre; ?> à <?php echo htmlentities($sessionmembre->lieu_nais_membre); ?><br />
+  <?php echo htmlentities($sessionmembre->profession_membre); ?><br />
+  
+<?php }else if(substr($sessionmembre->code_membre, -1) == "M"){?>
+
+  <i class="icon-home"></i> <strong><?php echo htmlentities($sessionmembre->raison_sociale); ?></strong><br />
+<span class="label label-info"><?php echo $sessionmembre->code_membre; ?></span><br />
+  <?php echo htmlentities($sessionmembre->domaine_activite); ?><br />
+
+<?php }?>  
+
+  <?php echo htmlentities($sessionmembre->quartier_membre); ?> - <?php echo htmlentities($sessionmembre->ville_membre); ?><br />
+  <abbr title="Boite Postale">BP:</abbr> <?php echo $sessionmembre->bp_membre; ?><br />
+  <abbr title="Téléphone">Tel:</abbr> <?php echo $sessionmembre->tel_membre; ?><br />
+  <abbr title="Portable">Cel:</abbr> <?php echo $sessionmembre->portable_membre; ?><br />
+  <abbr title="E-mail">E-mail:</abbr> <a href="mailto:<?php echo $sessionmembre->email_membre; ?>"><?php echo $sessionmembre->email_membre; ?></a>
+</address>
+ </small>
+<p></p>
+	<?php } else {?>
+<form method="post" id="connexion" action="<?php echo $this->baseUrl();?>/espacepersonnel/login">
+    <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin != ""){?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+	</div>
+	<?php }?>
+    <div class="controls">
+      <input name="code_membre" type="text" id="code_membre" placeholder="Votre Code Membre" />
+    </div>
+    <div class="controls">
+      <input name="codesecret" type="password" id="codesecret" placeholder="Votre Code Secret" />
+    </div>
+    <div class="controls">
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <button type="submit" class="btn">Connexion</button>
+    </div>
+</form>
+	<?php }?>
+    </div>
+  </li>
+<?php }?>
+
+<!--</ul>
+    
+<ul class="thumbnails">-->
+<?php /////////////////PUB BOX////////////////
+$date = Zend_Date::now();
+$publicite = new Application_Model_EuPubliciteMapper();
+$entries = $publicite->fetchAll5(2, 3);
+if(count($entries) > 0){?>
+<?php foreach ($entries as $value) {?>
+<?php 
+/*$datedebut = $value->date_publicite;
+$datefin = $date->toString('yyyy-MM-dd');
+
+list($jour1,$mois1,$annee1) = explode('-', $datedebut);
+switch(strtolower($mois1)) { 
+    case 'jan': $mois1 = '01'; break; 
+    case 'feb': $mois1 = '02'; break; 
+    case 'mar': $mois1 = '03'; break; 
+    case 'apr': $mois1 = '04'; break; 
+    case 'may': $mois1 = '05'; break; 
+    case 'jun': $mois1 = '06'; break; 
+    case 'jul': $mois1 = '07'; break; 
+    case 'aug': $mois1 = "08"; break; 
+    case 'sep': $mois1 = "09"; break; 
+    case 'sept': $mois1 = "09"; break; 
+    case 'oct': $mois1 = '10'; break; 
+    case 'nov': $mois1 = '11'; break; 
+    case 'dec': $mois1 = '12'; break; 
+  } 
+$datedebut = date("Y-m-d", mktime(0, 0, 0, $mois1, $jour1, $annee1));
+ 
+list($annee1,$mois1,$jour1) = explode('-', $datedebut);
+list($annee2,$mois2,$jour2) = explode('-', $datefin);
+
+$timestamp1 = mktime(0,0,0,$mois1,$jour1,$annee1); 
+$timestamp2 = mktime(0,0,0,$mois2,$jour2,$annee2); 
+$duree = intval(abs($timestamp2 - $timestamp1)/86400); 
+
+if($duree <= $value->duree_publicite){*/
+?>
+<li class="" id="box1">
+    <div class="thumbnail" id="box12">
+    <div class="boxicone"><span class="icon"><i class="icon-globe" style="margin-top:9px;"></i></span></div>
+      <h4 id="box13"><?php echo htmlentities($value->libelle_publicite); ?></h4>
+      <?php if($value->desc_publicite != ""){?><p><a href="http://<?php echo ($value->lien_publicite); ?>" target="_blank"><img src="<?php echo $this->baseUrl(); ?>/<?php echo ($value->desc_publicite); ?>" class="img-rounded" /></a></p><?php }?>
+    </div>
+  </li>
+<?php //}?>
+<?php }?>
+<?php }?>
+
+
+
+
+        <?php 
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAll4("MCNP");
+	?>
+<?php if(count($entriespage)>0 && $this->index != "mcnp"){?> 
+<?php foreach ($entriespage as $entrypage): ?>
+<li class="" id="box1">
+    <div class="thumbnail" id="box12">
+    <div class="boxicone"><span class="icon"><i class="icon-globe" style="margin-top:9px;"></i></span></div>
+      <h4 id="box13"><a href="<?php echo $this->baseUrl();?>/index/pagemcnp/id/<?php echo $entrypage->id_page; ?>"><?php $menusous = new Application_Model_EuMenuSous();
+        $menusousM = new Application_Model_EuMenuSousMapper();
+        $menusousM->find($entrypage->menusous, $menusous);?>
+          <?php echo ($menusous->menusous_libelle); ?></a></h4>
+      <?php if($entrypage->vignette != ""){?><p><a href="<?php echo $this->baseUrl();?>/index/pagemcnp/id/<?php echo $entrypage->id_page; ?>"><img class="img-circle" src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/<?php echo ($entrypage->vignette); ?>&w=150&h=150&zc=1&q=100" /></a></p><?php }?>
+    </div>
+  </li>
+<?php endforeach; ?>
+<?php }?>
+
+
+
+</ul>

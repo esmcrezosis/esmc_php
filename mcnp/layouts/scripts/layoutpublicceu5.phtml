@@ -1,0 +1,208 @@
+<?php
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('CEU/ReDéMaRe');
+echo $this->doctype();
+?>
+<!DOCTYPE html>
+<html>
+  <head>
+         <?php echo $this->headMeta(),
+        $this->headTitle(); ?>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="<?php echo $this->baseUrl();?>/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="<?php echo $this->baseUrl();?>/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+    <link href="<?php echo $this->baseUrl();?>/bootstrap/css/mcnppublic.css" rel="stylesheet" media="screen">
+
+	<!-- The fav icon -->
+	<link rel="shortcut icon" href="<?php echo $this->baseUrl();?>/images/favicon_ceu.png">
+
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/panierss.js"></script><?php */?>
+
+    <link href="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" media="screen" />
+
+  </head>
+  <body>
+<?php $sessionpanier = new Zend_Session_Namespace('panier');?>
+<div class="container" align="center">
+<div class="well2">
+<div class="row-fluid">
+  <div class="span2"><img src="<?php echo $this->baseUrl();?>/images/logo.ceu.gif" alt="CEU/ReDéMaRe"  <?php list($width, $height, $type, $attr) = getimagesize("images/logo.ceu.gif");echo $attr; ?> /></div>
+  <div class="span9">
+<h1 style="font-size:70px;font-family:'Maiandra GD';">CEU/<span style="color:#F00;">R</span><span style="color:#00B0F0;">e</span><span style="color:#F00;">D</span><span style="color:#00B0F0;">é</span><span style="color:#F00;">M</span><span style="color:#00B0F0;">a</span><span style="color:#F00;">R</span><span style="color:#00B0F0;">e</span></h1>
+  <h2 style="font-family:Cambria, 'Cambria Math';">Communauté Economique Universelle</h2>
+  <h3 style="font-family:Cambria, 'Cambria Math';">Réseau pour Développement de la Masse par sa Ressource</h3>
+  </div>
+  <div class="span1"></div>
+</div>
+<span>ESMC, Conseils en Organisation des Affaires Commerciales, Recherche &amp; Développement de Logiciel, Exploitation du Progiciel <strong style="color:#F00">MCNP</strong>, Commerce sur Internet</span>
+</div>
+
+
+<div class="navbar navbar-inverse" style="position: static; margin-bottom:0;">
+              <div class="navbar-inner">
+                <div class="container arrondi">
+                  <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </a>
+                  <!--<a class="brand" href="#">CEU</a>-->
+                  <div class="nav-collapse collapse navbar-inverse-collapse">
+                    <ul class="nav">
+        <li><a href="<?php echo $this->baseUrl();?>/index/ceu"><i class="icon-home icon-white"></i><!--Accueil--></a></li>
+<?php /*?><?php
+        $menu = new Application_Model_EuMenuMapper();
+        $entriesmenu = $menu->fetchAll3("CEU/ReDeMaRe");
+?>
+<?php if(count($entriesmenu)>0){?>
+<?php foreach ($entriesmenu as $entry): ?>
+<?php
+$pageM = new Application_Model_EuPageMapper();
+$page = new Application_Model_EuPage();
+if($pageM->find3($entry->menu_id, 0, $page)){
+?>
+        <li><a href="<?php echo $this->baseUrl();?>/index/pageceu/id/<?php echo $page->id_page; ?>"><?php echo $entry->menu_libelle; ?></a></li>
+<?php }else{?>
+        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $entry->menu_libelle; ?> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+<?php
+        $menusous = new Application_Model_EuMenuSousMapper();
+        $entriesmenusous = $menusous->fetchAll3($entry->menu_id);
+?>
+<?php if(count($entriesmenusous)>0){?>
+<?php foreach ($entriesmenusous as $entry): ?>
+<?php
+$pageM = new Application_Model_EuPageMapper();
+$page = new Application_Model_EuPage();
+if($pageM->find3($entry->menusous_menu, $entry->menusous_id, $page)){
+?>
+        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pageceu/id/<?php echo $page->id_page; ?>"><?php echo ($entry->menusous_libelle); ?></a></li>
+		<?php }?>
+<?php endforeach; ?>
+                        <?php }?>
+                        </ul>
+                      </li>
+<?php }?>
+<?php endforeach; ?>
+                        <?php }?>
+<?php */?>
+        <li><a href="<?php echo $this->baseUrl();?>/index/addcontactceu">Contacts</a></li>
+                    </ul>
+                    <ul class="nav pull-right">
+                      <li class="divider-vertical"></li>
+        <li><a href="<?php echo $this->baseUrl();?>/" target="_blank"><strong>ESMC</strong></a></li>
+        <li><a href="<?php echo $this->baseUrl();?>/index/mcnp" target="_blank"><strong>MCNP</strong></a></li>
+                    </ul>
+                    <?php /*?><ul class="nav pull-right">
+                      <li class="divider-vertical"></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/facebook.png" title="Facebook"></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/youtube.png" title="Youtube"></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/twitter.png" title="Twitter"></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/linkedin.png" title="Linkedin"></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/rss.png" title="RSS"></a></li>
+                    </ul><?php */?>
+
+
+                  </div><!-- /.nav-collapse -->
+                </div>
+              </div><!-- /navbar-inner -->
+            </div>
+
+        <?php
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAll6("CEU/ReDeMaRe");
+	?>
+<?php if(count($entriespage)>0){?>
+<marquee onmousemove="stop();" onmouseout="start();">
+<?php foreach ($entriespage as $entrypage): ?>
+<a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php echo ($entrypage->titre); ?></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<?php endforeach; ?>
+</marquee>
+<?php }?>
+<!--
+
+<div class="alert alert-success">
+<strong>
+COMMUNIQUE : LA DIRECTION GENERALE DE L’ESMC INFORME SA CLIENTELE QUE LE SITE SUBIRA QUELQUES PERTUBATIONS CE LUNDI 19 Mars 2018 de 12H00 à 13H30 POUR RAISON DE MAINTENANCE. ELLE PRESENTE SES EXCUSES POUR TOUS LES DESAGREMENTS. MERCI POUR VOTRE FIDELITE !!
+</strong>
+</div>
+
+
+<div class="alert alert-success">
+<strong>
+COMMUNIQUE : LA DIRECTION GENERALE DE L’ESMC INFORME QUE LE SITE SERA INDISPONIBLE LE JEUDI 30 Novembre 2017 de 10h00 au Vendredi 01 Décembre à 17H30 POUR RAISON DE MAINTENANCE. ELLE PRESENTE SES EXCUSES POUR TOUS LES DESAGREMENTS. MERCI POUR VOTRE FIDELITE !!
+</strong>
+</div>
+
+<div class="alert alert-success">
+<strong>
+COMMUNIQUE : Suite aux difficultés d'accès à l'internet dans certaines localités les semaines passées et en vue de donner la chance à tous les postulants potentiels, la date de clôture du recrutement des Opérateurs de Saisie initialement prévue pour le 25 Octobre 2017 est prorogée au 31 Octobre 2017. Merci
+
+</strong>
+</div>
+
+
+
+<div class="alert alert-success">
+<strong>
+COMMUNIQUE : LA DIRECTION GENERALE DE L’ESMC INFORME QUE LE SITE SERA INDISPONIBLE TOTALEMENT CE MERCREDI 04 Decembre 2017 de 12h00 à 15h00 POUR RAISON DE MAINTENANCE.ELLE PRESENTE SES EXCUSES POUR TOUS LES DESAGREMENTS.MERCI POUR VOTRE FIDELITE!!
+</strong>
+</div>
+-->
+<!--
+<div class="alert alert-danger">
+<strong>
+   COMMUNIQUE : LA DIRECTION GENERALE DE L’ESMC INFORME TOUS LES INTEGRATEURS DES DISPOSITIONS PRISES POUR LA MISE EN ŒUVRE DE LA NOUVELLE INTERFACE INTEGRATEUR.
+IL EST VIVEMENT RECOMMANDE AUX RETARDATAIRES D’EXPRIMER LEURS QUITTANCES EN ATTENTE DANS LES FORMULAIRES (<a href="https://prod.gacsource.net/integrateur/login" target="blank">Cliquez ici</a>). POUR PLUS D’INFORMATIONS SUR LA NOUVELLE INTERFACE, CONSULTER <a href="/publicites/Manuel_utilisateur_esmc.pdf" target="blank">LE MANUEL DE L’UTILISATEUR </a> ET <a href="/publicites/guide_integrateur.pdf" target="blank">LE GUIDE DE L’INTEGRATEUR REACTUALISE</a>
+</strong>
+</div>
+-->
+
+<?php echo $this->layout()->content ?>
+
+
+      <!-- FOOTER -->
+	<?php include("../application/layouts/scripts/footer.phtml"); ?>
+
+</div>
+
+<?php if(!isset($this->tabletri)){?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+<?php }?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap.min.js"></script>
+
+<script>
+$('.carousel').carousel({
+  interval: 5000
+})
+</script>
+
+<script src="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap-datepicker/dist/locales/bootstrap-datepicker.fr.min.js"></script>
+<script>
+$('.datepicker').datepicker({
+weekStart: 1,
+format: 'yyyy-mm-dd',
+language: 'fr',
+todayBtn: 'linked',
+//startDate: '-3d'
+});
+</script>
+
+  </body>
+</html>

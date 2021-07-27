@@ -1,0 +1,272 @@
+<?php
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headTitle()->setSeparator(' - ');
+//$this->headTitle('MCNP - Marché de Crédit en Nature Pérenne');
+echo $this->doctype();
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+         <?php echo $this->headMeta(); ?>
+<title id="titre">
+<?php //echo $this->headTitle(); ?>
+MCNP - Marché de Crédit en Nature Pérenne 
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap -->
+    <link href="<?php echo $this->baseUrl();?>/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl();?>/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen" />
+    <link href="<?php echo $this->baseUrl();?>/bootstrap/css/mcnppublic.css" rel="stylesheet" media="screen" />
+    
+	<!-- The fav icon -->
+	<link rel="shortcut icon" href="<?php echo $this->baseUrl();?>/images/favicon_mcnp.png" />
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/panierss.js"></script>
+
+  </head>
+  <body>
+<?php $sessionpanier = new Zend_Session_Namespace('panier');?>
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<div class="container" align="center">
+<div class="well2">
+<div class="row-fluid">
+  <div class="span2"><img src="<?php echo $this->baseUrl();?>/images/logo.mcnp.gif" alt="MCNP"  <?php list($width, $height, $type, $attr) = getimagesize("images/logo.mcnp.gif");echo $attr; ?> /></div>
+  <div class="span8">
+<h1 style="font-size:70px;color:#F00;font-family:'Maiandra GD';">MCNP</h1>
+  <h2 style="font-family:Cambria, 'Cambria Math';">Marché de Crédit en Nature Pérenne</h2>
+  </div>
+  <div class="span2"></div>
+</div>
+<span>ESMC, Conseils en Organisation des Affaires Commerciales, Recherche &amp; Développement de Logiciel, Exploitation du Progiciel <strong style="color:#F00">MCNP</strong>, Commerce sur Internet</span>
+</div>
+
+<div class="navbar navbar-inverse" style="position: static;">
+              <div class="navbar-inner">
+                <div class="container arrondi">
+                  <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </a>
+                  <!--<a class="brand" href="#">MCNP</a>-->
+                  <div class="nav-collapse collapse navbar-inverse-collapse">
+                    <ul class="nav">
+        <li><a href="<?php echo $this->baseUrl();?>/index/mcnp"><i class="icon-home icon-white"></i><!--Accueil--></a></li>
+<?php 
+        $menu = new Application_Model_EuMenuMapper();
+        $entriesmenu = $menu->fetchAll3("MCNP");
+?>
+<?php if(count($entriesmenu)>0){?> 
+<?php foreach ($entriesmenu as $entry): ?>
+<?php 
+$pageM = new Application_Model_EuPageMapper();
+$page = new Application_Model_EuPage();
+if($pageM->find3($entry->menu_id, 0, $page)){
+?>
+        <li><a href="<?php echo $this->baseUrl();?>/index/pagemcnp/id/<?php echo $page->id_page; ?>"><?php echo $entry->menu_libelle; ?></a></li>
+<?php }else{?>
+        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $entry->menu_libelle; ?> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">  
+<?php 
+        $menusous = new Application_Model_EuMenuSousMapper();
+        $entriesmenusous = $menusous->fetchAll3($entry->menu_id);
+?>
+<?php if(count($entriesmenusous)>0){?> 
+<?php foreach ($entriesmenusous as $entry): ?>
+<?php 
+$pageM = new Application_Model_EuPageMapper();
+$page = new Application_Model_EuPage();
+if($pageM->find3($entry->menusous_menu, $entry->menusous_id, $page)){
+?>
+        <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/pagemcnp/id/<?php echo $page->id_page; ?>"><?php echo ($entry->menusous_libelle); ?></a></li>
+		<?php }?>
+<?php endforeach; ?>
+                        <?php }?>
+                        </ul>
+                      </li>
+<?php }?>
+<?php endforeach; ?>
+                        <?php }?>
+        
+        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Boutique en ligne <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/filiere">Les Acteurs</a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/categorie">Les Produits</a></li>
+                        </ul>
+                      </li>
+        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Espaces <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/acteurpbf">Espace KACM/CAPA</a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addcandidatcmfh/id/3">Formulaire Dossier d'Appel à Candidature CMFH</a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/addquittancecmfh">QUITTANCE CMFH/CAPS/GAC</a></li>
+                        </ul>
+                      </li>
+        <?php /*?><li><a href="<?php echo $this->baseUrl();?>/index/acteurpbfsource">Espace KACM/CAPA</a></li><?php */?>
+        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relevés <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                  <li class="nav-header text-left">Recherche du numéro d'identité GIE/<strong><span style="color:#F00;">R</span><span style="color:#09F;">e</span><span style="color:#F00;">D</span><span style="color:#09F;">é</span><span style="color:#F00;">M</span><span style="color:#09F;">a</span><span style="color:#F00;">R</span><span style="color:#09F;">e</span></strong></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/trouvecode1">Recherche du numéro d'identité</a></li>
+                          <li class="divider"></li>
+                          <li class="nav-header text-left">Recherche de Code Membre <strong style="color:#F00;">MCNP</strong></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/trouvecode">Recherche d'Ancien Code Membre</a></li>
+                          <li class="divider"></li>
+                          <li class="nav-header text-left">Demande de relevé GIE/<strong><span style="color:#F00;">R</span><span style="color:#09F;">e</span><span style="color:#F00;">D</span><span style="color:#09F;">é</span><span style="color:#F00;">M</span><span style="color:#09F;">a</span><span style="color:#F00;">R</span><span style="color:#09F;">e</span></strong></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevegiecredit">Relevé  <strong style="color:#00F;">Crédit</strong></a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevegiesalaire">Relevé <strong style="color:#F00;">CNCS</strong></a></li>
+                          
+
+
+                          <li class="divider"></li>
+	                  <li class="nav-header text-left">Demande de relevé <strong style="color:#F00;">MCNP</strong></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevesalaire">Relevé <strong style="color:#F00;">CNCS</strong></a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevecredit">Relevé <strong style="color:#00F;">RPG/I</strong></a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevegcp">Relevé <strong style="color:#00F;">GCp</strong></a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevekacm">Relevé <strong style="color:#000;">FS, FL et FCPS</strong></a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevemf11000pp">Relevé <strong style="color:#000;">MF11000</strong> Personne Physique</a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevemf11000pm">Relevé <strong style="color:#000;">MF11000</strong> Personne Morale</a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevemf107">Relevé <strong style="color:#000;">MF107</strong></a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Validation <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header text-left"><strong>Validation de relevé</strong></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevevalidationsalaire">Validation de relevé <strong style="color:#F00;">CNCS</strong></a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevevalidationcredit">Validation de relevé <strong style="color:#00F;">RPG/I</strong></a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevevalidationgcp">Validation de relevé <strong style="color:#00F;">GCp</strong></a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevevalidationkacm">Validation de relevé <strong style="color:#000;">FS, FL et FCPS</strong></a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevevalidationmf11000pp">Validation de relevé <strong style="color:#000;">MF11000</strong> Personne Physique</a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevevalidationmf11000pm">Validation de relevé <strong style="color:#000;">MF11000</strong> Personne Morale</a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/relevevalidationmf107">Validation de relevé <strong style="color:#000;">MF107</strong></a></li>
+                        </ul>
+                      </li>
+      	<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ré-activation <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <?php /*?><li class="nav-header text-left">Nouveaux comptes marchands du <strong style="color:#F00;">MCNP</strong></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/enrolementsms2">Membre Physique</a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/enrolementpmsms2">Membre Moral</a></li>
+                          <li class="divider"></li><?php */?>
+	                      <li class="nav-header text-left">Ré-activation des anciens comptes marchands du <strong>GIE/<span style="color:#F00;">R</span><span style="color:#09F;">e</span><span style="color:#F00;">D</span><span style="color:#09F;">é</span><span style="color:#F00;">M</span><span style="color:#09F;">a</span><span style="color:#F00;">R</span><span style="color:#09F;">e</span></strong></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/ancienpp">Ré-activation Membre Physique du <strong>GIE/<span style="color:#F00;">R</span><span style="color:#09F;">e</span><span style="color:#F00;">D</span><span style="color:#09F;">é</span><span style="color:#F00;">M</span><span style="color:#09F;">a</span><span style="color:#F00;">R</span><span style="color:#09F;">e</span></strong></a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/ancienpm">Ré-activation Membre Moral du <strong>GIE/<span style="color:#F00;">R</span><span style="color:#09F;">e</span><span style="color:#F00;">D</span><span style="color:#09F;">é</span><span style="color:#F00;">M</span><span style="color:#09F;">a</span><span style="color:#F00;">R</span><span style="color:#09F;">e</span></strong></a></li>
+                          <li class="divider"></li>
+	                      <li class="nav-header text-left">Ré-activation des anciens comptes marchands du <strong style="color:#F00;">MCNP</strong></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/ancienppmcnp">Ré-activation Membre Physique du <strong style="color:#F00;">MCNP</strong></a></li>
+                          <li class="text-left"><a href="<?php echo $this->baseUrl();?>/index/ancienpmmcnp">Ré-activation Membre Moral du <strong style="color:#F00;">MCNP</strong></a></li>
+                        </ul>
+                      </li>              
+        <li><a href="<?php echo $this->baseUrl();?>/index/centreenrolement">Centres</a></li>
+        <li><a href="<?php echo $this->baseUrl();?>/index/document">DAC/AAOO</a></li>
+        <?php /*?><li><a href="<?php echo $this->baseUrl();?>/index/appelnn">Collecte nrPRE</a></li><?php */?>
+        <?php /*?><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Les échanges <b class="caret"></b></a>
+                        <ul class="dropdown-menu">  
+<?php 
+$pageM = new Application_Model_EuPageMapper();
+$page = new Application_Model_EuPage();
+$pageM->find2(1, $page);
+?>
+                          <li><a href="#"><?php echo htmlentities($page->titre); ?></a></li>
+<?php 
+$pageM = new Application_Model_EuPageMapper();
+$page = new Application_Model_EuPage();
+$pageM->find2(2, $page);
+?>
+                          <li><a href="#"><?php echo htmlentities($page->titre); ?></a></li>
+<?php 
+$pageM = new Application_Model_EuPageMapper();
+$page = new Application_Model_EuPage();
+$pageM->find2(3, $page);
+?>
+                          <li><a href="#"><?php echo htmlentities($page->titre); ?></a></li>
+                        </ul>
+                      </li><?php */?>
+        <li><a href="<?php echo $this->baseUrl();?>/index/addquestionreponse">Une question?       
+<?php if(isset($sessionutilisateur->code_groupe) && ($sessionutilisateur->code_groupe == "admin_site" || $sessionutilisateur->code_groupe == "espace_bps_ei" || $sessionutilisateur->code_groupe == "espace_bps_gp" || $sessionutilisateur->code_groupe == "espace_capa" || $sessionutilisateur->code_groupe == "espace_caps" || $sessionutilisateur->code_groupe == "espace_cmfh" || $sessionutilisateur->code_groupe == "espace_gp_mcnp" || $sessionutilisateur->code_groupe == "espace_gp_mf107" || $sessionutilisateur->code_groupe == "espace_gp_mf11000" || $sessionutilisateur->code_groupe == "espace_gp_redemare" || $sessionutilisateur->code_groupe == "espace_kacm" || $sessionutilisateur->code_groupe == "espace_tc_pm" || $sessionutilisateur->code_groupe == "espace_tc_pp" || $sessionutilisateur->code_groupe == "espace_traite" || $sessionutilisateur->code_groupe == "espace_tr_pm" || $sessionutilisateur->code_groupe == "espace_zppe")){?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/questionreponses1.js"></script>
+<script>
+setInterval("ouvre_questionreponses1('<?php echo $sessionutilisateur->code_groupe; ?>')", 5000);
+//if(){
+//document.getElementById('titre').text = "Une nouvelle question est posée ...";
+//}
+</script> <span id="nivoalerte"></span>                      
+<script>
+//
+</script>    
+<?php }?>
+        </a></li>
+        
+        <li><a href="<?php echo $this->baseUrl();?>/index/addcontactmcnp">Contacts</a></li>
+        <li><a href="<?php echo $this->baseUrl();?>/index/login">Espace ZPPE</a></li>
+                    </ul>
+                    <ul class="nav pull-right">
+                      <li class="divider-vertical"></li>
+        <li><a href="<?php echo $this->baseUrl();?>/" target="_blank"><strong>ESMC</strong></a></li>
+        <li><a href="<?php echo $this->baseUrl();?>/index/ceu" target="_blank"><strong>ReD&eacute;MaRe</strong></a></li>
+                    </ul>
+                    <ul class="nav pull-right">
+        <li id="nivpanier"><?php if(isset($sessionpanier->produit) && $sessionpanier->produit != ""){?><a href="<?php echo $this->baseUrl();?>/espacepersonnel/panier"><i class="icon-shopping-cart icon-white"></i> Panier (<?php echo count($sessionpanier->produit); ?>)</a><?php }?></li>
+		<?php /*?><?php */?>
+                      <?php /*?><li class="divider-vertical"></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/facebook.png" title="Facebook" /></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/youtube.png" title="Youtube" /></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/twitter.png" title="Twitter" /></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/linkedin.png" title="Linkedin" /></a></li>
+    <li><a href="#"><img class="imgflag" src="<?php echo $this->baseUrl();?>/bootstrap/images/rss.png" title="RSS" /></a></li><?php */?>
+                    <?php /*?></ul><?php */?>
+                    
+                   
+                  </div><!-- /.nav-collapse -->
+                </div>
+              </div><!-- /navbar-inner -->
+            </div><!-- /navbar -->
+            
+        <?php 
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAll6("MCNP");
+	?>
+<?php if(count($entriespage)>0){?> 
+<marquee onmousemove="stop();" onmouseout="start();">
+<?php foreach ($entriespage as $entrypage): ?>
+<a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>"><?php echo ($entrypage->titre_deroulant); ?></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<?php endforeach; ?>
+</marquee>
+<?php }?>
+
+
+
+<?php echo $this->layout()->content ?>
+
+
+
+</div>    
+    
+<?php if(!isset($this->tabletri)){?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+<?php }?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/bootstrap.min.js"></script>
+    
+<script>
+$('.carousel').carousel({
+  interval: 5000
+})
+</script>
+  </body>
+</html>

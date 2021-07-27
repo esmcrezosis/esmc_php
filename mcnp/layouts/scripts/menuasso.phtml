@@ -1,0 +1,344 @@
+<?php 
+              if($_SERVER['SERVER_ADDR'] == Util_Utils::getParamEsmc(9)) {
+      $domaine = "prod.gacsource.net";
+        $domaine2 = "https://esmc.gacsource.net";
+      $domaine3 = "https://prod.gacsource.net";
+
+    }else{
+      $domaine = "prod.esmcgacsource.com";
+        $domaine2 = "http://www.esmc.tg";
+      $domaine3 = "http://prod.esmcgacsource.com";
+    }
+    ?>
+<?php 
+
+    $sessionmembreasso = new Zend_Session_Namespace('membreasso');
+
+    $membreasso_id  = $sessionmembreasso->membreasso_id;						
+	$membreasso = new Application_Model_EuMembreasso();
+    $membreasso_mapper = new Application_Model_EuMembreassoMapper();						
+	$association = new Application_Model_EuAssociation();
+    $association_mapper = new Application_Model_EuAssociationMapper();						
+	$membreasso_mapper->find($membreasso_id,$membreasso);
+	$association_mapper->find($membreasso->membreasso_association,$association);
+
+?>
+
+<?php /* ?>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+    TACHES </button>
+                        <div class="dropdown-menu">
+<?php
+$tache_type = new Application_Model_EuTacheTypeMapper();
+$tache_typeentries = $tache_type->fetchAll();
+if(count($tache_typeentries) > 0){?>
+<?php foreach ($tache_typeentries as $entry_type):?>
+<?php
+$tache = new Application_Model_EuTacheMembreassoMapper();
+$tacheentries = $tache->fetchAllByAssociation3(1, $membreasso_id, $entry_type->tache_type_id);
+if(count($tacheentries) > 0){?>
+	                      <div class="nav-header text-left"><?php echo ($entry_type->tache_type_libelle); ?></div>
+<?php foreach ($tacheentries as $entry): ?>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/detailstachemembreasso/id/<?php echo $entry->tache_id; ?>"><?php echo ($entry->tache_libelle); ?></a>
+<?php endforeach; ?>
+<?php }	 ?>		
+<?php endforeach; ?>
+<?php }	 ?>		
+                        </div>
+                      </div>
+<?php */?>
+
+<div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+    COMMUNAUTE
+    </button>
+    <div class="dropdown-menu">
+	    <div class="nav-header">SOUSCRIRE</div>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addsouscriptionban/paramban/1">Souscrire au Bon d'Achat</a>
+        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/enrolementsms2int">Souscription pour Soi - Personnes Physiques</a>
+        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/enrolementpmsms2int">Souscription pour Soi - Personnes Morales</a>
+        <div class="nav-header">TRAVAILLER</div>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addintegration/param_int/1">Intégrateurs (CMFH)</a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addintegration/param_int/2">Surveillance (CMFH)</a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addintegration/param_int/3">Travailleurs de la Production Commune (CMFH)</a>
+		
+        <div class="nav-header">PRESTATAIRES DE LA PRODUCTION COMMUNE</div>
+        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/projet/addprojetintegrateur">Soumettre un projet</a>
+        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/travailleur/addtravailleurintegrateur">Soumettre une offre du travail</a>
+
+		<?php  if($association->guichet == 1) { ?>
+		
+		<div class="nav-header">FICHE ODD</div>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/inscriptioncaps"> Offrir une intégration au Programme de Souscription CM pour tiers</a>
+        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/inscriptionbc">Offrir une intégration avec liste au Programme de Souscription BC pour tiers</a>
+        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listinscriptioncaps">Liste des offres d'intégration du Programme de Souscription CM </a>
+        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listinscriptioncapsdispo">Liste des offres d'intégration disponibles avec certificat</a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listinscriptionbc">Liste des offres d'intégration avec liste du Programme de Souscription BC pour tiers</a>
+        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listmembrefifo">Liste des offres d'intégration sans liste du Programme de Souscription BC pour tiers </a>
+		
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listmembrefifotrier">Liste des offres d'intégration sans liste Triés pour le Programme de Souscription BC pour tiers </a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listmembrefifovalider">Liste des offres d'intégration sans liste Validés pour le Programme de Souscription BC pour tiers </a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listmembrefifodesactiver">Liste des offres d'intégration sans liste désactivés</a>
+		
+		
+		<?php } else if(($membreasso->membreasso_association == 1)) { ?>
+		<div class="nav-header">FICHE ODD</div>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/inscriptioncaps">Offrir une intégration au Programme de Souscription CM pour tiers </a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/inscriptionbc">Offrir une intégration avec liste au Programme de Souscription BC pour tiers</a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listinscriptioncaps">Liste des offres d'intégration du Programme de Souscription CM </a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listinscriptioncapsdispo">Liste des offres d'intégration disponibles avec certificat</a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listinscriptionbc">Liste des offres d'intégration avec liste du Programme de Souscription BC pour tiers </a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listmembrefifo">Liste des offres d'intégration sans liste du Programme de Souscription BC pour tiers </a>
+		
+		
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listmembrefifotrier">Liste des offres d'intégration sans liste Triés pour le Programme de Souscription BC pour tiers </a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listmembrefifovalider">Liste des offres d'intégration sans liste Validés pour le Programme de Souscription BC pour tiers </a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listmembrefifodesactiver">Liste des offres d'intégration sans liste désactivés</a>
+		
+		<?php }  ?>
+		
+		<?php if(($membreasso->membreasso_association == 1))  { ?>
+		<div class="nav-header">ACTIVATION</div>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/enrolementsms2">Activation Pour Soi Compte Marchand Membre Personne Physique</a>
+	    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/enrolementpmsms2">Activation Pour Soi Compte Marchand Membre Personne Morale</a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/activationcaps">Activation Pour Tiers Compte Marchand Membre Personne Physique</a>               
+		<?php } ?>
+		
+		
+		
+	</div>
+</div>
+
+<div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+    UTILISATEUR
+	</button>
+	<div class="dropdown-menu">
+	    <div class="nav-header text-left">SOUSCRIRE</div>
+	    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addsouscriptionban/paramban/1">Souscrire au Bon d'Achat</a>
+        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/enrolementsms2int">Souscription pour Soi - Personnes Physiques</a>
+        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/enrolementpmsms2int">Souscription pour Soi - Personnes Morales</a>
+		<div class="nav-header">TRAVAILLER</div>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addintegration/param_int/5">Intégrateurs (UTILISATEUR)</a>
+		<div class="nav-header">ACTEURS</div>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addacteur/param_int/1">Acteur Offreur de Bien,Produit ou Service (BPS)</a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addacteur/param_int/2">Acteur Partenaire Bancaire et Financier (PBF)</a>
+		<div class="nav-header">ACHATS-VENTES RECIPROQUES</div>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addeli">Etablir un engagement de Livraison Irrévocable (ELI)</a>
+	</div>
+</div>
+
+<div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+    PARTENARIAT ODD
+    </button>
+	<div class="dropdown-menu">
+    <div class="nav-header text-left">SOUSCRIRE</div>
+	<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addsouscriptionban/paramban/1">Souscrire au Bon d'Achat</a>
+    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/enrolementsms2int">Souscription pour Soi - Personnes Physiques</a>
+    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/enrolementpmsms2int">Souscription pour Soi - Personnes Morales</a>
+	<div class="nav-header">ODD</div>
+	<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addintegration/param_int/4">Partenaire ODD</a>
+	<div class="nav-header">ACHATS-VENTES RECIPROQUES</div>
+    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addeli">Etablir un engagement de Livraison Irrévocable (ELI)</a>
+    </div>
+	
+</div>
+
+
+<?php  if ($sessionmembreasso->membreasso_association == "1" ):?>
+
+<div class="btn-group">
+<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+    CONTRAT FRANCHISE
+</button>
+ <div class="dropdown-menu">
+ <div class="nav-header text-left">Contracter</div>
+ <a href="/formsguichet/franchiseguiucoeop/id/1" class="dropdown-item">GUIUC/OE/OP</a>
+ <a href="/formsguichet/franchiseguiucoeop/id/2" class="dropdown-item">GUIUC/OE/PPP</a>
+ <a href="/formsguichet/franchiseguiucoeop/id/3" class="dropdown-item">GUIUC/OSE</a>
+ <a href="/formsguichet/franchiseguiucoeop/id/4" class="dropdown-item">GUIUU/BPS/B</a>
+ <a href="/formsguichet/franchiseguiucoeop/id/5" class="dropdown-item">GUIUU/BPS/P</a>
+ <a href="/formsguichet/franchiseguiucoeop/id/6" class="dropdown-item">GUIUU/BPS/S</a>
+ <a href="/formsguichet/franchiseguiucoeop/id/7" class="dropdown-item">GUIUU/PBF/A-OPI</a>
+ <a href="/formsguichet/franchiseguiucoeop/id/8" class="dropdown-item">GUIUU/PBF/AP-OPI</a>
+ <a href="/formsguichet/franchiseguiucoeop/id/9" class="dropdown-item">GUIUU/PBF/B</a>
+ <a href="/formsguichet/franchiseguiucoeop/id/10" class="dropdown-item">GUIUU/PBF/PS-OPI</a>
+ <a href="/formsguichet/franchiseguiucoeop/id/11" class="dropdown-item">GUIUU/PBF/SFD</a>
+ <a href="/formsguichet/franchiseguiucoeop/id/12" class="dropdown-item">GUIUU/PODD/POE/FE</a>
+ <a href="/formsguichet/franchiseguiucoeop/id/13" class="dropdown-item">GUIUU/PODD/POE/FS</a>
+ <a href="/formsguichet/franchiseguiucoeop/id/14" class="dropdown-item">GUIUU/PODD/POSE</a>
+ 
+ </div>
+
+</div>
+
+    <?php  endif ?>
+
+<div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+    PRESTATIONS
+    </button>
+	<div class="dropdown-menu">
+	    <div class="nav-header text-left">Paiement par FLOOZ</div>
+    <a class="dropdown-item" href="<?php echo $domaine3;?>/integrateur/addbantmoneyflooz">Souscrire au Bon d'Achat neutre (<strong>BAn</strong>) par FLOOZ</a>
+
+    <?php if($sessionmembreasso->membreasso_type == "1") { ?>
+	    <div class="nav-header text-left">Création des utilisateurs</div>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addmembreasso">Ajouter un nouvel utilisateur</a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listmembreasso">Liste des utilisateurs</a>
+        <?php } ?>
+		
+	    <div class="nav-header text-left">Approvisionnement BAn</div>
+	    <?php if($sessionmembreasso->guichet == 1){ ?>
+	    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addbanappro">Faire un approvisionnement BAn </a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/addbanapprocm">Faire un approvisionnement BAn pour Compte Marchand</a>
+        <?php } ?>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listbanapproapporteur">Liste de mes approvisionnements BAn</a>
+                        
+        <?php if($sessionmembreasso->membreasso_type == "1") { ?>
+        <div class="nav-header text-left">Approvisionnements de BAn effectués par les utilisateurs</div>
+        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listbanapprodetail">Liste des approvisionnements de BAn effectués par les utilisateurs</a>
+        <?php } ?>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/detaildemande">Liste de mes demandes de paiement des commissions</a>
+        <?php if($sessionmembreasso->membreasso_type == "1") { ?>
+        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/detaildemande2">Liste des demandes de paiement des commissions de tous</a>
+        <?php } ?>
+		
+		<?php if($sessionmembreasso->membreasso_type == "1" || $sessionmembreasso->membreasso_type == "2") { ?>
+		<div class="nav-header text-left">Souscriptions</div>
+		<?php if($sessionmembreasso->membreasso_type == "1") { ?>
+		    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listsouscription2">Liste de mes souscriptions</a>
+            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listsouscription3">Liste des souscriptions de l'agrément OSE/OE</a>
+            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listcodeactivationm2">Les activations des membres</a>
+            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listcodeactivationm">Mes activations des membres personnelles</a>
+            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listactivationm2">Les activations pour tiers</a>
+            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listactivationm">Mes activations  pour tiers personnelles</a>
+            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listactivationintegrateur">Etat des commissions</a>
+            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listactivationutilisateur">Etat de mes commissions personnelles</a> 
+		<?php } ?>
+		
+		<?php if($sessionmembreasso->membreasso_type == "2") { ?>
+		    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listsouscription2">Liste de mes souscriptions</a>
+		    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listcodeactivationm">Mes activations des membres personnelles</a>
+            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listactivationm">Mes activations  pour tiers personnelles</a>
+            <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listactivationutilisateur">Etat de mes commissions personnelles</a>
+		<?php } ?>
+		
+		<?php } ?>
+		
+		<?php  if(($association->guichet == 1) || ($membreasso->membreasso_association == 1))  { ?>
+		    <div class="nav-header text-left">Contentieux -- Mise à jour de relevé MCNP</div>
+	        <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/rowrelevesalaire">Relevé CNCS</a>
+		    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/rowrelevecredit">Relevé CNP</a>
+		    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/rowrelevegcp">Relevé GCP</a>
+		    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/rowrelevemf11000pp">Relevé MF11000 Personne Physique</a>
+		    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/rowrelevemf11000pm">Relevé MF11000 Personne Morale</a>
+		    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/rowrelevemf107">Relevé MF107</a>
+			<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/integrateur/listrelevetraiter">Liste de relevés traités</a>
+		
+		<?php } ?>
+
+		<?php  if($association->guichet == 1)  { ?>
+    <div class="nav-header text-left">Demande de  KIT</div>
+    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/kit/addkitint">Demander un KIT</a>
+    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/kit/listkitint">Liste des KIT</a>		
+		<?php } ?>
+	</div>
+</div>
+
+<div class="btn-group">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+	Les Manuels 
+	</button>
+    <div class="dropdown-menu">
+    <div class="nav-header text-left"> UTILISATEURS </div>
+    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/publicites/Manuel_utilisateur_esmc.pdf" target="blank">Manuel de l'utilisateur</a>
+    <div class="nav-header text-left"> CREATION DE COMPTE UTILISATEUR </div>
+    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/publicites/MANUEL_CREATION_DE_COMPTE_UTILISATEUR.pdf" target="blank">Manuel de création de compte utilisateur</a>
+    <div class="nav-header text-left">INTEGRATEURS </div>
+    <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/publicites/guide_integrateur.pdf" target="blank">Le Guide de l'intégrateur</a>
+    </div>
+</div>
+			
+
+
+
+		<?php if(($membreasso->membreasso_association == 1)) { ?>
+
+       <div class="btn-group">
+         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Articles </button>
+         <div class="dropdown-menu">
+           <?php /* ?><div class="nav-header text-left">Categories</div>
+             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligneintegrateur/addarticlestockescategorie">
+               Ajouter une categorie d'article
+             </a>
+             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligneintegrateur/listarticlestockescategorie">
+               Liste des categories des articles
+             </a>
+           <div class="nav-header text-left">Stocks</div>
+             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligneintegrateur/addarticleone">
+               Ajouter un article 
+             </a>
+             <!--<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligneintegrateur/addarticle">
+               Ajouter plusieurs articles
+             </a>-->
+             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligneintegrateur/listarticle">
+               Liste de mes articles
+             </a>
+           <div class="nav-header text-left">Additifs</div>
+             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligneintegrateur/addarticlestockesadditif">
+               Ajouter un additif d'article
+             </a>
+             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligneintegrateur/listarticlestockesadditif">
+               Liste des additifs des articles
+             </a>
+           <div class="nav-header text-left">Ventes</div>
+             <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligneintegrateur/listarticlevendu">
+               Liste de mes ventes
+             </a><?php */ ?>
+
+		<div class="nav-header text-left">Informations Additives</div>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligneintegrateur/addinformationadditif">Ajouter une information additive</a>
+		<a class="dropdown-item" href="<?php echo $this->baseUrl();?>/boutiqueligneintegrateur/listinformationadditif">Liste des informations additives</a>
+
+
+         </div>
+       </div>
+		<?php } ?>
+
+<?php 
+    if($_SERVER['SERVER_ADDR'] == Util_Utils::getParamEsmc(9)) {
+      $domaine3 = "https://webfiles.gacsource.net";
+    }else{
+      $domaine3 = "http://webfiles.esmcgacsource.com";
+    }
+    ?>
+<div class="btn-group">
+         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">Téléchargements </button>
+         <div class="dropdown-menu">
+           
+		<a class="dropdown-item" href="<?php echo $domaine3;?>/projet/ESMC_Cartes_BIO_1_0.msi">Nouvelle version de l'application des cartes</a>
+		
+         </div>
+       </div>
+
+
+
+<br>
+<br>
+
+
+
+
+
+<div align="right" style="margin-top: 0px;">
+<i class="fa fa-user"></i> <?php echo ($sessionmembreasso->membreasso_nom); ?> <?php echo ($sessionmembreasso->membreasso_prenom); ?>
+<?php if($sessionmembreasso->membreasso_association == "1") { ?>
+<a href="<?php echo $this->baseUrl();?>/integrateur/editmembreasso2"><i class="fa fa-edit"></i> Modifier son profil</a>
+<?php } ?>
+<a href="<?php echo $this->baseUrl();?>/integrateur/password"><i class="fa fa-edit"></i> Modifier le mot de passe</a>
+<a href="<?php echo $this->baseUrl();?>/integrateur/nocompte"><i class="fa fa-off"></i> Déconnexion</a>
+</div>
+

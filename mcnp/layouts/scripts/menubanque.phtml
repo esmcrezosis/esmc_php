@@ -1,0 +1,87 @@
+<?php $session_banque = new Zend_Session_Namespace ('banque');?>
+<?php if(isset($session_banque->login_banque_user)){?>
+<div class="navbar navbar-inverse" style="position: static;">
+              <div class="navbar-inner">
+                <div class="container">
+                  <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </a>
+                  <div class="nav-collapse collapse navbar-inverse-collapse">
+                  <a class="brand" href="<?php echo $this->baseUrl();?>/eu-banque"><i class="icon-home icon-white"></i><!-- Administration--></a>
+                    <ul class="nav"><!-- class="active"-->
+						          <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Utilisateurs <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Utilisateurs Banques</li>     
+      <?php if($session_banque->role == 'B_ADMIN') { ?>
+         <li><a href="/eu-banque/addbanque">Ajout d'utilisateurs</a></li>
+      <?php } ?>
+                        </ul>
+                      </li>
+
+            <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relevés bancaires <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        <li class="nav-header">Versements</li>
+      <?php if($session_banque->role != 'cnp_tegcp_pbf') { ?>
+      <li><a href="/eu-banque/listrelevebancaire">Liste des versements
+          enregistrés</a>
+      </li>
+      <li><a href="/eu-banque/addreleve">Ajout de versement</a></li>
+      <?php } ?>                        
+                        </ul>
+                      </li>
+
+            <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">BAn <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        <li class="nav-header">Bon d'Achat neutre </li>
+      <?php if($session_banque->role != 'cnp_tegcp_pbf') { ?>
+      <li><a href="/eu-banque/addreleveban">Souscription au BAn</a></li>
+      <?php } ?>
+                        </ul>
+                      </li>
+
+            <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">OPI <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        <li class="nav-header">Ordre de Prélèvement Irrévocable</li>
+      <?php if($session_banque->role != 'cnp_tegcp_pbf') { ?>
+      <li><a href="/eu-banque/rechercheopibanque">OPI</a></li>
+      <?php } ?>
+      
+      <?php if($session_banque->role == 'cnp_tegcp_pbf') { ?>
+      <li><a href="/eu-banque/listtraite">OPI-PBF</a></li>
+      <?php } ?>
+                        </ul>
+                      </li>
+
+                       
+                      
+                      
+					  
+                      
+					  
+                    </ul>
+					
+                    
+
+                  </div><!-- /.nav-collapse -->
+                </div>
+              </div><!-- /navbar-inner -->
+            </div>
+            
+            
+            <div align="right" style="margin-top: -15px;">
+  <i class="icon-home"></i> <?php echo ($session_banque->code_banque); ?>
+<i class="icon-user"></i> <?php echo ($session_banque->nom_banque_user); ?> <?php echo ($session_banque->prenom_banque_user); ?> 
+<!--<br />-->
+  <a href="<?php echo $this->baseUrl();?>/eu-banque/password"><i
+    class="icon-edit"></i> Modifier le mot de passe</a> <a
+    href="<?php echo $this->baseUrl();?>/eu-banque/nocompte"><i
+    class="icon-off"></i> Déconnexion</a>
+</div>
+
+			<?php } ?>

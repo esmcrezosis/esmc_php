@@ -1,0 +1,46 @@
+<?php $sessionzppe = new Zend_Session_Namespace('zppe');?>
+<?php if(isset($session->zppe_login)){?>
+<div class="navbar navbar-inverse" style="position: static;">
+              <div class="navbar-inner">
+                <div class="container">
+                  <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </a>
+                  <div class="nav-collapse collapse navbar-inverse-collapse">
+                  <a class="brand" href="#"><i class="icon-home icon-white"></i><!-- ZPPE--></a>
+                    <ul class="nav"><!-- class="active"-->
+
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bons<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Bons</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/index/zppe">Liste des bons</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reçu<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+	                      <li class="nav-header">Reçus</li>
+                          <li><a href="<?php echo $this->baseUrl();?>/index/listrecu">Liste des reçus</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                    
+                    <?php /*?><ul class="nav pull-right" style="margin-right: -20px;">
+                      <li class="divider-vertical" style="margin:0;"></li>
+                      <li><a href="<?php echo $this->baseUrl();?>/index2" target="_blank" title="Plateforme MCNP"><i class="icon-white icon-globe"></i></a></li>
+                    </ul><?php */?>
+                  </div><!-- /.nav-collapse -->
+                </div>
+              </div><!-- /navbar-inner -->
+            </div>
+            
+            
+            <div align="right" style="margin-top: -15px;">
+<i class="icon-user"></i> <?php echo ($sessionzppe->zppe_libelle); ?>
+            <a href="<?php echo $this->baseUrl();?>/index/nocompte"><i class="icon-off"></i> Déconnexion</a>
+			</div>
+
+			<?php }?>

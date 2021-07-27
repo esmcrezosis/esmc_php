@@ -1,0 +1,34 @@
+<style>
+
+.nav-header {
+
+    font-weight: bold;
+    
+    color: #AA325F;
+    
+    margin-left: 9px;
+}
+
+</style>
+
+
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+
+<?php if(isset($sessionutilisateur->login)):?>
+
+
+
+
+<div align="right" style="margin-top: -15px;">
+
+    <i class="fa fa-user"></i> <?php echo ($sessionutilisateur->nom_utilisateur); ?> <?php echo ($sessionutilisateur->prenom_utilisateur); ?>
+
+    <a href="<?php echo $this->baseUrl();?>/administration/password"><i class="fa fa-edit"></i> Modifier mon mot de passe</a>
+
+    <a href="<?php echo $this->baseUrl();?>/administration/nocompte"><i class="fa fa-off"></i> Déconnexion</a>
+
+</div>
+
+
+<?php endif ?>

@@ -1,0 +1,193 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<html lang="fr">
+<head>
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="/images/favicon_esmc.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/design1/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/design1/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/design1/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="/design1/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/design1/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/design1/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/design1/css/main-mini.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+
+<?php if (!isset($sessionzppe->zppe_login)) { ?>
+    <div class="thumbnail" id="box12">
+    <!--<div class="boxicone"><span class="icon"><i class="icon-globe" style="margin-top:9px;"></i></span></div>-->
+<?php if(substr($sessionmembre->code_membre, -1) == "P") { ?>
+      <h4 id="box13"><a href="<?php echo $this->baseUrl();?>/espacepersonnel">Espace Personnel</a></h4>
+<?php } else if(substr($sessionmembre->code_membre, -1) == "M") {?>
+      <h4 id="box13"><a href="<?php echo $this->baseUrl();?>/espacepersonnel">Espace Professionnel</a></h4>
+<?php } else { /*?>  
+      <h4 id="box13">Connexion</h4>
+<?php */} ?>
+  
+<?php if(isset($sessionmembre->code_membre) && $sessionmembre->code_membre != "") { ?>
+
+<p>
+</p>
+<small>
+<address>
+<?php if(substr($sessionmembre->code_membre, -1) == "P") { ?>
+<?php /*?><?php 
+$eumembre = new Application_Model_DbTable_EuMembre();
+$select = $eumembre->select()->from(array('eu_membre'), array('code_membre', 'photompp'))->where('code_membre = ?', $sessionmembre->code_membre);
+$rowseumembre = $eumembre->fetchRow($select);
+
+$img = $rowseumembre->photompp->load();
+    header("Content-type: image/jpg");
+    print $img;
+
+
+//echo $rowseumembre->photompp; ?>
+<?php if($rowseumembre->photompp != NULL){?>
+<?php 
+//header('Content-Type: image/gif');
+//echo $rowseumembre->photompp;?> 
+<img src="data:image/png;base64,<?php echo $rowseumembre->photompp;?>" class="img-rounded">
+<br><?php }?><?php */?>
+  <i class="icon-user"></i> <strong><?php echo htmlentities($sessionmembre->nom_membre); ?> <?php echo htmlentities($sessionmembre->prenom_membre); ?></strong><br />
+<span class="label label-info"><?php echo $sessionmembre->code_membre; ?></span><br />
+  Né le <?php echo $sessionmembre->date_nais_membre; ?> à <?php echo htmlentities($sessionmembre->lieu_nais_membre); ?><br />
+  <?php echo htmlentities($sessionmembre->profession_membre); ?><br />
+  
+<?php } else if(substr($sessionmembre->code_membre, -1) == "M") { ?>
+
+  <i class="icon-home"></i> <strong><?php echo htmlentities($sessionmembre->raison_sociale); ?></strong><br />
+<span class="label label-info"><?php echo $sessionmembre->code_membre; ?></span><br />
+  <?php echo htmlentities($sessionmembre->domaine_activite); ?><br />
+
+<?php } ?>  
+
+  <?php echo htmlentities($sessionmembre->quartier_membre); ?> - <?php echo htmlentities($sessionmembre->ville_membre); ?><br />
+  <abbr title="Boite Postale">BP:</abbr> <?php echo $sessionmembre->bp_membre; ?><br />
+  <abbr title="Téléphone">Tel:</abbr> <?php echo $sessionmembre->tel_membre; ?><br />
+  <abbr title="Portable">Cel:</abbr> <?php echo $sessionmembre->portable_membre; ?><br />
+  <abbr title="E-mail">E-mail:</abbr> <a href="mailto:<?php echo $sessionmembre->email_membre; ?>"><?php echo $sessionmembre->email_membre; ?></a>
+</address>
+ </small>
+<p></p>
+  <?php } else { ?>
+  <!-- <img src="<?php //echo $this->baseUrl();?>/assets/img/connexion.jpg" class="img-fluid" alt="connexion"> -->
+  
+   <div class="limiter">
+      <div class="container-login100">
+          <div class="wrap-login100">
+          <form class="login100-form validate-form" id="formulaire_login"
+          action="<?php echo  $this->baseUrl();?>/index/securelogin" method="post">
+					<span class="login100-form-title">
+						Connexion
+					</span>
+
+					<?php
+                         $sessionmembre = new Zend_Session_Namespace('membre');
+                         if(isset($sessionmembre->errorlogin)) {
+	                          echo '<center><strong>'.$sessionmembre->errorlogin.'</strong></center><br/>';
+	                          $sessionmembre->errorlogin = "";
+                         }
+					?>
+
+					<div class="wrap-input100 validate-input" data-validate = "Votre code membre est requis">
+						 <input class="input100" type="text" name="code_membre" id="code_membre" placeholder="Code membre" required />
+						 <span class="focus-input100"></span>
+						 <span class="symbol-input100">
+							   <i class="fa fa-user" aria-hidden="true"></i>
+						 </span>
+					</div>
+
+					<?php /* ?>
+					<div class="wrap-input100 validate-input" data-validate = "Votre code secret est requis">
+						<input class="input100" type="password" name="codesecret" placeholder="Code secret" required />
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							  <i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+					<?php */ ?>
+
+					<div class="container-login100-form-btn">
+                    <input name="ok" type="hidden" id="ok" value="ok" />
+                           <button class="login100-form-btn" id="login_button">
+                           Se connecter
+						   </button>
+					</div>
+				</form>
+          </div>
+      </div>
+    </div>
+	<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+    <script src="/outil-qr.js"></script>
+    <script type="text/javascript">
+    outilqr('formulaire_login');
+    //outilqrformobligatoire("formulaire_login","login_button");
+    </script>
+	
+	<a class="link" href="<?php echo $this->baseUrl();?>/index/rechercheractivation">Pour retrouver son Code Membre</a>
+
+  <?php }  ?>
+    </div>
+<?php }?>
+
+
+<?php /*?>
+
+<a href="<?php echo $domaine2; ?>/index/pageesmc/id/122"><img src="<?php echo $this->baseUrl();?>/assets/img/gif2.gif" class="img-fluid" alt="Souscription au Compte Marchand"></a>
+<br />
+
+
+
+
+<?php //if($this->index == "esmc"){ ?>
+<?php //}else{ ?>
+<?php /////////////////////////////////
+$publicite = new Application_Model_EuPubliciteMapper();
+$entriespublicite = $publicite->fetchAllByTypeCategorieBoxInterfaceAncienOne(2, 0, 2, 0, 2);
+//var_dump($entriespublicite);
+if(count($entriespublicite) > 0){?>
+<a href="<?php echo ($entriespublicite->lien_publicite); ?>"><img src="<?php echo $this->baseUrl();?>/<?php echo ($entriespublicite->desc_publicite); ?>" class="img-fluid" alt="<?php echo ($entriespublicite->libelle_publicite); ?>" title="<?php echo ($entriespublicite->libelle_publicite); ?>"></a>
+<?php } ?>
+<?php //} ?>
+
+
+
+
+<br><br>
+
+<button id="moyenpaiement4" type="button" class="btn btn-secondary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true"  data-container="body" title="Mode de paiement" style="margin: 0;padding: 0;border-color: #f7f7f9;background-color: #f7f7f9;font-size: 14px;color: #aa325f; cursor: pointer;"><img src="<?php echo $this->baseUrl();?>/assets/img/moyen_paiement.png" alt="Mode de paiement"><br>Mode de paiement
+</button>
+<div id="popover-moyenpaiement4" class="list-group" style="display: none;">
+
+<a href="#" class="list-group-item active">Institutions financières</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #63a153;"><strong>BAT : </strong>&nbsp; 40181660003</a>  
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #63a153;"><strong>BOA : </strong>&nbsp; 001608630006</a> 
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>UTB : </strong>&nbsp;  214357610004</a> 
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>ECOBANK : </strong>&nbsp;  7090121421892501</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem; background-color: #EFEB00;"><strong>ORABANK : </strong>&nbsp; 63642300101</a>
+
+<a href="#" class="list-group-item active">Mode de paiement en ligne</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="http://80.248.77.146/mastercardvisa/mastercardvisa.php" target="_blank"><strong>Carte Visa </strong> </a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="http://80.248.77.146/mastercardvisa/mastercardvisa.php" target="_blank"><strong>MasterCard </strong>  </a>
+
+<a href="#" class="list-group-item active">Mobile Money</a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"><strong>WARI : </strong>     </a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;" href="http://80.248.77.146/tmoney/paiement.php" target="_blank"><strong>T-MONEY : </strong>  </a>
+<a class="list-group-item list-group-item-action" style="padding: 0.25rem 0.25rem;"><strong>FLOOZ : </strong>    </a>
+
+</div>
+
+<?php */?>
+
+</body>
+</html>
+
