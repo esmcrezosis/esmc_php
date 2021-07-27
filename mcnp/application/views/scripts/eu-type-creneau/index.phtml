@@ -1,0 +1,51 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-creneau"></table>
+    <table id="pg-creneau"></table>
+</div>
+
+<script type="text/javascript">
+    
+     $("#tbl-creneau").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['','Désignation  type  creneau'],
+        height:'100%', width:800,
+        colModel:[
+                 {name:'id_type_creneau',index:'id_type_creneau', width:50, sorttype:"int", editable: true,align:"left",hidden:true},
+                 {name:'libelle_type_creneau',index:'libelle_type_creneau', width:500, editable: true,align:"left"}
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        rownumbers:true,
+        pager: '#pg-contrat',
+        sortname:"id_type_creneau",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des types de creneaux"
+    });
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-creneau").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-creneau").jqGrid('getRowData',rowsel);
+            $.get('/eu-type-creneau/edit',{
+                id_type_creneau:data.id_type_creneau
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+    $("#tbl-creneau").jqGrid('navGrid','#pg-creneau',{edit:false,add:false,del:false,search:false});
+    $('#editer').button();
+</script>    

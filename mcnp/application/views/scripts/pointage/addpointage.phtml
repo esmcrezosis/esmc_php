@@ -1,0 +1,112 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Enrégistrer un pointage</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addpostepointage">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+<div class="control-group">
+<label class="control-label" for="id_poste_pointage">Poste  *</label>
+<div class="controls">
+<select  name ="id_poste_pointage" id="id_poste_pointage"  required="required" class="input-xlarge">
+     <?php  $poste_pointage_mapper = new Application_Model_EuPostePointageMapper();
+		    $selectposte_pointages = $poste_pointage_mapper->fetchAllByEmployeur($sessionmembre->code_membre);?>
+            <option value="">Choisir le poste </option>
+            <?php foreach ($selectposte_pointages as $selectposte_pointage): ?>
+            <option value="<?php echo $selectposte_pointage->id_poste_pointage; ?>"><?php echo $selectposte_pointage->libelle_poste_pointage; ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="code_membre_employe">Code Membre Employé *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="code_membre_employe" id="code_membre_employe" placeholder="Code Membre Employé " required>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="date_debut">Date Début  * </label>
+<div class="controls">
+  <input type="text" name="date_debut" id="date_debut" placeholder="Date Début" class="input-xlarge datepicker" data-provide="datepicker"  required="required" readonly />
+<span class="help-block"><p class="text-error">Cliquez dans le champ pour choisir la date de début du pointage</p></span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="heure_debut">Heure Début  * </label>
+<div class="controls">
+  <input type="time" name="heure_debut" id="heure_debut" placeholder="Heure Début" required="required" />
+<span class="help-block"><p class="text-error">Saisir l'heure de début du pointage</p></span>
+</div>
+</div>
+
+
+
+
+
+<div class="control-group">
+<label class="control-label" for="date_fin">Date Fin  * </label>
+<div class="controls">
+  <input type="text" name="date_fin" id="date_fin" placeholder="Date Fin" class="input-xlarge datepicker" data-provide="datepicker"  required="required" readonly />
+<span class="help-block"><p class="text-error">Cliquez dans le champ pour choisir la date de fin du pointage</p></span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="heure_fin">Heure Fin  * </label>
+<div class="controls">
+  <input type="time" name="heure_fin" id="heure_fin" placeholder="Heure Fin" required="required" />
+<span class="help-block"><p class="text-error">Saisir l'heure de fin du pointage</p></span>
+</div>
+</div>
+
+    
+
+
+
+
+
+
+<div class="form-actions">
+<input name="code_membre_employeur" type="hidden" id="code_membre_employeur" value="<?php echo $sessionmembre->code_membre; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enrégistrer le pointage</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

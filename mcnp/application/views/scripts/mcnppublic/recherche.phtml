@@ -1,0 +1,116 @@
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+  <blockquote><p class="text-info">Le résultat de la recherche</p></blockquote>
+
+<form action="<?php echo $this->baseUrl();?>/index/recherche/" method="post" class="well form-inline" id="recherche">
+			  Rechercher 
+
+<?php $table = new Application_Model_DbTable_EuMembreMorale();
+$select = $table->select()
+				->distinct()
+				->from($table, array('quartier_membre'));
+$entriesmembremorale = $table->fetchAll($select);
+$listequartier = "";
+foreach ($entriesmembremorale as $entrymembremorale): 
+$listequartier .= '"'.htmlspecialchars($entrymembremorale->quartier_membre).'",';
+endforeach; 
+$listequartier = substr($listequartier, 0, -1);
+?>
+              <input name="quartier" type="text" id="quartier" placeholder="Entrer le quartier" class="input-medium" <?php if(isset($_POST['quartier']) && $_POST['quartier']!=""){?> value="<?php echo $_POST['quartier']; ?>"<?php }?> data-provide="typeahead" data-items="10" data-source='[<?php echo $listequartier;?>]'>
+			   - 
+<?php $table = new Application_Model_DbTable_EuMembreMorale();
+$select = $table->select()
+				->distinct()
+				->from($table, array('ville_membre'));
+$entriesmembremorale = $table->fetchAll($select);
+$listeville = "";
+foreach ($entriesmembremorale as $entrymembremorale): 
+$listeville .= '"'.htmlspecialchars($entrymembremorale->ville_membre).'",';
+endforeach; 
+$listeville = substr($listeville, 0, -1);
+?>
+               <input name="ville" type="text" id="ville" placeholder="Entrer la ville" class="input-medium" <?php if(isset($_POST['ville']) && $_POST['ville']!=""){?> value="<?php echo $_POST['ville']; ?>"<?php }?> data-provide="typeahead" data-items="10" data-source='[<?php echo $listeville;?>]'>
+			   - 
+			   <select name="id_filiere" id="id_filiere" class="input-xlarge">
+               <option value="">Choisir une filière</option>
+    <?php foreach ($this->selectfiliere as $selectfiliere): ?>
+               <option value="<?php echo $selectfiliere->id_filiere; ?>" <?php if(isset($_POST['id_filiere']) && $_POST['id_filiere']==$selectfiliere->id_filiere){?> selected="selected"<?php }?>><?php echo ($selectfiliere->nom_filiere); ?></option>
+    <?php endforeach; ?>
+               </select>
+               
+              <input name="ok" type="hidden" value="ok" />
+			  <button type="submit" class="btn btn-danger">Rechercher</button>
+			</form>
+
+
+          <?php if(count($this->entries)>0){?>  
+          <?php $idfiliere = ""; ?>
+<div class="accordion" id="accordion2">
+    <?php foreach ($this->entries as $entry): ?>
+    <?php if($entry->id_filiere != $idfiliere && $idfiliere != ""){ ?>
+</tbody>
+</table>
+      </div>
+    </div>
+  </div>
+ <?php }?>   
+    <?php if($entry->id_filiere != $idfiliere){ $idfiliere = $entry->id_filiere;?>
+    <?php 
+$filiereM = new Application_Model_EuFiliereMapper();
+$filiere = new Application_Model_EuFiliere();
+$filiereM->find($entry->id_filiere, $filiere);
+?>
+<div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $filiere->id_filiere; ?>">
+        <i class="icon-arrow-right"></i> <?php echo ($filiere->nom_filiere); ?>, <span style="color:#666; font-size:11px; text-decoration:inherit;"><?php echo ($filiere->descrip_filiere); ?></span>
+      </a>
+    </div>
+    <div id="collapse<?php echo $filiere->id_filiere; ?>" class="accordion-body collapse" align="left">
+      <div class="accordion-inner">
+<table class="table table-condensed">
+<thead>
+<tr>
+<th>Acteurs</th>
+<th><div align="center">Actions</div></th>
+</tr>
+</thead>
+<tbody>
+	<?php }?>
+    <tr>
+      <td><?php echo ($entry->raison_sociale); ?> <small style="color:#666; font-size:11px; text-decoration:inherit;"><?php echo ($entry->domaine_activite); ?>, <?php echo ($entry->quartier_membre); ?> - <?php echo ($entry->ville_membre); ?></small></td>
+      <td><div align="center"><a href="<?php echo $this->baseUrl();?>/index/acteurproduit/id/<?php echo $entry->code_membre_morale; ?>"><!--<i class="icon-eye-open"></i>--> Détails</a></div></td>
+    </tr>
+    
+    <?php endforeach; ?>
+    
+</tbody>
+</table>
+      </div>
+    </div>
+    </div>
+  
+    </div>
+	<?php }?>
+
+
+
+
+
+
+</div>
+<div class="span3">
+	<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+

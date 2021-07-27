@@ -1,0 +1,31 @@
+<div id="view-content">
+    <table id="tbl-codebarre"></table>
+    <div id="pg-codebarre"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-codebarre").jqGrid({
+           url:'<?php echo $this->url(array('action'=>'data')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Codebarre','Type','Date création','Code Fournisseur','Raison Sociale','Date livraison','Code Demandeur'],
+        height:440, width:828,
+        colModel:[
+            {name:'codebarre', 			index:'codebarre', 			width: 100, 	editable: true, align:"left"},
+            {name:'type_codebar', 		index:'type_codebar', 		width: 20, 		editable: true, align:"left"},
+            {name:'date_generer', 		index:'date_generer', 		width: 120, 	editable: true, align:"left"},
+            {name:'codemembre_four', 	index:'codemembre_four', 	width: 140, 	editable: true,	align:"left"},
+            {name:'raisonsociale_four', index:'raisonsociale_four', width: 100, 	editable: true,	align:"left"},
+            {name:'date_four', 			index:'date_four', 			width: 120, 	editable: true, align:"left"},
+            {name:'codemembre_dem', 	index:'codemembre_dem', 	width: 140, 	editable: true,	align:"left"},
+        ],
+        rowNum:1000,
+        rowList:[1000,2000,3000,4000,5000,6000,7000,8000,9000],
+        pager: '#pg-codebarre',
+        sortname:"date_generer",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Liste des codebarres générés"
+    });
+  
+    $("#tbl-codebarre").jqGrid('navGrid','#pg-codebarre',{edit:true,add:true,del:true,search:true});
+</script>

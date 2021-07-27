@@ -1,0 +1,62 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Modification d'un pays</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form action="/eu-pays/edit" name="fm_pays" method="POST" id="fm_pays">
+            <div>
+                <fieldset>
+                    <legend>Informations sur le pays</legend>
+                    <table>
+                        <tr><td>Code *</td><td><input name="code_pays" id="code_pays" class="validate[required]" value="<?php echo $this->code_pays ?>"/></td>
+                            <td>Libellé *</td><td colspan='3'><input name="libelle_pays" id="libelle_pays" class="validate[required]" value="<?php echo $this->libelle_pays ?>" size="35"/></td>
+                        </tr>
+                        <tr>                         
+                            <td>Nationalité *</td>
+                            <td><input name="nationalite" id="nationalite" class="validate[required]" value="<?php echo $this->nationalite ?>"/></td>
+                            <td>Code téléphonique *</td>
+                            <td><input name="code_telephonique" id="code_telephonique" class="validate[required]" value="<?php echo $this->code_telephonique ?>"/></td>
+                        </tr>
+                        <tr>
+                            <td>Code Zone</td><td><select id="code_zone" name="code_zone" class="validate[required]" value="<?php echo $this->code_zone ?>"/></td>
+                        </tr>
+                        <input name="id_pays" id="id_pays" class="validate[required]" value="<?php echo $this->id_pays ?>" hidden="true"/>
+                    </table>
+                </fieldset>
+            </div>
+            <div>
+                <input type="submit" value="Valider" name="valider" id="valider"   />
+                <input type="reset" value="Rafraichir" name="refresh" id="refresh"   />
+                <input id="t_annuler" type="button" value="Annuler" />
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            $('#refresh').button();
+            $('#valider').button();
+            $('#t_annuler').button();
+            
+            jQuery(document).ready(function(){
+                // binds form submission and fields to the validation engine
+                jQuery("#fm_pays").validationEngine();
+            });
+            
+            $('#t_annuler').click(function()
+            {
+                window.location="/eu-pays/";
+            });
+            
+            $.get( "/eu-pays/zone",
+            function success(data)
+            {
+                var options = '<option/>';
+                for( var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+                }
+                $('select#code_zone').html(options);
+            });
+        });
+    </script>
+</div>

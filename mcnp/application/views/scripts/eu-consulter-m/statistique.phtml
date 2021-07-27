@@ -1,0 +1,152 @@
+<div id="view-content" title="Vue des statistiques des enrôlements effectu&eacute;es " style="font-size: 12px">
+     <div id="tab_gcp" style="padding: 1px;">
+          <ul>
+              <li><a href="#tab_enro_m">TotalM</a></li>
+              <li><a href="#tab_enro_nm">TotalNM</a></li>
+			    <?php
+				     $auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin')); 
+                     $user = $auth->getIdentity();
+				     $group = $user->code_groupe;
+				     if($group == 'enrolement') {
+				?>
+                     <li><a href="#tab_enro_mpp">TotalMPP</a></li>
+                     <li><a href="#tab_enro_fs">TotalNMPP</a></li>
+                     <li><a href="#tab_enro_an">TotalAMPP</a></li>
+			    <?php
+				     } elseif($group == 'mise_chaine') {
+			    ?>
+				     <li><a href="#tab_enro_mpm">TotalMPM</a></li>
+                     <li><a href="#tab_enro_fsm">TotalNMPM</a></li>
+                     <li><a href="#tab_enro_anm">TotalAMPM</a></li>
+				<?php
+				    }
+				?>	 
+				<?php 
+				
+				?>	 
+          </ul>
+		  
+          <div id="tab_enro_m" style="padding: 1px;">
+	      <table border="1" width="450" height="70" style="margin-top: 2px;margin-bottom: 2px;margin-right: auto;margin-left: auto ">
+                 <thead>
+                       <th colspan="2"><label style="text-align: center;width: 280px;">Voici le total des Membres Enrôlés</label></th>
+                 </thead>
+                 <tbody>
+                        <tr>
+                            <td><label>Total</label></td>
+                            <td style="text-align: right"><label><?php echo $this->totalm; ?></label></td>
+                        </tr>
+                 </tbody>
+           </table>		   
+           </div>
+           <div id="tab_enro_nm" style="padding: 1px;">
+	       <table border="1" width="450" height="70" style="margin-top: 2px;margin-bottom: 2px;margin-right: auto;margin-left: auto ">
+                 <thead>
+                       <th colspan="2"><label style="text-align: center;width: 280px;">Voici le total des Nouveaux Membres</label></th>
+                 </thead>
+                 <tbody>
+                        <tr>
+                            <td><label>Total</label></td>
+                            <td style="text-align: right"><label><?php echo $this->totalnm; ?></label></td>
+                        </tr>
+                 </tbody>
+             </table>		   
+          </div>
+		  <?php if($group == 'enrolement') {  ?>
+          <div id="tab_enro_mpp" style="padding: 1px;">
+	      <table border="1" width="450" height="70" style="margin-top: 2px;margin-bottom: 2px;margin-right: auto;margin-left: auto ">
+                 <thead>
+                       <th colspan="2"><label style="text-align: center;width: 280px;">Voici le total des Membres Personnes Physiques</label></th>
+                 </thead>
+                 <tbody>
+                        <tr>
+                            <td><label>Total</label></td>
+                            <td style="text-align: right"><label><?php echo $this->totalmpp; ?></label></td>
+                        </tr>
+                 </tbody>
+             </table>		   
+          </div>
+		  
+          <div id="tab_enro_fs" style="padding: 1px;">
+	       <table border="1" width="450" height="70" style="margin-top: 2px;margin-bottom: 2px;margin-right: auto;margin-left: auto ">
+                  <thead>
+                       <th colspan="2"><label style="text-align: center;width: 280px;">Voici le total des Nouveaux Membres Personnes Physiques</label></th>
+                  </thead>
+                  <tbody>
+                       <tr>
+                            <td><label>Total</label></td>
+                            <td style="text-align: right"><label><?php echo $this->totalnmpp; ?></label></td>
+                       </tr>
+                  </tbody>
+               </table>		   
+          </div>
+		  
+          <div id="tab_enro_an" style="padding: 1px;">
+	       <table border="1" width="450" height="70" style="margin-top: 2px;margin-bottom: 2px;margin-right: auto;margin-left: auto ">
+                  <thead>
+                       <th colspan="2"><label style="text-align: center;width: 280px;">Voici le total des Anciens Membres Personnes Physiques</label></th>
+                  </thead>
+                  <tbody>
+                       <tr>
+                            <td><label>Total</label></td>
+                            <td style="text-align: right"><label><?php echo $this->totalampp; ?></label></td>
+                       </tr>
+                  </tbody>
+               </table>		   
+          </div>
+		  <?php } elseif($group == 'mise_chaine') { ?>
+          <div id="tab_enro_mpm" style="padding: 1px;">
+	       <table border="1" width="450" height="70" style="margin-top: 2px;margin-bottom: 2px;margin-right: auto;margin-left: auto ">
+                  <thead>
+                       <th colspan="2"><label style="text-align: center;width: 280px;">Voici le total des Membres Personnes Morales</label></th>
+                  </thead>
+                  <tbody>
+                       <tr>
+                            <td><label>Total</label></td>
+                            <td style="text-align: right"><label><?php echo $this->totalmpm; ?></label></td>
+                       </tr>
+                  </tbody>
+               </table>		   
+          </div>
+		  
+          <div id="tab_enro_fsm" style="padding: 1px;">
+	       <table border="1" width="450" height="70" style="margin-top: 2px;margin-bottom: 2px;margin-right: auto;margin-left: auto ">
+                  <thead>
+                       <th colspan="2"><label style="text-align: center;width: 280px;">Voici le total des Nouveaux Membres Personnes Morales</label></th>
+                  </thead>
+                  <tbody>
+                       <tr>
+                            <td><label>Total</label></td>
+                            <td style="text-align: right"><label><?php echo $this->totalnmpm; ?></label></td>
+                       </tr>
+                  </tbody>
+               </table>		   
+          </div>
+		  
+          <div id="tab_enro_anm" style="padding: 1px;">
+	       <table border="1" width="450" height="70" style="margin-top: 2px;margin-bottom: 2px;margin-right: auto;margin-left: auto ">
+                  <thead>
+                       <th colspan="2"><label style="text-align: center;width: 280px;">Voici le total des Anciens Membres Personnes Morales</label></th>
+                  </thead>
+                  <tbody>
+                       <tr>
+                            <td><label>Total</label></td>
+                            <td style="text-align: right"><label><?php echo $this->totalampm; ?></label></td>
+                       </tr>
+                  </tbody>
+               </table>		   
+          </div>
+         <?php } ?>
+     </div>       
+</div>
+
+<script type="text/javascript">  
+   $(document).ready(function()
+   {
+     $("#tab_gcp").tabs();
+     $('#view-content').puipanel();      
+   })   
+</script>
+
+
+

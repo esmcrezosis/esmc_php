@@ -1,0 +1,188 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/credit.js"></script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+<?php include("../application/layouts/scripts/menuperso.phtml"); 
+  $pck  = str_replace(",",".",Util_Utils::getParametre('pck','r'));
+  $tbcp = str_replace(",",".",Util_Utils::getParametre('TBCP','valeur'));
+?>
+<?php $type = $sessionmembre->type;$desctype = $sessionmembre->desctype; ?>
+<blockquote><p>APA - <strong><?php echo $type; ?></strong> <small>Achat du Pouvoir d'Achat - <strong><?php echo $desctype; ?></strong></small></p></blockquote>
+
+<form method="post" enctype="multipart/form-data" class="well form-horizontal" id="apa">
+    <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin != "") { ?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+	</div>
+	<?php } ?>
+	
+	<?php if($type == 'RPG') { ?>
+	<div class="control-group">
+	    <label class="control-label">Catégorie *</label>
+		<div class="controls">
+	        <label class="radio inline">
+	            <input type="radio" checked="checked" name="categorie" id="categorier" value="r" required 
+			        onchange="if(this.value == 'r') { 
+					document.getElementById('prk').style.display = 'none'; 
+					document.getElementById('type').style.display = 'block';
+					document.getElementById('prkk').value = 1;
+					document.getElementById('mont_credit').value = '';
+					}"  
+				/>
+			   Récurrent
+            </label>
+            <label class="radio inline" style="margin-left:10px;">
+                <input type="radio" name="categorie" id="categorienr" value="nr" required  
+			        onchange="if(this.value == 'nr') {
+					   document.getElementById('type').style.display = 'none';
+					   document.getElementById('prk').style.display = 'block';
+					   document.getElementById('creditperenne').style.display = 'none';
+				       document.getElementById('creditstandard').style.display = 'block';
+					   document.getElementById('mont_credit').value = '';
+					}" 
+				/>
+			   Non Récurrent
+            </label>			
+	    </div>
+	</div>
+	
+	
+	<div class="control-group" id="type" style="display:block;">
+	    <label class="control-label">Type *</label>
+		<div class="controls">
+	        <label class="radio inline">
+	           <input type="radio" checked="checked" name="type_apa" id="type_apas" value="standard" required 
+			        onchange="if(this.value == 'standard') { 
+			        document.getElementById('creditperenne').style.display = 'none';
+				    document.getElementById('creditstandard').style.display = 'block';
+					document.getElementById('mont_credit').value = '';
+				
+				    }"
+			   
+			   />
+			   BON DE CONSOMMATION STANDARD
+            </label>
+            <label class="radio inline" style="margin-left:10px;">
+              <input type="radio" name="type_apa" id="type_apap" value="perenne" required 
+			     onchange="if(this.value == 'perenne') { 
+			     document.getElementById('creditperenne').style.display = 'block';
+				 document.getElementById('creditstandard').style.display = 'none';
+				 document.getElementById('mont_credit2').value ='';
+		
+				 }"
+			  />
+			  BON DE CONSOMMATION PERENNE
+            </label>			
+	    </div>
+	</div>
+	<?php } ?>
+	
+	<?php if($type == 'I')  { ?>
+	<div class="control-group">
+	    <label class="control-label">Catégorie *</label>
+		<div class="controls">
+	        <label class="radio inline">
+	            <input type="radio" checked="checked" name="categorie" id="categorier" value="r" required 
+			        onchange="if(this.value == 'r') { 
+					   document.getElementById('prk').style.display = 'none';
+					   document.getElementById('prkk').value = 1;
+					   document.getElementById('mont_credit').value = '';
+					 
+				}"  
+				/>
+			   Récurrent
+            </label>
+            <label class="radio inline" style="margin-left:10px;">
+                <input type="radio" name="categorie" id="categorienr" value="nr" required  
+			        onchange="if(this.value == 'nr') {
+					   document.getElementById('prk').style.display = 'block';
+					   document.getElementById('mont_credit').value = '';
+					 
+					}" 
+				/>
+			   Non Récurrent
+            </label>			
+	    </div>
+	</div>
+	<?php } ?>
+	
+	<div class="control-group" id="prk" style="display:none;">
+	    <label class="control-label">PRK *</label>
+		<div class="controls">
+	        <select name="value_prk" id="value_prk" onchange="document.getElementById('prkk').value = document.getElementById('value_prk').value">
+			<option value="">Choisir la PRK</option>
+        <?php 
+          $t_prk   = new Application_Model_DbTable_EuPrk();
+		  $select = $t_prk->select();
+		  $select->distinct();
+		  $select->from(array('eu_prk'),'valeur');
+          $prks = $t_prk->fetchAll($select);
+          foreach ($prks as $entry) :						
+        ?>
+        <option value="<?php echo $entry->valeur; ?>"><?php echo $entry->valeur; ?></option>			 
+		<?php endforeach; ?>	 
+	    </select>
+	    </div>
+	</div>
+	
+	<div class="control-group" >
+	    <label class="control-label" for="mont_capa"> Code SMS *</label>
+		<div class="controls">
+	        <input name="creditcode" class="input-medium" type="text" id="creditcode" placeholder="Entrer le Code SMS reçu" required>
+	        <span id="niv2"> 
+	          <button type="button" class="btn btn-info" onclick ="ouvre_credit(document.getElementById('creditcode').value);" >Vérifier</button>
+	        </span>
+	    </div>
+    </div>
+	
+	<div class="control-group" id="creditstandard">
+	    <label class="control-label" for="mont_credit" style="width:200px;">Montant Bon Consommation *</label>
+		<div class="controls">
+            &nbsp;&nbsp;<input type="text" class="input-medium" name="mont_credit" id="mont_credit" placeholder="Montant Bon Consommation"   value="" >
+            <a class="btn" onclick="
+		       document.getElementById('mont_capa').value = document.getElementById('mont_sms').value;
+		       document.getElementById('mont_credit').value  = Math.floor((document.getElementById('mont_sms').value * document.getElementById('prkk').value) 
+			   / <?php echo $pck ?>); 			
+			">		   
+            Calculer le revenu
+		   </a>
+	    </div>
+	</div>
+	
+	
+	<div class="control-group" id="creditperenne" style="display:none;">
+	    <label class="control-label" for="mont_credit" style="width:200px;">Montant Bon Consommation *</label>
+		<div class="controls">
+            &nbsp;&nbsp;<input type="text" class="input-medium"    name="mont_credit2" id="mont_credit2" placeholder="Montant Bon Consommation"   value="">
+            <a class="btn" onclick="
+		       document.getElementById('mont_capa').value = document.getElementById('mont_sms').value;
+		       document.getElementById('mont_credit2').value  = Math.floor((document.getElementById('mont_sms').value * document.getElementById('prkk').value) 
+			   / <?php echo $pck ?>) * (<?php echo (100-$tbcp) / 100;?>); 			
+			">		   
+            Calculer le revenu
+		   </a>
+	    </div>
+	     
+	
+	</div>
+	
+	
+	<div class="form-actions">
+	    <input type="hidden" name="prkk" id="prkk" value="1" required readonly>
+           <input type="hidden" name="mont_capa"  id="mont_capa"  placeholder="Montant Capa"   required readonly>
+        <input name="ok" type="hidden" value="ok" />
+        <button type="reset" class="btn"> Annuler </button>
+        <button type="submit" class="btn btn-primary">Valider</button>
+    </div>
+
+</form>
+</div>
+
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>

@@ -1,0 +1,513 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr8.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function()  {
+     $('#id_pays').change(function(e) {
+            if($(this).val() !== '') {
+                $.get('/integrateur/codetelephonique',{
+                    id_pays: $(this).val()
+                },
+                function success(data) {
+                   $('#code_telephonique').val(data);
+			    });
+                e.preventDefault(); 
+	        } else {
+			    $('#code_telephonique').val("");
+	        }
+	    e.preventDefault();
+     });
+})
+
+function ouvrebai() {
+		if(document.getElementById('bai').checked) {
+			$('#div_bai').css('display','block');
+            $('#montant_bai').attr("required",true);
+		} else {
+			$('#div_bai').css('display','none');
+            $('#montant_bai').attr("required",false);
+		}
+	}
+	
+	function ouvreban() {
+		if(document.getElementById('ban').checked) {
+			$('#div_ban').css('display','block');
+            $('#montant_ban').attr("required",true);
+		} else {
+			$('#div_ban').css('display','none');
+            $('#montant_ban').attr("required",false);
+		}
+	}
+	
+	function ouvreopi() {
+		if(document.getElementById('opi').checked) {
+			$('#div_opi').css('display','block');
+            $('#montant_opi').attr("required",true);
+		} else {
+			$('#div_opi').css('display','none');
+            $('#montant_opi').attr("required",false);
+		}
+	}
+	
+	function ouvreeli() {
+	   montant_eli = 0;
+	   for(var i = 0; i < document.getElementById("cpteur").value; i++) {
+         montant_eli += Math.floor(document.getElementById("prix_unitaire" + i).value * document.getElementById("quantite" + i).value);		 
+       }
+	   document.getElementById('montant_eli').value = montant_eli;
+	}
+	
+	
+	var compteur = 1;
+	function addRow(tableID)  {
+	   var table = document.getElementById(tableID);
+       var rowCount = table.rows.length;
+       var cpte = rowCount;
+       var row = table.insertRow(rowCount);
+	   
+	   var cell1 = row.insertCell(0);
+       var element0 = document.createElement("select");
+       element0.setAttribute("id", "type_bps" + cpte);
+	   element0.setAttribute("name", "type_bps[]");
+	   element0.setAttribute("class","input-xxlarge");
+	   element0.setAttribute("required","true");
+       cell1.appendChild(element0);
+	   var options = '<option/>';
+	   var tab=[];
+	   var tab1=[];
+	   tab[0]='S';
+	   tab[1]='BP';
+		   
+	   tab1[0]='Service';
+	   tab1[1]='Bien ou Produit';
+		   		
+       for(var i = 0; i < 2; i++) {
+         options += '<option value="' + tab[i] + '">' + tab1[i] +' </option>';		 
+       }
+       $('select#type_bps' + cpte).html(options);
+	   
+	   var cell2 = row.insertCell(1);
+       var element1 = document.createElement("input");
+       element1.type = "text";
+       element1.setAttribute("id", "libelle_produit" + cpte);
+	   element1.setAttribute("name", "libelle_produit[]");
+	   element1.setAttribute("class","input-xxlarge");
+	   element1.setAttribute("placeholder","Libelle Produit");
+	   element1.setAttribute("required","true");
+       cell2.appendChild(element1);
+	   
+	   var cell3 = row.insertCell(2);
+       var element2 = document.createElement("input");
+       element2.type = "text";
+       element2.setAttribute("id", "prix_unitaire" + cpte);
+	   element2.setAttribute("name", "prix_unitaire[]");
+	   element2.setAttribute("class","input-xxlarge");
+       element2.setAttribute("placeholder","Prix unitaire");
+	   element2.setAttribute("required","true");
+       cell3.appendChild(element2);
+	   
+	   var cell4 = row.insertCell(3);
+       var element3 = document.createElement("input");
+       element3.type = "text";
+       element3.setAttribute("id", "quantite" + cpte);
+	   element3.setAttribute("name", "quantite[]");
+	   element3.setAttribute("class","input-xxlarge");
+       element3.setAttribute("placeholder","Quantite");
+	   element3.setAttribute("required","true");
+       cell4.appendChild(element3);
+	   
+	   compteur = compteur + 1;
+       document.getElementById("cpteur").setAttribute('value', compteur);
+	}
+	
+   function deleteRow(tableID)  {
+     try {
+         var table = document.getElementById(tableID);
+         var rowCount = table.rows.length - 1;
+         if (rowCount >= 1) {
+            table.deleteRow(rowCount);
+            compteur = compteur - 1;
+            document.getElementById("cpteur").setAttribute('value', compteur);
+         }
+      } catch (e) {
+         alert(e);
+      }
+  }
+
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p> Etablir un Contrat d'Engagement de Livraison Irrévocable </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addeliforcm">
+      <div id="myModal" class="qrmodal overlayDiv"><div id="qrmodal-content" class="qrmodal-content"><span id="close-qrmodal">&times;</span><br/> <br/><p>Veuillez mettre le code QR du membre en façe de votre Caméra afin de l\'authentifier.</p><video class="cam_video" autoplay></video><br/></div></div>
+      <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $sessionutilisateur->error;$sessionutilisateur->error=""; ?>
+      </div>
+      <?php } ?>
+
+      <?php if(isset($this->error) && $this->error!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $this->error; ?>
+      </div>
+      <?php } ?>	  
+	  
+      <fieldset>
+      <legend> Localités </legend>
+	   <div class="row-fluid">
+            <div class="span4">
+							    <div id="nivo_zone">
+                                <div class="control-group">
+                                    <label class="control-label span4">Zone M. *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="code_zone" name="code_zone" onchange="ouvre_loadpays(this.value,'nivo_pays');" required="required">
+                                            <option value="">Choisir une zone monétaire</option>
+                                            <?php foreach ($this->zones as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+								</div>
+            </div>
+                            <div class="span4">
+							    <div id="nivo_pays">
+                                <div class="control-group">
+                                    <label class="control-label span4">Pays *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_pays" name="id_pays" required="required" onblur="ouvre_loadtel(this.value,'nivo_telephone');" onchange="ouvre_loadregion(this.value,'nivo_region');" required="required">
+                                            <option value="">Choisir un pays</option>
+                                            <?php foreach ($this->pays as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+								</div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span4">
+							    <div id="nivo_region">
+                                <div class="control-group">
+                                    <label class="control-label span4">Régions *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_region" name="id_region" onchange="ouvre_loadprefecture(this.value,'nivo_prefecture');" required="required">
+                                            <option value="">Choisir une région</option>
+                                            <?php foreach ($this->regions as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+								</div>
+                            </div>
+                            <div class="span4">
+							    <div id="nivo_prefecture">
+                                <div class="control-group">
+                                    <label class="control-label span4">Préfectures *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_prefecture" name="id_prefecture" onchange="ouvre_loadcanton(this.value,'nivo_canton');" required="required">
+                                            <option value="">Choisir une préfecture</option>
+                                            <?php foreach ($this->prefectures as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+								</div>
+                            </div>
+                            <div class="span4">
+							    <div id="nivo_canton">
+                                <div class="control-group">
+                                    <label class="control-label span4">Cantons *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_canton" name="id_canton" required="required">
+                                            <option value="">Choisir un canton</option>
+                                            <?php foreach ($this->cantons as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+								</div>
+                            </div>
+                        </div>	  
+      <legend>Acteur</legend>
+      <div class="span3">
+	       <div class="control-group">
+           <label class="control-label" for="raison_sociale">Raison Sociale * </label>
+           <div class="controls">
+           <input type="text" name="raison_sociale" id="raison_sociale" value="<?php echo $this->raison_sociale; ?>" placeholder="Raison Sociale"  required="required" />
+           </div>
+           </div>
+	  
+           <div class="control-group">	  
+           <label class="control-label" for="code_agence">Agence *</label>
+		   <div class="controls">
+           <select name="code_agence" id="code_agence"  required="required">
+		   <?php
+			 $code_agence = '001001001001';
+			 $tagence = new Application_Model_DbTable_EuAgence();
+	         $select = $tagence->select();
+	         $select->where('code_agence like ? ',$code_agence);
+             $results = $tagence->fetchAll($select);
+		    ?>
+           <option value=""> Choisir l'agence </option>
+           <?php foreach ($results as $agence): ?>
+           <option value="<?php echo $agence->code_agence; ?>"><?php echo ($agence->libelle_agence); ?></option>
+           <?php endforeach; ?>
+		   </select>
+           </div>
+           </div>
+		   
+		   <div class="control-group">
+           <label class="control-label" for="code_type_acteur"> Type Membre morale *</label>
+           <div class="controls">
+           <select name="code_type_acteur" id="code_type_acteur"  required="required">
+           <option value="">Choisir le type</option>
+           <option value="EI" <?php if($this->code_type_acteur == 'EI')    {echo ' selected="selected"';}?>>     Entreprise Industrie </option>
+           <option value="OE" <?php if($this->code_type_acteur == 'OE')    {echo ' selected="selected"';}?>>     Opérateur Economique </option>
+           <option value="OSE" <?php if($this->code_type_acteur == 'OSE')  {echo ' selected="selected"';}?>>   Opérateur Socio-Economique </option>
+           <option value="PEI" <?php if($this->code_type_acteur == 'PEI')  {echo ' selected="selected"';}?>>   Partenaire Entreprise Industrie </option>
+           <option value="POE" <?php if($this->code_type_acteur == 'POE')  {echo ' selected="selected"';}?>>   Partenaire Opérateur Economique </option>
+           <option value="POSE" <?php if($this->code_type_acteur == 'POSE'){echo ' selected="selected"';}?>> Partenaire Opérateur Socio-Economique</option>
+           </select>
+           </div>
+           </div>
+		     
+	   </div>
+	   
+	   <div class="span3">
+	        <div class="control-group">
+            <label class="control-label" for="num_registre_membre"> N° RCCM * </label>
+            <div class="controls">
+            <input type="text" name="num_registre_membre" id="num_registre_membre" value="<?php echo $this->num_registre_membre; ?>" placeholder="N° RCCM"  required="required" />
+            </div>
+            </div>
+	   
+	        <div class="control-group">
+            <label class="control-label" for="code_statut">Statut juridique *</label>
+            <div class="controls">
+            <select class="input-large" name="code_statut" id="code_statut"  required="required">
+            <?php  
+			    $statutjuridique = new Application_Model_EuStatutJuridiqueMapper();
+		        $selectstatutjuridique = $statutjuridique->fetchAll();
+		    ?>
+            <option value=""> Choisir un statut juridique </option>
+            <?php foreach ($selectstatutjuridique as $selectstatutjuridique): ?>
+            <option value="<?php echo $selectstatutjuridique->code_statut; ?>"><?php echo htmlentities($selectstatutjuridique->libelle_statut); ?></option>
+            <?php endforeach; ?>
+            </select>
+            </div>
+            </div>
+			
+			<div class="control-group">
+            <label class="control-label" for="domaine_activite"> Domaine d'activité </label>
+            <div class="controls">
+            <input type="text" name="domaine_activite" id="domaine_activite" value="<?php echo $this->domaine_activite; ?>" placeholder="Domaine d'activité" />
+            </div>
+            </div>
+    
+	   </div>
+	   
+	   <div class="span3">
+	        <div class="control-group">
+            <label class="control-label" for="bp_membre"> BP </label>
+            <div class="controls">
+            <input type="text" name="bp_membre" id="bp_membre" value="<?php echo $this->bp; ?>" placeholder="BP" />
+            </div>
+            </div>
+
+            <div class="control-group">
+            <label class="control-label" for="quartier_membre"> Quartier * </label>
+            <div class="controls">
+            <input type="text" name="quartier_membre" id="quartier_membre" value="<?php echo $this->quartier_membre; ?>" placeholder="Quartier"  required="required" />
+            </div>
+            </div>
+			
+			<div class="control-group">
+            <label class="control-label" for="ville_membre">Ville *</label>
+            <div class="controls">
+            <input type="text" name="ville_membre" id="ville_membre" value="<?php echo $this->ville_membre; ?>" placeholder="Ville"  required="required" />
+            </div>
+            </div>
+	   </div>
+	   
+	   <div class="span3">
+	        <div class="control-group">
+            <label class="control-label" for="site_web"> Site web </label>
+            <div class="controls">
+            <input type="text" name="site_web" id="site_web" value="<?php echo $this->site_web; ?>" placeholder="Site web" />
+            </div>
+            </div>
+	   
+	        <div class="control-group">
+            <label class="control-label" for="email_membre">Email *</label>
+            <div class="controls">
+            <input type="text" name="email_membre" id="email_membre" value="<?php echo $this->email; ?>" placeholder="Email"  required="required" />
+            </div>
+            </div>
+			
+			<div class="control-group">
+	        <label class="control-label" for="numero_telephone">Numéro Portable * </label>
+            <div class="controls">
+		    <div id="nivo_telephone">
+		    <input type="text" id="code_telephonique" name="code_telephonique"  class="input-small" readonly />
+	        </div>
+            <input type="text" name="numero_telephone" id="numero_telephone" class="input-xxlarge"  placeholder="Numéro Portable" required />
+	        </div>
+            </div>
+	   </div>
+	   
+	   <legend>Représentant</legend>
+	   <div class="control-group">
+       <label class="control-label" for="code_rep"> Code Membre Personne Physique Représentant *</label>
+       <div class="input-group mb-3">
+       <input type="text" name="code_rep" id="code_membre_mandataire"  class="form-control" value="<?php echo $this->code_rep; ?>" placeholder="Code Membre Personne Physique Représentant"  required="required" />
+       <div class="input-group-append">
+       <button class="btn btn-outline-secondary button_qr_code" type="button" id="button_qr_code_mandataire"> QR Code </button>
+       </div>
+	   </div>
+       </div>
+	   
+	   </fieldset>
+	   
+	   <fieldset>
+	       <legend> DETAILS ENGAGEMENT LIVRAISON IRREVOCABLE (ELI) </legend>
+	       <div class="control-group" id="display_eli">
+           <label class="control-label" for="contrat_eli">Détails * </label>
+	       <div class="controls">
+	       <table id="tab_eli">
+           <tr>
+			   <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+			   <td>
+				  <select  id="type_bps0" name="type_bps[]" required class="input-xxlarge">
+				     <option value="">Type BPS</option>
+					 <option value="S"> Service </option>
+					 <option value="BP"> Bien ou Produit </option>
+				  </select>
+			   </td>
+					  
+               <td>
+			      <input type="text" id="libelle_produit0" name="libelle_produit[]" placeholder="Libelle Produit"  class="input-xxlarge" required />
+			   </td>
+               <td>					 
+			      <input id="prix_unitaire0" type="text" name="prix_unitaire[]" placeholder="Prix unitaire" class="input-xxlarge" required /> 
+			   </td>
+			   
+			   <td>					 
+				  <input id="quantite0" type="text" name="quantite[]" placeholder="Quantité" class="input-xxlarge" required /> 
+			   </td>
+			   
+			   <td>
+				  <input class="btn btn-mini"  id="add"     type="button"  value="+"  onclick ="addRow('tab_eli');"   /> 
+				  <input class="btn btn-mini"  id="remove"  type="button"  value="-"  onclick="deleteRow('tab_eli');" /> 
+			   </td>
+			</tr>
+            </table>			
+	        </div>
+            </div>
+			
+			<legend> MODALITES DE PAYEMENT </legend>
+			      <div class="control-group">
+			      <label class="control-label"> Montant ELI * </label>
+			      <div class="controls">
+			      <input type="text" onclick="ouvreeli()"  name="montant_eli" id="montant_eli" placeholder="Montant ELI"  class="input-block-level" value="0" readonly />
+                  </div>
+                  </div>
+			      <div class="control-group">
+			        <label class="control-label">Veuillez choisir les options des modalités de payement </label>
+					<div class="controls">
+					     <label for="bai" class="radio">
+			               <input name="bai"  id="bai"  type="checkbox" value="1" onclick="ouvrebai()" /> BAi Anticipé
+				         </label>
+                         <div class="control-group" id="div_bai" style="display:none;">
+				         <div class="controls">
+				         <label class="control-label">Montant BAi * </label>
+                         <div class="controls">
+                              <input type="number" name="montant_bai" id="montant_bai" placeholder="Montant BAi"  class="input-block-level" />
+                         </div>
+				         </div>						 
+					     </div>
+				     </div>
+					 
+					 <div class="controls">
+					     <label for="ban" class="radio">
+			               <input name="ban"  id="ban"  type="checkbox" value="1" onclick="ouvreban()" /> BAn Anticipé
+				         </label>
+                         <div class="control-group" id="div_ban" style="display:none;">
+				         <div class="controls">
+				         <label class="control-label">Montant BAn * </label>
+                         <div class="controls">
+                              <input type="number" name="montant_ban" id="montant_ban" placeholder="Montant BAn"  class="input-block-level" />
+                         </div>
+				         </div>						 
+					     </div>
+				      </div>
+					  
+					  <div class="controls">
+					     <label for="opi" class="radio">
+			               <input name="opi"  id="opi"  type="checkbox" value="1" onclick="ouvreopi()" /> OPI Anticipé
+				         </label>
+                         <div class="control-group" id="div_opi" style="display:none;">
+				         <div class="controls">
+				         <label class="control-label">Montant OPI * </label>
+                         <div class="controls">
+                              <input type="number" name="montant_opi" id="montant_opi" placeholder="Montant OPI"  class="input-block-level" />
+                         </div>
+				         </div>						 
+					     </div>
+				      </div>
+				  </div>
+				  
+				
+			      <div class="control-group">
+			      <label class="control-label"> Libellé ELI * </label>
+			      <div class="controls">
+			      <input type="text"  name="libelle_eli" id="libelle_eli" placeholder="Libellé ELI"  class="input-block-level" required />
+                  </div>
+                  </div>
+	   </fieldset>
+	   
+	   <div class="form-actions" align="center">
+       <input name="nbre" type="hidden" id="nbre" value="1" />
+       <input name="ok" type="hidden" id="ok" value="ok" />
+       <button type="reset" class="btn"> Annuler </button>
+       <button type="submit" id="submit" class="btn btn-primary"> Enrégistrer </button>
+       </div>
+</form>
+
+</div>
+</div>
+</div>
+
+<style>
+.button_qr_code {
+    background: #aa325f;
+}
+</style>
+<script type="text/javascript">
+    outilqr_champ_personnalise("button_qr_code_mandataire", "code_membre_mandataire", "designation_mandataire");
+</script>
+
+
+
+
+
+

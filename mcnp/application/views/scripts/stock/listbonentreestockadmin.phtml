@@ -1,0 +1,135 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des  bons d'entree de stock</p></blockquote>
+<?php //echo $sessionutilisateur->id_canton;?> 
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Reference</th>
+                  <th>Libelle</th>
+								  <th>Rejet</th>
+								  <th>Valid up</th>
+                  <th>Valid down</th>
+								  <th>Validation</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php echo $entry->reference_bon_entree_stock; ?></td>
+      <td><?php echo $entry->libelle_bon_entree_stock; ?></td>
+      <td><?php if($entry->rejet == 1){?>
+      <a class="btn btn-mini btn-success"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+      <a class="btn btn-mini btn-warning"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?></td>
+      <td><?php if($entry->valid_up == 1){?>
+      <a class="btn btn-mini btn-success"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+      <a class="btn btn-mini btn-warning"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?></td>
+      <td><?php if($entry->valid_down == 1){?>
+      <a class="btn btn-mini btn-success"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+      <a class="btn btn-mini btn-warning"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?></td>
+      <td><div align="center">
+<?php 
+        $a_formulaireM = new Application_Model_EuAttributionUserGroupFormulaireMapper();
+        $a_formulaire = $a_formulaireM->fetchAllByNom("listbonentreestockadmin");
+
+        $formulaire = new Application_Model_EuFormulaire();
+        $formulaireM = new Application_Model_EuFormulaireMapper();
+        $formulaireM->find($entry->formulaire_id, $formulaire);
+
+        $attribution_user_group_formulaireM = new Application_Model_EuAttributionUserGroupFormulaireMapper();
+        $attribution_user_group_formulaire2 = $attribution_user_group_formulaireM->fetchAllByFormulaireDepart($formulaire->formulaire_id, $sessionutilisateur->code_groupe);
+$attribution_user_group_formulaire = $attribution_user_group_formulaire2[0];
+
+        $attribution_user_group_formulaire1M = new Application_Model_EuAttributionUserGroupFormulaireMapper();
+        $attribution_user_group_formulaire12 = $attribution_user_group_formulaire1M->fetchAllByFormulaireDepartAutre($formulaire->formulaire_id, $sessionutilisateur->code_groupe, $sessionutilisateur->code_groupe);
+$attribution_user_group_formulaire1 = $attribution_user_group_formulaire12[0];
+?>
+
+<?php if(count($attribution_user_group_formulaire2[0]) > 0){?>
+<?php if($entry->valid == $attribution_user_group_formulaire2[0]->code_groupe_depart){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/stock/validbonentreestockadmin/id/<?php echo $entry->id_bon_entree_stock; ?>/valid/<?php echo $attribution_user_group_formulaire2[0]->code_groupe_depart; ?>"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/stock/validbonentreestockadmin/id/<?php echo $entry->id_bon_entree_stock; ?>/valid/<?php echo $attribution_user_group_formulaire2[0]->code_groupe_depart; ?>"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+<?php }?>
+<?php if(count($attribution_user_group_formulaire12[0]) > 0){?>
+<?php if($entry->valid == $attribution_user_group_formulaire12[0]->code_groupe_depart){?>
+			<a class="btn btn-mini btn-success"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+<?php }?>
+
+			</div></td>
+      <td><div align="center">
+<?php if($entry->etat == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/stock/etatbonentreestockadmin/id/<?php echo $entry->id_bon_entree_stock; ?>/etat/0"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/stock/etatbonentreestockadmin/id/<?php echo $entry->id_bon_entree_stock; ?>/etat/1"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/stock/detailbonentreestockadmin/id/<?php echo $entry->id_bon_entree_stock; ?>"><i class="icon-edit icon-white"></i>  Details</a>&nbsp;
+
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/stock/editbonentreestockadmin/id/<?php echo $entry->id_bon_entree_stock; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+
+			</div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun bon d'entree de stock  enregistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

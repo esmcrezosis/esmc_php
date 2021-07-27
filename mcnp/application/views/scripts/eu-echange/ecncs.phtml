@@ -1,0 +1,56 @@
+<div id="view-content" title="Escompte du CNCS" style="font-size: 12px;min-height: 520px;">
+    <form id="escompte_form" method="POST" action="/eu-echange/ecncs">
+        <table style="width: 550px;margin-left: auto;margin-right: auto;margin-top: 15px;">
+            <tr>
+                <td><label for="compte">Compte :</label></td>
+                <td>
+                    <select  id="compte" name="compte" value="<?php echo $this->compte ?>">
+                        <option value="CNCSr">CNCSr</option>
+                        <option value="CNCSnr">CNCSnr</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="e_membre">Membre :</label></td><td><input type="text" size="30" id="e_membre" name="e_membre" value="<?php echo $this->e_membre ?>" required="true"/></td>
+            </tr>
+            <tr>
+                <td><label for="e_membre">Nom Membre :</label></td>
+                <td><input size="30" type="text" id="nom_membre" name="nom_membre" value="<?php echo $this->nom_membre ?>" readonly="true"/>
+                    <input size="30" type="text" id="prenom_membre" name="prenom_membre" value="<?php echo $this->prenom_prenom ?>" readonly="true"/></td>
+            </tr>
+            <tr><td><label for="montant">Montant :</label></td><td><input type="text" size="25" style="text-align: right;" id="montant" name="montant" value="<?php echo $this->montant ?>" required="true"/></td></tr>
+            <tr><td></td><td><input type="submit" id="val"/><input type="reset" id="reset"/></td></tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        $.get("/eu-echange/membre?type=P",
+                function success(data)
+                {
+                    $('#e_membre').autocomplete({"source": data});
+                });
+                $('#e_membre').blur(function(e)
+                {
+                    e.preventDefault();
+                    if ($(this).val() !== '')
+                    {
+                        $.get(
+                                '/eu-echange/recupnom',
+                                {
+                                    num_membre: $(this).val()
+                                },
+                        function success(data)
+                        {
+                            $("#nom_membre").val(data[0]);
+                            $("#prenom_membre").val(data[1]);
+                        });
+                    }
+                });
+                $(function() {
+                    $('#view-content').puipanel();
+                    $('fieldset').puifieldset();
+                });
+            });
+</script>

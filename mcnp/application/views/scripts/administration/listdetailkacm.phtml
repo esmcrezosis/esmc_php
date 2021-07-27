@@ -1,0 +1,141 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8">		
+	$(document).ready(function() {
+    $('#example1').dataTable({
+      "sPaginationType": "full_numbers",
+	  "aaSorting": []
+    });
+	
+	$('#example2').dataTable({
+      "sPaginationType": "full_numbers",
+	  "aaSorting": []
+    });
+	
+	
+    });
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml");?>
+    <blockquote><p>Details BAn Numéro <strong><?php echo $this->ban->bon_neutre_code;?> </strong> du Membre  <strong><?php echo $this->ban->bon_neutre_nom." ".$this->ban->bon_neutre_prenom;?> </strong></p></blockquote>
+    <table class="table table-striped table-bordered table-hover table-condensed" id="example1" style="font-size:11px;">
+        <thead>
+			<tr>
+			    <th>Date opération</th>
+			    <th>Banque</th>
+			    <th>Référence Versement</th>
+                <th>Montant Versé</th>
+			    <th>Date versement</th> 				
+			</tr>
+		</thead>
+         
+        <tbody>
+            <?php foreach($this->entries as $entry) : ?>
+			<tr>
+			    <td><div ><?php echo datejourfr($entry->bon_neutre_detail_date); ?></div></td>
+				<td><div><?php echo $entry->bon_neutre_detail_banque;  ?></div></td>
+				<td><div><?php echo $entry->bon_neutre_detail_numero; ?></div></td>
+                                <td><div><?php echo $entry->bon_neutre_detail_montant; ?></div></td>
+				<td><div><?php echo datejourfr($entry->bon_neutre_detail_date_numero); ?></div></td>
+			</tr>
+			<?php endforeach;?>
+        </tbody>
+        <tfoot>
+		    <td colspan="4"><div align="center" style="font-size:20px;"><strong>Detail BAn venant directement des banques</strong></div></td>
+        </tfoot>		
+    </table>
+	
+	<br/><br/><br/>
+	
+	<table class="table table-striped table-bordered table-hover table-condensed" id="example2" style="font-size:11px;">
+	    <thead>
+			<tr>
+			    <th>Date opération</th>
+			    <th>Banque</th>
+			    <th>Référence Versement</th>
+                <th>Montant Versé</th>
+                <th>Date Versement</th>				
+			</tr>
+		</thead>
+		
+		<tbody>
+		    <?php foreach($this->approlignes as $approligne) :
+                $euban = new Application_Model_DbTable_EuBonNeutre();
+                $rowseuban;				
+			    $euband = new Application_Model_DbTable_EuBonNeutreDetail();
+				$eubanapprod = new Application_Model_DbTable_EuBonNeutreApproDetail();
+				$appro_id ="";
+				
+				/*if($approligne->bon_neutre_appro_id == NULL || $approligne->bon_neutre_appro_id == "") {
+                   $select = $euband->select();
+                   $select->where("bon_neutre_detail_id = ? ", $approligne->bon_neutre_detail_id);
+                   $select->limit(1);
+                   $rowseuband = $euband->fetchRow($select);
+				   if(count($rowseuband) > 0) {
+                      $select = $euban->select();
+                      $select->where("bon_neutre_id = ? ", $rowseuband->bon_neutre_id);
+                      $select->limit(1);
+                      $rowseuban = $euban->fetchRow($select);
+				   }
+				
+				} else {*/
+				   //$i = 1;
+				   //$data = array();
+				   //$data[0] = "";
+				   $appro_id = $approligne->bon_neutre_appro_id;
+				   while($appro_id > 0) {
+                     $selection = $eubanapprod->select();
+                     $selection->where("bon_neutre_appro_id = ? ", $appro_id);
+					 $selection->order("bon_neutre_appro_detail_montant DESC");
+                     $selection->limit(1);
+                     $rowseubanapprod = $eubanapprod->fetchRow($selection);
+
+                     $select = $euband->select();
+                     $select->where("bon_neutre_detail_id = ? ", $rowseubanapprod->bon_neutre_detail_id);
+					 $select->order("bon_neutre_detail_montant DESC");
+                     $select->limit(1);
+                     $rowseuband = $euband->fetchRow($select);
+                     $appro_id = $rowseuband->bon_neutre_appro_id;						   
+                   }
+				   
+				   //$trouve = true;
+				   
+				   /*for($j=0;$j<count($data);$j++) {
+				       if($data[$i] == $rowseubanapprod->bon_neutre_detail_id) {
+					      $trouve = false;
+						  break;
+					   }
+				   }
+				   $data[$i] = $rowseuband->bon_neutre_detail_numero;*/
+				   
+               //}
+			   
+			?>
+			<tr>
+			    <td><div><?php  echo datejourfr($approligne->bon_neutre_appro_detail_date); ?></div></td>
+				<td><div><?php if(count($rowseuband) > 0) {echo $rowseuband->bon_neutre_detail_banque; } ?></div></td>
+				<td><div><?php if(count($rowseuband) > 0) {echo $rowseuband->bon_neutre_detail_numero;} ?></div></td>
+                <td><div><?php if(count($rowseuband) > 0) {echo $rowseuband->bon_neutre_detail_montant;} ?></div></td>
+				<td><div><?php if(count($rowseuband) > 0) {echo datejourfr($rowseuband->bon_neutre_detail_date_numero);} ?></div></td>
+			</tr>
+			<?php
+            
+			endforeach;?>
+		
+		</tbody>
+	    <tfoot>
+		    <td colspan="4"><div align="center" style="font-size:20px;"><strong>Detail BAn venant des approvisionnements</strong></div></td>
+        </tfoot>
+	</table>
+	
+	
+</div>
+</div>
+</div>  

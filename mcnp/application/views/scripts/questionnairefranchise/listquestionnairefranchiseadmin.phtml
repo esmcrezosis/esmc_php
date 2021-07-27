@@ -1,0 +1,228 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?> 
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des questionnaires franchises</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<div style="width: 100%;  overflow: scroll;">
+
+<table class="table table-striped table-bordered table-hover table-condensed" style="font-size:10px;"> <!--id="example"-->
+<thead>
+  <tr>
+    <th style="vertical-align: middle; text-align: center;" rowspan="7">OPERATEUR  ECONOMIQUE (PP/PM)</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="7">PP</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="10" rowspan="2">PM</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="3" rowspan="2">FILIERE</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2" rowspan="2">STOCKS/ IMMOBILISATION</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="4" rowspan="2">Convention de collaboration entre    l'ESMC et les Fournisseurs de    Biens Produits et Services: Utilisateurs, Fournisseurs Spécifiques et    Fournisseurs Externes pour la réalisation par le marché des 17 ODD</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="14">CM</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="6" rowspan="2">Terminal d'Echange (TE)</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2" rowspan="2">FRANCHISE</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2" rowspan="2">CAUTION</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="6" rowspan="2">Engagement de Livraison    Irrévocable(ELI)</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2" rowspan="2">Achat Vente Réciproque (AVR)</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2" rowspan="2">BUDGET EN NATURE</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="7">Actions</th>
+  </tr>
+  <tr>
+    <th style="vertical-align: middle; text-align: center;" colspan="2" rowspan="4">Pr soi</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="12">Pour tiers</th>
+  </tr>
+  <tr>
+    <th style="vertical-align: middle; text-align: center;" colspan="4" rowspan="2">EI</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="4" rowspan="2">PEI</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">OSE</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">POSE</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">B</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">P</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">S</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">AVEC</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">SANS</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2">ESPACE VENTE EN LIGNE FOURNISSEUR</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2">ACCORD DE PARTENARIAT</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="4" rowspan="3">LISTE</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="4" rowspan="3">KIT de Solvabilité universelle</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="4" rowspan="3">KIT Technopole</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="3"> Interim </th>
+    <th style="vertical-align: middle; text-align: center;" colspan="3"> Utilisateur</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">OUI</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">NON</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">OUI</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">NON</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2">BAi anticipé</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2">OPI anticipé</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2">BAn anticipé</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">OUI</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">NON</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">OUI</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="5">NON</th>
+  </tr>
+  <tr>
+    <th style="vertical-align: middle; text-align: center;" rowspan="4">OUI</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="4">NON</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="4">OUI</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="4">NON</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="4"> Frs Spécifiques</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="4">Frs    Externes</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="4">Acheteurs</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2" rowspan="3">Prestataires de la Production    Commune</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="4">Prestataires    propriétaires</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="4">OUI</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="4">NON</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="4">OUI</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="4">NON</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="4">OUI</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="4">NON</th>
+  </tr>
+  <tr>
+    <th style="vertical-align: middle; text-align: center;" colspan="2" rowspan="2">Intermédiaires</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2" rowspan="2">Abonnés</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2" rowspan="2">Intermédiaires</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2" rowspan="2">Abonnés</th>
+  </tr>
+  <tr>
+    <th style="vertical-align: middle; text-align: center;" rowspan="2">réactivé</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="2">activé</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2">avec liste</th>
+    <th style="vertical-align: middle; text-align: center;" colspan="2">sans liste</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="2">TIC</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="2">FINANCE</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="2">PROTECTION</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="2">BCr</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="2">TIC</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="2">FINANCE</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="2">PROTECTION</th>
+    <th style="vertical-align: middle; text-align: center;" rowspan="2">BCr</th>
+  </tr>
+  <tr>
+    <th>AVEC</th>
+    <th>SANS</th>
+    <th>AVEC</th>
+    <th>SANS</th>
+    <th>AVEC</th>
+    <th>SANS</th>
+    <th>AVEC</th>
+    <th>SANS</th>
+    <th>contre BPS</th>
+    <th>contre OPI</th>
+    <th>contre BPS</th>
+    <th>contre OPI</th>
+    <th>Offreurs de projet</th>
+    <th>Offreurs de travail</th>
+  </tr>
+</thead>  
+<tbody>
+<?php foreach ($this->entries as $entry): ?>
+  <tr>
+    <td><?php echo($entry->designation); ?> (<?php echo($entry->code_membre); ?>)</td>
+    <td><?php if($entry->type_membre == "PP"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->type_acteur == "EI" && $entry->avec_intermediaire == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->type_acteur == "EI" && $entry->sans_intermediaire == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->type_acteur == "EI" && $entry->avec_abonne == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->type_acteur == "EI" && $entry->sans_abonne == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->type_acteur == "PEI" && $entry->avec_intermediaire == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->type_acteur == "PEI" && $entry->sans_intermediaire == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->type_acteur == "PEI" && $entry->avec_abonne == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->type_acteur == "PEI" && $entry->sans_abonne == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->type_acteur == "OSE"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->type_acteur == "POSE"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->filiere_biens == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->filiere_produits == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->filiere_services == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->avec_stock == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->sans_stock == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->vente_enligne == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->vente_enligne == "0"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->accord_partenariat == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->accord_partenariat == "0"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->cm_soi == "reactive"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->cm_soi == "active"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->cm_tiers == "avec_liste" && $entry->cm_tiers_opi == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->cm_tiers == "avec_liste" && $entry->cm_tiers_bps == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->cm_tiers == "sans_liste" && $entry->cm_tiers_opi == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->cm_tiers == "sans_liste" && $entry->cm_tiers_bps == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->kit_su_tic == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->kit_su_finance == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->kit_su_protection == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->kit_su_bcr == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->kit_t_tic == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->kit_t_finance == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->kit_t_protection == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->type_membre == "PM" && $entry->kit_t_bcr == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->te_interim == "specifiques"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->te_interim == "externes"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->te_interim == "acheteurs"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->te_utilisateur_ppc_op == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->te_utilisateur_ppc_ot == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->te_utilisateur_pp == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->franchise == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->franchise == "0"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->caution == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->caution == "0"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->eli_bai_anticipe == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->eli_bai_anticipe == "0"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->eli_opi_anticipe == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->eli_opi_anticipe == "0"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->eli_ban_anticipe == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->eli_ban_anticipe == "0"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->achat_vente_reciproque == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->achat_vente_reciproque == "0"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->budget_nature == "1"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><?php if($entry->budget_nature == "0"){ ?><i class="fa fa-check"></i><?php }else{?><i class="fa fa-close"><?php } ?></td>
+    <td><div align="center"><?php if($entry->etat == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/questionnairefranchise/etatquestionnairefranchise/id/<?php echo $entry->id_questionnaire_franchise; ?>/etat/0"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/questionnairefranchise/etatquestionnairefranchise/id/<?php echo $entry->id_questionnaire_franchise; ?>/etat/1"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+            <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/questionnairefranchise/editquestionnairefranchise/id/<?php echo $entry->id_questionnaire_franchise; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+</div></td>
+  </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+					</div>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun quetionnaire franchise enrégistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

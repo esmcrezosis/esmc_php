@@ -1,0 +1,321 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+    <script type="text/javascript" charset="utf-8">
+      /*$(document).ready(function() {
+        $('#example').dataTable();
+      } );*/
+      $(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+    "aaSorting": []
+    } );
+} );
+    </script>
+       
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Effectifs des activations de membres personnes morales </p></blockquote>
+
+<div class="accordion" id="accordion2">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+        Formulaire de trie par critères
+      </a>
+    </div>
+    <div id="collapseOne" class="accordion-body collapse <?php if (!isset($_POST['ok'])) {?> in <?php }?>">
+      <div class="accordion-inner">
+<form method="post" enctype="multipart/form-data" role="form" name="souscription" id="souscription" action="" class="">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+   
+<div class="">
+  <div class="span4">
+    <div class="control-group">
+<label class="control-label" for="code_agence">Agence </label>
+<div class="controls">
+<select name="code_agence" id="code_agence" >
+        <?php
+              $tagence = new Application_Model_DbTable_EuAgence();
+              $select = $tagence->select();
+        $select->where('code_agence like ? ','001001001001');
+              $results = $tagence->fetchAll($select);?>
+  <option value="">Choisir l'agence</option>
+    <?php foreach ($results as $agence): ?>
+               <option value="<?php echo $agence->code_agence; ?>"><?php echo ($agence->libelle_agence); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+  
+  <div class="control-group">
+  <label class="control-label" for="code_membre_morale">Code Membre Morale</label>
+  <div class="controls">
+  <input type="text" name="code_membre_morale" id="code_membre_morale" placeholder="Code membre Morale" value="<?php echo $this->code_membre_morale; ?>"  />
+  </div>
+  </div>
+  
+
+  <div class="control-group">
+  <label class="control-label" for="code_type_acteur">Type Membre morale </label>
+  <div class="controls">
+  <select name="code_type_acteur" id="code_type_acteur" >
+  <option value="">Choisir le type</option>
+    <option value="EI" <?php if($this->code_type_acteur == 'EI'){echo ' selected="selected"';}?>>Entreprise Industrie</option>
+    <option value="OE" <?php if($this->code_type_acteur == 'OE'){echo ' selected="selected"';}?>>Opérateur Economique</option>
+    <option value="OSE" <?php if($this->code_type_acteur == 'OSE'){echo ' selected="selected"';}?>>Opérateur Socio-Economique</option>
+    <option value="PEI" <?php if($this->code_type_acteur == 'PEI'){echo ' selected="selected"';}?>>Partenaire Entreprise Industrie</option>
+    <option value="POE" <?php if($this->code_type_acteur == 'POE'){echo ' selected="selected"';}?>>Partenaire Opérateur Economique</option>
+    <option value="POSE" <?php if($this->code_type_acteur == 'POSE'){echo ' selected="selected"';}?>>Partenaire Opérateur Socio-Economique</option>
+</select>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="raison_sociale">Raison sociale </label>
+  <div class="controls">
+<input type="text" name="raison_sociale" id="raison_sociale" value="<?php echo $this->raison; ?>" placeholder="Raison sociale"  />
+  </div>
+  </div>
+  
+    
+  
+    <div class="control-group">
+  <label class="control-label" for="date_identification1">Date Début  </label>
+  <div class="controls">
+    <input type="text" name="date_identification1" id="date_identification1" placeholder="Date Début" class="input-medium datepicker" data-provide="datepicker" value="<?php 
+                        $eumemb = new Application_Model_DbTable_EuMembreMorale();
+                        $select = $eumemb->select();
+                        $select->order(array('date_identification ASC'));
+                        $select->limit(1);
+                        $rowseumemb = $eumemb->fetchRow($select);
+                        echo substr($rowseumemb->date_identification, 0, 10); ?>" readonly />
+  </div>
+  </div>
+  
+
+  <div class="control-group">
+  <label class="control-label" for="date_identification2">Date Fin  </label>
+  <div class="controls">
+    <input type="text" name="date_identification2" id="date_identification2" placeholder="Date Fin" class="input-medium datepicker" data-provide="datepicker" value="<?php 
+                        $eumemb = new Application_Model_DbTable_EuMembreMorale();
+                        $select = $eumemb->select();
+                        $select->order(array('date_identification DESC'));
+                        $select->limit(1);
+                        $rowseumemb = $eumemb->fetchRow($select);
+                        echo substr($rowseumemb->date_identification, 0, 10); ?>" readonly />
+  </div>
+  </div>
+
+
+</div>
+    
+  
+    <div class="span4">
+  
+
+  <div class="control-group">
+  <label class="control-label" for="id_filiere">Filière </label>
+  <div class="controls">
+  <select class="input-large" name="id_filiere" id="id_filiere" >
+       <?php  $filiere = new Application_Model_EuFiliereMapper();
+    $selectfiliere = $filiere->fetchAll();?>
+               <option value="">Choisir une filière</option>
+    <?php foreach ($selectfiliere as $selectfiliere): ?>
+               <option value="<?php echo $selectfiliere->id_filiere; ?>"><?php echo htmlentities($selectfiliere->nom_filiere); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="quartier_membre">Quartier </label>
+  <div class="controls">
+  <input type="text" name="quartier_membre" id="quartier_membre" value="<?php echo $this->quartier_membre; ?>" placeholder="Quartier"  />
+  </div>
+  </div>
+
+
+  <div class="control-group">
+  <label class="control-label" for="ville_membre">Ville </label>
+  <div class="controls">
+  <input type="text" name="ville_membre" id="ville_membre" value="<?php echo $this->ville_membre; ?>" placeholder="Ville"  />
+  </div>
+  </div>
+
+
+  <div class="control-group">
+  <label class="control-label" for="code_statut">Statut juridique </label>
+  <div class="controls">
+  <select class="input-large" name="code_statut" id="code_statut" >
+       <?php  $statutjuridique = new Application_Model_EuStatutJuridiqueMapper();
+    $selectstatutjuridique = $statutjuridique->fetchAll();?>
+               <option value="">Choisir un statut juridique</option>
+    <?php foreach ($selectstatutjuridique as $selectstatutjuridique): ?>
+               <option value="<?php echo $selectstatutjuridique->code_statut; ?>"><?php echo htmlentities($selectstatutjuridique->libelle_statut); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="domaine_activite">Domaine d'activité </label>
+  <div class="controls">
+  <input type="text" name="domaine_activite" id="domaine_activite" value="<?php echo $this->domaine_activite; ?>" placeholder="Domaine d'activité" />
+  </div>
+  </div>
+    
+    
+
+    
+
+
+  </div>
+    
+
+  
+  <div class="span4">
+  
+    <div class="control-group">
+  <label class="control-label" for="id_region">R&eacute;gion du souscripteur  </label>
+  <div class="controls">
+  <select name ="id_region" id="id_region" onchange="ouvre_decoupage(this.value);">
+    <?php  $region_mapper = new Application_Model_EuRegionMapper();
+        $selectregions = $region_mapper->fetchAll();?>
+    <option value="">Choisir la région </option>
+    <?php foreach ($selectregions as $selectregion): ?>
+    <option value="<?php echo $selectregion->id_region; ?>"><?php echo $selectregion->nom_region; ?></option>
+    <?php endforeach; ?>
+  </select>
+  </div>
+  </div>
+    
+  <div id="nivpref">
+  <div class="control-group">
+  <label class="control-label" for="id_prefecture">Pr&eacute;fecture du souscripteur </label>
+  <div class="controls">
+  <select name="id_prefecture" id="id_prefecture" >
+    <option value="">Choisir la Pr&eacute;fecture</option>
+  </select>
+  </div>
+  </div>
+  </div>
+    
+    
+  <div id="nivcant">
+  <div class="control-group">
+  <label class="control-label" for="id_canton">Canton du Souscripteur </label>
+  <div class="controls">
+  <select name="id_canton" id="id_canton" >
+    <option value="">Choisir le canton </option>
+  </select>
+  </div>
+  </div>
+  </div>
+    
+  
+ <div class="control-group">
+  <label class="control-label" for="auto_enroler">Auto Enrôlement </label>
+  <div class="controls">
+<select name="auto_enroler" id="auto_enroler">
+  <option value="">Choisir </option>
+  <option value="O">Oui</option>
+  <option value="N">Non</option>
+</select>
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="etat_membre">Etat Membre </label>
+  <div class="controls">
+<select name="etat_membre" id="etat_membre" >
+  <option value="">Choisir l'état du membre</option>
+  <option value="A">Ancien membre</option>
+  <option value="N">Nouveau membre</option>
+</select>
+  </div>
+  </div>
+
+    </div>
+    </div>
+    
+ <div class="">
+  <div class="span12">
+   
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<!--<button type="reset" class="btn">Annuler</button>-->
+<button type="submit" class="btn btn-primary">Rechercher</button>
+</div>    
+
+    </div>
+    </div>
+
+</form>
+
+
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+
+
+<?php if(count($this->entries)>0){?> 
+<table class="table table-striped table-bordered table-hover table-condensed">
+<tfoot>
+<tr>
+      <td><strong>Nombre</strong> :</td>
+      <td><strong><?php echo count($this->entries); ?></strong></td>
+    </tr>
+</tfoot>
+            </table>
+                      <br />
+
+
+<br />
+<br />
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun membre enrégistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

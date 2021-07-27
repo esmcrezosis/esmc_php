@@ -1,0 +1,39 @@
+
+  <div class="row-fluid">
+  	<div class="span9">
+  	<form action="" method="post" class="form-horizontal">
+  	<h3>Formulaire d'envoi de SMS Non Reçu</h3>
+     <?php if (array_key_exists("validationerrors", $_SESSION)): ?>
+        <div class="alert alert-danger">
+          <?php echo implode('<br>', $_SESSION['validationerrors']) ?>.Veuillez réessayer l'envoie svp!!!
+        </div>
+     <?php unset($_SESSION['validationerrors']); endif ?>
+    <div class="control-group">
+     <label class="control-label" for="numero_portable">Le Numero du Recepteur du SMS *</label>
+     <div class="controls">
+       <input type="text" name="numero_portable" id="numero_portable" placeholder="numero du recepteur" class="esmc-error-num input-xxlarge" required="required">
+       <div class="esmc-error-num-container"></div>
+     </div>
+    </div>	
+
+    <div class="control-group">
+     <label class="control-label" for="contenu_message">Le Contenu du message (Ne pas depasser 160 caractères, evitez les caractères accentués et les caractères spéciaux pour eviter tout surprise désagréable)*</label>
+     <div class="controls">
+       <textarea name="contenu_message" id="contenu_message" cols="30" rows="10" required="required" class="input-xxlarge" placeholder="le contenu du message"></textarea>
+     </div>
+     <span class="esmc_remaining">Il vous reste <span class="esmc_remaining_count">160</span> caractères</span>
+    </div>
+    <div class="control-group">
+      <button type="submit" class="btn btn-large btn-primary">Envoyer le sms</button>	
+    </div>
+    
+  	</form>
+
+
+  </div>
+  <div class="span3">
+    <?php include("../application/layouts/scripts/droite.phtml"); ?>
+  </div>
+
+  </div>
+  

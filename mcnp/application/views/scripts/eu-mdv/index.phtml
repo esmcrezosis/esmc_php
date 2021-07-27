@@ -1,0 +1,49 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-mdv"></table>
+    <div id="pg-mdv"></div>
+</div>
+
+<script type="text/javascript">
+    jQuery("#tbl-mdv").jqGrid({ 
+        url:'<?php echo $this->url(array('action' => 'data')); ?>', 
+        datatype: "json", 
+        colNames:['MdvBPS ','Membre ','Code filière'], 
+        height:20, width:828,
+        colModel:[
+            {name:'duree_vie',index:'duree_vie', width: 150, align:"left", editable: true},
+            {name:'code_membre',index:'code_membre', width: 180, align:"left", editable: true},
+            {name:'code_gac_filiere',index:'code_gac_filiere', width: 180, align:"left", editable: true},
+            
+        ], 
+        rowNum:1,
+        rowList:[1,2,3],
+        rownumbers:true,
+        pager: '#pg-mdv',
+        sortname:"id_mdv",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"MdvBPS des produits de la filière"          
+    });
+    $("#tbl-mdv").jqGrid('navGrid','#pg-mdv',{edit:false,add:false,del:false,search:false});
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-mdv").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+                $.get('/eu-mdv/edit',{
+                    id_mdv:rowsel
+                },function success(data){
+                    $("#content").html(data);
+                }); 
+        }
+        else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });   
+    $('#editer').button();
+</script>

@@ -1,0 +1,94 @@
+
+
+<?php
+$days = array(
+ "1"=>"1","2"=>"2","3"=>"3","4"=>"4","5"=>"5","6"=>"6","7"=>"7","8"=>"8","9"=>"9",
+ "10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"15","16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23","24"=>"24","25"=>"25","26"=>"26","27"=>"27","28"=>"28","29"=>"29","30"=>"30","31"=>"31");
+$years = array("2016"=>"2016","2017"=>"2017","2018"=>"2018","2019"=>"2019","2020"=>"2020","2021"=>"2021","2022"=>"2022","2023"=>"2023","2024"=>"2024","2025"=>"2025","2026"=>"2026","2027"=>"2027","2028"=>"2028","2029"=>"2029","2030"=>"2030","2031"=>"2031","2032"=>"2032","2033"=>"2033","2034"=>"2034","2035"=>"2035","2036"=>"2036","2037"=>"2037","2038"=>"2038","2039"=>"2039","2040"=>"2040");
+
+$months = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+?>
+
+<article id="swipe_selection_prestataire">
+
+<blockquote>  Liste des prestataires sélectionnés   </blockquote>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+	<div class="alert alert-danger">
+		<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+	</div>
+<?php unset($_SESSION['validationerrors']); endif ?>
+<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+	<div class="alert alert-success">
+		<li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+	</div>
+<?php unset($_SESSION['validationpertesuccess']); endif ?>
+
+<section id="table-selection-all-prestataire_container">
+
+<form action="#" method="POST">
+
+
+<button class="btn btn-danger" style="position: relative;right: 0;width: 200px;float: right;">Valider la selection</button>
+<div class="control-group" style="line-height:2px">
+<div class="controls">
+           <input type="checkbox" id="all-selection-prestaires" checked="checked"> 
+            </div>
+	       <label class="control-label" for="selection de tous les prestataires" style="font-weight: bold;position: relative;top: -16px;left: 25px;" >
+	         Tout selectionner
+	       </label>
+
+</div>
+
+
+<table class="table table-striped table-condensed table-hover table-selection-all-prestataire" id="example">
+
+<thead>
+    <tr>
+        <th style="width:64px">Cocher</th>    
+        <th style="width:202px">Code membre du travail</th>
+        <th>Nom du travailleur</th>        
+        <th>Date du postulat</th>
+        <th>Actions</th>
+        <th>Voir son contrat</th>
+        
+        
+        
+    </tr>
+</thead>
+
+<tbody>
+<?php foreach ($this->prestatairelistselectionner as $key => $value): ?>
+
+    <tr id="line_selection">
+        <td><input type="checkbox" id="one_selection_prestataire" name="check_one_selection_prestataire[]" value="<?php echo $value->travailleur_id; ?>" checked="checked"></td>
+        <td><?php echo $value->travailleur_code_membre; ?></td>
+        <td><?php echo $value->travailleur_libelle; ?></td>
+        
+        <td>
+        
+        <?php
+						$true_month = "";
+						$ex_date = explode('-',$value->travailleur_date);
+
+						    foreach ($months as $ky => $vad) {
+							    if($ex_date[1] == $ky){
+								    $true_month = $vad;
+							    }
+						    }
+						   $next_ex_date = explode(' ', $ex_date[2]);
+						   $true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0]." à ".$next_ex_date[1];
+		?>
+        <?php echo $true_date ;?>
+        </td>
+        <td><a href="#" class="btn btn-primary" id="btn-view-detail-selectionner" data-idprestataire = "<?php echo $value->travailleur_id ;?>">Voir les détails</a></td>        
+        <td><a href="#" class="btn btn-primary" id="btn-view-contrat-selectionner" data-idprestataire = "<?php echo $value->travailleur_id ;?>">Voir son contrat</a></td>        
+        
+    </tr>
+<?php endforeach ?>
+</tbody>
+</table>
+</form>
+
+
+</section>

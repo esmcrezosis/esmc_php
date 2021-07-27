@@ -1,0 +1,113 @@
+<div class="span12" style="text-align:text">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+</div>
+
+<blockquote>  Interface d'obtention de son code de pouvoir-faire  </blockquote>
+
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+<div class="alert alert-danger">
+
+  <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+</div>
+
+<?php unset($_SESSION['validationerrors']); endif ?>
+
+<?php if (isset($_SESSION["integritycodeacces"])): ?>
+
+   <?php if($_SESSION["integritycodeacces"] != ""): ?>
+
+      <div class="alert alert-success">
+
+        <strong><?php echo $_SESSION['integritycodeacces'] ?></strong>
+
+      </div>
+
+<?php endif ?>
+
+<?php unset($_SESSION['integritycodeacces']); endif ?>
+
+<?php if ($this->countalreadyseencode != 0):?>
+
+   <?php foreach($this->alreadyseencode as $kalready => $valready): ?>
+
+      <div class="alert alert-success">
+
+         <strong>VOTRE CODE DE POUVOIR-FAIRE :</strong>
+
+         <p><?php echo $valready->code_acces_salle ?></p>
+   
+      </div>
+
+   <?php endforeach ?>
+
+<?php else: ?>
+
+<form method="post" class="form-horizontal">
+
+<div class="control-group">
+
+  <label class="control-label" for="ot_code_bci" style="font-weight:bold">
+
+	        Code BCi *:
+
+	</label>
+
+	<div class="controls">
+
+		     <input type="text" name="ot_code_bci" class="input-block-level ot_code_bci" placeholder="Mettre ici votre code de BCi" required="required"/>
+	
+  </div>
+
+</div>
+
+<div class="control-group">
+
+  <label class="control-label" for="ot_code_transfert_technologie" style="font-weight:bold">
+
+	        Code de transfert de technologie *:
+
+	</label>
+
+	<div class="controls">
+
+		     <input type="text" name="ot_code_transfert_technologie" class="input-block-level ot_code_transfert_technologie" placeholder="Mettre ici votre code de BCi" required="required"/>
+	
+  </div>
+
+</div>
+
+<div class="control-group">
+
+  <label class="control-label" for="code d'accès à la salle de formation" style="font-weight:bold">
+
+	        Code d'accès à la salle de formation *:
+
+	</label>
+
+	<div class="controls">
+
+		     <input type="text" name="ot_code_acces" class="input-block-level ot_code_acces" placeholder="Mettre ici votre code d'accès à la salle de formation" required="required"/>
+	
+  </div>
+
+</div>
+
+
+<div class="control-group" >
+
+  <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+
+    Valider le formulaire
+
+  </button>
+  
+</div>
+
+</form>
+
+<?php endif ?>

@@ -1,0 +1,94 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout de la video</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addvideo">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="video_categorie">Catégorie de la video *</label>
+<div class="controls">
+<?php 
+$menu = new Application_Model_EuCategorieVideoMapper();
+$entries = $menu->fetchAll();
+if(count($entries) > 0){?>
+<select id="video_categorie" name="video_categorie"  required>
+  <option value="">Choisir la catégorie</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->id_categorie_video; ?>"><?php echo $value->libelle_categorie_video; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="video_type">Type de la video *</label>
+<div class="controls">
+<label class="radio inline" for="video_type1">
+<input type="radio" id="video_type1" name="video_type" value="ESMC" required /> ESMC</label>
+<br />
+<label class="radio inline" for="video_type2">
+<input type="radio" id="video_type2" name="video_type" value="CEU/ReDeMaRe" required /> CEU/ReDeMaRe</label>
+<br />
+<label class="radio inline" for="video_type3">
+<input type="radio" id="video_type3" name="video_type" value="MCNP" required /> MCNP</label>
+<br />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="video_libelle">Libellé de la video *</label>
+<div class="controls">
+<input type="text" name="video_libelle" id="video_libelle" placeholder="Libellé de la video" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="video_description">Description de la video *</label>
+<div class="controls">
+<textarea name="video_description" id="video_description" placeholder="Description de la video" required></textarea><!-- class="ckeditor"-->
+</div>
+</div>
+    
+    
+    
+<div class="form-actions">
+<input name="publier" type="hidden" id="publier" value="1" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter la video</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

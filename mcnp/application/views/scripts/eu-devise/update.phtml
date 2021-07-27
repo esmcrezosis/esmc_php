@@ -1,0 +1,32 @@
+<div id="view-content" class="ui-widget">
+    <div id="c_header" class="ui-widget-header ui-corner-top" style="padding-left: 5px; height: 35px;">
+        <h4>Mise à jour de devises</h4>
+    </div>
+    <div class="ui-widget-content ui-corner-bottom" style="height: 500px;">
+        <form id="dev_form" method="post" action="/eu-devise/update">
+            <table id="tab_devise" style="width: 400px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+                <tr>
+                    <td><label for="code_dev">Code Devise :</label></td>
+                    <td><input class="validate[required]" type="text" id="code_dev" name="code_dev" value="<?php echo $this->devise->code_dev; ?>"/></td>
+                </tr>
+                <tr><td><label for="lib_dev">Libellé Devise :</label></td>
+                    <td><input class="validate[required]" type="text" id="lib_dev" name="lib_dev" value="<?php echo $this->devise->lib_dev; ?>" size="30"/></td>
+                </tr>
+                <tr>
+                    <td><label for="val_dev_etr">Valeur Devise étrangère :</label></td>
+                    <td><input class="validate[required number]" type="text" id="val_dev_etr" name="val_dev_etr" value="<?php echo $this->devise->symbole_dev; ?>"/></td>
+                </tr>
+                <tr>
+                    <td><label for="val_dev_nat">Valeur en Devise nationale :</label></td>
+                    <td><input class="validate[required number]" type="text" id="val_dev_nat" name="val_dev_nat" value="<?php echo $this->devise->zone_dev; ?>"/></td>
+                </tr>
+                <tr><td></td><td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td></tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script>
+    $("#dev_form").validationEngine();
+    $('#val').button();
+    $('#reset').button();
+</script>

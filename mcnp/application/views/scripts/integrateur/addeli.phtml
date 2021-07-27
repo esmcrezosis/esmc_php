@@ -1,0 +1,378 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/contratlivraisonirrevocables.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/detailcontrats.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/loadte2.js"></script>
+
+<script type="text/javascript">
+    function ouvrebai() {
+		if(document.getElementById('bai').checked) {
+			$('#div_bai').css('display','block');
+            $('#montant_bai').attr("required",true);
+		} else {
+			$('#div_bai').css('display','none');
+            $('#montant_bai').attr("required",false);
+		}
+	}
+	
+	function ouvreban() {
+		if(document.getElementById('ban').checked) {
+			$('#div_ban').css('display','block');
+            $('#montant_ban').attr("required",true);
+		} else {
+			$('#div_ban').css('display','none');
+            $('#montant_ban').attr("required",false);
+		}
+	}
+	
+	function ouvreopi() {
+		if(document.getElementById('opi').checked) {
+			$('#div_opi').css('display','block');
+            $('#montant_opi').attr("required",true);
+		} else {
+			$('#div_opi').css('display','none');
+            $('#montant_opi').attr("required",false);
+		}
+	}
+	
+	function ouvreeli() {
+	   montant_eli = 0;
+	   for(var i = 0; i < document.getElementById("cpteur").value; i++) {
+         montant_eli += Math.floor(document.getElementById("prix_unitaire" + i).value * document.getElementById("quantite" + i).value);		 
+       }
+	   document.getElementById('montant_eli').value = montant_eli;
+	}
+	
+	
+	
+	
+	var compteur = 1;
+	function addRow(tableID)  {
+	   var table = document.getElementById(tableID);
+       var rowCount = table.rows.length;
+       var cpte = rowCount;
+       var row = table.insertRow(rowCount);
+	   
+	   var cell1 = row.insertCell(0);
+       var element0 = document.createElement("select");
+       element0.setAttribute("id", "type_bps" + cpte);
+	   element0.setAttribute("name", "type_bps[]");
+	   element0.setAttribute("class","input-xxlarge");
+	   element0.setAttribute("required","true");
+       cell1.appendChild(element0);
+	   var options = '<option/>';
+	   var tab=[];
+	   var tab1=[];
+	   tab[0]='S';
+	   tab[1]='BP';
+		   
+	   tab1[0]='Service';
+	   tab1[1]='Bien ou Produit';
+		   		
+       for(var i = 0; i < 2; i++) {
+         options += '<option value="' + tab[i] + '">' + tab1[i] +' </option>';		 
+       }
+       $('select#type_bps' + cpte).html(options);
+	   
+	   var cell2 = row.insertCell(1);
+       var element1 = document.createElement("input");
+       element1.type = "text";
+       element1.setAttribute("id", "libelle_produit" + cpte);
+	   element1.setAttribute("name", "libelle_produit[]");
+	   element1.setAttribute("class","input-xxlarge");
+	   element1.setAttribute("placeholder","Libelle Produit");
+	   element1.setAttribute("required","true");
+       cell2.appendChild(element1);
+	   
+	   var cell3 = row.insertCell(2);
+       var element2 = document.createElement("input");
+       element2.type = "number";
+       element2.setAttribute("id", "prix_unitaire" + cpte);
+	   element2.setAttribute("name", "prix_unitaire[]");
+	   element2.setAttribute("class","input-xxlarge");
+       element2.setAttribute("placeholder","Prix unitaire");
+	   element2.setAttribute("required","true");
+       cell3.appendChild(element2);
+	   
+	   var cell4 = row.insertCell(3);
+       var element3 = document.createElement("input");
+       element3.type = "number";
+       element3.setAttribute("id", "quantite" + cpte);
+	   element3.setAttribute("name", "quantite[]");
+	   element3.setAttribute("class","input-xxlarge");
+       element3.setAttribute("placeholder","Quantite");
+	   element3.setAttribute("required","true");
+       cell4.appendChild(element3);
+	   
+	   compteur = compteur + 1;
+       document.getElementById("cpteur").setAttribute('value', compteur);
+	}
+	
+   function deleteRow(tableID)  {
+     try {
+         var table = document.getElementById(tableID);
+         var rowCount = table.rows.length - 1;
+         if (rowCount >= 1) {
+            table.deleteRow(rowCount);
+            compteur = compteur - 1;
+            document.getElementById("cpteur").setAttribute('value', compteur);
+         }
+      } catch (e) {
+         alert(e);
+      }
+  }
+   
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+<blockquote><p> Remplir l'Engagement de Livraison Irrévocable (ELI) </p></blockquote>
+
+<?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error != "") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+</div>
+<?php } ?>
+
+<?php if(isset($this->error) && $this->error != "") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $this->error; $this->error = ""; ?>
+</div>
+<?php } ?>
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addeli">
+      <fieldset>      
+               <legend>ENGAGEMENT DE LIVRAISON IRREVOCABLE (ELI) </legend>
+			   <div class="control-group">
+			   <label class="control-label" >Code Membre Fournisseur * </label>
+			   <div class="controls">
+			   <input type="text" name="code_membre" id="code_membre" placeholder="Code Membre Fournisseur"  class="input-block-level" readonly />
+			   </div>
+			   </div>
+			   
+			   <div class="control-group">
+			   <label class="control-label" > Désignation Fournisseur * </label>
+			   <div class="controls">
+			   <input type="text" name="nom_membre" id="nom_membre" placeholder="Désignation Fournisseur"  class="input-block-level" readonly />
+			   </div>
+			   </div>
+			   
+			   <legend> DETAILS ENGAGEMENT LIVRAISON IRREVOCABLE (ELI) </legend>
+				  <div class="control-group" id="display_eli">
+                  <label class="control-label" for="contrat_eli">Détails * </label>
+	              <div class="controls">
+	              <table id="tab_eli">
+                  <tr>
+					  <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+					  
+					  <td>
+					      <select  id="type_bps0" name="type_bps[]" required class="input-xxlarge">
+						           <option value=""></option>
+								   <option value="S"> Service </option>
+								   <option value="BP"> Bien ou Produit </option>
+						  </select>
+					  </td>
+					  
+                      <td>
+					      <input type="text" id="libelle_produit0" name="libelle_produit[]" placeholder="Libelle Produit"  class="input-xxlarge" required />
+					  </td>
+                      <td>					 
+					      <input id="prix_unitaire0" type="number" name="prix_unitaire[]" placeholder="Prix Unitaire" class="input-xxlarge" required /> 
+					  </td>
+					  <td>					 
+					      <input id="quantite0" type="number" name="quantite[]" placeholder="Quantité" class="input-xxlarge" required /> 
+					  </td>
+					  <td>
+				        <input class="btn btn-mini"  id="add"     type="button"  value="+"  onclick ="addRow('tab_eli');"   /> 
+					    <input class="btn btn-mini"  id="remove"  type="button"  value="-"  onclick="deleteRow('tab_eli');" /> 
+				      </td>
+				  </tr>
+                  </table>			
+	              </div>
+                  </div>
+			   
+			   <legend> MODALITES DE PAYEMENT </legend>
+			   
+			   <div class="control-group">
+			   <label class="control-label"> Montant ELI * </label>
+			   <div class="controls">
+			   <input type="text" onclick="ouvreeli()"  name="montant_eli" id="montant_eli" placeholder="Montant ELI"  class="input-block-level" value="0" readonly />
+               </div>
+               </div>
+			   
+			   <div class="control-group">
+			        <label class="control-label">Veuillez choisir les options des modalités de payement </label>
+					<div class="controls">
+					     <label for="bai" class="radio">
+			               <input name="bai"  id="bai"  type="checkbox" value="1" onclick="ouvrebai()" /> BAi Anticipé
+				         </label>
+                         <div class="control-group" id="div_bai" style="display:none;">
+				         <div class="controls">
+				         <label class="control-label">Montant BAi * </label>
+                         <div class="controls">
+                              <input type="number" name="montant_bai" id="montant_bai" placeholder="Montant BAi"  class="input-block-level" />
+                         </div>
+				         </div>						 
+					     </div>
+				     </div>
+					 
+					 <div class="controls">
+					     <label for="ban" class="radio">
+			               <input name="ban"  id="ban"  type="checkbox" value="1" onclick="ouvreban()" /> BAn Anticipé
+				         </label>
+                         <div class="control-group" id="div_ban" style="display:none;">
+				         <div class="controls">
+				         <label class="control-label">Montant BAn * </label>
+                         <div class="controls">
+                              <input type="number" name="montant_ban" id="montant_ban" placeholder="Montant BAn"  class="input-block-level" />
+                         </div>
+				         </div>						 
+					     </div>
+				      </div>
+					  
+					  <div class="controls">
+					     <label for="opi" class="radio">
+			               <input name="opi"  id="opi"  type="checkbox" value="1" onclick="ouvreopi()" /> OPI Anticipé
+				         </label>
+                         <div class="control-group" id="div_opi" style="display:none;">
+				         <div class="controls">
+				         <label class="control-label">Montant OPI * </label>
+                         <div class="controls">
+                              <input type="number" name="montant_opi" id="montant_opi" placeholder="Montant OPI"  class="input-block-level" />
+                         </div>
+				         </div>						 
+					     </div>
+				      </div>
+				  </div>
+				
+			      <div class="control-group">
+			      <label class="control-label"> Libellé ELI * </label>
+			      <div class="controls">
+			      <input type="text" onblur="ouvre_loadte2(document.getElementById('code_membre').value,'nivo_te');" name="libelle_eli" id="libelle_eli" placeholder="Libellé ELI"  class="input-block-level" required />
+                  </div>
+                  </div>
+
+                  <div id="nivo_te">
+				  <div class="control-group">
+			      <label class="control-label"> Code Terminal * </label>
+				  <div class="controls">
+				       <select  id="code_te" name="code_te" required class="input-xxlarge">
+	                            <option value=""> Choisir un terminal de vente</option>
+	                   </select>
+				  </div>
+                  </div>
+                  </div>
+				  
+				  <!--
+				  <legend> LOCALITE </legend>
+				  <div class="row-fluid">
+                            <div class="span6">
+                                <div class="control-group">
+                                    <label class="control-label span6">Zone *</label>
+                                    <div class="controls span6">
+                                         <select class="input-block-level" id="code_zone" name="code_zone" required>
+                                            <option value="">Choisir une zone monétaire</option>
+                                            <?php //foreach ($this->zones as $value) { ?>
+                                            <option
+                                                    value="<?php //echo $value->code_zone; ?>"><?php //echo $value->nom_zone; ?></option>                         
+                                                <?php //} ?>
+                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span6">
+                                <div class="control-group">
+                                    <label class="control-label span6">Pays *</label>
+                                    <div class="controls span6">
+                                        <select class="input-block-level" id="id_pays" name="id_pays" required="required" >
+                                            <option value="">Choisir un pays</option>
+                                            <?php //foreach ($this->pays as $value) { ?>
+                                            <option
+                                                    value="<?php //echo $value->id_pays; ?>"><?php //echo $value->libelle_pays; ?></option>                         
+                                                <?php //} ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+					
+					<div>
+                         <div class="span6">
+                                <div class="control-group">
+                                    <label class="control-label span6">Régions *</label>
+                                    <div class="controls span6">
+                                        <select class="input-block-level" id="id_region" name="id_region" required>
+                                            <option value="">Choisir une région</option>
+                                            <?php //foreach ($this->regions as $value) { ?>
+                                            <option
+                                                    value="<?php //echo $value->id_region; ?>"><?php //echo $value->nom_region; ?></option>                         
+                                                <?php //} ?>
+                                        </select>
+                                    </div>
+                                </div>
+                           </div>
+                           <div class="span6">
+                                <div class="control-group">
+                                    <label class="control-label span6">Préfectures *</label>
+                                    <div class="controls span6">
+                                        <select class="input-block-level" id="id_prefecture" name="id_prefecture" required>
+                                            <option value="">Choisir une préfecture</option>
+                                            <?php //foreach ($this->prefectures as $value) { ?>
+                                            <option
+                                                    value="<?php //echo $value->id_prefecture; ?>"><?php //echo $value->nom_prefecture; ?></option>                         
+                                                <?php //} ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+					 </div>
+					 
+					 <div>
+					      <div class="span6">
+                               <div class="control-group">
+                                    <label class="control-label span6">Cantons *</label>
+                                    <div class="controls span6">
+                                        <select class="input-block-level" id="id_canton" name="id_canton" required="required">
+                                            <option value="">Choisir un canton</option>
+                                            <?php //foreach ($this->cantons as $value) { ?>
+                                            <option
+                                                    value="<?php //echo $value->id_canton; ?>"><?php //echo $value->nom_canton; ?></option>                         
+                                                <?php //} ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+					 </div>
+					 -->
+					 
+					 
+      </fieldset>
+<div class="form-actions">
+<input name="nbre" type="hidden" id="nbre" value="1" />
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn"> Annuler </button>
+<button type="submit" id="submit" class="btn btn-primary">Enrégistrer</button>
+</div>
+
+</form>
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr.js"></script>
+<script type="text/javascript">
+//outilqr('addeli');
+outilqrformobligatoire("addeli","submit");
+</script>
+
+
+
+
+</div>
+<div class="span3">
+<?php //include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>

@@ -1,0 +1,53 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-rayon"></table>
+    <div id="pg-rayon"></div>
+</div>
+
+<script type="text/javascript">
+    
+    $("#tbl-rayon").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Nom','Telephone','Adresse','Responsable','Code boutique'],
+        height:440, width:827,
+        colModel:[
+            {name:'code_rayon',index:'code_rayon', width:180,editable:true,align:"left"},
+            {name:'design_rayon',index:'design_rayon', width: 300, editable: true,align:"left"},
+            {name:'telephone',index:'telephone', width: 120, align:"left", editable: true},
+            {name:'adresse',index:'adresse', width:220, editable: true,align:"rigth"},
+            {name:'proprietaire_rayon',index:'proprietaire_rayon', width:150, editable: true,align:"rigth"},
+            {name:'code_bout',index:'code_bout', width:150, editable: true,align:"rigth"},
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        pager: '#pg-rayon',
+        sortname:"code_rayon",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des rayons"
+    });
+  
+    $("#tbl-rayon").jqGrid('navGrid','#pg-rayon',{edit:false,add:false,del:false,search:true});
+
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-rayon").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-rayon/edit',{
+                rayon:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+</script>

@@ -1,0 +1,124 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/prks.js"></script>
+<script>
+function calculertotaux(){
+    
+document.getElementById('total_nr').value = parseInt(document.getElementById('prix_unitaire').value) * parseInt(document.getElementById('quantite').value);
+
+var pck = document.getElementById('pck').value;
+var prk = document.getElementById('prk').value;
+var taux = document.getElementById('tauxescompte').value;
+var valeur_juste = document.getElementById('total_nr').value;
+    
+var partie = ((valeur_juste * 100) + (taux * valeur_juste))/100;
+var valeur_bps = Math.round((partie * pck) / prk); 
+
+document.getElementById('total_bps').value = valeur_bps;
+
+    }
+</script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Ajout de commande nr</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addappeloffre">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<div class="control-group">
+<label class="control-label" for="produit">Produits *</label>
+<div class="controls">
+<?php 
+$table = new Application_Model_DbTable_EuTegc();
+$select = $table->select();
+$select->from($table, array('nom_produit'));
+$select->distinct();
+$select->order("nom_produit ASC");
+$entries = $table->fetchAll($select);
+if(count($entries) > 0){?>
+<select id="produit" name="produit" required onchange="ouvre_prks(this.value);">
+  <option value="">Choisir le produit</option>
+<?php foreach ($entries as $value) { ?>
+  <option value="<?php echo $value->nom_produit; ?>"><?php echo $value->nom_produit; ?></option>
+<?php } ?>
+</select>
+<?php }?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="designation">Désignation *</label>
+<div class="controls">
+<input type="text" name="designation" id="designation" placeholder="Désignation" required>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="prix_unitaire">Prix Unitaire *</label>
+<div class="controls">
+<input type="number" name="prix_unitaire" id="prix_unitaire" placeholder="Prix Unitaire" required>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="quantite">Quantité *</label>
+<div class="controls">
+<input type="number" name="quantite" id="quantite" placeholder="Quantité" required>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="total_nr">Total Prix *</label>
+<div class="controls">
+<input type="number" name="total_nr" id="total_nr" placeholder="Total Prix " required readonly>
+</div>
+</div>
+    
+<div id="nivo2"></div>    
+    
+<div class="control-group">
+<label class="control-label" for="total_bps">Total Prix BPS *</label>
+<div class="controls">
+<div class="input-append">
+<input type="number" name="total_bps" id="total_bps" placeholder="Total Prix BPS" required readonly>
+  <button class="btn" type="button" onclick="calculertotaux();">Calculer</button>
+</div>  
+</div>
+</div>
+
+  
+  
+
+<div class="form-actions">
+<input  type="hidden"  name="tauxescompte"  id="tauxescompte"  placeholder="Taux Escompte"  readonly="true"  value="<?php echo $this->tauxescompte ; ?>" />
+<input  type="hidden"  name="pck"  id="pck"  placeholder="PCK"  readonly="true"  value="<?php echo $this->pck; ?>" />
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter la commande nr</button>
+</div>
+  
+</form>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

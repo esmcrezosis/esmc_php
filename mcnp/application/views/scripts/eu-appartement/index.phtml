@@ -1,0 +1,29 @@
+<div id="view-content">
+    <table id="tbl-appartement"></table>
+    <div id="pg-appartement"></div>
+</div>
+
+<script type="text/javascript"> 
+    $("#tbl-appartement").jqGrid({
+        url: "/eu-appartement/data",
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code membre immobilier', 'Type appartement', 'Prix location', 'Nombre de pièces'],
+        height: 410, width: 827,
+        colModel: [
+            {name: 'code_membre', index: 'code_membre', width:180,align: "left", editable: true},
+            {name: 'type_appartement', index: 'type_appartement', width: 170, align: "left", editable: true},
+            {name: 'prix_location',width: 150,align:"right",editable: false,formatter:'number'},
+            {name: 'nb_piece', index: 'nb_piece', width: 100, editable: true, align: "left"},
+        ],
+        rowNum: 200000,
+        rowList: [200000, 400000, 600000],
+        pager: '#pg-appartement',
+        sortname: "id_appartement",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste des appartements" 
+    });
+    $("#tbl-appartement").jqGrid('navGrid', '#pg-appartement', {edit: false, add: false, del: false, search: true});
+    
+</script>    

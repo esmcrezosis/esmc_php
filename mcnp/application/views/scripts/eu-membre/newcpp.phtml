@@ -1,0 +1,44 @@
+<div id="view-content">
+    <div class="ui-widget-header ui-corner-top" style="height: 30px;padding-bottom: 5px; padding-left: 5px;">
+        <h3>Edition d'un contrat</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form action="/eu-contrat/newpp" name="fm_contrat" method="POST" id="fm_contrat">     
+            <fieldset><legend>Contrat de Membres Personnes Physiques</legend>
+                <table style="width: 350px;margin-left: auto;margin-right: auto;margin-top: 5px;">
+                    <tbody>
+                          <tr style="text-align: right;">
+                              <td>Code membre</td><td style="text-align: left;"><input type="text" name="code_membre" value="<?php echo $this->code_membre; ?>" readonly="true"></td>
+                          </tr>
+                          <tr style="text-align: right;">
+                              <td>Mode de payement *</td>
+                              <td style="text-align: left;">
+                                  <select name="nature_contrat" id="natcontrat" class="validate[required]">
+                                        <option value=""></option>
+                                        <option value="nature">Nature</option>
+                                        <option value="numerique">Numérique</option>
+                                        <option value="numerique">Industrie</option>
+                                  </select>
+                              </td>
+                          </tr>
+                          
+                          <tr style="text-align: right;">
+                            <td>Filière d'activité </td><td style="text-align: left;"><input type="text" name="filiere" class=""  value="<?php echo $this->filiere; ?>"></td>
+                          </tr>
+                          
+                    </tbody>
+                </table>
+            </fieldset>
+            <br><br>
+            <div>
+                <input type="submit" value="Valider" id="valider"/>
+                <input id="t_annuler" type="reset" value="Annuler"/>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+       $('#valider').button();
+       $('#t_annuler').button();
+       $("#fm_contrat").validationEngine();   
+</script>

@@ -1,0 +1,73 @@
+<div class="row-fluid">
+	<div class="span12">
+      <legend>Etablissement d'une facture de fournisseur</legend>
+			<?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+				</div>
+			<?php unset($_SESSION['validationpertesuccess']); endif ?>
+
+	  <form action="#" enctype="multipart/form-data" method="post" class="form-horizontal">
+	    <div class="control-group">
+	      <label class="control-label" for="numéro de la facture" style="font-weight:bold">
+	        Numéro de la facture *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="reference_facture_fournisseur" class="input-block-level reference_facture_fournisseur" placeholder="Mettre ici le numéro de la facture" required="required"/>
+	      </div>
+	    </div>
+	   
+	   <div class="control-group">
+	      <label class="control-label" for="libellé de la facture" style="font-weight:bold">
+	        Libellé de la facture *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="libelle_facture_fournisseur" class="input-block-level libelle_facture_fournisseur" placeholder="Mettre ici le libellé de la facture" required="required"/>
+	      </div>
+	   </div>
+	   <div class="control-group">
+	      <label class="control-label" for=" Montant du paiement de la facture" style="font-weight:bold">
+	         Montant du paiement de la facture:
+	      </label>
+	      <div class="controls">
+		    <input type="text" name="montant_paiement_facture_fournisseur" placeholder="Mettre ici le montant du paiement de la facture" class="input-block-level montant_paiement_facture_fournisseur" required="required"/>
+	      </div>
+	   </div>
+	   <div class="control-group">
+	      <label class="control-label" for="Date du paiement de la facture" style="font-weight:bold">
+	         Date du paiement de la facture:
+	      </label>
+	      <div class="controls">
+		    <input type="text" name="date_paiement_facture_fournisseur" placeholder="Mettre ici le montant du paiement de la facture" class="input-block-level montant_paiement_facture_fournisseur datepicker" required="required" date-provide="datepicker"/>
+	      </div>
+	   </div>
+
+        <div class="control-group">
+	       <label class="control-label" for="mode de paiement" style="font-weight:bold" >
+	         Le Mode de paiement:
+	       </label>
+           <select class="input-block-level mode_paiement_facture_fournisseur" name="mode_paiement_facture_fournisseur">
+                <option value>Choisir le mode de paiement</option>
+			  	<option value="espece">Espèce</option>
+			  	<option value="OPI">OPI</option>
+		  </select>
+	    </div>
+			<div style="text-align:left;margin-bottom:5px;margin-top:5px;">
+        <strong ><i><span style="text-decoration:underline">NB</span>: Cadre reservé à la Technopole.</i></strong></div><div style="text-align:left;padding:5px;padding-top:20px;border:1px solid #000">
+        <strong style="margin-bottom:15px;"> Cachet de la technopole <input type="text" style="border: none;outline: none;box-shadow: 0px 0px 0px #FFF;color: #000;width: 80%;height: 28px;font-size: 1.8em;font-family: Matura MT Script Capitals;text-transform:uppercase;margin-top: -29px;margin-left: 176px;background: transparent;padding: 0;" id="cachet_facture_technopole" value="Courrier Arrivée" readonly="true"></strong></div><div style="text-align:left;padding:5px;padding-top:20px;border:1px solid #000">
+     </div>
+      
+      <div class="control-group" >
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+          Apposer le cachet
+          </button>
+      </div>
+
+</form>
+	</div>
+</div>

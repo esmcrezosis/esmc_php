@@ -1,0 +1,209 @@
+<style media="screen">
+
+#acheteur_revendeur_type_souscription_container{
+  clear: both;
+  font-size: 1.5em;
+}
+#acheteur_revendeur_type_souscription_container label{
+  float:left;
+}
+
+#acheteur_revendeur_type_souscription_container label:last-child{
+  margin-left: 25px;
+}
+
+#acheteur_revendeur_type_souscription_label_first{
+  position: relative;
+  left: 0;
+}
+
+#acheteur_revendeur_type_souscription_label_last{
+  position: relative;
+  right: -207px;
+}
+
+#acheteur_revendeur_type_souscription_content{
+  clear: both;
+}
+.acheteur_container{
+ position: relative;
+}
+.acheteur_container::before{
+  content: "";
+  position: absolute;
+  height: 1.5px;width: 100%;
+  left: 0;top: -12px;
+
+  color: #000;
+
+  background-image: linear-gradient(to right, transparent, #000, transparent);
+  background-image: -webkit-linear-gradient(to right, transparent, #000, transparent);
+  background-image: -moz-linear-gradient(to right, transparent, #000, transparent);
+  background-image: -o-linear-gradient(to right, transparent, #000, transparent);
+  background-image: -o-linear-gradient(to right, transparent, #000, transparent);
+}
+
+.form-horizontal .control-label{
+  width: 160px;
+}
+ 
+ #code_membre_qr_auth{
+  pointer-events:none;
+}
+
+/**
+      <div class="control-group">
+         <label class="control-label" for="integrateur_demandeur_ticket_support" style="font-weight:bold">
+           Votre moyen de paiement:
+         </label>
+         <div class="controls">
+            <select class="form-control" id="acheteur_revendeur_banque" name="" style="width:100%;">
+              <option value="">Choisir le moyen de paiement pour recevoir les OPI</option>
+              <?php foreach ($this->banques as $key => $value): ?>
+                <option value="<?php echo $value->libelle_banque ?>" data-code="<?php echo $value->code_banque ?>"><?php echo $value->libelle_banque ?></option>
+              <?php endforeach; ?>
+            </select>
+         </div>
+      </div>
+**/
+</style>
+<div class="span12" style="text-align:left">
+<div style="margin-left:-35px;">
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+</div>
+
+
+<h3 style="color: #974578;text-shadow: 0px 1px 1px, 0px 2px 2px, 0px 3px 3px;text-align:center;margin-left: -78px;">INTERFACE DE SOUSCRIPTION AUTONOME A L'ACTIVITE ACHETEUR-REVENDEUR (ACHAT A LA CENTRALE D'ACHAT ET VENTE A LA CENTRALE DE VENTE)</h3>
+
+<div class="alert alert-danger" id="message_number_court" style="display:none;margin-left: -37px;background-color: #974578;color:#FFF">
+
+</div>
+<form class="form-horizontal" action="" method="post" id="form-acheteur-revendeur">
+  <div class="container">
+  
+    <div style="padding: 5px;margin-left: 0px;background-color: #ecb7b7;padding-top: 14px;padding-left: 12px;box-shadow: 0px 1px 40px 1px;margin-bottom:29px">
+      <div class="control-group">
+         <label class="control-label" for="integrateur_demandeur_ticket_support" style="font-weight:bold">
+           Terminal Prestataire:
+         </label>
+         <div class="controls" style="margin-left:0px">
+            <select class="form-control" id="acheteur_revendeur_terminal_prestataire" style="width:100%;">
+              <option value="">Selectionner le terminal prestataire</option>
+                 <?php foreach ($this->terminale as $key => $value): ?>
+                     <option value="<?php echo $value->code_tegc ?>"><?php echo $value->nom_tegc ?></option>
+                 <?php endforeach; ?>
+            </select>
+         </div>
+      </div>
+
+      <div class="control-group">
+         <label class="control-label" for="integrateur_demandeur_ticket_support" style="font-weight:bold">
+           Numéro de téléphone:
+         </label>
+         <div class="controls" style="margin-left:0px">
+            <select class="form-control" id="acheteur_revendeur_telephone_number" style="width:100%;">
+              <option value="">Selectionner le numéro de téléphone</option>
+                 <?php foreach ($this->telephone as $key => $value): ?>
+                   <?php
+                      $real_phone = $value->compagnie_telephone. " " .$value->numero_telephone;
+                    ?>
+                     <option value="<?php echo $value->numero_telephone ;?>" data-records="<?php echo $value->compagnie_telephone;?>"><?php echo $real_phone ?></option>
+                 <?php endforeach; ?>
+            </select>
+         </div>
+      </div>
+
+      <div class="control-group" id="acheteur_revendeur_type_souscription_container">
+          <label id="acheteur_revendeur_type_souscription_label_first">
+             <input type="radio" name="acheteur_revendeur_type_souscription" id="acheteur_revendeur_type_souscription_ban" value="BAN">
+             <strong>BAn</strong>
+          </label>
+          <label id="acheteur_revendeur_type_souscription_label_last">
+             <input type="radio" name="acheteur_revendeur_type_souscription" id="acheteur_revendeur_type_souscription_bai" value="BAI">
+             <strong>BAi</strong>
+          </label>
+          <div id="acheteur_revendeur_type_souscription_content">
+            <div id="acheteur_revendeur_ban" style="display:none">
+              <label for=""><strong>Montant:</strong></label>
+              <input type="text" id="montant_acheteur_revendeur" value="0" style="position: relative;width: 269px;">
+            </div>
+        </div>
+
+      </div>
+      <div class="control-group">
+         <label class="control-label" for="integrateur_demandeur_ticket_support" id="integrateur_demandeur_ticket_support" style="font-weight:bold;margin-left: -8px;">
+           Votre compte bancaire:
+         </label>
+         <div class="controls">
+           <input type="text" id="acheteur_revendeur_reference_banque" data-code="<?php echo $_SESSION['membre']['code_membre'] ?>" data-codebancaire="<?php echo $this->compteprincipale[0]->code_banque ;?>" class="form-control" value="<?php echo $this->compteprincipale[0]->num_compte_bancaire ;?>" readonly="true"/>
+         </div>
+      </div>
+      <label for="" style="float:left"><strong>Voulez vous réutiliser vos OPI ?</strong></label>
+
+          <div class="control-group" style="clear:both" id="acheteur_revendeur_type_opi_container" style="clear:both">
+              <label id="acheteur_revendeur_opi_injection_containtainer_first" style="float:left">
+                 <input type="radio" name="acheteur_revendeur_opi_injection" value="1">
+                 <strong>OUI</strong>
+              </label>
+              <label id="acheteur_revendeur_opi_injection_containtainer_second" style="position: relative;
+    left: 259px;">
+                 <input type="radio" name="acheteur_revendeur_opi_injection" value="0">
+                 <strong>NON</strong>
+              </label>
+              <div class="control-group" id="acheteur_revendeur_opi_periode_container" style="display:none;">
+                <label for="">
+                  <strong>Périodicité(en mois)</strong>
+                  <select id="acheteur_revendeur_opi_periode" style="width: 75%;">
+                    <option value="">Selectionner la période</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="4">6</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+            <div id="qrcaptcha"></div>
+            
+             <!-- 
+          <input type="button" class="btn btn-danger" id="emission_code_confirmation" value="Emettre le code de Confirmation" style="float:right;margin-top: -16px;">
+-->
+            <div id="chargement_revendeur" style="display:none">
+              <div class="mcnp_loader mcnp_loader_quart"></div>
+              <span style="display: inline-block;font-size: 1.6em;">Chargement...</span>
+            </div>
+            <!--
+         <div class="control-group">
+        <label class="control-label" for="integrateur_demandeur_ticket_support" style="font-weight:bold">
+         Code de confirmation:
+        </label>
+        <div class="controls">
+           <input type="text" name="name" class="form-control" id="confirmation_code_revendeur"/>
+         </div>
+       </div>
+       -->
+      <input type="button" class="btn btn-primary" name="name" id="btn-final-acheteur-revendeur" value="Valider l'opération">
+      <span id="chargement_valid_revendeur" style="position: relative;display:none;top: 8px;">
+        <div class="mcnp_loader mcnp_loader_quart"></div>
+        <span style="display: inline-block;font-size: 1.6em;">Chargement...</span>
+      </span>
+    <input type="button" class="btn btn-success" name="name" id="btn-final-acheteur-revendeur-cancel" value="Annuler">
+  </div>
+  </form>
+</div>
+
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr1.js"></script>
+<!--
+<script type="text/javascript"> outilqr("form-acheteur-revendeur"); </script>
+
+-->
+<script type="text/javascript">
+
+outilqr1("form-acheteur-revendeur");
+outil_confirmation_biometrique_personelle('form-acheteur-revendeur', 'qrcaptcha', 'btn-final-acheteur-revendeur', 'Voulez vous confirmez cette operation d\'acheteur revendeur?', '<?php echo $_SESSION['membre']['code_membre'] ?>');
+
+</script>
+

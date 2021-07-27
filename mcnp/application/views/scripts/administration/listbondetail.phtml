@@ -1,0 +1,77 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des détails du bon</p></blockquote>
+  <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/addbondetail/id/<?php echo $this->id; ?>"><i class="icon-plus icon-white"></i>  Ajouter un détail</a>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Réference</th>
+								  <th>Libellé</th>
+								  <th>Quantité</th>
+								  <th>Prix Unitaire</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php echo ($entry->bon_detail_reference); ?></td>
+      <td><?php echo ($entry->bon_detail_libelle); ?></td>
+      <td><?php echo ($entry->bon_detail_quantite); ?></td>
+      <td><?php echo ($entry->bon_detail_prix_unitaire); ?></td>
+      <td><div align="center"><a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/editbondetail/id/<?php echo $entry->bon_detail_id; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+
+			<a class="btn btn-mini btn-danger" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/administration/suppbondetail/id/<?php echo $entry->bon_detail_id; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a></div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun détail de bon enrégistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

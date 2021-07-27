@@ -1,0 +1,141 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Detail d'une candidat</p></blockquote>
+  
+    
+<div class="control-group">
+<label class="control-label" for="candidat_document">Document </label>
+<div class="controls">
+<?php 
+$documentM = new Application_Model_EuDocumentMapper();
+$document = new Application_Model_EuDocument();
+$documentM->find($this->candidat->candidat_document, $document);
+?><?php echo ($document->nom_document); ?></div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_nom">Nom du Candidat  </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_nom; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_poste">Poste </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_poste; ?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="candidat_datenaiss">Date de naissance  </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_datenaiss; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_nationalite">Nationalité  </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_nationalite; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_education">Education/Formation/Cursus </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_education; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_affiliation">Affiliation à des associations/groupements professionnels </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_affiliation; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_formation">Autres formations  </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_formation; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_pays">Pays  où le candidat a travaillé </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_pays; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_langue">Langues  </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_langue; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_experience">Expérience professionnelle </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_experience; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_tache">Détail des tâches exécutées </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_tache; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_competence">Expérience du candidat qui illustre le mieux sa compétence </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_competence; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_attestation">Attestation  </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_attestation; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_date">Date </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_date; ?>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

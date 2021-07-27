@@ -1,0 +1,157 @@
+<div id="view-content" title="Interface pour les procurations" style="min-height: 520px;padding: 1px;margin: 1px;font-size: 12px;">
+    <form id="affecte_form" method="Post" action="/eu-procuration/donew">
+          <table id="tab_fact" style="margin: 5px;">
+            <tr>
+                <td><label>Code membre Mandant:</label></td>
+                <td><input id="code_memb" type="text" name="code_membre" value="" size="25"/></td>
+            </tr>
+            <tr>
+                <td><label for="raison_soc">Nom & Prénom * :</label></td>
+                <td>
+                    <input class="validate[required]" type="text" id="nom" name="nom" value="<?php echo $this->nom; ?>" size="40"/>
+                </td>
+            </tr>
+			<tr>
+                <td><label>Code membre Mandataire :</label></td>
+                <td><input id="code_membre_mandataire" type="text" name="code_membre_mandataire" value="" size="25"/></td>
+            </tr>
+            <tr>
+                <td><label for="raison_soc">Nom & Prénom * :</label></td>
+                <td>
+                    <input class="validate[required]" type="text" id="nom" name="nom" value="<?php echo $this->nom; ?>" size="40"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Référence document :</td>
+                <td><input id="ref_doc" type="text" name="ref_doc" value="" style="text-align:right"/></td>
+            </tr>
+			<tr>
+                <td>Document en fichier  :</td>
+                <td><input id="doc" type="file" name="doc" value="" style="text-align:right"/></td>
+            </tr>
+			<tr>
+                <td>Date début :</td>
+                <td><input id="date_deb" type="text" name="date_deb" value="" style="text-align:right"/></td>
+            </tr>
+			<tr>
+                <td>Date fin :</td>
+                <td><input id="date_fin" type="text" name="date_fin" value="" style="text-align:right"/></td>
+            </tr>
+        </table>
+        
+        <table>
+            <tr>
+                <td></td>
+                <td>
+				    <input type="submit" id="val" value="Valider"/>
+				    <input type="reset" id="reset" value="Réinitialiser"/>
+			    </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function ()
+    {
+        $('#val').button();
+        $('#reset').button();
+        
+        $(function() {
+            $('#view-content').puipanel();
+        });
+                
+        $.get( "/eu-procuration/membre",
+        function success(data)
+        {
+          $("#code_membre").autocomplete({"source":data});
+        });
+            
+            
+        $(function(){
+            var pickerOpts = {
+                dateFormat: "dd-mm-yy",
+                changeMonth:true,
+                changeYear:true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+            $("#date_deb").datepicker(pickerOpts);              
+        }); 
+            
+        $(function(){
+            var pickerOpts = {
+                dateFormat: "dd-mm-yy",
+                changeMonth:true,
+                changeYear:true,
+                showOtherMonths: true
+            };
+            $("#date_fin").datepicker(pickerOpts);              
+        }); 
+            
+        //            $('#date_fin1').blur(function(e)
+        //            {             
+        //                if($('#date_fin1').val() < $("#date_deb1").val())
+        //                {                    
+        //                    alert('La date de fin doit être supérieur à la date de début');  
+        //                    $(this).focus();
+        //                };   
+        //                e.preventDefault();
+        //            });
+            
+        $('#val').click(function(e){
+            $.ajax({
+                url: $('form').attr("action"),
+                data: $('form').serialize(),
+                type: 'post',
+                success: processServerResponse
+            });
+            e.preventDefault();
+        });
+    });
+         
+    function processServerResponse(data) {
+        if(data === 'alloc_sal'){
+            alert('Le salaire disponible sur votre compte est insuffisant');
+        }
+        else if(data === 'compte_err'){
+            alert('Pas de subvention reçu');
+        }
+        else if(data === 'echec'){
+            alert('Echec de l\'opération, vérifier votre saisie');
+        }
+        else if(data === 'salarie'){
+            alert('Vérifier les codes membre des salariés');
+        }
+        else if(data === 'good'){
+            alert('Affectation de salaires effectuée avec succès');
+            $(location).attr("href", "/eu-affectation/index");
+        }
+        else{
+            $('#message').html(data);
+        }
+    };    
+        
+    $('form#procuration_form').submit(function(event) {
+            event.preventDefault();
+            $.post('/eu-procuration/donew',
+                    {
+                        code_membre: $('#code_membre').val(),
+                        code_membre_mandataire: $('#code_membre_mandataire').val(),
+                        ref_doc: $('#ref_doc').val(),
+                        doc: $('#doc').val(),
+                        date_deb: $('#date_deb').val(),
+                        date_fin: $('#date_fin').val(),
+                        
+                    }
+            , function success(data) {
+                if (data === true) {
+                    alert('procuration éffectuée avec succès');
+                    $(location).attr("href", "/eu-procuration/index");
+                } else {
+                    alert(data);
+                }
+            });
+        });
+
+    
+</script>

@@ -1,0 +1,85 @@
+﻿<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques2.js"></script>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/fondateurs.js"></script><?php */?>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capasenrolement.js"></script><?php */?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banquespays.js"></script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+<blockquote><p>Souscription au Bon d'Achat neutre (BAn) pour Tiers</p></blockquote>
+  <?php if(isset($sessionmembre->error) && $sessionmembre->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->error; $sessionmembre->error = ""; ?>
+    </div>
+  <?php } ?>
+
+    <?php if(isset($sessionmembre->code_BAn) && $sessionmembre->code_BAn != "") { ?>
+<blockquote>
+  <a href="/souscriptionbon/bonachatneutrepdf/code/<?php echo $sessionmembre->code_BAn; ?>" target="_blank"><span style="color:#800080;">Télécharger votre Bon d'Achat neutre (<strong>BAn</strong>)</span></a> <br /><br />
+
+  <?php $sessionmembre->code_BAn = "";?>
+</blockquote>
+  <?php } ?>
+
+  <?php if(!isset($sessionmembre->code_BAn) || $sessionmembre->code_BAn == "") { ?>
+              <blockquote>Remplir le formulaire</blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription1" name="addsouscription1">
+<fieldset>
+<legend>Remplir le formulaire </legend>
+
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_tiers_beneficiaire">Code Membre du bénéficiaire  </label>
+<div class="controls">
+  <input type="text" name="bon_neutre_tiers_beneficiaire" id="bon_neutre_tiers_beneficiaire" placeholder="Code Membre du bénéficiaire" class="input-xxlarge" />
+<span class="help-block"><p class="text-error">Veuillez saisir le <strong>Code Membre</strong> du bénéficiaire </p></span>
+</div>
+</div>
+
+  <div class="control-group">
+<label class="control-label" for="bon_neutre_tiers_montant">Montant à allouer * </label>
+<div class="controls">
+  <input type="number" name="bon_neutre_tiers_montant" id="bon_neutre_tiers_montant" placeholder="Montant à allouer" class="input-xxlarge"  required="required" />
+<span class="help-block"><p class="text-error">Veuillez saisir le montant à allouer</p></span>
+</div>
+</div>
+
+</fieldset>
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer la souscription au Bon d'Achat neutre (BAn) pour tiers</button>
+</div>
+
+
+
+</form>
+  <?php } ?>
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>

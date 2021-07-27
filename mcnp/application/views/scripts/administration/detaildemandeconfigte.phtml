@@ -1,0 +1,227 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+    <script type="text/javascript" charset="utf-8">
+      /*$(document).ready(function() {
+        $('#example').dataTable();
+      } );*/
+      $(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+    "aaSorting": []
+    } );
+} );
+    </script>
+        
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+                           
+            
+             
+  <blockquote><p>Détail de la demande de configuration des Terminaux d'Echange (TE)</p></blockquote>
+<div class="">
+<div class="span12">
+<div class="control-group">
+   <label class="control-label">
+   <strong>Date :</strong> <?php echo datejourfr($this->demandeconfigte->date_demande); ?>
+    </label>
+</div>
+
+<div class="control-group">
+   <label class="control-label">
+   <strong>Code Membre :</strong> <?php echo ($this->demandeconfigte->code_membre_morale); ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Raison sociale :</strong> <?php $mappermorale = new Application_Model_EuMembreMoraleMapper();
+            $membremorale = new Application_Model_EuMembreMorale();
+            $mappermorale->find($this->demandeconfigte->code_membre_morale, $membremorale);
+             ?><?php echo ($membremorale->raison_sociale); ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Produit :</strong> <?php echo ($this->demandeconfigte->nom_produit); ?>
+    </label>
+</div>
+
+<?php /*?>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Type offreur de projet :</strong> <?php $i = 0; $typeancien = array();
+    $offreur_mapper = new Application_Model_EuOffreurProjetMapper();
+        $offreur = $offreur_mapper->fetchAllByMembre($this->demandeconfigte->code_membre_morale);
+        foreach ($offreur as $offreur_entry){
+          if(array_search($offreur_entry->offreur_projet_type, $typeancien) == NULL){
+          $typeancien[$i] = $offreur_entry->offreur_projet_type;
+          $mappertype = new Application_Model_EuTypeOffreurProjetMapper();
+      $type = new Application_Model_EuTypeOffreurProjet();
+      $mappertype->find($offreur_entry->offreur_projet_type, $type);
+          echo $type->libelle_type_offreur_projet." - ";
+          }
+
+        $i++; 
+        }
+       ?>
+    </label>
+</div>
+<?php */?>
+
+<div class="control-group">
+   <label class="control-label">
+   <strong>Spécial :</strong> <?php if($this->demandeconfigte->produit_special == 1){?><span class="label label-success"><i class="icon-ok icon-white"></i></span><?php }?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Ordinaire :</strong> <?php if($this->demandeconfigte->produit_ordinaire == 1){?><span class="label label-success"><i class="icon-ok icon-white"></i></span><?php }?>
+    </label>
+</div>
+<br />
+<hr />
+
+</div>
+</div>
+
+
+
+<div class="control-group">
+   <label class="control-label">
+   <strong>Offreurs de projet</strong>
+    </label>
+</div>
+
+<div class="">
+
+<?php 
+    $offreur_mapper = new Application_Model_EuOffreurProjetMapper();
+        $offreur = $offreur_mapper->fetchAllByMembre($this->demandeconfigte->code_membre_morale);
+        foreach ($offreur as $offreur_entry){
+?>          
+<div class="span4">
+
+<div class="control-group">
+   <label class="control-label">
+   <strong>Raison sociale :</strong> <?php echo ($offreur_entry->offreur_projet_raison_sociale); ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Adresse :</strong> <?php echo ($offreur_entry->offreur_projet_adresse); ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Produit :</strong> <?php echo ($offreur_entry->offreur_projet_produit); ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Type :</strong> <?php $mappertype = new Application_Model_EuTypeOffreurProjetMapper();
+      $type = new Application_Model_EuTypeOffreurProjet();
+      $mappertype->find($offreur_entry->offreur_projet_type, $type);
+          echo $type->libelle_type_offreur_projet; ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Date :</strong> <?php echo datefr($offreur_entry->offreur_projet_date); ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Opérationnel :</strong> <?php if($offreur_entry->offreur_projet_operationnel == 1){?><span class="label label-success"><i class="icon-ok icon-white"></i></span><?php }?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Capacité de production :</strong> <?php echo ($offreur_entry->offreur_projet_capacite_production); ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Stock disponible :</strong> <?php echo ($offreur_entry->offreur_projet_stock_disponible); ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Quantite maximum :</strong> <?php echo ($offreur_entry->offreur_projet_qte_max); ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Quantite moyenne :</strong> <?php echo ($offreur_entry->offreur_projet_qte_moyen); ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Quantite minimum :</strong> <?php echo ($offreur_entry->offreur_projet_qte_min); ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Nom de l'entrepot :</strong> <?php echo ($offreur_entry->offreur_projet_nom_entrepot); ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Adresse de l'entrepot :</strong> <?php echo ($offreur_entry->offreur_projet_adresse_entrepot); ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Description :</strong> <?php echo ($offreur_entry->offreur_projet_description_projet); ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Canton :</strong> <?php $cantonM = new Application_Model_DbTable_EuCanton();
+        //$canton = $cantonM->find($offreur_entry->offreur_projet_canton);
+    //$row = $canton->current();
+//echo $row->nom_canton;
+//echo $offreur_entry->offreur_projet_canton; ?>
+    </label>
+</div>
+<div class="control-group">
+   <label class="control-label">
+   <strong>Ville :</strong> <?php $villeM = new Application_Model_DbTable_EuVille();
+        //$ville = $villeM->find($offreur_entry->offreur_projet_ville);
+    //$row = $ville->current();
+//echo $row->lib_ville; 
+   //echo $offreur_entry->offreur_projet_ville; ?>
+    </label>
+</div>
+
+
+
+</div>
+<?php }?>
+
+</div>
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

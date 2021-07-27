@@ -1,0 +1,59 @@
+<div id="view-content" style="font-size:11px">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-secteur"></table>
+    <div id="pg-secteur"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-secteur").jqGrid({
+           url:'<?php echo $this->url(array('action'=>'data')); ?>',
+           editurl:'<?php echo $this->url(array('action'=>'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Date de création'],
+        height:400, width:828,
+        colModel:[
+            {name:'code_secteur',index:'code_secteur', width:100, sorttype:"int", editable: true,align:"left"},
+            {name:'nom_secteur',index:'nom_secteur', width: 250, editable: true,align:"left"},
+            //{name:'id_region',index:'id_region', width: 150, align:"left", editable: true},
+            //{name:'id_pays',index:'id_pays', width: 150, align:"left", editable: true},
+            {name:'date_creation',index:'date_creation', width: 120, align:"left", editable: true},
+        ],
+        rowNum:50,
+        rowList:[50,100,200],
+        rownumbers:true,
+        pager: '#pg-secteur',
+        sortname:"code_secteur",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des secteurs"
+    });
+  
+    $("#tbl-secteur").jqGrid('navGrid','#pg-secteur',{edit:false,add:false,del:false,search:true});
+    
+	
+	$(function() {
+      $('#view-content').puipanel();
+	  //$('fieldset').puifieldset();
+    });
+	
+	
+    $('#editer').click(function() {
+        var rowsel;
+        rowsel = jQuery("#tbl-secteur").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-secteur").jqGrid('getRowData',rowsel);
+            $.get('/eu-secteur/edit',{
+                code_secteur:data.code_secteur,zone:data.code_zone
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+</script>
+</script>

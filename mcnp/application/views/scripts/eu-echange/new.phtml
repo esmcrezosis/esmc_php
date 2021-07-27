@@ -1,0 +1,36 @@
+<div id="view-content" title="Echange" style="font-size: 12px;min-height: 520px;">
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <?php
+        $this->form->setAction($this->url());
+        echo $this->form;
+        ?>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+        });
+        $('#valider').button();
+        $('#annuler').button();
+        $('#membre').blur(function(e)
+        {
+            e.preventDefault();
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-echange/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    $("#nom_membre").val(data[0]);
+                    $("#prenom_membre").val(data[1]);
+                    $("#raison_sociale").val(data[2]);
+                });
+            }
+        });
+    });
+</script>

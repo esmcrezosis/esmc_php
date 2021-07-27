@@ -1,0 +1,108 @@
+<div id="view-content" title="Modification du compte d'utilisateur" style="font-size: 12px;">
+    <form id="pwd_form" method="post" action="/login/changepwd">
+        <table id="tab_capa" style="width: 470px; margin-top: 10px;margin-left: auto; margin-right: auto;">
+            <thead></thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="hidden" id="id_user" name="id_user" class="validate[required]" value="<?php echo $this->id_user; ?>"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Nom:*</label>
+                    </td>
+                    <td>
+                        <input id="nom_utilisateur" type="text" name="nom_utilisateur" class="validate[required]" value="<?php echo $this->nom_utilisateur ?>" readonly="true"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Prénom:*</label>
+                    </td>
+                    <td>
+                        <input id="prenom_utilisateur" type="text" name="prenom_utilisateur" class="validate[required]" value="<?php echo $this->prenom_utilisateur ?>" readonly="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Nom d'utilisateur:*</label>
+                    </td>
+                    <td>
+                        <input id="login" type="text" name="login" class="validate[required]" value="<?php echo $this->login ?>" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Mot de passe actuel:*</label>
+                    </td>
+                    <td>
+                        <input id="oldpwd" type="password" name="oldpwd" class="validate[required]" value="<?php echo $this->oldpwd ?>" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Nouveau mot de passe:*</label>
+                    </td>
+                    <td>
+                        <input id="newpwd" type="password" name="newpwd" class="validate[required]" value="<?php echo $this->newpwd ?>" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Confirmation du nouveau mot de passe:*</label>
+                    </td>
+                    <td>
+                        <input id="newpwdconf" type="password" name="newpwdconf" class="validate[required]" value="<?php echo $this->newpwdconf ?>" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label style="color:#F00;">Code de modification du mot de passe:*</label>
+                    </td>
+                    <td>
+                        <input id="code_passe" type="text" name="code_passe" class="validate[required]" value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Question secrète:</label>
+                    </td>
+                    <td>
+                        <select id="question_secrete" name="question_secrete" value="<?php echo $this->question_secrete ?>">
+                            <option value=""></option>
+                            <option value="Votre animal préféré?">Votre animal préféré?</option>
+                            <option value="Votre loisir préféré?">Votre loisir préféré?</option>
+                            <option value="Votre Sport préféré?">Votre Sport préféré?</option>
+                            <option value="Le nom de votre bien aimé?">Le nom de votre bien aimé?</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Réponse :</label>
+                    </td>
+                    <td>
+                        <input id="reponse" type="text" name="reponse" value="<?php echo $this->reponse ?>" />
+                    </td>
+                </tr>
+                <tr>
+                    <td></td><td><input id="val_pwd" type="submit" value="Valider"/><input id="reset_pwd" type="reset" value="Annuler"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function()
+    {
+        $(function(){
+            $('#view-content').puipanel();
+        });
+        $("#pwd_form").validationEngine();
+        $('#val_pwd').button();
+        $('#reset_pwd').button().click(function(e) {
+            $(location).attr("href", "/index/index");
+        });
+    });
+</script>

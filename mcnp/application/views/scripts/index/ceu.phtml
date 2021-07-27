@@ -1,0 +1,92 @@
+        <div class="span9">
+  <?php /////////////////PUB BOX////////////////
+$date = Zend_Date::now();
+$publicite = new Application_Model_EuPubliciteMapper();
+$entries = $publicite->fetchAll5(1, 2);
+if(count($entries) > 0){?>
+<?php foreach ($entries as $value) {?>
+  
+                    <a href="http://<?php echo ($value->lien_publicite); ?>" target="_blank">
+                      <img src="<?php echo $this->baseUrl(); ?>/<?php echo ($value->desc_publicite); ?>" alt="<?php echo ($value->libelle_publicite); ?>" class="img-fluid" />
+                    </a>
+
+                      <h4><a href="http://<?php echo ($value->lien_publicite); ?>" target="_blank"><?php echo ($value->libelle_publicite); ?></a></h4>
+<?php }?>
+      <hr />
+<?php }?>
+
+
+
+        <?php
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAll4("CEU/ReDeMaRe");
+  ?>
+<?php if(count($entriespage)>0){?>
+      <!-- Example row of columns -->
+<div class="container marketing">
+
+      <!-- Three columns of text below the carousel -->
+      <div class="row">
+<?php foreach ($entriespage as $entrypage): ?>
+        <div class="span12" align="center">
+          <?php if($entrypage->vignette != ""){?><img class="img-circle" src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/<?php echo ($entrypage->vignette); ?>&w=150&h=150&zc=1&q=100" /><?php }?>
+          <?php /*?><?php $menusous = new Application_Model_EuMenuSous();
+        $menusousM = new Application_Model_EuMenuSousMapper();
+        $menusousM->find($entrypage->menusous, $menusous);?>
+          <h2><?php echo ($menusous->menusous_libelle); ?></h2><?php */?>
+          <?php /*?><p><?php echo ($entrypage->resume); ?></p><?php */?>
+          <p><?php echo ($entrypage->description); ?></p>
+          <?php /*?><p><a class="link" href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>">Voir plus &raquo;</a></p><?php */?>
+        </div><!-- /.span4 -->
+<?php endforeach; ?>
+        <div class="span12">
+          <div class="alert alert-success" style="color:#000;">
+         <strong >COMMUNIQUE DE L’ <span style="display:inline-block;color:#974578;font-weight:bold">ESMC</span>, LE NOUVEL EXPLOITANT DU PROGICIEL <span style="display:inline-block;color:#F00;">MCNP</span>,A L’ATTENTION DES DETENTEURS DE COMPTES MARCHANDS DE
+           <span style="display:inline-block;color:#F00;font-weight:bold">R</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">e</span><span style="display:inline-block;color:#F00;font-weight:bold">D</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">é</span><span style="display:inline-block;color:#F00;font-weight:bold">M</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">a</span><span style="display:inline-block;color:#F00;font-weight:bold">R</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">e</span>
+            GIE/SA, ASSOCIATION FONDATION
+           <span style="display:inline-block;color:#F00;font-weight:bold">R</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">e</span><span style="display:inline-block;color:#F00;font-weight:bold">D</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">é</span><span style="display:inline-block;color:#F00;font-weight:bold">M</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">a</span><span style="display:inline-block;color:#F00;font-weight:bold">R</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">e</span>,GIE
+           <span style="display:inline-block;color:#F00;font-weight:bold">MCNP</span>-GAC TOGO ET GIDE/AJA ET PARTENAIRES
+         </strong>
+         <p style="text-align: left;margin-top: 13px;">
+           Le progiciel <span style="display:inline-block;color:#F00;font-weight:bold">MCNP</span> est régi par le principe cardinal d’après lequel : la souscription au Compte Marchand s’effectue une seule fois dans la vie d’un individu ou d’une personne morale. En cas de changement de l’exploitant dudit progiciel, le souscrivant procèdera simplement à la réactivation de son Compte Marchand pour participer aux activités du nouvel exploitant.
+         </p>
+         <p style="text-align:left">
+           En vertu de ce principe, l’<span style="display:inline-block;color:#974578;font-weight:bold">ESMC</span> dispose dans sa base de données, de tous les Comptes Marchands qui étaient ouverts auprès des  précédents exploitants du progiciel <span style="display:inline-block;color:#F00;font-weight:bold">MCNP</span>.
+         </p>
+         <p style="text-align:left">
+           L’<span style="display:inline-block;color:#974578;font-weight:bold">ESMC</span> convie alors les détenteurs de ces Comptes Marchands à procéder à leur réactivation sur son site internet <a href="http://www.esmcgacsource.com">www.esmcgacsource.com</a> afin de pouvoir souscrire aux activités disponibles sur sa plateforme.
+         </p>
+         <p style="text-align:left">
+           Toutefois, si le détenteur estime avoir de réclamation(s), liée(s) à la réactivation du Compte Marchand,  l’<span style="display:inline-block;color:#974578;font-weight:bold">ESMC</span> est disposée à la (les) recevoir et, dans la mesure du possible, à lui (leur) réserver un traitement approprié.
+         </p>
+         <p style="text-align:left">
+           Si, cependant, les réclamations ont trait au contenu même du Compte Marchand, l’<span style="display:inline-block;color:#974578;font-weight:bold">ESMC</span>, ayant, dans ce sens mis en place une procédure dont les étapes sont disponibles sur son site internet, prendra, en temps opportun, attache avec les parties concernées par la(les)dite(s) réclamations pour le règlement à l’amiable.
+         </p>
+         <p style="text-align:left">
+           S’agissant des membres de l’Association Fondation
+           <span style="display:inline-block;color:#F00;font-weight:bold">R</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">e</span><span style="display:inline-block;color:#F00;font-weight:bold">D</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">é</span><span style="display:inline-block;color:#F00;font-weight:bold">M</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">a</span>
+           <span style="display:inline-block;color:#F00;font-weight:bold">R</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">e</span> détenteurs de Comptes Marchands exploités par GIE ou SA <span style="display:inline-block;color:#F00;">R</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">e</span><span style="display:inline-block;color:#F00;font-weight:bold">D</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">é</span><span style="display:inline-block;color:#F00;font-weight:bold">M</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">a</span>
+           <span style="display:inline-block;color:#F00;font-weight:bold">R</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">e</span>, le traitement de leur (s) réclamation (s) est conditionné par l’issue favorable et définitive du litige qui oppose ces dernières à l’Etat togolais par-devant les juridictions.
+         </p>
+         <p style="text-align:left;font-style:italic">
+           NB : Il faut entendre par ‘’précédents exploitants du progiciel <span style="display:inline-block;color:#F00;font-weight:bold">MCNP</span>’’, les structures suivantes :   <span style="display:inline-block;color:#F00;font-weight:bold">R</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">e</span><span style="display:inline-block;color:#F00;font-weight:bold">D</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">é</span><span style="display:inline-block;color:#F00;font-weight:bold">M</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">a</span>
+           <span style="display:inline-block;color:#F00;font-weight:bold">R</span><span style="display:inline-block;color:#00B0F0;font-weight:bold">e</span>
+            GIE/SA,  GIE <span style="display:inline-block;color:#F00;font-weight:bold">MCNP</span>-GAC TOGO ET GIDE/AJA ET PARTENAIRES.
+         </p>
+       </div>
+        </div>
+      </div><!-- /.row -->
+
+
+
+      <hr class="featurette-divider" />
+
+
+    </div>
+    <?php }?>
+
+    </div>
+<div class="span3">
+  <?php include("../application/layouts/scripts/droite.phtml"); ?>
+      <hr class="featurette-divider" />
+</div><?php /*?><?php */?>

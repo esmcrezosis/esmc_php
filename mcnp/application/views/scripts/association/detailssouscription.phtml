@@ -1,0 +1,298 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+<blockquote><p>Detail d'une souscription</p></blockquote>
+  
+    
+
+<fieldset>
+  <legend>Detail d'une souscription </legend>
+    
+
+<div class="control-group">
+<label class="control-label" for="souscription_membreasso">
+<strong>L'utilisateur :</strong><?php 
+        $membreasso = new Application_Model_EuMembreasso();
+        $membreassoM = new Application_Model_EuMembreassoMapper();
+        $membreassoM->find($this->souscription->souscription_membreasso, $membreasso);
+        echo $membreasso->membreasso_nom." ".$membreasso->membreasso_prenom; ?></label>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="souscription_utilisateur">
+<strong>Validateurs :</strong><?php 
+
+        $validationquittanceM = new Application_Model_EuValidationQuittanceMapper();
+        $validationquittance = $validationquittanceM->fectchBySouscription($this->souscription->souscription_id);
+		foreach ($validationquittance as $entry){ 
+
+        $utilisateur = new Application_Model_EuUtilisateur();
+        $utilisateurM = new Application_Model_EuUtilisateurMapper();
+        $utilisateurM->find($entry->validation_quittance_utilisateur, $utilisateur);
+        echo $utilisateur->nom_utilisateur." ".$utilisateur->prenom_utilisateur." <br />";
+		}
+		 ?></label>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="souscription_personne">
+  <strong>Type du souscripteur : </strong><?php echo $this->souscription->souscription_personne; ?> 
+  </label>
+  </div>
+  
+<div class="control-group">
+<label class="control-label" for="souscription_autonome">
+<strong>Souscription Autonome :</strong><?php if($this->souscription->souscription_autonome == 1){echo 'La Souscription Autonome est compris dans la souscription';}?></label>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="souscription_nom">
+<strong>Nom du souscripteur : </strong><?php echo $this->souscription->souscription_nom; ?> </label>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="souscription_prenom"> 
+  <strong>Prénom du souscripteur : </strong><?php echo $this->souscription->souscription_prenom; ?></label>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="souscription_raison">
+   <strong>Raison sociale du souscripteur : </strong><?php echo $this->souscription->souscription_raison; ?>
+</label>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="type_acteur">
+    <strong>Type Agrément OSE/OE :</strong>
+    <?php 
+      if($this->souscription->code_type_acteur == 'EI'){
+        echo 'Entreprise Industrie';
+      }
+      if($this->souscription->code_type_acteur == 'OE'){
+        echo 'Opérateur Economique';
+      }
+      if($this->souscription->code_type_acteur == 'OSE'){
+        echo 'Opérateur Socio-Economique';
+      }
+     if($this->souscription->code_type_acteur == 'PEI'){
+        echo 'Partenaire Entreprise Industrie';
+      }
+     if($this->souscription->code_type_acteur == 'POE'){
+        echo 'Partenaire Opérateur Economique';
+     }
+     if($this->souscription->code_type_acteur == 'POSE'){
+        echo 'Partenaire Opérateur Socio-Economique';
+     } 
+     ;?>
+</label>
+</div>
+
+<div class="control-group">
+   <label class="control-label" for="statut_juridique">
+   <strong>Statut juridique : </strong>
+   <?php 
+        $statutjuridique = new Application_Model_EuStatutJuridique();
+        $statutjuridiqueM = new Application_Model_EuStatutJuridiqueMapper();
+        $statutjuridiqueM->find($this->souscription->code_statut, $statutjuridique);
+        echo $statutjuridique->libelle_statut; ?>
+   </label>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="souscription_mobile">
+<strong>Cellulaire du souscripteur : </strong><?php echo $this->souscription->souscription_mobile; ?>
+</label>
+
+</div>
+
+<div class="control-group">
+<label class="control-label" for="souscription_email">
+  <strong>E-mail du souscripteur :</strong><?php echo $this->souscription->souscription_email; ?>
+</label>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="souscription_ville">
+  <strong>Ville du souscripteur : </strong><?php echo $this->souscription->souscription_ville; ?>
+  </label>
+</div>
+
+<div class="control-group">
+   <label class="control-label" for="souscription_quartier">
+   <strong>Quartier du souscripteur : </strong><?php echo $this->souscription->souscription_quartier; ?>
+   </label>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="souscription_programme">
+  <strong>Type de programme : </strong><?php echo $this->souscription->souscription_programme; ?></label>
+  </div>
+  
+<div class="control-group">
+<label class="control-label" for="souscription_type_candidat">
+<strong>Type CMFH : </strong><?php if($this->souscription->souscription_type_candidat > 0 && $this->souscription->souscription_type_candidat != ""){
+        $type_candidatM = new Application_Model_DbTable_EuTypeCandidat();
+        $type_candidat = $type_candidatM->find($this->souscription->souscription_type_candidat);
+    $row = $type_candidat->current();
+echo $row->libelle_type_candidat;} ?>
+</label>
+</div>
+
+<?php /*?><div class="control-group">
+<label class="control-label" for="souscription_filiere">Filière </label>
+<div class="controls">
+<?php 
+        $filiere = new Application_Model_EuFiliere();
+        $filiereM = new Application_Model_EuFiliereMapper();
+        $filiereM->find($this->souscription->souscription_filiere, $filiere);
+echo $filiere->nom_filiere; ?>
+</div>
+</div><?php */?>
+
+<div class="control-group">
+<label class="control-label" for="code_activite">
+  <strong>Activité : </strong><?php if($this->souscription->code_activite > 0 && $this->souscription->code_activite != ""){
+        $activiteM = new Application_Model_DbTable_EuActivite();
+        $activite = $activiteM->find($this->souscription->code_activite);
+    $row = $activite->current();
+echo $row->nom_activite;} ?>
+</label>
+
+</div>
+
+<div class="control-group">
+<label class="control-label" for="id_metier">
+    <strong>Métier : </strong><?php 
+        if($this->souscription->id_metier > 0 && $this->souscription->id_metier != ""){
+        $metierM = new Application_Model_DbTable_EuMetier();
+        $metier = $metierM->find($this->souscription->id_metier);
+        $row = $metier->current();
+        echo $row->libelle_metier;
+        } ?>
+</label>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="id_competence">
+   <strong>Compétence  : </strong><?php if($this->souscription->id_competence > 0 && $this->souscription->id_competence != ""){
+        $competenceM = new Application_Model_DbTable_EuCompetence();
+        $competence = $competenceM->find($this->souscription->id_competence);
+    $row = $competence->current();
+echo $row->libelle_competence;} ?></label>
+
+</div>
+
+<?php /*?><div class="control-group">
+  <label class="control-label" for="souscription_type">Type payement </label>
+  <div class="controls">
+  <?php echo $this->souscription->souscription_type; ?>
+  </div>
+  </div>
+  
+<div class="control-group">
+<label class="control-label" for="souscription_banque">Banque </label>
+<div class="controls">
+<?php 
+        $banque = new Application_Model_EuBanque();
+        $banqueM = new Application_Model_EuBanqueMapper();
+        $banqueM->find($this->souscription->souscription_banque, $banque);
+echo $banque->libelle_banque; ?>
+</div>
+</div>
+
+  <div class="control-group">
+<label class="control-label" for="souscription_numero">Numero de reçu de banque ou de transation Flooz   </label>
+<div class="controls">
+<?php echo $this->souscription->souscription_numero; ?>
+</div>
+</div>
+
+  <div class="control-group">
+<label class="control-label" for="souscription_date_numero">Date de reçu de banque ou de transation Flooz   </label>
+<div class="controls">
+<?php echo $this->souscription->souscription_date_numero; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="souscription_vignette">Scanne du reçu   </label>
+<div class="controls">
+<a href="<?php echo $this->baseUrl(); ?>/<?php echo $this->souscription->souscription_vignette; ?>" target="_blank">Télécharger le reçu</a>
+</div>
+</div><?php */?>
+
+
+  <div class="control-group">
+     <label class="control-label" for="souscription_nombre">
+     <strong>Nombre de compte marchant souscris :</strong> <?php echo $this->souscription->souscription_nombre; ?></label>
+   </div>
+
+  <?php /*?><div class="control-group">
+<label class="control-label" for="souscription_montant">Montant de la souscription  </label>
+<div class="controls">
+<?php echo $this->souscription->souscription_montant; ?>
+</div>
+</div><?php */?>
+
+
+
+
+
+<div class="control-group">
+<label class="control-label" for="souscription_date">
+   <strong>Date Création : </strong><?php echo $this->souscription->souscription_date; ?>
+</label>
+</div>
+
+
+
+<?php 
+        $recubancaireM = new Application_Model_EuRecubancaireMapper();
+        $recubancaire = $recubancaireM->fetchAllBySouscription($this->souscription->souscription_id);
+?>
+<?php foreach ($recubancaire as $entry): ?>
+<strong>Type :  </strong><?php echo $entry->recubancaire_type; ?><br />
+<strong>Banque : </strong><?php 
+        $banque = new Application_Model_EuBanque();
+        $banqueM = new Application_Model_EuBanqueMapper();
+        $banqueM->find($entry->recubancaire_banque, $banque);
+        echo $banque->libelle_banque; ?><br />
+<strong>Numéro de recu : </strong><?php echo $entry->recubancaire_numero; ?><br />
+<strong>Montant : </strong><?php echo $entry->recubancaire_montant;?><br />
+<a href="<?php echo $this->baseUrl(); ?>/<?php echo $entry->recubancaire_vignette; ?>" target="_blank" class="btn btn-success">Télécharger le reçu</a>
+<br /><br />&nbsp;
+<?php endforeach; ?>
+
+
+
+
+
+
+
+
+</fieldset>
+
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

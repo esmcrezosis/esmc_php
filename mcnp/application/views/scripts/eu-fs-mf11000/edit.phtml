@@ -1,0 +1,13 @@
+<br /><br />
+<div id="view-content">
+    <div id="formdiv">
+        <h1>Modifier un compte</h1>
+        <p>Utilisez ce formulaire pour manager les comptes.</p>
+
+        <?php
+        $this->form->setAction($this->url());
+        $this->form->getElement("submit")->setLabel("Modifier");
+        echo $this->form;
+        ?>
+    </div>
+</div>

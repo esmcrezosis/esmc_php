@@ -1,0 +1,207 @@
+<?php $sessionmembre = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+		<style media="screen">
+			.table tbody tr.primary > td{
+				background-color: #96d1e2;
+			}
+
+			.table tbody tr.dangerous > td{
+				background-color: #e296a1
+			}
+
+			.table tbody tr.marron > td{
+				    background-color: #dc942d;
+			}
+			.table tbody tr.marron > td{
+				    background-color: #dc942d;
+			}
+
+			.table tbody tr.level-fifth > td{
+				background-color: #ea9a4b;
+			}
+
+			.level-container{
+				text-align: left
+			}
+			.table tbody tr.level-one > td{
+				background-color: #7d7777;
+				color: #FFF;
+			}
+			.table tbody tr.level-six > td{
+				background-color:#7b4cca;
+				color: #FFF;
+			}
+      .table tbody tr.level-seven > td{
+        background-color:#d82883;color: #FFF;
+			}
+      .table tbody tr.level-heigh > td{
+        background-color:#06065a;color: #FFF;
+			}
+			.table tbody tr.level-nine > td{
+				background-color:#ad1f41;
+				color: #FFF;
+			}
+		</style>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+<?php if(count($this->entries) > 0){?>
+	<blockquote><p>Historique des tickets de support</p></blockquote>
+	<div class="level-container-wrap" style="float: left;padding-right: 30px;">
+		<div class="level-container">
+		<div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #7d7777" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Secretariat(Collecte)</span>
+		</div>
+		<div class="level-container">
+		<div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #96d1e2;" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Gerant (Visa 1)</span>
+		</div>
+		<div class="level-container">
+		<div  style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #d0e9c6;" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Dispatcheur</span>
+		</div>
+		<div class="level-container">
+		<div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #e296a1" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Section</span>
+		</div>
+		<div class="level-container">
+		<div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #dc942d;" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Dispatcheur(Ticket traité)</span>
+		</div>
+		<div class="level-container">
+		<div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #ea9a4b;" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Gérant (visa 2)</span>
+		</div>
+		<div class="level-container">
+		<div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #7b4cca;" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Secrétariat (Pour envoi)</span>
+		</div>
+    <div class="level-container">
+    <div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #d82883;" ></div>
+    <span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Demandeur (Pour confirmation de traitement)</span>
+    </div>
+    <div class="level-container">
+    <div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #06065a;" ></div>
+    <span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Secrétariat (Tickets prêts pour archivage)</span>
+    </div>
+		<div class="level-container">
+		<div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #ad1f41;" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Tickets Archivés</span>
+		</div>
+	</div>
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="margin-top:44px">
+   <thead>
+ 	<tr>
+ 		<th>Reference</th>
+		<th>Telecharger cette piece jointe</th>
+		<th>Date d'émission du ticket</th>
+		<th>Date de validation</th>
+ 	</tr>
+   </thead>
+   <tbody>
+   	 	<?php foreach ($this->entries as $key => $value): ?>
+        <?php foreach ($this->ticket as $kit => $valticket): ?>
+          <?php if ($value->id_ticket == $valticket->id_ticket): ?>
+				<?php if ($value->num_validation == "0"): ?>
+					<tr class="level-one">
+				<?php elseif ($value->num_validation == "1"): ?>
+					<tr class="primary">
+		    <?php elseif($value->num_validation == "2"): ?>
+					<tr class="success">
+				<?php elseif($value->num_validation == "3"): ?>
+					<tr class="dangerous">
+				<?php elseif($value->num_validation == "4"): ?>
+          <tr class="marron">
+				<?php elseif($value->num_validation == "5"): ?>
+					<tr class="level-fifth">
+					<?php elseif($value->num_validation == "6"): ?>
+          <tr class="level-six">
+					<?php elseif($value->num_validation == "7"): ?>
+						<tr class="level-seven">
+          <?php elseif($value->num_validation == "8"): ?>
+            <tr class="level-heigh">
+          <?php elseif($value->num_validation == "9"): ?>
+            <tr class="level-nine">
+				<?php endif; ?>
+        	<td >
+              <?php echo $valticket->numero_demandeur; ?>
+          </td>
+
+					<td>
+						<?php if ($valticket->file_name !== null): ?>
+							<a class="btn btn-mini btn-primary" href="/pdf_upload/<?php echo $valticket->file_name; ?>"><i class="icon-cog icon-white"></i> Telecharger cette piece jointe</a>
+            <?php elseif($valticket->renseignement_id > 0): ?>
+							<a class="btn btn-mini btn-primary" href="fileedit/id/<?php echo $valticket->renseignement_id; ?>"><i class="icon-cog icon-white"></i> Telecharger cette piece jointe</a>
+            <?php else: ?>
+							<span>Aucune pièce jointe pour ce ticket</span>
+						<?php endif; ?>
+					</td>
+					<?php
+							$month = array('01'=>'Janvier','02'=>'Février','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+							$true_month = "";
+							$true_val_month = "";
+
+							$ex_date = explode('-',$valticket->created);
+							$ex_val_date = explode('-',$value->date_validation);
+
+							foreach ($month as $ky => $vad) {
+								if($ex_date[1] == $ky){
+									$true_month = $vad;
+								}
+								if($ex_val_date[1] == $ky){
+									$true_val_month = $vad;
+								}
+							}
+							$next_ex_date = explode(' ', $ex_date[2]);
+							$next_ex_val_date = explode(' ', $ex_val_date[2]);
+
+							$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0]." à ".$next_ex_date[1];
+							$true_val_date = $next_ex_val_date[0]." ".$true_val_month." ".$ex_val_date[0]." à ".$next_ex_val_date[1];
+
+					 ?>
+					<td>
+						 <?php echo $true_date ?>
+					</td>
+					<td>
+						 <?php echo $true_val_date ?>
+					</td>
+        <?php endif; ?>
+
+        </tr>
+      <?php endforeach; ?>
+
+
+ 	<?php endforeach ?>
+   </tbody>
+
+ </table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucun Historique disponible pour les tickets de support
+</div>
+<?php }?>
+</div>
+
+</div>
+</div>

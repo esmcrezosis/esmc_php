@@ -1,0 +1,99 @@
+<div id="view-content" class="ui-widget">
+    <div id="formdiv" class="ui-widget-content ui-corner-all">
+        <fieldset><legend>Recherche</legend>
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="text-align: right;"><label>Date</label></td>
+                        <td>
+                            <input type="text" id="date_carte" name="date_date"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"><label>Agences</label></td>
+                        <td>
+                            <select id="code_agence" name="code_agence" ></select>
+                        </td>
+                        <td><label for="nom_utili">Nom Utilisateur</label></td>
+                        <td><select id="nom_utilisateur" name="nom_utilisateur" ></select></td>
+                    </tr>
+                    </tr>
+                    <tr><td></td><td><button id="bt_show">Afficher</button></td></tr>
+                </tbody>
+            </table>
+        </fieldset>
+        <table id="tbl-cartes"></table>
+        <div id="pg-cartes"></div>   
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-cartes").jqGrid({
+        url: '/eu-carte/liste',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code','Agence','Utilisateur', 'Date', 'Membre', 'Carte', 'Prix'],
+        height: 320, width: 940,
+        colModel: [
+            {name: 'id_demande', index: 'id_demande', width: 80, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'code_agence', index: 'code_agence', width: 100, editable: false, align: "left", hidden: true},
+            {name: 'utilisateur', index: 'utilisateur', width: 100, sorttype: "int", editable: false, align: "left"},
+            {name: 'date_demande', index: 'date_demande', width: 100, sorttype: "date", editable: false, align: "left",formatter:"date",format:'d/M/Y'},
+            {name: 'code_membre', index: 'code_membre', width: 180, editable: false, align: "left"},
+            {name: 'code_cat', index: 'code_cat', width: 100, align: "left", editable: false},
+            {name: 'mont_carte', index: 'mont_carte', width: 100, align: "right",sorttype:"float", formatter:"number", summaryType:'sum', editable: false}
+        ],
+        rowNum: 10000,
+        rowList: [10000, 20000, 30000],
+        pager: '#pg-cartes',
+        sortname: "id_demande",
+        grouping:true, 
+        groupingView : { groupField : ['code_agence','utilisateur'], groupSummary : [true,true], groupColumnShow : [false,false], groupText : ['<b>{0}</b>'], groupCollapse : false, groupOrder: ['asc','asc'] },
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Demandes de cartes"
+    });
+
+    $("#tbl-cartes").jqGrid('navGrid', '#pg-cartes', {edit: false, add: false, del: false, search: true});
+
+    var pickerOpts = {
+        dateFormat: "dd/mm/yy",
+        changeMonth: true,
+        changeYear: true,
+        showOtherMonths: true
+    };
+    $(function() {
+        $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+        $("#date_carte").datepicker(pickerOpts);
+    });
+
+    $('#bt_show').button().click(function(e)
+    {
+        e.preventDefault();
+        jQuery("#tbl-cartes").jqGrid('setGridParam', {url: "/eu-carte/liste?id_user=" + $('#nom_utilisateur').val() + "&agence=" + $('#code_agence').val() + "&date=" + $('#date_carte').val()}).trigger('reloadGrid');
+    });
+
+    $.get(
+    '/eu-carte/agences',
+    function success(data)
+    {
+        var options = '<option value=""></option>';
+        for( var i = 0; i < data[0].length; i++) {
+            options += '<option value="' + data[0][i] + '">' + data[1][i] +' </option>';
+        }
+        $('select#code_agence').html(options);
+    });
+    
+    $('select#code_agence').change(function(e){
+        $.get(
+        '/eu-carte/users',{agence:$(this).val()},
+        function success(data)
+        {
+            var options = '<option value=""></option>';
+            for( var i = 0; i < data.length; i++) {
+                options += '<option value="' + data[0][i] + '">' + data[1][i] +' </option>';
+            }
+            $('select#nom_utilisateur').html(options);
+        });
+    });
+
+</script>

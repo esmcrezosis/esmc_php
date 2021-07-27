@@ -1,0 +1,103 @@
+<div id="view-content" title="Liste des operations d'achat du CAPA MF" style="font-size: 12px;min-height: 520px;">
+     <fieldset id="carte_field" style="margin-bottom: 2px;"><legend>Recherche</legend>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="text-align: right;"><label>Date</label></td>
+                    <td>
+                        <input type="text" id="date_mf" name="date_mf"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><label>Code membre</label></td>
+                    <td><input type="text" id="code_membre" name="code_membre" value="<?php echo $this->code_membre; ?>" size="27" readonly /></td>
+                    <td style="text-align: right;"><label>Type MF</label></td>
+                    <td><select id="type_mf" value="" name="type_mf" ></select>
+                    </td>
+                    <td><button id="bt_show">Afficher</button></td>
+				</tr>
+            </tbody>
+        </table>
+    </fieldset>
+    <div style="width:800px; font-family:Gill, Helvetica, sans-serif">
+         <form action="/eu-pdf-reglt/apa" name="" method="POST" target="_blank">
+               <input id="apercu" type="submit" value="Aperçu" class="ui-widget button"/>
+               <input type="hidden" id="id_operation" name="id_operation"/>
+         </form>    
+     </div>	
+    <table id="tbl-mf"></table>
+    <div id="pg-mf"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-mf").jqGrid({
+        url:'/eu-mf/data',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['ID','Date','Membre','Libellé','Compte','Produit','Montant'],
+        height:500, width:827,
+        colModel:[
+             {name:'id_operation',index:'id_operation',width: 120,align:"left",editable: true},
+             {name:'date_op',index:'date_op',width: 120,align:"left",editable: true},
+             {name:'code_membre',index:'code_membre', width: 240, align:"left", editable: true},
+             {name:'lib_op',index:'lib_op', width: 200, align:"left", editable: true},
+             {name:'code_cat',index:'code_cat', width: 170, editable: true,align:"left"},
+             {name:'code_produit',index:'code_produit', width: 150, editable: true,align:"left"},
+             {name:'montant_op',index:'montant_op', width: 140, editable: true,align:"left"}
+        ],
+        rowNum:20,
+        rowList:[20,30,40],
+        pager: '#pg-mf',
+        sortname:"id_operation",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Achat du MF"
+    });
+    $("#tbl-mf").jqGrid('navGrid','#pg-mf',{edit:false,add:false,del:false,search:true});
+	
+	var pickerOpts = {
+        dateFormat: "dd/mm/yy",
+        changeMonth: true,
+        changeYear: true,
+        showOtherMonths: true
+    };
+	
+	$(document).ready(function () {
+	$(function() {
+        $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+        $("#date_mf").datepicker(pickerOpts);
+		
+		$('#view-content').puipanel();
+		$('fieldset').puifieldset();
+		
+		var type = 'P';
+            $.get('/eu-mf/membre',
+                {type: type},
+            function success(data) {
+                $('#code_membre').autocomplete({"source": data});
+    });
+	
+    $('#bt_show').button().click(function(e) {
+       e.preventDefault();
+       jQuery("#tbl-mf").jqGrid('setGridParam', {url: "/eu-mf/data?membre="+$('#code_membre').val()+"&type_mf="+$('#type_mf').val()+"&date="+$('#date_mf').val()}).trigger('reloadGrid');
+    });
+
+    $("#apercu").click(function() {
+       var sel;
+       sel = jQuery("#tbl-mf").jqGrid('getGridParam','selrow');
+       data = jQuery("#tbl-mf").jqGrid('getRowData',sel);
+       $('#id_operation').val(data.id_operation);	    
+    });
+
+	
+  $.get("/eu-mf/typemf",
+  function success(data) {
+   var options = '<option>';
+   for (var i = 0; i < data.length; i++) {
+       options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+   }
+   $('select#type_mf').html(options);
+ });
+});
+});
+    
+</script>

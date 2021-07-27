@@ -1,0 +1,124 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Payement de commission pour les intégrateurs</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addpayementcommission">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+    </div>
+  <?php }?>
+  
+<fieldset>
+<legend>Formulaire de payement de commission pour les intégrateurs</legend>
+    
+
+<div class="control-group">
+  <label class="control-label" for="association_id">L'integrateur *</label>
+  <div class="controls">
+  <select  class="input-xxlarge" name="association_id" id="association_id" required >
+       <?php  $association2 = new Application_Model_EuAssociationMapper();
+    $selectassociation2 = $association2->fetchAll2();?>
+               <option value="">Choisir un intégrateur</option>
+    <?php foreach ($selectassociation2 as $selectassociation): ?>
+               <option value="<?php echo $selectassociation->association_id; ?>"><?php echo ($selectassociation->association_nom); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+  
+    <div class="control-group">
+  <label class="control-label" for="date_debut">Date Début  </label>
+  <div class="controls">
+    <input type="text" name="date_debut" id="date_debut" placeholder="Date Début" class="input-xxlarge datepicker" data-provide="datepicker" readonly />
+  </div>
+  </div>
+  
+
+  <div class="control-group">
+  <label class="control-label" for="date_fin">Date Fin  </label>
+  <div class="controls">
+    <input type="text" name="date_fin" id="date_fin" placeholder="Date Fin" class="input-xxlarge datepicker" data-provide="datepicker" readonly />
+  </div>
+  </div>
+
+    
+<div class="control-group">
+<label class="control-label" for="payement_commission_montant">Montant  *</label>
+<div class="controls">
+<input type="text" name="payement_commission_montant" id="payement_commission_montant" placeholder="Montant " class="input-xxlarge" required />
+</div>
+</div>
+
+
+<div class="control-group">
+  <label class="control-label" for="id_type_commission">Type de commission *</label>
+  <div class="controls">
+  <select  class="input-xxlarge" name="id_type_commission" id="id_type_commission" required >
+       <?php  $typecommission2 = new Application_Model_EuTypeCommissionMapper();
+		$selecttypecommission2 = $typecommission2->fetchAll();?>
+               <option value="">Choisir un type</option>
+    <?php foreach ($selecttypecommission2 as $selecttypecommission): ?>
+               <option value="<?php echo $selecttypecommission->id_type_commission; ?>"><?php echo ($selecttypecommission->libelle_type_commission); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+
+<div class="control-group">
+  <label class="control-label" for="id_mode_payement">Mode de payement *</label>
+  <div class="controls">
+  <select  class="input-xxlarge" name="id_mode_payement" id="id_mode_payement" required >
+       <?php  $modepayement2 = new Application_Model_EuModePayementMapper();
+		$selectmodepayement2 = $modepayement2->fetchAll();?>
+               <option value="">Choisir un mode</option>
+    <?php foreach ($selectmodepayement2 as $selectmodepayement): ?>
+               <option value="<?php echo $selectmodepayement->id_mode_payement; ?>"><?php echo ($selectmodepayement->libelle_mode_payement); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+
+
+
+
+
+</fieldset> 
+   
+    
+    
+
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

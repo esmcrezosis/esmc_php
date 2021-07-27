@@ -1,0 +1,138 @@
+<div id="view-content">
+     <div style="margin-bottom:3px; width:800px">
+          <fieldset>
+          <div style="margin-bottom:3px;">
+            <td>Montant total&nbsp;</td><td><input name="mt_transfert" id="mt_transfert" class="" value="0" disabled="disabled"/></td>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<td>Code membre&nbsp;</td><td><input name="code_membre" id="code_membre" size="25" /></td>
+            <input id="ok" type="button" value="OK" class="ui-widget button"/>
+          </div>
+        </fieldset>
+     </div> 
+     <table id="tbl-reglement"></table>
+     <div id="pg-reglement"></div>
+     <input id="payer" type="button" value="Payer" class="ui-widget button"/>
+</div>
+
+<script type="text/javascript">
+        $("#tbl-reglement").jqGrid({
+        url:'',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Montant réparti','Date opération','',''],
+        height:300,width:820,
+        colModel:[
+                {name:'mont_recu',index:'mont_recu',width:180, align:"left", editable: false,formatter:'number'},
+                //{name:'num',index:'code_mf107',width: 180, editable: false,align:"left"},
+                {name:'date_rep',index:'date_rep',width: 230, align:"left"},
+                {name:'id_rep',index:'id_rep',width:30, align:"left",hidden:true},
+                {name:'code_membre',index:'code_membre',width:30, align:"left",hidden:true}
+        ],
+        rowNum:1000,
+        rowList:[1000,2000,3000],
+        pager: '#pg-reglement',
+        sortname:"id_rep",
+        viewrecords: true,
+        multiselect:true,
+        sortorder: "asc",
+        caption:"Liste des montants  transférés",
+        onSelectRow: function(id,status){
+            var montant = $('#mt_transfert').val();
+            if(id != 0 || id != null){
+               var data = jQuery('#tbl-reglement').jqGrid('getRowData',id);
+               var value = 0;
+               var solde = data.mont_recu;
+               if(montant == ''){
+                    montant = 0;
+               }else {
+                    montant = parseInt(montant,10);
+               }
+               if(status == true) {
+                    value = parseInt(montant) + parseInt(solde);
+                    $('#mt_transfert').val(value);
+               }else{
+                    value = montant - parseInt(solde);
+                    $('#mt_transfert').val(value);
+               }
+               lastsel=id; 
+            }
+        },
+		
+        onSelectAll: function(ids,status){
+            var montant = $('#mt_transfert').val();
+            if(status == true){
+                if(montant == '') {
+                  montant = 0;
+                }
+                else {
+                  // montant = parseInt(montant,10);
+                  montant = 0;
+                }
+                for(var i = 0;i < ids.length;i++) {
+                   var id = ids[i];
+                   var data = jQuery('#tbl-reglement').jqGrid('getRowData',id);
+                   var solde = data.mont_recu;
+                   montant += parseInt(solde);
+                }
+                $('#mt_transfert').val(montant);
+            }else{
+                $('#mt_transfert').val(0); 
+            }
+        }
+    }); 
+    $("#tbl-reglement").jqGrid('navGrid','#pg-reglement',{edit:false,add:false,del:false,search:true});
+    
+    $('#payer').button();
+    $('#ok').button();
+    
+    
+    $('#ok').click(function()
+    {
+       membre = $('#code_membre').val();
+       jQuery("#tbl-reglement").jqGrid('setGridParam',{url: "/eu-membre-fondateur107/datadmf?membre=" +membre}).trigger('reloadGrid');      
+    })
+
+
+    $.get("/eu-membre-fondateur107/membre",
+    function success(data)
+    {
+        $('#code_membre').autocomplete({"source": data});
+    });
+    
+    $('#payer').click(function()
+    {
+        var sel;
+        sel = jQuery("#tbl-reglement").jqGrid('getGridParam','selarrrow');
+        var tab=new Array();  
+        var rowsel;
+        rowsel = jQuery("#tbl-reglement").jqGrid('getGridParam','selrow');
+        for(var i=0; i<sel.length; i++) {
+            tab[i]=jQuery("#tbl-reglement").jqGrid('getRowData',sel[i]);   
+        };
+     
+        if($('#mt_transfert').val()=='' || $('#mt_transfert').val()==0){
+          alert('Pas de montant à payer au membre bénéficiaire');
+        }
+        else{
+            if(rowsel)
+            {
+                data=jQuery("#tbl-reglement").jqGrid('getRowData',rowsel);
+                $.get('/eu-membre-fondateur107/payer?mt_transfert='+$('#mt_transfert').val(),{
+                  lignes:tab
+                },function success(data){
+                  if(data == 'good') {
+                    alert('Payement effectué avec succès');
+                    $(location).attr("href", "/eu-membre-fondateur107/listreglt");
+                  }
+                  else if(data == 'erreur') {
+                    alert("Echec de l'opération");
+                  }
+             });             
+            }
+            else {
+                alert('Aucune ligne sélectionnée');
+            }    
+           }
+      });
+</script> 
+    

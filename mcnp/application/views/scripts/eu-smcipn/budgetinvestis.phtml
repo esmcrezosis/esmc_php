@@ -1,0 +1,115 @@
+<div id="view-content" class="ui-widget">
+     <div  class="cntError">
+        <?php
+        echo $this->message;
+        ?>
+     </div>
+     <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Etablissement du budget d'investissement</h3>
+     </div>
+     <div id="formdiv" class="ui-widget-content ui-corner-bottom"  style="font-size:11px">
+        <div>
+            <?php
+            $this->form->setAction($this->url());
+            echo $this->form;
+            ?>    
+        </div>
+        <br/><br/>
+        <table id="tbl-pforma"></table>
+        <div id="pg-pforma"></div>
+        <p><input id="ajouter" type="button" value="Ajouter"></p>
+     </div>
+</div>
+
+<script type="text/javascript">
+    
+ $("#tbl-pforma").jqGrid({
+        url:'/eu-smcipn/listprod?id_besoin=0',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Id','Code','Code produit','Libellé produit','Distributeur','Type','MDV','PU produit','Quantité','Remise','Total','Besoin'],
+        height:'auto', width:822,
+        colModel:[
+            {name:'id_porter',index:'id_porter', width: 100, align:"right", hidden:true},
+            {name:'num_pforma',index:'num_pforma', width: 90, editable: false,align:"left"},
+            {name:'code_objet',index:'code_objet', width: 130, align:"left",summaryType:'count', summaryTpl : '({0}) total'},
+            {name:'design_objet',index:'design_objet', width: 210, align:"left", editable: false},
+            {name:'distributeur',index:'distributeur', width: 130, align:"left", editable: false},
+            {name:'type',index:'type', width: 55,editable: false},
+            {name:'mdv',index:'mdv',width:60,sortable:false,align:"right"},
+            {name:'pu_objet',index:'pu_objet', width: 120, align:"right",sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'qte_objet',index:'qte_objet', width: 80, align:"right", sorttype:'number',summaryType:'sum'},
+            {name:'remise',index:'remise', width: 50, align:"right", sorttype:'number',summaryType:'sum'},
+            {name:'total',index:'total', width: 160, align:"right", sorttype:'number',summaryType:'sum',formatter:'number'},          
+            {name:'besoin',index:'besoin', width: 100, align:"right", hidden:true},
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        rownumbers:true,
+        pager: '#pg-pforma',
+        sortname:"num_pforma",
+        viewrecords: true,
+        multiselect:true,
+        sortorder: "ASC",
+        caption:"Liste des produits liés aux factures proforma",
+        grouping:true,
+        groupingView : {
+            groupField : ['num_pforma'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [true],
+            groupDataSorted : true
+        },       
+        footerrow: false,
+        userDataOnFooter: true
+    });
+    $("#tbl-pforma").jqGrid('navGrid','#pg-pforma',{edit:false,add:false,del:false,search:true});
+    
+    $(document).ready(function ()
+    {
+        $('#valider').click(function()
+        {
+            jQuery("#tbl-pforma").jqGrid('setGridParam',{url:"/eu-smcipn/listprod?id_besoin="+$('#id_besoin').val()}).trigger('reloadGrid');
+        });
+        
+        $('#ajouter').click(function() {
+            var sel;
+            sel = jQuery("#tbl-pforma").jqGrid('getGridParam','selarrrow');
+            var tab=[];  
+            var rowsel;
+            rowsel = jQuery("#tbl-pforma").jqGrid('getGridParam','selrow');
+            for(var i=0; i<sel.length; i++) {
+                tab[i]=jQuery("#tbl-pforma").jqGrid('getRowData',sel[i]);   
+            };
+            if(rowsel) {
+                $.get("/eu-smcipn/traiter",{
+                    lignes:tab     
+                },
+                function success(data) {
+                    if(data == 'good') {
+                        alert('Opération effectuée avec succès');
+                        jQuery("#tbl-pforma").jqGrid('setGridParam',{url:"/eu-smcipn/listprod?id_besoin="+$('#id_besoin').val()}).trigger('reloadGrid');
+                    }
+                    else if(data == 'erreur') {
+                        alert('Ce produit existe déjà dans le budget investissement');
+                    }
+                    else if(data == 'bad') {
+                        alert('Echec de l\'opération');
+                    }
+                });             
+            }
+            else
+            {
+                alert('Aucun produit sélectionné');
+            }            
+        });
+      
+        $('#valider').button();
+        $('#ajouter').button();
+        $(function(){
+            $('select#id_besoin').selectmenu({style:'dropdown'})});
+  
+    })   
+</script>    

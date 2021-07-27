@@ -1,0 +1,76 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Détails du relevé bancaire</p></blockquote>
+  
+
+        
+
+<div class="control-group">
+<label class="control-label" for="relevebancaire_banque">Banque </label>
+<div class="controls">
+<?php 
+        $banque = new Application_Model_EuBanque();
+        $banqueM = new Application_Model_EuBanqueMapper();
+        $banqueM->find($this->relevebancaire->relevebancaire_banque, $banque);
+echo $banque->libelle_banque; ?>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="relevebancaire_fichier">Fichier du relevé bancaire </label>
+<div class="controls">
+<a href="<?php echo $this->baseUrl(); ?>/<?php echo $this->relevebancaire->relevebancaire_fichier; ?>" target="_blank">Télécharger le relevé bancaire</a>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="relevebancaire_date">Date du relevé bancaire </label>
+<div class="controls">
+<?php echo $this->relevebancaire->relevebancaire_date; ?>
+</div>
+</div>
+    
+   
+<div class="control-group">
+<label class="control-label" for="relevebancaire_utilisateur">Utilisateur </label>
+<div class="controls">
+<?php 
+        $utilisateur = new Application_Model_EuUtilisateur();
+        $utilisateurM = new Application_Model_EuUtilisateurMapper();
+        $utilisateurM->find($this->relevebancaire->relevebancaire_utilisateur, $utilisateur); ?>
+ <?php echo $utilisateur->nom_utilisateur;?> <?php echo $utilisateur->prenom_utilisateur;?>
+</div>
+</div>
+    
+
+
+
+ 
+                            
+  
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

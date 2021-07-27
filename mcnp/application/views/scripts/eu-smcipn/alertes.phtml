@@ -1,0 +1,144 @@
+<div id="view-content">
+    <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:12px" >
+        <div  class="cntError">
+            <?php
+            echo $this->message;
+            ?>
+        </div>
+        <div style="margin-bottom: 3px;">
+            <input id="detail" type="button" value="Détail" class="ui-widget button"/>&nbsp;
+        </div>
+        <div id="cptedialog">
+            <form>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><label>Code membre client :</label></td>
+                                            <td><input type="text" id="num_client" name="num_client" size="25" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Code membre acteur :</label></td>
+                                            <td><input type="text" id="num_acteur" name="num_acteur" size="25"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Date d'alerte :</label></td>
+                                            <td><input type="text" id="date_alerte" name="date_alerte" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Libellé de l'alerte :</label></td>
+                                            <td colspan="3"><input type="text" id="lib_alerte" name="lib_alerte" size="40"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><label>Code membre assureur :</label></td>
+                                            <td><input type="text" id="num_assureur" name="num_assureur" size="25"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Code SMCIPN :</label></td>
+                                            <td><input type="text" id="code_smcipn" name="code_smcipn" size="30"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Heure d'alerte :</label></td>
+                                            <td><input type="text" id="heure_alerte" name="heure_alerte" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Motif de l'alerte :</label></td>
+                                            <td><textarea id="motif_alerte" name="motif_alerte"></textarea></td>
+                                        </tr>
+                                    </tbody>
+                                </table> 
+                            </td>
+                        </tr>                   
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <table id="tbl-alerte"></table>
+        <div id="pg-alerte"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+     
+    $("#tbl-alerte").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'alerteslist')); ?>',
+        editurl:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Id','Client','Assureur','Exécutant','Libellé','Code SMCIPN','Date','Heure','Motif'],
+        height:450, width:822,
+        colModel:[
+            {name:'id_alerte',index:'id_alerte', width: 2, align:"left", hidden:true},
+            {name:'num_client',index:'num_client', width:140, sorttype:"int", editable: false,align:"left"},
+            {name:'num_assureur',index:'num_assureur', width: 140, align:"left", editable: false},
+            {name:'num_acteur',index:'num_acteur', width: 130, editable: false,align:"left", hidden:true},
+            {name:'lib_alerte',index:'lib_alerte', width: 280, editable: false,align:"left"},
+            {name:'code_smcipn',index:'code_smcipn', width: 120, align:"left", editable: false},
+            {name:'date_alerte',index:'date_alerte', width: 80, editable: false,align:"left"},
+            {name:'heure_alerte',index:'heure_alerte', width: 50, align:"left", editable: false, hidden:true},
+            {name:'motif_alerte',index:'motif_alerte', width: 50, align:"left", editable: false, hidden:true},
+        ],
+        rowNum:100,
+        rowList:[100,200,300],
+        rownumbers:true,
+        pager: '#pg-alerte',
+        sortname:"date_alerte",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Liste des alertes en attentes"
+    });
+    
+    $("#tbl-alerte").jqGrid('navGrid','#pg-alerte',{edit:false,add:false,del:false,search:true});
+    
+    $(document).ready(function ()
+    {   
+        $("#detail").button().click(function() {
+            var sel;
+            sel = jQuery("#tbl-alerte").jqGrid('getGridParam','selrow');
+            data = jQuery("#tbl-alerte").jqGrid('getRowData',sel);
+            if (sel) {
+                $('#num_client').val(data.num_client);
+                $('#num_assureur').val(data.num_assureur);
+                $('#num_acteur').val(data.num_acteur);
+                $('#lib_alerte').val(data.lib_alerte);
+                $('#code_smcipn').val(data.code_smcipn);
+                $('#date_alerte').val(data.date_alerte);
+                $('#heure_alerte').val(data.heure_alerte);
+                $('#motif_alerte').val(data.motif_alerte);
+                $( "#cptedialog" ).dialog( "open" );
+            }else{
+                alert('Il faut sélectionner une ligne');
+            }
+        });
+    
+        $(function() {
+            $( "#cptedialog" ).dialog({
+                autoOpen: false,
+                height: 320,
+                title : 'Détail de l\'alerte',
+                width: 850,
+                modal: true,
+                buttons: {
+                    "Fermer": function() {
+                        $( this ).dialog( "close" );
+                    }
+                },
+                close: function() {
+                    //allFields.val( "" ).removeClass( "ui-state-error" );
+                }
+            }
+        );
+        });
+    
+        $('#detail').button();
+    }) 
+</script>

@@ -1,0 +1,167 @@
+<div id="view-content" title="Recharge du compte de transfert" style="min-height: 520px;padding: 1px;margin: 1px;font-size: 12px;">
+    <form id="recnn_form" method="post" action="/eu-placement/dorecnn">
+        <table id="tab_capa" style="width: 800px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+
+            <tr>
+                <td><label>Type de Membres * :</label></td>
+                <td>
+                    <input name="type_bt_radio" type="radio" value="P" checked="true">Personnes Physiques</input>
+                    <input name="type_bt_radio" type="radio" value="M">Personnes Morales</input>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="code_membre">Code Membre * :</label></td>
+                <td>
+                    <input size="30" class="validate[required]" type="text" id="code_membre" name="code_membre" value="<?php echo $this->code_membre; ?>"/>
+                </td>
+            </tr>
+            <tr id="tr_moral" style="display: none">
+                <td><label for="nom_membre">Raison sociale * :</label></td>
+                <td>
+                    <input readonly="true" type="text" id="raison_membre" name="raison_membre" value="<?php echo $this->raison_membre; ?>" size="30"/>
+                </td>
+            </tr>
+            <tr id="tr_nom">
+                <td><label for="nom_membre">Nom Membre * :</label></td>
+                <td>
+                    <input readonly="true" type="text" id="nom_membre" name="nom_membre" value="<?php echo $this->nom_membre; ?>" size="30"/>
+                </td>
+            </tr>
+            <tr id="tr_prenom">
+                <td><label for="prenom_membre">Prénoms  * :</label></td>
+                <td>
+                    <input readonly="true" type="text" id="prenom_membre" name="prenom_membre" value="<?php echo $this->prenom_membre; ?>" size="30"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Code SMS </label></td>
+                <td><input id="code_sms" name="code_sms" value="<?php echo $this->code_sms; ?>" /></td>
+                <td><div id="id_message" style="width: 150px; color:red;"></div></td>
+            </tr>
+            <tr>
+                <td><label for="code_recu">Type de transfert :</label></td>
+                <td>
+                    <input size="30" type="text" id="code_recu" name="code_recu" value="<?php echo $this->code_recu; ?>" readonly="true"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="val_nat" style="color: red;">Montant *:</label></td>
+                <td>
+                    <input size="30" class="validate[required]" type="text" id="mont_rec" name="mont_rec" value="<?php echo $this->mont_capa; ?>" readonly="true"/>
+                    <input class="validate[required]" type="text" id="dev_capa" name="dev_capa" value="" readonly="true"></input>
+                </td>
+            </tr>
+            <tr><td></td><td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td></tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function() {
+        $(function() {
+            $('#view-content').puipanel();
+        });
+        $("#rec_form").validationEngine();
+        $('#val').button();
+        $('#reset').button().click(function(e) {
+            $(location).attr("href", "/eu-placement/index");
+        });
+        $.get(
+                '/eu-placement/membre',
+                {type: 'P'},
+        function success(data)
+        {
+            $('#code_membre').autocomplete({"source": data,
+                change: displayItem});
+        });
+
+        $('input:radio[name=type_bt_radio]').change(function(e) {
+            e.preventDefault();
+            if ($('input:radio[name=type_bt_radio]:checked').val() === 'M') {
+                $("#tr_nom").hide();
+                $("#tr_prenom").hide();
+                $("#tr_moral").show();
+                $.get(
+                        '/eu-placement/membre',
+                        {type: 'M'},
+                function success(data)
+                {
+                    $('#code_membre').autocomplete({"source": data,
+                        change: displayItem});
+                });
+            } else {
+                $("#tr_moral").hide();
+                $("#tr_nom").show();
+                $("#tr_prenom").show();
+                $.get(
+                        '/eu-placement/membre',
+                        {type: 'P'},
+                function success(data)
+                {
+                    $('#code_membre').autocomplete({"source": data,
+                        change: displayItem});
+                });
+            }
+        });
+
+        function displayItem()
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-placement/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    if ($('input:radio[name=type_bt_radio]:checked').val() === 'M') {
+                        $("#raison_membre").val(data[0]);
+                    } else {
+                        $("#nom_membre").val(data[0]);
+                        $("#prenom_membre").val(data[1]);
+                    }
+                });
+            }
+        }
+
+        $("form#recnn_form").submit(function(e) {
+            e.preventDefault();
+            var form_values = $('#recnn_form').serialize();
+            $.post('/eu-placement/dorecnn', form_values, function(data) {
+                if (data === true) {
+                    alert('Opération effectuée avec succes');
+                    $(location).attr("href", "/eu-placement/index");
+                } else {
+                    $('#message').html(data);
+                }
+            });
+        });
+
+        $('#code_sms').blur(function(e)
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-placement/sms',
+                        {
+                            code: $(this).val()
+                        },
+                function success(data)
+                {
+                    if (data[0] > 0) {
+                        $('#mont_rec').val(data[0]);
+                        $('#code_recu').val(data[1]);
+                        $("#dev_capa").val(data[2]);
+                    } else {
+                        $("#id_message").html("<label>Ce code est invalide</label>");
+                    }
+
+                });
+            } else {
+                $('#mont_rec').attr('readonly', false);
+                $('#mont_capa').val('');
+            }
+            e.preventDefault();
+        });
+    });
+</script>

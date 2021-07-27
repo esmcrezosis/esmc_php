@@ -1,0 +1,68 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Detail d'un message</p></blockquote>
+  
+    
+<div class="control-group">
+<label class="control-label" for="contact_date">Date </label>
+<div class="controls">
+<?php echo $this->contact->contact_date; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="contact_nom">Nom </label>
+<div class="controls">
+<?php echo $this->contact->contact_nom; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="contact_email">E-mail </label>
+<div class="controls">
+<?php echo $this->contact->contact_email; ?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="contact_sujet">Sujet </label>
+<div class="controls">
+<?php echo $this->contact->contact_sujet; ?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="contact_message">Message </label>
+<div class="controls">
+<?php echo $this->contact->contact_message; ?>
+</div>
+</div>
+
+
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

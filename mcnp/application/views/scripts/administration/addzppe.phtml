@@ -1,0 +1,126 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout de la zppe</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addzppe">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+
+
+<div class="control-group">
+<label class="control-label" for="zppe_libelle">Libellé de la zppe *</label>
+<div class="controls">
+<input type="text" name="zppe_libelle" id="zppe_libelle" placeholder="Libellé de la zppe" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="zppe_resume">Resume de la zppe *</label>
+<div class="controls">
+<textarea name="zppe_resume" id="zppe_resume" placeholder="Resume de la zppe" class="input-xxlarge" required></textarea><!---->
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="zppe_vignette">Vignette de la zppe </label>
+<div class="controls">
+<input name="zppe_vignette" type="file" id="zppe_vignette" class="input-xxlarge" />  
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="zppe_portable">Numéro Portable de la zppe *</label>
+<div class="controls">
+<input type="text" name="zppe_portable" id="zppe_portable" placeholder="Numéro Portable de la zppe" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="zppe_email">E-mail de la zppe *</label>
+<div class="controls">
+<input type="text" name="zppe_email" id="zppe_email" placeholder="E-mail de la zppe" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="zppe_login">Login de la zppe *</label>
+<div class="controls">
+<input type="text" name="zppe_login" id="zppe_login" placeholder="Login de la zppe" class="input-xxlarge" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="zppe_password">Mot de passe de la zppe *</label>
+<div class="controls">
+<input type="password" name="zppe_password" id="zppe_password" placeholder="Mot de passe de la zppe" class="input-xxlarge" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="confirme">Confirmer le mot de passe de la zppe *</label>
+<div class="controls">
+<input type="password" name="confirme" id="confirme" placeholder="Confirmer le mot de passe de la zppe" class="input-xxlarge" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="zppe_code_membre">Code Membre de la zppe </label>
+<div class="controls">
+<input type="text" name="zppe_code_membre" id="zppe_code_membre" placeholder="Code Membre de la zppe" class="input-xxlarge" />
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="zppe_description">Description de la zppe </label>
+<div class="controls">
+<textarea name="zppe_description" id="zppe_description" placeholder="Description de la zppe" class="ckeditor"></textarea><!---->
+</div>
+</div>
+    
+    
+<div class="form-actions">
+<input name="publier" type="hidden" id="publier" value="1" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter le zppe</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

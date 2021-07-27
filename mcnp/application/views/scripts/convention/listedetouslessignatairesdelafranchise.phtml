@@ -1,0 +1,60 @@
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+    <?php if (count($this->resulttouslessignatairesdelaconventionpp) > 0): ?>
+
+     <blockquote><p>La liste de tous les signataires de la convention</p></blockquote>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+   <thead>
+ 	<tr>
+ 		<th>Code membre du franchisé</th>
+		<th>Raison sociale du franchisé</th>
+		<th>Code membre du representant du franchisé</th>
+		<th>Nom du représentant</th>
+		<th>Date de la signature</th>
+ 	</tr>
+   </thead>
+   <tbody>
+
+        <?php foreach ($this->resulttouslessignatairesdelaconventionpp as $kentry => $valentry): ?>
+           <tr>
+             <td><?php echo $valentry->code_membre ?></td>
+             <td><?php echo $valentry->nom ?></td>
+             <?php
+					$month = array('01'=>'Janvier','02'=>'Février','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+					$true_month = "";
+
+					$ex_date = explode('-',$valentry->date_convention);
+
+					foreach ($month as $ky => $vad) {
+						if($ex_date[1] == $ky){
+							$true_month = $vad;
+						}
+					}
+					$next_ex_date = explode(' ', $ex_date[2]);
+					$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0]." à ".$next_ex_date[1];
+				?>
+             <td><?php echo $true_date ;?></td>
+           </tr>
+         <?php endforeach; ?>
+         </tbody>
+</table>
+<?php  else: ?> 
+<div class="alert alert-info">
+  Aucune Signature de la franchise
+</div>
+
+    <?php  endif ?>          

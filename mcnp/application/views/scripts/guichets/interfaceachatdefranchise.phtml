@@ -1,0 +1,745 @@
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<style>
+
+   #header_franchise {
+       
+       height: 400px;
+
+       margin: 0;
+
+       background-color: #9b0e36;
+
+       position: relative;
+   }
+
+   #header_franchise_center {
+
+    display: flex;
+
+    flex-direction: row;
+
+    justify-content: center;
+
+    width: auto;
+
+    height: 250px;
+
+    align-items: flex-end;
+
+    box-shadow: 0px -1px 30px #FFF inset ;
+
+
+   }
+
+   #header_franchise_center img {
+
+       width: 300px;
+
+       border: 15px solid #FFF;
+
+       border-radius: 2px;
+
+       opacity: 0.9;
+
+       position:relative;
+
+       z-index: 12;
+
+   }
+
+   #text_center {
+
+    position:relative;
+
+    text-align: center;
+
+    color: #FFF;
+
+
+    font-weight: bold;
+
+    font-style: italic;
+
+    font-size: 1.4rem;
+
+    text-transform: uppercase;
+
+   }
+
+
+  #franchise_navigation {
+    
+    display: flex;
+
+    flex-direction: row;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    margin:60px;
+    
+    width: auto;
+  }
+
+  #wrap_image_container{
+
+      padding:10px;
+
+      border: 4px dotted #FF0054;
+
+      margin-left:35px;
+
+      margin-top:35px
+
+  }
+  #wrap_image_container img {
+
+      width: 500px;
+
+  }
+
+  #header_menu_franchise {
+
+      position:relative;
+
+      height:64px;
+
+      background-color: #FFF;
+
+      clear:both
+
+  }
+
+  #header_menu_franchise li {
+
+    float: left;
+
+    text-decoration: none;
+
+    width: 100px;
+
+    text-align: center;
+
+    list-style: none;
+
+    font-weight: bold;
+
+
+  }
+
+    </style>
+
+
+<div class="row">
+
+  <div class="col-xl-9">
+
+      <header id="header_franchise">
+
+        <div id="header_franchise_center">
+
+            <img src="/designfranchise/img/partenaire_odd.jpg" alt="">
+
+        </div>
+
+        <div style="text-align: center;">
+
+        <h1 id="text_center">Interface communauté</h1>
+
+        </div>
+
+        <img src="/designfranchise/img/backgroun-image.PNG" alt="" style="position:absolute;left:45px;opacity: 0.5;width:50px;height:50px;top:10px">
+
+        <img src="/designfranchise/img/backgroun-image.PNG" alt="" style="position:absolute;left:437px;opacity: 0.1;width:90px;height:175px;transform:rotate(130deg);top:10px;z-index: 10;">
+
+
+        <img src="/designfranchise/img/odd.jpg" width = "75px" height= "75px" alt="" style="position: absolute;right:45px;border-radius:45px;">
+
+        <img src="/assets/img/logo_esmc.png" style="width:120px;position: absolute;left:45px;">
+
+
+
+    </header>
+  
+      <blockquote>
+
+   INTERFACE D'ACHAT DE FRANCHISE
+   
+</blockquote>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+	<div class="alert alert-danger">
+
+		<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+	</div>
+
+	<?php unset($_SESSION['validationerrors']); endif ?>
+
+	<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+		<div class="alert alert-success">
+
+			<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+
+		</div>
+        
+	<?php unset($_SESSION['validationsuccess']); endif ?>
+
+
+<form action="#" method= "POST" enctype="multipart/form-data" id="ajouterunguichet" >
+
+	<div class="control-group">
+
+      <label class="control-label" for="code_BAn">Code BAn *</label>
+
+      <div class="controls row">
+
+            <div class="span9">
+
+			     <input name="code_BAn" type="text" id="ban_check_franchise" placeholder="Veuillez saisir le Code BAn affiché lors de la souscription BAn" required="required" />
+			   	 
+				 <span class="alert alert-danger" id="alertbanerror-franchise" style="display:none"></span>
+
+				 <span class="alert alert-success" id="alertbansuccess-franchise" style="display:none"></span>
+   
+			</div>
+
+			<div class="span3">
+			
+			    <button type="button" class="btn btn-info" id="ban_check_franchise_btn">Vérifier</button></span>
+
+			</div>	         
+                  
+	  </div>
+	  
+    </div>
+
+    <div class="control-group">
+
+	      <label class="control-label" for="Code membre du responsable du guichet" style="font-weight:bold">
+
+	        Code membre du responsable du guichet *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="guichet_code_membre_responsable_guichet" class="input-block-level guichet_code_membre_responsable_guichet" placeholder="Renseigner grace au QrCode le code membre" required/>
+	      
+          </div>
+
+	</div>
+
+	<div class="control-group">
+
+		    <blockquote>CENTRES</blockquote>
+
+            <select class="input-block-level" name="type_centre_franchise" id="type_centre_franchise">
+ 					
+				<option value>Selectionner Le centre  </option>
+	
+	            <?php foreach($this->listedestypescentres as $key => $vallistedestypescentres): ?>
+
+ 					<option value="<?php echo $vallistedestypescentres->id_type_centres?>" data-idcentres="<?php echo $vallistedestypescentres->id_type_centres?>"><?php echo $vallistedestypescentres->libelle_type_centres?></option>
+ 						
+			    <?php endforeach; ?>
+
+ 		    </select>
+
+	</div>
+
+    <div class="control-group">
+
+	        <blockquote>Agence ODD</blockquote>
+
+            <select class="input-block-level" name="agence_odd_franchise" id="agence_odd_franchise">
+ 					
+                <option value>Selectionner L'agence ODD  </option>
+	
+	          <?php foreach($this->listedesagencesbyodd as $k => $vlistedesagencesbyodd): ?>
+
+                <option value="<?php echo $vlistedesagencesbyodd->id_odd ?>" data-idagencesodd="<?php echo $vlistedesagencesbyodd->id_odd?>"><?php echo $vlistedesagencesbyodd->type_agence_odd?></option>
+
+              <?php endforeach ?>
+
+            </select>
+
+	</div>
+
+	
+	<div class="control-group">
+
+	      <label class="control-label" for="Login du compte intégrateur lié le guichet" style="font-weight:bold">
+
+	        Login du compte intégrateur lié au type_guichet *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="guichet_login_integrateur" class="input-block-level guichet_login" placeholder="Saisir le login du guichet" required="required"/>
+	      
+          </div>
+
+	</div>
+
+	<div class="control-group">
+
+	      <label class="control-label" for="Mot de passe du compte intégrateur lié le guichet" style="font-weight:bold">
+
+	        Mot de passe du compte intégrateur lié au type_guichet*:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="guichet_password_integrateur" class="input-block-level guichet_password" placeholder="Saisir le mot de passe du guichet" required="required"/>
+	      
+          </div>
+
+	</div>
+
+
+	<div class="control-group">
+
+		 <label for="type_franchise" style="font-weight:bold;float:left">
+
+			 Type de franchisé*: 
+			 
+		 </label>
+
+		<select class="input-block-level type_franchise" name="type_franchise" id="type_franchise">
+
+                <option value>Choisir votre type de franchise</option>
+
+            <?php foreach($this->listedestypesdefranchise as $kf => $vf): ?>
+
+	            <option value="<?php echo $vf->id_type_franchises?>">
+
+				    <?php if ($vf->id_type_franchises == 1): ?>
+                     
+					     <?php echo "Franchise de localité" ?>
+
+					<?php elseif($vf->id_type_franchises == 2):?>
+
+					     <?php echo "Franchisé d'implantation" ?>
+
+					<?php endif ?>
+									  
+				</option>
+
+             <?php endforeach ?>
+
+		</select>
+
+	</div>
+
+    <div class="control-group">
+
+	
+		<label for="interface_franchise" style="font-weight:bold;float:left">
+
+			 Adresse du franchisé: 
+			 
+		</label>
+
+		<textarea name="adresse_franchise" id="" cols="30" rows="10"></textarea>
+
+
+	</div>
+
+	<div class="control-group" id="interface_franchise_container" style="display:none">
+
+		<label for="interface_franchise" style="font-weight:bold;float:left">
+
+			 Interface de franchise: 
+			 
+		</label>
+
+        <select class="input-block-level" name="interface_franchise" id="interface_franchise">
+ 					
+            <option value>Selectionner Le type d'interface de franchise</option>
+
+            <?php foreach ($this->listedesgroupesdefranchise as $kf => $vf): ?>
+
+			  	<option value="<?php echo $vf->id_groupe_franchise?>"><?php echo $vf->libelle_groupe_franchise?></option>
+
+            <?php endforeach ?>
+
+		</select>
+
+	</div>
+
+    <div class="control-group">
+
+	      <label class="control-label" for="Code membre du responsable du guichet" style="font-weight:bold">
+
+	        COMPTE BANCAIRE *:
+
+	      </label>
+
+          <select class="input-block-level" name="franchise_compte_banque" id="input_organisation_agence_odd">
+ 					
+                     <option value>Selectionner Le compte de payement</option>
+         
+                     <?php foreach ($this->listedesbanques as $kb => $vb): ?>
+         
+                           <option value="<?php echo $vb->code_banque?>"><?php echo $vb->libelle_banque ?></option>
+         
+                     <?php endforeach ?>
+         
+          </select>
+
+          <input type="text" name="numero_franchise_comptebanque" class="input-block-level numero_franchise_comptebanque" placeholder="Renseigner le numéro de compte sélectionné" required/>
+
+	</div>
+
+	<blockquote> <strong> LOCALISATION GEOGRAPHIQUE </strong></blockquote>
+
+	<div class="row">
+	
+	<div class="span4">
+        
+		<div class="control-group">
+                                    
+			<label class="control-label span4">Zone M.</label>
+
+            <div class="controls span8">
+
+                <select class="input-block-level" id="code_zone" name="code_zone">
+
+                    <option value="">Choisir une zone monétaire</option>
+
+                    <?php foreach ($this->zones as $value) { ?>
+
+                         <option value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option> 
+
+                    <?php } ?>
+
+                </select>
+
+            </div>
+        
+		</div>
+
+    </div>
+    
+	<div class="span4">
+                            
+		<div class="control-group">
+                                    
+			<label class="control-label span4">Pays *</label>
+
+            <div class="controls span8">
+
+                <select class="input-block-level" id="id_pays" name="id_pays" required="required" onchange="ouvre_paystelephones2(this.value);">
+
+                    <option value="">Choisir un pays</option>
+
+                    <?php foreach ($this->pays as $value) { ?>
+
+                         <option value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>  
+
+                    <?php } ?>
+
+                </select>
+                                    
+			</div>
+                                
+		</div>
+
+    </div>
+
+    <div class="span4">
+                                
+		<div class="control-group">
+
+            <label class="control-label span4">Régions</label>
+
+            <div class="controls span8">
+
+                <select class="input-block-level" id="id_region" name="id_region">
+
+                    <option value="">Choisir une région</option>
+
+                    <?php foreach ($this->regions as $value) { ?>
+
+                        <option value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option> 
+
+                    <?php } ?>
+                                        
+			    </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="span4">
+
+         <div class="control-group">
+
+            <label class="control-label span4">Préfectures</label>
+
+            <div class="controls span8">
+
+                <select class="input-block-level" id="id_prefecture" name="id_prefecture">
+
+                    <option value="">Choisir une préfecture</option>
+
+                    <?php foreach ($this->prefectures as $value) { ?>
+
+                         <option value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+                                            
+		            <?php } ?>
+                        
+				</select>
+                
+			</div>
+
+        </div>
+
+    </div>
+ 
+    <div class="span4">
+ 
+         <div class="control-group">
+
+            <label class="control-label span4">Cantons *</label>
+
+            <div class="controls span8">
+
+                <select class="input-block-level" id="id_canton" name="id_canton" required="required">
+
+                    <option value="">Choisir un canton</option>
+
+                    <?php foreach ($this->cantons as $value) { ?>
+
+                         <option value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>  
+
+                    <?php } ?>
+                         
+				</select>
+
+            </div>
+			
+        </div>
+    
+	</div>
+
+	</div>
+
+	<blockquote>
+	
+	         <strong>DOCUMENT DE CONFORMITE</strong>
+
+	</blockquote>
+
+		   	<table class="table table-bordered" id = "tabs_outils">
+
+			<thead>
+
+				<tr>
+					  
+					<th>Nom du document</th>
+
+					<th>Fichier du document</th>
+
+					<th>Actions</th>
+
+				</tr>
+
+			</thead>
+
+				   
+			<tbody>
+
+				<tr id="franchise_obpsd">
+
+					     <td>
+
+						     <input type="text" class="input-xlarge" name="document_franchise_name[]" id="document_franchise_name" placeholder="Nom du document" >
+                         </td>
+
+						 <td>
+						     
+							  <input  type="file" name="document_franchise[]" id="document_franchise" class="input-xxlarge"/>  
+							  
+						 </td>
+
+						 <td>
+						   
+						     <button class="btn btn-primary" id = "clone_document_franchise">Ajouter</button>
+							 
+						 </td>
+
+				</tr>
+
+			</tbody>
+
+		</table>
+
+
+  	<blockquote>
+	
+	         <strong>LOGO DE VOTRE SOCIETE</strong>
+
+	</blockquote>
+
+	<div class="control-group" id="franchise_logo_upload">
+
+				<label class="control-label" for="franchise_logo" style="font-weight:bold">
+
+					 Joindre le logo de votre société
+
+				</label>
+
+			 <div class="controls">
+
+				 <input type="file" name="franchise_logo_file" style="position:relative">
+
+				   <div class="alert alert-danger">
+
+                         <strong>Seul les formats jpg, png et jpeg sont supportés</strong>
+
+				   </div>
+
+			</div>
+
+	</div>
+	
+
+	<div class="control-group" >
+
+          <button type="submit" class="btn btn-large btn-primary" id ="validguichet" style="position:relative">
+
+              Valider le formulaire
+
+          </button>
+
+    </div>
+
+</form>
+     
+  
+  </div>
+
+  <div class="col-xl-3">
+
+    <div class="lien"><a id="nivpanier" href="<?php echo $this->baseUrl();?>/boutiqueligne/panier"><?php if(isset($sessionpanier->produit)){?><i class="fa fa-shopping-cart"></i> Mon Panier (<?php echo count($sessionpanier->produit); ?>)<?php }?></a></div>
+
+    <div class="limiter">
+      <div class="container-login100">
+          <div class="wrap-login100">
+          <form class="login100-form validate-form" id="formulaire_login"
+          action="<?php echo $domaine3;?>/index/securelogin" method="post">
+					<span class="login100-form-title">
+						Connexion
+					</span>
+
+					<?php
+                         $sessionmembre = new Zend_Session_Namespace('membre');
+                         if(isset($sessionmembre->errorlogin)) {
+	                          echo '<center><strong>'.$sessionmembre->errorlogin.'</strong></center><br/>';
+	                          $sessionmembre->errorlogin = "";
+                         }
+					?>
+
+					<div class="wrap-input100 validate-input" data-validate = "Votre code membre est requis">
+
+						 <input class="input100" type="text" name="code_membre" id="code_membre" placeholder="Code membre" readonly required />
+
+						 <span class="focus-input100"></span>
+
+						 <span class="symbol-input100">
+
+							   <i class="fa fa-user" aria-hidden="true"></i>
+
+						 </span>
+             
+					</div>
+
+					<?php /* ?>
+					<div class="wrap-input100 validate-input" data-validate = "Votre code secret est requis">
+						<input class="input100" type="password" name="codesecret" placeholder="Code secret" required />
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							  <i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+					<?php */ ?>
+
+					<div class="container-login100-form-btn">
+                    <input name="ok" type="hidden" id="ok" value="ok" />
+                           <button class="login100-form-btn" id="login_button">
+                           Se connecter
+						   </button>
+					</div>
+				</form>
+          </div>
+      </div>
+    </div>
+	<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+    <script src="/outil-qr.js"></script>
+    <script type="text/javascript">
+    outilqr('formulaire_login');
+    //outilqrformobligatoire("addsouscription1","submit");
+    </script>
+	<a class="link" href="<?php echo $this->baseUrl();?>/index/rechercheractivation">Pour retrouver son Code Membre</a>
+	
+	<br/>
+
+    <a href="<?php echo $this->baseUrl();?>/index/pageesmc/id/122"><img src="<?php echo $this->baseUrl();?>/assets/img/gif2.gif" class="img-fluid" alt="Souscription au Compte Marchand"></a>
+    <br/>
+
+
+
+<?php //if($this->index == "esmc"){ ?>
+<?php //}else{ ?>
+<?php /////////////////////////////////
+$publicite = new Application_Model_EuPubliciteMapper();
+$entriespublicite = $publicite->fetchAllByTypeCategorieBoxInterfaceAncienOne(2, 0, 2, 0, 2);
+//var_dump($entriespublicite);
+if(count($entriespublicite) > 0){?>
+<a href="<?php echo ($entriespublicite->lien_publicite); ?>"><img src="<?php echo $this->baseUrl();?>/<?php echo ($entriespublicite->desc_publicite); ?>" class="img-fluid" alt="<?php echo ($entriespublicite->libelle_publicite); ?>" title="<?php echo ($entriespublicite->libelle_publicite); ?>"></a>
+<?php } ?>
+<?php //} ?>
+
+
+<br><br>
+
+    </div>
+  </div>
+
+  <!-- fin content -->
+<br />  
+  
+  </div>
+
+
+</div>
+
+
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+
+<script src="/outil-qr.js"></script>
+
+<script type="text/javascript">
+
+//outilqr('addeli');
+//outilqrformobligatoire("ajouterunguichet","validguichet");
+
+</script>

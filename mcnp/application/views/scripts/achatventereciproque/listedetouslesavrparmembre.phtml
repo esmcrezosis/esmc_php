@@ -1,0 +1,73 @@
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+    <script type="text/javascript" charset="utf-8">
+      /*$(document).ready(function() {
+        $('#example').dataTable();
+      } );*/
+      $(document).ready(function() {
+        $('#example').dataTable({
+          "sPaginationType": "full_numbers",
+          "aaSorting": []
+        });
+      });
+    </script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+
+  <blockquote>Achat Vente Reciproque - centrale d'achat: liste de tous les demandes d'achat AR</blockquote>
+ 
+  
+<?php if($this->lalistedetouslesdemandeachatavr > 0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+   <thead>
+  <tr>
+    <th>Code membre de l'acheteur</th>
+    <th>Référence de l'avr</th>
+    <th>Montant total </th>    
+    <th>Mode de paiement</th>
+    <th>Date de soumission de la demande</th>
+    <th>Actions</th>
+
+  </tr>         
+   </thead>
+   <tbody>
+      <?php foreach ($this->lalistedetouslesdemandeachatavr as $key => $value): ?>
+        <tr>
+          <td><?php echo $value->code_membre_acheteur ;?></td>
+        
+          <td><?php echo $value->reference_avr ;?></td>
+          <td><?php echo $value->montant_total_avr_produit_achat;?></td>
+          <td><?php echo $value->mode_paiement;?></td>          
+          <td><?php echo $value->date_achat;?></td>
+          
+          <td><a href="centraledachatlistedesdetailsdesavr/id/<?php echo $value->id ?>" class="btn btn-danger" target="_blank">Détails</a></td>
+          
+        </tr>
+  <?php endforeach ?>
+   </tbody>
+
+ </table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucune demande avr disponible
+</div>
+<?php }?>
+
+
+
+
+</div>
+
+</div>
+</div>

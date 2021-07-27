@@ -1,0 +1,188 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			
+	$(document).ready(function() {
+           $('#example').dataTable( {
+           "sPaginationType":"full_numbers",
+	   "aaSorting": []
+        });
+
+         
+});
+</script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+<blockquote><p class="text-info">Vérification MF11000 Ancien Membre</p></blockquote>
+
+
+
+<div class="">
+    <form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="ancienpp">
+    <?php if(isset($sessionutilisateur->errorlogin) && $sessionutilisateur->errorlogin!="") { ?>
+    <div class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->errorlogin; $sessionutilisateur->errorlogin = ""; ?>
+    </div>
+    <?php }?>
+    <?php if(isset($this->message) && $this->message!="") { ?>
+    <div class="alert alert-error">
+         <button type="button" class="close" data-dismiss="alert">&times;</button>
+         <?php echo $this->message; ?>
+    </div>
+    <?php } ?>
+    <legend>Vérification MF11000 Ancien Membre</legend>
+  
+    <div class="control-group">
+    <div class="control-group">
+    <label class="control-label" for="numero_bon">Numéro bon *</label>
+    <div class="controls">
+    <input type="text" name="numero_bon" id="numero_bon" placeholder="Numéro bon" value="<?php echo $this->numero_bon; ?>" required>
+
+    <input name="ok" type="hidden" id="ok" value="ok" />
+    <button type="submit" class="btn btn-primary">Valider</button>
+        <?php if (isset($_POST['numero_bon']) && $_POST['numero_bon']!="" && isset($this->numero_bon)) { ?>
+          <a target="_blank" class="btn btn-danger" href="<?php echo $this->baseUrl(); ?>/index/verifiermf11000pdf/code/<?php echo $_POST['numero_bon']; ?>">Générer le PDF du relevé</a>
+        <?php } ?>
+    </div>
+    </div>
+    </div>
+    </form>
+	
+	<?php 
+        if (isset($_POST['ok']) && $_POST['ok']=="ok") {
+        if (isset($_POST['numero_bon']) && $_POST['numero_bon']!="" && isset($this->numero_bon))  {
+    ?>
+	
+	<blockquote>Historique des unités MF11000</blockquote>
+	<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+	       <thead>
+                <tr>
+					<th><div align="left">Numéro bon</div></th>
+				    <th><div align="left">Produit</div></th>
+				    <th><div align="left">Montant encaissé</div></th>
+					<th><div align="left">Montant utilisé</div></th>
+					<th><div align="left">Montant restant</div></th>
+					<th><div align="left">Date octroi</div></th>
+				</tr>
+			</thead>
+			<tbody>
+			      <?php $montant_rep = 0; ?>
+				  <?php $montant_ut = 0; ?>
+				  <?php $montant_rest = 0;?>
+                  <?php foreach ($this->unitemf11000 as $entry): ?>
+                        <tr <?php if($entry->code_mf11000 == $this->code_mf11000) { ?> class="error"<?php }?>>
+			    <td><div align="left"><?php echo $entry->code_mf11000;?></div></td>
+			    <td><div align="left">MF11000</div></td>
+			    <td><div align="left"><strong><?php echo number_format($entry->mont_rep,0,',',' ');?></strong></div></td>
+			    <td><div align="left"><strong><?php echo number_format($entry->mont_reglt,0,',',' ');?></strong></div></td>
+			    <td><div align="left"><strong><?php echo number_format($entry->solde_rep,0,',',' ');?></strong></div></td>
+			    <?php $date_octroi = new Zend_Date($entry->date_rep, Zend_Date::ISO_8601);?>
+                            <td><div align="center"><?php echo $date_octroi->toString('dd/MM/yyyy');?></div></td>
+			</tr>
+			<?php $montant_rep += $entry->mont_rep;?>
+			<?php $montant_ut  += $entry->mont_reglt;?>
+			<?php $montant_rest  += $entry->solde_rep;?>
+                  <?php endforeach; ?>
+                        <tr>
+                            <td><div align="left">&nbsp;</div></td>
+                            <td><div align="right"><strong>Total</strong></div></td>
+                            <td><div align="right"><strong><?php echo number_format($montant_rep,0,',',' ');?></strong></div></td>
+			    <td><div align="right"><strong><?php echo number_format($montant_ut,0,',',' ');?></strong></div></td>
+			    <td><div align="right"><strong><?php echo number_format($montant_rest,0,',',' ');?></strong></div></td>
+                            <td><div align="center">&nbsp;</div></td>
+                        </tr>
+
+				  
+			</tbody>	  
+			
+			
+	</table>
+	
+	<br/>
+	<br/>
+
+        <br/>
+        <br/>
+        <br/>
+
+	
+	
+        <blockquote>Historique des unités MF11000 mises en dépôt-vente</blockquote>
+	<table class="table table-striped table-bordered table-hover table-condensed" id="example1">
+	       <thead>
+               <tr>
+		    <th><div align="left">Numéro bon</div></th>
+		    <th><div align="left">Produit</div></th>
+		    <th><div align="left">Code Membre</div></th>
+		    <th><div align="left">Raison sociale</div></th>
+		    <th><div align="left">Montant transféré</div></th>
+                    <th><div align="left">Montant vendu</div></th>
+                    <th><div align="left">Montant restant</div></th>
+		    <th><div align="left">Date octroi</div></th>
+		</tr>
+	      </thead>
+	      <tbody>
+	            <?php $montant_transfert = 0; ?>
+		    <?php $montant_ut        = 0; ?>
+		    <?php $montant_rest      = 0;?>
+                    <?php foreach ($this->detailmf11000 as $entry): ?>
+                          <tr <?php if($entry->num_bon == $this->numero_bon) { ?> class="error"<?php }?>>
+			      <td><div align="left"><?php echo $entry->num_bon;?></div></td>
+			      <td><div align="left">MF11000</div></td>
+                              <td><div align="left"><?php echo $entry->code_membre_dist;?></div></td>
+                              <td><div align="left"><?php echo $entry->raison_sociale;?></div></td>
+			      <td><div align="left"><strong><?php echo number_format($entry->mont_sms,0,',',' ');?></strong></div></td>
+			      <td><div align="left"><strong><?php echo number_format($entry->mont_vendu,0,',',' ');?></strong></div></td>
+			      <td><div align="left"><strong><?php echo number_format($entry->solde_sms,0,',',' ');?></strong></div></td>
+			      <?php $date_alloc = new Zend_Date($entry->date_allocation, Zend_Date::ISO_8601);?>
+                              <td><div align="center"><?php echo $date_alloc->toString('dd/MM/yyyy');?></div></td>
+			   </tr>
+			   <?php $montant_transfert += $entry->mont_sms;?>
+			   <?php $montant_ut        += $entry->mont_vendu;?>
+			   <?php $montant_rest      += $entry->solde_sms;?>
+                  <?php endforeach; ?>
+                        <tr>
+                            <td><div align="left">&nbsp;</div></td>
+                            <td><div align="left">&nbsp;</div></td>
+                            <td><div align="left">&nbsp;</div></td>
+                            <td><div align="right"><strong>Total</strong></div></td>
+                            <td><div align="right"><strong><?php echo number_format($montant_transfert,0,',',' ');?></strong></div></td>
+			    <td><div align="right"><strong><?php echo number_format($montant_ut,0,',',' ');?></strong></div></td>
+			    <td><div align="right"><strong><?php echo number_format($montant_rest,0,',',' ');?></strong></div></td>
+                            <td><div align="center">&nbsp;</div></td>
+                        </tr>	  
+			</tbody>	  		
+	</table>
+	<?php }?>
+        <?php }?>	
+</div>
+<div class="">
+</div>
+
+</div>
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,181 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+  <div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Details d'un projet</p></blockquote>
+  
+    
+<div class="control-group">
+<label class="control-label" for="projet_code_membre">Code Membre </label>
+<div class="controls">
+<?php echo $this->projet->projet_code_membre; ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="projet_libelle">Libelle </label>
+<div class="controls">
+<?php echo $this->projet->projet_libelle; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="projet_description">Description </label>
+<div class="controls">
+<?php echo $this->projet->projet_description; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="projet_type">Type </label>
+<div class="controls">
+<?php echo $this->projet->projet_type; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="projet_centrale">Centrale </label>
+<div class="controls">
+<?php echo $this->projet->projet_centrale; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="projet_stockage">Entreposage </label>
+<div class="controls">
+<?php echo $this->projet->projet_stockage; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="projet_date">Date  </label>
+<div class="controls">
+<?php echo $this->projet->projet_date; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="projet_montant">Montant </label>
+<div class="controls">
+<?php echo $this->projet->projet_montant; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="projet_montant_final">Montant Final</label>
+<div class="controls">
+<?php echo $this->projet->projet_montant_final; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="projet_observation">Observation </label>
+<div class="controls">
+<?php echo $this->projet->projet_observation; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="projet_utilisateur">Utilisateur</label>
+<div class="controls">
+<?php if($this->projet->projet_utilisateur > 0){
+        $utilisateur = new Application_Model_EuUtilisateur();
+        $utilisateurM = new Application_Model_EuUtilisateurMapper();
+        $utilisateurM->find($this->projet->projet_utilisateur, $utilisateur);
+        echo $utilisateur->nom_utilisateur;
+      }
+?>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="code_zone">Zone</label>
+<div class="controls">
+<?php if($this->projet->code_zone > 0){
+        $zone = new Application_Model_EuZone();
+        $zoneM = new Application_Model_EuZoneMapper();
+        $zoneM->find($this->projet->code_zone, $zone);
+        echo $zone->nom_zone;
+      }
+?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="id_pays">Pays</label>
+<div class="controls">
+<?php if($this->projet->id_pays > 0){
+        $pays = new Application_Model_EuPays();
+        $paysM = new Application_Model_EuPaysMapper();
+        $paysM->find($this->projet->id_pays, $pays);
+        echo $pays->libelle_pays;
+      }
+?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="id_region">Region</label>
+<div class="controls">
+<?php if($this->projet->id_region > 0){
+        $region = new Application_Model_EuRegion();
+        $regionM = new Application_Model_EuRegionMapper();
+        $regionM->find($this->projet->id_region, $region);
+        echo $region->nom_region;
+      }
+?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="id_prefecture">Prefecture</label>
+<div class="controls">
+<?php if($this->projet->id_prefecture > 0){
+        $prefecture = new Application_Model_EuPrefecture();
+        $prefectureM = new Application_Model_EuPrefectureMapper();
+        $prefectureM->find($this->projet->id_prefecture, $prefecture);
+        echo $prefecture->nom_prefecture;
+      }
+?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="id_canton">Canton</label>
+<div class="controls">
+<?php if($this->projet->id_canton > 0){
+        $canton = new Application_Model_EuCanton();
+        $cantonM = new Application_Model_EuCantonMapper();
+        $cantonM->find($this->projet->id_canton, $canton);
+        echo $canton->nom_canton;
+      }
+?>
+</div>
+</div>
+
+
+
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

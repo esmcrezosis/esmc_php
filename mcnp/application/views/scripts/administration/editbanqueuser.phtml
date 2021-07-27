@@ -1,0 +1,94 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?> 
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification de l'utilisateur de Banque OPI</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addtelephone">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+        
+<div class="control-group">
+					<label class="control-label span3" for="code_banque">Banque *</label>
+					<div class="controls span9">
+						<select id="code_banque" name="code_banque">
+        <?php $tbanque = new Application_Model_DbTable_EuBanque();
+        $results = $tbanque->fetchAll();?>
+  <option value="">Choisir la banque</option>
+    <?php foreach ($results as $banque): ?>
+               <option value="<?php echo $banque->code_banque; ?>" <?php if($this->banque_user->getCodeBanque() == $banque->code_banque){echo ' selected="selected"';}?>><?php echo ($banque->libelle_banque); ?></option>
+    <?php endforeach; ?>
+               <option value="" <?php if($this->banque_user->getCodeBanque() == ''){echo ' selected="selected"';}?>>PBF ESMC</option>
+						</select>
+					</div>
+				</div>
+
+<div class="control-group">
+					<label class="control-label span3">Nom Utilisateur *</label>
+					<div class="controls span9">
+						<input type="text" id="nom_banque_user" name="nom_banque_user" required="required" class="input-xxlarge" value="<?php echo $this->banque_user->getNomBanqueUser(); ?>">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label span3">Prénoms Utilisateur *</label>
+					<div class="controls span9">
+						<input type="text" id="prenom_banque_user"
+							name="prenom_banque_user" class="input-xxlarge" required="required" value="<?php echo $this->banque_user->getPrenomBanqueUser(); ?>">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label span3">Code Membre Utilisateur *</label>
+					<div class="controls span9">
+						<input type="text" id="code_membre"
+							name="code_membre" class="input-xxlarge" required="required" value="<?php echo $this->banque_user->getCode_membre(); ?>">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label span3" for="role">Role *</label>
+					<div class="controls span9">
+						<select id="role" name="role">
+						  <option value="B_USER" <?php if($this->banque_user->getRole() == "B_USER"){echo 'selected="selected"';} ?> >Utilisateurs</option>
+						  <option value="B_ADMIN" <?php if($this->banque_user->getRole() == "B_ADMIN"){echo 'selected="selected"';} ?> >Administrateurs</option>
+						</select>
+					</div>
+				</div>
+       
+    
+
+<div class="form-actions">
+<input name="id_banque_user" type="hidden" id="id_banque_user" value="<?php echo $this->banque_user->getIdBanqueUser(); ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier l'utilisateur</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

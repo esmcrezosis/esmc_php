@@ -1,0 +1,181 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+  <div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Details d'un travailleur</p></blockquote>
+  
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_code_membre">Code Membre </label>
+<div class="controls">
+<?php echo $this->travailleur->travailleur_code_membre; ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="travailleur_libelle">Nom et prénom(s) </label>
+<div class="controls">
+<?php echo $this->travailleur->travailleur_libelle; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_experience">Experience </label>
+<div class="controls">
+<?php echo $this->travailleur->travailleur_experience; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="travailleur_type">Type </label>
+<div class="controls">
+<?php echo $this->travailleur->travailleur_type; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_niveau">Niveau scolaire </label>
+<div class="controls">
+<?php echo $this->travailleur->travailleur_niveau; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_formation">Formation </label>
+<div class="controls">
+<?php echo $this->travailleur->travailleur_formation; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="travailleur_date">Date  </label>
+<div class="controls">
+<?php echo $this->travailleur->travailleur_date; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_education">Education </label>
+<div class="controls">
+<?php echo $this->travailleur->travailleur_education; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_adresse">Adresse</label>
+<div class="controls">
+<?php echo $this->travailleur->travailleur_adresse; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="travailleur_observation">Observation </label>
+<div class="controls">
+<?php echo $this->travailleur->travailleur_observation; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_utilisateur">Utilisateur</label>
+<div class="controls">
+<?php if($this->travailleur->travailleur_utilisateur > 0){
+        $utilisateur = new Application_Model_EuUtilisateur();
+        $utilisateurM = new Application_Model_EuUtilisateurMapper();
+        $utilisateurM->find($this->travailleur->travailleur_utilisateur, $utilisateur);
+        echo $utilisateur->nom_utilisateur;
+      }
+?>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="code_zone">Zone</label>
+<div class="controls">
+<?php if($this->travailleur->code_zone > 0){
+        $zone = new Application_Model_EuZone();
+        $zoneM = new Application_Model_EuZoneMapper();
+        $zoneM->find($this->travailleur->code_zone, $zone);
+        echo $zone->nom_zone;
+      }
+?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="id_pays">Pays</label>
+<div class="controls">
+<?php if($this->travailleur->id_pays > 0){
+        $pays = new Application_Model_EuPays();
+        $paysM = new Application_Model_EuPaysMapper();
+        $paysM->find($this->travailleur->id_pays, $pays);
+        echo $pays->libelle_pays;
+      }
+?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="id_region">Region</label>
+<div class="controls">
+<?php if($this->travailleur->id_region > 0){
+        $region = new Application_Model_EuRegion();
+        $regionM = new Application_Model_EuRegionMapper();
+        $regionM->find($this->travailleur->id_region, $region);
+        echo $region->nom_region;
+      }
+?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="id_prefecture">Prefecture</label>
+<div class="controls">
+<?php if($this->travailleur->id_prefecture > 0){
+        $prefecture = new Application_Model_EuPrefecture();
+        $prefectureM = new Application_Model_EuPrefectureMapper();
+        $prefectureM->find($this->travailleur->id_prefecture, $prefecture);
+        echo $prefecture->nom_prefecture;
+      }
+?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="id_canton">Canton</label>
+<div class="controls">
+<?php if($this->travailleur->id_canton > 0){
+        $canton = new Application_Model_EuCanton();
+        $cantonM = new Application_Model_EuCantonMapper();
+        $cantonM->find($this->travailleur->id_canton, $canton);
+        echo $canton->nom_canton;
+      }
+?>
+</div>
+</div>
+
+
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

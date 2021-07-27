@@ -1,0 +1,183 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/panierss.js"></script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+  <blockquote><p class="text-info">Les produits par catégories </p></blockquote>
+
+<form action="" method="post" class="well form-inline" id="recherche">
+			  Rechercher 
+                <select name="type" id="type">
+               <option value="">Choisir un type </option>
+               <option value="bp">Biens et Produits</option>
+               <option value="s">Services</option>
+               </select>
+			   - 
+			   <select name="id_categorie" id="id_categorie">
+               <option value="">Choisir une catégorie</option>
+    <?php foreach ($this->selectcategorie as $selectcategorie): ?>
+               <option value="<?php echo $selectcategorie->id_categorie; ?>"><?php echo ($selectcategorie->libelle_categorie); ?></option>
+    <?php endforeach; ?>
+               </select>
+			   - 
+               <label class="checkbox">
+                  <input type="checkbox" id="image" name="image" value="1"> Uniquement avec photo
+                </label>
+                
+              <input name="ok" type="hidden" value="ok" />
+			  <button type="submit" class="btn btn-danger">Rechercher</button>
+			</form>
+
+  <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?> 
+<strong>Connexion</strong>   sinon <strong>Enrôlement</strong>
+    </div>
+  <?php }?>
+  
+
+
+<?php if(count($this->entries)>0){?>  
+<div class="accordion" id="accordion2">
+<?php foreach ($this->entries as $entry): ?>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $entry->id_categorie; ?>">
+        <i class="icon-arrow-right"></i> <?php echo ($entry->libelle_categorie); ?>
+      </a>
+    </div>
+    <div id="collapse<?php echo $entry->id_categorie; ?>" class="accordion-body collapse" align="left">
+      <div class="accordion-inner">
+        <?php $entryarticlestockesM = new Application_Model_EuArticleStockesMapper();
+$entryarticlestockes = new Application_Model_EuArticleStockes();
+$entriesarticlestockes = $entryarticlestockesM->fetchAllByCategorie($entry->id_categorie, "");
+if(count($entriesarticlestockes) > 0){?>
+<table class="table table-condensed">
+<thead>
+<tr>
+<th>&nbsp;</th>
+<th>Produits</th>
+<th><div align="right">Prix</div></th>
+<th><div align="center">Remise</div></th>
+<th><div align="center">Acteurs</div></th>
+<th><div align="center"><i class="icon-share-alt"></i> Panier</div></th>
+</tr>
+</thead>
+<tbody>
+    <?php foreach ($entriesarticlestockes as $entryarticlestockes): ?>
+    <tr>
+        <td><?php if($entryarticlestockes->imageArticle != ""){?><img src="<?php echo $this->baseUrl();?>/<?php echo ($entryarticlestockes->imageArticle); ?>" width="25" height="25" class="img-rounded"><?php }?></td>
+      <td><?php echo ($entryarticlestockes->designation); ?> <small style="color:#666; font-size:11px; text-decoration:inherit;"><?php echo ($entryarticlestockes->reference); ?><?php // - echo ($entryarticlestockes->type); ?><?php // - echo ($entryarticlestockes->code_barre); ?></small></td>
+      <td><div align="right"><strong><?php echo number_format($entryarticlestockes->prix, 0, ',', ' '); ?></strong></div></td>
+      <td><div align="center"><strong><?php echo number_format(($entryarticlestockes->remise * 100 / $entryarticlestockes->prix), 0, ',', ' '); ?> %</strong></div></td>
+      <td><div align="center"><a href="<?php echo $this->baseUrl();?>/index/acteurproduit/id/<?php echo $entryarticlestockes->code_membre_morale; ?>"><!--<i class="icon-eye-open"></i>-->  <?php 
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($entryarticlestockes->code_membre_morale, $membremorale);
+?><?php echo ($membremorale->raison_sociale); ?></a></div></td>
+<td><div align="center" class="bs-docs-tooltip-examples">
+      <?php if (isset($sessionmembre->code_membre) && $sessionmembre->code_membre != "") { ?>
+<a class="btn btn-link" onClick="ouvre_paniers('<?php echo $entryarticlestockes->code_barre; ?>');" title="Mettre dans le panier"><i class="icon-shopping-cart"></i> </a>
+       <?php }?>
+       </div></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php }?>
+      </div>
+    </div>
+  </div>
+<?php endforeach; ?>
+</div>
+<?php }?>
+
+
+
+
+
+          <?php if(count($this->entriesrecherche)>0){?>  
+          <?php $idcategorie = ""; ?>
+<div class="accordion" id="accordion2">
+    <?php foreach ($this->entriesrecherche as $entry): ?>
+    <?php if($entry->categorie != $idcategorie && $idcategorie != ""){ ?>
+</tbody>
+</table>
+      </div>
+    </div>
+  </div>
+ <?php }?>   
+    <?php if($entry->categorie != $idcategorie){ $idcategorie = $entry->categorie;?>
+    <?php 
+$categorieM = new Application_Model_EuCategorieBpsMapper();
+$categorie = new Application_Model_EuCategorieBps();
+$categorieM->find($entry->categorie, $categorie);
+?>
+<div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $categorie->id_categorie; ?>">
+        <i class="icon-arrow-right"></i> <?php echo ($categorie->libelle_categorie); ?>
+      </a>
+    </div>
+    <div id="collapse<?php echo $categorie->id_categorie; ?>" class="accordion-body collapse in" align="left">
+      <div class="accordion-inner">
+<table class="table table-condensed">
+<thead>
+<tr>
+<th>&nbsp;</th>
+<th>Produits</th>
+<th><div align="right">Prix</div></th>
+<th><div align="center">Acteurs</div></th>
+<th>&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+	<?php }?>
+    <tr>
+        <td><?php if($entry->imageArticle != ""){?><img src="<?php echo $this->baseUrl();?>/<?php echo ($entry->imageArticle); ?>" width="25" height="25" class="img-rounded"><?php }?></td>
+      <td><?php echo ($entry->designation); ?> <small style="color:#666; font-size:11px; text-decoration:inherit;"><?php echo ($entry->reference); ?><?php // - echo ($entry->type); ?><?php // - echo ($entry->code_barre); ?></small></td>
+      <td><div align="right"><strong><?php echo number_format($entry->prix, 0, ',', ' '); ?></strong></div></td>
+      <td><div align="center"><a href="<?php echo $this->baseUrl();?>/index/acteurproduit/id/<?php echo $entry->code_membre_morale; ?>"><!--<i class="icon-eye-open"></i>-->  <?php 
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($entry->code_membre_morale, $membremorale);
+?><?php echo ($membremorale->raison_sociale); ?></a></div></td>
+<td><div align="center" class="bs-docs-tooltip-examples">
+<?php if (isset($sessionmembre->code_membre) && $sessionmembre->code_membre != "") { ?>
+<a class="btn btn-link" onClick="ouvre_paniers('<?php echo $entry->code_barre; ?>_<?php echo $entry->reference; ?>_<?php echo $entry->designation; ?>_<?php echo $entry->prix; ?>_<?php echo $entry->code_membre_morale; ?>');" title="Mettre dans le panier"><i class="icon-shopping-cart"></i> </a>
+<?php }?>
+       </div></td>
+    </tr>
+    
+    <?php endforeach; ?>
+    
+</tbody>
+</table>
+      </div>
+    </div>
+    </div>
+  
+    </div>
+	<?php }?>
+
+
+
+
+
+
+</div>
+<div class="span3">
+	<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

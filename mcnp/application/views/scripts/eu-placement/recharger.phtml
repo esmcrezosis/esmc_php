@@ -1,0 +1,133 @@
+<div id="view-content" title="Recharge du compte de transfert" style="min-height: 520px;padding: 1px;margin: 1px;font-size: 12px;">
+    <form id="rec_form" method="post" action="/eu-placement/recharger">
+        <table id="tab_capa" style="width: 800px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+            <tr>
+                <td><label for="code_membre">Code Membre * :</label></td>
+                <td>
+                    <input size="30" class="validate[required]" type="text" id="code_membre" name="code_membre" value="<?php echo $this->code_membre; ?>"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="nom_membre">Raison sociale * :</label></td>
+                <td>
+                    <input readonly="true" class="validate[required]" type="text" id="raison_membre" name="raison_membre" value="<?php echo $this->raison_membre; ?>" size="30"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="nom_membre">Nom Membre * :</label></td>
+                <td>
+                    <input readonly="true" class="validate[required]" type="text" id="nom_membre" name="nom_membre" value="<?php echo $this->nom_membre; ?>" size="30"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="prenom_membre">Prénoms  * :</label></td>
+                <td>
+                    <input readonly="true" class="validate[required]" type="text" id="prenom_membre" name="prenom_membre" value="<?php echo $this->prenom_membre; ?>" size="30"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Code SMS </label></td>
+                <td><input id="code_sms" name="code_sms" value="<?php echo $this->code_sms; ?>" /></td>
+                <td><div id="id_message" style="width: 150px; color:red;"></div></td>
+            </tr>
+            <tr>
+                <td><label for="val_nat" style="color: red;">Montant *:</label></td>
+                <td>
+                    <input size="30" class="validate[required]" type="text" id="mont_rec" name="mont_rec" value="<?php echo $this->mont_capa; ?>"/>
+                    <select class="validate[required]" type="text" id="dev_capa" name="dev_capa" value=""></select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="code_recu">Type de transfert :</label></td>
+                <td>
+                    <input size="30" type="text" id="code_recu" name="code_recu" value="<?php echo $this->code_recu; ?>"/>
+                </td>
+            </tr>
+            <tr><td></td><td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td></tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function() {
+        $(function() {
+            $('#view-content').puipanel();
+        });
+        $("#rec_form").validationEngine();
+        $('#val').button();
+        $('#reset').button().click(function(e) {
+            $(location).attr("href", "/eu-placement/index");
+        });
+        $.get(
+                '/eu-placement/membre',
+                {type: 'M'},
+        function success(data)
+        {
+            $('#code_membre').autocomplete({"source": data,
+                change: displayItem});
+        });
+
+        function displayItem()
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-placement/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    $("#nom_membre").val(data[0]);
+                    $("#prenom_membre").val(data[1]);
+                    $("#raison_membre").val(data[2]);
+                });
+            }
+        }
+
+        $('#code_sms').blur(function(e)
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-placement/sms',
+                        {
+                            code: $(this).val()
+                        },
+                function success(data)
+                {
+                    if (data !== 0) {
+                        $('#mont_rec').val(data[0]);
+                        $('#code_recu').val(data[1]);
+                        $('#mont_rec').attr('readonly', true);
+                        $('#code_recu').attr('readonly', true);
+                    } else {
+                        $('#mont_rec').attr('readonly', false);
+                        $('#code_recu').attr('readonly', false);
+                        $("#id_message").html("<label>Ce code est invalide</label>");
+                    }
+
+                });
+            } else {
+                $('#mont_rec').attr('readonly', false);
+                $('#mont_capa').val('');
+            }
+            e.preventDefault();
+        });
+
+        $.get(
+                '/eu-placement/devise',
+                function success(data)
+                {
+                    var options = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i] === 'XOF') {
+                            options += '<option value="' + data[i] + '" selected>' + data[i] + ' </option>';
+                        } else {
+                            options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                        }
+
+                    }
+                    $('select#dev_capa').html(options);
+                });
+    });
+</script>

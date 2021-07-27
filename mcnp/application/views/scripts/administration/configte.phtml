@@ -1,0 +1,221 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+<blockquote><p> Ajout d'un Terminal d'Echange de produits de l'Entreprise  <?php echo $this->membre->raison_sociale; ?></p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="configuration">
+<?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin!="") { ?>
+<div class="alert alert-success">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+</div>
+<?php } ?>
+
+<?php if(isset($this->error) && $this->error!="") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $this->error; ?>
+</div>
+<?php } ?>	  
+
+<legend>Terminal d'Echange (TE) de produits</legend>	  	  
+<div class="control-group">
+<label class="control-label" for="nom">D&eacute;signation TE *</label>
+<div class="controls">
+<input type="text" name="nom" id="nom" placeholder="D&eacute;signation TE"  required />
+<input type="hidden" name="code_membre" id="code_membre" value="<?php if(isset($this->membre)) echo $this->membre->code_membre_morale;?>">
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Filiere *</label>
+<div class="controls">
+     <select  id="id_filiere" name="id_filiere" required >
+     <option value="">Choisir une filiere</option>
+     <?php foreach ($this->divisions as $value) { ?>
+     <option
+       value="<?php echo $value->id_filiere; ?>" <?php if($this->membre->id_filiere == $value->id_filiere) {echo 'selected="selected"';}?>>
+	   <?php echo $value->nom_filiere; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="nom">Nom du Produit *</label>
+<div class="controls">
+<input type="text" name="nom_produit" id="nom_produit" placeholder="Nom du Produit"  required />
+</div>
+</div>
+
+
+<legend>Configuration</legend>
+
+
+
+
+<div class="control-group">
+<label class="control-label">Type r&eacute;current</label>
+<div class="controls">
+     <input type="checkbox"  name="produit1" id="produit1" value="ri"  />
+     R&eacute;current Illimit&eacute; &nbsp;&nbsp;				                         
+     <input type="checkbox"  name="produit2" id="produit2" value="rl"  />
+     R&eacute;current limit&eacute; &nbsp;&nbsp;				 
+     <input type="checkbox"  name="produit3" id="produit3" value="nr"  />
+     Non R&eacute;current				                               
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label">P&eacute;riode </label>
+<div class="controls">
+     <input type="checkbox"  name="periode1" id="periode1" value="11.2"  />
+     11.2 &nbsp;&nbsp;				                     
+     <input type="checkbox"  name="periode2" id="periode2" value="22.4"  />
+     22.4 &nbsp;&nbsp;
+     <input type="checkbox"  name="periode3" id="periode3" value="1" />
+     1				 
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Situation</label>
+<div class="controls">
+	 <input type="radio"  name="situation" id="situation1" value="1"/>
+     Formelle &nbsp;&nbsp 
+     <input type="radio"  name="situation" id="situation2" value="0"/>
+     Non Formelle &nbsp;&nbsp		   
+	 </div>
+</div>
+	  
+<div class="control-group">
+<label class="control-label">Exon&eacute;r&eacute; de TVA</label>
+<div class="controls">
+	 <input type="radio"  name="tva" id="tva1" value="0"/>
+     Oui &nbsp;&nbsp 	
+     <input type="radio"  name="tva" id="tva2" value="1"/>
+     Non		   
+	 </div>
+</div>
+
+<div class="control-group">
+     <label class="control-label">Produit *</label>
+     <div class="controls">
+	      <select name="id_prk[]" id="id_prk" multiple="multiple"  class="input-xxlarge" required="required">
+              <?php foreach ($this->produits as $produit) { ?>
+              <option value="<?php echo $produit->code_type_credit; ?>"> <?php echo utf8_encode($produit->lib_type_credit);?> </option>
+               <?php } ?>
+          </select>
+     </div>
+</div>
+
+<div class="control-group">
+      <label class="control-label" for="type_fournisseur">Type Fournisseur * </label>
+      <div class="controls">
+      <select name="type_fournisseur" id="type_fournisseur" class="input-xxlarge" required>
+         <option value=""> Choisir un type de fournisseur </option>
+         <option value="DISTRIBUTEUR">Distributeur</option>
+         <option value="EXTERNE">Externe</option>
+	 <option value="SPECIFIQUE">Sp&eacute;cifique</option>
+      </select>
+</div>
+</div>
+
+
+
+
+<legend>D&eacute;coupage g&eacute;ographique</legend>
+<div class="row-fluid">
+<div class="span4">
+<div class="control-group">
+<label class="control-label span4">Zone Mon&eacute;taire </label>
+<div class="controls span8">
+<select class="input-block-level" id="code_zone" name="code_zone" >
+<option value="">Choisir une zone mon&eacute;taire</option>
+<?php foreach ($this->zones as $value) { ?>
+<option
+value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+<?php } ?>
+</select>
+</div>
+</div>
+</div>
+<div class="span4">
+<div class="control-group">
+<label class="control-label span4">Pays </label>
+<div class="controls span8">
+<select class="input-block-level" id="id_pays" name="id_pays" >
+<option value="">Choisir un pays</option>
+<?php foreach ($this->pays as $value) { ?>
+<option
+value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+<?php } ?>
+</select>
+</div>
+</div>
+</div>
+</div>
+			  
+<div class="row-fluid">
+<div class="span4">
+<div class="control-group">
+<label class="control-label span4">R&eacute;gions </label>
+<div class="controls span8">
+<select class="input-block-level" id="id_region" name="id_region" >
+<option value="">Choisir une r&eacute;gion</option>
+<?php foreach ($this->regions as $value) { ?>
+<option
+value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+<?php } ?>
+</select>
+</div>
+</div>
+</div>
+			   
+<div class="span4">
+<div class="control-group">
+<label class="control-label span4">Pr&eacute;fectures </label>
+<div class="controls span8">
+<select class="input-block-level" id="id_prefecture" name="id_prefecture" >
+<option value="">Choisir une pr&eacute;fecture</option>
+<?php foreach ($this->prefectures as $value) { ?>
+<option
+value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+<?php } ?>
+</select>
+</div>
+</div>
+</div>
+				
+<div class="span4">
+<div class="control-group">
+<label class="control-label span4">Cantons </label>
+<div class="controls span8">
+<select class="input-block-level" id="id_canton" name="id_canton">
+<option value="">Choisir un canton</option>
+<?php foreach ($this->cantons as $value) { ?>
+<option
+value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>                         
+<?php } ?>
+</select>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input type="hidden" name="compteur" value="<?php echo $compteur ?>"/>
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enr&eacute;gister la configuration</button>
+</div>	  
+	  
+</form>
+</div>
+</div>
+</div>

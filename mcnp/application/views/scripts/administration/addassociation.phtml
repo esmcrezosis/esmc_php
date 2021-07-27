@@ -1,0 +1,232 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajouter un agrément OSE/OE</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addappeloffres">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<fieldset>
+<legend>Formulaire de création d'un nouveau agrément OSE/OE</legend>
+    
+<div class="control-group">
+<label class="control-label" for="code_agence">Agence  *</label>
+<div class="controls">
+<select name="code_agence" id="code_agence" required>
+        <?php $tagence = new Application_Model_DbTable_EuAgence();
+        $results = $tagence->fetchAll();?>
+  <option value="">Choisir l'agence</option>
+    <?php foreach ($results as $agence): ?>
+               <option value="<?php echo $agence->code_agence; ?>"><?php echo ($agence->libelle_agence); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_nom">Raison sociale de l'agrément OSE/OE  *</label>
+<div class="controls">
+<input type="text" name="association_nom" id="association_nom" placeholder="Raison sociale de l'agrément OSE/OE " class="input-xxlarge" required />
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="association_numero">Numero de l'agrément OSE/OE  *</label>
+<div class="controls">
+<input type="text" name="association_numero" id="association_numero" placeholder="Numero de l'agrément OSE/OE " class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_date_agrement">Date Agrément de l'agrément OSE/OE  *</label>
+<div class="controls">
+<input type="date" name="association_date_agrement" id="association_date_agrement" placeholder="Date Agrément de l'agrément OSE/OE" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_mobile">Cellulaire de l'agrément OSE/OE  *</label>
+<div class="controls">
+<input type="number" name="association_mobile" id="association_mobile" placeholder="Cellulaire de l'agrément OSE/OE" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_email">E-mail de l'agrément OSE/OE  *</label>
+<div class="controls">
+<input type="email" name="association_email" id="association_email" placeholder="E-mail de l'agrément OSE/OE" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_recepisse">Récépissé de l'agrément OSE/OE  </label>
+<div class="controls">
+  <input type="text" name="association_recepisse" id="association_recepisse" placeholder="Récépissé de l'agrément OSE/OE" class="input-xxlarge" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_adresse">Adresse de l'agrément OSE/OE   </label>
+<div class="controls">
+  <textarea name="association_adresse" class="input-xxlarge" id="association_adresse" placeholder="Adresse de l'agrément OSE/OE"></textarea>
+</div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="type_acteur">Type Agrément OSE/OE *</label>
+  <div class="controls">
+  <select name="type_acteur" id="type_acteur" class="input-xxlarge" required>
+  <option value="">Choisir le type</option>
+    <option value="EI">Entreprise Industrie</option>
+    <option value="OE">Opérateur Economique</option>
+    <option value="OSE">Opérateur Socio-Economique</option>
+    <option value="PEI">Partenaire Entreprise Industrie</option>
+    <option value="POE">Partenaire Opérateur Economique</option>
+    <option value="POSE">Partenaire Opérateur Socio-Economique</option>
+</select>
+  </div>
+  </div>
+  
+<div class="control-group">
+  <label class="control-label" for="statut_juridique">Statut juridique *</label>
+  <div class="controls">
+  <select  class="input-xxlarge" name="statut_juridique" id="statut_juridique" required>
+       <?php  $statutjuridique = new Application_Model_EuStatutJuridiqueMapper();
+		$selectstatutjuridique = $statutjuridique->fetchAll();?>
+               <option value="">Choisir un statut juridique</option>
+    <?php foreach ($selectstatutjuridique as $selectstatutjuridique): ?>
+               <option value="<?php echo $selectstatutjuridique->code_statut; ?>"><?php echo htmlentities($selectstatutjuridique->libelle_statut); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+
+<div class="control-group">
+  <label class="control-label" for="id_filiere">Filière *</label>
+  <div class="controls">
+  <select  class="input-xxlarge" name="id_filiere" id="id_filiere" required>
+       <?php  $filiere = new Application_Model_EuFiliereMapper();
+		$selectfiliere = $filiere->fetchAll();?>
+               <option value="">Choisir une filière</option>
+    <?php foreach ($selectfiliere as $selectfiliere): ?>
+               <option value="<?php echo $selectfiliere->id_filiere; ?>"><?php echo htmlentities($selectfiliere->nom_filiere); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+  
+<div class="control-group">
+<label class="control-label" for="association_code_membre">Code Membre de l'Agrément OSE/OE  *</label>
+<div class="controls">
+<input type="text" name="association_code_membre" id="association_code_membre" placeholder="Code Membre de l'Agrément OSE/OE " class="input-xxlarge" required />
+</div>
+</div>
+
+
+  </fieldset> 
+   
+    
+<fieldset>
+<legend>Formulaire de création du représentant de l'agrément OSE/OE</legend>
+    
+
+<div class="control-group">
+<label class="control-label" for="membreasso_nom">Nom de l'utilisateur  *</label>
+<div class="controls">
+<input type="text" name="membreasso_nom" id="membreasso_nom" placeholder="Nom de l'utilisateur " class="input-xxlarge" required />
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="membreasso_prenom">Prénom de l'utilisateur  *</label>
+<div class="controls">
+<input type="text" name="membreasso_prenom" id="membreasso_prenom" placeholder="Prénom de l'utilisateur " class="input-xxlarge" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="membreasso_mobile">Cellulaire de l'utilisateur  *</label>
+<div class="controls">
+<input type="number" name="membreasso_mobile" id="membreasso_mobile" placeholder="Cellulaire de l'utilisateur" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membreasso_email">E-mail de l'utilisateur  *</label>
+<div class="controls">
+<input type="email" name="membreasso_email" id="membreasso_email" placeholder="E-mail de l'utilisateur" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membreasso_login">Login de l'utilisateur  </label>
+<div class="controls">
+  <input type="text" name="membreasso_login" id="membreasso_login" placeholder="Login de l'utilisateur" class="input-xxlarge" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membreasso_passe">Mot de passe de l'utilisateur   </label>
+<div class="controls">
+  <input type="password" name="membreasso_passe" id="membreasso_passe" placeholder="Mot de passe de l'utilisateur" class="input-xxlarge" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membreasso_passe2">Confirmer mot de passe   </label>
+<div class="controls">
+  <input type="password" name="membreasso_passe2" id="membreasso_passe2" placeholder="Confirmer mot de passe" class="input-xxlarge" />
+</div>
+</div>
+
+
+  
+<div class="control-group">
+<label class="control-label" for="membreasso_code_membre">Code Membre de l'utilisateur  *</label>
+<div class="controls">
+<input type="text" name="membreasso_code_membre" id="membreasso_code_membre" placeholder="Code Membre de l'utilisateur " class="input-xxlarge" required />
+</div>
+</div>
+
+
+
+</fieldset>    
+
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

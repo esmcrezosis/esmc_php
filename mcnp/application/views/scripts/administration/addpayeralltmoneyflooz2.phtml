@@ -1,0 +1,57 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml");?>
+
+
+<blockquote><p> Faire des paiements groupés par TMONEY ou par FLOOZ </p></blockquote>
+
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = "";?>
+  </div>
+  <?php } ?>
+
+              
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription1" name="addagence">
+<fieldset>
+<legend> Remplir le formulaire </legend>
+
+
+    
+<div class="control-group">
+<label class="control-label" for="fichier_numero">Fichier des numéros (en .CSV) (Opérateur|Numéro|Montant) * </label>
+<div class="controls">
+<input name="fichier_numero" type="file" id="fichier_numero" class="input-xxlarge" required />  
+</div>
+</div>
+
+
+
+
+
+
+</fieldset>
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Payer</button>
+</div> 
+</form>
+
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+

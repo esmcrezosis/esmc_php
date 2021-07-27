@@ -1,0 +1,61 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Ajout d'une nouvelle GAC</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <?php
+        $this->form->setAction($this->url());
+        echo $this->form;
+        ?>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#submit').button();
+    $('#cancel').button();
+    $(document).ready(function()
+    {
+        $('#code_membre_gestionnaire').blur(function()
+        {
+            if ($(this).val() != '')
+            {
+                $.get(
+                        '/eu-gac/gestionchange',
+                        {
+                            gestion: $(this).val()
+                        },
+                function success(data)
+                {
+                    $('#nom_gestion').val(data[0]);
+                    $('#prenom_gestion').val(data[1]);
+                    $('#tel_gestion').val(data[2]);
+                });
+            }
+        });
+
+        $('#code_type_gac').change(function()
+        {
+            $.get(
+                    "/eu-gac/findtypegac?code_type_gac=" + $('#code_type_gac').val(),
+                    function success(data)
+                    {
+                        var options = '<option value=""></option>';
+                        for (var i = 0; i < data.length; i++) {
+                            options += '<option value="' + data[i][1] + '">' + data[i][2] + ' </option>';
+                        }
+                        $('select#code_zone').html(options);
+                    });
+            $.get(
+                    "/eu-gac/findagence?code_type_gac=" + $('#code_type_gac').val(),
+                    function success(data)
+                    {
+                        var options = '<option value=""></option>';
+                        for (var i = 0; i < data.length; i++) {
+                            options += '<option value="' + data[i][1] + '">' + data[i][2] + ' </option>';
+                        }
+                        $('select#code_agence').html(options);
+
+                    });
+
+        });
+    });
+</script>

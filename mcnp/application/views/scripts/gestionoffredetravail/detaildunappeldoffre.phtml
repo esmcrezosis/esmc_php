@@ -1,0 +1,282 @@
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+<div class="alert alert-danger">
+
+  <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+</div>
+
+<?php unset($_SESSION['validationerrors']); endif ?>
+
+<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+<div class="alert alert-success">
+
+  <strong><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></strong>
+
+</div>
+
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+
+
+<form method="post" class="form-horizontal">
+
+<article id="article_candidature_ot" >
+   
+<h1>I.	APPEL A L’OFFRE DE TRAVAIL (AOT) N°001/21/GIE ESMC/DG/DD/DS/DE</h1>
+
+<section>
+
+Dans le cadre l’implantation du Centre pilote de l’exploitation du progiciel MCNP et pour la commercialisation de ses six (6) Activités Génératrices de Revenus (AGR) et plus particulièrement l’Activité Génératrice de Revenu Offreur de Travail (AGR OT) portée par le TIHU « le Travail Industriel Humain Universel », la Production Commune (PC), matérialisé par le Kit de Solvabilité Universel (KSU), l’espace professionnel personnel sur sa plateforme, le GIE ESMC lance un appel à l’offre de travail à ses adhérents en vue de satisfaire, pour le Centre pilote, les 413 Postes dédiés aux 169 cibles et 244 indicateurs des 17 ODD dans les conditions ci-après :
+
+</section>
+
+<section>
+
+<h3>II.	NUMEROS ET TITRES DES POSTES </h3>
+
+<div id="searchbox_result" style="clear:both;margin-top:20px;margin-bottom:20px">
+
+<?php foreach ($this->selectdetaildunpostedecandidature as $key => $value):?>
+
+ <div id="liste_postes_candidature_content" name="poste_candidature_container" style="display:inline-block;position:relative;padding:3px;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;-o-border-radius:5px;background-color:#35ceb1;width:21rem;margin-top:10px;margin-bottom:10px">
+               
+    <div id="libelle_poste_candidature" style="width:90%;">
+
+        <input type="text" value="<?php echo $value->libelle_roles ?>" style="padding: 3px;width: 310px;border: none;background-color: transparent;font-size: 1rem;color:#000" readonly>  
+
+        <input type="hidden" value="<?php echo $value->id_roles ?>" name="id_poste_candidature_modification[]">
+        
+    </div>
+ 
+   <input type="hidden" value="<?php echo $value->id_candidature_postes ?>" name="id_candidature_modification_poste[]" >
+ 
+ </div>
+
+
+ <?php endforeach ?>
+
+</div>
+
+<h3>III.	CONDITIONS A REMPLIR </h3>
+
+<ul>
+    <li>Être Adhérent du GIE ESMC ;</li>
+
+    <li>Avoir au minimum un BTS ou équivalent dans l’un des 
+domaines suivants : Commerce, TIC, Gestion, Finances, Economie, Droit, Administration, Management, Génie Civil, Agronomie, Sociologie, Langues, Santé, Histoire, Géographie  ou discipline similaire, etc. ;
+</li>
+
+    <li>Justifier d’au moins trois (3) années d’expérience dans son domaine de spécialité ; </li>
+
+    <li>Bonne aptitude à travailler en équipe et sous pression ; </li>
+
+    <li>Bonne expression écrite et orale ; </li>
+
+    <li>Parfaite maitrise de la plateforme GIE ESMC ;</li>
+
+    <li>Parfaite maitrise de son espace professionnel personnel KSU du progiciel MCNP sur la plateforme GIE ESMC ;</li>
+
+    <li>Parfaite maitrise de l’outil informatique ;</li>
+
+    <li>Parfaite connaissance de la langue française ;</li>
+
+    <li>Parfaite connaissance des langues officielles dans les zones de couverture du GIE ESMC ;</li>
+
+    <li>La connaissance de toute autre langue est un atout ;</li>
+
+    <li>Disposer dans son KSU de 700.000 de Bons de Consommation non récurrente (BCnr) ou de Bons de Consommation interne (BCi) pour acheter son AGR OT et le transfert de technologie y afférent. A défaut l’acheter auprès des adhérents qui en disposent par l’intermédiaire du Guichet Unique sur la plateforme;</li>
+
+    <li>Être de moralité et d’intégrité irréprochables.</li>
+
+</ul>
+
+<h3>IV.	Les TDR relatifs au poste</h3>
+
+<h4> <strong>Mission</strong>  </h4>
+
+<p>
+
+<span style="display:block">Il collabore sous la responsabilité de son collaborateur direct dans le cadre de l’exécution de la mission du GIE ESMC, des deux (2) Mécanismes (Intégration et Mise sur Chaînes), des trois (3) Volets (Mobilisation, Déploiement et Exploitation), de leurs actions respectives (la mise à disposition et disponibilité, mise en place et opérationnalité, mise en œuvre et maintien dans la pérennité), des activités respectives de chacune de ses actions et des tâches respectives desdites activités, liés aux Aspects (Espaces, Matériels, Outils et Ressources Humaines) grâce aux flux (Supports Marchands, Monnaies Espèce et Virtuelle et Biens, Produits et Services) ; en vue des trois (3) colonnes (Centres, Agences ODD, Chaînes de Valeurs et de Distributions) dans chaque localité de chaque Entité Localité Membre du GIE ESMC.</span>
+
+<span style="display:block">Il assure, au niveau de son découpage géographique indiqué dans la dénomination de son poste, la gestion de la structure organisationnelle dont il est le collaborateur.</span>
+
+<h4> <strong>Principales tâches</strong> </h4>
+
+<span style="display:block"></span>
+
+<ul>
+    <li>Veiller au suivi de ses tâches ;</li>
+
+    <li>Veiller à l’évaluation de ses tâches ;</li>
+
+    <li>Veiller à l’implication de tout souscripteur aux engagements « lu et approuvé » ;</li>
+
+    <li>Veiller au respect scrupuleux des engagements du GIE ESMC vis-à-vis du souscripteur ;</li>
+
+    <li>Veiller au respect scrupuleux des engagements du souscripteur vis-à-vis du GIE ESMC ;</li>
+
+    <li>Veiller au respect scrupuleux des engagements du souscripteur vis-à-vis du GIE ESMC ;</li>
+
+    <li>Veiller à assurer la bonne fin d’exécution des tâches dévolues à son poste et veiller à la
+satisfaction globale de chacun des Acteurs de l’Offre de la Production Commune sur le terrain dans la localité de son poste.
+</li>
+
+</ul>
+</p>
+
+</section>
+
+<section>
+
+   <h4><strong>Résultats attendus</strong></h4>
+
+   <ul>
+
+       <li>Le suivi de ses tâches est fait ;</li>
+
+       <li>L’évaluation de ses tâches est faite ;</li>
+
+       <li>Tous les souscripteurs sont impliqués aux engagements « lu et approuvé » ;</li>
+
+       <li>Les engagements du GIE ESMC vis-à-vis du souscripteur sont scrupuleusement respectés ;</li>
+
+       <li>Les engagements du souscripteur vis-à-vis du GIE ESMC sont scrupuleusement respectés ;</li>
+
+       <li>La veille à ses divers rôles qui concourent à la Mise sur Chaîne des entreprises et industries spécialisées dans chaque domaine de son poste, et à l’Intégration des individus et ménages, OI, dans le Kit de Solvabilité Universelle chargé de Bons de Consommation récurrente conséquents est faite ;</li>
+
+       <li>La veille à la bonne fin d’exécution des tâches dévolues à son poste et la veille à la satisfaction globale de chacun des Acteurs de l’Offre de la Production Commune sur le terrain dans la localité de son poste sont assurées.</li>
+
+   </ul>
+
+   <h3>V.	Composition du dossier d’Appel à l’Offre de Travail</h3>
+
+   <p>Les personnes intéressées par le présent appel d’offre, doivent soumissionner à travers leurs KSU dans le menu de l’AGR OT en remplissant les champs nécessaires et en joignant les pièces suivantes en version numérique : </p>
+
+   <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">1.	Une lettre de manifestation d’intérêt ;</span>
+
+   <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">2.	Un curriculum vitae détaillé et actualisé ;</span>
+
+   <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">3.	Une copie des diplômes et attestations invoqués ;</span>
+
+   <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">4.	Le code du Bon de Consommation interne BCi après validation des trois premières pièces susmentionnées.</span>
+
+
+   <p>NB : Toutes mentions de diplômes, de compétences professionnelles et d’expériences doivent être justifiées. En cas de fausse information, le postulant est disqualifié et perd par ce fait ses BCi du postulat.</p>
+
+   <h3>VI.	Méthodologie de soumission du dossier de l’AOT</h3>
+
+   <p>
+
+     <strong>Adhérents</strong>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">5.	Accéder à son KSU ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">6.	Possibilité d’activation des quatre (4) AGR individus /ménages ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">7.	Accéder à l’AGR OKSU pour toute dépense de SM ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">8.	Possibilité de sélectionner un ou plusieurs de ses SM pour leur échange automatique en BCi par la formule de la réinitialisation (Valeur BCi = (Montant BAn /2187,5) X 70 000) ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">9.	Possibilité d’échanger ses BCi contre les MEV/ BPS ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">10.	Possibilité d’échanger la MEV/BPS contre des BCi ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">11.	Accéder à l’AGR OT ; </span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">12.	Accéder au menu <strong> Passation de Contrat ;</strong></span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">13.	Accéder au sous-menu <strong> Postuler ;</strong></span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">14.	Accéder au sous-menu <strong> Supports Intrants </strong> pour consulter le dossier d’AOT ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">15.	Sélectionner le Poste désiré sur la liste des Agents (onglet permettant la recherche de tous les types d’Agents);</span>
+   
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">16.	Remplir les conditions (Scanner la lettre de manifestation d’intérêt, le curriculum vitae détaillé et actualisé, les diplômes et attestations invoqués) ;</span>
+    
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">17.	Accéder au sous-menu <strong> Supports Extrants </strong> pour soumissionner à l’AOT (onglet permettant la sélection de tout type de support lié à la procédure);</span>
+    
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">18.	Accéder au menu <strong>AVR</strong> (partie achat : possibilité de filtrer les BPS de son achat de la grande liste de BPS disponibles, partie vente : possibilité d’affichage des BPS de sa vente contre validation du menu ELI non anticipé) pour l’achat de l’AGR OT de son Postulat ;</span>
+   
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">19.	Sélectionner le Poste de son achat sur la liste des Agents dans la partie achat ; </span>
+    
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">20.	Obtenir le code du BCi de son achat ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">21.	Joindre le code du BCi au dossier ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">22.	Valider le soumissionnement du dossier (renseigner le code BCi au lieu indiqué pour envoi de son dossier à la validation) ;</span>
+    
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">23.	Obtenir le <strong>code d’accès</strong> au transfert de technologie AGR OT après sélection de son dossier ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">24.	Renseigner le <strong>code d’accès</strong> au transfert de technologie au lieu indiqué pour obtenir le code de la salle virtuelle de transfert de technologie AGR OT ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">25.	Renseigner le <strong>code d’accès</strong> au lieu indiqué pour accéder à la salle.</span>
+    
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">NB : Les codes retours pour ces renseignements sont envoyés : dans son menu <strong>« Postuler »</strong> son sous menu <strong>« Supports Intrants »</strong>  dans son mail et sur son numéro de téléphone.</span>
+    </p>
+
+    <h3>VII.	Méthodologie retenue pour effectuer la sélection des OT</h3>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">26.	Etude de dossiers ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">27.	Validation du dossier de l’AOT ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">28.	Envoi de l’information de la validation du dossier dudit OT à l’administrateur de la salle virtuelle ; </span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">29.	Emission du code d’accès au transfert de technologie AGR OT (par l’administrateur de la salle virtuelle).</span>
+
+     <h3>VIII.	Transfert de Technologie AGR OT</h3>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">30.	Accéder au menu Transfert de Technologie AGR OT au moyen de son code d’accès au transfert de technologie AGR OT ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">31.	Sélectionner l’option de transfert :</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:45px">a)	Transfert de technologie option présentielle,</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:45px">b)	Transfert de technologie option en ligne ou à distance, en direct ou en différé</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:70px">•	Choisir le canal (Google meet, Microsoft team, Zoom ….),</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:45px">c)	Transfert de technologie option automatisée, </span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:45px">32.	Obtenir le code d’accès à la salle physique (option présentielle) ou virtuelle de transfert de technologie AGR OT ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">33.	Obtenir le code de la validation du pouvoir-faire de la technologie AGR OT (sorte de BAn pour accéder au contrat OT) ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">34.	Accéder au menu <strong>Passation de Contrat OT ;</strong></span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">35.	Accéder au sous-menu Supports Intrants ; </span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">36.	Renseigner le code de la <strong> validation du pouvoir-faire </strong> au lieu indiqué ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">37.	Remplir le formulaire du SM Contrat OT ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">38.	Obtenir au lieu indiqué son SM Contrat et ses Annexes établis : Accord de confidentialité, grille de rémunération, TDR … ;</span>
+    
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">39.	Possibilité d’accéder à son espace (menu) professionnel ADMIN/ANIM/FRANCHISE/KSU ;</span>
+    
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">40.	Possibilité d’accéder au menu tâches métiers ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">41.	Possibilité d’accéder au menu tâches projets ; </span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">42.	Possibilité d’accéder au menu suivi-évaluation ;</span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">43.	Possibilité d’accéder au menu suivi et évaluation ; </span>
+
+     <span style="display:block;margin-top:3px;margin-bottom:3px;margin-left:15px">44.	Possibilité d’accéder au menu ELI anticipé.</span>
+
+    </section>
+
+    <section>
+
+        <h3>IX.	Conditions de travail offertes</h3>
+
+        <p>L’« Offre de Travail » concerne toute personne physique, en âge de travailler, qui offre du travail en tant que travailleur indépendant, c’est-à-dire qui propose ses prestations sur la plateforme de la « Production Commune » du GIE ESMC au même titre que tout vendeur et revendeur de marchandises contre des « Supports Marchands » (Bons de Livraison) échangeables au besoin en monnaie bancaire sous réserve des conditions internes à la plateforme de la « Production Commune » du GIE ESMC et des déductions des impôts et/ou taxes y afférents. Ces Acteurs adhèrent au GIE ESMC et deviennent des Offreurs de Travail, les OT. Par conséquent, les OT jouissent des avantages attrayants en rapport avec le niveau des responsabilités.</p>
+
+    </section>
+
+
+</article>
+
+</form>

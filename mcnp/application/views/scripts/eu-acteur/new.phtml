@@ -1,0 +1,170 @@
+<div id="view-content" style="font-size: 12px;min-height: 520px;" title="Ajout d'acteurs">
+    <form method="POST" action="/eu-acteur/new" id="acteur_form">
+        <table style="margin-left: 15px;">
+            <tbody>
+                <tr>
+                    <td colspan="2">
+                        <fieldset>
+                            <table>
+                                <tr>
+                                    <td><label>Type Acteur *</label></td>
+                                    <td>
+                                        <select id="type_acteur" name="type_acteur" value="<?php echo $this->type_acteur; ?>" required="true">
+                                            <option></option>
+                                            <option value="M">Morales</option>
+                                            <option value="P">Physiques</option>
+                                        </select>
+                                    </td>
+                                </tr> 
+                                <tr> 
+                                    <td><label>Code Acteur</label></td>
+                                    <td>
+                                        <select id="code_acteur" name="code_acteur"></select>
+                                    </td>
+                                </tr>
+                                <tr> 
+                                    <td><label>Code membre</label></td>
+                                    <td>
+                                        <input id="code_membre" name="code_membre" size="30">
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <fieldset>
+                            <legend>Infos sur l'acteur ou du membre</legend>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td><label>Code membre *</label></td><td><input id="membre_act" name="membre_act" readonly="true" size="30" required="true"></td>
+                                        <td><label>Gestionnaire</label></td><td><input id="gest_act" name="gest_act" readonly="true" size="30"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Nom membre</label></td><td><input id="nom_membre_act" name="nom_membre_act" readonly="true" size="30"></td>
+                                        <td><label>Prenoms membre</label><td><input id="prenom_membre_act" name="prenom_membre_act" readonly="true" size="30"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Nom de l'acteur</label></td><td><input id="nom_act" name="nom_act" readonly="true" size="30"></td>
+                                        <td><label>Raison sociale</label></td><td><input id="act_raison" name="act_raison" readonly="true" size="30"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <fieldset>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        </td>
+                                        <td><label>Activité *</label></td>
+                                        <td>
+                                            <select id="code_activite" name="code_activite" required="true"></select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset> 
+                </tr>
+                <tr>
+                    <td></td><td><input id="acteur_val" type="submit" value="Valider"/><input id="acteur_reset" type="reset" value="Annuler"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function() {
+        $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+        });
+        $.get('/eu-acteur/acteurs',
+                function success(data)
+                {
+                    var options = '<option></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                    $('select#code_acteur').html(options);
+                });
+
+        $.get('/eu-acteur/activites',
+                function success(data)
+                {
+                    var options = '<option></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                    $('select#code_activite').html(options);
+                });
+
+        $.get('/eu-acteur/membres', {type: '%'},
+        function success(data)
+        {
+            $('#code_membre').autocomplete({"source": data,
+                change: displayItem});
+        });
+
+        $('#code_acteur').change(function(e) {
+            e.preventDefault();
+            if ($(this).val() !== '') {
+                $.get(
+                        '/eu-acteur/recupacteur',
+                        {
+                            code_acteur: $(this).val()
+                        },
+                function success(data)
+                {
+                    $("#membre_act").val(data[0]);
+                    $('#nom_act').val(data[1]);
+                    $('#gest_act').val(data[2]);
+                    $("#nom_membre_act").val(data[3]);
+                    $("#prenom_membre_act").val(data[4]);
+                    $("#act_raison").val(data[5]);
+                });
+            }
+        });
+
+        $('#type_acteur').change(function(e) {
+            var type_act = '';
+            e.preventDefault();
+            if ($(this).val() === '') {
+                type_act = '%';
+            } else {
+                type_act = $(this).val();
+            }
+            $.get('/eu-acteur/membres', {type: type_act},
+            function success(data)
+            {
+                $('#code_membre').autocomplete({"source": data,
+                    change: displayItem});
+            });
+        });
+
+        function displayItem()
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-acteur/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    $("#nom_membre_act").val(data[0]);
+                    $("#prenom_membre_act").val(data[1]);
+                    $("#membre_act").val(data[2]);
+                    $("#act_raison").val(data[3]);
+                });
+            }
+        }
+    });
+</script>
+

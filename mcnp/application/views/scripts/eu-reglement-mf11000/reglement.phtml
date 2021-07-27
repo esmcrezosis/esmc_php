@@ -1,0 +1,153 @@
+<div id="view-content">
+     <div style="margin-bottom:3px; width:820px">
+          <fieldset>
+            <div style="margin-bottom:3px;">
+                 <td>Cumul total&nbsp;</td><td><input name="mt_transfert" id="mt_transfert" class="" value="0" disabled="disabled" size="10" style="text-align: right"/></td>
+                 <td>Numéro bon&nbsp;</td><td><input name="num_bon" id="num_bon" size="6" /></td>
+                 <td>Nom&nbsp;</td><td><input name="nom" id="nom" size="15" /></td>
+                 <td>Prénoms&nbsp;</td><td><input name="prenom" id="prenom" size="21" /></td>
+                 <td><input id="ok" type="button" value="OK" class="ui-widget button"/></td>
+            </div>
+        </fieldset>
+    </div> 
+    <input id="payer" type="button" value="Payer" class="ui-widget button"/>
+    <table id="tbl-reglement"></table>
+    <div id="pg-reglement"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-reglement").jqGrid({
+        url: '/eu-reglement-mf11000/datadmf?nom='+''+'&prenom='+''+'&bon='+'0',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code MF11000','Code membre','Nom','Prénoms','Date répartition','Montant','Mont rachat','ID','Num_bon'],
+        height:400,width:820,
+        colModel:[
+            {name:'code_mf11000',index:'code_mf11000',width:90, align:"left"},
+            {name:'code_membre',index:'code_membre',width:140, align:"left"},
+            {name:'nom',index:'nom',width:115, align:"left"},
+            {name:'prenom',index:'prenom',width:130, align:"left"},
+            {name:'date_rep',index:'date_rep',width: 100, align:"left"},
+            {name:'mont_recu',index:'mont_recu',width:80, align:"right", editable: false,formatter:'number'},
+            {name:'mont_reglt',index:'mont_reglt',width:80, align:"right", editable: true,formatter:'number'},
+            {name:'id_rep',index:'id_rep',width:30, align:"left",hidden:true},
+            {name:'num_bon',index:'num_bon',width:30, align:"left",hidden:true},
+        ],
+        rowNum:1000,
+        rowList:[1000,30000,70000],
+        pager: '#pg-reglement',
+        sortname:"id_rep",
+        viewrecords: true,
+        multiselect:true,
+        sortorder: "asc",
+        caption:"Liste des montants  transférés",
+        forceFit : true, 
+        cellEdit: true, 
+        cellsubmit: 'clientArray',
+        footerrow: true,
+        userDataOnFooter: true,
+        onSelectRow: function(id,status){
+            if(id != 0 || id != null){
+                var montant = $('#mt_transfert').val();
+                var data = jQuery('#tbl-reglement').jqGrid('getRowData',id);
+                var value = 0;
+                var solde = data.mont_reglt;
+                if(montant == ''){
+                    montant = 0;
+                }else {
+                    montant = parseInt(montant,10);
+                }
+                if(status == true) {
+                    value = parseInt(montant) + parseInt(solde);
+                    $('#mt_transfert').val(value);
+                }else{
+                    value = montant - parseInt(solde);
+                    $('#mt_transfert').val(value);
+                }
+                lastsel=id; 
+            }
+        },
+        onSelectAll: function(ids,status){
+            var montant = $('#mt_transfert').val();
+            if(status == true){
+                if(montant == '') {
+                    montant = 0;
+                }
+                else {
+                    // montant = parseInt(montant,10);
+                    montant = 0;
+                }
+                for(var i = 0;i < ids.length;i++) {
+                    var id = ids[i];
+                    var data = jQuery('#tbl-reglement').jqGrid('getRowData',id);
+                    var solde = data.mont_reglt;
+                    montant += parseInt(solde);
+                }
+                $('#mt_transfert').val(montant);
+            }else{
+                $('#mt_transfert').val(0); 
+            }
+        }
+    }); 
+    $("#tbl-reglement").jqGrid('navGrid','#pg-reglement',{edit:false,add:false,del:false,search:true});
+    
+    $('#payer').button();
+    $('#ok').button();
+    
+    $('#ok').click(function() {
+       jQuery("#tbl-reglement").jqGrid('setGridParam',{url: "/eu-reglement-mf11000/datadmf?nom=" +$('#nom').val()+"&prenom="+$('#prenom').val()+"&bon="+$('#num_bon').val()}).trigger('reloadGrid');  
+       $('#mt_transfert').val(0); 
+    })
+
+    //    $.get("/eu-reglement-mf11000/membre",
+    //    function success(data)
+    //    {
+    //        $('#code_membre').autocomplete({"source": data});
+    //    });
+    
+    $.get( "/eu-reglement-mf11000/numero",
+    function success(data)
+    {
+        $("#num_bon").autocomplete({"source":data});
+    });
+    
+    $('#payer').click(function()
+    {
+        var sel;
+        sel = jQuery("#tbl-reglement").jqGrid('getGridParam','selarrrow');
+        var tab=new Array();  
+        var rowsel;
+        rowsel = jQuery("#tbl-reglement").jqGrid('getGridParam','selrow');
+        for(var i=0; i<sel.length; i++) {
+            tab[i]=jQuery("#tbl-reglement").jqGrid('getRowData',sel[i]);   
+        };
+     
+        if($('#mt_transfert').val()=='' || $('#mt_transfert').val()<=0){
+            alert('Pas de montant à payer au membre bénéficiaire');
+        }
+        else{
+            if(rowsel)
+            {
+                data=jQuery("#tbl-reglement").jqGrid('getRowData',rowsel);
+                $.get('/eu-reglement-mf11000/payer?mt_transfert='+$('#mt_transfert').val(),{
+                    lignes:tab
+                },function success(data){
+                    if(data == 'good') {
+                        alert('Payement effectué avec succès');
+                        $(location).attr("href", "/eu-reglement-mf11000/listreglt");
+                    }
+                    else if(data == 'erreur') {
+                         alert("Echec de l'opération");
+		
+                    }
+                    else if(data == 'rachat') {
+                        alert("Le montant racheté ne peut pas être supérieur au montant reçu");
+                    }
+                });             
+            }
+            else {
+                alert('Aucune ligne sélectionnée');
+            }    
+        }
+    });   
+</script> 

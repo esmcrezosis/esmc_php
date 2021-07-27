@@ -1,0 +1,163 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/typequittances.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/montantquittances.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+
+  <blockquote><p>Suite de la soumission à l'appel à candidature (Quittance)</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addappeloffres">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<!--<div class="control-group">
+<label class="control-label" for="id_document">Document canevas de l'appel à candidature *</label>
+<div class="controls">
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_id">Candidat de l'appel à candidature *</label>
+<div class="controls">
+</div>
+</div>-->
+ 
+   
+<fieldset>
+<legend>QUITTANCE CMFH/CAPS/GAC </legend>
+<img class="featurette-image pull-left img-polaroid" src="<?php echo $this->baseUrl();?>/images/QUITTANCE_PAGE_WEB.png" />
+<?php if(isset($this->candidat)){?>
+<blockquote>
+  <p>
+<?php 
+$documentM = new Application_Model_EuDocumentMapper();
+$document = new Application_Model_EuDocument();
+$documentM->find($this->candidat->candidat_document, $document);
+?><?php echo ($document->nom_document); ?>
+</p>
+</blockquote>    
+
+<blockquote>
+  <p>
+<?php 
+$candidatM = new Application_Model_EuCandidatMapper();
+$candidat = new Application_Model_EuCandidat();
+$candidatM->find($this->candidat->candidat_id, $candidat);
+?><?php echo ($candidat->candidat_nom); ?>
+</p>
+</blockquote>    
+<?php }?>
+
+<div class="control-group">
+<label class="control-label" for="quittance_code">Numéro de la quittance *</label>
+<div class="controls">
+<input type="text" name="quittance_code" id="quittance_code" placeholder="Numéro de la quittance" class="input-xxlarge" value="DAC/CMFH/CAPS/GAC/<?php $date_id = new Zend_Date(Zend_Date::ISO_8601);
+$p = new Application_Model_EuPays();
+        $mp = new Application_Model_EuPaysMapper();
+            $mp->find(1, $p); echo strtoupper($p->getCode_pays()); ?>/<?php echo $date_id->toString('yyyy'); ?>/<?php $a = new Application_Model_EuQuittance();
+        $ma = new Application_Model_EuQuittanceMapper();
+            echo $ma->findConuterAnnee() + 1;?>" readonly />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="quittance_nom">Nom et prénom(s) de l’acheteur  *</label>
+<div class="controls">
+<input type="text" name="quittance_nom" id="quittance_nom" placeholder="Nom et prénom(s) de l’acheteur" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="quittance_cel">Numero mobile de l’acheteur *</label>
+<div class="controls">
+<input type="text" name="quittance_cel" id="quittance_cel" placeholder="Numero mobile de l’acheteur" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="quittance_type1">Type de quittance *</label>
+<div class="controls">
+<select name="quittance_type1" id="quittance_type1" required onchange="ouvre_typequittances(this.value);" onblur="ouvre_montantquittances(this.value + '_' + '<?php echo Util_Utils::getParametre('CAPS', 'especes'); ?>' + '_' + '<?php echo Util_Utils::getParametre('CAPS', 'valeur'); ?>');">
+        <?php $ttypequittance = new Application_Model_DbTable_EuTypeQuittance();
+        $results = $ttypequittance->fetchAll();?>
+  <option value="">Choisir le type</option>
+    <?php foreach ($results as $typequittance): ?>
+               <option value="<?php echo $typequittance->libelle_type_quittance; ?>"><?php echo ($typequittance->libelle_type_quittance); ?> </option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+<span id="niv3"></span>
+
+<div id="niv2">
+</div>
+
+<div class="control-group">
+<label class="control-label" for="quittance_numero">N° code(s) SMS CMFH/CAPS acheté(s) *</label>
+<div class="controls">
+<input type="text" name="quittance_numero" id="quittance_numero" placeholder="N&deg; Reçu Banque" class="input-xxlarge" required />
+  <span class="help-block"><u>N&deg; Reçu Banque</u></span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="quittance_banque">Banque *</label>
+<div class="controls">
+<select name="quittance_banque" id="quittance_banque" required>
+        <?php $tbanque = new Application_Model_DbTable_EuBanque();
+        $results = $tbanque->fetchAll();?>
+  <option value="">Choisir la banque</option>
+    <?php foreach ($results as $banque): ?>
+               <option value="<?php echo $banque->code_banque; ?>"><?php echo ($banque->libelle_banque); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="quittance_code_membre">Code Membre de l'apporteur</label>
+<div class="controls">
+<input type="text" name="quittance_code_membre" id="quittance_code_membre" placeholder="Code Membre de l'apporteur" class="input-xxlarge" />
+</div>
+</div>
+
+
+</fieldset>    
+    
+
+<div class="form-actions">
+<input name="quittance_candidat" type="hidden" id="quittance_candidat" value="<?php if(isset($this->candidat)){?>
+<?php echo $this->candidat->candidat_id; ?><?php }?>" />
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Validation du paiement de la quittance</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,138 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+        
+<script type="text/javascript">
+function checkAllInput(form, action)
+{
+   var i = document.forms[form].getElementsByTagName("input"); 
+    for ( var cpt = 0; cpt < i.length; cpt++) 
+        i[cpt].checked = (action)? true : false ;
+}
+
+//onclick="checkAllInput('form1', true);" //coche
+//onclick="checkAllInput('form1', false);" //decoche
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des offreurs de projets</p></blockquote>
+  
+  
+<?php if(count($this->entries)>0){?> 
+
+<div class="accordion" id="accordion2">
+<?php foreach ($this->entries as $entry_agence): ?>
+
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $entry_agence->code_agence; ?>">
+        <i class="icon-arrow-right"></i> <?php echo ($entry_agence->libelle_agence); ?>
+      </a>
+    </div>
+    <div id="collapse<?php echo $entry_agence->code_agence; ?>" class="accordion-body collapse in" align="left">
+      <div class="accordion-inner">
+
+<?php 
+        $offreur_projet = new Application_Model_EuOffreurProjetMapper();
+        if($sessionutilisateur->code_agence != "001001001001"){
+        $entriesoffreur_projet = $offreur_projet->fetchAllByPublier(1, $sessionutilisateur->code_agence);
+      }else{
+        $entriesoffreur_projet = $offreur_projet->fetchAllByPublier(1, "");
+        }
+?>
+<?php if(count($entriesoffreur_projet)>0){?> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+						  <thead>
+							  <tr>
+								  <th>Date</th>
+								  <th>Nom & prénom(s)</th>
+								  <th>Cellulaire</th>
+								  <th>Type</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($entriesoffreur_projet as $entry): ?>
+<?php 
+        $souscription = new Application_Model_EuSouscription();
+        $souscriptionM = new Application_Model_EuSouscriptionMapper();
+        $souscriptionM->find($entry->offreur_projet_souscription, $souscription);
+?>
+<?php 
+        $typeoffreur_projet = new Application_Model_EuTypeOffreurProjet();
+        $typeoffreur_projetM = new Application_Model_EuTypeOffreurProjetMapper();
+        $typeoffreur_projetM->find($entry->offreur_projet_type, $typeoffreur_projet);
+?>
+    <tr>
+      <td><?php echo datefr($entry->offreur_projet_date); ?></td>
+      <td><?php if($souscription->souscription_personne == "PP"){?><?php echo ($souscription->souscription_nom); ?> <?php echo ($souscription->souscription_prenom); ?><?php }else{?><?php echo ($souscription->souscription_raison); ?><?php }?></td>
+      <td><?php echo ($souscription->souscription_mobile); ?></td>
+      <td><?php echo ($typeoffreur_projet->libelle_type_offreur_projet); ?></td>
+      <td><div align="center">
+	  <?php if($entry->publier == 1){?>
+			<i class="icon-ok icon-white"></i>  Publier&nbsp;
+<?php }else{?>
+			<i class="icon-off icon-white"></i>  Pas Publier&nbsp;
+<?php }?>
+	  
+            </div></td>
+      
+    </tr>
+<?php endforeach; ?>
+
+</tbody>
+		</table>
+  <?php }else{?>
+<div class="alert alert-info">
+  Aucun intégrateur enregistré 
+</div>
+<?php }?>
+      </div>
+    </div>
+  </div>
+<?php endforeach; ?>
+</div>
+      <br />
+<br />
+<br />
+<br />
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

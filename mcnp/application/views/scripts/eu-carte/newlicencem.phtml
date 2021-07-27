@@ -1,0 +1,169 @@
+<div id="view-content" style="font-size: 12px;min-height: 520px;" title="Vente de licences pour les membres personnes morales">
+    <form id="licence_form" method="Post" action="/eu-carte/donewlicence">
+        <table style="margin-left:auto;margin-right: auto;margin-top: 10px;" id="tab_fl">
+            <tbody>
+			    <tr>
+                <td colspan="2">
+                    <fieldset>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label>Mode de paiement :</label></td>
+                                    <td>
+                                        <select id="sel_mode_fin" name="sel_mode_fin">
+                                                <option value="SMS">Code SMS</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+                <tr>
+                    <td colspan="2">
+                        <fieldset>
+                            <table>
+                                <tbody>
+                                    <tr><td>Code Membre    : </td> <td><input id="code_membre" type="text" name="code_membre" value="" required="true" style="width: 170px;"/></td></tr>
+                                    <tr><td>Raison sociale : </td><td><input id="raison_membre_fl" type="text" name="raison_membre_fl" value="" style="width: 200px;" readonly="readonly"/></td></tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </td> 
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div id="sms_table">
+                            <fieldset>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Code SMS      *:</td><td><input id="code_sms" type="text" name="code_sms" class="validate[required]"  value="" style="width: 160px;"/></td>
+                                            <td><div id="id_message" style="width: 150px; color:red;"></div></td> 
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <fieldset>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Prix     :</td>    
+                                        <td><input id="prix" type="text" name="prix" value="" readonly="true" style="width: 120px; text-align:right;" class="validate[required,custom[onlyNumberSp]]"/>
+                                            <select class="validate[required]" type="text" id="dev_capa" name="dev_capa" value=""></select>
+                                        </td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>	
+<script>
+    var compteur = 1;
+    $(document).ready(function() {
+    $('#val').button();
+    $('#reset').button();
+    $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+            $("#licence_form").validationEngine();
+    });
+    $.get("/eu-carte/membrem",
+      function success(data) {
+      $("#code_membre").autocomplete({minLength: 5, "source": data});
+    });
+
+        $('form#licence_form').submit(function(event) {
+            event.preventDefault();
+            $.post('/eu-carte/donewlicence',{
+                        mode_fin    : $('#sel_mode_fin').val(),
+						code_membre : $('#code_membre').val(),
+                        prix : $('#prix').val(),
+                        code_sms : $('#code_sms').val(),
+                        code_dev : $('#dev_capa').val(),      
+            }
+            , function success(data) {
+                if (data === true) {
+                    alert('Opération effectuée avec succes');
+                    $(location).attr("href", "/eu-carte/listelicence");
+                } else {
+                    alert(data);
+                }
+            });
+        });
+
+        $('#code_sms').blur(function(e)
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-carte/codesms',
+                        {
+                            code: $(this).val()
+                        },
+                function success(data)
+                {
+                    if (data !== 0) {
+                        $('#prix').val(data);
+                    } else {
+                        $("#id_message").html("<label>Ce code est invalide</label>");
+                    }
+
+                });
+            }
+            e.preventDefault();
+        });
+
+        $('#code_membre').blur(function(e)
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-carte/recupraison',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    if (data !== '') {
+                        $("#raison_membre_fl").val(data[1]);
+                    } else {
+                        alert('Ce membre n\existe pas!!!');
+                    }
+                });
+            }
+            e.preventDefault();
+        });
+
+        $.get(
+          '/eu-carte/devise',
+          function success(data){
+             var options = '';
+             for (var i = 0; i < data.length; i++) {
+                 if (data[i] === 'XOF') {
+                            options += '<option value="' + data[i] + '" selected>' + data[i] + ' </option>';
+                } else {
+                            options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                }
+            }
+                $('select#dev_capa').html(options);
+            });
+
+    });
+
+
+</script>

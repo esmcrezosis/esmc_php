@@ -1,0 +1,103 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p> Etablir une Fiche d'Immobilisation </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addpvacquisition">
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error != "") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+  <?php } ?>
+
+  
+<div class="control-group">
+<label class="control-label" for="designation_pv">Code Immobilisation * </label>
+<div class="controls">
+<input type="text" name="code_immo" id="code_immo" placeholder="Code Immobilisation" value="<?php echo $this->fiche->code_identification;?>" class="input-block-level" readonly />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="designation_pv">Désignation de l'immobilisation * </label>
+<div class="controls">
+<input type="text" name="designation_immo" id="designation_immo" placeholder="Désignation Immobilisation" class="input-block-level" required />
+</div>
+</div> 
+
+<div class="control-group">
+<label class="control-label" for="nature_immo">Nature de l'immobilisation * </label>
+<div class="controls">
+<input type="text" name="nature_immo" id="nature_immo" placeholder="Nature Immobilisation" class="input-block-level" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="famille_immo">Famille de l'immobilisation * </label>
+<div class="controls">
+<input type="text" name="famille_immo" id="famille_immo" placeholder="Famille Immobilisation" class="input-block-level" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="lieu_affectation">Lieu d'affectation * </label>
+<div class="controls">
+<input type="text" name="lieu_affectation" id="lieu_affectation" placeholder="Lieu d'affectation" class="input-block-level" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="date_acquisition">Date d'acquisition * </label>
+<div class="controls">
+<input type="text" name="date_acquisition" id="date_acquisition" placeholder="Date d'acquisition" class="input-large datepicker" data-provide="datepicker" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="lieu_affectation">Valeur d'acquisition * </label>
+<div class="controls">
+<input type="text" name="valeur_acquisition" id="valeur_acquisition" placeholder="Valeur d'acquisition" class="input-block-level" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="source_financement">Source de financement * </label>
+<div class="controls">
+<input type="text" name="source_financement" id="source_financement" placeholder="Source de Financement" class="input-block-level" required />
+</div>
+</div> 
+
+<div class="form-actions">  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input type="hidden" name="id_fiche_immobilisation" id="id_fiche_immobilisation" placeholder="" value="<?php echo $this->fiche->id_fiche_immobilisation; ?>" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Valider</button>
+</div>                           
+  
+</form>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

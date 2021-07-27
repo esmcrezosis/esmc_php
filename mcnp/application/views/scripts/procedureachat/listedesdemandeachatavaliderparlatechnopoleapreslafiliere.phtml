@@ -1,0 +1,41 @@
+<?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationsuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+				</div>
+	    <?php unset($_SESSION['validationsuccess']); endif ?>
+<h3>Liste des demandes des demandes d'achat à valider par la technopole</h3>
+
+<?php if(count($this->listedesdemandeachatviserparlatechnopoleapreslafiliere) > 0){?>
+
+<table class="table table-stripped">
+ 	<tr>
+ 		<th>Code membre du demandeur</th>
+		<th>Référence de la demande d'achat</th>
+		<th>Libellé de la demande d'achat</th>
+		<th>Actions</th>
+        
+ 	</tr>
+   </thead>
+   <tbody>
+   	  <?php foreach ($this->listedesdemandeachatviserparlatechnopoleapreslafiliere as $key => $value): ?>
+         <tr class="primary">
+            <td> <?php echo $value->code_membre ?> </td>
+            <td> <?php echo $value->reference_demande_achat ?> </td>
+            <td> <?php echo $value->libelle_demande_achat ?> </td>
+            <td> <a href="/procedureachat/editviserlademandeachatparlatechnopoleapreslafiliere/id/<?php echo $value->id_demande_achat ?>">Details</a> </td>         
+         </tr>
+
+ 	  <?php endforeach ?>       
+   
+    </tbody>
+</table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucune Demande d'achat n'est encore disponible pour validation de la technopole
+</div>
+<?php }?>

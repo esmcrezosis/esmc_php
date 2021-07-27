@@ -1,0 +1,112 @@
+<div id="view-content" title="Repartition des marges nr" style="min-height: 520px;padding: 1px;margin: 1px;font-size: 12px;">
+     <div id="nn_tabview" style="padding: 1px;">
+	      <ul>
+             <li><a href="#tab_apport">Repartition</a></li>
+          </ul>
+		  <div style="padding: 1px;margin: 1px;">
+		       <div id="tab_apport" style="padding: 1px;">
+			         <fieldset id="rech_emp_field" style="margin-bottom: 2px;">
+                             <legend>Recherche</legend>
+                             <table>
+                                  <tr>
+                                    <td>
+                                      <label>Numero appel offre : </label> <select id="numero_offre" name="numero_offre" />
+                                      
+                                    </td>
+									<td>
+									    <input id="bt_afficher" type="button" value="Afficher"/>
+									</td>
+                                   </tr>
+                             </table>
+                     </fieldset>
+			   </div>
+		  </div>
+	 </div>
+     <table id="tbl-repartition-nn"></table>
+     <div id="pg-repartition-nn"></div>
+	 <table id="tbl-repartition-nnp"></table>
+     <div id="pg-repartition-nnp"></div>
+</div>
+<script type="text/javascript">
+        $("#tbl-repartition-nn").jqGrid({
+        url: '<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl: '<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['ID','Code Membre','Raison sociale','Montant apporte','Marge','Montant Reparti','Date repartition'],
+        height: '100%', width: 800,
+        colModel: [
+            {name: 'id_rep_nn', index: 'id_rep_nn', width: 50, sorttype: "int", align: "left",hidden:true},
+            {name: 'code_membre', index: 'code_membre', width: 150, editable: true, align: "left"},
+            {name: 'nom', index: 'nom', width: 80, editable: true, align: "left"},
+            {name: 'montant_apport', index: 'montant_apport', width: 100, editable: true, align: "left"},
+			{name: 'mont_marge', index: 'mont_marge', width: 100, editable: true, align: "left"},
+            {name: 'mont_rep', index: 'mont_rep', width: 100, editable: true, align: "left"},
+            {name: 'date_rep', index: 'date_rep', width: 80, align: "left", editable: true}
+        ],
+        rowNum: 2000,
+        rowList: [2000, 4000, 6000],
+        rownumbers: true,
+        pager: '#pg-repartition-nn',
+        sortname: "id_rep_nn",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste des marges des participants personnes morales"
+    });
+	
+	$("#tbl-repartition-nnp").jqGrid({
+        url: '<?php echo $this->url(array('action' => 'datap')); ?>',
+        editurl: '<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['ID','Code Membre', 'Nom','Montant apporte','Marge','Montant Reparti','Date repartition'],
+        height: '100%', width: 800,
+        colModel: [
+            {name: 'id_rep_nn', index: 'id_rep_nn', width: 50, sorttype: "int", align: "left",hidden:true},
+            {name: 'code_membre', index: 'code_membre', width: 150, editable: true, align: "left"},
+            {name: 'nom', index: 'nom', width: 80, editable: true, align: "left"},
+			{name: 'montant_apport', index: 'montant_apport', width: 100, editable: true, align: "left"},
+			{name: 'mont_marge', index: 'mont_marge', width: 100, editable: true, align: "left"},
+            {name: 'mont_rep', index: 'mont_rep', width: 100, editable: true, align: "left"},
+            {name: 'date_apport', index: 'date_apport', width: 80, align: "left", editable: true}
+        ],
+        rowNum: 2000,
+        rowList: [2000, 4000, 6000],
+        rownumbers: true,
+        pager: '#pg-repartition-nnp',
+        sortname: "id_rep_nn",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste des marges des participants personnes physiques"
+    });
+
+    $("#tbl-repartition-nnp").jqGrid('navGrid', '#pg-repartition-nnp', {edit: true, add: false, del: false, search: true}); 
+	
+	$(document).ready(function() {
+	       $(function() { 
+               $('#view-content').puipanel();	
+               $('#nn_tabview').puitabview();
+               $('#rech_emp_field').puifieldset();		 
+	       })
+		   
+		   $.get("/eu-repartition-nn/offre",
+              function success(data) {
+              var options = '<option/>';
+              for (var i = 0; i < data.length; i++) {
+                 options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+              }
+              $('select#numero_offre').html(options);
+           });
+		   
+		   
+		   $('#bt_afficher').click(function(e) {
+                  e.preventDefault();
+				  jQuery("#tbl-repartition-nnp").jqGrid('setGridParam',{url: "/eu-repartition-nn/datap?numero_offre="+$('#numero_offre').val()}).trigger('reloadGrid');
+                  jQuery("#tbl-repartition-nn").jqGrid('setGridParam',{url: "/eu-repartition-nn/datam?numero_offre="+$('#numero_offre').val()}).trigger('reloadGrid');
+				  
+           });
+	
+	
+	
+	})	
+</script>

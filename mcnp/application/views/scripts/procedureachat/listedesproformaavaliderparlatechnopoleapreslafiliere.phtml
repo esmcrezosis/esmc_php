@@ -1,0 +1,49 @@
+
+<?php if(count($this->listedereceptiondesproformachoisitavaliderparlatechnopoleapreslafiliere) > 0){?>
+
+<h3>Liste des factures proforma choisies à validés par la technopole vers le gérant</h3>
+
+
+<table class="table table-stripped">
+ 	<tr>
+		<th>Référence de la facture proforma</th>
+		<th>Code membre du fournisseurs</th>
+		<th>Date d'envoi du proforma</th>    
+		<th>Actions</th>
+        
+ 	</tr>
+   </thead>
+   <tbody>
+   	  <?php foreach ($this->listedereceptiondesproformachoisitavaliderparlatechnopoleapreslafiliere  as $key => $value): ?>
+       
+         <tr class="primary">
+            <td> <?php echo $value->numero_proforma ;?> </td>
+            <td> <?php echo $value->code_membre_fournisseur ;?> </td>
+            <?php
+              $month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+              $true_month = "";
+              $ex_date = explode('-',$value->date_proforma);
+
+              foreach ($month as $key => $val) {
+                if($ex_date[1] == $key){
+                  $true_month = $val;
+                }
+              }
+              $next_ex_date = explode(' ', $ex_date[2]);
+              $true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+             ?>
+
+            <td> <?php echo $true_date; ?> </td>
+            
+            <td> <a href="/procedureachat/editvaliderlafactureproformachoisitparlatechnopoleapreslafiliere/id/<?php echo $value->id_proforma ?>">Details</a> </td>         
+         </tr>
+
+ 	  <?php endforeach ?>       
+   
+    </tbody>
+</table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucune facture proforma choisie n'est encore pas disponible pour validation par la technopole
+</div>
+<?php }?>

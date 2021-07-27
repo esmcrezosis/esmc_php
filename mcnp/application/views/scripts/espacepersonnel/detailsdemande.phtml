@@ -1,0 +1,63 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Details d'une demande de subvention</p></blockquote>
+  
+    
+<div class="control-group">
+<label class="control-label" for="objet_demande">Objet de la demande de BPS </label>
+<div class="controls">
+<?php echo $this->demande->objet_demande; ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="description_demande">Description de la demandede BPS </label>
+<div class="controls">
+<?php echo $this->demande->description_demande; ?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="date_demande">Date de la demande de BPS </label>
+<div class="controls">
+<?php echo $this->demande->date_demande; ?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="code_membre_morale">Code Membre Morale du demandeur</label>
+<div class="controls">
+<?php echo $this->demande->code_membre_morale; ?>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

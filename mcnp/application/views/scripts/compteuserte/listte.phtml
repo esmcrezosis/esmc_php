@@ -1,0 +1,100 @@
+﻿<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Liste de mes Terminaux de Vente</p></blockquote>
+  <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin!="") { ?>
+  <div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+  </div>
+  <?php } ?>
+
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:9px;">
+<thead>
+	<tr>
+	   <th>Code Tegc</th>
+	   <th>Nom Tegc</th>
+	   <th>Code Membre</th>
+	   <th>Montant</th>
+	   <th>Montant utilisé</th>
+	   <th>Solde</th>
+	   <th>Action</th>
+	</tr>
+</thead>  
+<tbody>
+<?php foreach ($this->entries as $entry) : ?>
+    <tr>
+       <td><?php echo $entry->code_tegc; ?></td>
+       <td><?php echo $entry->nom_tegc; ?></td>
+       <td><?php echo $entry->code_membre; ?></td>
+       <td><?php echo $entry->montant; ?></td> 
+       <td><?php echo $entry->montant_utilise;?></td>
+       <td><?php echo $entry->solde_tegc;?></td>
+       <td>
+	   <!--<div align="center">
+	       <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/compteuserte/editte/id/<?php echo $entry->code_tegc; ?>"><i class="icon-edit icon-white"></i>Modifier</a>&nbsp;	   
+           </div>-->
+
+	   <div align="center">
+		<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/compteuserte/detailte/id/<?php echo $entry->code_tegc; ?>"><i class="icon-info-sign icon-white"></i>Détails</a>&nbsp;
+	   </div>
+  
+	   </td>	   
+	 </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun utilisateur enregistré 
+</div>
+<?php }?>
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,240 @@
+<?php $session_banque = new Zend_Session_Namespace('banque');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/codebarres.js"></script>
+
+<script type="text/javascript" charset="utf-8">			
+$(document).ready(function() {
+ $('#example').dataTable( {
+   "sPaginationType": "full_numbers",
+   "aaSorting": []
+ });
+});
+</script>
+       
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menubanque.phtml"); ?>
+
+
+  <blockquote><p>Rechercher d'OPI </p></blockquote>
+
+<div class="accordion" id="accordion2">
+<div class="accordion-group">
+     <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+        Formulaire de recherche
+      </a>
+     </div>
+     
+	 <?php if(isset($this->error) && $this->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error;  ?>
+    </div>
+  <?php } ?>
+  
+<div id="collapseOne" class="accordion-body collapse <?php if (!isset($_POST['ok'])) {?> in <?php }?>">
+<div class="accordion-inner">
+<form method="post" enctype="multipart/form-data" role="form" name="opi" id="opi" action="" class="">
+  
+   
+<div class="">
+
+<div class="span12">
+<div class="">
+  <div class="span4">
+       <div class="control-group">
+       <label class="control-label" for="traite_numero">Numero de l'OPI</label>
+       <div class="controls">
+       <input type="text" name="traite_numero" id="traite_numero" placeholder="Numero de l'OPI" class="input-large" value="<?php echo $this->traite_numero; ?>"  />
+       </div>
+       </div>
+   </div>      
+</div>
+</div>   
+   </div>
+
+   
+ <div class="">
+ <div class="span12">
+   
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="submit" class="btn btn-primary">Rechercher l'OPI</button>
+</div>    
+
+</div>
+</div>
+
+</form>
+</div>
+</div>
+</div> 
+</div>
+
+<?php if(isset($this->tpagcp)) {  if(count($this->tpagcp) > 0) { ?> 
+<blockquote><p>Ordre de Prélèvement Irrévocable - OPI</p></blockquote>
+<table class="table table-striped table-bordered table-hover table-condensed">
+<thead>
+							  <tr>
+								  <?php /*?><th>#</th>
+								  <th>Code Membre</th>
+								  <th>Compte</th><?php */?>
+								  <th>Début</th>
+								  <th>Fin</th>
+								  <th>Montant GCP</th>
+								  <th>Montant Tranche</th>
+								  <th>Montant Echu</th>
+								  <th>Montant Solde</th>
+								  <th>Escompté</th>
+								  <?php /*?><th>Actions</th><?php */?>
+							  </tr>
+						  </thead>	   
+<tbody>
+<tr>
+<?php 
+		    if($this->tpagcp->escomptable ==3) {
+			  $escomptable = 'Oui';
+			}elseif($this->tpagcp->escomptable ==2) {
+			  $escomptable = 'En cours';
+			}elseif($this->tpagcp->escomptable ==1) {
+			  $escomptable = 'En cours';
+			}elseif($this->tpagcp->escomptable ==0) {
+			  $escomptable = 'Non';
+			}
+           $nomtegcM = new Application_Model_EuTegcMapper();
+           $nomtegc = $nomtegcM->findCodeMembre($this->tpagcp->code_membre);
+?>
+      <?php /*?><td><?php echo $this->tpagcp->id_tpagcp; ?></td>
+      <td><?php echo $this->tpagcp->code_compte; ?></td><?php */?>
+      <td><?php echo $nomtegc; ?></td>
+      <td><?php echo datefr($this->tpagcp->date_deb); ?></td>
+      <td><?php echo datefr($this->tpagcp->date_fin); ?></td>
+      <td><?php echo $this->tpagcp->mont_gcp; ?></td>
+      <td><?php echo $this->tpagcp->mont_tranche; ?></td>
+      <td><?php echo $this->tpagcp->mont_echu; ?></td>
+      <td><?php echo $this->tpagcp->solde; ?></td>
+      <td><?php echo $escomptable; ?></td>
+      <?php /*?><td><div align="center">
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/opi/detailstraite2/id/<?php echo $this->tpagcp->id_tpagcp; ?>"><i class="icon-search icon-white"></i>  Détails</a>&nbsp;
+</div></td><?php */?>
+      
+    </tr>
+</tbody>
+</table>
+
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun OPI trouvé 
+</div>
+<?php } } ?>
+
+<br />
+
+
+
+<?php if(count($this->traite2)>0){?> 
+  <blockquote><p>Liste des écheances de traites</p></blockquote><!--id="example" table-striped table-hover-->
+<table class="table table-bordered table-condensed"  style="font-size:11px;">
+						  <thead>
+							  <tr>
+								  <th>Raison sociale</th>
+								  <th>Banque</th>
+                  <th>Montant Tranche</th>
+								  <th>Echéance</th>
+								  <th>Bons</th>
+								  <th>Numéro</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->traite2 as $entry): ?>
+<?php 
+$date_id = new Zend_Date(Zend_Date::ISO_8601);
+   
+        $tpagcp = new Application_Model_DbTable_EuTpagcp();
+        $select = $tpagcp->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
+        $select->setIntegrityCheck(false)        
+               ->join('eu_membre_morale', 'eu_membre_morale.code_membre_morale = eu_tpagcp.code_membre',array('eu_tpagcp.*','eu_membre_morale.*')) 
+               ->where('eu_tpagcp.id_tpagcp = ?', $entry->traite_tegcp); 
+        $data = $tpagcp->fetchRow($select);
+        $donnees = $data;
+            
+           $banque = new Application_Model_EuBanque();
+           $banqueM = new Application_Model_EuBanqueMapper();
+           $banqueM->find($entry->traite_code_banque, $banque);
+
+        $date_id = new Zend_Date(Zend_Date::ISO_8601);
+            $date_traite = new Zend_Date(Zend_Date::ISO_8601);
+            $date_deb = new Zend_Date($entry->traite_date_debut,Zend_Date::ISO_8601);
+            $date_fin = new Zend_Date($entry->traite_date_fin,Zend_Date::ISO_8601);
+            $periodes = Util_Utils::getParametre('periode', 'valeur');
+
+$bon = new Application_Model_EuBon();
+           $bonM = new Application_Model_EuBonMapper();
+           $bonM->find($entry->bon_id, $bon);
+
+$numero_opi = substr($donnees->code_membre, 9, -1).'0'.$entry->traiter.$entry->traite_id;
+?>
+    <tr 
+    <?php if($entry->traite_date_fin <= $date_id->toString('yyyy-MM-dd')){// class="success"?> style="background-color: rgba(95, 189, 95, 0.69);"<?php }?>
+    <?php if($entry->traite_disponible == 1){// class="info"?> style="background-color: rgba(73, 175, 205, 0.74);"<?php }?> 
+    <?php if($entry->traite_avant_vte == 1){// class="error"?> style="background-color: rgba(189, 54, 47, 0.68);"<?php }?>
+    >
+      <th><?php echo $donnees->raison_sociale; ?></th>
+      <th><?php echo $entry->traite_code_banque; ?></th>
+      <th><?php echo number_format($entry->traite_montant,0,',',' ').''; ?></th>
+      <th><?php echo datefr($entry->traite_date_fin); ?></th>
+      <th><?php echo $bon->bon_numero; ?></th>
+      <th><?php echo $entry->traite_numero; ?></th>
+      <th>
+      <?php if($entry->traite_payer == 1){?>
+      <div id="nivcodebarre<?php echo $entry->traite_id; ?>">
+      <span class="label label-success">Payé</span>
+      </div>
+      <?php }else if($entry->traite_date_fin <= $date_id->toString('yyyy-MM-dd')){?>
+      <div id="nivcodebarre<?php echo $entry->traite_id; ?>">
+      <input type="text" name="codebarre<?php echo $entry->traite_id; ?>" id="codebarre<?php echo $entry->traite_id; ?>" class="input-mini" onchange="ouvre_codebarres(this.value + '_<?php echo $entry->traite_id; ?>', 'nivcodebarre<?php echo $entry->traite_id; ?>');"  />
+      </div>
+      <?php }else if($entry->traite_disponible == 1){?>
+      <div id="nivcodebarre<?php echo $entry->traite_id; ?>">
+      <input type="text" name="codebarre<?php echo $entry->traite_id; ?>" id="codebarre<?php echo $entry->traite_id; ?>" class="input-mini" onchange="ouvre_codebarres(this.value + '_<?php echo $entry->traite_id; ?>', 'nivcodebarre<?php echo $entry->traite_id; ?>');"  />
+      </div>
+      <?php }else if($entry->traite_avant_vte == 1){?>
+      <?php }?>
+      </th>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune traite  
+</div>
+<?php }?>
+
+<br /><br /><br />
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

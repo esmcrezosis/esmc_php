@@ -1,0 +1,391 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript" charset="utf-8"> 
+  $(document).ready(function() {
+  $('#example').dataTable({
+     "sPaginationType": "full_numbers",
+     "aaSorting": []
+  });
+  });
+</script>
+       
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Effectifs des tableaux de bord </p></blockquote>
+
+<table class="table table-striped table-bordered table-hover table-condensed">
+
+<tfoot>
+<tr>
+    <td><strong> Nombre Total des Comptes Marchands (CM) Disponibles</strong> :</td>
+    <td><strong><?php echo $this->entries_cm; ?> </strong>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong> Nombre Total des Comptes Marchands (CM) Opérationnels</strong> :</td>
+    <td><strong><?php echo $this->entries_cm_op; ?> </strong>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+<tr>
+      <td><strong>Nombre Total des Comptes Marchands (CM) souscris pour Soi</strong> :</td>
+      <td><strong><?php echo $this->entries_cm_soi; ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong>Nombre Total des Comptes Marchands (CM) souscris pour Tiers</strong> :</td>
+    <td><strong><?php echo $this->entries_cm_tiers; ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+      <td><strong>Nombre Total des Comptes Marchands (CM) Réactivés</strong> :</td>
+      <td><strong><?php echo $this->entries_cm_reactive; ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+      <td><strong>Nombre Total des Comptes Marchands (CM) souscris pour Soi activés</strong> :</td>
+      <td><strong><?php echo $this->entries_cm_soi_active; ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+      <td><strong>Nombre Total des Comptes Marchands (CM) souscris pour Tiers activés </strong> :</td>
+      <td><strong><?php echo $this->entries_cm_tiers_active; ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+      <td><strong>Nombre Total des Comptes Marchands (CM) ReDeMaRe Réactivés</strong> :</td>
+      <td><strong><?php echo $this->entries_cm_gie_reactive; ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+<tr>
+      <td><strong>Nombre Total des Comptes Marchands (CM) MCNP Réactivés</strong> :</td>
+      <td><strong><?php echo $this->entries_cm_mcnp_reactive; ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+<!--
+
+<tr>
+      <td><strong> Nombre Total des Membres Personnes Physiques Utilisateurs</strong> :</td>
+      <td><strong> <?php //echo $this->entries_membre_pp; ?> </strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+<tr>
+      <td><strong> Nombre Total des Membres Personnes Morales Utilisateurs</strong> :</td>
+      <td><strong> <?php //echo $this->entries_membre_pm; ?> </strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+-->
+
+
+<tr>
+    <td><strong>Nombre Total des Membres CMFH ayant souscris à 500 comptes et plus </strong> :</td>
+    <td><strong><?php echo ($this->entries_cmfh_500); ?></strong></td> 
+</tr>
+
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong>Nombre Total des Membres CMFH ayant souscris à 100 comptes et plus </strong> :</td>
+    <td><strong><?php echo ($this->entries_cmfh_100); ?></strong></td> 
+</tr>
+
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+
+<tr>
+    <td><strong>Nombre Total des Membres CMFH ayant souscris à 10 comptes et plus </strong> :</td>
+    <td><strong><?php echo ($this->entries_cmfh_10); ?></strong></td> 
+</tr>
+
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+
+<!--
+
+<tr>
+    <td><strong>Nombre Total des Comptes Marchands Pour tiers Disponible </strong> :</td>
+    <td><strong><?php //echo ($this->entries_depotvente); ?></strong></td> 
+</tr>
+
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong>Nombre Total des Inscrits enrégistrés sur la FICHE ODD </strong> :</td>
+    <td><strong><?php //echo ($this->entries_mstiers); ?></strong></td> 
+</tr>
+
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong>Nombre Total des Inscrits Enrolés sur la FICHE ODD </strong> :</td>
+    <td><strong><?php //echo ($this->entries_mstiers_enroles); ?></strong></td> 
+</tr>
+
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+
+
+
+
+<tr>
+    <td><strong>Nombre Total des Membres CMFH Honorifiques </strong> :</td>
+    <td><strong><?php //echo ($this->entries_cmfh_honorifique); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong> Nombre Total des Membres CMFH Conseillers Consultatifs </strong> :</td>
+    <td><strong><?php //echo ($this->entries_cmfh_cc); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong>Nombre Total des Membres CMFH Conseillers d'Administration </strong> :</td>
+    <td><strong><?php //echo ($this->entries_cmfh_ca); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong>Nombre Total des Membres CMFH Manager </strong> :</td>
+    <td><strong><?php //echo ($this->entries_cmfh_manager); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong>Nombre Total des Membres CMFH Ingénieurs </strong> :</td>
+    <td><strong><?php //echo ($this->entries_cmfh_ingenieur); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong>Nombre Total des Membres CMFH Entrepreneurs </strong> :</td>
+    <td><strong><?php //echo ($this->entries_cmfh_entrepreneur); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+
+<tr>
+    <td><strong>Nombre Total des Membres CMFH Experts </strong> :</td>
+    <td><strong><?php //echo ($this->entries_cmfh_expert); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong>Nombre Total des Membres CMFH Offreurs de Projet </strong> :</td>
+    <td><strong><?php //echo($this->entries_cmfh_offreur); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong>Nombre Total des Membres CMFH Offreurs de Biens,Produits et Service </strong> :</td>
+    <td><strong><?php //echo ($this->entries_cmfh_bps); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+
+<tr>
+    <td><strong>Nombre Total des Membres CMFH Offreurs de Comptes Marchands </strong> :</td>
+    <td><strong><?php //echo ($this->entries_cmfh_ocm); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong>Nombre Total des Membres CMFH OSE </strong> :</td>
+    <td><strong><?php //echo ($this->entries_cmfh_ose); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong> Nombre Total des Membres CMFH Maison </strong> :</td>
+    <td><strong><?php //echo ($this->entries_cmfh_maison); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+-->
+
+
+
+
+
+
+</tfoot>
+</table>
+                      
+<br/>
+<br/>
+<br/>
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

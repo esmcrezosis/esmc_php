@@ -1,0 +1,38 @@
+
+    <?php
+      $month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+      $true_month = "";
+      $ex_date = explode('-',$this->detaildunprocesverbale[0]->date_proces_verbale);
+
+      foreach ($month as $key => $val) {
+        if($ex_date[1] == $key){
+          $true_month = $val;
+        }
+      }
+      $next_ex_date = explode(' ', $ex_date[2]);
+      $true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+  ?>
+
+
+
+<header class="header">
+<h3>Détails du procès verbale du fournisseur choisit</h3>
+</header>
+
+<blockquote>
+<strong>Référence du procès verbale:</strong><?php echo $this->detaildunprocesverbale[0]->reference_proces_verbale;?>
+</blockquote>
+
+<blockquote>
+<strong>Référence du proforma:</strong><?php echo $this->detaildunprocesverbale[0]->numero_proforma;?>
+</blockquote>
+
+<blockquote style="position:absolute;top:40px;right:0">
+<strong>Date d'établissement du procès verbale:</strong><?php echo $true_date;?>
+</blockquote>
+<a href="<?php echo $this->domaine;?>proces_verbale_procedure_achat/<?php echo $this->detaildunprocesverbale[0]->files_url ?>" style="position:absolute;top:120px;right:0">Téléchargement du Procès Verbale</a>
+
+<div>
+
+<?php echo $this->detaildunprocesverbale[0]->contenu_proces_verbale;?>
+</div>

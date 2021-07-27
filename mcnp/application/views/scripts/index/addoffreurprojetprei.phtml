@@ -1,0 +1,443 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences2.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script type="text/javascript">
+   function calculmontant(nombre) {
+     document.getElementById('souscription_montant').value = document.getElementById('souscription_nombre').value * 2187.5;
+	 document.getElementById('souscription_montant').readOnly = true;
+   }
+
+
+   function nbremontantcmfh(type) {
+	if((type > 0 && type <= 5) || (type > 0 && type > 9)) {
+	    document.getElementById('souscription_nombre').value = 500;
+		document.getElementById('souscription_montant').value = 500 * 2187.5;
+		document.getElementById('souscription_nombre').readOnly = true;
+		document.getElementById('souscription_montant').readOnly = true;	
+	} else if((type > 5 && type <= 7)) {
+	    document.getElementById('souscription_nombre').value = 100;
+		document.getElementById('souscription_montant').value = 100 * 2187.5;
+		document.getElementById('souscription_nombre').readOnly = true;
+		document.getElementById('souscription_montant').readOnly = true;	
+	} else if(type == 9) {
+	    document.getElementById('souscription_nombre').value = 10;
+		document.getElementById('souscription_montant').value = 10 * 2187.5;
+		document.getElementById('souscription_nombre').readOnly = true;
+		document.getElementById('souscription_montant').readOnly = true;		
+	} else if(type == 8) {
+	    document.getElementById('souscription_nombre').value = 10;
+		document.getElementById('souscription_montant').value = 10 * 2187.5;
+		document.getElementById('souscription_nombre').readOnly = false;
+		document.getElementById('souscription_montant').readOnly = false;		
+	}
+	} 
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+<?php 
+$typeoffreur_projet = new Application_Model_EuTypeOffreurProjet();
+$typeoffreur_projetM = new Application_Model_EuTypeOffreurProjetMapper();
+$typeoffreur_projetM->find($this->param, $typeoffreur_projet);
+?>
+
+  <blockquote><p><?php echo $typeoffreur_projet->libelle_type_offreur_projet." - Phase Pré-Souscription"; ?> </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addoffreur_projet">
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+  </div>
+  <?php } ?>
+  
+<fieldset>
+
+
+<legend>Code BAn</legend>
+<div class="control-group">
+  <label class="control-label" for="code_BAn">Code BAn *</label>
+  <div class="controls">
+  <input name="code_BAn" type="text" id="code_BAn" placeholder="Entrer le Code BAn" required="required" />
+	<span id="nivban"><button type="button" class="btn btn-info" onclick="ouvre_bonachatneutres(document.getElementById('code_BAn').value, 'nivban');">Vérifier</button></span>
+    <span class="help-block"><p class="text-error">Veuillez saisir le Code BAn affiché lors de la souscription BAn</p></span>
+  </div>
+</div>
+
+
+<!--<div align="right"><a href="<?php echo $this->baseUrl(); ?>/index/addoffreurprojetcomplement">Formulaire de complement de quittances</a></div>
+<br/>
+<div align="right"><a href="<?php echo $this->baseUrl();?>/index/addoffreinvalid/param/<?php echo $this->param ?>">Formulaire de quittance invalide</a></div>
+<br/>
+-->
+
+<legend>Remplir les informations sur l'offreur de projet ou de biens,produits et services</legend>
+
+<div class="control-group">
+<label class="control-label" for="code_membre">Code membre * </label>
+<div class="controls">
+    <input type="text" name="offreur_projet_membre" id="offreur_projet_membre" placeholder="Code Membre Morale Souscripteur"  value="<?php echo $this->code_membre; ?>"  class="input-block-level"  required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="souscription_type_candidat">Type CMFH *</label>
+<div class="controls">
+<select name="souscription_type_candidat" id="souscription_type_candidat"  class="input-block-level"  onchange="nbremontantcmfh(this.value);" required>
+    <?php $ttype_candidat = new Application_Model_EuTypeCandidatMapper();
+        $results = $ttype_candidat->fetchAllOffreurProjet();
+	//$results = $ttype_candidat->fetchAll();
+    ?>
+
+    <option value="">Choisir le type</option>
+    <?php foreach ($results as $type_candidat): ?>
+    <option value="<?php  echo $type_candidat->id_type_candidat; ?>"><?php echo ($type_candidat->libelle_type_candidat); ?> </option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="souscription_login">Login du souscripteur </label>
+<div class="controls">
+  <input type="text" name="souscription_login" id="souscription_login" placeholder="Login du souscripteur" class="input-block-level" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="souscription_passe">Mot de passe du souscripteur </label>
+<div class="controls">
+  <input type="password" name="souscription_passe" id="souscription_passe" placeholder="Mot de passe du souscripteur" class="input-block-level" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="confirme">Confirmer Mot de passe du souscripteur </label>
+<div class="controls">
+  <input type="password" name="confirme" id="confirme" placeholder="Confirmer Mot de passe du souscripteur" class="input-block-level" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="souscription_montant">Nombre de comptes marchands souscrits * </label>
+<div class="controls">
+  <input type="text" name="souscription_nombre" id="souscription_nombre" placeholder="Nombre de comptes marchands souscrits"  value="<?php echo $this->souscription_nombre; ?>"   onblur="calculmontant(this.value);"  class="input-block-level"  required="required" />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="souscription_montant">Montant de la souscription * </label>
+<div class="controls">
+  <input type="text" name="souscription_montant" id="souscription_montant" placeholder="Montant de la souscription aux comptes marchands pour tiers"  value="<?php echo $this->souscription_montant; ?>"  class="input-block-level"  required="required" />
+</div>
+</div>
+
+
+<!--
+<div>
+     <label class="control-label" for="offreur_projet_souscription_ordre">Numéro de quittance *  </label>
+	 <div class="controls">
+	      <table id="tab_quittance">
+		      <tr>
+			      <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+                  <td><input id="offreur_projet_souscription_ordre0" type="text" name="offreur_projet_souscription_ordre0" placeholder="Numéro de quittance " class="input-large" required/> </td>
+	              <td>
+				      <input class="btn btn-mini"  id="add"      type="button"      value="+"      onclick ="addRow('tab_quittance');" /> 
+					  <input class="btn btn-mini"  id="remove"   type="button"      value="-"  onclick="deleteRow('tab_quittance');" /> 
+				  </td>
+		      </tr>
+	     </table>
+     </div>
+</div>
+
+<br/> -->
+  
+<!--<div class="control-group">
+<label class="control-label" for="offreur_projet_souscription_ordre">Numéro de quittance  </label>
+<div class="controls">
+<input type="text" name="offreur_projet_souscription_ordre" id="offreur_projet_souscription_ordre" placeholder="Numéro de quittance " class="input-block-level"  />
+</div>
+</div>-->
+    
+
+<div class="control-group">
+<label class="control-label" for="souscription_email">E-mail *  </label>
+<div class="controls">
+<div class="input-prepend">
+<span class="add-on"><i class="icon-envelope"></i></span>
+<input type="email" name="souscription_email" id="souscription_email" placeholder="Indiquez à nouveau votre e-mail"  value="<?php echo $this->souscription_email; ?>"   class="input-xxlarge" required  />
+</div>
+</div>
+</div>
+  
+<div class="control-group">
+  <label class="control-label" for="offreur_projet_type">Type *</label>
+  <div class="controls">
+  <select  class="input-block-level" name="offreur_projet_type" id="offreur_projet_type" >
+       <?php  $typeoffreur_projet2 = new Application_Model_EuTypeOffreurProjetMapper();
+		$selecttypeoffreur_projet2 = $typeoffreur_projet2->fetchAllByType($typeoffreur_projet->id_type_offreur_projet);?>
+               <option value="">Choisir un type</option>
+    <?php foreach ($selecttypeoffreur_projet2 as $selecttypeoffreur_projet): ?>
+               <option value="<?php echo $selecttypeoffreur_projet->id_type_offreur_projet; ?>" <?php if($selecttypeoffreur_projet->id_type_offreur_projet == $typeoffreur_projet->id_type_offreur_projet){echo ' selected="selected"';}?>><?php echo ($selecttypeoffreur_projet->libelle_type_offreur_projet); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+
+
+
+<!--<div class="control-group">
+<label class="control-label" for="offreur_projet_raison_sociale">Raison Sociale *</label>
+<div class="controls">
+<input type="text" name="offreur_projet_raison_sociale" id="offreur_projet_raison_sociale" placeholder="Raison Sociale" class="input-block-level" required  />
+</div>
+</div>-->
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_adresse">Adresse </label>
+<div class="controls">
+  <textarea name="offreur_projet_adresse" class="input-block-level" id="offreur_projet_adresse" placeholder="Adresse"></textarea>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_zone">Zone Monétaire *</label>
+<div class="controls">
+<select name="code_zone" id="code_zone" class="input-block-level" required>
+   <option value="">Choisir une zone monétaire</option>
+   <?php foreach ($this->zones as $value) { ?>
+   <option
+      value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?>
+   </option>
+   <?php } ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="id_pays">Pays *</label>
+<div class="controls">
+<select name="id_pays" id="id_pays" class="input-block-level" required>
+   <option value="">Choisir un pays</option>
+   <?php foreach ($this->pays as $value) { ?>
+      <option value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>
+   <?php } ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_region">Régions *</label>
+<div class="controls">
+<select name="id_region" id="id_region" class="input-block-level" required>
+   <option value="">Choisir une région</option>
+   <?php foreach ($this->regions as $value) { ?>
+      <option value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>
+   <?php } ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="id_prefecture">Préfectures *</label>
+<div class="controls">
+<select name="id_prefecture" id="id_prefecture" class="input-block-level" required>
+   <option value="">Choisir une préfecture</option>
+   <?php foreach ($this->prefectures as $value) { ?>
+      <option value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>
+   <?php } ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="id_canton">Canton *</label>
+<div class="controls">
+<select name="id_canton" id="id_canton" class="input-block-level" required>
+   <option value="">Choisir un canton</option>
+   <?php foreach ($this->cantons as $c) { ?>
+      <option value="<?php echo $c->id_canton; ?>"><?php echo $c->nom_canton; ?></option>
+   <?php } ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_ville">Ville *</label>
+<div class="controls">
+<select name="offreur_projet_ville" id="offreur_projet_ville" class="input-block-level" required>
+    <option value="">Choisir une ville</option>
+    <?php foreach ($this->villes as $value) { ?>
+       <option value="<?php echo $value->id_ville; ?>"><?php echo $value->lib_ville; ?></option>
+    <?php } ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_quartier">Quartier *</label>
+<div class="controls">
+<input type="text" name="offreur_projet_quartier" id="offreur_projet_quartier" placeholder="Quartier Offreur Projet "  value="<?php echo $this->offreur_projet_quartier;?>"  class="input-xxlarge"  required="required"/>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_produit">Produit *</label>
+<div class="controls">
+<input type="text" name="offreur_projet_produit" id="offreur_projet_produit" placeholder="Produit" class="input-block-level" required  />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_filiere">Filière * </label>
+<div class="controls">
+<select name="offreur_projet_filiere" id="offreur_projet_filiere" class="input-block-level" required>
+    <option value=""> Choisir une filière </option>
+    <?php foreach ($this->filieres as $value) { ?>
+          <option value="<?php echo $value->id_filiere; ?>"><?php echo $value->nom_filiere; ?></option>
+    <?php } ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_filiere">Type Fournisseur * </label>
+<div class="controls">
+<select name="type_fournisseur" id="type_fournisseur" class="input-block-level" required>
+    <option value=""> Choisir un type de fournisseur </option>
+    <option value="specifique">Fournisseur Spécifique</option>
+	<option value="externe">Fournisseur Externe</option>
+	<option value="utilisateur">Fournisseur Utilisateur</option>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_description_projet">Description du projet </label>
+<div class="controls">
+  <textarea name="offreur_projet_description_projet" class="input-block-level" id="offreur_projet_description_projet" placeholder="Description du projet"></textarea>
+</div>
+</div>
+
+<div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox" name="offreur_projet_operationnel" id="offreur_projet_operationnel" value="1"> Je suis opérationnel
+      </label>
+    </div>
+</div>
+<?php if($this->param >= 4){?>
+<div class="control-group">
+<label class="control-label" for="offreur_projet_capacite_production">Capacité de production *</label>
+<div class="controls">
+<input type="text" name="offreur_projet_capacite_production" id="offreur_projet_capacite_production" placeholder="Capacité de production" class="input-block-level" required  />
+</div>
+</div>
+<?php }?>
+<div class="control-group">
+<label class="control-label" for="offreur_projet_stock_disponible">Stock disponible </label>
+<div class="controls">
+<input type="text" name="offreur_projet_stock_disponible" id="offreur_projet_stock_disponible" placeholder="Stock disponible" class="input-block-level"   />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_qte_max">Quantité maximale </label>
+<div class="controls">
+<input type="text" name="offreur_projet_qte_max" id="offreur_projet_qte_max" placeholder="Quantité maximale" class="input-block-level"  />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_qte_moyen">Quantité moyenne </label>
+<div class="controls">
+<input type="text" name="offreur_projet_qte_moyen" id="offreur_projet_qte_moyen" placeholder="Quantité moyenne" class="input-block-level"  />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_qte_min">Quantité minimale </label>
+<div class="controls">
+<input type="text" name="offreur_projet_qte_min" id="offreur_projet_qte_min" placeholder="Quantité minimale" class="input-block-level"  />
+</div>
+</div>
+
+
+
+<?php if($this->param == 1){
+	$offreur_projet_nom_entrepot = "Nom de l'entrepôt";
+	$offreur_projet_adresse_entrepot = "Adresse de l'entrepôt";
+}else if($this->param == 2){
+	$offreur_projet_nom_entrepot = "Nom du magasin";
+	$offreur_projet_adresse_entrepot = "Adresse du magasin";
+}else if($this->param == 3){
+	$offreur_projet_nom_entrepot = "Nom de la boutique";
+	$offreur_projet_adresse_entrepot = "Adresse de la boutique";
+}else if($this->param == 4 || $this->param == 5 || $this->param == 6) {
+	$offreur_projet_nom_entrepot = "Nom du lieu de transformation";
+	$offreur_projet_adresse_entrepot = "Adresse du lieu de transformation";
+}else if($this->param == 7 || $this->param == 8 || $this->param == 9) {
+	$offreur_projet_nom_entrepot = "Nom du lieu de production";
+	$offreur_projet_adresse_entrepot = "Adresse du lieu de production";
+	}?>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_nom_entrepot"><?php echo $offreur_projet_nom_entrepot; ?> *</label>
+<div class="controls">
+<input type="text" name="offreur_projet_nom_entrepot" id="offreur_projet_nom_entrepot" placeholder="<?php echo $offreur_projet_nom_entrepot; ?>" class="input-block-level"  required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_adresse_entrepot"><?php echo $offreur_projet_adresse_entrepot; ?> *</label>
+<div class="controls">
+  <textarea name="offreur_projet_adresse_entrepot" required="required" class="input-block-level" id="offreur_projet_adresse_entrepot" placeholder="<?php echo $offreur_projet_adresse_entrepot; ?>"></textarea>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_attestation">Attestation  *  </label>
+<div class="controls">
+<label class="checkbox">
+<input name="offreur_projet_attestation" type="checkbox" id="offreur_projet_attestation" value="1" required /> Je, soussigné, certifie, en toute conscience, que les renseignements ci-dessus rendent fidèlement compte de ma situation, de mes qualifications et de mon expérience. J’accepte que toute fausse déclaration volontaire puisse entraîner ma disqualification de la présente procédure.
+</label>
+</div>
+</div>
+
+</fieldset> 
+   
+<div class="form-actions">
+<input name="publier" type="hidden" id="publier" value="0" />
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+ 
+</form>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

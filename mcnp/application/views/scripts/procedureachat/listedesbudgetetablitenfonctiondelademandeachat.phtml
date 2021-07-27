@@ -1,0 +1,59 @@
+<?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationsuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+				</div>
+	    <?php unset($_SESSION['validationsuccess']); endif ?>
+<h3>Liste des demandes vos budgets établient en fonction de la demande d'achat</h3>
+
+<?php if(count($this->listedetouslesbudgetselonlecodemembre) > 0){?>
+
+<table class="table table-stripped">
+ 	<tr>
+		<th>Référence de la demande d'achat</th>
+		<th>Libellé de la demande d'achat</th>
+		<th>Montant du budget</th>
+		<th>Date d'établissement du budget</th>
+		<th>Actions</th>
+        
+ 	</tr>
+   </thead>
+   <tbody>
+   	  <?php foreach ($this->listedetouslesbudgetselonlecodemembre as $key => $value): ?>
+         <tr class="primary">
+            <td> <?php echo $value->reference_demande_achat ?> </td>
+            <td> <?php echo $value->libelle_demande_achat ?> </td>
+            <td> <?php echo $value->montant_budget ?> </td>
+
+			<?php
+
+               $month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+               $true_month = "";
+               $ex_date = explode('-',$value->date_budget);
+
+               foreach ($month as $key => $value) {
+                 if($ex_date[1] == $key){
+                   $true_month = $value;
+                 }
+               }
+               $next_ex_date = explode(' ', $ex_date[2]);
+               $true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+
+            ?>
+            
+            <td> <a href="/procedureachat/editviserlademandeachatparagenttechnopoleoufiliere/id/<?php echo $value->id_demande_achat ?>">Apposer le visa</a> </td>         
+         </tr>
+
+ 	  <?php endforeach ?>       
+   
+    </tbody>
+</table>
+<?php } else {?>
+<div class="alert alert-info">
+Aucun budget n'a encore été établit
+</div>
+<?php }?>

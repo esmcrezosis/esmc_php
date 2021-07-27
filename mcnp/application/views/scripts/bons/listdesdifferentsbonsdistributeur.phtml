@@ -1,0 +1,83 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+    <script type="text/javascript" charset="utf-8">
+      /*$(document).ready(function() {
+        $('#example').dataTable();
+      } );*/
+      $(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+    "aaSorting": []
+    } );
+} );
+    </script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+
+  <blockquote><p>Liste des bons (Distribution) : <?php echo libelletypebon($this->bontype); ?> (<strong><?php echo $this->bontype; ?></strong>)</p></blockquote>
+ 
+  
+<?php if(count($this->entries) > 0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+   <thead>
+  <tr>
+    <th>Date</th>
+    <th>Numéro</th>
+    <th>Montant</th>
+    <th>Membre</th>
+    <th>Actions</th>
+
+  </tr>         
+   </thead>
+   <tbody>
+      <?php foreach ($this->entries as $key => $value): ?>
+        <tr>
+          <td><?php echo datejourfr($value->bon_date); ?></td>
+          <td><?php echo $value->bon_numero; ?></td>
+          <td><?php echo $value->bon_montant; ?></td>
+      <td><?php if (substr($value->bon_code_membre_emetteur, -1) == "P") {
+$membreM = new Application_Model_EuMembreMapper();
+$membre = new Application_Model_EuMembre();
+$membreM->find($value->bon_code_membre_emetteur, $membre);?>
+<?php echo htmlentities($membre->nom_membre); ?> <?php echo htmlentities($membre->prenom_membre); ?>
+<?php } else if (substr($value->bon_code_membre_emetteur, -1) == "M") {
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($value->bon_code_membre_emetteur, $membremorale);?>
+<?php echo htmlentities($membremorale->raison_sociale);?>
+<?php } ?></td>
+          <td>
+            <a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/bons/<?php echo strtolower($value->bon_type); ?>pdf/id/<?php echo $value->bon_id; ?>" target="_blank"><i class="icon-cog icon-white"></i>  Imprimer le bon</a>&nbsp;
+          </td>
+
+        </tr>
+  <?php endforeach ?>
+   </tbody>
+
+ </table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucun bon 
+</div>
+<?php }?>
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>

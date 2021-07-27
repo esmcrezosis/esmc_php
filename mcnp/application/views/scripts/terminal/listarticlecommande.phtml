@@ -1,0 +1,226 @@
+<?php $sessionterminal = new Zend_Session_Namespace('terminal');?>
+
+<script src="<?php echo $this->baseUrl();?>/livrercommandedetails.js"></script>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+
+<script type="text/javascript" charset="utf-8">
+			
+  $(document).ready(function() {
+     $('#example').dataTable( {
+       "sPaginationType": "full_numbers",
+	   "aaSorting": []
+     });
+  });
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuterminal.phtml"); ?>
+
+<form action="" method="post" enctype="multipart/form-data"  class="form-horizontal" id="addarticle_stockes">
+
+  <blockquote><p>Trier la liste des commandes</p></blockquote>
+
+    <div class="span12">
+  <?php if(isset($this->error) && $this->error!="") {?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+    </div>
+  
+  
+    <div class="span4">
+    <div class="control-group">
+  <label class="control-label" for="date_debut">Date Début  </label>
+  <div class="controls">
+    <input type="text" name="date_debut" id="date_debut" placeholder="Date Début" class="input-medium datepicker" data-provide="datepicker" value="" readonly />
+  </div>
+  </div>
+  </div>
+  
+
+    <div class="span4">
+  <div class="control-group">
+  <label class="control-label" for="date_fin">Date Fin  </label>
+  <div class="controls">
+    <input type="text" name="date_fin" id="date_fin" placeholder="Date Fin" class="input-medium datepicker" data-provide="datepicker" value="" readonly />
+  </div>
+  </div>
+  </div>
+
+    <!--<div class="span3">
+<div class="control-group">
+<label class="control-label" for="commander">Déja commandé</label>
+<div class="controls">
+<select id="commander" name="commander">
+  <option value="0">Non</option>
+  <option value="1">Oui</option>
+</select>
+</div>
+</div>
+</div>-->
+
+    <div class="span4">
+<div class="control-group">
+<label class="control-label">Trier</label>
+<div class="controls">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="submit" class="btn btn-primary"> Trier la liste des commandes </button>
+<?php if (isset($_POST['date_debut'])) { ?>
+<a target="_blank" class="btn btn-success" href="<?php echo $this->baseUrl(); ?>/terminal/listarticlecommandeexcel/date_debut/<?php echo $_POST['date_debut']; ?>/date_fin/<?php echo $_POST['date_fin']; ?>/commander/<?php echo $_POST['commander']; ?>">Exporter en Excel</a>
+<?php } ?>
+
+
+<?php 
+
+if($sessionterminal->code_tegc  == "TEGCP60010010010010000003M00145") {
+
+if(isset($_POST['date_debut'])) { ?>
+<a class="btn btn-success" href="<?php echo $this->baseUrl(); ?>/terminal/listarticlecommandeexcelmail/date_debut/<?php echo $_POST['date_debut']; ?>/date_fin/<?php echo $_POST['date_fin']; ?>/commander/<?php echo $_POST['commander']; ?>">Envoi Commande</a>
+<?php } 
+}
+?>
+
+
+
+</div>
+</div>
+</div>
+
+    <?php /*?><div class="span3">
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="submit" class="btn btn-primary">Trier la liste des articles commandés</button>
+
+<?php /*if (isset($_POST['date_debut'])) {?>
+<a target="_blank" class="btn btn-success" href="<?php echo $this->baseUrl(); ?>/terminal/listarticlecommandeexcel/date_debut/<?php echo $_POST['date_debut']; ?>/date_fin/<?php echo $_POST['date_fin']; ?>/designation/<?php echo $_POST['designation']; ?>/code_membre_vendeur/<?php echo $sessionterminal->code_membre; ?>/commander/<?php echo $_POST['commander']; ?>">Exporter en Excel</a>
+<?php }*/?>
+
+<?php /*?></div>
+</div><?php */?>
+ 
+                            
+  
+</form>
+<br>
+<br>
+<br><?php //echo $sessionterminal->code_tegc;?>
+<br>
+
+
+<?php if(count($this->entries)>0){?> 
+  <blockquote><p>Liste des commandes par date</p></blockquote>
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:9px;">
+						  <thead>
+							  <tr>
+								  <th>Date</th>
+								  <th>Code Membre</th>
+								  <th>Nom & prenom(s) / Raison sociale</th>
+								  <th>Désignation</th>
+								  <th>Quantité</th>
+								  <th>Prix</th>
+                                  <th>Complement</th>
+								  <th>Commande</th>
+                                  <th>Livraison</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach($this->entries as $entry): 
+
+$articleM = new Application_Model_EuArticleStockesMapper();
+$articlefound = $articleM->fectchByReference(trim($entry->reference)) ;
+ //echo $articlefound->categorie."</br>";echo $entry->reference."</br>";echo $sessionterminal->code_tegc."</br>";
+
+if(($articlefound != NULL) && ($articlefound->categorie == $sessionterminal->code_tegc)) {
+
+?>
+    <tr>
+    <?php	
+$commandeM = new Application_Model_EuCommandeMapper();
+$commande = new Application_Model_EuCommande();
+$commandeM->find($entry->code_commande, $commande);
+/**/?>
+      <td><?php echo ($commande->date_commande); ?></td>
+      <td><?php echo $commande->code_membre_acheteur; ?></td>
+      <td><?php if(substr($commande->code_membre_acheteur, -1) == "P"){
+$membreM = new Application_Model_EuMembreMapper();
+$membre = new Application_Model_EuMembre();
+$membreM->find($commande->code_membre_acheteur, $membre);
+?><?php echo ($membre->nom_membre." ".$membre->prenom_membre); $email = $membre->email_membre; ?>
+	<?php }else{
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($commande->code_membre_acheteur, $membremorale);
+?><?php echo ($membremorale->raison_sociale); $email = $membremorale->email_membre;  } ?>
+</td>
+      <td><?php echo ($entry->designation); ?></td>
+      <td><div align="right"><?php echo number_format($entry->qte, 0, ',', ' '); ?></div></td>
+      <td><div align="right"><?php echo number_format(($entry->qte * $entry->prix_unitaire), 0, ',', ' '); ?></div></td>
+      <td>
+<?php 
+                $detail_commande_additif = new Application_Model_EuDetailCommandeAdditifMapper();
+                $entries3 = $detail_commande_additif->fetchAllByDetailCommande($entry->id_detail_commande);
+                if(count($entries3) > 0) {
+                    foreach($entries3 as $entry3){
+                        $article_stockes_additif = new Application_Model_EuArticleStockesAdditif();
+                        $m_article_stockes_additif = new Application_Model_EuArticleStockesAdditifMapper();
+                        $m_article_stockes_additif->find($entry3->id_article_stockes_additif, $article_stockes_additif);
+
+                      echo $article_stockes_additif->nom_article_stockes_additif." : ".$entry3->reference_additif."<br>";
+                        $j++;
+                    }
+                }
+ ?>
+</td>
+
+      <td><?php if($entry->commander >= 1) {?>
+			<a class="btn btn-mini btn-success">Déja Commandé</a>&nbsp;
+<?php }else {?>
+			<a class="btn btn-mini btn-warning">Non Commandé</a>&nbsp;
+<?php }?></td>
+      <td><div id="nivo<?php echo $entry->id_detail_commande; ?>"><?php if($entry->livrer == 1){?>
+      <a class="btn btn-mini btn-success" onclick="ouvre_livrercommandedetails('<?php echo $entry->id_detail_commande; ?>_0', 'nivo<?php echo $entry->id_detail_commande; ?>');"><i class="icon-ok icon-white"></i>  Déja Livré</a>&nbsp;
+<?php }else{?>
+      <a class="btn btn-mini btn-warning" onclick="ouvre_livrercommandedetails('<?php echo $entry->id_detail_commande; ?>_1', 'nivo<?php echo $entry->id_detail_commande; ?>');"><i class="icon-off icon-white"></i>  Non Livré</a>&nbsp;
+<?php }?></div></td>
+    </tr>
+<?php 
+}
+endforeach; ?>
+</tbody>
+					  </table>
+<?php /*?><?php }else{?>
+<div class="alert alert-info">
+  Aucun article acheté 
+</div><?php */?>
+<?php 
+}
+?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

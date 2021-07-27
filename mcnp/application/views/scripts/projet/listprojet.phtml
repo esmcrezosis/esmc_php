@@ -1,0 +1,107 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Liste des projets</p></blockquote>
+<?php if(count($this->entries)>0){ //echo count($this->entries);?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size: 10px;">
+						  <thead>
+							  <tr>
+								  <th>Date du projet</th>
+								  <th>Désignation du projet</th>
+								  <th>Type</th>
+								  <th>Centrale</th>
+								  <th>Entreposage</th>
+								  <th>Montant </th>
+								  <th>Montant final</th>
+								  <th>Canton</th>
+								  <!--<th>Code Membre</th>-->
+								  <th>Budget en nature</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php echo $entry->projet_date; ?></td>
+      <td><?php echo $entry->projet_libelle; ?></td>
+      <td><?php echo $entry->projet_type; ?></td>
+      <td><?php echo $entry->projet_centrale; ?></td>
+      <td><?php echo $entry->projet_stockage; ?></td>
+      <td><?php echo $entry->projet_montant; ?></td>
+      <td><?php echo $entry->projet_montant_final; ?></td>
+<?php 
+        $canton = new Application_Model_EuCanton();
+        $cantonM = new Application_Model_EuCantonMapper();
+        $cantonM->find($entry->id_canton, $canton);
+?>
+      <td><?php echo $canton->nom_canton; ?></td>
+      <!--<td><?php echo $entry->projet_code_membre; ?></td>-->
+      <td><div align="center">
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/projet/addbudgetprojet/id/<?php echo $entry->projet_id; ?>"><i class="icon-edit icon-white"></i>  Etablir budget</a>&nbsp;
+
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/projet/listbudgetnature/id/<?php echo $entry->projet_id; ?>"><i class="icon-edit icon-white"></i>  Liste budget</a>&nbsp;
+			</div></td>
+      <td><div align="center">
+<?php if($entry->publier >= 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/projet/publierprojet/id/<?php echo $entry->projet_id; ?>/publier/0"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/projet/publierprojet/id/<?php echo $entry->projet_id; ?>/publier/1"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/projet/detailprojet/id/<?php echo $entry->projet_id; ?>"><i class="icon-edit icon-white"></i>  Details</a>&nbsp;
+
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/projet/editprojet/id/<?php echo $entry->projet_id; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+
+			<a class="btn btn-mini" href="<?php echo $this->baseUrl(); ?>/projet/listdetailprojet/id/<?php echo $entry->projet_id; ?>"><i class="icon-edit icon-white"></i>  Fichiers</a>&nbsp;
+			</div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun projet  enregistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

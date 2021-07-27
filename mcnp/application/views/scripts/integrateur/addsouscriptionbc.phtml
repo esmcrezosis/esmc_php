@@ -1,0 +1,272 @@
+﻿<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/integrateur.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+       $('#code_membre').blur(function(e) {
+	  if($(this).val() !== '') {
+            $.get('/souscriptionbon/recupnom',{
+                 code_membre: $(this).val()
+            },
+            function success(data) {
+	     if(data !== '') {
+               $("#design_membre").val(data[1]);
+             } else {
+               alert('Ce membre n\existe pas!!!');
+             }
+	  })
+         } else {
+               $("#design_membre").val("");
+         }		   
+	});
+
+
+        $('#code_membre').blur(function(e) {      
+        $.get('/integrateur/codetegc',{
+          code_membre : $(this).val()
+        },
+        function success(data)  {
+           var options = '';
+           for(var i = 0; i < data.length; i++) {
+               options += '<option value="' + data[i][0] + '" selected>' + data[i][1] + ' </option>';
+           }       
+           $('select#code_te').html(options);               
+        });
+        e.preventDefault();		 
+        });
+
+
+        $('#id_pays').change(function(e) {      
+        $.get('/integrateur/listbanque',{
+          id_pays : $(this).val()
+        },
+        function success(data)  {
+           var options = '<option/>';
+           for (var i = 0; i < data.length; i++) {
+               options += '<option value="' + data[i][0] + '" >' + data[i][1] + ' </option>';
+           }       
+           $('select#code_banque').html(options);               
+        });
+        //e.preventDefault();		 
+        });
+
+   });
+
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+<blockquote><p> Souscription au Bon de Consommation pour Tiers </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscriptionbc">
+      <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error != "") { ?>
+      <div class="alert alert-error">
+           <button type="button" class="close" data-dismiss="alert">&times;</button>
+           <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+      </div>
+      <?php } ?>
+	  
+	  <?php if(isset($this->error) && $this->error !="") { ?>
+      <div class="alert alert-error">
+           <button type="button" class="close" data-dismiss="alert">&times;</button>
+           <?php echo $this->error; ?>
+      </div>
+      <?php } ?>
+	  
+	  <fieldset>
+	  
+	  <legend> Code BAn </legend>
+	  <div class="control-group">
+           <label class="control-label" for="code_BAn">Code BAn *</label>
+           <div class="controls">
+                <input name="code_BAn" type="text" id="code_BAn" placeholder="Entrer le Code BAn" required="required" />
+	            <span id="nivban"><button type="button" class="btn btn-info" onclick="ouvre_bonachatneutres(document.getElementById('code_BAn').value, 'nivban');">Vérifier</button></span>
+                <span class="help-block"><p class="text-error"> Veuillez saisir le Code BAn affiché lors de la souscription BAn </p></span>
+           </div>
+      </div>
+	  
+      <legend> Remplir les informations du Souscripteur </legend>
+
+      <div class="control-group">
+      <label class="control-label" for="liste">Avez-vous une liste de bénéficiaires de votre souscription *</label>
+      <div class="controls">
+           <label for="" class="radio">
+           <input name="liste" type="radio" id="liste_0" value="SansListe" required  />
+           Non
+           </label>
+
+          <label for="bon_neutre_autonome_1" class="radio">
+            <input type="radio" name="liste" id="liste_1" value="AvecListe" required  />
+            Oui
+          </label>
+  
+  </div>
+</div>
+      
+
+      <div class="control-group">
+           <label class="control-label" for="code_membre"> Code membre * </label>
+           <div class="controls">
+                <input type="text" name="code_membre" id="code_membre" placeholder="Code Membre Souscripteur"  value="<?php echo $this->code_membre; ?>"  class="input-block-level"  required="required" />
+           </div>
+      </div>
+
+	  
+     <div class="control-group">
+           <label class="control-label" for="code_membre">Désignation Personne * </label>
+	   <div class="controls">
+                <input type="text" name="design_membre" id="design_membre" placeholder="" readonly  value="<?php echo $this->nom_membre; ?>"  class="input-block-level"  required="required" />
+           </div>
+      </div>
+
+      <div class="control-group">
+           <label class="control-label" for="code_te"> Terminal d'Echange * </label>
+           <div class="controls">
+                <select  id="code_te" name="code_te" required class="input-block-level">
+	          <option value=""> Choisir un terminal du souscripteur</option>
+	        </select>     
+           </div>     
+      </div>
+
+      <div class="control-group">
+      <label class="control-label" for="integrateur_montant"> Montant de la souscription * </label>
+      <div class="controls">
+           <input type="text" name="montant_souscription" id="montant_souscription" placeholder="Montant de la souscription"  value="<?php echo $this->montant_souscription; ?>" class="input-block-level"  required="required" />
+      </div>
+      </div>
+
+      <div class="control-group">
+          <label class="control-label" for="type_souscription"> Type Souscription * </label>
+          <div class="controls">
+          <select name="type_souscription" id="type_souscription" required="true" class="input-block-level"  onchange="calculmontant();" >
+             <option value=""> Choisir un type de souscription </option>
+             <option value="CMIT">Capital Minimal d'Investissement pour Tous (Souscription Marchande) </option>
+             <option value="CAPU">Capital Apporté par les Partenaires d'Usufruit (Souscription Marchande)</option>
+             <option value="CAIPC">Capital Apporté pour l'Insertion des Personnes Ciblées (Souscription Non Marchande)</option>
+          </select>
+          </div>
+      </div>
+
+      
+	    
+	  
+      <div class="control-group">
+      <label class="control-label" for="code_zone"> Zone Monétaire *</label>
+      <div class="controls">
+           <select name="code_zone" id="code_zone" class="input-block-level" required>
+           <option value="">Choisir une zone monétaire</option>
+           <?php foreach ($this->zones as $value) { ?>
+           <option
+               value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?>
+           </option>
+           <?php } ?>
+           </select>
+      </div>
+      </div>
+	  
+	  
+      <div class="control-group">
+      <label class="control-label" for="id_pays">Pays *</label>
+      <div class="controls">
+           <select name="id_pays" id="id_pays" class="input-block-level" required>
+           <option value=""> Choisir un pays </option>
+           <?php foreach ($this->pays as $value) { ?>
+                <option value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>
+           <?php } ?>
+           </select>
+      </div>
+      </div>
+
+	  
+      <div class="control-group">
+      <label class="control-label" for="id_region"> Région *</label>
+      <div class="controls">
+           <select name="id_region" id="id_region" class="input-block-level" required>
+           <option value="">Choisir une région</option>
+           <?php foreach ($this->regions as $value) { ?>
+                <option value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>
+           <?php } ?>
+           </select>
+      </div>
+      </div>
+	  
+	  
+      <div class="control-group">
+      <label class="control-label" for="id_prefecture">Préfecture *</label>
+      <div class="controls">
+      <select name="id_prefecture" id="id_prefecture" class="input-block-level" required>
+           <option value="">Choisir une préfecture</option>
+           <?php foreach ($this->prefectures as $value) { ?>
+                 <option value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>
+           <?php } ?>
+      </select>
+      </div>
+      </div>
+
+	  
+      <div class="control-group">
+      <label class="control-label" for="id_canton">Canton *</label>
+      <div class="controls">
+           <select name="id_canton" id="id_canton" class="input-block-level" required="required" >
+           <option value="">Choisir un canton</option>
+           <?php foreach ($this->cantons as $c) { ?>
+                 <option value="<?php echo $c->id_canton; ?>" <?php if($c->id_canton == $this->id_canton) {echo'selected="selected"';} ?>> <?php echo $c->nom_canton; ?></option>
+          <?php } ?>
+          </select>
+      </div>
+      </div>
+
+      <div class="control-group">
+           <label class="control-label" for="code_banque">Banque * </label>
+           <div class="controls">
+                <select  id="code_banque" name="code_banque" required class="input-block-level">
+	          <option value=""> Choisir votre banque</option>
+	        </select>     
+           </div>     
+      </div>
+
+
+      <div class="control-group">
+      <label class="control-label" for="num_compte_bancaire">Numéro Compte * </label>
+      <div class="controls">
+           <input type="text" name="num_compte" id="num_compte" placeholder="Numéro de Compte Bancaire"  class="input-block-level"  required="required" />
+      </div>
+      </div>
+
+	  
+      <div class="control-group">
+      <label class="control-label" for="msbc_attestation"> Attestation  * </label>
+      <div class="controls">
+      <label class="checkbox">
+      <input name="msbc_attestation" type="checkbox" id="msbc_attestation" value="1" required /> Je, soussigné, certifie, en toute conscience, que les renseignements ci-dessus rendent fidèlement compte de ma situation, de mes qualifications et de mon expérience. J’accepte que toute fausse déclaration volontaire puisse entraîner ma disqualification de la présente procédure.
+      </label>
+      </div>
+      </div>
+      </fieldset>
+	  
+      <div class="form-actions">
+      <input name="publier" type="hidden" id="publier" value="0" />
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <input  type="hidden"  name="caps"  id="caps"  placeholder="caps"  readonly="true"  value="<?php echo $this->caps; ?>" />
+      <button type="reset" class="btn">Annuler</button>
+      <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+
+
+</form>
+</div>
+
+</div>
+</div>

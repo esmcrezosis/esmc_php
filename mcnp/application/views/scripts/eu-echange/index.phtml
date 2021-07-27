@@ -1,0 +1,34 @@
+<div id="view-content" title="Echange" style="font-size: 12px;min-height: 520px;">
+    <table id="tbl-echange"></table>
+    <div id="pg-echange"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#tbl-echange").jqGrid({
+            url: '/eu-echange/data',
+            datatype: "json",
+            mtype: 'GET',
+            colNames: ['Date', 'Membre', 'Type echange', 'Compte', 'Montant'],
+            height: 410, width: 815,
+            colModel: [
+                {name: 'date_echange', index: 'date_echange', width: 80, align: "left", editable: true},
+                {name: 'code_membre', index: 'code_membre', width: 120, align: "left", editable: true},
+                {name: 'type_echange', index: 'type_echange', width: 100, align: "left", editable: true},
+                {name: 'code_compte_ech', index: 'code_compte_ech', width: 200, editable: true, align: "left"},
+                {name: 'montant_echange', index: 'montant_echange', width: 100, editable: true, align: "right"}
+            ],
+            rowNum: 20,
+            rowList: [20, 30, 40],
+            pager: '#pg-echange',
+            sortname: "id_echange",
+            viewrecords: true,
+            sortorder: "ASC",
+            caption: "Echange de crédits effectués"
+        });
+        $("#tbl-echange").jqGrid('navGrid', '#pg-echange', {edit: false, add: false, del: false, search: true});
+        $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+        });
+    });
+</script>

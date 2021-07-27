@@ -1,0 +1,95 @@
+<div id="view-content" style="font-size: 12px;min-height: 520px;" title="Création d'un sous compte utilisateur">
+    <form method="POST" action="/eu-compte-user-group-sous/new" id="user_form" name="user_form">
+                        <fieldset>
+                            <legend>Infos sur l'utilisateur</legend>
+        <table style="margin-left: 15px;">
+                                    <tr>
+                                        <td><label>Nom utilisateur *</label></td><td><input type="text" id="nom" name="nom" size="27" required="true"></td>
+                                        <td><label>Prénom utilisateur *</label></td><td><input type="text" id="prenom" name="prenom" required="true" size="27"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Login *</label></td><td><input type="text" id="login" name="login" size="27" required="true"></td>
+                                        <td><label>Mot de passe *</label></td><td><input type="password" id="pwd" name="pwd" required="true" size="27"></td>
+                                    </tr>
+									<tr>
+                                        <td><label>Confirmer mot de passe *</label></td>
+                                        <td><input type="password" id="pwd1" name="pwd1" required="true" size="27"></td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+									<tr>
+                                        <td><label>Pays *</label></td>
+                                        <td><select id="pays" name="pays" required="true"></td>
+                                        <td><label>Description</label></td>
+                                        <td><textarea id="desc" name="desc"></textarea></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Sous Groupe *</label></td>
+                                        <td colspan='3'>
+<table width="100%">
+  <tr>
+<?php 
+										$g = array();
+	       $tab = new Application_Model_DbTable_EuUserGroup();
+           $sel = $tab->select();
+           $sel->where('code_groupe_parent = ? ', $this->groupeuser);
+           $sel->order('code_groupe ASC');
+           $group = $tab->fetchAll($sel);
+           $i = 1;$y = 1;
+           foreach ($group as $value) {
+			   ?>
+    <td>
+<label for="code_groupe<?php echo $i; ?>">
+<input id="code_groupe<?php echo $i; ?>" name="code_groupe" type="radio" value="<?php echo $value->code_groupe; ?>" /> <?php echo $value->libelle_GROUPE; ?></label>
+</td>
+<?php if($y == 2){?></tr><tr><?php $y = 0;}?>
+			   <?php $i++;$y++;
+			   }?>
+               <!--<select id="groupe" name="groupe" required="true">-->
+  </tr></table>
+               </td>
+                                    </tr>                                    
+									
+                <tr>
+                                        <td></td>
+                    <td colspan="2" align="center">
+                        <input id="compte_val" type="submit" value="Valider"/>
+                        <input id="acteur_reset" type="reset" value="Annuler"/>
+                    </td>
+                                        <td></td>
+                </tr>
+        </table>      
+                        </fieldset>
+    </form>    
+</div>
+<script>
+    $(document).ready(function() {
+
+        $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+        });
+
+        $.get('/eu-compte-user-group-sous/groupe',
+                function success(data)
+                {
+                    var options = '<option></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                    $('select#groupe').html(options);
+                });
+				
+		$.get('/eu-compte-user-group-sous/pays',
+                function success(data)
+                {
+                    var options = '<option></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                    $('select#pays').html(options);
+                });		
+
+
+    })
+</script>    

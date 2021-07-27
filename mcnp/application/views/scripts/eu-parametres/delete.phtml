@@ -1,0 +1,21 @@
+<div id="view-content" class="ui-widget">
+    <div  class="cntError">
+        <?php
+        echo $this->message;
+        ?>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Suppression d'un paramètre</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <?php
+        $this->form->setAction($this->url());
+        $this->form->getElement("submit")->setLabel("Supprimer");
+        echo $this->form;
+        ?>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#submit').button();
+    $('#cancel').button();
+</script>

@@ -1,0 +1,74 @@
+<div id="view-content" title="Affectation au SMCIPNP" style="font-size: 12px">
+    <div class="ui-widget-content ui-corner-bottom" style="height: 500px;">
+        <form id="compenser_form" method="post" action="/compensation/affecter">
+            <table id="tab_compenser" style="width: 700px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+                <tr>
+                    <td style="text-align: right;"><label for="pbf">Numéro PBF :</label></td>
+                    <td><input type="text" size="30" id="pbf" name="pbf" value="<?php echo $this->pbf; ?>"/></td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><label for="raison_soc">Raison sociale :</label></td><td><input size="30" type="text" id="raison_soc" name="raison_soc" value="<?php echo $this->raison_soc ?>" readonly="true"/></td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><label for="e_membre">Nom Représentant :</label></td>
+                    <td><input size="30" type="text" id="nom_rep" name="nom_rep" value="<?php echo $this->nom_rep ?>" readonly="true"/>
+                        <input size="30" type="text" id="prenom_rep" name="prenom_rep" value="<?php echo $this->prenom_rep ?>" readonly="true"/></td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><label for="solde_compte">Solde GCP (Marges incluses) :</label></td>
+                    <td>
+                        <input size="30" type="text" id="solde_compte" name="solde_compte" value="<?php echo $this->solde_compte; ?>" style="text-align: right"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><label>solde GCP réel (sans marges)</label></td>
+                    <td>
+                        <input size="30" type="text" id="solde_gcpr" name="solde_gcpr" value="<?php echo $this->solde_gcpr; ?>" style="text-align: right"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><label for="vendeur">Crédit à obtenir :</label></td>
+                    <td><select id="compte_gcp" name="compte_gcp" value="<?php echo $this->compte_gcp; ?>">
+                            <option value="CNCS">CNCS</option>
+                            <option value="I">Investissement</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><label for="mont_compte">GCP réel à affecter :</label></td>
+                    <td><input style="text-align: right;" type="text" id="mont_compte" name="mont_compte" value="<?php echo $this->mont_compte; ?>"/></td>
+                </tr>
+                <tr><td></td><td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Réinitialiser"/></td></tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $(function(){
+            $('#view-content').puipanel();
+        });
+        $.get( "/compensation/membre",
+        function success(data)
+        {
+            $('#pbf').autocomplete({"source":data});
+        });
+        
+        $('#pbf').blur(function(e){
+            e.preventDefault();
+            $.get( "/compensation/gcppbf",{membre:$('#pbf').val()},
+            function success(data)
+            {
+                if(data !== ''){
+                    $("#nom_rep").val(data[0]);
+                    $("#prenom_rep").val(data[1]);
+                    $("#raison_soc").val(data[2]);
+                    $('#solde_compte').val(data[3]);
+                    $('#solde_gcpr').val(data[4]);
+                }else{
+                    $("#id_message").html("Ce membre n'existe pas !!!");
+                }
+            });
+        });
+    });
+</script>

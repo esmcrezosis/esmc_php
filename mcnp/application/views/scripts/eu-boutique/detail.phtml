@@ -1,0 +1,26 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <a href="" style=" text-decoration:none"><input id="retour" type="button" value="Retour" class="ui-widget button"/></a>
+    </div>
+    <div id="accordeon">
+        <h2><a href="#">Info en détail sur la boutique : <?php echo  $this->boutique->code_bout; ?></a></h2>
+        <div>
+            <table>
+                  <tr><td>Raison sociale</td><td style="color: red"><label><?php echo $this->boutique->design_bout; ?></label></td> </tr>
+                  <tr><td>Numero membre</td><td style="color: red"><label><?php echo $this->boutique->proprietaire; ?></label></td></tr>
+                  <tr><td>Responsable</td><td style="color: red"><label><?php echo $this->boutique->nom_responsable.' '.$this->boutique->prenom_responsable; ?></label></td> </tr>
+                  <tr><td>Téléphone</td><td style="color: red"><label><?php echo $this->boutique->telephone; ?></label></td></tr>
+                  <tr><td>Code secteur</td><td style="color: red"><label><?php echo $this->boutique->codesect; ?></label></td></tr>
+                  <tr><td>Adresse</td><td style="color: red"><label><?php echo $this->boutique->adresse; ?></label></td></tr>
+                  <tr><td>E-Mail</td><td style="color: red"><label><?php echo $this->boutique->mail; ?></label></td></tr>
+                  <tr><td>Site web</td><td style="color: red"><label><?php echo $this->boutique->siteweb; ?></label></td></tr>
+            </table>
+        </div>
+    </div>       
+</div>
+<script type="text/javascript">
+        $(function() {
+            $("#accordeon").accordion();
+        });
+        $('#retour').button();
+</script>

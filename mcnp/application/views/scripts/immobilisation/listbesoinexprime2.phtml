@@ -1,0 +1,109 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+<script src="<?php echo $this->baseUrl();?>/pv.js"></script>
+
+<script type="text/javascript" charset="utf-8">		
+	$(document).ready(function() {
+    $('#example').dataTable({
+       "sPaginationType": "full_numbers",
+	   "aaSorting": []
+    });
+    });
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+  <blockquote><p>Liste des Expressions de besoins </p></blockquote>
+  
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+<?php } ?>
+  
+<?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error != "") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+<?php } ?>
+
+<?php if(count($this->entries) > 0) { ?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+<thead>
+	  <tr>
+		  <th>Date</th>
+		  <th>Désignation</th>
+		  <th>Demandeur</th>
+		  <th>Date Entretien/Panne</th>
+		  <th>Actions</th>
+	  </tr>
+</thead>
+  
+<tbody>
+<?php 
+
+foreach ($this->entries as $entry): 
+
+$membre = new Application_Model_EuMembre();
+$m_membre  = new Application_Model_EuMembreMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$m_membremorale = new Application_Model_EuMembreMoraleMapper();
+$nom = "";
+
+if(substr($entry->code_membre_demandeur,19,1) == 'P')  {
+   $findmembre = $m_membre->find($entry->code_membre_demandeur,$membre);
+   $nom = $membre->nom_membre." ".$membre->prenom_membre;
+} else {
+   $findmembre = $m_membremorale->find($entry->code_membre_demandeur,$membremorale);
+   $nom = $membre->raison_sociale;
+}
+
+?>
+    <tr>
+	  <td><?php echo ($entry->date_besoin_exprime); ?></td>
+	  <td><?php echo ($entry->designation_besoin); ?></td>
+	  <td><?php echo ($entry->code_membre_demandeur)."(".$nom.")"; ?></td>
+	  <td><?php echo ($entry->debut_periode_besoin); ?></td>
+	  <td>
+	      <div align="center">
+		       <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/immobilisation/detaildemande/id/<?php echo $entry->id_fiche_besoin; ?>"><i class="icon-edit icon-white"></i> Details </a> &nbsp;  
+			   <?php if($entry->valider == 1) { ?>
+			   <a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/immobilisation/addvisatechno/id/<?php echo $entry->id_fiche_besoin; ?>/publier/2"><i class="icon-plus icon-white"></i>Viser</a>&nbsp;
+			   <?php } else if($entry->valider == 2 || $entry->valider == 3) {  ?>
+			      <a class="btn btn-mini btn-success" onclick=""><i class="icon-ok icon-white"></i> Demande visée </a> &nbsp;
+			   <?php } else if($entry->livrer == 1) {  ?>
+			      <a class="btn btn-mini btn-success" onclick=""><i class="icon-ok icon-white"></i> Livré </a> &nbsp;
+			   <?php } else if($entry->rejeter == 1) {  ?>
+			      <a class="btn btn-mini btn-warning" onclick=""><i class="icon-off icon-white"></i> Rejeté </a>&nbsp;
+			   <?php } else { ?>
+			      <a class="btn btn-mini btn-info"><i class="icon-off icon-white"></i> En Cours de traitement </a> &nbsp;
+			   <?php } ?>
+		  </div>
+	  </td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucune fiche de besoin enrégistré 
+</div>
+<?php } ?>
+
+</div>
+</div>
+</div>
+
+

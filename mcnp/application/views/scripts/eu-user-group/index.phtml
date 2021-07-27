@@ -1,0 +1,49 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-groupe"></table>
+    <div id="pg-groupe"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-groupe").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé'],
+        height:420, width:827,
+        colModel:[
+            {name:'code_groupe',index:'code_groupe', width:100, sorttype:"int", editable: true,align:"left"},
+            {name:'libelle_groupe',index:'libelle_groupe', width: 250, editable: true,align:"left"}
+        ],
+        rowNum:1000,
+        rowList:[1000,2000,3000],
+        rownumbers:true,
+        pager: '#pg-groupe',
+        sortname:"code_groupe",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des groupes d'utilisateurs"
+    });
+  
+    $("#tbl-groupe").jqGrid('navGrid','#pg-groupe',{edit:false,add:false,del:false,search:true});
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-groupe").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-groupe").jqGrid('getRowData',rowsel);
+            $.get('/eu-user-group/edit',{
+                code_groupe:data.code_groupe
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+</script>

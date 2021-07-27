@@ -1,0 +1,59 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Ajouter une categorie d'article</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addarticle_stockes_categorie">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+
+
+
+<div class="control-group">
+<label class="control-label" for="nom_article_stockes_categorie">Nom de la categorie *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="nom_article_stockes_categorie" id="nom_article_stockes_categorie" placeholder="Nom de la categorie" required>
+</div>
+</div>
+
+
+
+<div class="form-actions">
+<input name="code_membre_morale" type="hidden" id="code_membre_morale" value="<?php echo $sessionmembre->code_membre; ?>" />  
+<input name="etat" type="hidden" id="etat" value="1" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter la categorie de l'article</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

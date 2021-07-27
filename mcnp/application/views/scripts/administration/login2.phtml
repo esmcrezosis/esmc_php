@@ -1,0 +1,49 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php /* ?><?php include("../application/layouts/scripts/menuadmin__.phtml"); ?><?php */ ?>
+
+<form method="post" id="connexion" action="<?php echo $this->baseUrl();?>/administration/login">
+    <?php if(isset($sessionutilisateur->errorlogin) && $sessionutilisateur->errorlogin != ""){?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->errorlogin; ?>
+	</div>
+	<?php }?>
+
+    <?php /* ?><div class="alert alert-error">
+    <h2>La plateforme ESMC sera momentanément en maintenance de 12h30 à 17h30.</h2></div>
+    <?php */ ?>
+
+    <div class="controls">
+      <input name="login" type="text" id="login" placeholder="Votre Login">
+    </div>
+    <div class="controls">
+      <input name="pwd" type="password" id="pwd" placeholder="Votre Mot de Passe">
+    </div>
+    <div class="controls">
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <button type="submit" class="btn">Connexion Administration</button>
+    </div>
+</form>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

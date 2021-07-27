@@ -1,0 +1,132 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre'); ?>
+
+<script type="text/javascript">
+   var compteur = 1;
+   function addRow(tableID) {
+	 var table = document.getElementById(tableID);
+     var rowCount = table.rows.length;
+     var cpte = rowCount;
+     var row = table.insertRow(rowCount);
+	   
+	 var cell1 = row.insertCell(0);
+     var element0 = document.createElement("input");
+     element0.type = "text";
+     element0.setAttribute("id", "code_immo" + cpte);
+	 element0.setAttribute("name", "code_immo[]");
+	 element0.setAttribute("class","input-xxlarge");
+	 element0.setAttribute("placeholder","Code Immobilisation");
+	 element0.setAttribute("required","true");
+     cell1.appendChild(element0);
+	   
+	 compteur = compteur + 1;
+     document.getElementById("cpteur").setAttribute('value',compteur);  
+   }
+   
+   
+   function deleteRow(tableID)  {
+	  try {
+         var table = document.getElementById(tableID);
+         var rowCount = table.rows.length - 1;
+         if (rowCount >= 1) {
+            table.deleteRow(rowCount);
+            compteur = compteur - 1;
+            document.getElementById("cpteur").setAttribute('value', compteur);
+         }
+      } catch (e) {
+         alert(e);
+      }    
+   }
+
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+<blockquote><p> Formulaire d'Expression des Besoins </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addfichebesoin">
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+  <?php if(isset($sessionmembre->error) && $sessionmembre->error != "") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembre->error; $sessionmembre->error = ""; ?>
+  </div>
+  <?php } ?>
+
+
+
+<legend>Expression du Besoin</legend>
+  
+<div class="control-group">
+<label class="control-label" for="libelle_besoin"> Désignation du Besoin * </label>
+<div class="controls">
+<input type="text" name="libelle_besoin" id="libelle_besoin" placeholder="Désignation du besoin" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="date_acquisition">Debut période </label>
+<div class="controls">
+<input type="text" name="debut_periode" id="debut_periode" placeholder="Debut Période" class="input-large datepicker" data-provide="datepicker" required />
+</div>
+</div> 
+
+
+<div class="control-group">
+<label class="control-label" for="date_acquisition">Fin période </label>
+<div class="controls">
+<input type="text" name="fin_periode" id="fin_periode" placeholder="Fin Période" class="input-large datepicker" data-provide="datepicker" required />
+</div>
+</div> 
+  
+<legend>Immobilisation</legend>
+<div class="control-group" id="display_immo">
+     <label class="control-label" for="codification"> Code immobilisation * </label>
+	 <div class="controls">
+	      <table id="tab_immo">
+		         <tr>
+				      <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+				      <td>
+				          <input type="text" id="code_immo" name="code_immo[]" placeholder="Code Immobilisation"  class="input-xxlarge" required />
+			          </td>
+				     
+				      <td>
+				          <input class="btn btn-mini"  id="add"     type="button"  value="+"  onclick ="addRow('tab_immo');"   /> 
+					      <input class="btn btn-mini"  id="remove"  type="button"  value="-"  onclick="deleteRow('tab_immo');" /> 
+				      </td>
+				 </tr>
+		  </table>
+	 </div>
+</div>  
+ 
+<div class="form-actions">  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enrégistrer</button>
+</div>                           
+  
+</form>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

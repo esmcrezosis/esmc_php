@@ -1,0 +1,115 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/detailpropositions.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/membrepropositions.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<script type="text/javascript">
+function montant_proposition(prix_unitaire, quantite){
+		total = prix_unitaire * quantite;
+		document.getElementById('montant_proposition').value = document.getElementById('montant_proposition').value + total;
+	}
+</script>
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote>
+    <p>Ajout d'un detail à ma proposition</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addproposition">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<?php if(count($this->proposition)>0){?> 
+
+<label><strong>Appel d'offre :</strong> <?php 
+$appeloffreM = new Application_Model_EuAppelOffreMapper();
+$appeloffre = new Application_Model_EuAppelOffre();
+$appeloffreM->find($this->proposition->id_appel_offre, $appeloffre);
+?>
+<?php echo htmlentities($appeloffre->numero_offre); ?> (<?php echo htmlentities($appeloffre->nom_appel_offre); ?>)</label>
+
+<label><strong>Montant de la proposition :</strong> <?php echo number_format($this->proposition->montant_proposition, 0, ',', ' '); ?></label>
+
+<label><strong>Montant de la salaire :</strong> <?php echo number_format($this->proposition->montant_salaire, 0, ',', ' '); ?></label>
+
+<label><strong>Autres budgets :</strong> <?php echo number_format($this->proposition->autre_budget, 0, ',', ' '); ?></label>
+
+
+<label>Détails de la proposition </label>
+<?php $a = 1;?>
+<div id="nivdetail<?php echo $a;?>">
+<input class="input-medium" type="text" name="libelle_produit[]" id="libelle_produit<?php echo $a;?>" placeholder="Libellé produit" required>
+<input class="input-small" type="text" name="prix_unitaire[]" id="prix_unitaire<?php echo $a;?>" placeholder="Prix unitaire" required>
+<input class="input-mini" type="text" name="quantite[]" id="quantite<?php echo $a;?>" placeholder="Quantité" required>
+<select class="input-small" name="type_produit[]" id="type_produit<?php echo $a;?>" onChange=" if(this.value == 'Fixe'){document.getElementById('mdv<?php echo $a;?>').readOnly = true;}else{document.getElementById('mdv<?php echo $a;?>').readOnly = false;}" required>
+  <option value="">Type de produit</option>
+  <option value="Fixe">Fixe</option>
+  <option value="Circulant">Circulant</option>
+</select>
+<input class="input-small" type="text" name="unite_mesure[]" id="unite_mesure<?php echo $a;?>" placeholder="Unité de mesure" required>
+<select class="input-small" name="appartenance[]" id="appartenance<?php echo $a;?>" onChange=" if(this.value == 'Propre'){document.getElementById('code_membre_morale_four<?php echo $a;?>').readOnly = true;document.getElementById('code_membre_morale_four<?php echo $a;?>').value = '<?php echo $sessionmembre->code_membre; ?>';}else{document.getElementById('code_membre_morale_four<?php echo $a;?>').readOnly = false;document.getElementById('code_membre_morale_four<?php echo $a;?>').value = '';}" required>
+  <option value="">Choisir</option>
+  <option value="Propre">Propre</option>
+  <option value="A louer">A louer</option>
+  <option value="A Acquerir">A Acquerir</option>
+</select>
+
+<?php $membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$entriesmembremorale = $membremoraleM->fetchAll();
+$liste = "";
+foreach ($entriesmembremorale as $entrymembremorale): 
+$liste .= '"'.$entrymembremorale->code_membre_morale.'",';
+endforeach; 
+$liste = substr($liste, 0, -1);
+?>
+<input class="input-small" type="text" name="code_membre_morale_four[]" id="code_membre_morale_four<?php echo $a;?>" placeholder="Code fournisseur" data-provide="typeahead" data-items="5" data-source='[<?php echo $liste;?>]' readonly>
+
+<input class="input-mini" type="text" name="mdv[]" id="mdv<?php echo $a;?>" placeholder="MDV" value="">
+<a class="btn btn-mini" onclick="document.getElementById('nivdetail<?php echo $a;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_detailpropositions('<?php echo $a + 1;?>','nivdetail<?php echo $a + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+<div id="nivdetail<?php echo $a + 1;?>"></div>
+<br />
+<br />
+
+
+
+<div class="form-actions">
+<input name="code_membre_morale" type="hidden" id="code_membre_morale" value="<?php echo $sessionmembre->code_membre; ?>" />  
+<input name="id_proposition" type="hidden" id="id_proposition" value="<?php echo $this->proposition->id_proposition; ?>" />  
+<input name="disponible" type="hidden" id="disponible" value="0" />  
+<input name="choix_proposition" type="hidden" id="choix_proposition" value="0" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter à ma proposition</button>
+</div>
+ 
+ <?php }?>                           
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

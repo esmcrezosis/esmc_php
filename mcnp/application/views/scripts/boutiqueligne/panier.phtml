@@ -1,0 +1,353 @@
+<?php $sessionpanier = new Zend_Session_Namespace('panier');?>
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/payss.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/regions.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/prefectures.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/montantlivraison.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/telephonepanier.js"></script>
+
+<div class="card3">
+<div class="row">
+<div class="col-xl-12" style="text-align:left">
+
+
+<script>
+function totalmontant(nbre){
+	montant = 0;
+	for(i = 0; i < nbre; i++){ 
+	
+		if(document.getElementById('qte'+i)){
+		if(document.getElementById('qte'+i).value > 0){
+			}else{
+			document.getElementById('qte'+i).value = 1;
+				}
+	montant += document.getElementById('qte'+i).value * (document.getElementById('prix_unitaire'+i).value - document.getElementById('remise'+i).value);
+		}
+		
+	document.getElementById('montant').value = montant;
+	}
+	}
+</script>
+
+  <blockquote class="blockquote"><p>Mon panier <small>Liste de mes achats encours</small></p></blockquote>
+
+<form method="post" enctype="multipart/form-data" class="well form-horizontal" id="panier">       
+	   <?php if(isset($sessionpanier->errorlogin) && $sessionpanier->errorlogin != ""){?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionpanier->errorlogin; $sessionpanier->errorlogin = ""; ?>
+	</div>
+	<?php }?>
+ 
+<table class="table table-striped table-hover table-sm">
+<thead>
+<tr>
+<th>&nbsp;</th>
+<th>Produits</th>
+<th>Catégorie</th>
+<th><div align="center">Quantité</div></th>
+<th><div align="right">Prix</div></th>
+<th><div align="center">Remise</div></th>
+<!--<th><div align="center">Vendeurs</div></th>-->
+<th><div align="center">Actions</div></th>
+</tr>
+</thead>
+<tbody>
+<?php $total = 0;?>
+<?php for($i = 0; $i < count($sessionpanier->produit); $i++){ ?>
+<?php if(isset($sessionpanier->produit[$i][0]) && $sessionpanier->produit[$i][0] != ""){?>
+    <tr>
+      <td><?php if($sessionpanier->produit[$i][8] != ""){?><img src="<?php echo $this->baseUrl();?>/<?php echo ($sessionpanier->produit[$i][8]); ?>" width="25" height="25" class="img-fluid"><?php }?></td>
+      <td><?php echo htmlentities($sessionpanier->produit[$i][2]); ?> <small>(<?php echo htmlentities($sessionpanier->produit[$i][1]); ?> - <?php echo htmlentities($sessionpanier->produit[$i][0]); ?>)</small></td>
+      <td><?php 
+$categoriebpsM = new Application_Model_EuTypeCreditMapper();
+$categoriebps = new Application_Model_EuTypeCredit();
+$categoriebpsM->find($sessionpanier->produit[$i][6], $categoriebps);
+?><?php echo ($categoriebps->lib_type_credit); ?></td>
+      <td><div align="center"><input type="hidden" name="produit[]" id="produit<?php echo $i; ?>" value="<?php echo $sessionpanier->produit[$i][9]; ?>" /><input style="width: 50px;" class="form-control" type="number" name="qte[]" id="qte<?php echo $i; ?>" placeholder="Qté" value="<?php echo $sessionpanier->produit[$i][10]; ?>" required onchange="totalmontant(<?php echo count($sessionpanier->produit); ?>);" /></div></td>
+      <td><div align="right"><strong><?php echo number_format($sessionpanier->produit[$i][3], 0, ',', ' '); ?></strong></div>
+      <input name="prix_unitaire[]" id="prix_unitaire<?php echo $i; ?>" type="hidden" value="<?php echo $sessionpanier->produit[$i][3]; ?>" /></td>
+      <td><div align="center"><strong><?php echo number_format(($sessionpanier->produit[$i][7] * 100 / $sessionpanier->produit[$i][3]), 0, ',', ' '); ?> %</strong></div>
+      <input name="remise[]" id="remise<?php echo $i; ?>" type="hidden" value="<?php echo $sessionpanier->produit[$i][7]; ?>" /></td>
+      <?php /*<td><div align="center"><a href="<?php echo $this->baseUrl();?>/boutiqueligne/acteurcreneaumembremorale/membre/<?php echo $sessionpanier->produit[$i][4]; ?>"><?php 
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($sessionpanier->produit[$i][4], $membremorale);
+?><small><?php echo ($membremorale->raison_sociale); ?></small></a></div></td>*/?>
+      <td><div align="center"><a href="<?php echo $this->baseUrl();?>/boutiqueligne/retirerpanier/id/<?php echo $i; ?>"><i class="icon-remove"></i> Retirer</a></div></td>
+    </tr>
+    <?php $total = $total + (($sessionpanier->produit[$i][3] * $sessionpanier->produit[$i][10]) - $sessionpanier->produit[$i][7]);?>
+	<?php }?>
+<?php } ?>
+    <tr>
+      <td><div align="right"></div></td>
+      <td><div align="right"></div></td>
+      <td><div align="right"></div></td>
+      <td><div align="right"></div></td>
+      <td><div align="center"></div></td>
+      <td><div align="center"></div></td>
+      <!--<td><div align="center"></div></td>-->
+      <td><div align="center"></div></td>
+    </tr>
+    <tr>
+      <td><div align="center"></div></td>
+      <td><div align="center"></div></td>
+      <td><div align="center"></div></td>
+      <td><div align="right"><strong>Total</strong></div></td>
+      <td colspan="3"><div align="right"><strong><input class="form-control" type="text" name="montant" id="montant" value="<?php echo $total; ?>" readonly /></strong></div></td>
+      <!--<td><div align="center"></div></td>-->
+      <!--<td><div align="center"></div></td>-->
+      <!--<td><div align="center"></div></td>-->
+    </tr>
+</tbody>
+</table>
+
+
+<br />
+
+
+
+  <div class="control-group">
+  <label class="control-label" for="code_membre_acheteur">Code Membre de l'acheteur *</label>
+  <div class="controls">
+  <input class="form-control" type="text" name="code_membre_acheteur" id="code_membre" placeholder="Code Membre de l'acheteur" value="<?php echo $sessionmembre->code_membre; ?>" required onchange="ouvre_telephonepanier(this.value);">
+  </div>
+  </div>
+
+
+<div class="control-group">
+  <label class="control-label" for="code_zone">Zone M. *</label>
+  <div class="controls">
+  <select class="form-control" name="code_zone" id="code_zone" required onchange="ouvre_payss(this.value);">
+        <?php $tzone = new Application_Model_DbTable_EuZone();
+        $select = $tzone->select();
+        $results = $tzone->fetchAll($select);?>
+  <option value="">Choisir une zone monétaire</option>
+    <?php foreach ($results as $zone): ?>
+               <option value="<?php echo $zone->code_zone; ?>"><?php echo ($zone->nom_zone); ?></option>
+    <?php endforeach; ?>
+</select>
+  </div>
+  </div>
+
+
+<div id="nivpays">
+<div class="control-group">
+  <label class="control-label" for="id_pays">Pays *</label>
+  <div class="controls">
+  <select class="form-control" name="id_pays" id="id_pays" required>
+        <?php $tpays = new Application_Model_DbTable_EuPays();
+        $select = $tpays->select();
+        $select->where('code_zone = ?', 0);
+        $results = $tpays->fetchAll($select);?>
+  <option value="">Choisir le pays</option>
+    <?php foreach ($results as $pays): ?>
+               <option value="<?php echo $pays->id_pays; ?>"><?php echo ($pays->libelle_pays); ?></option>
+    <?php endforeach; ?>
+</select>
+  </div>
+  </div>
+</div>
+
+
+<div id="nivregion">
+<div class="control-group">
+  <label class="control-label" for="id_region">Régions *</label>
+  <div class="controls">
+  <select class="form-control" name="id_region" id="id_region" required>
+        <?php $tregion = new Application_Model_DbTable_EuRegion();
+        $select = $tregion->select();
+        $select->where('id_pays = ?', 0);
+        $results = $tregion->fetchAll($select);?>
+  <option value="">Choisir la region</option>
+    <?php foreach ($results as $region): ?>
+               <option value="<?php echo $region->id_region; ?>"><?php echo ($region->nom_region); ?></option>
+    <?php endforeach; ?>
+</select>
+  </div>
+  </div>
+</div>
+
+
+
+<div id="nivprefecture">
+<div class="control-group">
+  <label class="control-label" for="id_prefecture">Prefectures *</label>
+  <div class="controls">
+  <select class="form-control" name="id_prefecture" id="id_prefecture" required>
+        <?php $tprefecture = new Application_Model_DbTable_EuPrefecture();
+        $select = $tprefecture->select();
+        $select->where('id_region = ?', 0);
+        $results = $tprefecture->fetchAll($select);?>
+  <option value="">Choisir la prefecture</option>
+    <?php foreach ($results as $prefecture): ?>
+               <option value="<?php echo $prefecture->id_prefecture; ?>"><?php echo ($prefecture->nom_prefecture); ?></option>
+    <?php endforeach; ?>
+</select>
+  </div>
+  </div>
+</div>
+
+
+  <div class="control-group">
+  <label class="control-label" for="quartier_acheteur">Quartier *</label>
+  <div class="controls">
+  <input class="form-control" type="text" name="quartier_acheteur" id="quartier_acheteur" placeholder="Quartier" value="<?php echo $sessionpanier->quartier_membre; ?>" required>
+  </div>
+  </div>
+
+
+  <div class="control-group">
+  <label class="control-label" for="ville_acheteur">Ville *</label>
+  <div class="controls">
+  <input class="form-control" type="text" name="ville_acheteur" id="ville_acheteur" placeholder="Ville" value="<?php echo $sessionpanier->ville_membre; ?>" required>
+  </div>
+  </div>
+
+
+  <div id="nivtelephonepanier">
+  <div class="control-group">
+  <label class="control-label" for="tel_acheteur">Cellulaire *</label>
+  <div class="controls">
+  <select class="form-control" name="tel_acheteur" id="tel_acheteur" required>
+        <?php $ttelephone = new Application_Model_DbTable_EuTelephone();
+        $select = $ttelephone->select();
+        if($sessionmembre->code_membre != ""){
+        $select->where('code_membre LIKE ?', $sessionmembre->code_membre);
+        }else{
+        $select->where('code_membre LIKE ?', "");
+        }
+        $results = $ttelephone->fetchAll($select);?>
+  <option value="">Choisir le numero de telephone</option>
+    <?php foreach ($results as $telephone): ?>
+               <option value="<?php echo $telephone->numero_telephone; ?>"><?php echo ($telephone->numero_telephone); ?></option>
+    <?php endforeach; ?>
+</select>
+  </div>
+  </div>
+  </div>
+
+  
+  <div class="control-group">
+  <label class="control-label" for="adresse_livraison">Adresse </label>
+  <div class="controls">
+    <textarea class="form-control" name="adresse_livraison" id="adresse_livraison" placeholder="Adresse"></textarea>
+  </div>
+  </div>
+
+
+
+
+
+
+  <div class="control-group">
+  <label class="control-label" for="mode_livraison">Mode de livraison *</label>
+  <div class="controls">
+  <select class="form-control" name="mode_livraison" id="mode_livraison" required onchange="ouvre_montantlivraison(document.getElementById('code_membre_vendeur').value + '_' + document.getElementById('id_prefecture').value + '_' + this.value);">
+        <?php $tmode_livraison = new Application_Model_DbTable_EuModeLivraison();
+        $results = $tmode_livraison->fetchAll();?>
+  <option value="">Choisir le mode de livraison</option>
+    <?php foreach ($results as $mode_livraison): ?>
+               <option value="<?php echo $mode_livraison->mode_livraison; ?>"><?php echo ($mode_livraison->designation_livraison); ?></option>
+    <?php endforeach; ?>
+</select>
+  </div>
+  </div>
+
+
+<div id="nivmontantlivraison">
+<div class="control-group">
+  <label class="control-label" for="montant_livraison">Tarif de livraison *</label>
+  <div class="controls">
+  <select class="form-control" name="montant_livraison" id="montant_livraison" required>
+        <?php $ttarif_livraison = new Application_Model_DbTable_EuTarifLivraison();
+        $select = $ttarif_livraison->select();
+        $select->where('code_membre LIKE ?', "");
+        $select->where('id_prefecture = ?', 0);
+        $results = $ttarif_livraison->fetchAll($select);?>
+  <option value="0">Choisir le tarif de livraison</option>
+    <?php foreach ($results as $tarif_livraison): ?>
+               <option value="<?php echo $tarif_livraison->montant_tarif_livraison; ?>"><?php echo ($tarif_livraison->montant_tarif_livraison); ?></option>
+    <?php endforeach; ?>
+</select>
+  </div>
+  </div>
+</div>
+  
+
+
+<div class="control-group">
+  <label class="control-label" for="type_recurrent">Type de récurrent *</label>
+  <div class="controls">
+  <select class="form-control" name="type_recurrent" id="type_recurrent" required onchange="if(this.value == 'r'){document.getElementById('periode_recurrent1').style.display = 'block';document.getElementById('periode_recurrent1').setAttribute('required', true);}else{document.getElementById('periode_recurrent1').style.display = 'none';document.getElementById('periode_recurrent1').removeAttribute('required');}">
+  <option value="">Choisir le type de récurrent</option>
+  <option value="nr">Non Récurrent</option>
+  <option value="r">Récurrent</option>
+  </select>
+  </div>
+  </div>
+  
+<div class="control-group" id="periode_recurrent1" style="display: none;">
+  <label class="control-label" for="periode_recurrent">Périodicité *</label>
+  <div class="controls">
+  <select class="form-control" name="periode_recurrent" id="periode_recurrent">
+  <option value="">Choisir la périodicité du récurrent</option>
+  <option value="illimité">illimité</option>
+  <option value="limité 11.2">limité 11.2</option>
+  <option value="limité 22.4">limité 22.4</option>
+  <option value="limité 1">limité 1</option>
+  </select>
+  </div>
+  </div>
+
+<div class="control-group">
+  <label class="control-label" for="type_bon">Type de bon *</label>
+  <div class="controls">
+  <select class="form-control" name="type_bon" id="type_bon" required>
+  <option value="">Choisir type de bon</option>
+  <option value="BAN">Bon Achat neutre - BAn</option>
+  <option value="BAI">Bon Achat interne- BAi</option>
+  <option value="BC">Bon de Consommation - BC</option>
+  </select>
+  </div>
+  </div>
+
+<br />
+
+  <div class="form-actions">
+  <input name="code_membre_vendeur" id="code_membre_vendeur" type="hidden" value="<?php echo $sessionpanier->produit[0][4]; ?>" />
+  <input name="total" id="total" type="hidden" value="<?php echo $total; ?>" />
+  <input name="ok" type="hidden" value="ok" />
+  <button type="button" class="btn btn-default" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir Annuler la commande encours ?')) location='<?php echo $this->baseUrl(); ?>/boutiqueligne/nocompte'">Annuler la commande</button>
+  <button type="submit" class="btn btn-primary">Enregistrer la commande</button>
+</div>  
+</form>
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr.js"></script>
+<script type="text/javascript">
+outilqr("panier");
+//outil_confirmation_biometrique_personelle('addblappro','qrcaptcha','submit',"Veuillez confirmer cette opération d'approvisionnement ?", '<?php echo $sessionmembre->code_membre;  ?>');
+</script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+

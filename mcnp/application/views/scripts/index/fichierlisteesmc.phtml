@@ -1,0 +1,73 @@
+<?php $sessioncategorie = new Zend_Session_Namespace('categorie');?>
+<br />
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+  <blockquote><p class="text-info">Librairie</p></blockquote>
+
+          <?php if(count($this->entries)>0){?>  
+          <?php $idcategorie = ""; ?>
+<div class="accordion" id="accordion2">
+
+<?php foreach ($this->entries as $entry): ?>
+    <?php if($entry->fichier_categorie != $idcategorie && $idcategorie != ""){ ?>
+</tbody>
+</table>
+      </div>
+    </div>
+  </div>
+ <?php }?>   
+    <?php if($entry->fichier_categorie != $idcategorie){ $idcategorie = $entry->fichier_categorie;?>
+    <?php 
+$categorieM = new Application_Model_EuCategorieFichierMapper();
+$categorie = new Application_Model_EuCategorieFichier();
+$categorieM->find($entry->fichier_categorie, $categorie);
+?>
+<div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $categorie->id_categorie_fichier; ?>">
+        <i class="icon-arrow-right"></i> <?php echo ($categorie->libelle_categorie_fichier); ?>
+      </a>
+    </div>
+    <div id="collapse<?php echo $categorie->id_categorie_fichier; ?>" class="accordion-body in collapse" align="left">
+      <div class="accordion-inner">
+
+<table class="table">
+<tbody>
+	<?php }?>
+    <tr>
+      <td style="border-bottom:1px solid #dddddd; border-top:1px solid #FFF;"><?php echo ($entry->fichier_libelle); ?>&nbsp;</td>
+      <td style="border-bottom:1px solid #dddddd; border-top:1px solid #FFF;"><?php echo ($categorie->libelle_categorie_fichier); ?>&nbsp;</td>
+      <td style="border-bottom:1px solid #dddddd; border-top:1px solid #FFF;"><?php echo ($entry->fichier_type); ?>&nbsp;</td>
+      <td style="border-bottom:1px solid #dddddd; border-top:1px solid #FFF;"><div align="center"><a href="<?php echo $this->baseUrl(); ?>/<?php echo $entry->fichier_url; ?>"><i class="icon-download"></i> Télécharger</a></div></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+      </div>
+    </div>
+    </div>
+  
+    </div>
+	<?php }?>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

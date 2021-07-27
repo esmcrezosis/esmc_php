@@ -1,0 +1,174 @@
+﻿<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques2.js"></script>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/fondateurs.js"></script><?php */?>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capasenrolement.js"></script><?php */?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banquespays.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#bon_neutre_appro_beneficiaire').blur(function(e) {
+    if($(this).val() !== '') {
+        $.get('/integrateur/recupnom',{
+            code_membre: $(this).val()
+        },
+        function success(data) {
+            $("#design_membre").val(data); 
+        })
+    } else {
+        $("#design_membre").val("");
+    }       
+    });
+});
+
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+<blockquote><p>Approvisionnement de Bon d'Achat neutre (BAn)</p></blockquote>
+  <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+    </div>
+  <?php } ?>
+
+    <?php if(isset($sessionmembreasso->code_BAn) && $sessionmembreasso->code_BAn != "") { ?>
+<blockquote>
+  <a href="/souscriptionbon/bonachatneutrepdf/code/<?php echo $sessionmembreasso->code_BAn; ?>" target="_blank"><span style="color:#800080;">Télécharger votre Bon d'Achat neutre (<strong>BAn</strong>)</span></a> <br /><br />
+
+  <?php $sessionmembreasso->code_BAn = "";?>
+</blockquote>
+  <?php } ?>
+
+  <?php if (isset($sessionmembreasso->confirmation_envoi) && $sessionmembreasso->confirmation_envoi != "") {?>
+
+              <blockquote>Remplir le formulaire</blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription1" name="addsouscription1">
+<fieldset>
+<legend>Confirmer l'approvisionnement de Bon d'Achat neutre (BAn) <?php //echo $sessionmembreasso->confirmation_envoi; ?></legend>
+
+<div class="alert alert-success">
+<blockquote>Vous essayez de faire un approvisionnement de Bon d'Achat neutre (BAn). Pour terminer l'opération, veuillez envoyer par SMS le code que voici : <strong style="font-size: 20px;"><?php echo Util_Utils::getParamEsmc(12); ?>-<?php echo $sessionmembreasso->confirmation_envoi; ?></strong> au numéro court : <br /><br />
+  <strong>TOGOCEL :</strong> <strong style="font-size: 20px;">3162</strong>. <br /><br />
+  <?php /* ?><strong>MOOV :</strong> <strong style="font-size: 20px;">4555</strong>. <br /><br /><?php */ ?>
+Ensuite vous recevrez un autre code sur votre téléphone. Veuillez le saisir dans le fomulaire <strong>Code SMS Reçu</strong>. Merci
+</blockquote>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_appro_beneficiaire">Code Membre du bénéficiaire  </label>
+<div class="controls">
+  <input type="text" name="bon_neutre_appro_beneficiaire" id="bon_neutre_appro_beneficiaire" placeholder="Code Membre du bénéficiaire" class="input-xxlarge" value="<?php echo $sessionmembreasso->bon_neutre_appro_beneficiaire; ?>" readonly required />
+</div>
+</div>
+
+
+  <div class="control-group">
+<label class="control-label" for="bon_neutre_appro_montant">Montant à allouer * </label>
+<div class="controls">
+  <input type="number" name="bon_neutre_appro_montant" id="bon_neutre_appro_montant" placeholder="Montant à allouer" class="input-xxlarge"  required="required" readonly value="<?php echo $sessionmembreasso->bon_neutre_appro_montant; ?>" />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_recu">Code SMS Reçu  </label>
+<div class="controls">
+  <input type="text" name="code_recu" id="code_recu" placeholder="Code SMS Reçu" class="input-medium" required />
+</div>
+</div>
+
+
+</fieldset>
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input name="confirmation" type="hidden" id="confirmation" value="2" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer l'approvisionnement de Bon d'Achat neutre (BAn)</button>
+</div>
+
+
+
+</form>
+  <?php }else if(!isset($sessionmembreasso->code_BAn) || $sessionmembreasso->code_BAn == "") { ?>
+              <blockquote>Remplir le formulaire</blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription1" name="addsouscription1">
+<fieldset>
+<legend>Remplir le formulaire </legend>
+
+
+<div class="control-group">
+<label class="control-label" for="code_membre">Code Membre du bénéficiaire  </label>
+<div class="controls">
+  <input type="text" name="bon_neutre_appro_beneficiaire" id="code_membre" placeholder="Code Membre du bénéficiaire" class="input-xxlarge" readonly />
+<span class="help-block"><p class="text-error">Veuillez saisir le <strong>Code Membre</strong> du bénéficiaire </p></span>
+</div>
+</div>
+
+
+<div class="control-group">
+     <label class="control-label" for="nom_membre">Désignation Personne * </label>
+     <div class="controls">
+          <input type="text" name="design_membre" id="nom_membre" placeholder="" readonly    class="input-xxlarge"  required="required" />
+     </div>
+</div>
+
+
+  <div class="control-group">
+<label class="control-label" for="bon_neutre_appro_montant">Montant à allouer * </label>
+<div class="controls">
+  <input type="number" name="bon_neutre_appro_montant" id="bon_neutre_appro_montant" placeholder="Montant à allouer" class="input-xxlarge"  required="required" />
+<span class="help-block"><p class="text-error">Veuillez saisir le montant à allouer</p></span>
+</div>
+</div>
+
+</fieldset>
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input name="confirmation" type="hidden" id="confirmation" value="1" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" id="submit" class="btn btn-primary">Envoi du code de confirmation de l'approvisionnement</button>
+</div>
+
+
+
+</form>
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr.js"></script>
+<script type="text/javascript">
+//outilqr('addeli');
+outilqrformobligatoire("addsouscription1","submit");
+</script>
+
+  <?php } ?>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>

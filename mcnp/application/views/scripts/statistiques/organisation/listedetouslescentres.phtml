@@ -1,0 +1,80 @@
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+        "iDisplayLength":10,
+		"aaSorting": []
+    } );
+} );
+</script>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+	<div class="alert alert-danger">
+		<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+	</div>
+	<?php unset($_SESSION['validationerrors']); endif ?>
+	<?php if (isset($_SESSION["validationsuccess"])): ?>
+	<div class="alert alert-success">
+		<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+	</div>
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+
+<?php if ($this->countlistedescentres > 0): ?>
+
+<h3>Liste de tous les centres gérés par esmc</h3>
+
+
+ <table class="table table-stripped" id="example">
+
+   <thead> 
+
+        <tr>
+
+             <th>Référence d'un centre</th>
+
+             <th>Libellé d'un centre</th>
+
+             <th>Date de création d'un centre</th>
+
+             <th>Détail d'un centre</th>
+
+             <th>Edition d'un centre</th>
+             
+         </tr>
+   </thead>
+   <tbody>
+
+         <?php foreach ($this->listedescentres as $key => $value): ?>
+
+         <tr>
+
+             <td><?php echo $value->reference_centre ;?> </td>
+
+             <td><?php echo $value->libelle_centre ;?> </td>
+
+             <td><?php echo $value->date_centres ;?></td>
+
+             <td><a href="/organisation/detailduncentre/idcentre/<?php echo $value->id_centres ;?>" class = "btn btn-primary">Voir les détails du centre</a></td>
+
+             <td><a href="/organisation/editionduncentre/idcentresedit/<?php echo $value->id_centres ;?>/typecentre/<?php echo $value->type_centre ;?>" class = "btn btn-danger">Editer le centre</a></td>
+
+         </tr>
+         
+    	  <?php endforeach ?>       
+     
+   
+   </tbody>
+ 
+ 
+ </table>
+
+<?php else: ?>
+   <div class="alert alert-danger">
+       Aucune centre n'est encore enrégistré
+   </div>
+<?php endif ?>

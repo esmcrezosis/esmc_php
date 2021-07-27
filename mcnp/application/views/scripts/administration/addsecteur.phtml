@@ -1,0 +1,102 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+            
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques2.js"></script>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/fondateurs.js"></script><?php */?>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capasenrolement.js"></script><?php */?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banquespays.js"></script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml");?>
+
+<blockquote><p> Ajout d'un secteur </p></blockquote>
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; ?>
+  </div>
+  <?php } ?>
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+
+              
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription1" name="addsouscription1">
+<fieldset>
+<legend> Remplir le formulaire </legend>
+  
+<div class="control-group">
+<label class="control-label" for=""> Nom du Secteur * </label>
+<div class="controls">
+     <input type="text" name="nom_secteur" id="nom_secteur" placeholder="Nom du Secteur" class="input-xxlarge" required=true />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="">Région *</label>
+<div class="controls">
+     <select class="input-xlarge" id="id_region" name="id_region" required=true>
+     <option value="">Choisir une région</option>
+     <?php foreach($this->regions as $value) { ?>
+     <option value="<?php echo $value->id_region;?>">
+	 <?php echo $value->nom_region; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="">Préfecture *</label>
+<div class="controls">
+     <select class="input-xlarge" id="id_prefecture" name="id_prefecture" required=true>
+     <option value="">Choisir une préfecture</option>
+     <?php foreach($this->prefectures as $value) { ?>
+     <option value="<?php echo $value->id_prefecture;?>">
+	 <?php echo $value->nom_prefecture; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+
+</fieldset>
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter un secteur</button>
+</div> 
+</form>
+
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+

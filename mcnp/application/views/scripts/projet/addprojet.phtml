@@ -1,0 +1,230 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/detailprojets.js"></script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Ajouter un projet</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addprojet">
+  <?php if(isset($sessionmembre->error) && $sessionmembre->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->error; $sessionmembre->error = "";?>
+    </div>
+  <?php }?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="projet_libelle">Désignation du projet *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="projet_libelle" id="projet_libelle" placeholder="Désignation du projet" required>
+</div>
+</div>
+
+  <blockquote><strong>ESPACES (Espace de réalisation du projet)</strong></blockquote>
+		<div class="control-group">
+	      <label class="control-label" for="libelle_espace" style="font-weight:bold">
+              Libelle de l'espace *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="op_libelle_espace" class="input-block-level op_libelle_espace" placeholder="Mettre ici le libelle de l'espace"/>
+	      </div>
+	   </div>
+	   <div class="control-group">
+	      <label class="control-label" for="Superficie de l'espace" style="font-weight:bold">
+              Superficie de l'espace (m2)*:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="op_superficie_espace" class="input-block-level op_superficie_espace" placeholder="Mettre ici la superficie de l'espace"/>
+	      </div>
+	   </div>
+	   <div class="control-group">
+	      <label class="control-label" for="Description de l'espace" style="font-weight:bold">
+              Description de l'espace *:
+	      </label>
+	      <div class="controls" name="op_description_espace" class="input-block-level op_description_espace">
+
+		     <Textarea name="op_description_espace" class="input-block-level op_description_espace" placeholder = "Mettre ici les details de l'espace de réalisation du projet"></Textarea>
+		     
+	      </div>
+	   </div>
+
+
+<div class="control-group">
+<label class="control-label" for="projet_stockage"> Entreposage * </label>
+<div class="controls">
+<select id="projet_stockage" name="projet_stockage" required class="input-xxlarge">
+<option value="">Choisir un type</option>
+<option value="Entrepots">Entrepots</option>
+<option value="Marches">Marches</option>
+<option value="Magasins">Magasins</option>
+<option value="Boutiques">Boutiques</option>
+</select>     
+</div>     
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="projet_description">Description du projet * </label>
+<div class="controls">
+<textarea name="projet_description" id="projet_description" placeholder="Description du projet" class="ckeditor"></textarea>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="projet_montant">Montant du projet *</label>
+<div class="controls">
+<input class="input-xlarge" type="number" name="projet_montant" id="projet_montant" placeholder="Montant du projet" required>
+</div>
+</div>
+
+<div class="control-group">
+	      <label class="control-label" for="objectifs du projet" style="font-weight:bold">
+              Objectifs du projet *:
+	      </label>
+	      <div class="controls">
+		     <textarea type="text" name="op_objectifs_projet" class="input-block-level op_objectifs_projet" placeholder="Mettre ici les objectifs du projet" required="required"></textarea>
+	      </div>
+</div>
+    
+
+  <blockquote>
+     <strong>SITUATIONS GEOGRAPHIQUE</strong>
+     
+  </blockquote>
+
+                        <div class="row-fluid">
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Zone M.</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="code_zone" name="code_zone">
+                                            <option value="">Choisir une zone monétaire</option>
+                                            <?php foreach ($this->zones as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Pays *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_pays" name="id_pays" required="required" onchange="ouvre_paystelephones2(this.value);">
+                                            <option value="">Choisir un pays</option>
+                                            <?php foreach ($this->pays as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Régions</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_region" name="id_region">
+                                            <option value="">Choisir une région</option>
+                                            <?php foreach ($this->regions as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span4" style ="clear:both">
+                                <div class="control-group">
+                                    <label class="control-label span4">Préfectures</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_prefecture" name="id_prefecture">
+                                            <option value="">Choisir une préfecture</option>
+                                            <?php foreach ($this->prefectures as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Cantons *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_canton" name="id_canton" required="required">
+                                            <option value="">Choisir un canton</option>
+                                            <?php foreach ($this->cantons as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+<blockquote>OUTILS (La liste de tous les documents ayant rapport avec le projet)</blockquote>
+<div class="row-fluid">
+<div class="span5">Libellé du fichier</div>
+<div class="span5">Fichier du projet</div>
+<div class="span2">Actions</div>
+</div>
+
+<?php $b = 0;?>
+<div id="nivdetail<?php echo $b;?>">
+<div class="row-fluid">
+<div class="span5"><input class="input-xlarge" type="text" name="detail_projet_libelle[]" id="detail_projet_libelle<?php echo $b;?>" placeholder="Libellé du fichier" >
+</div>
+<div class="span5"><input name="detail_projet_fichier<?php echo $b;?>" type="file" id="detail_projet_fichier<?php echo $b;?>" class="input-xxlarge"  />  
+</div>
+<div class="span2"><a class="btn btn-mini" onclick="document.getElementById('nivdetail<?php echo $b;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_detailprojets('<?php echo $b + 1;?>','nivdetail<?php echo $b + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+</div>
+</div>
+<div id="nivdetail<?php echo $b + 1;?>"></div>
+
+
+<div class="form-actions">
+<input name="projet_code_membre" type="hidden" id="projet_code_membre" value="<?php echo $sessionmembre->code_membre; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter le projet</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

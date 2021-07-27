@@ -1,0 +1,139 @@
+<div id="view-content" class="ui-widget">
+     <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+          <h3>Modification du budget d'investissement</h3>
+     </div>
+     <div id="formdiv" class="ui-widget-content ui-corner-bottom"  style="font-size:11px;height:300px">
+         <table id="tbl-pformas"></table>
+         <div id="pg-pformas"></div>
+         <br/>
+         <?php if (isset($this->budget[0][4])) { ?> 
+         <fieldset style="border-color:#000"><legend style=" font-weight:bold">Autres besoins </legend>
+              <TABLE width="500px" border="1">
+                     <thead>
+                        <tr style="text-align: left;">
+                            <th width="45">Libellé</th>
+                            <th width="25">Montant</th>
+							<th width="15">Type</th>
+                        </tr>
+                     </thead>
+                    <?php for ($i = 0; $i < count($this->budget); $i++) { ?>
+                    <tr>
+                        <td><input type='text' id="<?php echo "besoin".$i ?>" value="<?php echo $this->budget[$i][2]; ?>" size="50"></td>
+                        <td><input type='text' id="<?php echo "mt".$i ?>" value="<?php echo $this->budget[$i][3]; ?>" size="50"></td>
+						<td>
+						<select name='cat' id="<?php echo "cat".$i ?>">
+						     <option value=''></option>
+						     <option value='fixe' <?php if($this->budget[$i][5]=='fixe') echo ' selected="selected"';?>>Fixe</option>
+						     <option value='circulant' <?php if($this->budget[$i][5]=='circulant') echo ' selected="selected"';?>>Circulant</option>
+						</select>
+						</td>  
+                    </tr>   
+                     <?php } ?>
+                    <input type="hidden" value="<?php echo count($this->budget); ?>" id="cpteur">
+              </TABLE>       
+          </fieldset>
+         
+          <?php } ?> 
+         
+     </div>           
+     <p><input id="modifier" type="button" value="Modifier"></p>
+     
+</div>
+<script type="text/javascript">
+    $("#tbl-pformas").jqGrid({
+        url:'/eu-budget/listprodbud?id_besoin=<?php echo $this->data ?> & categorie=<?php echo $this->categorie ?> & investissement=<?php echo $this->investissement ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Id','Code','Code produit','Libellé produit','Distributeur','Type','MDV','PU produit','Quantité','Remise','Total','Besoin','Investissement'],
+        height:'auto', width:822,
+        colModel:[
+		
+                {name:'id_porter',index:'id_porter', width: 100, align:"right", hidden:true},
+                {name:'code_proforma',index:'code_proforma', width: 90, editable: false,align:"left"},
+                {name:'id_objet',index:'id_objet', width: 130, align:"left",summaryType:'count', summaryTpl : '({0}) total'},
+                {name:'design_objet',index:'design_objet', width: 210, align:"left", editable: false},
+                {name:'distributeur',index:'distributeur', width: 130, align:"left", editable: false},
+                {name:'type',index:'type', width: 70,editable: false},
+                {name:'mdv',index:'mdv',width:60,sortable:false,align:"right"},
+                {name:'pu_objet',index:'pu_objet', width: 100, align:"right",sorttype:'number',formatter:'number',summaryType:'sum'},
+                {name:'qte_objet',index:'qte_objet', width: 80, align:"right", sorttype:'number',summaryType:'sum'},
+                {name:'remise',index:'remise', width: 60, align:"right", sorttype:'number',summaryType:'sum'},
+                {name:'total',index:'total', width: 110, align:"right", sorttype:'number',summaryType:'sum',formatter:'number'},          
+                {name:'besoin',index:'besoin', width: 100, align:"right", hidden:true},
+                {name:'investissement',index:'investissement', width: 100, align:"right", hidden:true},
+				
+        ],        
+        rowNum:100000,
+        rowList:[100000,200000,300000],
+        rownumbers:true,
+        pager: '#pg-pformas',
+        sortname:"code_proforma",
+        viewrecords: true,
+        multiselect:true,
+        sortorder: "ASC",
+        caption:"Liste des produits liés aux factures proforma",
+        grouping:true,
+        groupingView : {
+            groupField : ['code_proforma'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [true],
+            groupDataSorted : true
+        },       
+        footerrow: false,
+        userDataOnFooter: true
+    });
+    
+    $("#tbl-pformas").jqGrid('navGrid','#pg-pformas',{edit:false,add:false,del:false,search:false});
+    
+    $('#modifier').button();
+    
+    $('#modifier').click( 
+	     
+            function() {
+			
+            var sel;
+            sel = jQuery("#tbl-pformas").jqGrid('getGridParam','selarrrow');
+            var tab=[];
+            var tab1=[];
+            var tab2=[];
+			var tab3=[];
+            var rowsel;
+			
+            rowsel = jQuery("#tbl-pformas").jqGrid('getGridParam','selrow');
+            
+            for (var i=0;i<sel.length;i++) {
+                tab[i]=jQuery("#tbl-pformas").jqGrid('getRowData',sel[i]);   
+            };
+            
+            for (var i=0;i<$("#cpteur").val();i++) {
+                tab1[i]=$("#besoin"+i).val();  
+                tab2[i]=$("#mt"+i).val();
+				tab3[i]=$("#cat"+i).val();
+            };
+           
+            if(rowsel)
+            { 
+              $.get('/eu-budget/modifbudget?compteur='+$('#cpteur').val(), {
+                    lignes:tab,lignes1:tab1,lignes2:tab2,lignes3:tab3 
+              },
+              function success(data) {
+                 if(data == 'good') {
+                    jQuery("#tbl-pformas").jqGrid('setGridParam',{url:"/eu-budget/listprodbud?id_besoin="+0}).trigger('reloadGrid');
+                    alert('Opération effectuée avec succes');
+                }
+                else 
+                {
+                     jQuery("#tbl-pformas").jqGrid('setGridParam',{url:"/eu-budget/listprodbud?id_besoin="+0}).trigger('reloadGrid');
+                     alert('Echec de l\'opération');
+                }
+              });
+            }
+            else
+            {
+                alert('Aucun produit sélectionné');
+            }
+       })    
+</script>    

@@ -1,0 +1,33 @@
+<div id="view-content">
+    <table id="tbl-user"></table>
+    <div id="pg-user"></div>
+</div>
+
+
+<script type="text/javascript">
+$("#tbl-user").jqGrid({
+    url:'<?php echo $this->url(array('action' => 'data')); ?>',
+    datatype: "json",
+    mtype: 'GET',
+    colNames:['Nom utilisateur','Login','Groupe','Connecte','Code membre','Agence'],
+    height:440, width:827,
+    colModel:[
+     {name:'nom_utilisateur',index:'nom_utilisateur', width:260, editable: true,align:"left"},
+     {name:'login',index:'login', width:130, editable: true,align:"left"},
+     {name:'libelle_groupe',index:'libelle_groupe', width: 218, editable: true,align:"left"},
+     {name:'connecte',index:'connecte', width: 90, editable: true,align:"left"},
+     {name:'code_membre',index:'code_membre', width: 190, align:"left", editable: true},
+     {name:'libelle_agence',index:'libelle_agence', width: 130, editable: true,align:"left"},
+    ],
+     rowNum:100,
+     rowList:[100,200,300],
+     rownumbers:true,
+     pager: '#pg-user',
+     sortname:"id_utilisateur",
+     viewrecords: true,
+     sortorder: "ASC",
+     caption:"Liste des sous comptes d'acteurs"
+    });
+    $("#tbl-user").jqGrid('navGrid','#pg-user',{edit:false,add:false,del:false,search:true});    
+    
+</script>    

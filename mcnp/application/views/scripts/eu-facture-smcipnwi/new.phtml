@@ -1,0 +1,167 @@
+<div id="view-content" class="ui-widget">
+    <div  class="cntError">
+        <?php
+        echo $this->message;
+        ?>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Etablissement de la facture d'investissement</h3>
+    </div> 
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom"  style="font-size:11px">
+        <div>
+            <fieldset style="margin-top: 5px"><legend style=" font-weight:bold">Produits de la proposition financière</legend>
+                <table >
+                    <tr>
+                        <td>Appel d'offre *</td>
+                        <td>
+                            <select id="id_proposition" name="id_proposition" class="" required="true"/>
+                        </td>  
+                        <td>Subvention disponible</td>
+                        <td>
+                            <input name="mt_dispo" id="mt_dispo" class="validate[required,custom[onlyNumberSp]]" readonly="readonly" size=15/>
+                        </td>
+                    </tr>
+                </table>    
+                <br/>
+                <table id="tbl-pformas"></table>
+                <div id="pg-pformas"></div>
+                <br/>
+            </fieldset> 
+        </div>
+        <p align='center'><input id="ajouter" type="button" value="Valider"></p>
+    </div>    
+</div>
+<script type="text/javascript">
+    $("#tbl-pformas").jqGrid({
+        url: '/eu-facture-smcipnwi/listprod?code_smcipn=0',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Id détail', 'Id propo', 'Libellé produit', 'Distributeur', 'Type', 'MDV', 'Unité', 'PU produit', 'Quantité', 'Total'],
+        height: 'auto', width: 775,
+        colModel: [
+            {name: 'id_detail', index: 'id_detail', width: 60, align: "right", hidden: true},
+            {name: 'id_propo', index: 'id_propo', width: 60, align: "right", hidden: true},
+            {name: 'design_objet', index: 'design_objet', width: 200, align: "left", editable: false},
+            {name: 'distributeur', index: 'distributeur', width: 150, align: "left", editable: true},
+            {name: 'type', index: 'type', width: 60, editable: false},
+            {name: 'mdv', index: 'mdv', width: 40, sortable: false, align: "right"},
+            {name: 'unite', index: 'unite', width: 60, align: "right"},
+            {name: 'pu_objet', index: 'pu_objet', width: 80, align: "right", editable: true, editrules: {number: true}},
+            {name: 'qte_objet', index: 'qte_objet', width: 60, align: "right", editable: true, editrules: {number: true}},
+            {name: 'total', index: 'total', width: 90, align: "right", editable: false, formatter: 'number'},
+        ],
+        rowNum: 100000,
+        rowList: [100000, 200000, 300000],
+        rownumbers: false,
+        pager: '#pg-pformas',
+        sortname: "design_objet",
+        viewrecords: true,
+        multiselect: true,
+        sortorder: "ASC",
+        caption: "Liste des produits liés à la proposition financière",
+        forceFit: true,
+        cellEdit: true,
+        cellsubmit: 'clientArray',
+        grouping: true,
+        groupingView: {
+            groupField: ['distributeur'],
+            groupColumnShow: [true],
+            groupText: ['<b>{0}</b>'],
+            groupCollapse: false,
+            groupOrder: ['asc'],
+            groupSummary: [true],
+            groupDataSorted: true
+        },
+        footerrow: false,
+        userDataOnFooter: false,
+        afterEditCell: function(id, name, val, iRow, iCol) {
+            if (name == 'distributeur') {
+                $.get("/eu-facture-smcipnwi/changemoral",
+                        function success(data)
+                        {
+                            jQuery("#" + iRow + "_distributeur", "#tbl-pformas").autocomplete({"source": data});
+                        });
+            }
+        },
+        afterSaveCell: function(rowid, name, val, iRow, iCol) {
+            if (name == 'qte_objet') {
+                var amtval = jQuery("#tbl-pformas").jqGrid('getCell', rowid, iCol - 1);
+                jQuery("#tbl-pformas").jqGrid('setRowData', rowid, {total: parseFloat(val) * parseFloat(amtval)});
+            }
+            if (name == 'pu_objet') {
+                var qteval = jQuery("#tbl-pformas").jqGrid('getCell', rowid, iCol + 1);
+                jQuery("#tbl-pformas").jqGrid('setRowData', rowid, {total: parseFloat(val) * parseFloat(qteval)});
+            }
+        }
+    });
+    $("#tbl-pformas").jqGrid('navGrid', '#pg-pformas', {edit: false, add: false, del: false, search: true});
+
+    $(document).ready(function() {
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+
+        $.get("/eu-facture-smcipnwi/offrechange",
+                function success(data) {
+                    var options = '<option/>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][1] + '">' + data[i][2] + ' </option>';
+                    }
+                    $('select#id_proposition').html(options);
+                });
+
+        $('#id_proposition').change(function()
+        {
+            if ($(this).val() != '')
+            {
+                jQuery("#tbl-pformas").jqGrid('setGridParam', {url: "/eu-facture-smcipnwi/listprod?code_smcipn=" + $('#id_proposition').val()}).trigger('reloadGrid');
+                $.get(
+                        '/eu-facture-smcipnwi/montantdispo',
+                        {
+                            code_smcipn: $(this).val()
+                        },
+                function success(data)
+                {
+                    $('#mt_dispo').val(data);
+                });
+            } else {
+                jQuery("#tbl-pformas").jqGrid('setGridParam', {url: "/eu-facture-smcipnwi/listprod?code_smcipn=0"}).trigger('reloadGrid');
+                $('#mt_dispo').val('');
+            }
+        });
+    });
+
+    $('#ajouter').click(
+            function() {
+                var sel;
+                sel = jQuery("#tbl-pformas").jqGrid('getGridParam', 'selarrrow');
+                var tab = [];
+                var rowsel;
+                rowsel = jQuery("#tbl-pformas").jqGrid('getGridParam', 'selrow');
+                for (var i = 0; i < sel.length; i++) {
+                    tab[i] = jQuery("#tbl-pformas").jqGrid('getRowData', sel[i]);
+                }
+                ;
+                if (rowsel)
+                {
+                    $.get('/eu-facture-smcipnwi/budgetinvestis?code_smcipn=' + $('#id_proposition').val(), {
+                        lignes: tab
+                    },
+                    function success(data) {
+                        if (data == 'good') {
+                            jQuery("#tbl-pformas").jqGrid('setGridParam', {url: "/eu-facture-smcipnwi/listprod?code_smcipn=" + $('#id_proposition').val()}).trigger('reloadGrid');
+                            alert('Opération effectuée avec succes');
+                        }
+                        else {
+                            jQuery("#tbl-pformas").jqGrid('setGridParam', {url: "/eu-facture-smcipnwi/listprod?code_smcipn=" + $('#id_proposition').val()}).trigger('reloadGrid');
+                            alert('Echec de l\'opération');
+                        }
+                    });
+                }
+                else
+                {
+                    alert('Aucun produit sélectionné');
+                }
+            });
+
+    $('#ajouter').button();
+</script>

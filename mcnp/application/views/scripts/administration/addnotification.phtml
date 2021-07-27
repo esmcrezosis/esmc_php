@@ -1,0 +1,64 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p>Ajout de notification</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addnotification">
+  <?php if(isset($this->error) && $this->error!="") {  ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php }  ?>
+  
+  
+<div class="control-group">
+<label class="control-label" for="to">To *</label>
+<div class="controls">
+<input type="text" name="to" class="input-xxlarge" id="to" placeholder="To" required />
+</div>
+</div>  
+  
+<div class="control-group">
+<label class="control-label" for="titre">Titre *</label>
+<div class="controls">
+<input type="text" name="titre" class="input-xxlarge" id="titre" placeholder="Titre" required />
+</div>
+</div>  
+  
+<div class="control-group">
+<label class="control-label" for="message">Message *</label>
+<div class="controls">
+  <textarea name="message" class="input-xxlarge" id="message" placeholder="Message" required></textarea>
+</div>
+</div>
+
+
+   
+<div class="form-actions">
+<input name="statut" type="hidden" id="statut" value="0" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter une notification</button>
+</div>
+  
+</form>
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

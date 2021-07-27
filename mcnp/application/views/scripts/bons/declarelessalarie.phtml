@@ -1,0 +1,203 @@
+<style>
+		.mcnp_loader{
+		width: 30px;
+		height: 30px;
+		display: inline-block;
+		vertical-align: middle;
+		position: relative;
+		margin-left: 25px;
+	}
+	.mcnp_loader_quart{
+
+      border-radius: 30px;
+      border:6px solid #e29090;
+	}
+
+	.mcnp_loader_quart::after{
+       content: "";
+       position: absolute;
+       top: -6px;
+       left: -6px;
+       bottom: -6px;
+       right: -6px;
+       border-radius: 30px;
+       border: 6px solid transparent;
+
+       border-top-color: #000;
+       -webit-animation : spin 1s linear infinite;
+       -moz-animation : spin 1s linear infinite;
+       -o-animation : spin 1s linear infinite;
+
+       animation : spin 1s linear infinite;
+	}
+
+	.mcnp_loader_circles{
+		border-radius: 30px;
+		-webkit-border-radius: 30px;
+		-moz-border-radius: 30px;
+		-o-border-radius: 30px;
+
+        border: 3px solid transparent;
+        border-top-color: #000;
+        -webit-animation : spin 1s linear infinite;
+       -moz-animation : spin 1s linear infinite;
+       -o-animation : spin 1s linear infinite;
+
+       animation : spin 1s infinite;
+	}
+    .mcnp_loader_circles::after{
+       position: absolute;
+       content: "";
+       top: 5px;
+       left: 5px;
+       bottom: 5px;
+       right: 5px;
+       border-radius: 30px;
+		-webkit-border-radius: 30px;
+		-moz-border-radius: 30px;
+		-o-border-radius: 30px;
+	   border:2px solid transparent;
+        border-top-color: #000;
+        opacity: 0.8;
+        -webit-animation : spin 5s linear infinite;
+       -moz-animation : spin 5s linear infinite;
+       -o-animation : spin 5s linear infinite;
+
+       animation : spin 5s infinite;
+    }
+    .mcnp_loader_circles::before{
+       position: absolute;
+       content: "";
+       top: 8px;
+       left: 8px;
+       bottom: 8px;
+       right:8px;
+       border-radius: 30px;
+		-webkit-border-radius: 30px;
+		-moz-border-radius: 30px;
+		-o-border-radius: 30px;
+	   border:3px solid transparent;
+        border-top-color: #000;
+        opacity: 0.6;
+        -webit-animation : spin 10s linear infinite;
+       -moz-animation : spin 10s linear infinite;
+       -o-animation : spin 10s linear infinite;
+
+       animation : spin 10s infinite;
+    }
+	@-webkit-keyframes spin{
+		0%{ -webkit-transform:rotate(0deg); -moz-transform:rotate(0deg); -o-transform:rotate(0deg);transform:rotate(0deg); }
+		100%{ -webkit-transform:rotate(360deg); -moz-transform:rotate(360deg); -o-transform:rotate(360deg); -ms-transform:rotate(360deg); transform:rotate(360deg); }
+	}
+
+	@-moz-keyframes spin{
+		0%{ -webkit-transform:rotate(0deg); -moz-transform:rotate(0deg); -o-transform:rotate(0deg);transform:rotate(0deg); }
+		100%{ -webkit-transform:rotate(360deg); -moz-transform:rotate(360deg); -o-transform:rotate(360deg); -ms-transform:rotate(360deg); transform:rotate(360deg); }
+	}
+	@-o-keyframes spin{
+		0%{ -webkit-transform:rotate(0deg); -moz-transform:rotate(0deg); -o-transform:rotate(0deg);transform:rotate(0deg); }
+		100%{ -webkit-transform:rotate(360deg); -moz-transform:rotate(360deg); -o-transform:rotate(360deg); -ms-transform:rotate(360deg); transform:rotate(360deg); }
+	}
+
+	@keyframes spin{
+		0%{ -webkit-transform:rotate(0deg); -moz-transform:rotate(0deg); -o-transform:rotate(0deg);transform:rotate(0deg); }
+		100%{ -webkit-transform:rotate(360deg); -moz-transform:rotate(360deg); -o-transform:rotate(360deg); -ms-transform:rotate(360deg); transform:rotate(360deg); }
+	}
+</style>
+<div class="row-fluid">
+	<div class="span9">
+      <legend>Formulaire de declaration des Salariés</legend>
+          <?php if (array_key_exists("validationerrors", $_SESSION)): ?>
+            <div class="alert alert-danger">
+              <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+            </div>
+          <?php unset($_SESSION['validationerrors']); endif ?>
+          <?php if (array_key_exists("validationseconderrors", $_SESSION)): ?>
+            <div class="alert alert-danger">
+              <?php echo implode('<br>', $_SESSION['validationseconderrors']) ?>
+            </div>
+          <?php unset($_SESSION['validationseconderrors']); endif ?>
+	  <form action="#" method="post" class="form-horizontal">
+	   <div class="control-group">
+	      <label class="control-label" for="integrateur_souscription_ordre">
+	        Code membre de l'employeur *
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="member_moral_salarial" placeholder="Mettre ici votre code Membre" class="input-block-level declare_membre_salarial"  required="required"/>
+	      </div>
+	   </div>
+	   <div class="control-group">
+	      <label class="control-label" for="integrateur_souscription_ordre">
+	         Raison Sociale *
+	      </label>
+	      <div class="controls">
+		    <input type="text" name="member_salarial_raison" placeholder="Mettre ici la raison sociale de votre entreprise" class="input-block-level member_salarial_raison" required="required"/>
+	      </div>
+	   </div>
+        <div class="control-group">
+	       <label class="control-label" for="integrateur_souscription_ordre">
+	         Code membre du salarié *
+	       </label>
+	       <div class="controls">
+		     <input type="text" name="member_salarial" placeholder="Mettre ici la Code membre du salarié à déclarer" class="input-block-level member_salarial"  required="required"/>
+	       </div>
+	    </div>
+	    <div class="control-group">
+	       <label class="control-label" for="integrateur_souscription_ordre">
+	         Nom du salarié *
+	       </label>
+	       <div class="controls">
+		     <input type="text" name="name_salarial" placeholder="Mettre ici le nom de salarié" class="input-block-level name_salarial" required="required"/>
+	       </div>
+	    </div>
+	    <div class="control-group">
+	       <label class="control-label" for="integrateur_souscription_ordre">
+	          Prénoms du salarié *
+	       </label>
+	       <div class="controls">
+		     <input type="text" name="firstname_salarial" placeholder="Mettre ici le nom de salarié" class="input-block-level firstname_salarial"  required="required"/>
+	       </div>
+	    </div>
+	    <div class="control-group">
+	       <label class="control-label" for="integrateur_souscription_ordre">
+	         Montant du salaire *
+	       </label>
+	       <div class="controls">
+		     <input type="text" name="montant_salarial" placeholder="Mettre ici le Montant de salarié" class="input-block-level montant_salarial"  required="required"/>
+	       </div>
+	    </div>
+        <div class="control-group" id="check-form">
+          <label class="control-label" for="declaration_cnss">
+           <strong>Etes vous déclaré à la CNSS?</strong>
+          </label>
+		   <label class="radio" id="check-form-radio-optionsRadios1">
+		     <div class="controls">
+		     	<input type="radio" name="optionsRadios" id="optionsRadios1" value="options1" class="rccm_success">
+                <strong style="display:block;text-align:left">
+                  OUI
+                </strong>
+		     </div>
+		     <div class="controls" style="display:none" id="rccm_success_numero">
+		     	<input type="text" placeholder ="Tapez votre numero de registre" name="num_register" class="input-block-level">
+		     </div>
+           </label>
+           <label class="radio" id="check-form-radio-optionsRadios2">
+              <div class="controls">
+           	   <input type="radio" name="optionsRadios" class="rccm_failed" id="optionsRadios2" value="options2">
+                 <strong style="display:block;text-align:left">
+                   NON
+                 </strong>
+              </div>
+           </label>
+	   </div>
+	   <div class="control-group">
+         <button type="submit" class="btn btn-large btn-primary">
+         Déclarer
+          </button>
+       </div>
+</form>
+	</div>
+	<div class="span3">
+		<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+	</div>
+</div>

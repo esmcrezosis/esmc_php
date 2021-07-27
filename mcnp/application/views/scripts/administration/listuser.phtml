@@ -1,0 +1,89 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur'); ?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des utilisateurs des Terminaux d'Echange (TE) intérim</p></blockquote>
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error !="") { ?>
+  <div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+  <?php } ?>
+
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+<?php if(count($this->entries) > 0) { ?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:9px;">
+						  <thead>
+							  <tr>
+								  <th>Nom utilisateur</th>
+								  <th>Prénom utilisateur</th>
+								  <th>Login utilisateur</th>
+								  <th>Groupe</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php echo $entry->nom_utilisateur; ?></td>
+      <td><?php echo $entry->prenom_utilisateur; ?></td>
+      <td><?php echo $entry->login; ?></td>
+      <td><?php echo $entry->libelle_groupe; ?></td>
+      <td>
+	      <div align="center">
+	      <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/edituserte/id/<?php echo $entry->id_utilisateur; ?>"><i class="icon-edit icon-white"></i>Modifier</a>&nbsp;	   
+          </div>
+      </td>	  
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun utilisateur enregistré 
+</div>
+<?php }?>
+
+
+
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

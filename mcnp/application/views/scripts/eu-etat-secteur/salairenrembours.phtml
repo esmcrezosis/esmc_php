@@ -1,0 +1,48 @@
+<div id="view-content" style="font-size:11px">
+    <table id="tbl-smcipn"></table>
+    <div id="pg-smcipn"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-smcipn").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'listsalnrembours')); ?>',
+        editurl:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Code membre','Durée','Salaire','Nom GAC','Date'],
+        height:450, width:827,
+        colModel:[
+            {name:'code_demand',index:'code_demand', width:85, sorttype:"int",align:"left", hidden:true},
+            {name:'lib_demand',index:'lib_demand', width: 300, align:"left", editable: true, summaryType:'count', summaryTpl : 'Total ({0})'},
+            {name:'num_membre',index:'num_membre', width: 150, editable: true,align:"left"},
+            {name:'dvm_demand',index:'dvm_demand', width: 80, editable: true,align:"left"},
+            {name:'mt_salaire',index:'mt_salaire', width: 120, align:"right",sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'nom_gac',index:'nom_gac', width: 220, editable: true,align:"left"},
+            {name:'date_demand',index:'date_demand', width: 110, align:"left", editable: false},
+        ],
+        rowNum:100,
+        rowList:[100,200,300],
+        rownumbers:false,
+        pager: '#pg-smcipn',
+        sortname:"date_demand",
+        viewrecords: true,
+        multiselect:false,
+        sortorder: "desc",
+        caption:"Liste des demandes de salaire accordés et non remboursés",
+        grouping: true,
+        groupingView : {
+            groupField : ['nom_gac'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [true],
+            groupDataSorted : true
+        },
+        footerrow: false,
+        userDataOnFooter: false
+    });
+  
+    $("#tbl-smcipn").jqGrid('navGrid','#pg-smcipn',{edit:false,add:false,del:false,search:true});
+    
+</script>

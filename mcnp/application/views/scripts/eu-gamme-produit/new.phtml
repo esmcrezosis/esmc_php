@@ -1,0 +1,52 @@
+<div id="view-content" class="ui-widget">
+    <div  class="cntError">
+        <?php
+           //echo $this->message;
+        ?>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Ajout d'une nouvelle gamme de produit</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <?php
+            $auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin'));
+            $user = $auth->getIdentity();
+            $num_membre = $user->num_membre;
+            if($num_membre!=''){
+             $this->form->setAction($this->url());
+             echo $this->form;
+            }
+        ?>
+    </div>
+    
+    <script type="text/javascript">
+     $(document).ready(function ()
+     {
+         $('#code_gamme').blur(function()
+            {
+                if($('#code_gamme').val() != '')
+                {
+                    $.get(
+                    '/eu-gamme-produit/change',
+                    {
+                        gamme: $('#code_gamme').val()
+                    },
+                    function success(data)
+                    {
+                       $('input#design_gamme').val(data);
+                       if($('input#design_gamme').val()!=''){
+                          document.getElementById('design_gamme').readOnly=true;
+                       }
+                       else {
+                          document.getElementById('design_gamme').readOnly=false;
+                       }  
+                    });
+                }
+            }); 
+     })
+     
+     $('#submit').button();
+     $('#cancel').button();
+     
+    </script>  
+</div>

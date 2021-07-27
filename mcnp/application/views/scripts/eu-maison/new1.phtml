@@ -1,0 +1,438 @@
+<div id="view-content" class="ui-widget">
+     <div class="ui-widget-header ui-corner-top" style="height: 30px;padding-bottom: 5px; padding-left: 10px;">
+        <h3>Identification: Immobiliers</h3>
+    </div>
+    
+    <div id="cptedialog">
+         <form>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><label>Libellé de la ville :</label></td>
+                                            <td><input type="text" id="lib_ville" name="lib_ville"  size="25"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Pays :</label></td>
+                                            <td><select id="pays" type="text" name="pays"  class="validate[required]" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+         </form>
+    </div>
+    
+    <div id="cptedialog1">
+         <form>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><label>Libellé du quartier :</label></td>
+                                            <td><input type="text" id="lib_quartier" name="lib_quartier"  size="25"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Ville :</label></td>
+                                            <td><select id="ville" type="text" name="ville"  class="validate[required]"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+         </form>
+    </div>
+    
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+         <form id="fm_maison" action="/eu-maison/save" method="POST">
+               <fieldset><legend>CM</legend>
+                   <table>
+                         <tr>
+                            <td>Frais de solvabilité *</td><td><input  class="validate[required,custom[onlyNumberSp]]" maxlength="10" name="frais_identification" id="frais_identification" readonly="true"  value="<?php echo $this->fs; ?>"/></td>
+                            <td>Code SMS *</td><td><input name="code_sms" id="code_sms" class="validate[required]" maxlength="8" value="<?php echo $this->code_sms; ?>"></td>
+                         </tr>
+                   </table>
+               </fieldset>
+               <fieldset><legend>Informations sur Immobilier</legend>
+                        <table>
+                             <tbody>
+                              <tr>
+                                  <td>N° identit&eacute; immobilier *</td>
+                                  <td>
+                                      <input name="numero"  id="numero" name="numero" class="validate[required]" value="<?php echo $this->numero ?>"/>
+                                  </td>
+                                  <td>D&eacute;signation *</td>
+                                  <td>
+                                      <input name="design" id="design" name="design" value="<?php echo $this->design ?>" class="validate[required]"/>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>Type immobilier *</td>
+                                  <td>
+                                      <select id="type_maison" type="text" name="type_maison" value="<?php echo $this->type_maison ?>" class="validate[required]" /> 
+                                  </td>
+                                  <td>Propriétaire *</td>
+                                  <td>
+                                      <select id="proprio" type="text" name="proprio" value="<?php echo $this->proprio ?>" class="validate[required]" />
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>Ville *</td>
+                                  <td>
+                                      <select  id="ville"   type="text"  name="ville"  value="<?php echo $this->ville ?>"  class="validate[required]"/>
+                                      <input id="ajout" type="button" value="Ajouter" size="7"/>
+                                  </td>
+                                  <td>Quartier *</td>
+                                  <td>
+                                      <select id="quartier"  type="text"  name="quartier"  value="<?php echo $this->quartier ?>"  class="validate[required]"/> 
+                                      <input id="ajout1" type="button" value="Ajouter" size="7"/>
+                                  </td> 
+                              </tr>
+                              <tr>
+                                  <td>Rue *</td>
+                                  <td>
+                                      <input name="rue" id="rue"  class="validate[required]" value="<?php echo $this->rue ?>"/>
+                                  </td>
+                                  <td>Description</td>
+                                  <td colspan="3">
+                                      <textarea name="desc" id="desc"  rows="30" cols="100">
+                                          <?php echo $this->desc ?>    
+                                      </textarea>
+                                  </td>
+                              </tr>
+                              <tbody>
+                        </table>            
+               </fieldset>
+               <fieldset><legend>Charges</legend>
+                         <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Eau<br>
+                                        <input type="checkbox" id="eau" name="eau" value="1">
+                                    </td>
+                                    
+                                    <td colspan="4"></td>
+                                    
+                                    <td valign="top">Frais d'eau</td> 
+                                    <td><input type="text" class="validate[custom[number]]" id="frais_eau" name="frais_eau"></td>
+                                    
+                                    <td valign="top">N°compteur eau</td>     
+                                    <td><input type="text" id="num_compteur" name="num_compteur" required="true"></td> 
+                                </tr>
+                                <tr>
+                                   <td>Electricit&eacute;<br><input type="checkbox" id="elect" name="elect" value="1"> </td>
+                                   
+                                   <td colspan="4"></td>
+                                   
+                                   <td valign="top">Frais électricité</td>
+                                   <td><input type="text" class="validate[custom[number]]" id="frais_elect" name="frais_elect"></td>
+                                   
+                                   <td valign="top">N°police électricité</td>
+                                   <td><input type="text" required="true"  id="num_police" name="num_police"></td>
+                                </tr>
+                                
+                                <tr>
+                                   <td>Téléphone<br><input type="checkbox" id="tel" name="tel" value="1"> </td>
+                                   <td colspan="4"></td>
+                                   
+                                   <td valign="top">Frais téléphoniques</td>
+                                   <td><input type="text" id="frais_tel" name="frais_tel" class="validate[custom[number]]" ></td>
+                                   <td valign="top">N°ligne téléphonique</td>
+                                   <td><input type="text" required="true" id="num_ligne" name="num_ligne"></td>  
+                               </tr>
+                               
+                               <tr>
+                                   <td>Wc-Douche<br><input type="checkbox" id="wd" name="wd" value="1"></td>
+                                   
+                                   <td colspan="4"></td>
+                                   
+                                   <td valign="top">Frais vidange</td>
+                                   <td><input type="text" id="frais_vidange" name="frais_vidange" class="validate[custom[number]]"></td>
+                                   <td></td>
+                               </tr>
+                                
+                            </tbody>
+                        </table>
+               </fieldset>
+             
+               <fieldset>
+                   <legend>Autres informations</legend>
+                   <table>
+                         <tbody>
+                         <tr>
+                             <td>Taxe</td>
+                             <td><input type="text" class="validate[custom[number]]" id="taxe" name="taxe" value="<?php echo $this->taxe ?>"></td>
+                             <td>BP</td><td><input id="bp_membre" name="bp_membre" value="<?php echo $this->bp ?>"/>
+                             </td>
+                         </tr>
+                         <tr>
+                             <td>Téléphone </td><td><input id="tel_membre" name="tel_membre" class="validate[custom[integer]]" value="<?php echo $this->tel ?>"/></td>
+                             <td>Téléphone portable</td><td><input id="portable_membre" name="portable_membre" class="validate[custom[integer]]" value="<?php echo $this->portable ?>"></td>
+                         
+                         </tr>
+                         <tr>
+                             <td>Adresse électronique</td><td><input name="email_membre" class="validate[custom[email]]" value="<?php echo $this->email ?>"/></td> 
+                             <td>Site web</td><td><input name="site_web" /></td>
+                         </tr>
+                         <tbody>
+                   </table>
+               </fieldset>
+             
+               <div style="margin-top: 10px;">
+                    <input type="submit" value="Valider" id="valider"/>
+                    <input type="reset" value="Rafraichir" id="refresh"/>
+                    <input id="t_annuler" type="button" value="Annuler"/>
+               </div>
+         </form>  
+    </div>
+    <script type="text/javascript">   
+    $(document).ready(function ()
+    {
+        
+           $("#fm_maison").validationEngine();
+           $('#view-content').puipanel();
+           $('fieldset').puifieldset();
+        
+        
+           $.get( "/eu-maison/typemaison",
+           function success(data)
+           {
+              var options = '<option/>';
+              for( var i = 0; i < data.length; i++) {
+                options += '<option value="' + data[i][0] + '">' + data[i][1] +' </option>';
+              }
+              $('select#type_maison').html(options);
+           });
+           
+           
+           $.get( "/eu-maison/ville",
+           function success(data)
+           {
+              var options = '<option/>';
+              for( var i = 0; i < data.length; i++) {
+                options += '<option value="' + data[i][0] + '">' + data[i][1] +' </option>';
+              }
+              $('select#ville').html(options);
+           });
+           
+           
+           
+           $('#ville').change(function()
+           {
+              //if($(this).val() !== '')
+              //{
+                  $.get( "/eu-maison/quartier",
+                  { 
+                      id_ville: $(this).val()
+                  },
+                  function success(data)
+                  {
+                    var options = '<option/>';
+                    for( var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i][0] + '">' + data[i][1] +' </option>';
+                  }
+                  $('select#quartier').html(options);
+                  })
+              //}
+           
+           }); 
+           
+           
+           $.get( "/eu-maison/proprio",
+           function success(data)
+           {
+              var options = '<option/>';
+              for( var i = 0; i < data.length; i++) {
+                options += '<option value="' + data[i][0] + '">' + data[i][1] +' </option>';
+              }
+              $('select#proprio').html(options);
+           });
+           
+           $.get( "/eu-maison/pays",
+           function success(data)
+           {
+              var options = '<option/>';
+              for( var i = 0; i < data.length; i++) {
+                options += '<option value="' + data[i][0] + '">' + data[i][1] +' </option>';
+              }
+              $('select#pays').html(options);
+           });
+           
+           $("#ajout").button().click(function() {
+              $("#cptedialog").dialog( "open" );   
+           })
+           
+           
+           $("#ajout1").button().click(function() {
+              $("#cptedialog1").dialog( "open" ); 
+           })
+          
+          
+           $(function() {
+              $( "#cptedialog" ).dialog({
+               autoOpen: false,
+               height:250,
+               title : 'Ajouter une nouvelle ville',
+               width:400,
+               modal: true,
+               buttons: {
+                    "Valider": function() {
+                        $.get('/eu-maison/newville?lib_ville='+$('#lib_ville').val()+'&pays='+$('#pays').val(),{
+                        },
+                        function success(data){
+                            if(data == 'good'){
+                                 //jQuery("#tbl-domicilie").jqGrid('setGridParam',{url:"/eu-maison/new"}).trigger('reloadGrid');
+                                 $(location).attr("href", "/eu-maison/new");
+                                 alert('Opération effectuée avec succes');
+                            }
+                            else if(data == 'bad') {
+                                alert("Echec de l'opération");
+                            }
+                        });
+                        $( this ).dialog( "close" );
+                    },
+                    "Fermer": function() {
+                        $( this ).dialog( "close" );
+                    }  
+                },
+                close: function() {
+                    //allFields.val( "" ).removeClass( "ui-state-error" );
+                }
+            }
+        );
+        });
+        
+        
+        $(function() {
+              $( "#cptedialog1" ).dialog({
+                autoOpen: false,
+                height:250,
+                title : 'Ajouter un nouveau quartier',
+                width:400,
+                modal: true,
+                buttons: {
+                    "Valider": function() {
+                        $.get('/eu-maison/newquartier?lib_quartier='+$('#lib_quartier').val()+'&ville='+$('#ville').val(),{
+                        },
+                        function success(data){
+                            if(data == 'good'){
+                                 //jQuery("#tbl-domicilie").jqGrid('setGridParam',{url:"/eu-maison/new"}).trigger('reloadGrid');
+                                 $(location).attr("href", "/eu-maison/new");
+                                 alert('Opération effectuée avec succes');
+                            }
+                            else if(data == 'bad') {
+                                alert("Echec de l'opération");
+                            }
+                        });
+                        $( this ).dialog("close");
+                    },
+                    "Fermer": function() {
+                        $( this ).dialog("close");
+                    }  
+                },
+                close: function() {
+                    //allFields.val( "" ).removeClass( "ui-state-error" );
+                }
+            }
+        );
+        });
+          
+          $('#frais_eau').attr('readonly',true);
+          $('#num_compteur').attr('readonly',true);
+          $('#frais_elect').attr('readonly',true);
+          $('#num_police').attr('readonly',true);
+          $('#frais_tel').attr('readonly',true);
+          $('#num_ligne').attr('readonly',true);
+          $('#frais_vidange').attr('readonly',true);
+          
+          $('#eau').change(function()
+          {
+             if(document.getElementById('eau').checked) {
+                 $('#frais_eau').attr('readonly',false);
+                 $('#num_compteur').attr('readonly',false);
+             }
+             else {
+                  $('#frais_eau').attr('readonly',true);
+                  $('#num_compteur').attr('readonly',true);
+                  $('#frais_eau').attr('value','');
+                  $('#num_compteur').attr('value','');
+             }
+          });
+          
+          $('#elect').change(function()
+          {
+             if(document.getElementById('elect').checked) {
+                
+                $('#frais_elect').attr('readonly',false);
+                $('#num_police').attr('readonly',false);
+             }
+             else {
+                $('#frais_elect').attr('readonly',true);
+                $('#num_police').attr('readonly',true);
+                $('#frais_elect').attr('value','');
+                $('#num_police').attr('value','');
+             } 
+          });
+          
+          
+          $('#tel').change(function()
+          {
+             if(document.getElementById('tel').checked) {
+                $('#frais_tel').attr('readonly',false);
+                $('#num_ligne').attr('readonly',false);
+             }
+             else {
+                $('#frais_tel').attr('readonly',true);
+                $('#num_ligne').attr('readonly',true);
+                $('#frais_tel').attr('value','');
+                $('#num_ligne').attr('value','');
+             } 
+          });
+          
+          $('#wd').change(function()
+          {
+             if(document.getElementById('wd').checked) {
+                $('#frais_vidange').attr('readonly',false);
+             }
+             else {
+                $('#frais_vidange').attr('readonly',true);
+                $('#frais_vidange').attr('value','');
+             } 
+          });
+          
+          
+          $('form#fm_maison').submit(function(e){
+            $.ajax({
+                url: $('form').attr("action"),
+                data: $('form').serialize(),
+                type: 'post',
+                success: processServerResponse
+            });
+            e.preventDefault();
+        });
+        
+        function processServerResponse(data) {
+            if(data === true) {
+                alert('L\'enrégistrement a été effectué avec succès ');
+                $(location).attr("href", "/eu-maison/index");
+            }
+            else {
+                 $('#message').html(data);
+            }
+        };
+                 
+  })             
+        
+    </script>      
+</div>

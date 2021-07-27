@@ -1,0 +1,588 @@
+<div id="view-content" class="ui-widget" style="font-size:11px;min-height:520px;">
+     <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 10px; padding-left: 7px;">
+        <h3>Edition d'un membre immobilier</h3>
+     </div>
+     <div class="ui-widget-content ui-corner-bottom">
+         <form id="fm_maison" action="/eu-maison/update" method="POST">
+               <div style="margin: 3px;text-align: left;">
+                    <input type="submit" value="Valider" id="valider"/>
+                    <input id="annuler" type="button" value="Annuler"/>
+               </div>    
+               <div id="maccordeon">
+                    <h2><a href="#">Infos sur immobilier</a></h2>
+                    <div id="">
+                    <table>
+                       <tr>
+                          <td>Numéro</td>
+                          <td>
+                              <input id="numero" name="numero"  value="<?php echo $this->numero; ?>" class="validate[integer]" />
+                              <input id="code_membre" name="code_membre"  type="hidden" value="<?php echo $this->code_membre ?>"/>
+                              <input id="id_maison"  name="id_maison"  type="hidden" value="<?php echo $this->id_maison ?>"/>
+                          </td>
+                          <td>Désignation</td>
+                          <td><input id="design" name="design" value="<?php echo $this->design;?>" class="validate[required]" /></td>
+                       </tr>
+                       
+                       <tr>
+                           <td>Type Membre</td>
+                           <td>
+                               <select name="type_acteur" id="type_acteur" class="validate[required]" value="<?php echo $this->type_acteur ?>">
+                                 <option value=""></option>
+                                 <option value="OSE" <?php if($this->type_acteur=='OSE'){echo ' selected="selected"';} ?>>OSE</option>
+								 <option value="EI" <?php if($this->type_acteur=='EI'){echo ' selected="selected"';} ?>>EI</option>
+                               </select>     
+                           </td>
+                           <td>Statut</td>
+                           <td>
+                               <select id="statut_juridique" type="text" name="statut_juridique"  class="validate[required]"/> 
+                               <input id="s"  type="hidden"  value="<?php  echo $this->code_statut?>"/>
+                               <input id="ta" type="hidden"  value="<?php echo $this->type_acteur?>"/>
+						   </td>	   
+                        </tr>
+                       
+                        <tr>
+                            <td>Type</td>
+                            <td>
+                                <input name="type_maison" id="type_maison"  class="validate[required]" value="<?php echo $this->type_maison ?>"/>
+                            </td>
+                            <td>Ville *</td>
+                            <td>
+                                <input name="ville" id="ville"  class="validate[required]" value="<?php echo $this->ville ?>"/>
+                           </td>   
+                        </tr>
+                        
+                        <tr> 
+                           <td>Quartier *</td>
+                           <td>
+                               <input name="quartier" id="quartier"  class="validate[required]" value="<?php echo $this->quartier ?>"/>
+                           </td>
+                           <td>Rue *</td>
+                           <td>
+                              <input name="rue" id="rue"  class="validate[required]" value="<?php echo $this->rue ?>"/>
+                           </td>						   
+                       </tr>
+                       
+                       <tr>
+                           <td valign="top">Description</td>
+                           <td colspan="3">
+                               <textarea name="desc" id="desc"  rows="30" cols="100">
+                                 <?php echo $this->desc ?>    
+                               </textarea>
+                           </td>
+                       </tr>
+                       
+                    </table>  
+               </div>
+               <h2><a href="#">Charges</a></h2>     
+               <div id="Charges">
+                   <table>
+                     <tr>
+                        <td>
+                           Eau <br>
+                           <input type="checkbox" id="eau" name="eau" value="1" <?php if($this->frais_eau != 0) {echo 'checked="checked"';} ?>>
+                        </td>         
+                        <td colspan="4"></td>
+                        <td valign="top">Frais d'eau</td> 
+                        <td><input type="text" class="validate[custom[number]]"  value="<?php if($this->frais_eau != 0) echo $this->frais_eau; ?>"  id="frais_eau" name="frais_eau">
+						<input type="text" id="dev_eau" name="dev_eau" value="XOF" readonly="true" size="2"></td>
+                        <td valign="top">N°compteur eau</td>     
+                        <td><input type="text" id="num_compteur" value="<?php echo $this->num_compteur; ?>"  name="num_compteur" required="true"></td> 
+                     </tr>
+                     
+                     <tr>
+                        <td>Electricit&eacute;<br><input type="checkbox" id="elect" name="elect" value="1"  <?php if($this->frais_elect != 0) {echo ' checked="checked"';} ?> > </td>
+                        <td colspan="4"></td>
+                        <td valign="top">Frais électricité</td>
+                        <td><input type="text" class="validate[custom[number]]"  value="<?php if($this->frais_elect != 0) echo $this->frais_elect; ?>"  id="frais_elect" name="frais_elect">
+						<input type="text" id="dev_elect" name="dev_elect" value="XOF" readonly="true" size="2">
+						</td>
+                        <td valign="top">N°police électricité</td>
+                        <td><input type="text" required="true"  id="num_police" name="num_police" value="<?php echo $this->num_police; ?>"></td>
+                     </tr>
+                     
+                     <tr>
+                        <td>Téléphone<br><input type="checkbox" id="tel" name="tel" value="1" <?php if($this->frais_tel != 0) {echo ' checked="checked"';} ?> > </td>
+                        <td colspan="4"></td>
+                        <td valign="top">Frais téléphoniques</td>
+                        <td><input type="text" id="frais_tel"  value="<?php if($this->frais_tel != 0) echo $this->frais_tel; ?>"  name="frais_tel" class="validate[custom[number]]" >
+						<input type="text" id="dev_tel" name="dev_tel" value="XOF" readonly="true" size="2">
+						</td>
+                        <td valign="top">N°ligne téléphonique</td>
+                        <td><input type="text" required="true" id="num_ligne"  value="<?php echo $this->num_ligne_tel; ?>"  name="num_ligne"></td>  
+                     </tr> 
+                     
+                     <tr>
+                         <td>Wc-Douche<br><input type="checkbox" id="wd" name="wd" value="1" <?php if($this->frais_vidange != 0) {echo ' checked="checked"';} ?>></td>
+                         <td colspan="4"></td>
+                         <td valign="top">Frais vidange</td>
+                         <td><input type="text" id="frais_vidange"  value="<?php if($this->frais_vidange != 0) echo $this->frais_vidange; ?>"  name="frais_vidange" class="validate[custom[number]]">
+						 <input type="text" id="dev_vidange" name="dev_vidange" value="XOF" readonly="true" size="2"></td>
+						 
+                             <td>Loyer &nbsp; Montant loyer<br><input type="checkbox" id="loyer" name="loyer" value="1" <?php if($this->loyer != 0) {echo ' checked="checked"';} ?>></td>
+                             <td>
+								 <input type="text" class="validate[custom[number]]" id="mt_loyer" name="mt_loyer" value="<?php if($this->loyer != 0) echo $this->loyer; ?>">
+							     <input type="text" id="dev_loyer" name="dev_loyer" value="XOF" readonly="true" size="2">
+						     </td>
+						 
+                     </tr>
+					 
+					 <tr>
+                         <td>Taxe<br><input type="checkbox" id="radio_taxe" name="radio_taxe" value="1" <?php if($this->taxe != 0) {echo ' checked="checked"';} ?>></td>
+                         <td colspan="4"></td>
+                         <td valign="top">Montant taxe</td>
+                         <td><input type="text" id="taxe"  value="<?php if($this->taxe != 0) echo $this->taxe; ?>"  name="taxe" class="validate[custom[number]]">
+						 <input type="text" id="dev_taxe" name="dev_taxe" value="XOF" readonly="true" size="2"></td>
+						 
+                             <td>Autre &nbsp; Charges <br><input type="checkbox" id="autre_charge" name="autre_charge" value="1" <?php if($this->autre_charge != 0) {echo ' checked="checked"';} ?>></td>
+                             <td>
+								 <input type="text" class="validate[custom[number]]" id="frais_charge" name="frais_charge" value="<?php if($this->frais_charge != 0) echo $this->frais_charge; ?>">
+							     <input type="text" id="dev_charge" name="dev_charge" value="XOF" readonly="true" size="2">
+						     </td>
+						 
+                     </tr>
+					 
+                     
+                   </table>
+               </div>
+               <h2><a href="#">Autres informations</a></h2>
+               <div id="autres">
+                    <table>
+                          <tr>
+                             <td>BP</td>
+                             <td><input id="bp_membre" name="bp_membre" value="<?php echo $this->bp; ?>"  size="30"/></td>
+							 <td></td>
+                             <td></td>
+                          </tr>
+                          <tr>
+                             <td>Téléphone fixe</td>
+                             <td><input id="tel_membre" name="tel_membre"  value="<?php  echo $this->tel_membre; ?>"  size="30"/></td>
+                             <td>Téléphone portable</td>
+                             <td><input id="portable_membre" name="portable_membre"  value="<?php echo $this->portable_membre; ?>"  size="30"/></td>
+                          </tr>
+                          <tr>
+                             <td>Adresse électronique</td>
+                             <td><input id="email_membre" name="email_membre"  value="<?php  echo $this->email_membre; ?>"  size="30"/></td>
+                             <td>Site web</td>
+                             <td><input id="site_web"  name="site_web"  value="<?php echo $this->site_web; ?>"  size="30"/></td>
+                         </tr>
+                   </table>    
+              </div>          
+         </form>    
+     </div>
+</div>
+<script type="text/javascript">
+    
+ $(document).ready(function ()
+ {  
+     $(function() {
+      $("#maccordeon").accordion();
+     });
+     
+     
+     $.get( "/eu-maison/typemaison",
+      function success(data)
+      { 
+        var options = '<option />';
+        for( var i = 0; i < data.length; i++) {
+           options += '<option value="'+ data[i][0] +'" >' + data[i][1] +' </option>';
+             //$('#type_maison option[value ="' +data[i][0]+'"]').attr('selected',selected)
+        }
+        
+        $('select#type_maison').html(options);
+        $('select#type_maison option[value ="' +$('#tm').val()+'"]').attr('selected',true);
+      });   
+      
+      
+      $.get( "/eu-maison/proprio",
+          function success(data)
+          {
+              var options = '<option/>';
+              for( var i = 0; i < data.length; i++) {
+                options += '<option value="' + data[i][0] + '">' + data[i][1] +' </option>';
+              }
+              $('select#proprio').html(options);
+              $('select#proprio option[value ="' +$('#p').val()+'"]').attr('selected',true);
+          });
+        
+        
+        $.get( "/eu-maison/pays",
+           function success(data)
+           {
+              var options = '<option/>';
+              for( var i = 0; i < data.length; i++) {
+                options += '<option value="' + data[i][0] + '">' + data[i][1] +' </option>';
+              }
+              $('select#pays').html(options);
+           });
+          
+          
+           if($('#ta').val() !== '') {
+             var code = $(this).val();
+                //if($(this).val() == 'OSE'){
+                //    code = 'OSE';
+                //}else{
+                //    code = 'EI';
+                //}  
+             $.get( "/eu-maison/statut",{
+               type:code
+             },
+             function success(data) {
+                var options = '<option/>';
+                for( var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+                }
+                $('select#statut_juridique').html(options);
+                $('select#statut_juridique option[value ="' +$('#s').val()+'"]').attr('selected',true);
+             });
+             
+           }
+          
+          
+          $("#type_acteur").change(function(e) {
+          
+                var code = $(this).val();
+                if($(this).val() == 'OSE'){
+                    code = 'OSE';
+                }else{
+                    code = 'EI';
+                }
+                $.get( "/eu-maison/statut",{type:code},
+                function success(data)
+                {
+                    var options = '<option/>';
+                    for( var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+                    }
+                    $('select#statut_juridique').html(options);
+                });
+                e.preventDefault();
+       })
+          
+           $.get( "/eu-maison/quartier",
+           function success(data)
+           {
+              var options = '<option/>';
+              for( var i = 0; i < data.length; i++) {
+                options += '<option value="' + data[i][0] + '">' + data[i][1] +' </option>';
+              }
+              $('select#quartier').html(options);
+             
+              
+           });
+          
+           if($('#v').val() !== '')
+           {
+                  $.get( "/eu-maison/quartier",
+                  { 
+                      id_ville: $('#v').val()
+                  },
+                  function success(data)
+                  {
+                      var options = '<option/>';
+                      for( var i = 0; i < data.length; i++) {
+                      options += '<option value="' + data[i][0] + '">' + data[i][1] +' </option>';
+                  }
+                      $('select#quartier').html(options);
+                      $('select#quartier option[value ="' +$('#q').val()+'"]').attr('selected',true);
+                      
+                  });
+            }  
+          
+          $('#ville').change(function()
+          {
+              if($(this).val() !== '')
+              {
+                  $.get( "/eu-maison/quartier",
+                  { 
+                      id_ville: $(this).val()
+                  },
+                  function success(data)
+                  {
+                      var options = '<option/>';
+                      for( var i = 0; i < data.length; i++) {
+                      options += '<option value="' + data[i][0] + '">' + data[i][1] +' </option>';
+                  }
+                      $('select#quartier').html(options);
+                      
+                  });
+              }  
+           
+          });
+        
+          if(document.getElementById('eau').checked) {$('#frais_eau').attr('readonly',false);}
+          else { $('#frais_eau').attr('readonly',true); }
+               
+          if(document.getElementById('eau').checked) {$('#num_compteur').attr('readonly',false);}
+          else {$('#num_compteur').attr('readonly',true);}
+               
+          if(document.getElementById('elect').checked) {$('#frais_elect').attr('readonly',false);}
+          else { $('#frais_elect').attr('readonly',true); }
+               
+          if(document.getElementById('elect').checked) {$('#num_police').attr('readonly',false);}
+          else {$('#num_police').attr('readonly',true);}
+               
+          if(document.getElementById('tel').checked) {$('#frais_tel').attr('readonly',false);}
+          else { $('#frais_tel').attr('readonly',true); }
+               
+          if(document.getElementById('tel').checked) {$('#num_ligne').attr('readonly',false);}
+          else {$('#num_ligne').attr('readonly',true);}
+               
+          if(document.getElementById('wd').checked) {$('#frais_vidange').attr('readonly',false);}
+          else {$('#frais_vidange').attr('readonly',true);}
+		  
+		  if(document.getElementById('loyer').checked) {$('#mt_loyer').attr('readonly',false);}
+          else {$('#mt_loyer').attr('readonly',true);}
+		  
+		  if(document.getElementById('radio_taxe').checked) {$('#taxe').attr('readonly',false);}
+          else {$('#taxe').attr('readonly',true);}
+		  
+		  if(document.getElementById('autre_charge').checked) {$('#frais_charge').attr('readonly',false);}
+          else {$('#frais_charge').attr('readonly',true);}
+		  
+               
+          $('#eau').change(function()
+          {
+             if(document.getElementById('eau').checked) {
+                 $('#frais_eau').attr('readonly',false);
+                 $('#num_compteur').attr('readonly',false);
+             }
+             else {
+                  $('#frais_eau').attr('readonly',true);
+                  $('#num_compteur').attr('readonly',true);
+                  $('#frais_eau').attr('value','');
+                  $('#num_compteur').attr('value','');
+             }
+         });
+          
+         $('#elect').change(function()
+         {
+             if(document.getElementById('elect').checked) {
+                
+                $('#frais_elect').attr('readonly',false);
+                $('#num_police').attr('readonly',false);
+             }
+             else {
+                $('#frais_elect').attr('readonly',true);
+                $('#num_police').attr('readonly',true);
+                $('#frais_elect').attr('value','');
+                $('#num_police').attr('value','');
+             } 
+          });
+          
+          $('#tel').change(function()
+          {
+             if(document.getElementById('tel').checked) {
+                $('#frais_tel').attr('readonly',false);
+                $('#num_ligne').attr('readonly',false);
+             }
+             else {
+                $('#frais_tel').attr('readonly',true);
+                $('#num_ligne').attr('readonly',true);
+                $('#frais_tel').attr('value','');
+                $('#num_ligne').attr('value','');
+             } 
+          });
+          
+          $('#wd').change(function()
+          {
+             if(document.getElementById('wd').checked) {
+                $('#frais_vidange').attr('readonly',false);
+             }
+             else {
+                $('#frais_vidange').attr('readonly',true);
+                $('#frais_vidange').attr('value','');
+             } 
+          });
+		  
+		  
+		  $('#loyer').change(function()
+          {
+             if(document.getElementById('loyer').checked) {
+                $('#mt_loyer').attr('readonly',false);
+             }
+             else {
+                $('#mt_loyer').attr('readonly',true);
+                $('#mt_loyer').attr('value','');
+             } 
+          });
+		  
+		  
+		  $('#radio_taxe').change(function()
+          {
+             if(document.getElementById('radio_taxe').checked) {
+                $('#taxe').attr('readonly',false);
+             }
+             else {
+                $('#taxe').attr('readonly',true);
+                $('#taxe').attr('value','');
+             } 
+          });
+		  
+		  
+		  $('#autre_charge').change(function()
+          {
+             if(document.getElementById('autre_charge').checked) {
+                $('#frais_charge').attr('readonly',false);
+             }
+             else {
+                $('#frais_charge').attr('readonly',true);
+                $('#frais_charge').attr('value','');
+             } 
+          });
+		  
+		  
+		  
+		  
+		  
+           
+          $("#ajout0").button().click(function() {
+             $("#cptedialog0").dialog("open");   
+           });
+                
+      $(function() {
+         $( "#cptedialog0" ).dialog({
+         autoOpen: false,
+         height:180,
+         title : 'Ajouter un nouveau type immobilier',
+         width:400,
+         modal: true,
+         buttons: {
+           "Valider": function() {
+             $.get('/eu-maison/newtype?lib_type='+$('#lib_type').val(),{
+         },
+         function success(data){
+             if(data == 'good'){
+            //jQuery("#tbl-domicilie").jqGrid('setGridParam',{url:"/eu-maison/new"}).trigger('reloadGrid');
+            alert('Opération effectuée avec succes');
+            $(location).attr("href", "/eu-maison/new");
+            }
+            else if(data == 'bad') {
+             alert("Echec de l'opération");
+            }
+         });
+            $( this ).dialog( "close" );
+         },
+            "Fermer": function() {
+              $( this ).dialog( "close" );
+         }  
+         },
+         close: function() {
+                    //allFields.val( "" ).removeClass( "ui-state-error" );
+         }
+        }
+       );
+        }); 
+        
+        $("#ajout").button().click(function() {
+              $("#cptedialog").dialog( "open" );   
+         });
+           
+           $(function() {
+              $( "#cptedialog" ).dialog({
+               autoOpen: false,
+               height:250,
+               title : 'Ajouter une nouvelle ville',
+               width:400,
+               modal: true,
+               buttons: {
+                    "Valider": function() {
+                        $.get('/eu-maison/newville?lib_ville='+$('#lib_ville').val()+'&pays='+$('#pays').val(),{
+                        },
+                        function success(data){
+                            if(data == 'good'){
+                                 //jQuery("#tbl-domicilie").jqGrid('setGridParam',{url:"/eu-maison/new"}).trigger('reloadGrid');
+                                 alert('Opération effectuée avec succes');
+                                 $(location).attr("href", "/eu-maison/new");
+                                 
+                            }
+                            else if(data == 'bad') {
+                                alert("Echec de l'opération");
+                            }
+                        });
+                        $( this ).dialog( "close" );
+                    },
+                    "Fermer": function() {
+                        $( this ).dialog( "close" );
+                    }  
+                },
+                close: function() {
+                    //allFields.val( "" ).removeClass( "ui-state-error" );
+                }
+            }
+        );
+        });
+        
+        $("#ajout1").button().click(function() {
+              $("#cptedialog1").dialog( "open" ); 
+        })
+         
+        $(function() {
+              $( "#cptedialog1" ).dialog({
+                autoOpen: false,
+                height:250,
+                title : 'Ajouter un nouveau quartier',
+                width:400,
+                modal: true,
+                buttons: {
+                    "Valider": function() {
+                        $.get('/eu-maison/newquartier?lib_quartier='+$('#lib_quartier').val()+'&ville='+$('#id_ville').val(),{
+                        },
+                        function success(data){
+                            if(data == 'good'){
+                                 //jQuery("#tbl-domicilie").jqGrid('setGridParam',{url:"/eu-maison/new"}).trigger('reloadGrid');
+                                 $(location).attr("href", "/eu-maison/new");
+                                 alert('Opération effectuée avec succes');
+                            }
+                            else if(data == 'bad') {
+                                alert("Echec de l'opération");
+                            }
+                        });
+                        $( this ).dialog("close");
+                    },
+                    "Fermer": function() {
+                        $( this ).dialog("close");
+                    }  
+                },
+                close: function() {
+                    //allFields.val( "" ).removeClass( "ui-state-error" );
+                }
+            }
+        );
+        });
+           
+        $("#fm_maison").validationEngine();
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+        $('#valider').button(); 
+          
+        $('#annuler').button().click(function() {
+         $(location).attr("href", "/eu-maison/index");
+            //$.get('/eu-maison/index',function(data) {
+            //$("#view-content").html(data);
+        //});
+      }); 
+       
+      $('form#fm_maison').submit(function(e) {
+            $.ajax({
+                url: $('form').attr("action"),
+                data: $('form').serialize(),
+                type: 'post',
+                success: processServerResponse
+            });
+            e.preventDefault();
+     });
+        
+     function processServerResponse(data) {
+            if(data === true) {
+                alert('La modification a été effectuée avec succès');
+                $(location).attr("href", "/eu-maison/index");
+            }
+            else {
+                 $('#message').html(data);
+            }
+     }; 
+           
+           
+   }) 
+        
+</script>    

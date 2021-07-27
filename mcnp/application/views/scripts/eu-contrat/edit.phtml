@@ -1,0 +1,41 @@
+<div id="view-content">
+     <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 5px; padding-left: 5px;">
+        <h3>Edition d'un contrat</h3>
+     </div>
+     <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+     <form action="/eu-contrat/new" name="fm_contrat" method="POST" id="fm_contrat">
+     <fieldset><legend>Contrat</legend>
+     <table>
+           <tr style="text-align: right;">
+              <td colspan="1">Code membre</td><td style="text-align: left;"><input type="text" name="code_membre" value="<?php echo $this->code_membre; ?>" readonly="true"></td>
+           </tr>
+           <tr><td colspan="4" style=" height:10px"></td></tr>
+           <tr>
+               <td colspan="1">Type contrat *</td>
+               <td>
+                   <select name="type_contrat" id="type_contrat" class="validate[required]"></select>
+               </td>
+               <td colspan="1">Type creneau </td>
+               <td>
+                  <select name="type_creneau" id="type_creneau" class="validate[required]"></select>
+               </td>
+           </tr>
+           <tr><td colspan="8" style=" height:10px"></td></tr>
+           <tr>
+              <td colspan="1">Type acteur </td>
+              <td>
+                  <select name="type_acteur" id="type_acteur" class="validate[required]"></select>
+              </td>
+              <td colspan="1">Pays *</td>
+              <td><select name="pays" id="pays" class="validate[required]"></select></td>
+           </tr>
+         </table>
+         </fieldset>
+         <br><br>
+         <div>
+              <input type="submit" value="Valider" id="valider"/>
+              <input type="reset" value="Annuler" id="t_annuler"/>
+         </div>   
+    </form>  
+    </div>
+</div>

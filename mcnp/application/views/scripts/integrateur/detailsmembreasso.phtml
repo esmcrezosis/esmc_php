@@ -1,0 +1,102 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+  <blockquote><p>Detail d'un utilisateur</p></blockquote>
+  
+    
+
+<div class="control-group">
+<label class="control-label" for="membreasso_nom">Nom de l'utilisateur  </label>
+<div class="controls">
+<?php echo $this->membreasso->membreasso_nom; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membreasso_prenom">Prénom de l'utilisateur</label>
+<div class="controls">
+<?php echo $this->membreasso->membreasso_prenom; ?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="membreasso_association">L'agrément OSE/OE  </label>
+<div class="controls">
+<?php 
+        $association = new Application_Model_EuAssociation();
+        $associationM = new Application_Model_EuAssociationMapper();
+        $associationM->find($this->membreasso->membreasso_association, $association);
+echo $association->association_nom; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membreasso_mobile">Cellulaire de l'utilisateur  </label>
+<div class="controls">
+<?php echo $this->membreasso->membreasso_mobile; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membreasso_email">E-mail de l'utilisateur  </label>
+<div class="controls">
+<?php echo $this->membreasso->membreasso_email; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membreasso_login">Login de l'utilisateur </label>
+<div class="controls">
+<?php echo $this->membreasso->membreasso_login; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membreasso_passe">Mot de passe de l'utilisateur </label>
+<div class="controls">
+<?php echo $this->membreasso->membreasso_passe; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membreasso_type">Type Utilisateur  </label>
+<div class="controls">
+<?php if($this->membreasso->membreasso_type == 1){echo "Représentant";}else{echo "Utilisateur";} ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="membreasso_date">Date Création</label>
+<div class="controls">
+<?php echo $this->membreasso->membreasso_date; ?>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

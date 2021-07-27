@@ -1,0 +1,98 @@
+<div id="view-content">
+    <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:11px">
+        <div style="margin-bottom: 3px; width: 800px">
+            <fieldset>
+                <legend style=" font-weight:bold">Recherche agence</legend>
+                <table align="center">
+                    <tr>
+                        <td width="50">Code</td><td width="100"><input type="text" id="code_agence" name="code_agence" size="15"/></td>
+                        <td width="40">Nom</td><td width="20"><input type="text" id="libelle_agence" name="libelle_agence" size="30"/></td>
+                        <!--<td width="100">Code membre</td><td width="30"><input type="text" id="code_membre" name="code_membre" size="26"/></td>-->
+                        <td><input id="ok" type="button" value="Chercher" /></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div style="margin-bottom: 3px;">
+            <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+        </div>
+        <table id="tbl-agence"></table>
+        <div id="pg-agence"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-agence").jqGrid({
+        url:'/eu-agence/data?code_agence='+''+'&libelle_agence='+''+'&code_membre='+'',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Secteur','Date création'],
+        height:400, width:800,
+        colModel:[
+            {name:'code_agence',index:'code_agence', width:130, sorttype:"int", editable: true,align:"left"},
+            {name:'libelle_agence',index:'libelle_agence', width: 250, editable: true,align:"left"},
+            //{name:'code_membre',index:'code_membre', width: 160, editable: true,align:"left"},
+            {name:'code_secteur',index:'code_secteur', width: 210, align:"left", editable: true},
+            {name:'date_creation',index:'date_creation', width: 100, align:"left", editable: true},
+        ],
+        rowNum:100,
+        rowList:[100,200,900],
+        rownumbers:true,
+        pager: '#pg-agence',
+        sortname:"code_agence",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des agences"
+    });
+  
+    $("#tbl-agence").jqGrid('navGrid','#pg-agence',{edit:false,add:false,del:false,search:true});
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-agence").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-agence").jqGrid('getRowData',rowsel);
+            $.get('/eu-agence/edit',{
+                code_agence:data.code_agence,secteur:data.code_secteur
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+	
+	$(function() {
+      $('#view-content').puipanel();
+	  $('fieldset').puifieldset();
+    });
+	
+    
+    $(document).ready(function ()
+    {
+        $.get( "/eu-agence/change",
+        function success(data)           
+        {
+            $("input#code_membre").autocomplete({"source":data});                  
+        });
+        
+        $.get( "/eu-agence/getlibelle",
+        function success(data)           
+        {
+            $("input#libelle_agence").autocomplete({"source":data});                  
+        });
+        
+        $.get( "/eu-agence/getcode",
+        function success(data)           
+        {
+                $("input#code_agence").autocomplete({"source":data});                  
+        });
+        $('#ok').button();
+        $('#ok').click(function(){
+            jQuery("#tbl-agence").jqGrid('setGridParam',{url:"/eu-agence/data?code_membre="+$('#code_membre').val()+"&code_agence="+$('#code_agence').val()+"&libelle_agence="+$('#libelle_agence').val()}).trigger('reloadGrid');
+        });
+    })
+</script>

@@ -1,0 +1,50 @@
+<div id="view-content">
+     <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-type-compte"></table>
+    <div id="pg-type-compte"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-type-compte").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Numéro','Libellé','Description'],
+        height:440, width:827,
+        colModel:[
+            {name:'code_type_compte',index:'code_type_compte', width:150, sorttype:"int", editable: false,align:"left"},
+            {name:'lib_type',index:'lib_type', width: 240, editable: true,align:"left",editoptions: {size:40, maxlength: 15}},
+            {name:'desc_type',index:'desc_type', width: 500, align:"left", editable: true,edittype:'textarea',editoptions: {rows:"4",cols:"38"}},
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+		rownumbers:true,
+        pager: '#pg-type-compte',
+        sortname:"code_type_compte",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des types de comptes"
+    });
+	
+    $("#tbl-type-compte").jqGrid('navGrid','#pg-type-compte',{edit:false,add:false,del:false,search:false}); 
+	
+	$('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-type-compte").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-type-compte/edit',{
+                code_type_compte:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button(); 
+</script>

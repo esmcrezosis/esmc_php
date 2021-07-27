@@ -1,0 +1,120 @@
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+<script>
+  $(document).ready(function(){
+	  $('#example').dataTable({
+    "sPaginationType": "full_numbers",
+		"aaSorting": []
+     });
+  });
+</script>
+
+<style>
+#label_success{
+    background-color: #0cb91a;
+
+    color: #FFF;
+
+    font-weight: bold;
+
+    padding-left: 6px;
+
+    padding-right: 6px;
+
+    border-radius: 2px;
+
+    -webkit-border-radius: 2px;
+
+    -moz-border-radius: 2px;
+
+    -o-border-radius: 2px;
+    
+    
+}
+
+#label_danger{
+    background-color: #ef3213;
+    
+    color: #FFF;
+
+    font-weight: bold;
+
+    padding-left: 6px;
+
+    padding-right: 6px;
+
+    border-radius: 2px;
+
+    -webkit-border-radius: 2px;
+
+    -moz-border-radius: 2px;
+
+    -o-border-radius: 2px;
+}
+
+</style>
+
+<h3>Liste des ELI dejà valider</h3>
+
+<?php if(count($this->listedeselidejavalider) > 0){?>
+
+<table class="table table-stripped" id="example">
+ 	<tr>
+		<th>Code membre</th>
+		<th>Numéro ELI</th>
+		<th>Libellé ELI</th>    
+		<th>Payer ?</th>    
+        
+		<th>Date d'établissement de l'ELI</th>
+		<th>Actions</th>            
+                    
+ 	</tr>
+   </thead>
+   <tbody>
+   	  <?php foreach ($this->listedeselidejavalider as $key => $value): ?>
+       
+         <tr class="primary">
+            <td> <?php echo $value->code_membre;?> </td>
+            <td> <?php echo $value->numero_eli ;?> </td>
+            <td> <?php echo $value->libelle_eli ;?> </td>
+
+            <?php if ($value->payer == 1 ):?> 
+           <td><span id="label_success">Oui</span></td>
+           <?php else :?>
+           <td><span id="label_danger">Non</span></td>
+           <?php  endif ?>
+            
+            
+            <?php
+              $month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+              $true_month = "";
+              $true_month_arrive = "";
+              $ex_date = explode('-',$value->date_eli);
+              
+
+              foreach ($month as $key => $val) {
+                if($ex_date[1] == $key){
+                  $true_month = $val;
+                }
+              }
+              $next_ex_date = explode(' ', $ex_date[2]);
+              $true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+             ?>
+
+            <td> <?php echo $true_date; ?> </td>
+            <td><a href="/formsguichet/detaildeseliquisontdejavalider/id/<?php echo $value->id_eli ?>" class="btn btn-primary">Détails</a> </td>
+
+            
+         </tr>
+
+
+ 	  <?php endforeach ?>       
+   
+    </tbody>
+</table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucun Engagement de livraison irrévocable encours disponible 
+</div>
+<?php }?>

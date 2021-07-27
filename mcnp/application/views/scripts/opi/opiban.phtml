@@ -1,0 +1,59 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+<blockquote><p> Approvisionnement de BAn par OPI </p></blockquote>
+<?php if(isset($sessionmembre->error) && $sessionmembre->error != "") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $sessionmembre->error; $sessionmembre->error = ""; ?>
+</div>
+<?php } ?>
+
+<?php if(isset($this->error) && $this->error != "") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $this->error; $this->error = ""; ?>
+</div>
+<?php } ?>
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addbsappro" name="addbsappro">
+<fieldset>
+<legend>Remplir le formulaire </legend>
+
+
+<div class="control-group">
+<label class="control-label" for="traite_id">Compte *</label>
+<div class="controls">
+<select  name ="traite_id" id="traite_id"  required="required" class="input-xxlarge">
+     <?php  $traite_mapper = new Application_Model_EuTraiteMapper();
+		    $selecttraites = $traite_mapper->fetchAllByOPIBAn($sessionmembre->code_membre);?>
+            <option value="">Choisir l'OPI </option>
+            <?php foreach ($selecttraites as $selecttraite): ?>
+            	<?php if($selecttraite->traite_payer == 0){ ?>
+            <option value="<?php echo $selecttraite->traite_id; ?>"><?php echo $selecttraite->traite_numero; ?> (<?php echo datefr($selecttraite->traite_date_debut); ?> - <?php echo datefr($selecttraite->traite_date_fin); ?>)</option>
+            <?php } ?>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+</fieldset>
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Approvisionner BAn par OPI</button>
+</div>
+</form>
+
+</div>
+
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>

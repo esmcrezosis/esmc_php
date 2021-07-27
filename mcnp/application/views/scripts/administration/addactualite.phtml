@@ -1,0 +1,100 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout de l'actualite</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addactualite">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+
+<div class="control-group">
+<label class="control-label" for="actualite_type">Type de l'actualite *</label>
+<div class="controls">
+<label class="radio inline" for="actualite_type1">
+<input type="radio" id="actualite_type1" name="actualite_type" value="ESMC" required /> ESMC</label>
+<br />
+<label class="radio inline" for="actualite_type2">
+<input type="radio" id="actualite_type2" name="actualite_type" value="CEU/ReDeMaRe" required /> CEU/ReDeMaRe</label>
+<br />
+<label class="radio inline" for="actualite_type3">
+<input type="radio" id="actualite_type3" name="actualite_type" value="MCNP" required /> MCNP</label>
+<br />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="actualite_libelle">Libellé de l'actualite *</label>
+<div class="controls">
+<input type="text" name="actualite_libelle" id="actualite_libelle" placeholder="Libellé de l'actualite" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="actualite_resume">Resume de l'actualite *</label>
+<div class="controls">
+<textarea name="actualite_resume" id="actualite_resume" placeholder="Resume de l'actualite" required></textarea><!---->
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="actualite_vignette">Vignette de l'actualite </label>
+<div class="controls">
+<input name="actualite_vignette" type="file" id="actualite_vignette" class="input-xxlarge" />  
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="actualite_date">Date de l'actualite *</label>
+<div class="controls">
+<input type="date" name="actualite_date" id="actualite_date" placeholder="Date de l'actualite" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="actualite_description">Description de l'actualite </label>
+<div class="controls">
+<textarea name="actualite_description" id="actualite_description" placeholder="Description de l'actualite" class="ckeditor"></textarea><!---->
+</div>
+</div>
+    
+    
+<div class="form-actions">
+<input name="publier" type="hidden" id="publier" value="1" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter l'actualite</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

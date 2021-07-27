@@ -1,0 +1,62 @@
+﻿<div id="view-content" title="Comparaison KACM" style="font-size: 11px;min-height: 520px;font-family:Arial Black"> 
+	<div id="tab_gcp">
+	     <ul>
+			 <li><a href="#tab_kacm" style="font-size:12px;font-family:Arial Black"><font color="">KACM ESPECE</font></a></li>
+			 <li><a href="#tab_x" style="font-size:12px;font-family:Arial Black"><font color="">KACM EN ATTENTE</font></a></li>
+         </ul>
+		 <div style="padding: 1px;margin: 1px;">
+		 <div style="padding: 1px;margin: 1px;">
+		      <div id="tab_fgfn" style="padding:1px;font-family:Arial Black">
+                   <table border="1" width="450" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                      <thead>
+                         <th colspan="2"><label style="text-align: center;width: 280px;font-size:10px;font-family:Arial Black">Voici la situation de votre KACM EN ESPECE</label></th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                            <td><label>Solde</label></td>
+                            <td><label id="solde_kacm"><?php echo number_format($this->solde_kacm,0,',',' ') ;?></label></td>
+                        </tr>
+                      </tbody>
+                   </table>
+                   <table id="tbl-fgfn"></table>
+                   <div id="pg-fgfn"></div>
+              </div>
+		 </div>
+		 <div id="tab_x" style="padding: 1px;font-family:Arial Black;font-size:10px">
+                   <table border="1" width="450" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                      <thead>
+                         <th colspan="2"><label style="text-align:center;width:280px;font-size:10px;font-family:Arial Black">Voici la situation votre </label></th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                           <td><label>Solde</label></td>
+                           <td><label id="solde_fgfn"><?php echo number_format($this->x,0,',','');?></label></td>
+                        </tr>
+                      </tbody>
+                   </table>
+                   <table id="tbl-fgfn"></table>
+                   <div id="pg-fgfn"></div>
+         </div>
+		 </div>	
+	 </div>	 
+</div>
+
+
+<script>
+    $(document).ready(function() {
+     $(function() {
+     $('#view-content').puipanel();
+     $('fieldset').puifieldset();
+     $('#tab_gcp').puitabview();
+     var pickerOpts = {
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            selectOtherMonths: true,
+            showButtonPanel: true
+    };
+    $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+    $("#date_fg").datepicker(pickerOpts);
+    });		
+});		
+</script>

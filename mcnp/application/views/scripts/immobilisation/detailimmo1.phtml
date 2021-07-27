@@ -1,0 +1,87 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+  <div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+<blockquote><p> Details d'une lettre de demande de restitution d'immobilisation </p></blockquote>
+  
+    
+<div class="control-group">
+<label class="control-label" for="code_identification">Code Immobilisation </label>
+<div class="controls">
+<?php echo $this->entry->code_identification; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="designation_immobilisation">Désignation Immobilisation </label>
+<div class="controls">
+<?php echo $this->entry->designation_immobilisation; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="nature_immobilisation"> Nature Immobilisation </label>
+<div class="controls">
+<?php echo $this->entry->nature_immobilisation; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="famille_immobilisation"> Famille Immobilisation </label>
+<div class="controls">
+<?php echo $this->entry->famille_immobilisation; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="valeur_acquisition"> Valeur acquisition </label>
+<div class="controls">
+<?php echo $this->entry->valeur_acquisition; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="valeur_acquisition"> Date d'acquisition </label>
+<div class="controls">
+<?php echo $this->entry->date_entree; ?>
+</div>
+</div>
+   
+<div class="control-group">
+<label class="control-label" for="projet_description"> Contenu de la lettre</label>
+<div class="controls">
+<?php echo $this->entry->motif1; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="projet_description">Réponse du Partenaire</label>
+<div class="controls">
+<?php echo $this->entry->motif2; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="valeur_acquisition"> Date restitution </label>
+<div class="controls">
+<?php echo $this->entry->date_restitution; ?>
+</div>
+</div>
+
+</div>
+<div class="span3">
+<?php //include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,75 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 10px; padding-left: 5px;">
+        <h3>Vue de la source FN</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form id="fn_form" method="POST" action="/eu-source/datafn">
+            <table style="margin-left: 70px;">
+                <thead/>
+                <tbody>
+                    <tr>
+                        <td><label style="text-align: right">Date</label></td>
+                        <td><input id="date_fn" name="date_fn" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td><label style="text-align: right">Type FN</label></td>
+                        <td><input type="text" id="type_fn" name="type_fn" value=""/></td>
+                        <td><label style="text-align: right">Produit</label></td>
+                        <td><input type="text" id="produit_fn" name="produit_fn" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td></td><td><input type="submit" id="val_fn" value="valider"/><input type="reset" id="reset_fn" value="Annuler"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <br/><br/>
+        <table id="tbl_fn"></table>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl_fn").jqGrid({
+        url:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code CAPA','Membre','Compte','CAPA','Code','Type FN','Montant','Sortie','Entrée','Solde','FN solde','Date'],
+        height:330, width:817,
+        colModel:[
+            {name:'code_capa',index:'code_capa', width: 100, editable: false,align:"left",hidden:true},
+            {name:'code_membre',index:'code_membre', width: 100, align:"left", editable: false},
+            {name:'code_produit',index:'code_produit', width: 80, align:"left", editable: false},
+            {name:'montant_capa',index:'montant_capa', width: 120, align:"left", editable: false},
+            {name:'id_fn',index:'id_fn', width: 10, editable: false,align:"left",hidden:true},
+            {name:'type_fn',index:'type_fn', width: 100, align:"left", editable: false},
+            {name:'montant',index:'montant', width: 120, align:"left", editable: false},
+            {name:'sortie',index:'sortie', width: 100, align:"left", editable: false},
+            {name:'entree',index:'entree', width: 120, align:"left", editable: false},
+            {name:'solde',index:'solde', width: 100, align:"left", editable: false},
+            {name:'mt_solde',index:'mt_solde', width: 120, align:"left", editable: false},
+            {name:'date_fn',index:'date_fn', width: 100,sorttype: 'date',formatter: 'date', formatoptions: {newformat: 'd-M-Y'}, datefmt: 'd-M-Y', editable: false,align:"left"}
+        ],
+        rowNum:10000,
+        sortname:"date_fn",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des investissements générés au FN"
+    });
+    $("#tbl_fn").jqGrid('navGrid',{edit:false,add:false,del:false,search:false});
+    jQuery("#tbl_fn").jqGrid('setGroupHeaders', { useColSpanStyle: false, groupHeaders:[ {startColumnName: 'code_capa', numberOfColumns: 4, titleText: 'CAPA'}, {startColumnName: 'code_fn', numberOfColumns: 7, titleText: 'Source FN'} ] });
+    $(document).ready(function(){
+        var pickerOpts = {
+            dateFormat:"dd/mm/yy",
+            changeMonth:true,
+            changeYear:true,
+            selectOtherMonths: true,
+            showButtonPanel: true
+        };
+        $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+        $("#date_fn").datepicker(pickerOpts);
+        $('#val_fn').click(function(e)
+        {
+            jQuery("#tbl_fn").jqGrid('setGridParam',{url:"/eu-source/datafn?date="+$('#date_fn').val()+"&type="+$('#type_fn').val()+"&produit="+$('#produit_fn').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+    })
+</script>

@@ -1,0 +1,194 @@
+<div id="view-content" title="KrR en attente" style="font-size: 12px;min-height: 520px;">
+    <fieldset style="margin-bottom: 2px;"><legend>Recherche</legend>
+        <table>
+            <tbody>
+                <tr>
+                    <td><label>Reconstituer</label></td>
+                    <td>
+                        <select value="" name="chk_rec" id="chk_rec">
+                            <option value=""></option>
+                            <option value="O" >OUI</option>
+                            <option value="N">NON</option>
+                        </select>
+                    </td>
+                    <td><label>Payer</label></td>
+                    <td>
+                        <select value="" name="chk_payer" id="chk_payer">
+                            <option value=""></option>
+                            <option value="O" >OUI</option>
+                            <option value="N">NON</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Date</label></td>
+                    <td>
+                        <input type="text" id="krr_date" name="krr_date"/>
+                    </td>
+                   
+                    <td ><label>Compte</label></td>
+                    <td>
+                        <select id="krr_produit" value="" name="krr_produit" >
+                            <!--<option value=""></option>-->
+							<?php 
+							    $auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin'));
+		                        $user = $auth->getIdentity();
+                                $group = $user->code_groupe;
+		                        if($group == 'e_nn_achatpp_nn_krr_rpgr') {								
+							?>
+							   <option value="RPG">RPG</option>
+							<?php 
+							    } else { 
+							?>   
+                               <option value="I">Investissement</option>   
+							<?php 
+							    } 
+							?>
+                        </select>
+                    </td>
+                    <td><button id="bt_show">Afficher</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </fieldset>
+   <!-- <button id="payer">Payer</button> -->
+    <table id="tbl-krr"></table>
+    <div id="pg-krr"></div>
+    <div id="pdialog">
+        <form>
+            <table>
+                <tbody>
+                    <tr>
+                        <td><label>Code :</label></td>
+                        <td><input type="text" id="code_krr" name="code_krr" /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Membre :</label></td>
+                        <td><input type="text" id="membre_krr" name="membre_krr" /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Produit :</label></td>
+                        <td><input type="text" id="produit_krr" name="produit_krr" /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Montant :</label></td>
+                        <td><input type="text" id="montant_krr" name="montant_krr" /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Echéance :</label></td>
+                        <td><input type="text" id="echeance_krr" name="echeance_krr" /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Payer :</label></td>
+                        <td><input type="checkbox" id="payer_krr" name="payer_krr" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-krr").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code', 'Membre', 'Produit', 'Montant', 'Echéance', 'Payer'],
+        height: 270, width: 800,
+        colModel: [
+            {name: 'id_credit', index: 'id_credit', width: 75, sorttype: "int", editable: false, align: "left"},
+            {name: 'code_membre', index: 'code_membre', width: 150, editable: false, align: "left"},
+            {name: 'code_produit', index: 'code_produit', width: 150, align: "left", editable: false},
+            {name: 'mont_krr', index: 'mont_krr', width: 150, align: "left", editable: false},
+            {name: 'date_echue', index: 'date_echue', width: 120, align: "left", editable: false},
+            {name: 'payer', index: 'payer', width: 50, align: "left", editable: true}
+        ],
+        rowNum: 10000,
+        rowList: [10000, 20000, 30000],
+        pager: '#pg-krr',
+        sortname: "id_credit",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Capitaux reconstitués"
+    });
+
+    $("#tbl-krr").jqGrid('navGrid', '#pg-krr', {edit: false, add: false, del: false, search: true});
+    $(function() {
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+        $("#pdialog").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "valider": function() {
+                    $.get('/eu-krr/save', {
+                        code: $('#code_krr').val()
+                    },
+                    function success(data) {
+                        if (data === true) {
+                            alert('Opération effectuée avec succes');
+                        } else {
+                            alert("Echec de l'opération : " + data);
+                        }
+                    });
+                    $(this).dialog("close");
+                },
+                "Annuler": function() {
+                    $(this).dialog("close");
+                }
+            },
+            close: function() {
+                //allFields.val( "" ).removeClass( "ui-state-error" );
+            }
+        }
+        );
+    });
+    $(function() {
+        var pickerOpts = {
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true
+        };
+        $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+        $("#krr_date").datepicker(pickerOpts);
+    });
+
+    $('#bt_show').click(function(e) {
+        jQuery("#tbl-krr").jqGrid('setGridParam', {url: "/eu-krr/data?rec=" + $('#chk_rec').val() + "&payer=" + $('#chk_payer').val()
+            + "&membre=" + $('#krr_membre').val() + "&compte=" + $('#krr_produit').val() + "&date=" + $('#krr_date').val()}).trigger('reloadGrid');
+        e.preventDefault();
+    });
+
+    $.get(
+            '/eu-krr/membre',
+            {type: '%'},
+    function success(data)
+    {
+        $('#krr_membre').autocomplete({"source": data});
+    });
+
+    $("#payer").button().click(function() {
+        var sel;
+        sel = jQuery("#tbl-krr").jqGrid('getGridParam', 'selrow');
+        data = jQuery("#tbl-krr").jqGrid('getRowData', sel);
+        if (sel > 0) {
+            $('#code_krr').val(data.code_credi);
+            $('#membre_krr').val(data.membre);
+            $('#produit_krr').val(data.produit);
+            $('#montant_krr').val(data.mont);
+            $('#echeance_krr').val(data.date_echue);
+            if (data.payer === "N") {
+                $('#payer_krr').val(0);
+            } else {
+                $('#payer_krr').val(1);
+            }
+            $("#pdialog").dialog("open");
+        } else {
+            alert('Il faut sélectionner une ligne');
+        }
+
+    });
+
+</script>

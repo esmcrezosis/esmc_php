@@ -1,0 +1,108 @@
+<div id="view-content" title="Enregistrement d'employés" style="min-height: 520px;padding: 1px;margin: 1px;font-size: 12px;">
+    <form id="employe_form" method="post" action="/eu-affectation/employe">
+        <table id="tab_capa" style="width: 700px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+            <tr>
+                <td colspan="2">
+                    <div id="img" />
+                </td>
+            </tr>
+            <tr>
+                <td><label for="code_dev">Code Membre Employeur* :</label></td>
+                <td>
+                    <input class="validate[required]" type="text" id="code_membre" name="code_membre" value="<?php echo $this->code_membre; ?>" size="30"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="raison_soc">Raison Sociale * :</label></td>
+                <td>
+                    <input class="validate[required]" type="text" id="raison_soc" name="raison_soc" value="<?php echo $this->raison_soc; ?>" size="40"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="code_membre_employe">Code Membre Employé * :</label></td>
+                <td>
+                    <input class="validate[required]" type="text" id="code_membre_employe" name="code_membre_employe" value="<?php echo $this->code_membre_employe; ?>" size="30"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="nom_membre">Nom Membre * :</label></td>
+                <td>
+                    <input class="validate[required]" type="text" id="nom_membre" name="nom_membre" value="<?php echo $this->nom_membre; ?>" size="30"/>
+                    <input class="validate[required]" type="text" id="prenom_membre" name="prenom_membre" value="<?php echo $this->prenom_membre; ?>" size="30"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="mont_salaire">Montant salaire * :</label></td>
+                <td>
+                    <input class="validate[required]" type="text" id="mont_salaire" name="mont_salaire" value="<?php echo $this->mont_salaire; ?>" size="30"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="cnss">Déclaré au CNSS * :</label></td>
+                <td>
+                    <input class="validate[required]" type="checkbox" id="cnss" name="cnss" value="<?php echo $this->cnss; ?>"/>
+                </td>
+            </tr>
+            <tr><td></td><td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td></tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function ()
+    {
+        $("#new_dev_form").validationEngine();
+        $('#val').button();
+        $('#reset').button();
+        $(function(){
+            $('#view-content').puipanel();
+        });
+        
+        $.get('/eu-affectation/membrephys',
+        function success(data)
+        {
+            $('#code_membre_employe').autocomplete({"source": data,
+                change: displayItem});
+        });
+        
+        $.get('/eu-affectation/membremoral',
+        function success(data)
+        {
+            $('#code_membre').autocomplete({"source": data,
+                change: displaymoral});
+        });
+
+        function displayItem()
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                '/eu-affectation/recupnom1',
+                {
+                    num_membre: $(this).val()
+                },
+                function success(data)
+                {
+                    $("#nom_membre").val(data[0]);
+                    $("#prenom_membre").val(data[1]);
+                });
+            }
+        }
+        
+        function displaymoral()
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                '/eu-affectation/recupnom1',
+                {
+                    num_membre: $(this).val()
+                },
+                function success(data)
+                {
+                    $("#raison_soc").val(data[2]);
+                });
+            }
+        }
+       
+    });
+</script>

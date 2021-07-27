@@ -1,0 +1,113 @@
+<style>
+
+   #forms-article{
+     width: 100%;
+     position: relative;
+    border: 1px solid #2e2e2e;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 38px;
+    padding-right: 15px;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+       
+   }
+
+</style>
+
+
+<?php
+
+$month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+$true_month = "";
+$ex_date = explode('-',$this->datesignature);
+
+foreach ($month as $key => $value) {
+  if($ex_date[1] == $key){
+    $true_month = $value;
+  }
+}
+$next_ex_date = explode(' ', $ex_date[2]);
+$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+
+?>
+
+<article id="forms-article">
+
+<section>
+<form action="#" method="post">
+<h2 style="font-size: 1.5em;text-align: center;text-decoration: underline;font-weight:bold">ENGAGEMENT DE LIVRAISON IRREVOCABLE (ELI) </h2>
+      <p style="margin-top:28px">
+      <label for="code membre" style="position:relative;top:10px;margin-bottom:30px">
+        Code membre:
+        <input type="text" name="code_membre_eli" id="code_membre_eli" required="required" style="width: 86%;margin-top: -27px;margin-left: 113px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[......................................................................................................................]">
+       </label>
+       <label for="personne physique">
+       Je soussigné (e) M./Mme:
+       </label>
+       <span><input type="text" name="complete_name" id="complete_name_convention_eli" style="width: 79%;position: relative;margin-top: -37px;margin-left: 184px;padding-left: 0;border:0; background: transparent;font-size: 1em;" placeholder="........................................................................................................."> </span>
+       
+       <label for="ville/village" style="margin-top:20px">Demeurant à (ville/village):
+        <input type="text" name="demeure_eli" id="demeure_eli_convention" required="required" style="width: 25%;margin-top: -22px;position: relative;border:0;right: -193px;padding: 0;background: transparent;font-size: 1em;" placeholder="[................................]">
+       </label>
+       <label for="quartier" style="margin-top: -34px;position: relative;right: -411px;">
+       (Quartier):
+       <input type="text" name="quartier_eli" id="quartier_eli_convention" required="required" style="width: 43%;margin-top: -22px;margin-left:10px;position: relative;font-size: 1em;left: 73px;padding: 0;border:0;background:transparent" placeholder="[.........................................................]">
+       </label>         
+       <label for="bp" style="position: relative;top: 10px;">
+        (BP) :
+        <input type="text" name="bp_eli" id="bp_eli_convention" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1rem;background:transparent;border:0" placeholder="[.................................]">
+       </label> 
+       <label for="tel" style="position:relative;margin-top: -20px;margin-left: 260px;">
+        (Tél):
+        <input type="text" name="tel_eli" required="required" id="tel_eli_convention" style="width: 93%;margin-top: -21px;margin-left: 36px;padding: 0;font-size: 1rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>
+
+
+    </p>
+    <p>
+      <label for="">
+        <input type="radio" name="check_numero_carte" id="numero_carte_eli" value="numero_carte">
+        Exerçant individuellement sous le numéro de la carte d’opérateur économique :
+      </label>
+      <input type="text" name="numero_carte" id="numero_carte_eli_content" style="display:none;padding:0;border:0;background-color:transparent;font-size:1rem" placeholder="[..........................................................................................................................................................................">
+      <p>Ou</p>
+      <label for="">
+        <input type="radio" name="check_numero_carte" id="description_structure_eli" value="description_structure">
+        Représentant (e) de ( <i>décrire la structure : raison sociale, numéro d’identification, siège social … ) </i>:
+      </label>
+      <textarea name="description_structure" id="description_structure_eli_content" required="required" style="display:none;padding:0;background:transparent;color:black;border:0" cols="30" rows="10" placeholder="................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................"></textarea>
+    </p>
+
+    <p>
+     <label for="">Pour avoir bénéficié d’une avance de paiement d’un montant total de  <i>(en lettres et en chiffres)</i> :
+     </label>
+     <textarea name="montant_eli" style="height:147px;padding:0;border:0;background:transparent" id="" cols="30" rows="10" placeholder=".............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................."></textarea>
+    </p>
+    <p>
+    par voie d’Ordres de Prélèvement Irrévocables (OPI) de la part de ESMC SARLU, 
+    </p>
+    <p>
+     <label for="">En exécution du ‘’contrat de livraison irrévocable contre OPI’’ signé avec ESMC SARLU,
+     </label>
+     <label for="">
+      M’engage irrévocablement à fournir à cette dernière de façon continue les Biens, Produits et
+      Service ci-après <i>(préciser les BPS et leur quantité)</i> :
+     </label>
+     <textarea name="description_bps" style="height:147px;padding:0;border:0;background:transparent" id="" cols="30" rows="10" required="required" placeholder=".............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................."></textarea>
+    </p>
+    <p>En foi de quoi je signe le présent Engagement de Livraison Irrévocable (ELI) pour servir et valoir
+     ce que de droit.
+    </p>
+    <p style="position: relative;left: 418px;margin-top:61px">
+
+     Fait à Lomé le <?php echo $true_date;?>
+    </p>
+
+    <p style="position: relative;left: 418px;margin-top:106px">
+    M/Mme <input type="text" id="signature_complete_name_eli" style="background-color:transparent;border:0;width: 45%;padding: 0;margin-top: -22px;margin-left: 66px;" placeholder="......................................................................">
+    </p>
+    <button class="btn btn-success">Approuver l'engagement</button>
+</form>
+</section>
+</article>

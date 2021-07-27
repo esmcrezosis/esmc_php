@@ -1,0 +1,83 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+  <blockquote>
+  <p>
+      <strong>Administration</strong> 
+  <small>Espace d'administration du site</small>
+  </p>
+  </blockquote>
+
+
+<?php /*//echo $sessionutilisateur->login; ?>
+<?php if($sessionutilisateur->code_groupe == "executante"){?>
+<?php //Projet encours de réalisation
+		$demande = new Application_Model_DbTable_EuDemande();
+        $select = $demande->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+           				->setIntegrityCheck(false)
+		          		->join('eu_appel_offre', 'eu_appel_offre.id_demande = eu_demande.id_demande')
+						->join('eu_proposition', 'eu_proposition.id_appel_offre = eu_appel_offre.id_appel_offre')
+						->join('eu_frais', 'eu_frais.id_proposition = eu_proposition.id_proposition')
+						->where("eu_demande.code_membre_morale = '".$sessionutilisateur->code_membre."'")
+						->where("eu_demande.publier = 1")
+						->where("eu_demande.livrer = 0")
+						->where("eu_proposition.choix_proposition = 1")
+						->where("eu_frais.valider = 1")
+						->order(array('eu_demande.date_demande ASC'));
+        $rowsdemande = $demande->fetchAll($select);
+		if(count($rowsdemande) > 0){
+?>
+<div class="alert">
+<strong><u>Projet encours de réalisation</u></strong> <br /><br />
+<?php foreach ($rowsdemande as $entry):?>
+<small><strong>Demande de BPS : </strong> <?php echo htmlentities($entry->objet_demande); ?>.</small><br />
+<small><strong>Appel d'offre : </strong> <?php echo htmlentities($entry->numero_offre); ?> - <?php echo htmlentities($entry->nom_appel_offre); ?>.</small><br />
+<small><strong>Durée du projet : </strong> <?php echo $entry->duree_projet; ?> mois.</small><br /> 
+<small><strong>Montant total du projet : </strong> <?php echo number_format($entry->mont_projet, 0, ',', ' '); ?> XOF.</small>
+<hr style="margin:5px;" />
+<?php endforeach; ?>
+</div>                        
+<?php }?>
+<?php }?>
+
+
+
+<?php if($sessionutilisateur->code_groupe == "executante" || $sessionutilisateur->code_groupe == "surveillance_technopole"){?>
+<?php //Dernier Appel d'offre publier
+		$appeloffre = new Application_Model_DbTable_EuAppelOffre();
+        $select = $appeloffre->select();
+		$select->where('code_membre_morale IN (SELECT code_membre_morale FROM eu_membre_morale WHERE id_filiere = ? )', $sessionutilisateur->id_filiere)
+						->where('eu_appel_offre.publier = ? ', 1)
+						->order('eu_appel_offre.date_creation DESC')
+						->limit(1);
+        $rowsappeloffre = $appeloffre->fetchRow($select);
+		if(count($rowsappeloffre) > 0){
+?>
+<div class="alert">
+<strong>Dernier Appel d'offre publier : </strong> <?php echo htmlentities($rowsappeloffre->numero_offre); ?> - <?php echo htmlentities($rowsappeloffre->nom_appel_offre); ?>.<br />
+<small><strong>Durée du projet : </strong> <?php echo $rowsappeloffre->duree_projet; ?> mois.</small>
+</div>                        
+<?php }?>
+<?php }*/?>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

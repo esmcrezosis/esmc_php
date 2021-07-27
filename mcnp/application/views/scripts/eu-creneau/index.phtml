@@ -1,0 +1,72 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+        <input id="user" type="button" value="Utilisateur" class="ui-widget button"/>
+    </div>
+    <table id="tbl-creneau"></table>
+    <div id="pg-creneau"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-creneau").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Nom','Code membre','Type créneau','Gestionnaire','Nom GAC filière','Date création'],
+        height:440, width:827,
+        colModel:[
+            {name:'code_creneau',index:'code_creneau', width:100, editable: true,align:"left",hidden:true},
+            {name:'nom_creneau',index:'nom_creneau', width: 250, editable: true,align:"left"},  
+            {name:'code_membre',index:'code_membre', width: 180, editable: true,align:"left"},
+            {name:'id_type_creneau',index:'id_type_creneau', width: 115, editable: true,align:"left",
+                edittype: 'select', editoptions: {value: "producteur:Producteur; transformateur:Transformateur; distributeur:Distributeur"}},
+            {name:'nom_gestion',index:'nom_gestion', width: 165, align:"left", editable: true},
+            {name:'code_gac_filiere',index:'code_gac_filiere', width: 190, align:"left", editable: true},
+            {name:'date_creation',index:'date_creation', width: 125, editable: true,align:"fase"},
+        ],
+        rowNum:100,
+        rowList:[100,200,300],
+        rownumbers:true,
+        pager: '#pg-creneau',
+        sortname:"nom_creneau",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des créneaux d'activités"
+    });
+  
+    $("#tbl-creneau").jqGrid('navGrid','#pg-creneau',{edit:false,add:false,del:false,search:true});
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-creneau").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-creneau").jqGrid('getRowData',rowsel);
+            $.get('/eu-creneau/edit',{
+                gac_cre:data.code_creneau,gac_cre1:data.code_gac_filiere
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+    $('#user').button();
+    $('#user').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-creneau").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-user/adduser',{
+                gac:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+</script>

@@ -1,0 +1,79 @@
+<?php $sessionbanqueopi = new Zend_Session_Namespace('banqueopi');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menubanqueopi.phtml"); ?>
+
+  <blockquote><p>Ajout du fichier </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addfichier">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="fichier_banque">Fichier *</label>
+<div class="controls">
+<?php 
+$table = new Application_Model_DbTable_EuBanqueFichier();
+$select = $table->select();
+if($sessionbanqueopi->code_banque != ""){
+$select->where("fichier_banque = ? ", $sessionbanqueopi->code_banque);
+}
+$select->order("fichier_libelle ASC");
+$entries = $table->fetchAll($select);
+if(count($entries) > 0){?>
+<select id="fichier_banque" name="fichier_banque"  required>
+  <option value="">Choisir le fichier </option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->fichier_banque; ?>"><?php echo $value->fichier_libelle; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="fichier_url">Url du fichier </label>
+<div class="controls">
+<input name="fichier_url" type="file" id="fichier_url" class="input-xxlarge" />  
+</div>
+</div>
+    
+    
+    
+<div class="form-actions">
+<input name="fichier_mstiers_listebc" type="hidden" id="fichier_mstiers_listebc" value="<?php echo $this->mstierslistebc->id_mstiers_listebc; ?>" />  
+<input name="publier" type="hidden" id="publier" value="1" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter le fichier</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

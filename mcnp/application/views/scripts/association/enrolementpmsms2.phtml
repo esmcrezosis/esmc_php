@@ -1,0 +1,419 @@
+﻿<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/fondateurs.js"></script><?php */?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capasenrolement.js"></script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+  <blockquote><p class="text-info">Activation De Compte Marchand Membre Personne Morale Pour Soi</p></blockquote>
+
+<div class="">
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="enrolement">
+  <?php if(isset($sessionmembreasso->errorlogin) && $sessionmembreasso->errorlogin!=""){?>
+  <div class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->errorlogin; $sessionmembreasso->errorlogin = ""; ?>
+    </div>
+  <?php }?>
+  <?php if(isset($this->message) && $this->message!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->message; ?>
+    </div>
+  <?php }?>
+  
+  <legend>Code SMS</legend>
+  <div class="control-group">
+  <label class="control-label" for="code_fs">Code SMS FS *</label>
+  <div class="controls">
+  <input name="code_fs" type="text" id="code_fs" placeholder="Entrer le Code SMS FS reçu" required>
+	<span id="nivfs"><button type="button" class="btn btn-info" onclick="ouvre_capasenrolement(document.getElementById('code_fs').value + '_' + 'FS' + '_' + 'fs', 'nivfs');">Vérifier</button></span>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="code_fl">Code SMS FL *</label>
+  <div class="controls">
+  <input name="code_fl" type="text" id="code_fl" placeholder="Entrer le Code SMS FL reçu" required>
+	<span id="nivfl"><button type="button" class="btn btn-info" onclick="ouvre_capasenrolement(document.getElementById('code_fl').value + '_' + 'FL' + '_' + 'fl', 'nivfl');">Vérifier</button></span>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="code_fkps">Code SMS FCPS *</label>
+  <div class="controls">
+  <input name="code_fkps" type="text" id="code_fkps" placeholder="Entrer le Code SMS FCPS reçu" required>
+	<span id="nivfkps"><button type="button" class="btn btn-info" onclick="ouvre_capasenrolement(document.getElementById('code_fkps').value + '_' + 'FCPS' + '_' + 'fkps', 'nivfkps');">Vérifier</button></span>
+  </div>
+  </div>
+  
+  
+    
+   <!--<legend>Numéro Contrat ou Agrement</legend>
+   <div class="">  
+   <div class="span6">
+  
+   <div class="control-group">
+   <label class="control-label" for="numero_agrement_filiere">Agrement Filière *</label>
+   <div class="controls">
+   <input type="text" class="input-large" name="numero_agrement_filiere" id="numero_agrement_filiere" value="<?php echo $this->numero_agrement_filiere; ?>" placeholder="Numéro Agrement Filière" >
+   </div>
+   </div>
+  
+   <div class="control-group">
+   <label class="control-label" for="numero_agrement_acnev">Agrement ACNEV *</label>
+   <div class="controls">
+   <input type="text" class="input-large" name="numero_agrement_acnev" id="numero_agrement_acnev" value="<?php echo $this->numero_agrement_acnev; ?>" placeholder="Numéro Agrement ACNEV" >
+   </div>
+   </div>
+  
+   <div class="control-group">
+   <label class="control-label" for="numero_agrement_technopole">Agrement Technopole *</label>
+   <div class="controls">
+   <input type="text" class="input-large" name="numero_agrement_technopole" id="numero_agrement_technopole" value="<?php echo $this->numero_agrement_technopole; ?>" placeholder="Numéro Agrement Technopole" >
+   </div>
+   </div>
+  
+   <div id="contrat" style="display:none;">
+   <div class="control-group">
+   <label class="control-label" for="numero_contrat">Numéro Contrat *</label>
+   <div class="controls">
+   <input type="text" class="input-large" name="numero_contrat" id="numero_contrat" value="<?php echo $this->numero_contrat; ?>" placeholder="Numéro Contrat" >
+   </div>
+   </div>
+   </div>
+  
+  
+   </div>
+
+   <div class="span6" align="center">
+      
+       
+   <div class="control-group">
+   <label class="control-label" for=""></label>
+   <div class="controls">
+      &nbsp;<br />&nbsp;
+   </div>
+   </div>
+  
+       
+  Contacter le centre d'enrôlement le plus proche pour avoir les renseignements
+
+  
+       
+  <div class="control-group">
+  <label class="control-label" for=""></label>
+  <div class="controls">
+&nbsp;<br />&nbsp;
+  </div>
+  </div>
+  
+  </div>
+</div> -->
+  
+ 
+  <legend>Informations membres morales</legend>
+<div class="">
+  
+  
+<div class="span6">
+    
+<div class="control-group">
+<label class="control-label" for="code_agence">Agence *</label>
+<div class="controls">
+<select name="code_agence" id="code_agence" required>
+        <?php $tagence = new Application_Model_DbTable_EuAgence();
+	      $select = $tagence->select();
+	      $select->where('code_agence like ? ','001001001001');
+              $results = $tagence->fetchAll($select);
+        ?>
+  <option value="">Choisir l'agence</option>
+    <?php foreach ($results as $agence): ?>
+               <option value="<?php echo $agence->code_agence; ?>"><?php echo ($agence->libelle_agence); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+  
+  <div class="control-group">
+  <label class="control-label" for="code_type_acteur">Type Membre morale *</label>
+  <div class="controls">
+  <select name="code_type_acteur" id="code_type_acteur" required>
+  <option value="">Choisir le type</option>
+    <option value="EI" <?php if($this->code_type_acteur == 'EI'){echo ' selected="selected"';}?>>Entreprise Industrie</option>
+    <option value="OSE" <?php if($this->code_type_acteur == 'OSE'){echo ' selected="selected"';}?>>Opérateur Socio-Economique</option>
+    <option value="PEI" <?php if($this->code_type_acteur == 'PEI'){echo ' selected="selected"';}?>>Partenaire Entreprise Industrie</option>
+    <option value="POSE" <?php if($this->code_type_acteur == 'POSE'){echo ' selected="selected"';}?>>Partenaire Opérateur Socio-Economique</option>
+</select>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="raison_sociale">Raison sociale *</label>
+  <div class="controls">
+<input type="text" name="raison_sociale" id="raison_sociale" value="<?php echo $this->raison; ?>" placeholder="Raison sociale" required>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="num_registre_membre">N° RCCM *</label>
+  <div class="controls">
+  <input type="text" name="num_registre_membre" id="num_registre_membre" value="<?php echo $this->num_registre_membre; ?>" placeholder="N° RCCM" required>
+  </div>
+  </div>  
+  
+</div>
+  <div class="span6">
+    
+  <div class="control-group">
+  <label class="control-label" for="code_statut">Statut juridique *</label>
+  <div class="controls">
+  <select class="input-large" name="code_statut" id="code_statut" required>
+       <?php  $statutjuridique = new Application_Model_EuStatutJuridiqueMapper();
+		$selectstatutjuridique = $statutjuridique->fetchAll();?>
+               <option value="">Choisir un statut juridique</option>
+    <?php foreach ($selectstatutjuridique as $selectstatutjuridique): ?>
+               <option value="<?php echo $selectstatutjuridique->code_statut; ?>"><?php echo htmlentities($selectstatutjuridique->libelle_statut); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="domaine_activite">Domaine d'activité </label>
+  <div class="controls">
+  <input type="text" name="domaine_activite" id="domaine_activite" value="<?php echo $this->domaine_activite; ?>" placeholder="Domaine d'activité">
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="site_web">Site web</label>
+  <div class="controls">
+  <input type="text" name="site_web" id="site_web" value="<?php echo $this->site_web; ?>" placeholder="Site web">
+  </div>
+  </div>
+        
+    
+       
+  <div class="control-group">
+  <label class="control-label" for=""></label>
+  <div class="controls">
+&nbsp;<br />&nbsp;
+  </div>
+  </div>
+  
+  </div>
+
+  </div>
+
+
+  <legend>Représentant</legend>
+
+<div class="">
+  
+<div class="span6">
+  
+  <div class="control-group">
+  <label class="control-label" for="code_rep">Code membre représentant *</label>
+  <div class="controls">
+<input type="text" name="code_rep" id="code_rep" value="<?php echo $this->code_rep; ?>" placeholder="Code membre représentant" required>
+  </div>
+  </div>
+    
+</div>
+  <div class="span6">
+       
+  <div class="control-group">
+  <label class="control-label" for=""></label>
+  <div class="controls">
+&nbsp;<br />&nbsp;
+  </div>
+  </div>
+<br />
+<?php /*?>  <div class="control-group">
+  <label class="control-label" for="nom_rep">Nom & Prénom </label>
+  <div class="controls">
+  <input type="text" name="nom_rep" id="nom_rep" value="<?php echo $this->nom_membre; ?>" placeholder="Nom & Prénom">
+  </div>
+  </div>
+<?php */?>        
+    
+  
+  </div>
+
+  </div>
+
+
+
+  
+
+  <legend>Adresse</legend>
+
+
+<div class="">
+
+  <div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="bp_membre">BP</label>
+  <div class="controls">
+  <input type="text" name="bp_membre" id="bp_membre" value="<?php echo $this->bp; ?>" placeholder="BP">
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="quartier_membre">Quartier *</label>
+  <div class="controls">
+  <input type="text" name="quartier_membre" id="quartier_membre" value="<?php echo $this->quartier_membre; ?>" placeholder="Quartier" required>
+  </div>
+  </div>
+
+
+  <div class="control-group">
+  <label class="control-label" for="ville_membre">Ville *</label>
+  <div class="controls">
+  <input type="text" name="ville_membre" id="ville_membre" value="<?php echo $this->ville_membre; ?>" placeholder="Ville" required>
+  </div>
+  </div>
+
+<div class="control-group">
+  <label class="control-label" for="id_pays">Pays *</label>
+  <div class="controls">
+  <select name="id_pays" id="id_pays" required>
+       <?php  $pays = new Application_Model_EuPaysMapper();
+		$selectpays = $pays->fetchAll();?>
+               <option value="">Choisir un pays</option>
+    <?php foreach ($selectpays as $selectpays): ?>
+               <option value="<?php echo $selectpays->id_pays; ?>" <?php if($this->pays == $selectpays->id_pays){echo ' selected="selected"';}?>><?php echo htmlentities($selectpays->libelle_pays); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+  
+    </div>
+<div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="email_membre">Email</label>
+  <div class="controls">
+  <input type="text" name="email_membre" id="email_membre" value="<?php echo $this->email; ?>" placeholder="Email">
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="portable_membre">Cellulaire *</label>
+  <div class="controls">
+  <input type="text" name="portable_membre" id="portable_membre" value="<?php echo $this->portable; ?>" placeholder="Cellulaire" required>
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="tel_membre">Téléphone</label>
+  <div class="controls">
+  <input type="text" name="tel_membre" id="tel_membre" value="<?php echo $this->tel; ?>" placeholder="Téléphone">
+  </div>
+  </div>
+    
+    
+       
+  <div class="control-group">
+  <label class="control-label" for=""></label>
+  <div class="controls">
+&nbsp;<br />&nbsp;
+  </div>
+  </div>
+  
+  </div>
+  
+  </div>  
+  
+
+
+  <legend>Comptes bancaires</legend>
+
+<?php $a = 1;?>
+<div id="nivbanque<?php echo $a;?>">
+<select name="code_banque[]" id="code_banque<?php echo $a;?>">
+        <?php $tbanque = new Application_Model_DbTable_EuBanque();
+        $results = $tbanque->fetchAll();?>
+  <option value="">Choisir une banque</option>
+    <?php foreach ($results as $banque): ?>
+               <option value="<?php echo $banque->code_banque; ?>"><?php echo htmlentities($banque->libelle_banque); ?></option>
+    <?php endforeach; ?>
+</select>
+<input class="input-large" type="text" name="num_compte[]" id="num_compte<?php echo $a;?>" placeholder="Numéro de compte">
+
+<a class="btn btn-mini" onclick="document.getElementById('nivbanque<?php echo $a;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_banques('<?php echo $a + 1;?>','nivbanque<?php echo $a + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+<div id="nivbanque<?php echo $a + 1;?>"></div>
+
+  
+  <legend></legend>
+  
+
+<?php /*?><div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Préinscription Mise sur chaine Membre Morale</button>
+</div><?php */?>
+
+
+<!-- Button to trigger modal -->
+<a href="#myModal" role="button" class="btn btn-large btn-block btn-info" data-toggle="modal">Ouverture de Compte Marchand Membre Personne Morale</a>
+ 
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- Modal -->
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Cochez la mention « Lu et approuvé » tout en bas du contrat.</h3>
+  </div>
+  <div class="modal-body" data-spy="scroll" data-target=".navbar">
+<?php require("contrat_compte_marchant.php"); ?>
+<br />
+<br />
+  <label for="lu_et_approuve" class="checkbox">
+  <input type="checkbox" name="lu_et_approuve" id="lu_et_approuve" value="1" required onclick="if(document.getElementById('lu_et_approuve').checked == true){
+	document.getElementById('submit').disabled = false;
+	}else{
+	document.getElementById('submit').disabled = true;
+		}">
+  <strong>Lu et approuvé</strong></label>
+
+  </div>
+  <div class="modal-footer">
+			    <input name="codesecret" type="hidden" id="codesecret" value="<?php echo $this->codesecret; ?>" />
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+<button id="submit" type="submit" class="btn btn-primary" disabled>Ouverture de Compte Marchand Membre Personne Morale</button>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+</form>
+</div>
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+

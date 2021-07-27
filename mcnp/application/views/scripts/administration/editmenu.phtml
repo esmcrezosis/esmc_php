@@ -1,0 +1,74 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification du menu</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addmenu">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+        
+
+<div class="control-group">
+<label class="control-label" for="menu_type">Type du menu *</label>
+<div class="controls">
+<label class="radio inline" for="menu_type1">
+<input type="radio" id="menu_type1" name="menu_type" value="ESMC" <?php if($this->menu->menu_type == "ESMC"){echo 'checked="checked"';}?> required> ESMC</label>
+<br />
+<label class="radio inline" for="menu_type2">
+<input type="radio" id="menu_type2" name="menu_type" value="CEU/ReDeMaRe" <?php if($this->menu->menu_type == "CEU/ReDeMaRe"){echo 'checked="checked"';}?> required> CEU/ReDeMaRe</label>
+<br />
+<label class="radio inline" for="menu_type3">
+<input type="radio" id="menu_type3" name="menu_type" value="MCNP" <?php if($this->menu->menu_type == "MCNP"){echo 'checked="checked"';}?> required> MCNP</label>
+<br />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="menu_libelle">Libellé du menu *</label>
+<div class="controls">
+<input type="text" name="menu_libelle" id="menu_libelle" placeholder="Libellé du menu" class="input-xxlarge" value="<?php echo $this->menu->menu_libelle; ?>" required>
+</div>
+</div>
+
+   
+    
+
+
+<div class="form-actions">
+<input name="menu_id" type="hidden" id="menu_id" value="<?php echo $this->menu->menu_id; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier du menu</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

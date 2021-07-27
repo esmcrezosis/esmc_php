@@ -1,0 +1,92 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+<script src="<?php echo $this->baseUrl();?>/pv.js"></script>
+
+<script type="text/javascript" charset="utf-8">		
+	$(document).ready(function() {
+    $('#example').dataTable({
+       "sPaginationType": "full_numbers",
+	   "aaSorting": []
+    });
+    });
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+
+  <blockquote><p> Liste des bons de prestation établis </p></blockquote>
+  
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+<?php } ?>
+  
+<?php if(isset($sessionmembre->error) && $sessionmembre->error != "") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembre->error; $sessionmembre->error = ""; ?>
+  </div>
+<?php } ?>
+
+<?php if(count($this->entries) > 0) { ?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+<thead>
+	  <tr>
+		  <th>Date bon</th>
+		  <th>Désignation demande</th>
+		  <th>Désignation bon</th>
+		  <th>Montant bon</th>
+		  <th>Actions</th>
+	  </tr>
+</thead>
+  
+<tbody>
+<?php foreach ($this->entries as $entry): 
+
+$tabela = new Application_Model_DbTable_EuBonLivraisonPrestation();
+$select = $tabela->select();
+$select->where('id_devis_prestation = ?',$entry->id_devis_prestation);	   
+$bons = $tabela->fetchAll($select);
+
+?>
+<tr>
+   <td> <?php echo ($entry->date_bon_prestation);?></td>
+   <td> <?php echo ($entry->designation_demande);?></td>
+   <td> <?php echo ($entry->libelle_bon_prestation);?></td>
+   <td> <?php echo ($entry->montant_bon_prestation);?></td>
+   <td>
+	  <div align="center">
+	  <?php if(count($bons) == 0) { ?>
+      <a class="btn btn-mini btn-danger" href="<?php echo $this->baseUrl(); ?>/immobilisation/addbonlivraison/id/<?php echo $entry->id_devis_prestation;?>"><i class="icon-plus icon-white"></i>Etablir un bon livraison</a> &nbsp;		   
+      <?php } else { ?>
+      <a class="btn btn-mini btn-success" onclick=""><i class="icon-ok icon-white"></i> Bon de livraison établi </a>&nbsp;
+	  <?php }  ?>	 
+	  </div>
+   </td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun bon de prestation enrégistré 
+</div>
+<?php } ?>
+
+</div>
+</div>
+</div>
+
+

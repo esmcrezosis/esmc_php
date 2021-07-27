@@ -1,0 +1,55 @@
+<div class="ui-widget-content ui-corner-all" id="view-content" style="font-size:12px">
+    <div style="margin: 3px 0px 3px 0px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-employe"></table>
+    <div id="pg-employe"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-employe").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'myemployelist')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['ID','Code membre','Nom membre','Date déclaration','Déclaré CNSS','Salaire'],
+        height:450, width:827,
+        colModel:[
+            {name:'id_employe',index:'id_employe', width:85, sorttype:"int",align:"left", hidden:true},
+            {name:'code_membre',index:'code_membre', width: 150, align:"left", editable: false},
+            {name:'nom_membre',index:'nom_membre', width: 200, editable: true,align:"left"},
+            {name:'date_declaration',index:'date_declaration', width: 110, editable: false,align:"left"},
+            {name:'cnss',index:'cnss', width: 100, align:"left"},
+            {name:'salaire',index:'salaire', width: 145, align:"right",sorttype:'number',formatter:'number',summaryType:'sum', hidden:false},
+        ],
+        rowNum:100,
+        rowList:[100,200,3000],
+        rownumbers:true,
+        pager: '#pg-employe',
+        sortname:"nom_membre",
+        viewrecords: true,
+        multiselect:false,
+        sortorder: "asc",
+        caption:"Liste des employés",
+        footerrow: true,
+        userDataOnFooter: true        
+    });
+    $("#tbl-employe").jqGrid('navGrid','#pg-employe',{edit:false,add:false,del:false,search:true});
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-employe").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-smcipn/editemploye',{
+                id_employe:rowsel
+            },function success(data){
+                $("#content").html(data);
+            }); 
+        }
+        else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+        
+</script>

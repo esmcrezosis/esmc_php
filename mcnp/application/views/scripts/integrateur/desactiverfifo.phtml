@@ -1,0 +1,71 @@
+﻿<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/integrateur.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+
+<script type="text/javascript">
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+<blockquote><p class=""> Opérations de Désactivation du compte Marchand  </p> </blockquote>
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="desactiverfifo">
+      <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error != "") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+           <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+      </div>
+      <?php } ?>
+  
+      <?php if(isset($this->error) && $this->error !="") { ?>
+      <div class="alert alert-error">
+           <button type="button" class="close" data-dismiss="alert">&times;</button>
+           <?php echo $this->error; ?>
+      </div>
+      <?php } ?>
+  
+      <legend>Bénéficiaire</legend>
+      <div  class="control-group">
+	  <label class="control-label" for="code_membre_apporteur">Code Membre </label>
+      <div class="controls">
+      <input name="code_membre" type="text" id="code_membre" value="<?php echo $this->membre->code_membre; ?>"  class="input-block-level" placeholder="Code Membre Bénéficiaire" readonly="true"  />
+	  </div>
+      </div>
+	
+	  <div class="control-group">
+      <label class="control-label" for="code_membre"> NOM & PRENOM </label>
+	  <div class="controls">
+      <input type="text" name="code_membre" id="code_membre" value="<?php echo $this->membre->nom_membre." ".$this->membre->prenom_membre; ?>"  placeholder="NOM & PRENOM"  class="input-block-level" readonly="true" />
+      </div>
+      </div>
+	
+	  <div class="control-group">
+      <label class="control-label" for="motif"> Motif *</label>
+      <div class="controls">
+      <textarea name="motif" id="motif" class="input-block-level"  placeholder="Motif" required ></textarea>
+      </div>
+      </div>
+		 
+      <div class="form-actions">
+      <input name="publier" type="hidden" id="publier" value="0" />
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <button type="reset" class="btn">Annuler</button>
+      <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+</form>
+</div>
+
+</div>
+</div>

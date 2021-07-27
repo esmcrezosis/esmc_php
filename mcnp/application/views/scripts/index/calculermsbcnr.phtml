@@ -1,0 +1,141 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+
+<script type="text/javascript">
+    function calculmontant(prk) { 
+	    var pck = document.getElementById('pck').value;
+		var id_prk = document.getElementById('id_prk').value;
+	    var parties = id_prk.split("-");
+		
+		var code_credit = parties[0];
+		var prk = parties[1];
+		
+		var taux = document.getElementById('tauxescompte').value;
+	    var mont_bc = document.getElementById('mont_bc').value;
+		
+	    //var prk = document.getElementById('id_prk').value;
+		
+		if(code_credit == "AG") {
+			var mont_msbcnr = Math.floor((mont_bc * pck) / prk);
+		} else {
+			var partie = ((mont_bc * 100) + (taux * mont_bc))/100;
+	        var mont_msbcnr = Math.floor((partie * pck) / prk);
+		}
+	         
+	    document.getElementById('mont_msbcnr').value = mont_msbcnr;
+        document.getElementById('mont_msbcnr').readOnly = true; 
+    }
+
+    function annuler(montant) {
+        document.getElementById('id_prk').value = "";
+        document.getElementById('mont_msbcnr').value = "";
+    }
+
+
+   /*
+   function calculmontant(prk) { 
+	 var pck = document.getElementById('pck').value;
+	 var prk = document.getElementById('id_prk').value;
+	 var taux = document.getElementById('tauxescompte').value;
+	 var mont_bc = document.getElementById('mont_bc').value;
+	 
+	 var partie = ((mont_bc * 100) + (taux * mont_bc))/100;
+	 var mont_msbcnr = Math.round((partie * pck) / prk); 
+	 document.getElementById('mont_msbcnr').value = mont_msbcnr;
+     document.getElementById('mont_msbcnr').readOnly = true; 
+   }
+
+   function annuler(montant) {
+     document.getElementById('id_prk').value = "";
+     document.getElementById('mont_msbcnr').value = "";
+   }
+   */   
+     
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p>Calcul du Montant de Souscription au Bon de Consommation Non Récurrente ( BCnr )</p></blockquote>
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+
+<blockquote></blockquote>
+<form  action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="" name="">
+
+<fieldset>
+<legend> Montant de Souscription au Bon de Consommation Non Récurrente (MSBCnr)  </legend>
+
+<div class="control-group">
+<label class="control-label" for="mont_bc">Montant du Bon de Consommation  *</label>
+<div class="controls">
+<input type="text" name="mont_bc" id="mont_bc" placeholder="Montant du Bon de Consommation" class="input-xxlarge" onblur="annuler(this.value);"  required="required" />
+</div>
+</div>
+
+<br/><br/>
+
+<!--    
+<div class="control-group">
+<label class="control-label" for="">PRK du produit à souscrire * </label>
+<div class="controls">
+     <select name="id_prk" id="id_prk" class="input-xxlarge" required="required" onchange="calculmontant(this.value);">
+     <option value="">Choisir une prk de produit </option>
+     <?php //foreach ($this->prks as $prk) { ?>
+           <option value="<?php //echo $prk->valeur_prk; ?>"> <?php //echo $prk->valeur_prk;?> </option>
+     <?php //} ?>
+     </select>
+</div>
+</div>
+-->
+
+<div class="control-group">
+<label class="control-label" for="id_prk">Produit à souscrire * </label>
+<div class="controls">
+     <select name="id_prk" id="id_prk" class="input-xxlarge" required="required" onchange="calculmontant(this.value);">
+     <option value="">Choisir un produit </option>
+     <?php foreach ($this->prks as $prk) { ?>
+           <option value="<?php echo $prk->code_type_credit."-".$prk->prk;?>"> <?php echo ucfirst(utf8_encode($prk->lib_type_credit));?> </option>
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+<br/><br/>
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_raison">Montant à Souscrire *</label>
+<div class="controls">
+     <input type="text" name="mont_msbcnr" id="mont_msbcnr" placeholder="Montant de Souscription au Bon de Consommation Non Récurrente" class="input-xxlarge" />
+</div>
+</div>
+</fieldset>
+
+<div class="form-actions">
+     <input name="ok" type="hidden" id="ok" value="ok" />
+     <input  type="hidden"  name="tauxescompte"  id="tauxescompte"  placeholder="Taux Escompte"  readonly="true"  value="<?php echo $this->tauxescompte ; ?>" />
+     <input  type="hidden"  name="pck"  id="pck"  placeholder="PCK"  readonly="true"  value="<?php echo $this->pck;?>" />
+	 <button type="reset" class="btn">Annuler</button>
+</div> 
+</form>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,81 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+  <div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Emettre une demande de paiement prestataire</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="adddemande">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+
+    
+<div class="control-group">
+<label class="control-label" for="numero_demande_paiement">Numero demande paiement *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="numero_demande_paiement" id="numero_demande_paiement" placeholder="Numero demande paiement ">
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="libelle_type_demande">Libellé demande paiement *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="libelle_type_demande" id="libelle_type_demande" placeholder="Libellé demande paiement " required>
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="montant_demande_paiement">Montant demande paiement *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="montant_demande_paiement" id="montant_demande_paiement" placeholder="Montant demande paiement " required>
+</div>
+</div>
+
+
+
+    
+
+
+
+
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Emettre une demande de paiement prestataire</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

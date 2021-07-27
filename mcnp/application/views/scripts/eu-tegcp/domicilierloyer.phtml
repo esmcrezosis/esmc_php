@@ -1,0 +1,478 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Domiciliation PRK pour payement du loyer</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form action="/eu-tegcp/domicilier" name="fm_domicil" method="POST" id="fm_domicil">
+            <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+            <div>
+                <fieldset style="margin-bottom: 5px;"><legend>Informations sur la maison / l'appartement</legend>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>N° membre propriétaire *</td>
+                                <td width="210"><input id="code_membre_pro" type="text" name="code_membre_pro" size="25"/></td>
+                                <td>Nom propriétaire</td>
+                                <td><input id="nom_pro" type="text" name="nom_pro" size="35" readonly="true"/></td>
+                            </tr>
+                            <tr>
+                                <td>N° membre agence</td>
+                                <td width="210"><input id="code_membre_ag" type="text" name="code_membre_ag" size="25" readonly="true"/></td>
+                                <td>Nom Agence</td>
+                                <td><input id="nom_ag" type="text" name="nom_ag" size="35" readonly="true"/></td>
+                            </tr>
+                            <tr>
+                                <td>N° membre maison *</td>
+                                <td width="210"><input id="code_membre" type="text" name="code_membre" size="25"/></td>
+                                <td>Désignation</td>
+                                <td><input id="designation" type="text" name="designation" size="35" readonly="true"/></td>
+                            </tr>
+                            <tr>
+                                <td>Type maison</td>
+                                <td width="210"><input id="type_maison" type="text" name="type_maison" size="25" readonly="true"/></td>
+                                <td>Rue</td>
+                                <td><input id="rue" type="text" name="rue" size="35" readonly="true"/></td>
+                            </tr>
+                            <tr>
+                                <td>Type appartement *</td>
+                                <td width="210">
+                                    <select id="type_appart" name="type_appart" class="validate[required]" value="">
+
+                                    </select>
+                                </td>
+                                <td>Prix de location</td>
+                                <td><input id="prix_loca" type="text" name="prix_loca" size="15" readonly="true" style="text-align: right"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Nombre de pièces</td>
+                                <td><input id="nb_piece" type="text" name="nb_piece" size="5" readonly="true"/></td>
+                                <td width="40px"></td>
+                                <td>
+                                    <input type="checkbox" id="wd" name="wd" value="1">
+                                </td>
+                                <td>
+                                    Wc-Douche-Interne
+                                </td>
+                                <td width="40px"></td>
+                                <td>
+                                    <input type="checkbox" id="terasse" name="terasse" value="1"> 
+                                </td>
+                                <td>
+                                    Terrasse
+                                </td>
+                                <td width="40px"></td>
+                                <td>
+                                    <input type="checkbox" id="cuisine" name="cuisine" value="1"> 
+                                </td>
+                                <td>
+                                    Cuisine
+                                </td>
+                                <td width="40px"></td>
+                                <td>
+                                    <input type="checkbox" id="garage" name="garage" value="1"> 
+                                </td>
+                                <td>
+                                    Garage
+                                </td>
+                            </tr>    
+                        </tbody>
+                    </table>   
+                </fieldset>
+                <fieldset style="margin-bottom: 5px;">
+                    <legend>Informations sur la domiciliation</legend>
+                    <table>
+                        <tr>
+                            <td>Type de ressource *</td>
+                            <td>
+                                <select id="type_ressource" name="type_ressource" class="validate[required]" value="">
+                                    <option value="r">Récurrent</option>
+                                    <option value="nr">Non récurrent</option>
+                                </select>
+                            </td>
+                            <td>Montant total domicilié *</td><td><input name="mt_obtenu" id="mt_obtenu" class="" value="<?php echo $this->mt_obtenu ?>" disabled="disabled"/></td>
+                        </tr>
+                    </table>
+                    <table border="1" style="margin: 5px;" id="tab_salaire">
+                        <thead>
+                            <tr style="text-align: center;">
+                                <th style="width: 180px;">Code membre</th><th style="width: 280px;">Nom</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input id="num_membre1" type="text" name="num_membre1" value="" required="true" style="width: 185px;"/></td>
+                                <td><input id="nom1" type="text" name="nom1" value="" style="width: 285px;" readonly="readonly"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <div align="center">
+                            <input id="add" type="button" value="Ajouter" onclick="addRow('tab_salaire')"/>
+                            <input id="remove" type="button" value="Supprimer" onclick="deleteRow('tab_salaire')"/>
+                            <input type='button' value="Afficher" name="afficher" id="afficher" />
+                            <input type="reset" value="Rafraichir" name="refresh" id="refresh"   />
+                        </div>
+                    </table>
+                </fieldset>
+            </div>
+            <table id="tbl-credit"></table>
+            <div id="pg-credit"></div>
+            <br>
+            <div style="margin-left: 150px">
+                <input type="button" value="Valider" name="valider" id="valider"   />
+                <input id="t_annuler" type="button" value="Annuler" />
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $("#tbl-credit").jqGrid({
+            url:'<?php echo $this->url(array('action' => 'credits')); ?>',
+            datatype: "json",
+            mtype: 'GET',
+            colNames:['Numéro membre','Ressource','Montant placé','Montant crédit','Montant à utiliser','Date dépôt','Code crédit'],
+            height:'100%', width:810,
+            colModel:[
+                {name:'num_membre',index:'num_membre', width: 150, editable: false,align:"left"},
+                {name:'produit',index:'produit', width: 100, align:"left", editable: false},
+                {name:'mt_place',index:'mt_place', width: 150, align:"right", editable: false,formatter:'number'},
+                {name:'mt_credit',index:'mt_credit', width: 150, align:"right", editable: false,formatter:'number'},
+                {name:'mt_utilise',index:'mt_utilise', width: 150, align:"right", editable: true,formatter:'number'},
+                {name:'date_depot',index:'date_depot', width: 120, align:"left", editable: false},
+                {name:'code_credit',index:'code_credit', width: 50, align:"left", editable: false, hidden:true}
+            ],
+            rowNum:30,
+            rowList:[30,50,100],
+            rownumbers:true,
+            pager: '#pg-credit',
+            sortname:"date_octroi",
+            viewrecords: true,
+            multiselect:true,
+            sortorder: "ASC",
+            caption:"Comptes des crédits des membres",
+            forceFit : true, 
+            cellEdit: true, 
+            cellsubmit: 'clientArray',
+            onSelectRow: function(id,status){
+                var montant = $('#mt_obtenu').val();
+                if(id != 0 || id != null){
+                    var data = jQuery('#tbl-credit').jqGrid('getRowData',id);
+                    var value = 0;
+                    var mt_credit = data.mt_utilise;
+                    if(montant == ''){
+                        montant = 0;
+                    }else{
+                        montant = parseInt(montant,10);
+                    }
+                    if(status == true){
+                        value = parseInt(montant) + parseInt(mt_credit);
+                        $('#mt_obtenu').val(value);
+                    }else{
+                        value = montant - parseInt(mt_credit);
+                        $('#mt_obtenu').val(value);
+                    }
+                    lastsel=id; 
+                }
+            },
+            onSelectAll: function(ids,status){
+                var montant = $('#mt_obtenu').val();
+                if(status == true){
+                    montant = 0;
+                    if(montant == ''){
+                        montant = 0;
+                    }else{
+                        montant = parseInt(montant,10);
+                    }
+                    for(var i = 0;i < ids.length;i++){
+                        var id = ids[i];
+                        var data = jQuery('#tbl-credit').jqGrid('getRowData',id);
+                        var mt_credit = data.mt_utilise;
+                        montant += parseInt(mt_credit);
+                    }
+                    $('#mt_obtenu').val(montant);
+                }else{
+                    $('#mt_obtenu').val(0); 
+                }
+            }
+        });
+        $("#tbl-credit").jqGrid('navGrid','#pg-credit',{edit:false,add:false,del:false,search:true});
+        
+        var compteur = 1;
+        $(document).ready(function ()
+        {
+            $('fieldset').puifieldset();
+            $('#refresh').button();
+            $('#valider').button();
+            $('#t_annuler').button();
+            $('#add').button();
+            $('#remove').button();
+            $('#afficher').button();
+                        
+            $('#t_annuler').click(function()
+            {
+                window.location="/eu-tegcp/";
+            }); 
+            
+            $.get( "/eu-tegcp/changephys",
+            function success(data)           
+            {
+                $("input#code_membre_pro").autocomplete({"source":data});                  
+            });
+            
+            $('#code_membre_pro').blur(function(e)
+            {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-tegcp/recuproprio',
+                    {
+                        num_membre: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        $("#nom_pro").val(data[0]);
+                        $("#code_membre_ag").val(data[1]);
+                        $("#nom_ag").val(data[2]);
+                        $("#code_membre").val('');
+                        $("#designation").val('');
+                        $("#type_maison").val('');
+                        $("#rue").val('');
+                    });
+                }
+                
+                $.get( "/eu-tegcp/changemaison?code_membre_pro="+$('#code_membre_pro').val(),
+                function success(data)           
+                {
+                    $("input#code_membre").autocomplete({"source":data});                  
+                });
+                e.preventDefault();
+            });
+            
+            $('#code_membre').blur(function(e)
+            {
+                if($(this).val() != '')
+                {
+                    $.get('/eu-tegcp/recupmaison',
+                    {
+                        code_membre: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        $("#designation").val(data[0]);
+                        $("#type_maison").val(data[1]);
+                        $("#rue").val(data[2]);
+                    });
+                    
+                    $.get('/eu-tegcp/recupappart',
+                    {
+                        code_membre: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        var options = '<option value=""></option>';
+                        for( var i = 0; i < data.length; i++) {
+                            options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+                        }
+                        $('select#type_appart').html(options);
+                    });
+                }
+                e.preventDefault();
+            });
+            
+            $('#type_appart').change(function()
+            {
+                $.get(
+                '/eu-tegcp/changeappart',
+                {
+                    id_appart: $(this).val()
+                },
+                function success(data)
+                {
+                    $('#wd').attr('checked', '');
+                    $('#prix_loca').val(data[0]);
+                    $('#nb_piece').val(data[1]);
+                    if(data[2]==1){
+                        $('#wd').attr('checked', true);
+                    }else if(data[2]==0){
+                        $('#wd').attr('checked', false);
+                    }
+                    if(data[3]==1){
+                        $('#terasse').attr('checked',true);
+                    }else if(data[3]==0){
+                        $('#terasse').attr('checked', false);
+                    }
+                    if(data[4]==1){
+                        $('#cuisine').attr('checked', true);
+                    }else if(data[4]==0){
+                        $('#cuisine').attr('checked', false);
+                    }
+                    if(data[5]==1){
+                        $('#garage').attr('checked', true);
+                    }else if(data[5]==0){
+                        $('#garage').attr('checked', false);
+                    }
+                });
+            });
+            
+            $('#num_membre1').blur(function(e)
+            {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-tegcp/recupnom',
+                    {
+                        num_membre: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        $("#nom1").val(data);
+                    });
+                }
+                e.preventDefault();
+            });
+            
+            $.get( "/eu-tegcp/change",
+            function success(data)           
+            {
+                $("input#num_membre1").autocomplete({"source":data});                  
+            });
+            
+            $('#afficher').click(function(){
+                var tab=new Array();
+                $('#mt_obtenu').val(0)
+                for(var i=1;i<=compteur;i++)
+                {
+                    tab[i-1]=$('#num_membre' + i).val();           
+                }
+                jQuery("#tbl-credit").jqGrid('setGridParam',{url:"/eu-tegcp/credits?ress="+$('#type_ressource').val()+"&lignes="+tab}).trigger('reloadGrid');
+            });
+        });
+        
+        function addRow(tableID) {
+
+            var table = document.getElementById(tableID);
+            var rowCount = table.rows.length;
+            var cpte = rowCount;
+            var row = table.insertRow(rowCount);
+            
+            var cell1 = row.insertCell(0);
+            var element0 = document.createElement("input");
+            element0.type = "text";
+            element0.setAttribute("id","num_membre" + cpte);
+            element0.setAttribute("name","num_membre" + cpte); 
+            element0.setAttribute("style","width:185px;");
+            cell1.appendChild(element0);
+
+            var cell2 = row.insertCell(1);
+            var element1 = document.createElement("input");
+            element1.type = "text";
+            element1.setAttribute("id","nom" + cpte);
+            element1.setAttribute("name","nom" + cpte);
+            element1.setAttribute("style","width:285px;");
+            element1.setAttribute("readonly","true");
+            cell2.appendChild(element1);
+            
+            $.get( "/eu-tegcp/change",
+            function success(data)
+            {
+                $("#num_membre"+ cpte).autocomplete({"source":data});
+            });
+            
+            $('#num_membre' + cpte).blur(function(e)
+            {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-tegcp/recupnom',
+                    {
+                        num_membre: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        $("#nom"+cpte).val(data);
+                    });
+                }
+                e.preventDefault();
+            });
+            
+            compteur = compteur + 1;
+            document.getElementById("cpteur").setAttribute('value',compteur);
+        }
+
+        function deleteRow(tableID) {
+            try {
+                var table = document.getElementById(tableID);
+                var rowCount = table.rows.length - 1;
+                if(rowCount>1){
+                    table.deleteRow(rowCount);
+                }
+                compteur = compteur - 1;
+                document.getElementById("cpteur").setAttribute('value',compteur);
+            }catch(e) {
+                alert(e);
+            }
+        }
+        
+        $('#valider').click(
+        function(){
+            var sel;
+            sel = jQuery("#tbl-credit").jqGrid('getGridParam','selarrrow');
+            var tab=new Array();  
+            var rowsel;
+            rowsel = jQuery("#tbl-credit").jqGrid('getGridParam','selrow');
+            for(var i=0; i<sel.length; i++) {
+                tab[i]=jQuery("#tbl-credit").jqGrid('getRowData',sel[i]);   
+            };
+            if($('#prix_loca').val()==''){
+                alert('Choisissez le type d\'appartement à louer');
+            }else{
+                if(rowsel)
+                {
+                    $.get('/eu-tegcp/createloyer?ress='+$('#type_ressource').val()+'&mont_loyer='+$('#prix_loca').val()+'&mt_obtenu='+$('#mt_obtenu').val()+'&code_ag='+$('#code_membre_ag').val()+'&code_maison='+$('#code_membre').val()+'&id_appart='+$('#type_appart').val()+'&code_proprio='+$('#code_membre_pro').val(),{
+                        lignes:tab
+                    },
+                    function success(data){
+                        var tab=new Array();
+                        for(var i=1;i<=10;i++)
+                        {
+                            tab[i-1]=$('#num_membre' + i).val();           
+                        }
+                        if(data == 'good'){
+                            jQuery("#tbl-credit").jqGrid('setGridParam',{url:"/eu-tegcp/credits?ress="+$('#type_ressource').val()+"&lignes="+tab}).trigger('reloadGrid');
+                            $("#mt_obtenu").val('');
+                            $("#code_membre").val('');
+                            $("#designation").val('');
+                            $("#type_maison").val('');
+                            $("#rue").val('');
+                            $("#type_appart").val('');
+                            $("#prix_loca").val('');
+                            $("#nb_piece").val('');
+                            alert('Opération effectuée avec succes');
+                        }
+                        else if(data=="cool"){
+                            alert("Ce client a déjà domicilié son payement.");
+                        }
+                        else if(data=="bad_domi"){
+                            alert("Ce crédit a été domicilié déjà et la domiciliation est en cours.");
+                        }
+                        else if(data=="vol"){
+                            alert("Impossible de domicilier votre investissement sur votre TEGCP.");
+                        }
+                        else if(data == 'bad'){
+                            alert("Echec de l'opération");
+                        }
+                        else if(data == "err_domici"){
+                            alert("Le montant du crédit est inférieur à celui du loyer.");
+                        }
+                    });
+                }else{
+                    alert('Aucune ligne de crédit sélectionnée');
+                }                
+            }
+
+        });
+    </script>
+</div>

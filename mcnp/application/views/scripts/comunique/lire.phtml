@@ -1,0 +1,66 @@
+
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+    <script type="text/javascript" charset="utf-8">
+      /*$(document).ready(function() {
+        $('#example').dataTable();
+      } );*/
+      $(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+    "aaSorting": []
+    } );
+} );
+    </script>
+    <style>
+    .esmc_communique_clignontant_spec{
+    animation: Test 0.6s infinite;
+    position: relative;
+    padding: 5px;
+    background-color: #aa325f;
+    font-size: 1.2em;
+    color: #FFF;
+
+    text-decoration: none;
+    display: block;
+    text-align: center;
+
+}
+
+.esmc_communique_clignontant_spec:hover{
+    color: #FFF;
+    text-decoration: none;
+    
+}
+@keyframes link_communique{
+       0%{opacity: 1;}
+       50%{opacity: 0;}
+       100%{opacity: 1;}
+    }
+    </style>
+    <div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+<h1>Communiqué : FIN DES PRE-SOUSCRIPTIONS</h1>
+
+<p>L’Entreprise Sociale de Marché Commun informe les utilisateurs de sa plateforme ainsi que tous les souscripteurs pour tiers que la pré-souscription est arrivée à échéance.</p>
+<p>Ainsi tout Compte Marchand non activé est maintenant affecté automatiquement aux fiches ODD sans que les souscripteurs ne perdent leurs avantages. Aussi le montant de la souscription au Compte Marchand, personne physique comme personne morale, est-il désormais fixé au tarif unique de <strong>70.000 FCFA</strong></p>
+<p>Afin de permettre aux souscripteurs détenteurs de listes de pouvoir activer les comptes pour tiers, la plateforme ESMC met à leur disposition le formulaire d’enregistrement des FICHES ODD. <strong>Ce formulaire dont le lien figure dans le bouton ci-dessous est entièrement gratuit pour tous.</strong></p>
+<p>Pour notre développement durable, objectif communément adopté, prenons la résolution ferme pour le respect des fondamentaux de notre système</p>
+<a href="/souscriptionbon/inscriptioncaps" class="esmc_communique_clignontant_spec">
+<p><strong>REMPLISSEZ VOTRE FICHE ODD. </strong></p>
+<strong>NB&nbsp;:C’EST&nbsp;GRATUIT !!!</strong>
+
+</a>
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>

@@ -1,0 +1,304 @@
+<div id="view-content" title="Vue des unités MF11000" style="font-size: 10px">
+    <div id="tab_mf" style="padding: 1px;">
+        <ul>
+			<li><a href="#tab_mf_detail">DETAILS UNITES MF11000 DES PERSONNES MORALES</a></li>
+			<li><a href="#tab_mf_detail2">DETAILS UNITES MF11000 DES PERSONNES PHYSIQUES</a></li>
+        </ul>
+		
+		<div id="tab_mf_detail" style="padding: 1px;">
+		    <div id="tab_detail" style="padding: 1px;">
+                <ul>
+				    <li><a href="#detail_mf">Récapitulatif</a></li>
+                    <li><a href="#detail_mf11000">Détails MF11000</a></li>					
+                </ul>
+				
+				<div id="detail_mf" style="padding: 3px;">
+                    <form id="mf_form" method="POST" action="/consultation/mf11000">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre CYBER</label></td>
+									<td><input id="code_membre_mf" name="code_membre_mf" type="text" size="25" value="<?php echo $this->code_membre; ?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_mf" name="design_membre_mf" type="text" size="25" value="<?php echo $this->designation;?>" /></td>
+									<td></td><td><input type="submit" id="val_mf" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+					<br>
+					<table border="1" width="600" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                            <thead>
+				            <tr>
+                              <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">Total Unité MF11000 reçu</label></th>
+                              <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">Total Unité MF11000 vendu</label></th>
+                              <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">Total Unité MF11000 restant</label></th>							  
+                            </tr>
+				            </thead>   
+                            <tbody>
+                            <tr>
+                              <td><label><?php echo number_format($this->mf11000_recu,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->mf11000_vendu,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->mf11000_restant,0,',',' ');?></label></td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+				
+				<div id="detail_mf11000" style="padding: 3px;">
+                    <form id="mf11000_form" method="POST" action="">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre CYBER</label></td>
+									<td><input id="code_membre_mf11000" name="code_membre_mf11000" type="text" size="25" value="<?php echo $this->code_membre;?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_mf11000" name="design_membre_mf11000" type="text" size="25" value="<?php echo $this->designation;?>"/></td>
+									<td></td><td><input type="submit" id="val_mf11000" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <table id="tbl-mf11000"></table>
+                    <div id="pg-mf11000"></div>
+                </div>	
+            </div>	
+		</div>
+		
+		
+		<div id="tab_mf_detail2" style="padding: 1px;">
+		    <div id="tab_detail2" style="padding: 1px;">
+                <ul>
+				    <li><a href="#detail_mf">Récapitulatif</a></li>
+                    <li><a href="#detail_mf11000">Détails MF11000</a></li>					
+                </ul>
+				
+				<div id="detail_mf" style="padding: 3px;">
+                    <form id="mf_form" method="POST" action="/consultation/mf11000">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Numero bon</label></td>
+									<td><input id="num_bon" name="num_bon" type="text" size="20" value="<?php echo $this->num_bon; ?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="nom_membre" name="nom_membre" type="text" size="25" value="<?php echo $this->nom;?>" /></td>
+									<td></td><td><input type="submit" id="val" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+					<br>
+					<table border="1" width="600" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                            <thead>
+				            <tr>
+                              <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">Total Unité MF11000 reçu</label></th>
+                              <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">Total Unité MF11000 utilisé</label></th>
+                              <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">Total Unité MF11000 restant</label></th>							  
+                            </tr>
+				            </thead>   
+                            <tbody>
+                            <tr>
+                              <td><label><?php echo number_format($this->entrees,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->sorties,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->solde,0,',',' ');?></label></td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+				
+				<div id="detail_mf11000" style="padding: 3px;">
+                    <form id="mf11000_form" method="POST" action="">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Numéro bon</label></td>
+									<td><input id="numero_bon" name="numero_bon" type="text" size="20" value="<?php echo $this->num_bon;?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre" name="design_membre" type="text" size="25" value="<?php echo $this->nom;?>"/></td>
+									<td></td><td><input type="submit" id="val_bon" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <table id="tbl-bon"></table>
+                    <div id="pg-bon"></div>
+                </div>	
+            </div>	
+		</div>	
+    </div>
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $("#tab_mf").tabs();
+    $("#tab_detail").tabs();
+	$("#tab_detail2").tabs();
+	$('#view-content').puipanel();
+	
+	$.get("/consultation/membremorale",
+        function success(data) {
+        $('#code_membre_mf').autocomplete({"source": data,change: displayItem});
+    });
+	
+	
+	
+	function displayItem() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_mf").val(data[0]);
+            });
+        }
+    }
+	
+	
+	$.get("/consultation/membremorale",
+        function success(data) {
+        $('#code_membre_mf11000').autocomplete({"source": data , change: displayItemmf11000});
+    });
+	
+	
+	
+	function displayItemmf11000() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_mf11000").val(data[0]);
+            });
+        }
+    }
+	
+	
+	$('#num_bon').change(function(e) {
+        if ($(this).val() !== '') {
+            $.get(
+                '/consultation/numbon',{
+                num_bon: $(this).val()
+            },
+            function success(data) {
+                if (data !== false) {
+                   $('#nom_membre').val(data[0]);
+            } else {
+                alert('Pas de membre fondateur correspondant à ce bon');
+            }
+            });
+        }
+        e.preventDefault();
+    });
+	
+	$('#numero_bon').change(function(e) {
+        if ($(this).val() !== '') {
+            $.get(
+                '/consultation/numbon',{
+                num_bon: $(this).val()
+            },
+            function success(data) {
+              if (data !== false) {
+                $('#design_membre').val(data[0]);
+            } else {
+                alert('Pas de membre fondateur correspondant à ce bon');
+            }
+            });
+        }
+        e.preventDefault();
+    });
+	
+	
+	$('#val_mf11000').click(function(e) {
+      jQuery("#tbl-mf11000").jqGrid('setGridParam',{url: "/consultation/detailmf11000?code_membre=" + $('#code_membre_mf11000').val()}).trigger('reloadGrid');
+      e.preventDefault();
+    });
+	
+	
+	
+	$('#val_bon').click(function(e) {
+      jQuery("#tbl-bon").jqGrid('setGridParam',{url: "/consultation/detailbon?num_bon=" + $('#numero_bon').val()}).trigger('reloadGrid');
+      e.preventDefault();
+    });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+});
+
+$("#tbl-mf11000").jqGrid({
+    url: '',
+    datatype: "json",
+    mtype: 'GET',
+    colNames: ['','Numero Bon / Code membre','Ressource','Montant reçu','Montant vendu','Solde'],
+    height: 320, width: 800,
+    colModel: [
+	  {name: 'id_detail_smsmoney',index:'id_detail_smsmoney',width:60,editable:false,align:"left",hidden: true},
+      {name: 'numero', index: 'numero', width: 220, align: "left", editable: false},
+      {name: 'origine_sms', index: 'origine_sms', width: 80, align: "left", editable: false},
+      {name: 'mont_sms', index: 'CreditAmount', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+	  {name: 'mont_vendu', index: 'sorti', width: 120, align: "left", editable: false, formatter:"number",summaryType:'sum'},
+	  {name: 'solde_sms', index: 'solde_sms', width: 120, align: "left", editable: false, formatter:"number",summaryType:'sum'}
+    ],
+    rowNum: 100000,
+    rowList: [100000, 2000000, 3000000],
+    rownumbers: true,
+    pager: '#pg-mf11000',
+    sortname: "id_detail_smsmoney",
+    viewrecords: true,
+    sortorder: "ASC",
+    footerrow: true, userDataOnFooter: true,
+    grouping: true, 
+    caption: "Détails Unités MF11000"
+});
+$("#tbl-mf11000").jqGrid('navGrid','#pg-mf11000',{edit:false,add:false,del:false,search:true});
+
+
+$("#tbl-bon").jqGrid({
+    url: '',
+    datatype: "json",
+    mtype: 'GET',
+    colNames: ['','Numero Bon','Ressource','Montant reçu','Montant utilisé','Solde'],
+    height: 320, width: 800,
+    colModel: [
+	  {name: 'id_rep',index:'id_rep',width:60,editable:false,align:"left",hidden: true},
+      {name: 'code_mf11000', index: 'code_mf11000', width: 120, align: "left", editable: false},
+      {name: 'origine_sms', index: 'origine_sms', width: 80, align: "left", editable: false},
+      {name: 'mont_rep', index: 'mont_rep', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+	  {name: 'mont_reglt', index: 'mont_reglt', width: 120, align: "left", editable: false, formatter:"number",summaryType:'sum'},
+	  {name: 'solde_rep', index: 'solde_rep', width: 120, align: "left", editable: false, formatter:"number",summaryType:'sum'}
+    ],
+    rowNum: 100000,
+    rowList: [100000, 2000000, 3000000],
+    rownumbers: true,
+    pager: '#pg-bon',
+    sortname: "id_rep",
+    viewrecords: true,
+    sortorder: "ASC",
+    footerrow: true, userDataOnFooter: true,
+    grouping: true, 
+    caption: "Détails Unités MF11000"
+});
+$("#tbl-bon").jqGrid('navGrid','#pg-bon',{edit:false,add:false,del:false,search:true});
+
+
+
+
+
+
+
+
+
+
+</script>

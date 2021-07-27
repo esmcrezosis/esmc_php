@@ -1,0 +1,579 @@
+<div id="view-content" title="Vue du compte GCP PBF" style="font-size: 12px;">
+    <div id="tab_gcp">
+        <ul>
+            <li><a href="#tab_gcp">Compte GCP PBF</a></li>
+            <li><a href="#tab_fgfn">FGFN</a></li>
+            <li><a href="#tab_compens">Compensation</a></li>
+            <li><a href="#tab_transfert">Transfert SMS Money</a></li>
+        </ul>
+        <div style="padding: 1px;margin: 1px;">
+            <div id="tab_gcp" style="padding: 1px;">
+                <div id="tab_detail" style="padding: 1px;">
+                    <ul>
+                        <li><a href="#detail_vente">Les échanges</a></li>
+                        <li><a href="#tb_escompte">Les escomptes</a></li>
+                        <li><a href="#tb-solde_gcp">Solde GCP PBF</a></li>
+                    </ul>
+                    <div style="padding: 1px;margin: 1px;">
+                        <div id="detail_vente" style="padding: 1px;">
+                            <form id="gcp_form" method="POST" action="/compensation/consult">
+                                <table style="margin-left: 10px;">
+                                    <thead/>
+                                    <tbody>
+                                        <tr>
+                                            <td><label style="text-align: right">Date : </label></td>
+                                            <td><input id="date_conso" name="date_conso" type="text" /></td>
+                                            <td><label style="text-align: right">Type echange : </label></td>
+                                            <td>
+                                                <select id="type_ech" name="type_ech">
+                                                    <option value=""></option>
+                                                    <option value="GCP">Echange GCP</option>
+                                                    <option value="CNCS">Echange CNCS</option>
+                                                    <option value="E">Escompte GCP</option>
+                                                    <option value="ERI">Echange RPG/Inr</option>
+                                                </select>
+                                            </td>
+                                            <td><label style="text-align: right">Regler : </label></td>
+                                            <td><select id="regler" name="regler">
+                                                    <option value=""></option>
+                                                    <option value="0">NON</option>
+                                                    <option value="1">OUI</option>
+                                                </select>
+                                            </td>
+                                            <td></td><td><input type="submit" id="val_gcp" value="valider"/><input type="reset" id="reset_gcp" value="Annuler"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                            <table id="tbl-gcp"></table>
+                            <div id="pg-gcp"></div>
+                        </div>
+                        <div id="tb_escompte" style="padding: 1px;">
+                            <div style="margin-top: 3px;margin-bottom: 3px;">
+                                <input id="bt_escompte_echu" type="button" value="Escmptes echus" class="ui-widget button"/>
+                                <input id="transfert_gcp" type="button" value="Transfert GCP" class="ui-widget button" disabled= "true"/>
+                            </div>
+                            <table id="tbl_escompte"></table>
+                        </div>
+                        <div id="tb-solde_gcp" style="padding: 1px;">
+                            <table border="1" width="250" style="margin-right: auto;margin-left: auto;margin-top: 3px; ">
+                                <thead>
+                                <th colspan="2"><label style="text-align: center;width: 280px;">Voici la situation de votre compte</label></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><label>Solde</label></td>
+                                        <td><label><?php echo $this->solde; ?></label></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table id="tbl-gcp_pbf"></table>
+                            <div id="pg-gcp_pbf"></div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div id="tab_fgfn" style="padding: 1px;">
+                <table border="1" width="280" style="margin-right: auto;margin-left: auto;margin-top: 3px; ">
+                    <thead>
+                    <th colspan="2"><label style="text-align: center;width: 280px;">Voici la situation de votre compte FGFN</label></th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><label>Solde FGFN</label></td>
+                            <td><label><?php echo round($this->solde_fgfn); ?></label></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <form id="gcp_form" method="POST" action="/compensation/datafgfn">
+                    <fieldset id="rech_gcp_field" style="margin-bottom: 2px;padding: 1px;">
+                        <legend>Recherche</legend>
+                        <table style="margin-left: 10px;">
+                            <thead/>
+                            <tbody>
+                                <tr>
+                                    <td><label style="text-align: right">Type FGFN</label></td>
+                                    <td><select type="text" id="type_fg" name="type_fg" value="">
+                                            <option value=""></option>
+                                            <option value="I">Investissement</option>
+                                            <option value="RPG">RPG</option>
+                                            <option value="CNCS">CNCS</option>
+                                        </select>
+                                    </td>
+                                    <td><label style="text-align: right">Type produit</label></td>
+                                    <td>
+                                        <select type="text" id="typep" name="typep" value="">
+                                            <option value=""></option>
+                                            <option value="nr">Non récurrent</option>
+                                            <option value="r">Récurrent</option>
+                                        </select>
+                                    </td>
+                                    <td><label style="text-align: right">Date Début</label></td>
+                                    <td><input id="date_fg" name="date_fg" type="text" size="10"></td>
+                                    <td><label style="text-align: right">Date Fin</label></td>
+                                    <td><input id="datef" name="datef" type="text" size="10"></td>
+                                </tr>
+                                <tr>
+                                    <td></td><td><input type="submit" id="val_fg" value="OK"/><input type="reset" id="reset_gcp" value="Annuler"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </form>
+                <table id="tbl_fg" style="margin-top: 2px;"></table>
+            </div>
+            <div id="tab_compens" style="padding: 1px;">
+                <div id="tab_detail_compens" style="padding: 1px;">
+                    <ul>
+                        <li><a href="#det_echange">Les échanges à compenser</a></li>
+                        <li><a href="#det_compens">Les compensations en cours</a></li>
+                    </ul>
+                    <div id="detail_compens" style="padding: 1px;margin: 1px;">
+                        <div id="det_echange" style="padding: 1px;">
+                            <form>
+                                <fieldset style="margin-bottom: 2px;">
+                                    <legend>Recherche</legend>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td><label>Date Début</label></td><td><input id="date_deb_ech" value="" name="date_deb_ech"/></td>
+                                                <td><label>Date Fin</label></td><td><input id="date_fin_ech" value="" name="date_fin_ech"/></td>
+                                                <td><label>Type Echange</label></td>
+                                                <td>
+                                                    <select id="type_echange" value="" name="type_echange">
+                                                        <option></option>
+                                                        <option value="CNCS">CNCS</option>
+                                                        <option value="TPAGCRPG">RPGnr</option>
+                                                        <option value="TPAGCI">Inr</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="submit" value="OK" id="val_rech_ech"><input id="reset_ech" type="reset" value="Annuler"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </fieldset>
+                                <input type="submit" id="comp_button" name="comp_button" value="Compenser" style="margin-bottom: 2px;"/>
+                                <table id="tab_ech_comp"></table>
+                                <div id="pg-ech-comp"></div>
+                            </form>
+                        </div>
+                        <div id="det_compens" style="padding: 1px;">
+                            <table id="tab_tpagcp"></table> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab_transfert" style="padding: 1px;margin: 1px;">
+                <ul>
+                    <li><a href="#sms_vendu">Transferts SMS Effectués</a></li>
+                    <li><a href="#capa_sms">Transferts SMS CAPA vendus</a></li>
+                </ul>
+                <div id="detail_transfert" style="padding: 1px;margin: 1px;">
+                    <div id="sms_vendu" style="padding: 1px;margin: 1px;">
+                        <form id="transfert_form">
+                            <fieldset style="margin-bottom: 2px;">
+                                <legend>Recherche</legend>
+                                <table>
+                                    <thead></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label>Type de transfert</label></td>
+                                            <td><select id="sel_type_trans" name="sel_type_trans">
+                                                    <option value=""></option>
+                                                    <option value="FS">Frais de solvabilité</option>
+                                                    <option value="FL">Frais de licences</option>
+                                                    <option value="FKIT">Frais de kits</option>
+                                                    <option value="CAPA">CAPA</option>
+                                                    <option value="MF11000">MF11000</option>
+                                                    <option value="MF11000">MF107</option>
+                                                    <option value="Autres">Autres</option>
+                                                </select>
+                                            </td>
+                                            <td><label>Type de CAPA</label></td>
+                                            <td>
+                                                <select id="sel_type_capa" name="sel_type_capa">
+                                                    <option value=""></option>
+                                                    <option value="TPAGCRPG">RPG</option>
+                                                    <option value="TCNCS">Salaires</option>
+                                                    <option value="TPAGCI">Investissement</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Date Debut</label></td>
+                                            <td><input id="sms_date_deb" name="sms_date_deb" /></td>
+                                            <td><label>Date Fin</label></td>
+                                            <td><input id="sms_date_fin" name="sms_date_fin" /></td>
+                                            <td><input type="submit" id="sms_submit" name="sms_submit" value="OK"/><input type="reset" id="reset_sms" name="reset_sms" value="Annuler"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                            <table id="tbl_transfert"></table>
+                        </form>
+                    </div>
+                    <div id="capa_sms" style="padding: 1px;margin: 1px;">
+                        <table id="tbl_detsms"></table>
+                        <div id="pg-detsms"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-gcp").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Date', 'Echange', 'Produit', 'Montant', 'Marge', 'Regler', 'Date reglement'],
+        height: 320, width: 770,
+        colModel: [
+            {name: 'date_echange', index: 'date_echange', width: 90, editable: false, align: "left"},
+            {name: 'cat_echange', index: 'cat_echange', width: 90, align: "left", editable: false, summaryType: 'count', summaryTpl: '({0}) total'},
+            {name: 'code_produit', index: 'code_produit', width: 90, align: "left", editable: false},
+            {name: 'montant', index: 'montant', width: 100, align: "left", editable: false, sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'agio', index: 'agio', width: 100, align: "left", editable: false, sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'regler', index: 'regler', width: 65, align: "left", editable: false},
+            {name: 'date_reglement', index: 'date_reglement', width: 100, editable: false, align: "left"}
+        ],
+        rowNum: 50000,
+        rowList: [50000, 60000, 70000],
+        rownumbers: true,
+        pager: '#pg-gcp',
+        sortname: "date_echange",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Echanges effectuées",
+        grouping: true,
+        groupingView: {groupField: ['cat_echange'], groupColumnShow: [true], groupText: ['<b>Type Echange : {0}</b>'], groupCollapse: false, groupOrder: ['asc'], groupSummary: [true], groupDataSorted: true},
+        footerrow: true, userDataOnFooter: true
+    });
+    $("#tbl-gcp").jqGrid('navGrid', '#pg-gcp', {edit: false, add: false, del: false, search: true});
+
+    $("#tbl_detsms").jqGrid({
+        url: '/compensation/detsms',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['ID', 'Date', 'PBF', 'Distributeur', 'Montant', 'Vendu', 'Solde', 'Code SMs'],
+        height: 320, width: 770,
+        colModel: [
+            {name: 'id_detail_smsmoney', index: 'id_detail_smsmoney', width: 60, editable: false, align: "left"},
+            {name: 'date_allocation', index: 'date_allocation', width: 90, editable: false, align: "left"},
+            {name: 'code_membre', index: 'code_membre', width: 90, align: "left", editable: false},
+            {name: 'code_membre_dist', index: 'code_membre_dist', width: 90, align: "left", editable: false, summaryType: 'count', summaryTpl: '({0}) total'},
+            {name: 'mont_sms', index: 'mont_sms', width: 100, align: "left", editable: false, sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'mont_vendu', index: 'mont_vendu', width: 100, align: "left", editable: false, sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'solde_sms', index: 'solde_sms', width: 65, align: "left", editable: false},
+            {name: 'creditcode', index: 'creditcode', width: 100, editable: false, align: "left"}
+        ],
+        rowNum: 50000,
+        rowList: [50000, 60000, 70000],
+        rownumbers: true,
+        pager: '#pg-detsms',
+        sortname: "id_detail_smsmoney",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Codes SMS vendus",
+        grouping: true,
+        groupingView: {groupField: ['code_membre_dist'], groupColumnShow: [true], groupText: ['<b>Distributeur N° : {0}</b>'], groupCollapse: false, groupOrder: ['asc'], groupSummary: [true], groupDataSorted: true},
+        footerrow: true, userDataOnFooter: true
+    });
+    $("#tbl_detsms").jqGrid('navGrid', '#pg-detsms', {edit: false, add: false, del: false, search: true});
+
+    $("#tab_ech_comp").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Date', 'Echange', 'Produit', 'Montant', 'Marge', 'Regler', 'Date reglement'],
+        height: 320, width: 770,
+        colModel: [
+            {name: 'date_echange', index: 'date_echange', width: 90, editable: false, align: "left"},
+            {name: 'cat_echange', index: 'cat_echange', width: 90, align: "left", editable: false, summaryType: 'count', summaryTpl: '({0}) total'},
+            {name: 'code_produit', index: 'code_produit', width: 90, align: "left", editable: false},
+            {name: 'montant', index: 'montant', width: 100, align: "left", editable: false, sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'agio', index: 'agio', width: 100, align: "left", editable: false, sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'regler', index: 'regler', width: 65, align: "left", editable: false},
+            {name: 'date_reglement', index: 'date_reglement', width: 100, editable: false, align: "left"}
+        ],
+        rowNum: 50000,
+        rowList: [50000, 60000, 70000],
+        rownumbers: true,
+        multiselect: true,
+        pager: '#pg-ech-comp',
+        sortname: "date_echange",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Echanges effectuées",
+        grouping: true,
+        groupingView: {groupField: ['cat_echange'], groupColumnShow: [true], groupText: ['<b>Type Echange : {0}</b>'], groupCollapse: false, groupOrder: ['asc'], groupSummary: [true], groupDataSorted: true},
+        footerrow: true, userDataOnFooter: true
+    });
+    $("#tab_ech_comp").jqGrid('navGrid', '#pg-gcp', {edit: false, add: false, del: false, search: true});
+
+    $("#tab_tpagcp").jqGrid({
+        url: '/compensation/detailpbf',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Id', 'Date', 'Compte', 'Montant', 'Date début', 'Date fin', 'Tranche', 'DD tranche', 'DF Tranche', 'Echu', 'Solde'],
+        height: 320, width: 775,
+        colModel: [
+            {name: 'id_compens', index: 'id_compens', width: 120, editable: false, align: "left", hidden: true},
+            {name: 'date_compens', index: 'date_compens', width: 120, editable: false, align: "left", hidden: true},
+            {name: 'code_compte', index: 'code_compte', width: 150, align: "left", editable: false, hidden: true},
+            {name: 'mont_compens', index: 'mont_gcp', width: 100, align: "right", editable: false, sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'date_deb', index: 'date_deb', width: 90, align: "left", editable: false},
+            {name: 'date_fin', index: 'date_fin', width: 90, align: "left", editable: false},
+            {name: 'mont_tranche', index: 'mont_tranche', width: 100, editable: false, align: "right", sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'date_deb_tranche', index: 'date_deb_tranche', width: 90, align: "left", editable: false, hidden: true},
+            {name: 'date_fin_tranche', index: 'date_fin_tranche', width: 90, align: "left", editable: false},
+            {name: 'mont_echu', index: 'mont_echu', width: 100, align: "right", editable: false, sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'solde_compensation', index: 'solde_compensation', width: 100, align: "right", editable: false, sorttype: "float", formatter: "number", summaryType: 'sum'}
+        ],
+        rowNum: 50000,
+        rowList: [50000, 60000, 70000],
+        sortname: "date_deb",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Compte de Compensation",
+        footerrow: true, userDataOnFooter: true
+    });
+
+    $("#tbl_transfert").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Id', 'Date', 'Compte', 'Recepteur', 'Montant', 'Motif', 'Date util', 'Compte Dest', 'Agence', 'Utilisateur'],
+        height: 320, width: 785,
+        colModel: [
+            {name: 'NEng', index: 'NEng', width: 50, editable: false, align: "left", hidden: true},
+            {name: 'DateTime', index: 'DateTime', width: 120, editable: false, align: "left"},
+            {name: 'FromAccount', index: 'FromAccount', width: 190, align: "left", editable: false, hidden: true},
+            {name: 'SentTo', index: 'SentTo', width: 80, align: "left", editable: false},
+            {name: 'CreditAmount', index: 'CreditAmount', width: 100, align: "left", editable: false},
+            {name: 'Motif', index: 'Motif', width: 70, align: "left", editable: false},
+            {name: 'DateTimeConsumed', index: 'DateTimeConsumed', width: 100, editable: false, align: "left", hidden: true},
+            {name: 'DestAccount_Consumed', index: 'DestAccount_Consumed', width: 200, align: "left", editable: false},
+            {name: 'Utilisateur', index: 'Utilisateur', width: 90, align: "left", editable: false},
+            {name: 'CodeAgence', index: 'CodeAgence', width: 100, align: "left", editable: false, hidden: true}
+        ],
+        rowNum: 50000,
+        rowList: [50000, 60000, 70000],
+        sortname: "DateTime",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "SMS Money",
+        footerrow: true, userDataOnFooter: true
+    });
+
+    $("#tbl-gcp_pbf").jqGrid({
+        url: '/compensation/pbf',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code', 'Membre', 'Type', 'Montant GCP', 'Montant réel', 'Marge', 'Compense', 'Marge Compensée', 'Solde réel', 'Solde Marge', 'Solde'],
+        height: 300, width: 795,
+        colModel: [
+            {name: 'code_gcp_pbf', index: 'code_gcp_pbf', width: 120, editable: false, align: "left", hidden: true},
+            {name: 'code_membre', index: 'code_membre', width: 150, align: "left", editable: false, hidden: true},
+            {name: 'type', index: 'type', width: 50, align: "left", editable: false},
+            {name: 'mont_gcp', index: 'solde_gcp', width: 100, align: "right", editable: false, sorttype: "float", formatter: "number"},
+            {name: 'mont_gcp_reel', index: 'mont_gcp_reel', width: 100, align: "right", editable: false, sorttype: "float", formatter: "number"},
+            {name: 'mont_agio', index: 'mont_agio', width: 100, align: "right", editable: false, sorttype: "float", formatter: "number"},
+            {name: 'gcp_compense', index: 'gcp_compense', width: 100, editable: false, align: "right", sorttype: "float", formatter: "number"},
+            {name: 'agio_consomme', index: 'agio_consomme', width: 100, align: "right", editable: false, sorttype: "float", formatter: "number"},
+            {name: 'solde_gcp_reel', index: 'date_deb', width: 100, align: "left", editable: false},
+            {name: 'solde_agio', index: 'solde_agio', width: 100, align: "right", editable: false, sorttype: "float", formatter: "number"},
+            {name: 'solde_gcp', index: 'solde_gcp', width: 100, align: "right", editable: false, sorttype: "float", formatter: "number"}
+        ],
+        rowNum: 50000,
+        rowList: [50000, 60000, 70000],
+        sortname: "code_gcp_pbf",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Detail GCP PBF",
+        footerrow: true, userDataOnFooter: true
+    });
+
+    $("#tbl_escompte").jqGrid({
+        url: '/compensation/escomptes',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Id', 'Compte', 'Date escompte', 'Date début', 'Montant', 'Nombre', 'Date fin', 'Tranche', 'DD tranche', 'DF Tranche', 'Echu', 'Solde'],
+        height: 320, width: 780,
+        colModel: [
+            {name: 'id_escompte', index: 'id_escompte', width: 120, editable: false, align: "left", hidden: true},
+            {name: 'code_compte', index: 'code_compte', width: 150, align: "left", editable: false, hidden: true},
+			{name: 'date_escompte', index: 'date_escompte', width: 90, align: "left", editable: false, summaryType: 'count', summaryTpl: '({0}) total'},
+            {name: 'date_deb', index: 'date_deb', width: 90, align: "left", editable: false},
+            {name: 'montant', index: 'montant', width: 100, editable: false, align: "right", sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'reste_ntf', index: 'reste_ntf', width: 100, editable: false, align: "right", sorttype: "int"},
+            {name: 'date_fin', index: 'date_fin', width: 90, align: "left", editable: false, hidden: true},
+            {name: 'mont_tranche', index: 'mont_tranche', width: 100, editable: false, align: "right", sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'date_deb_tranche', index: 'date_deb_tranche', width: 90, align: "left", editable: false},
+            {name: 'date_fin_tranche', index: 'date_fin_tranche', width: 90, align: "left", editable: false},
+            {name: 'mont_echu', index: 'mont_echu', width: 100, editable: false, align: "right", sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'solde', index: 'solde', width: 100, editable: false, align: "right", sorttype: "float", formatter: "number", summaryType: 'sum'}
+        ],
+        rowNum: 50000,
+        rowList: [50000, 60000, 70000],
+        sortname: "date_escompte",
+        multiselect: true,
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Escomptes en attente",
+        grouping: true,
+        groupingView: {groupField: ['date_escompte'], groupColumnShow: [true], groupText: ['<b>Date Escompte :{0}</b>'], groupCollapse: false, groupOrder: ['asc'], groupSummary: [true], groupDataSorted: true},
+        footerrow: true, userDataOnFooter: true
+    });
+
+    $("#tbl_fg").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Membre PBF', 'Code CAPA', 'Membre', 'Compte', 'CAPA', 'Code', 'Date', 'Montant', 'Montant prelevé', 'Reste'],
+        height: 250, width: 990,
+        colModel: [
+            {name: 'code_membre_pbf', index: 'code_membre_pbf', width: 150, align: "left", editable: false, summaryType: 'count', summaryTpl: '({0}) total'},
+            {name: 'code_capa', index: 'code_capa', width: 100, editable: false, align: "left", hidden: true},
+            {name: 'code_membre', index: 'code_membre', width: 180, align: "left", editable: false},
+            {name: 'code_produit', index: 'code_produit', width: 80, align: "left", editable: false, summaryType: 'count', summaryTpl: '({0}) total'},
+            {name: 'montant_capa', index: 'montant_capa', width: 120, editable: false, align: "right", sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'id_fgfn', index: 'id_fgfn', width: 150, editable: false, align: "left", hidden: true},
+            {name: 'date', index: 'date', sorttype: 'date', formatter: 'date'},
+            {name: 'mont_fgfn', index: 'mont_fgfn', width: 120, editable: false, align: "right", sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'mont_preleve', index: 'mont_preleve', width: 150, editable: false, align: "right", sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'solde_fgfn', index: 'solde_fgfn', width: 120, editable: false, align: "right", sorttype: "float", formatter: "number", summaryType: 'sum'}
+        ],
+        rowNum: 70000,
+        rownumbers: true,
+        sortname: "code_membre_pbf",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Détail du FGFN par PBF",
+        footerrow: true, userDataOnFooter: true,
+        grouping: true, groupingView: {groupField: ['code_membre_pbf', 'code_produit', 'date'], groupColumnShow: [false, false, true], groupText: ['<b>Code membre PBF : {0}</b>', 'Code produit : {0}', 'Date CAPA : {0}'], groupCollapse: false, groupOrder: ['asc', 'asc', 'asc'], groupSummary: [true, true, true]}
+    });
+    $("#tbl_fg").jqGrid('setGroupHeaders', {useColSpanStyle: true, groupHeaders: [{startColumnName: 'code_capa', numberOfColumns: 4, titleText: 'CAPA'}, {startColumnName: 'id_fgfn', numberOfColumns: 5, titleText: 'FGFN'}]});
+    $(document).ready(function()
+    {
+        $(function() {
+            var pickerOpts = {
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+            $("#date_conso").datepicker(pickerOpts);
+            $("#date_fg").datepicker(pickerOpts);
+            $("#date_deb_ech").datepicker(pickerOpts);
+            $("#date_fin_ech").datepicker(pickerOpts);
+            $("#sms_date_deb").datepicker(pickerOpts);
+            $("#sms_date_fin").datepicker(pickerOpts);
+            $("#datef").datepicker(pickerOpts);
+            $('#view-content').puipanel();
+            $('#tab_gcp').puitabview();
+            $("#tab_detail").puitabview();
+            $("#tab_transfert").puitabview();
+            $("#tab_compens").puitabview();
+            $('#tab_detail_compens').puitabview();
+            $('fieldset').puifieldset();
+        });
+        $('#val_gcp').click(function(e)
+        {
+            $("#tbl-gcp").jqGrid('setGridParam', {url: "/compensation/consult?date_conso=" + $('#date_conso').val() + "&regler=" + $('#regler').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+        $('#val_fg').click(function(e)
+        {
+            $("#tbl_fg").jqGrid('setGridParam', {url: "/compensation/datafgfn?date=" + $('#date_fg').val() + "&type=" + $('#type_fg').val() + "&typep=" + $('#typep').val() + "&datef=" + $('#datef').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+
+        $('#sms_submit').click(function(e) {
+            $("#tbl_transfert").jqGrid('setGridParam', {url: "/compensation/smsmoney?date_deb=" + $('#sms_date_deb').val() + "&date_fin=" + $('#sms_date_fin').val() + "&type=" + $('#sel_type_trans').val() + "&capa=" + $('#sel_type_capa').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+
+        $('#val_rech_ech').click(function(e)
+        {
+            $("#tab_ech_comp").jqGrid('setGridParam', {url: "/compensation/echanges?date_deb=" + $('#date_deb_ech').val() + "&date_fin=" + $('#date_fin_ech').val() + "&type=" + $('#type_echange').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+
+        $.get("/compensation/membre", {type: 'M'},
+        function success(data)
+        {
+            $('#membre_fg').autocomplete({"source": data});
+        });
+
+        $('#membre_fg').blur(function(e) {
+            $.get("/compensation/recupnom",
+                    {num_membre: $(this).val()},
+            function success(data)
+            {
+                if (data !== false) {
+                    $("#nom_rep").val(data[0]);
+                    $("#prenom_rep").val(data[1]);
+                    $("#raison_soc").val(data[2]);
+                } else {
+                    $("#id_message").html('Ce membre n\'existe pas !!!');
+                }
+            });
+            e.preventDefault();
+        });
+
+        $('#comp_button').click(function(e) {
+            var sel = $('#tab_ech_comp').jqGrid('getGridParam', 'selarrrow');
+            if (sel.length > 0) {
+                $.get("/compensation/compens", {echanges: sel},
+                function success(data) {
+                    if (data === true) {
+                        alert("L'opération à été effectuée avec succès!!!");
+                        $("#tab_ech_comp").jqGrid('setGridParam', {url: "/compensation/echanges?date_deb=" + $('#date_deb_ech').val() + "&date_fin=" + $('#date_fin_ech').val() + "&type=" + $('#type_echange').val()}).trigger('reloadGrid');
+                    } else {
+                        alert("Echec de l'opération :" + data);
+                    }
+                }
+                );
+            }
+            e.preventDefault();
+        });
+
+        $('#bt_escompte_echu').click(function(e) {
+            var sel = $('#tbl_escompte').jqGrid('getGridParam', 'selarrrow');
+            if (sel.length > 0) {
+                $.get("/compensation/escomptee", {escomptes: sel},
+                function success(data) {
+                    if (data === true) {
+                        alert("L'opération à été effectuée avec succès!!!");
+                        $("#tbl_escompte").jqGrid('setGridParam', {url: "/compensation/escomptes"}).trigger('reloadGrid');
+                    } else {
+                        alert("Echec de l'opération :" + data);
+                    }
+                }
+                );
+            } else {
+                alert('Aucune ligne sélectionnée');
+            }
+            e.preventDefault();
+        });
+
+        $("#transfert_gcp").click(function(e) {
+            e.preventDefault();
+            var sel = $('#tbl_escompte').jqGrid('getGridParam', 'selarrrow');
+            if (sel.length > 0) {
+                $.get("/compensation/transfert", {escptes: sel},
+                function success(data) {
+                    if (data === true) {
+                        alert("L'opération à été effectuée avec succès!!!");
+                    } else {
+                        alert("Echec de l'opération :" + data);
+                    }
+                }
+                );
+            }
+        });
+    });
+
+</script>

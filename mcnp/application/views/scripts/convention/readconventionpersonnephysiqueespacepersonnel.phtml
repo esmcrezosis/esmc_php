@@ -1,0 +1,99 @@
+
+<style>
+#convention_header_title{
+    font-family: "Algerian";
+    font-size: 2em;
+    line-height: 52px;
+    text-align: justify;
+    margin: 14px;
+    letter-spacing: -2px;
+    margin-bottom:100px;
+    border: 3px solid #7030a0;
+    padding: 20px;
+    border-radius: 11px;
+}
+#convention_select_invisible{
+      display: none;
+}
+/*
+p,li,i,u,strong{
+      font-size: 1.2rem;
+}*/
+#select_text_convention p,li{
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none;
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+        -o-user-select:none;
+          user-select: none;
+}
+
+#select_text_convention{
+       text-align:justify;
+       border:2px solid #000;
+       padding-left: 45px;
+       padding-right: 25px;
+       /*oncontextmenu="return false;"*/
+}
+
+
+</style>
+
+<article id="select_text_convention">
+<header id="convention_header_title">
+    CONVENTION DE COLLABORATION ENTRE L’<span  style="color: #7030a0;"><span  style="color: #7030a0;">ESMC</span></span>
+    ET LES FOURNISSEURS DE BIENS, PRODUITS ET SERVICES :
+    <span >Utilisateurs, </span>
+    Fournisseurs Spécifiques et Fournisseurs Externes pour la réalisation par le marché des 17 objectifs de développement durable
+  </header>
+
+  <section> 
+     <p>Entre les soussignées :</p>
+     <p>
+       <strong><span  style="color: #7030a0;"><span  style="color: #7030a0;">ESMC</span></span> (Entreprise Sociale de Marché Commun) SARL U </strong>, au capital de 1 000 000 F CFA ; Siège social : Lomé (TOGO), Nukafu, Angle rue Sagouda, Kiyeou et Bandjeli, BP 30038, immatriculée au RCCM, sous le numéro TG-LOM 2014 B514, représentée par son Gérant <strong>Monsieur Essohamlon SAMA</strong> 
+     </p>
+  </section>
+
+<section>
+   <p style="margin-bottom:30px">
+   Ci-après dénommée <strong>« L’EXPLOITANT DU PROGICIEL<span><span  style="color: #FF0000;"> MCNP</span></span> »</strong> ou <strong>« L’EXPLOITANT »</strong> ou 
+   <strong>«  L’EXPLOITANT <span><span  style="color: #7030a0;">ESMC</span></span> »</strong>
+   </p>
+   <p>D’une part</p>
+   <p>Et </p>
+   <p><i>(Cocher la case correspondante)</i></p>
+</section>
+<?php if($this->conventionmembre->civilite == "Personne_physique" ):?>
+
+  <p id="personne_physique" style="margin-top:1rem">
+           <label for="personne physique">
+             <strong>Mme / M:</strong>     
+             <input type="radio" name="convention_select" checked="checked" style="position relative;left:-90px;top:3px" value="personne_physique">
+           </label>
+          <span><input type="text" name="civilite_name" style="width: 92%;position: relative;margin-top: -39px;margin-left: 76px;padding-left: 0;font-size: 1.3em;" value="<?php echo $complete_name_membre ;?>"> </span>
+
+    <label for="ville/village" style="margin-top:20px">Demeurant à (ville/village)
+        <input type="text" name="civilite_domicile" style="width: 25%;margin-top: -21px;position: relative;right: -160px;padding: 0;font-size: 1.3em;" value="<?php echo $sessionmembre->ville_membre ;?>" placeholder="[................................]">
+       </label>
+       <label for="quartier" style="margin-top: -29px;position: relative;right: -411px;">
+       (Quartier)
+       <input type="text" name="civilite_quartier" style="width: 43%;margin-top: -25px;position: relative;font-size: 1.3em;left: 73px;padding: 0;" value="<?php echo $sessionmembre->quartier_membre ;?>" placeholder="[.........................................................]">
+       </label>         
+       <label for="bp" style="position: relative;top: 17px;">
+        (BP) 
+        <input type="text" name="civilite_bp" style="width: 26%;margin-top: -25px;margin-left: 36px;padding: 0;font-size: 1.4rem;" value="" placeholder="[.............................]">
+       </label> 
+       <label for="tel" style="position:relative;margin-top: -18px;margin-left: 290px;">
+        (Tél)
+        <input type="text" name="civilite_phone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;" value="<?php echo $sessionmembre->portable_membre ;?>" placeholder="[........................................................................................]">
+       </label>
+       <p>Ou</p>       
+    </p>
+  </section>
+
+<?php  endif ?>
+
+
+
+</article>

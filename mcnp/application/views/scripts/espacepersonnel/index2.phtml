@@ -1,0 +1,361 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+<?php
+$type = $sessionmembre->type;
+$desctype = $sessionmembre->desctype;
+?>
+
+  <blockquote>
+  <p>
+<?php if(substr($sessionmembre->code_membre, -1) == "P") { ?>
+      <strong>Mon espace</strong>
+  <small>Espace Personnel</small>
+
+<?php }else if(substr($sessionmembre->code_membre, -1) == "M"){?>
+      <strong>Mon espace</strong>
+  <small>Espace Professionnel</small>
+<?php }?>
+  </p>
+  </blockquote>
+
+<?php if(isset($sessionmembre->error) && $sessionmembre->error!=""){?>
+  <div class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->error; $sessionmembre->error = ""; ?>
+    </div>
+  <?php }?>
+
+
+
+<?php //Dernier crédit effectué
+		$comptecredit = new Application_Model_DbTable_EuCompteCredit();
+        $select = $comptecredit->select()
+						->where("code_membre = '".$sessionmembre->code_membre."'")
+						->order(array('date_octroi DESC'))
+						->limit(1);
+        $rowscomptecredit = $comptecredit->fetchRow($select);
+		if(count($rowscomptecredit) > 0){
+?>
+<div class="alert alert-info">
+<strong>Dernier crédit effectué : </strong> <?php
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($rowscomptecredit->id_operation, $operation);
+?><?php echo htmlentities($operation->lib_op); ?><br />
+<small><strong>Produit : </strong> <?php echo $rowscomptecredit->code_produit; ?>,</small>
+de <small><strong><?php echo substr($rowscomptecredit->datedeb, 0, 10); ?></strong> à <strong><?php echo substr($rowscomptecredit->datefin, 0, 10); ?></strong></small><br />
+<small><strong>Montant crédit : </strong> <?php echo number_format($rowscomptecredit->montant_credit, 0, ',', ' '); ?> XOF</small><br />
+<small><strong>Effectué par : </strong> <?php
+$utilisateurM = new Application_Model_EuUtilisateurMapper();
+$utilisateur = new Application_Model_EuUtilisateur();
+$utilisateurM->find($operation->id_utilisateur, $utilisateur);
+?><?php echo htmlentities($utilisateur->nom_utilisateur); ?> <?php echo htmlentities($utilisateur->prenom_utilisateur); ?></small>
+</div>
+<?php }?>
+
+
+<?php
+        //Crédits bientôt à écheance
+		$comptecredit = new Application_Model_DbTable_EuCompteCredit();
+        $select = $comptecredit->select()
+						       ->where("code_membre = '".$sessionmembre->code_membre."'")
+						       ->where("datefin BETWEEN CURRENT_date AND CURRENT_date + 10")
+						       ->where("montant_credit > 0")
+						       ->order(array('datefin ASC'));
+        $rowscomptecredit = $comptecredit->fetchAll($select);
+		if(count($rowscomptecredit) > 0){
+?>
+<div class="alert alert-error">
+<strong><u>Crédits bientôt à écheance</u></strong> <br /><br />
+<?php foreach ($rowscomptecredit as $entry) : ?>
+<i class="icon-arrow-right"></i> <?php
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($entry->id_operation, $operation);
+?><?php echo htmlentities($operation->lib_op); ?>.
+<small><strong>Produit : </strong> <?php echo $entry->code_produit; ?>, </small>
+de <small><strong><?php echo substr($entry->datedeb, 0, 10); ?></strong> à <strong><?php echo substr($entry->datefin, 0, 10); ?></strong>.</small>
+<small><strong>Montant crédit : </strong> <?php echo number_format($entry->montant_credit, 0, ',', ' '); ?> XOF.</small>
+<?php
+$utilisateurM = new Application_Model_EuUtilisateurMapper();
+$utilisateur = new Application_Model_EuUtilisateur();
+if($utilisateurM->find($operation->id_utilisateur, $utilisateur)){
+?> <br /><small><strong>Effectué par : </strong> <?php echo htmlentities($utilisateur->nom_utilisateur); ?> <?php echo htmlentities($utilisateur->prenom_utilisateur);} ?></small>
+<br />
+<?php endforeach; ?>
+</div>
+<?php }?>
+
+
+<?php if(substr($sessionmembre->code_membre, -1) == "M"){?>
+<?php //Projet encours de réalisation
+		$demande = new Application_Model_DbTable_EuDemande();
+        $select = $demande->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+           				  ->setIntegrityCheck(false)
+		          		  ->join('eu_appel_offre', 'eu_appel_offre.id_demande = eu_demande.id_demande')
+						  ->join('eu_proposition', 'eu_proposition.id_appel_offre = eu_appel_offre.id_appel_offre')
+						  ->join('eu_frais', 'eu_frais.id_proposition = eu_proposition.id_proposition')
+						  ->where("eu_demande.code_membre_morale = '".$sessionmembre->code_membre."'")
+						  ->where("eu_demande.publier = 1")
+						  ->where("eu_demande.livrer = 0")
+						  ->where("eu_proposition.choix_proposition = 1")
+						  ->where("eu_frais.valider = 1")
+						  ->order(array('eu_demande.date_demande ASC'));
+        $rowsdemande = $demande->fetchAll($select);
+		if(count($rowsdemande) > 0) {
+?>
+<div class="alert">
+<strong><u>Projet encours de réalisation</u></strong> <br /><br />
+<?php foreach ($rowsdemande as $entry):?>
+<small><strong>Demande de BPS : </strong> <?php echo htmlentities($entry->objet_demande); ?>.</small><br />
+<small><strong>Appel d'offre : </strong> <?php echo htmlentities($entry->numero_offre); ?> - <?php echo htmlentities($entry->nom_appel_offre); ?>.</small><br />
+<small><strong>Durée du projet : </strong> <?php echo $entry->duree_projet; ?> mois.</small><br />
+<small><strong>Montant total du projet : </strong> <?php echo number_format($entry->mont_projet, 0, ',', ' '); ?> XOF.</small>
+<hr style="margin:5px;" />
+<?php endforeach; ?>
+</div>
+<?php } ?>
+
+
+
+<?php /*?><?php //Dernier Appel d'offre publier
+		$appeloffre = new Application_Model_DbTable_EuAppelOffre();
+        $select = $appeloffre->select();
+		$select->where('code_membre_morale IN (SELECT code_membre_morale FROM eu_membre_morale WHERE id_filiere = ? )', $sessionmembre->id_filiere)
+						->where('eu_appel_offre.publier = ? ', 1)
+						->order('eu_appel_offre.date_creation DESC')
+						->limit(1);
+        $rowsappeloffre = $appeloffre->fetchRow($select);
+		if(count($rowsappeloffre) > 0) {
+?>
+<div class="alert">
+<strong>Dernier Appel d'offre publier : </strong> <?php echo htmlentities($rowsappeloffre->numero_offre); ?> - <?php echo htmlentities($rowsappeloffre->nom_appel_offre); ?>.<br />
+<small><strong>Durée du projet : </strong> <?php echo $rowsappeloffre->duree_projet; ?> mois.</small>
+</div>
+<?php } ?>
+<?php */?>
+<?php } ?>
+
+
+<?php
+        //Collecte nrPRE encours
+	    $date_id = new Zend_Date(Zend_Date::ISO_8601);
+	    $appelnn = new Application_Model_DbTable_EuAppelNn();
+        $select = $appelnn->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+           				  ->setIntegrityCheck(false)
+						  ->join('eu_proposition', 'eu_proposition.id_proposition = eu_appel_nn.id_proposition')
+						  ->where("eu_proposition.disponible = ? ", 1)
+						  ->where("(eu_appel_nn.date_fin - 3) > ? ", $date_id->toString('yyyy-MM-dd'))
+						  ->order(array('eu_appel_nn.date_fin ASC'));
+        $rowsappelnn = $appelnn->fetchAll($select);
+		if(count($rowsappelnn) > 0) {
+?>
+<div class="alert">
+<strong><u>Collecte nrPRE encours</u></strong> <br /><br />
+<?php foreach ($rowsappelnn as $entry):?>
+De <small><strong><?php echo substr($entry->date_appel, 0, 10); ?></strong> à <strong><?php echo substr($entry->date_fin, 0, 10); ?></strong> -
+<?php echo htmlentities($entry->designation_appel); ?>.</small><br />
+<?php
+$fraisM = new Application_Model_EuFraisMapper();
+$frais = new Application_Model_EuFrais();
+$fraisM->findFraisByPropo($entry->id_proposition, $frais);
+
+$propositionM = new Application_Model_EuPropositionMapper();
+$proposition = new Application_Model_EuProposition();
+$propositionM->find($entry->id_proposition, $proposition);
+
+$appeloffreM = new Application_Model_EuAppelOffreMapper();
+$appeloffre = new Application_Model_EuAppelOffre();
+$appeloffreM->find($proposition->id_appel_offre, $appeloffre);
+
+$demandeM = new Application_Model_EuDemandeMapper();
+$demande = new Application_Model_EuDemande();
+$demandeM->find($appeloffre->id_demande, $demande);
+?>
+<small><strong>Projet : </strong> <?php echo htmlentities($demande->objet_demande); ?>.</small><br />
+<small><strong>Appel d'offre : </strong> <strong><?php echo htmlentities($appeloffre->numero_offre); ?></strong> / <?php echo htmlentities($appeloffre->nom_appel_offre); ?>.</small><br />
+<small><strong>Montant total de projet : </strong> <?php echo number_format($frais->mont_projet, 0, ',', ' '); ?> XOF</small>
+<hr style="margin:5px;" />
+<?php endforeach; ?>
+</div>
+<?php }?>
+
+
+
+
+
+<?php
+        //Les 5 dernières offres et demandes
+		$offredemande = new Application_Model_DbTable_EuOffreDemande();
+        $select = $offredemande->select()
+						->where("code_membre != '".$sessionmembre->code_membre."'")
+						->order(array('date_offre_demande DESC'))
+						->limit(5);
+        $rowsoffredemande = $offredemande->fetchAll($select);
+		if(count($rowsoffredemande) > 0) {
+?>
+<div class="alert alert-info">
+<strong><u>Les 5 dernières offres et demandes</u></strong> <br /><br />
+<?php foreach ($rowsoffredemande as $entry):?>
+<?php
+if($entry->id_credit > 0){
+$compte_ts_M = new Application_Model_EuCompteCreditTsMapper();
+$compte_ts = new Application_Model_EuCompteCreditTs();
+$compte_ts_M->find($entry->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->datefin,0,9);
+$montant = number_format($compte_ts->montant, 0, ',', ' ');
+
+} else {
+$compte_M = new Application_Model_EuCompteMapper();
+$compte = new Application_Model_EuCompte();
+$compte_M->find($entry->code_compte, $compte);
+
+$categorieM = new Application_Model_EuCategorieCompteMapper();
+$categorie = new Application_Model_EuCategorieCompte();
+$categorieM->find($compte->code_cat, $categorie);
+
+$code_produit = $compte->code_cat;
+$lib_op = htmlentities($categorie->lib_cat);
+$datefin = "";//substr($compte->date_alloc,0,9)
+$montant = number_format($compte->solde, 0, ',', ' ');
+}
+?>
+<small><?php echo $entry->date_offre_demande; ?> </small>
+<i class="icon-arrow-right"></i>
+ <small><strong>Type : </strong> <?php echo $entry->type_offre_demande; ?>.</small>
+ <?php /*?><small><strong>Offre vs Demande : </strong> <?php echo $entry->type_credit_of; ?> vs <?php echo $entry->type_credit_de; ?>. </small><?php */?>
+<small><strong>Compte à débiter : </strong> <?php echo $entry->type_credit_of; ?>. </small>
+<small><strong>Montant : </strong> <?php echo $montant; ?> XOF.</small>
+<small><strong>Compte à créditer : </strong> <?php echo $entry->type_credit_de; ?>. </small>
+<small><strong>Date fin : </strong> <?php echo $datefin; ?>. </small>
+<br />
+<?php endforeach; ?>
+</div>
+<?php }?>
+
+
+
+<?php //Les 5 dernières messages des offres et demandes
+		$offredemandemessage = new Application_Model_DbTable_EuOffreDemandeMessage();
+        $select = $offredemandemessage->select()
+						              ->where("code_membre = '".$sessionmembre->code_membre."'")
+						              ->order(array('date_message DESC'))
+						              ->limit(5);
+        $rowsoffredemandemessage = $offredemandemessage->fetchAll($select);
+		if(count($rowsoffredemandemessage) > 0){
+?>
+<div class="alert alert-success">
+<strong><u>Les 5 dernières messages des offres et demandes</u></strong> <br /><br />
+<?php foreach ($rowsoffredemandemessage as $entry):?>
+<?php
+$offre_M = new Application_Model_EuOffreDemandeMapper();
+$offre = new Application_Model_EuOffreDemande();
+$offre_M->find($entry->id_offre, $offre);
+
+if($offre->id_credit > 0){
+$compte_ts_M = new Application_Model_EuCompteCreditTsMapper();
+$compte_ts = new Application_Model_EuCompteCreditTs();
+$compte_ts_M->find($offre->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->datefin,0,9);
+$montant = number_format($compte_ts->montant, 0, ',', ' ');
+
+}else{
+$compte_M = new Application_Model_EuCompteMapper();
+$compte = new Application_Model_EuCompte();
+$compte_M->find($offre->code_compte, $compte);
+
+$categorieM = new Application_Model_EuCategorieCompteMapper();
+$categorie = new Application_Model_EuCategorieCompte();
+$categorieM->find($compte->code_cat, $categorie);
+
+$code_produit = $compte->code_cat;
+$lib_op = htmlentities($categorie->lib_cat);
+$datefin = substr($compte->date_alloc,0,9);
+$montant = number_format($compte->solde, 0, ',', ' ');
+}
+?>
+<i class="icon-arrow-right"></i> <small><strong>Offre : </strong> <?php echo $lib_op; ?>. </small>
+<small><strong>Type : </strong> <?php echo $entry->type_message; ?>. </small>
+<small><strong>Produit : </strong> <?php echo $code_produit; ?>. </small>
+<small><strong>Date fin : </strong> <?php echo $datefin; ?>. </small>
+<small><strong>Montant : </strong> <?php echo $montant; ?> XOF.</small>
+<br />
+
+
+<?php
+$demande_M = new Application_Model_EuOffreDemandeMapper();
+$demande = new Application_Model_EuOffreDemande();
+$demande_M->find($entry->id_demande, $demande);
+
+if($demande->id_credit > 0){
+$compte_ts_M = new Application_Model_EuCompteCreditTsMapper();
+$compte_ts = new Application_Model_EuCompteCreditTs();
+$compte_ts_M->find($demande->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->datefin,0,9);
+$montant = number_format($compte_ts->montant, 0, ',', ' ');
+
+} else {
+$compte_M = new Application_Model_EuCompteMapper();
+$compte = new Application_Model_EuCompte();
+$compte_M->find($demande->code_compte, $compte);
+
+$categorieM = new Application_Model_EuCategorieCompteMapper();
+$categorie = new Application_Model_EuCategorieCompte();
+$categorieM->find($compte->code_cat, $categorie);
+
+$code_produit = $compte->code_cat;
+$lib_op = htmlentities($categorie->lib_cat);
+$datefin = substr($compte->date_alloc,0,9);
+$montant = number_format($compte->solde, 0, ',', ' ');
+}
+?>
+<i class="icon-arrow-left"></i> <small><strong>Demande : </strong> <?php echo $lib_op; ?>. </small>
+<small><strong>Type : </strong> <?php echo $entry->type_message; ?>. </small>
+<small><strong>Produit : </strong> <?php echo $code_produit; ?>. </small>
+<small><strong>Date fin : </strong> <?php echo $datefin; ?>. </small>
+<small><strong>Montant : </strong> <?php echo $montant; ?> XOF.</small>
+<br />
+
+
+<i class="icon-comment"></i> <small><strong>Message : </strong><?php echo $entry->date_message; ?> / <?php echo $entry->message; ?>.
+<?php
+$cloture_M = new Application_Model_EuOffreDemandeClotureMapper();
+$result = $cloture_M->fetchAllByOffreDemande($entry->id_offre, $entry->id_demande);
+if(count($result) > 0){?><span class="label label-important"><i class="icon-off"></i> Clôture encours</span><?php }?></small>
+<hr style="margin:5px;" />
+<?php endforeach; ?>
+</div>
+<?php }?>
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>

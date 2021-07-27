@@ -1,0 +1,230 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p>Detail de doublon de membre</p></blockquote>
+
+
+<div class="">
+<div class="span6">
+<?php if (substr($this->membre_doublon->membre_doublon_code_membre1, -1) == "P") {?>
+<?php 
+$membre = new Application_Model_EuMembre();
+$mapper_membre = new Application_Model_EuMembreMapper();
+$mapper_membre->find($this->membre_doublon->membre_doublon_code_membre1, $membre);
+?>
+<div class="control-group"><strong>Code Membre : </strong><?php echo $membre->code_membre; ?></div>
+<blockquote>Etat civil</blockquote>
+<div class="control-group"><strong>Nom : </strong><?php echo $membre->nom_membre; ?></div>
+<div class="control-group"><strong>Prénom(s) : </strong><?php echo $membre->prenom_membre; ?></div>
+<div class="control-group"><strong>Sexe : </strong><?php echo $membre->sexe_membre; ?></div>
+<div class="control-group"><strong>Date de naissance : </strong><?php echo $membre->date_nais_membre; ?></div>
+<div class="control-group"><strong>Lieu de naissance : </strong><?php echo $membre->lieu_nais_membre; ?></div>
+<div class="control-group"><strong>Situation matrimoniale : </strong><?php echo $membre->sitfam_membre; ?></div>
+<div class="control-group"><strong>Mère : </strong><?php echo $membre->mere_membre; ?></div>
+<div class="control-group"><strong>Père : </strong><?php echo $membre->pere_membre; ?></div>
+<div class="control-group"><strong>Réligion : </strong><?php if($membre->id_religion_membre > 0){
+        $religionM = new Application_Model_DbTable_EuReligion();
+        $religion = $religionM->find($membre->id_religion_membre);
+    	$row = $religion->current();
+		echo $row->libelle_religion;} ?></div>
+<blockquote>Adresse</blockquote>
+<div class="control-group"><strong>Cellulaire : </strong><?php echo $membre->portable_membre; ?></div>
+<div class="control-group"><strong>Téléphone : </strong><?php echo $membre->tel_membre; ?></div>
+<div class="control-group"><strong>Quartier : </strong><?php echo $membre->quartier_membre; ?></div>
+<div class="control-group"><strong>BP : </strong><?php echo $membre->bp_membre; ?></div>
+<div class="control-group"><strong>E-mail : </strong><?php echo $membre->email_membre; ?></div>
+<blockquote>Autres informations</blockquote>
+<div class="control-group"><strong>Formation : </strong><?php echo $membre->formation; ?></div>
+<div class="control-group"><strong>Profession : </strong><?php echo $membre->profession_membre; ?></div>
+<blockquote>Localité</blockquote>
+<div class="control-group"><strong>Agence : </strong><?php if($membre->code_agence != ""){
+        $agenceM = new Application_Model_DbTable_EuAgence();
+        $agence = $agenceM->find($membre->code_agence);
+    	$row = $agence->current();
+		echo $row->libelle_agence;} ?></div>
+<div class="control-group"><strong>Canton : </strong><?php if($membre->id_canton > 0){
+        $cantonM = new Application_Model_DbTable_EuCanton();
+        $canton = $cantonM->find($membre->id_canton);
+    	$row = $canton->current();
+		echo $row->nom_canton;} ?></div>
+<div class="control-group"><strong>Ville : </strong><?php echo $membre->ville_membre; ?></div>
+<div class="control-group"><strong>Pays : </strong><?php if($membre->id_pays > 0){
+        $paysM = new Application_Model_DbTable_EuPays();
+        $pays = $paysM->find($membre->id_pays);
+    	$row = $pays->current();
+		echo $row->libelle_pays;} ?></div>
+
+<?php } else if (substr($this->membre_doublon->membre_doublon_code_membre1, -1) == "M") {?>
+<?php 
+$membremorale = new Application_Model_EuMembreMorale();
+$mapper_membremorale = new Application_Model_EuMembreMoraleMapper();
+$mapper_membremorale->find($this->membre_doublon->membre_doublon_code_membre1, $membremorale);
+?>
+<div class="control-group"><strong>Code Membre Morale : </strong><?php echo $membremorale->code_membre_morale; ?></div>
+<blockquote>Informations membres morales</blockquote>
+<div class="control-group"><strong>Raison sociale : </strong><?php echo $membremorale->raison_sociale; ?></div>
+<div class="control-group"><strong>N° RCCM : </strong><?php echo $membremorale->num_registre_membre; ?></div>
+<div class="control-group"><strong>Statut juridique : </strong><?php if($membremorale->code_statut != ""){
+        $statutjuridiqueM = new Application_Model_DbTable_EuStatutJuridique();
+        $statutjuridique = $statutjuridiqueM->find($membremorale->code_statut);
+    	$row = $statutjuridique->current();
+		echo $row->libelle_statut;} ?></div>
+<blockquote>Adresse</blockquote>
+<div class="control-group"><strong>Cellulaire : </strong><?php echo $membremorale->portable_membre; ?></div>
+<div class="control-group"><strong>Téléphone : </strong><?php echo $membremorale->tel_membre; ?></div>
+<div class="control-group"><strong>Quartier : </strong><?php echo $membremorale->quartier_membre; ?></div>
+<div class="control-group"><strong>BP : </strong><?php echo $membremorale->bp_membre; ?></div>
+<div class="control-group"><strong>E-mail : </strong><?php echo $membremorale->email_membre; ?></div>
+<div class="control-group"><strong>Site Web : </strong><?php echo $membremorale->site_web; ?></div>
+<blockquote>Autres informations</blockquote>
+<div class="control-group"><strong>Domaine d'activité : </strong><?php echo $membremorale->domaine_activite; ?></div>
+<div class="control-group"><strong>Filière : </strong><?php if($membremorale->id_filiere > 0){
+        $filiereM = new Application_Model_DbTable_EuFiliere();
+        $filiere = $filiereM->find($membremorale->id_filiere);
+    	$row = $filiere->current();
+		echo $row->nom_filiere;} ?></div>
+<blockquote>Localité</blockquote>
+<div class="control-group"><strong>Agence : </strong><?php if($membremorale->code_agence != ""){
+        $agenceM = new Application_Model_DbTable_EuAgence();
+        $agence = $agenceM->find($membremorale->id_agence);
+    	$row = $agence->current();
+		echo $row->libelle_agence;} ?></div>
+<div class="control-group"><strong>Canton : </strong><?php if($membremorale->id_canton > 0){
+        $cantonM = new Application_Model_DbTable_EuCanton();
+        $canton = $cantonM->find($membremorale->id_canton);
+    	$row = $canton->current();
+		echo $row->nom_canton;} ?></div>
+<div class="control-group"><strong>Ville : </strong><?php echo $membremorale->ville_membre; ?></div>
+<div class="control-group"><strong>Pays : </strong><?php if($membremorale->id_pays > 0){
+        $paysM = new Application_Model_DbTable_EuPays();
+        $pays = $paysM->find($membremorale->id_pays);
+    	$row = $pays->current();
+		echo $row->libelle_pays;} ?></div>
+
+<?php }?>
+ 
+ 
+  
+</div>
+<div class="span6">
+<?php if (substr($this->membre_doublon->membre_doublon_code_membre2, -1) == "P") {?>
+<?php 
+$membre = new Application_Model_EuMembre();
+$mapper_membre = new Application_Model_EuMembreMapper();
+$mapper_membre->find($this->membre_doublon->membre_doublon_code_membre2, $membre);
+?>
+<div class="control-group"><strong>Code Membre : </strong><?php echo $membre->code_membre; ?></div>
+<blockquote>Etat civil</blockquote>
+<div class="control-group"><strong>Nom : </strong><?php echo $membre->nom_membre; ?></div>
+<div class="control-group"><strong>Prénom(s) : </strong><?php echo $membre->prenom_membre; ?></div>
+<div class="control-group"><strong>Sexe : </strong><?php echo $membre->sexe_membre; ?></div>
+<div class="control-group"><strong>Date de naissance : </strong><?php echo $membre->date_nais_membre; ?></div>
+<div class="control-group"><strong>Lieu de naissance : </strong><?php echo $membre->lieu_nais_membre; ?></div>
+<div class="control-group"><strong>Situation matrimoniale : </strong><?php echo $membre->sitfam_membre; ?></div>
+<div class="control-group"><strong>Mère : </strong><?php echo $membre->mere_membre; ?></div>
+<div class="control-group"><strong>Père : </strong><?php echo $membre->pere_membre; ?></div>
+<div class="control-group"><strong>Réligion : </strong><?php if($membre->id_religion_membre > 0){
+        $religionM = new Application_Model_DbTable_EuReligion();
+        $religion = $religionM->find($membre->id_religion_membre);
+    	$row = $religion->current();
+		echo $row->libelle_religion;} ?></div>
+<blockquote>Adresse</blockquote>
+<div class="control-group"><strong>Cellulaire : </strong><?php echo $membre->portable_membre; ?></div>
+<div class="control-group"><strong>Téléphone : </strong><?php echo $membre->tel_membre; ?></div>
+<div class="control-group"><strong>Quartier : </strong><?php echo $membre->quartier_membre; ?></div>
+<div class="control-group"><strong>BP : </strong><?php echo $membre->bp_membre; ?></div>
+<div class="control-group"><strong>E-mail : </strong><?php echo $membre->email_membre; ?></div>
+<blockquote>Autres informations</blockquote>
+<div class="control-group"><strong>Formation : </strong><?php echo $membre->formation; ?></div>
+<div class="control-group"><strong>Profession : </strong><?php echo $membre->profession_membre; ?></div>
+<blockquote>Localité</blockquote>
+<div class="control-group"><strong>Agence : </strong><?php if($membre->code_agence != ""){
+        $agenceM = new Application_Model_DbTable_EuAgence();
+        $agence = $agenceM->find($membre->code_agence);
+    	$row = $agence->current();
+		echo $row->libelle_agence;} ?></div>
+<div class="control-group"><strong>Canton : </strong><?php if($membre->id_canton > 0){
+        $cantonM = new Application_Model_DbTable_EuCanton();
+        $canton = $cantonM->find($membre->id_canton);
+    	$row = $canton->current();
+		echo $row->nom_canton;} ?></div>
+<div class="control-group"><strong>Ville : </strong><?php echo $membre->ville_membre; ?></div>
+<div class="control-group"><strong>Pays : </strong><?php if($membre->id_pays > 0){
+        $paysM = new Application_Model_DbTable_EuPays();
+        $pays = $paysM->find($membre->id_pays);
+    	$row = $pays->current();
+		echo $row->libelle_pays;} ?></div>
+
+<?php } else if (substr($this->membre_doublon->membre_doublon_code_membre2, -1) == "M") {?>
+<?php 
+$membremorale = new Application_Model_EuMembreMorale();
+$mapper_membremorale = new Application_Model_EuMembreMoraleMapper();
+$mapper_membremorale->find($this->membre_doublon->membre_doublon_code_membre2, $membremorale);
+?>
+<div class="control-group"><strong>Code Membre Morale : </strong><?php echo $membremorale->code_membre_morale; ?></div>
+<blockquote>Informations membres morales</blockquote>
+<div class="control-group"><strong>Raison sociale : </strong><?php echo $membremorale->raison_sociale; ?></div>
+<div class="control-group"><strong>N° RCCM : </strong><?php echo $membremorale->num_registre_membre; ?></div>
+<div class="control-group"><strong>Statut juridique : </strong><?php if($membremorale->code_statut != ""){
+        $statutjuridiqueM = new Application_Model_DbTable_EuStatutJuridique();
+        $statutjuridique = $statutjuridiqueM->find($membremorale->code_statut);
+    	$row = $statutjuridique->current();
+		echo $row->libelle_statut;} ?></div>
+<blockquote>Adresse</blockquote>
+<div class="control-group"><strong>Cellulaire : </strong><?php echo $membremorale->portable_membre; ?></div>
+<div class="control-group"><strong>Téléphone : </strong><?php echo $membremorale->tel_membre; ?></div>
+<div class="control-group"><strong>Quartier : </strong><?php echo $membremorale->quartier_membre; ?></div>
+<div class="control-group"><strong>BP : </strong><?php echo $membremorale->bp_membre; ?></div>
+<div class="control-group"><strong>E-mail : </strong><?php echo $membremorale->email_membre; ?></div>
+<div class="control-group"><strong>Site Web : </strong><?php echo $membremorale->site_web; ?></div>
+<blockquote>Autres informations</blockquote>
+<div class="control-group"><strong>Domaine d'activité : </strong><?php echo $membremorale->domaine_activite; ?></div>
+<div class="control-group"><strong>Filière : </strong><?php if($membremorale->id_filiere > 0){
+        $filiereM = new Application_Model_DbTable_EuFiliere();
+        $filiere = $filiereM->find($membremorale->id_filiere);
+    	$row = $filiere->current();
+		echo $row->nom_filiere;} ?></div>
+<blockquote>Localité</blockquote>
+<div class="control-group"><strong>Agence : </strong><?php if($membremorale->code_agence != ""){
+        $agenceM = new Application_Model_DbTable_EuAgence();
+        $agence = $agenceM->find($membremorale->id_agence);
+    	$row = $agence->current();
+		echo $row->libelle_agence;} ?></div>
+<div class="control-group"><strong>Canton : </strong><?php if($membremorale->id_canton > 0){
+        $cantonM = new Application_Model_DbTable_EuCanton();
+        $canton = $cantonM->find($membremorale->id_canton);
+    	$row = $canton->current();
+		echo $row->nom_canton;} ?></div>
+<div class="control-group"><strong>Ville : </strong><?php echo $membremorale->ville_membre; ?></div>
+<div class="control-group"><strong>Pays : </strong><?php if($membremorale->id_pays > 0){
+        $paysM = new Application_Model_DbTable_EuPays();
+        $pays = $paysM->find($membremorale->id_pays);
+    	$row = $pays->current();
+		echo $row->libelle_pays;} ?></div>
+
+<?php }?>
+ 
+ 
+  
+</div>
+</div>
+
+
+</div>
+<?php /*?><div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div><?php */?>
+</div>
+</div>
+
+
+
+
+
+
+
+

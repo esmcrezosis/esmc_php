@@ -1,0 +1,82 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+  <blockquote><p>Ajouter une information additive</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addinformation_additif">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+
+<div class="control-group">
+<label class="control-label" for="reference">L'article *</label>
+<div class="controls">
+<select id="reference" name="reference" required>
+  <option value="">Choisir l'article</option>
+<?php 
+        $article_stockes_m = new Application_Model_EuArticleStockesAdditifMapper();
+        $entries = $article_stockes_m->fetchAllByCodeMembreMoraleReference("", "", "");
+if(count($entries) > 0){?>
+<?php foreach ($entries as $value) { ?>
+  <option value="<?php echo $value->reference; ?>"><?php echo $value->nom_article_stockes_additif; ?> (<?php echo $value->reference; ?>)</option>
+<?php } ?>
+<?php }?>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="libelle_information_additif">L'information additive *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="libelle_information_additif" id="libelle_information_additif" placeholder="L'information additive" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="code_membre">Code Membre *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="code_membre" id="code_membre" placeholder="Code Membre" required>
+</div>
+</div>
+
+
+
+<div class="form-actions">
+<input name="membreasso_id" type="hidden" id="membreasso_id" value="<?php echo $sessionmembreasso->membreasso_id; ?>" />  
+<input name="etat" type="hidden" id="etat" value="1" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter l'information additive</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

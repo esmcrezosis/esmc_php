@@ -1,0 +1,1206 @@
+<?php
+$sessionmembre = new Zend_Session_Namespace('membre');
+
+?>
+
+<style>
+td{
+  padding: 21px;
+}
+
+.convention_typographie{
+  font-family: "Algerian";
+  font-size: 1.5em;
+  line-height: 52px;
+  text-align: justify;
+  margin: 12px;
+  letter-spacing: -2px;
+  margin-left: 15px;
+  border: 2px solid;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  border-radius: 10px;
+  width: 579px;
+}
+
+
+
+
+.dclr {clear:both;float:none;height:1px;margin:0px;padding:0px;overflow:hidden;}
+
+.ft0{font: bold 21px 'Algerian';color: #7030a0;line-height: 24px;}
+.ft1{font: bold 21px 'Algerian';line-height: 24px;}
+.ft2{font: bold 19px 'Algerian';line-height: 21px;}
+.ft3{font: 16px 'Cambria';line-height: 19px;}
+.ft4{font: bold 16px 'Cambria';color: #7030a0;line-height: 18px;}
+.ft5{font: 16px 'Cambria';line-height: 18px;}
+.ft6{font: bold 16px 'Cambria';line-height: 18px;}
+.ft7{font: bold 16px 'Cambria';line-height: 19px;}
+.ft8{font: bold 16px 'Cambria';color: #ff0000;line-height: 19px;}
+.ft9{font: bold 16px 'Cambria';margin-left: 7px;line-height: 19px;}
+.ft10{font: bold 16px 'Cambria';color: #7030a0;line-height: 19px;}
+.ft11{font: italic 13px 'Cambria';line-height: 15px;}
+.ft12{font: 15px 'Calibri';line-height: 18px;}
+.ft13{font: 12px 'Cambria';line-height: 14px;}
+.ft14{font: 1px 'Cambria';line-height: 5px;}
+.ft15{font: 1px 'Cambria';line-height: 1px;}
+.ft16{font: 1px 'Cambria';line-height: 4px;}
+.ft17{font: 1px 'Cambria';line-height: 2px;}
+.ft18{font: 1px 'Cambria';line-height: 14px;}
+.ft19{font: 1px 'Cambria';line-height: 12px;}
+.ft20{font: 1px 'Cambria';line-height: 3px;}
+.ft21{font: 1px 'Cambria';line-height: 13px;}
+.ft22{font: 1px 'Cambria';line-height: 15px;}
+.ft23{font: 15px 'Cambria';line-height: 17px;}
+.ft24{font: 1px 'Cambria';line-height: 9px;}
+.ft25{font: bold 17px 'Cambria';text-decoration: underline;line-height: 20px;}
+.ft26{font: 16px 'Cambria';color: #7030a0;line-height: 19px;}
+.ft27{font: italic 16px 'Cambria';line-height: 19px;}
+.ft28{font: italic 16px 'Cambria';color: #ff0000;line-height: 19px;}
+.ft29{font: 16px 'Cambria';color: #7030a0;line-height: 18px;}
+.ft30{font: 16px 'Cambria';color: #ff0000;line-height: 19px;}
+.ft31{font: 16px 'Cambria';color: #ff0000;line-height: 18px;}
+.ft32{font: italic bold 16px 'Cambria';line-height: 19px;}
+.ft33{font: italic bold 16px 'Cambria';text-decoration: underline;line-height: 19px;}
+.ft34{font: italic bold 16px 'Cambria';line-height: 18px;}
+.ft35{font: italic 16px 'Cambria';line-height: 18px;}
+.ft36{font: 16px 'Times New Roman';line-height: 19px;}
+.ft37{font: 16px 'Cambria';margin-left: 17px;line-height: 19px;}
+.ft38{font: 16px 'Cambria';margin-left: 16px;line-height: 19px;}
+.ft39{font: 15px 'Cambria';color: #7030a0;line-height: 19px;}
+.ft40{font: 15px 'Cambria';line-height: 19px;}
+.ft41{font: 16px 'Cambria';margin-left: 19px;line-height: 19px;}
+.ft42{font: 16px 'Cambria';margin-left: 20px;line-height: 19px;}
+.ft43{font: 16px 'Cambria';margin-left: 7px;line-height: 19px;}
+.ft44{font: italic bold 16px 'Cambria';text-decoration: underline;color: #ff0000;line-height: 19px;}
+.ft45{font: 16px 'Cambria';background-color: #d8d8d8;line-height: 19px;}
+.ft46{font: bold 16px 'Cambria';margin-left: 16px;line-height: 19px;}
+.ft47{font: 19px 'Times New Roman';line-height: 21px;}
+.ft48{font: bold 16px 'Cambria';margin-left: 15px;line-height: 19px;}
+.ft49{font: bold 16px 'Cambria';text-decoration: underline;line-height: 19px;}
+.ft50{font: bold 16px 'Cambria';margin-left: 23px;line-height: 18px;}
+.ft51{font: bold 16px 'Cambria';color: #ff0000;margin-left: 23px;line-height: 18px;}
+.ft52{font: 16px 'Cambria';background-color: #d8d8d8;line-height: 18px;}
+.ft53{font: bold 16px 'Cambria';margin-left: 23px;line-height: 19px;}
+.ft54{font: bold 16px 'Cambria';color: #ff0000;line-height: 18px;}
+.ft55{font: bold 15px 'Cambria';margin-left: 23px;line-height: 18px;}
+.ft56{font: 15px 'Cambria';color: #7030a0;line-height: 18px;}
+.ft57{font: 15px 'Cambria';line-height: 18px;}
+.ft58{font: 16px 'Cambria';color: #7030a0;background-color: #d8d8d8;line-height: 18px;}
+.ft59{font: bold 16px 'Cambria';text-decoration: underline;color: #7030a0;line-height: 19px;}
+.ft60{font: bold 16px 'Cambria';text-decoration: underline;margin-left: 4px;line-height: 19px;}
+.ft61{font: 12px 'Cambria';text-decoration: underline;line-height: 14px;}
+.ft62{font: bold 16px 'Cambria';text-decoration: underline;margin-left: 4px;line-height: 25px;}
+.ft63{font: 16px 'Cambria';line-height: 25px;}
+.ft64{font: bold 16px 'Cambria';line-height: 25px;}
+.ft65{font: bold 16px 'Cambria';text-decoration: underline;margin-left: 2px;line-height: 19px;}
+.ft66{font: italic bold 16px 'Cambria';text-decoration: underline;margin-left: 80px;line-height: 19px;}
+.ft67{font: italic bold 16px 'Cambria';text-decoration: underline;margin-left: 87px;line-height: 19px;}
+.ft68{font: italic bold 16px 'Cambria';text-decoration: underline;margin-left: 90px;line-height: 19px;}
+.ft69{font: italic bold 16px 'Cambria';text-decoration: underline;margin-left: 94px;line-height: 19px;}
+.ft70{font: italic bold 16px 'Cambria';text-decoration: underline;margin-left: 70px;line-height: 19px;}
+.ft71{font: bold 16px 'Cambria';text-decoration: underline;margin-left: 3px;line-height: 19px;}
+.ft72{font: italic bold 16px 'Cambria';text-decoration: underline;margin-left: 94px;line-height: 18px;}
+.ft73{font: italic bold 16px 'Cambria';text-decoration: underline;line-height: 18px;}
+.ft74{font: italic bold 16px 'Cambria';text-decoration: underline;margin-left: 97px;line-height: 19px;}
+.ft75{font: 16px 'Cambria';text-decoration: underline;line-height: 19px;}
+.ft76{font: bold 16px 'Cambria';text-decoration: underline;margin-left: 5px;line-height: 19px;}
+.ft77{font: 16px 'Cambria';margin-left: 33px;line-height: 19px;}
+.ft78{font: bold 19px 'Cambria';line-height: 22px;}
+.ft79{font: bold 16px 'Cambria';text-decoration: underline;margin-left: 4px;line-height: 24px;}
+.ft80{font: bold 16px 'Cambria';text-decoration: underline;color: #7030a0;line-height: 24px;}
+.ft81{font: bold 16px 'Cambria';text-decoration: underline;line-height: 24px;}
+.ft82{font: 13px 'Cambria';line-height: 15px;}
+.ft83{font: 15px 'Cambria';color: #7030a0;line-height: 20px;}
+.ft84{font: 15px 'Cambria';line-height: 20px;}
+.ft85{font: 16px 'Cambria';margin-left: 18px;line-height: 19px;}
+
+.p0{text-align: left;padding-left: 128px;margin-top: 278px;margin-bottom: 0px;}
+.p1{text-align: left;padding-left: 138px;margin-top: 4px;margin-bottom: 0px;}
+.p2{text-align: left;padding-left: 311px;margin-top: 4px;margin-bottom: 0px;}
+.p3{text-align: left;padding-left: 150px;margin-top: 33px;margin-bottom: 0px;}
+.p4{text-align: left;padding-left: 121px;margin-top: 41px;margin-bottom: 0px;}
+.p5{text-align: left;padding-left: 134px;margin-top: 43px;margin-bottom: 0px;}
+.p6{text-align: left;padding-left: 321px;margin-top: 42px;margin-bottom: 0px;}
+.p7{text-align: left;padding-left: 44px;margin-top: 28px;margin-bottom: 0px;}
+.p8{text-align: justify;padding-left: 44px;padding-right: 52px;margin-top: 15px;margin-bottom: 0px;}
+.p9{text-align: left;padding-left: 44px;margin-top: 3px;margin-bottom: 0px;}
+.p10{text-align: left;padding-left: 44px;margin-top: 15px;margin-bottom: 0px;}
+.p11{text-align: left;padding-left: 44px;margin-top: 0px;margin-bottom: 0px;}
+.p12{text-align: left;padding-left: 44px;margin-top: 34px;margin-bottom: 0px;}
+.p13{text-align: left;padding-left: 44px;margin-top: 18px;margin-bottom: 0px;}
+.p14{text-align: left;padding-left: 44px;margin-top: 1px;margin-bottom: 0px;}
+.p15{text-align: left;padding-left: 18px;margin-top: 20px;margin-bottom: 0px;}
+.p16{text-align: left;padding-left: 44px;margin-top: 19px;margin-bottom: 0px;}
+.p17{text-align: left;padding-left: 18px;margin-top: 19px;margin-bottom: 0px;}
+.p18{text-align: left;padding-left: 371px;margin-top: 25px;margin-bottom: 0px;}
+.p19{text-align: left;padding-left: 44px;margin-top: 6px;margin-bottom: 0px;}
+.p20{text-align: left;padding-left: 18px;margin-top: 18px;margin-bottom: 0px;}
+.p21{text-align: left;padding-left: 17px;margin-top: 19px;margin-bottom: 0px;}
+.p22{text-align: left;padding-left: 19px;margin-top: 19px;margin-bottom: 0px;}
+.p23{text-align: left;padding-left: 17px;margin-top: 18px;margin-bottom: 0px;}
+.p24{text-align: left;padding-left: 371px;margin-top: 54px;margin-bottom: 0px;}
+.p25{text-align: left;padding-left: 44px;margin-top: 25px;margin-bottom: 0px;}
+.p26{text-align: left;padding-left: 43px;margin-top: 18px;margin-bottom: 0px;}
+.p27{text-align: left;padding-left: 44px;margin-top: 14px;margin-bottom: 0px;}
+.p28{text-align: left;padding-left: 44px;padding-right: 495px;margin-top: 0px;margin-bottom: 0px;}
+.p29{text-align: left;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+.p30{text-align: left;padding-left: 10px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+.p31{text-align: left;padding-left: 14px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+.p32{text-align: left;padding-left: 44px;margin-top: 27px;margin-bottom: 0px;}
+.p33{text-align: left;padding-left: 44px;margin-top: 26px;margin-bottom: 0px;}
+.p34{text-align: left;padding-left: 371px;margin-top: 322px;margin-bottom: 0px;}
+.p35{text-align: left;padding-left: 324px;margin-top: 20px;margin-bottom: 0px;}
+.p36{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 19px;margin-bottom: 0px;}
+.p37{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 6px;margin-bottom: 0px;}
+.p38{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 7px;margin-bottom: 0px;}
+.p39{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 3px;margin-bottom: 0px;}
+.p40{text-align: left;padding-left: 44px;margin-top: 17px;margin-bottom: 0px;}
+.p41{text-align: justify;padding-left: 44px;padding-right: 52px;margin-top: 8px;margin-bottom: 0px;}
+.p42{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 16px;margin-bottom: 0px;}
+.p43{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 2px;margin-bottom: 0px;}
+.p44{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 0px;margin-bottom: 0px;}
+.p45{text-align: justify;padding-left: 44px;padding-right: 52px;margin-top: 7px;margin-bottom: 0px;}
+.p46{text-align: left;padding-left: 44px;margin-top: 16px;margin-bottom: 0px;}
+.p47{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 8px;margin-bottom: 0px;}
+.p48{text-align: left;padding-left: 371px;margin-top: 33px;margin-bottom: 0px;}
+.p49{text-align: left;padding-left: 44px;margin-top: 38px;margin-bottom: 0px;}
+.p50{text-align: left;padding-left: 371px;margin-top: 9px;margin-bottom: 0px;}
+.p51{text-align: justify;padding-left: 92px;padding-right: 57px;margin-top: 0px;margin-bottom: 0px;text-indent: -24px;}
+.p52{text-align: left;padding-left: 68px;margin-top: 0px;margin-bottom: 0px;}
+.p53{text-align: left;padding-left: 92px;padding-right: 57px;margin-top: 0px;margin-bottom: 0px;text-indent: -24px;}
+.p54{text-align: left;padding-left: 68px;margin-top: 1px;margin-bottom: 0px;}
+.p55{text-align: left;padding-left: 92px;margin-top: 0px;margin-bottom: 0px;}
+.p56{text-align: justify;padding-left: 44px;padding-right: 52px;margin-top: 0px;margin-bottom: 0px;}
+.p57{text-align: left;padding-left: 371px;margin-top: 13px;margin-bottom: 0px;}
+.p58{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 17px;margin-bottom: 0px;}
+.p59{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 7px;margin-bottom: 0px;text-indent: 4px;}
+.p60{text-align: left;padding-left: 92px;padding-right: 57px;margin-top: 5px;margin-bottom: 0px;text-indent: -24px;}
+.p61{text-align: justify;padding-left: 44px;padding-right: 52px;margin-top: 19px;margin-bottom: 0px;}
+.p62{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 1px;margin-bottom: 0px;}
+.p63{text-align: left;padding-left: 371px;margin-top: 26px;margin-bottom: 0px;}
+.p64{text-align: justify;padding-left: 44px;padding-right: 58px;margin-top: 6px;margin-bottom: 0px;}
+.p65{text-align: left;padding-left: 367px;margin-top: 51px;margin-bottom: 0px;}
+.p66{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 18px;margin-bottom: 0px;}
+.p67{text-align: left;padding-left: 68px;margin-top: 2px;margin-bottom: 0px;}
+.p68{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 20px;margin-bottom: 0px;}
+.p69{text-align: left;padding-left: 367px;margin-top: 27px;margin-bottom: 0px;}
+.p70{text-align: left;padding-left: 367px;margin-top: 897px;margin-bottom: 0px;}
+.p71{text-align: justify;padding-left: 72px;padding-right: 57px;margin-top: 7px;margin-bottom: 0px;text-indent: -28px;}
+.p72{text-align: justify;padding-left: 68px;padding-right: 141px;margin-top: 4px;margin-bottom: 0px;text-indent: -24px;}
+.p73{text-align: justify;padding-left: 68px;padding-right: 141px;margin-top: 0px;margin-bottom: 0px;text-indent: -24px;}
+.p74{text-align: left;padding-left: 68px;padding-right: 142px;margin-top: 0px;margin-bottom: 0px;}
+.p75{text-align: justify;padding-left: 72px;padding-right: 57px;margin-top: 0px;margin-bottom: 0px;text-indent: -28px;}
+.p76{text-align: justify;padding-left: 72px;padding-right: 57px;margin-top: 4px;margin-bottom: 0px;text-indent: -28px;}
+.p77{text-align: left;padding-left: 72px;padding-right: 57px;margin-top: 0px;margin-bottom: 0px;}
+.p78{text-align: justify;padding-left: 72px;padding-right: 57px;margin-top: 1px;margin-bottom: 0px;text-indent: -28px;}
+.p79{text-align: justify;padding-left: 72px;padding-right: 57px;margin-top: 3px;margin-bottom: 0px;text-indent: -28px;}
+.p80{text-align: left;padding-left: 72px;padding-right: 57px;margin-top: 3px;margin-bottom: 0px;text-indent: -28px;}
+.p81{text-align: left;padding-left: 72px;padding-right: 52px;margin-top: 0px;margin-bottom: 0px;text-indent: -28px;}
+.p82{text-align: left;padding-left: 72px;padding-right: 57px;margin-top: 1px;margin-bottom: 0px;text-indent: -28px;}
+.p83{text-align: left;padding-left: 72px;padding-right: 57px;margin-top: 0px;margin-bottom: 0px;text-indent: -28px;}
+.p84{text-align: justify;padding-left: 72px;padding-right: 52px;margin-top: 0px;margin-bottom: 0px;text-indent: -28px;}
+.p85{text-align: left;padding-left: 367px;margin-top: 24px;margin-bottom: 0px;}
+.p86{text-align: left;padding-left: 72px;padding-right: 57px;margin-top: 6px;margin-bottom: 0px;text-indent: -28px;}
+.p87{text-align: left;padding-left: 72px;padding-right: 57px;margin-top: 2px;margin-bottom: 0px;text-indent: -28px;}
+.p88{text-align: left;padding-left: 72px;margin-top: 0px;margin-bottom: 0px;}
+.p89{text-align: left;padding-left: 93px;padding-right: 165px;margin-top: 17px;margin-bottom: 0px;text-indent: -48px;}
+.p90{text-align: justify;padding-left: 44px;padding-right: 58px;margin-top: 7px;margin-bottom: 0px;}
+.p91{text-align: left;padding-left: 92px;margin-top: 18px;margin-bottom: 0px;}
+.p92{text-align: left;padding-left: 367px;margin-top: 13px;margin-bottom: 0px;}
+.p93{text-align: left;padding-left: 44px;padding-right: 57px;margin-top: 6px;margin-bottom: 0px;}
+.p94{text-align: left;padding-left: 44px;padding-right: 57px;margin-top: 0px;margin-bottom: 0px;}
+.p95{text-align: left;padding-left: 44px;padding-right: 57px;margin-top: 1px;margin-bottom: 0px;}
+.p96{text-align: left;padding-left: 44px;margin-top: 7px;margin-bottom: 0px;}
+.p97{text-align: left;padding-left: 92px;margin-top: 1px;margin-bottom: 0px;}
+.p98{text-align: left;padding-left: 92px;padding-right: 57px;margin-top: 1px;margin-bottom: 0px;text-indent: -24px;}
+.p99{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 5px;margin-bottom: 0px;}
+.p100{text-align: left;padding-left: 92px;margin-top: 19px;margin-bottom: 0px;}
+.p101{text-align: justify;padding-left: 44px;padding-right: 58px;margin-top: 3px;margin-bottom: 0px;}
+.p102{text-align: left;padding-left: 367px;margin-top: 16px;margin-bottom: 0px;}
+.p103{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 4px;margin-bottom: 0px;}
+.p104{text-align: justify;padding-left: 44px;padding-right: 58px;margin-top: 0px;margin-bottom: 0px;}
+.p105{text-align: left;padding-left: 86px;margin-top: 18px;margin-bottom: 0px;}
+.p106{text-align: justify;padding-left: 92px;padding-right: 57px;margin-top: 4px;margin-bottom: 0px;text-indent: -24px;}
+.p107{text-align: left;padding-left: 92px;padding-right: 58px;margin-top: 1px;margin-bottom: 0px;text-indent: -24px;}
+.p108{text-align: left;padding-left: 79px;margin-top: 19px;margin-bottom: 0px;}
+.p109{text-align: left;padding-left: 89px;margin-top: 0px;margin-bottom: 0px;}
+.p110{text-align: left;padding-left: 89px;margin-top: 18px;margin-bottom: 0px;}
+.p111{text-align: left;padding-left: 89px;margin-top: 17px;margin-bottom: 0px;}
+.p112{text-align: justify;padding-left: 44px;padding-right: 458px;margin-top: 19px;margin-bottom: 0px;text-indent: 45px;}
+.p113{text-align: left;padding-left: 68px;margin-top: 3px;margin-bottom: 0px;}
+.p114{text-align: left;padding-left: 367px;margin-top: 9px;margin-bottom: 0px;}
+.p115{text-align: left;padding-left: 68px;margin-top: 6px;margin-bottom: 0px;}
+.p116{text-align: left;padding-left: 44px;margin-top: 20px;margin-bottom: 0px;}
+.p117{text-align: left;padding-left: 99px;margin-top: 7px;margin-bottom: 0px;}
+.p118{text-align: left;padding-left: 44px;margin-top: 8px;margin-bottom: 0px;}
+.p119{text-align: left;padding-left: 44px;padding-right: 57px;margin-top: 7px;margin-bottom: 0px;}
+.p120{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 9px;margin-bottom: 0px;}
+.p121{text-align: left;padding-left: 91px;margin-top: 18px;margin-bottom: 0px;}
+.p122{text-align: left;padding-left: 98px;margin-top: 17px;margin-bottom: 0px;}
+.p123{text-align: left;padding-left: 367px;margin-top: 12px;margin-bottom: 0px;}
+.p124{text-align: left;padding-left: 97px;margin-top: 19px;margin-bottom: 0px;}
+.p125{text-align: left;padding-left: 94px;margin-top: 18px;margin-bottom: 0px;}
+.p126{text-align: left;padding-left: 68px;margin-top: 8px;margin-bottom: 0px;}
+.p127{text-align: left;padding-left: 93px;margin-top: 8px;margin-bottom: 0px;}
+.p128{text-align: left;padding-left: 44px;padding-right: 57px;margin-top: 8px;margin-bottom: 0px;}
+.p129{text-align: left;padding-left: 367px;margin-top: 18px;margin-bottom: 0px;}
+.p130{text-align: left;padding-left: 93px;margin-top: 18px;margin-bottom: 0px;}
+.p131{text-align: left;padding-left: 98px;margin-top: 18px;margin-bottom: 0px;}
+.p132{text-align: left;padding-left: 367px;margin-top: 58px;margin-bottom: 0px;}
+.p133{text-align: left;padding-left: 125px;padding-right: 83px;margin-top: 7px;margin-bottom: 0px;text-indent: -32px;}
+.p134{text-align: left;padding-left: 367px;margin-top: 38px;margin-bottom: 0px;}
+.p135{text-align: left;padding-left: 129px;padding-right: 78px;margin-top: 6px;margin-bottom: 0px;text-indent: -31px;}
+.p136{text-align: left;padding-left: 44px;padding-right: 57px;margin-top: 18px;margin-bottom: 0px;text-indent: 4px;}
+.p137{text-align: left;padding-left: 44px;padding-right: 57px;margin-top: 19px;margin-bottom: 0px;}
+.p138{text-align: left;padding-left: 95px;margin-top: 18px;margin-bottom: 0px;}
+.p139{text-align: left;padding-left: 89px;margin-top: 19px;margin-bottom: 0px;}
+.p140{text-align: justify;padding-left: 176px;padding-right: 57px;margin-top: 0px;margin-bottom: 0px;text-indent: -38px;}
+.p141{text-align: justify;padding-left: 176px;padding-right: 57px;margin-top: 18px;margin-bottom: 0px;text-indent: -38px;}
+.p142{text-align: left;padding-left: 98px;padding-right: 383px;margin-top: 8px;margin-bottom: 0px;}
+.p143{text-align: left;padding-left: 44px;padding-right: 57px;margin-top: 5px;margin-bottom: 0px;}
+.p144{text-align: left;padding-left: 111px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+.p145{text-align: left;padding-left: 78px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+.p146{text-align: left;padding-left: 367px;margin-top: 10px;margin-bottom: 0px;}
+.p147{text-align: justify;padding-left: 44px;padding-right: 57px;margin-top: 25px;margin-bottom: 0px;}
+.p148{text-align: left;padding-left: 137px;padding-right: 59px;margin-top: 18px;margin-bottom: 0px;text-indent: -46px;}
+.p149{text-align: justify;padding-left: 92px;padding-right: 57px;margin-top: 7px;margin-bottom: 0px;text-indent: -24px;}
+.p150{text-align: justify;padding-left: 92px;padding-right: 57px;margin-top: 1px;margin-bottom: 0px;text-indent: -24px;}
+.p151{text-align: left;padding-left: 92px;margin-top: 20px;margin-bottom: 0px;}
+.p152{text-align: left;padding-left: 44px;padding-right: 57px;margin-top: 18px;margin-bottom: 0px;}
+.p153{text-align: left;padding-left: 92px;padding-right: 57px;margin-top: 7px;margin-bottom: 0px;text-indent: -24px;}
+.p154{text-align: left;padding-left: 367px;margin-top: 42px;margin-bottom: 0px;}
+.p155{text-align: left;padding-left: 67px;margin-top: 6px;margin-bottom: 0px;}
+.p156{text-align: left;padding-left: 91px;padding-right: 57px;margin-top: 0px;margin-bottom: 0px;}
+.p157{text-align: left;padding-left: 44px;padding-right: 57px;margin-top: 2px;margin-bottom: 0px;}
+.p158{text-align: left;padding-left: 91px;margin-top: 19px;margin-bottom: 0px;}
+.p159{text-align: left;padding-left: 367px;margin-top: 8px;margin-bottom: 0px;}
+.p160{text-align: justify;padding-left: 44px;padding-right: 53px;margin-top: 7px;margin-bottom: 0px;}
+.p161{text-align: left;padding-left: 91px;margin-top: 16px;margin-bottom: 0px;}
+.p162{text-align: left;padding-left: 44px;margin-top: 21px;margin-bottom: 0px;}
+.p163{text-align: left;padding-left: 367px;margin-top: 20px;margin-bottom: 0px;}
+.p164{text-align: left;padding-left: 44px;margin-top: 9px;margin-bottom: 0px;}
+.p165{text-align: left;padding-left: 13px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+.p166{text-align: left;padding-left: 6px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+.p167{text-align: left;padding-left: 44px;margin-top: 2px;margin-bottom: 0px;}
+.p168{text-align: left;padding-left: 367px;margin-top: 611px;margin-bottom: 0px;}
+
+.td0{padding: 0px;margin: 0px;width: 201px;vertical-align: bottom;}
+.td1{padding: 0px;margin: 0px;width: 32px;vertical-align: bottom;}
+.td2{padding: 0px;margin: 0px;width: 2px;vertical-align: bottom;}
+.td3{padding: 0px;margin: 0px;width: 184px;vertical-align: bottom;}
+.td4{padding: 0px;margin: 0px;width: 7px;vertical-align: bottom;}
+.td5{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 33px;vertical-align: bottom;}
+.td6{padding: 0px;margin: 0px;width: 158px;vertical-align: bottom;}
+.td7{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 32px;vertical-align: bottom;}
+.td8{border-left: #000000 1px solid;border-right: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 31px;vertical-align: bottom;}
+.td9{border-left: #000000 1px solid;border-right: #000000 1px solid;padding: 0px;margin: 0px;width: 30px;vertical-align: bottom;}
+.td10{border-left: #000000 1px solid;border-right: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 30px;vertical-align: bottom;}
+.td11{padding: 0px;margin: 0px;width: 33px;vertical-align: bottom;}
+.td12{border-left: #000000 1px solid;border-right: #000000 1px solid;padding: 0px;margin: 0px;width: 31px;vertical-align: bottom;}
+.td13{border-right: #000000 1px solid;padding: 0px;margin: 0px;width: 85px;vertical-align: bottom;}
+.td14{border-right: #000000 1px solid;border-top: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 33px;vertical-align: bottom;}
+.td15{padding: 0px;margin: 0px;width: 228px;vertical-align: bottom;}
+.td16{border-top: #000000 1px solid;padding: 0px;margin: 0px;width: 29px;vertical-align: bottom;}
+.td17{padding: 0px;margin: 0px;width: 135px;vertical-align: bottom;}
+.td18{padding: 0px;margin: 0px;width: 121px;vertical-align: bottom;}
+.td19{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 26px;vertical-align: bottom;}
+.td20{padding: 0px;margin: 0px;width: 236px;vertical-align: bottom;}
+.td21{border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 25px;vertical-align: bottom;}
+.td22{padding: 0px;margin: 0px;width: 197px;vertical-align: bottom;}
+.td23{border-left: #000000 1px solid;border-right: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 24px;vertical-align: bottom;}
+.td24{border-left: #000000 1px solid;border-right: #000000 1px solid;border-bottom: #000000 1px solid;padding: 0px;margin: 0px;width: 23px;vertical-align: bottom;}
+
+.tr0{height: 23px;}
+.tr1{height: 5px;}
+.tr2{height: 4px;}
+.tr3{height: 2px;}
+.tr4{height: 14px;}
+.tr5{height: 12px;}
+.tr6{height: 3px;}
+.tr7{height: 36px;}
+.tr8{height: 21px;}
+.tr9{height: 13px;}
+.tr10{height: 37px;}
+.tr11{height: 15px;}
+.tr12{height: 32px;}
+.tr13{height: 38px;}
+.tr14{height: 9px;}
+.tr15{height: 19px;}
+.tr16{height: 20px;}
+
+.t0{width: 617px;margin-left: 44px;margin-top: 31px;font: 16px 'Cambria';}
+.t1{width: 512px;margin-left: 44px;margin-top: 15px;font: 16px 'Cambria';}
+.t2{width: 605px;margin-left: 44px;margin-top: 5px;font: 16px 'Cambria';}
+</style>
+<div class="row-fluid">
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error;  ?>
+  </div>
+  <?php } ?>
+<div class="span9" style="padding:5px;border:1px solid #000;">
+<form action="#" method="post" id="form_post_convention">
+<div id="radio_button_renseignement">
+<P class="convention_typographie">
+ CONVENTION DE COLLABORATION ENTRE L’<span  style="color: #7030a0;">ESMC</span>
+ ET LES FOURNISSEURS DE BIENS, PRODUITS ET SERVICES :
+ <span >Utilisateurs, </span>
+ Fournisseurs Spécifiques et Fournisseurs Externes pour la réalisation par le marché des 17 objectifs de développement durable
+</P>
+<P class="p7 ft3">Entre les soussignées :</P>
+<P class="p8 ft6"><SPAN class="ft4">ESMC </SPAN>(Entreprise Sociale de Marché Commun) SARL U<SPAN class="ft5">, au capital de 1 000 000 F CFA ; Siège social : Lomé (TOGO), Nukafu, Angle rue Sagouda, Kiyeou et Bandjeli, BP 30038, immatriculée au RCCM, sous le numéro </SPAN><NOBR><SPAN class="ft5">TG-LOM</SPAN></NOBR><SPAN class="ft5"> 2014 B514, représentée par son Gérant </SPAN>Monsieur Essohamlon</P>
+<P class="p9 ft7">SAMA</P>
+<P class="p10 ft7"><NOBR><SPAN class="ft3">Ci-après</SPAN></NOBR><SPAN class="ft3"> dénommée « </SPAN>L’EXPLOITANT DU PROGICIEL <SPAN class="ft8">MCNP </SPAN><SPAN class="ft3">» ou « </SPAN>L’EXPLOITANT <SPAN class="ft3">» ou</SPAN></P>
+<P class="p11 ft7"><SPAN class="ft7">«</SPAN><SPAN class="ft9">L’EXPLOITANT </SPAN><SPAN class="ft10">ESMC </SPAN>»</P>
+<P class="p12 ft7">D’une part</P>
+<P class="p13 ft5">Et</P>
+<P class="p14 ft11">(Cocher la case correspondante)</P>
+<P style="margin-left: -515px;margin-top: 10px;"><span style="display:inline-block;font-weight:bold">EPA:</span> <span style="display:inline-block;font-weight:bold"> E</span>tablissement <span style="display:inline-block;font-weight:bold">P</span>ublic <span style="display:inline-block;font-weight:bold">A</span>dministratif</P>
+<P style="margin-left: -451px;margin-top: 10px;"><span style="display:inline-block;font-weight:bold">EPIC:</span> <span style="display:inline-block;font-weight:bold"> E</span>tablissement <span style="display:inline-block;font-weight:bold">P</span>ublic <span style="display:inline-block;font-weight:bold">I</span>ndustriel <span style="display:inline-block;font-weight:bold">C</span>ommercial
+<P style="margin-left: -569px;margin-top: 10px;"><span style="display:inline-block;font-weight:bold"> OI:</span> <span style="display:inline-block;font-weight:bold"> O</span>rganisation <span style="display:inline-block;font-weight:bold">I</span>nternationale</P>
+<P style="margin-left: -587px;margin-top: 10px;"><span style="display:inline-block;font-weight:bold"> MVI: </span> <span style="display:inline-block;font-weight:bold">M</span>aison/<span style="display:inline-block;font-weight:bold"> V</span>illa/<span style="display:inline-block;font-weight:bold">I</span>mmeuble
+<div>
+<div class="row-fluid">
+<div class="span12" style="margin-bottom:22px;margin-left:42px" id="radio_btn_convention">
+      <div class="span3" style="margin:0">
+        <label class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">Personne_physique</span>
+        </label>
+      </div>
+      <div class="span3" style="margin:0">
+        <label class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">MVI</span>
+        </label>
+      </div>
+      <div class="span3" style="margin:0">
+        <label class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">Etablissement</span>
+        </label>
+      </div>
+            <div class="span3" style="margin:0">
+        <label class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">Collectivité</span>
+        </label>
+      </div>
+            <div class="span3" style="margin:0">
+        <label class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">Association</span>
+        </label>
+      </div>
+            <div class="span3" style="margin:0">
+        <label class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">ONG</span>
+        </label>
+      </div>
+            <div class="span3" style="margin:0">
+        <label class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">Groupement</span>
+        </label>
+      </div>
+            <div class="span3" style="margin:0">
+        <label class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">Coopérative</span>
+        </label>
+      </div>
+            <div class="span3" style="margin:0">
+        <label class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">Union</span>
+        </label>
+      </div>
+            <div class="span3" style="margin:0">
+        <label for="" class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">Fédération</span>
+        </label>
+      </div>
+            <div class="span3" style="margin:0">
+        <label for="" class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">Confédération</span>
+        </label>
+      </div>
+            <div class="span3" style="margin:0">
+        <label for="" class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">Réseau</span>
+        </label>
+      </div>
+            <div class="span3" style="margin:0">
+        <label for="" class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">Faitière</span>
+        </label>
+      </div>
+
+      <div class="span3" style="margin:0">
+        <label for="" class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">EPA</span>
+        </label>
+      </div>
+      <div class="span3" style="margin:0">
+        <label for="" class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">EPIC</span>
+        </label>
+      </div>
+      <div class="span3" style="margin:0">
+        <label for="" class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">OI</span>
+        </label>
+      </div>
+      <div class="span3" style="margin:0">
+        <label for="" class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">Société</span>
+        </label>
+      </div>
+    <div class="span3" style="margin:0">
+        <label for="" class="radio">
+             <input type="radio" name="renseignement">
+             <span style="font-size: 1.2em;font-weight: bold;float: left;">Confession_réligieuse</span>
+        </label>
+      </div>
+      <input type="text" name="renseignement_check_name" id="renseignement_check_name" style="display:none;">
+    </div>
+</div>
+
+<div class="Personne_physique" id="check_convent" style="display:none;">
+<P class="p15 ft3" style="margin-left: 26px;font-weight:bold">
+Vous êtes:
+    <select name="" id="" style="margin-right:11px;margin-left: 10px;">
+      <option value="">Veuillez choisir</option>
+      <option value="Monsieur">Monsieur</option>
+      <option value="Madame">Madame</option>
+      <option value="Demoiselle">Mademoiselle</option>
+    </select>
+    <?php
+      $membre = $sessionmembre->nom_membre." ".$sessionmembre->prenom_membre;
+    ?>
+     Votre nom & prénoms:<input type="text" name="civilite_name" value="<?php echo $sessionmembre->nom_membre." ".$sessionmembre->prenom_membre;?>" readonly="true" style="width:34%;margin-left: 10px;">
+</P>
+<P class="p13 ft3" style="font-weight:bold">Demeurant à:
+    <select name="civilite_type_demeure" style="margin-right:11px;margin-left: 10px;">
+      <option value="">Veuillez choisir</option>
+      <option value="Ville">Ville</option>
+      <option value="Village">Village</option>
+      <option value="Canton">Canton</option>
+    </select>
+    Lieu du domicile:<input type="text" name="civilite_domicile" value="<?php echo $sessionmembre->ville_membre ?>" readonly="true" style="margin-left: 10px;width: 35%;">
+</P>
+<P class="p16 ft3" style="font-weight:bold">
+  BP: <input type="text" style="width: 40%;font-size: 1.2em;margin-left: 10px;" name="civilite_bp">
+  Tél: <input type="text" style="width: 42%;font-size: 1.2em;margin-left: 10px;"  name="civilite_phone">
+</P>
+<P style="margin-left: -2px;margin-top: 13px;font-weight:bold;">
+Quartier:<input type="text" style="width: 80%;font-size: 1.2em;margin-left: 10px;" value="<?php echo $sessionmembre->quartier_membre ?>" readonly="true" name="civilite_quartier">
+</P>
+</div>
+<div class="Etablissement"  id="check_convent" style="display:none;">
+  <P class="p17 ft3" style="margin-left: 26px;">
+  Nom de l'établissement:
+    <input type="text" style="width: 71%;font-size: 1.2em;" value="<?php echo $sessionmembre->raison_sociale ?>" readonly="true" name="etablissement_name">
+  </P>
+<P class="p13 ft3">
+   Situé à (ville/village) :
+   <input type="text" style="width: 27%;font-size: 1.2em;" name="etablissement_residence">
+   Quartier:
+   <input type="text" style="width: 36%;font-size: 1.2em;"  name="etablissement_quartier">
+</P>
+<P class="p16 ft3">
+   Rue :
+  <input type="text" style="width: 87%;ont-size: 1.2em;" name="etablissement_rue">
+</P>
+<P class="p13 ft3">
+  Représenté par <select name="etablissement_representant" id="">
+  <option value="">Monsieur </option>
+  <option value="">Madame </option>
+  </select>
+  Nom du représentant:<input type="text" style="width: 33%;font-size: 1.2em;" name="etablissement_representant_name">
+</P>
+<P class="p16 ft3">
+  BP:
+ <input type="text" style="width: 33%;font-size: 1.2em;" name="etablissement_representant_bp">
+  Tél:
+ <input type="text"  style="width: 49%;font-size: 1.2em;" name="etablissement_representant_phone">
+</P>
+<P class="p13 ft3">
+  Numéro de la carte d’Opérateur Economique:
+  <input type="text" style="width: 53%;font-size: 1.2em;" name="etablissement_representant_operateur">
+</P>
+</div>
+<div class="MVI" id="check_convent" style="display:none;">
+<P class="p17 ft3" style="margin-left: 24px;">
+  J'ai une/un
+  <select name="residence_name" id="">
+      <option value="">Selectionner</option>
+      <option value="Maison">Maison</option>
+      <option value="Villa">Villa</option>
+      <option value="Immeuble">Immeuble</option>
+  </select>
+</P>
+<P class="p13 ft3">
+  Situé(e) à (ville/village):
+  <input type="text"  style="width: 27%;font-size: 1.2em;" name="residence_situation">
+  Quartier:
+  <input type="text" style="width: 35%;font-size: 1.2em;" name="residence_quartier">
+</P>
+<P class="p16 ft3">
+   Rue :<input type="text" style="width: 89%;font-size: 1.2em;" name="residence_rue">
+</P>
+<P class="p13 ft3">
+  Représentée par Mme/ M :<input type="text" style="width: 71%;font-size: 1.2em;" name="residence_representant">
+</P>
+<P class="p16 ft3">
+  Demeurant à (ville/village):<input type="text" style="width: 27%;font-size: 1.2em;" name="residence_representant_demeure">
+  Quartier:<input type="text" style="width: 33%;font-size: 1.2em;" name="residence_representant_quartier">
+</P>
+<P class="p13 ft3">
+  BP: <input type="text" style="width: 27%;font-size: 1.2em;" name="residence_representant_bp">
+  Tél: <input type="text" style="width: 57%;font-size: 1.2em;" name="residence_representant_phone">
+</P>
+</div>
+<div class="Collectivité" style="display:none;" id="check_convent">
+<P class="p16 ft3" style = "margin-left: -1px;">
+    Nom de la Collectivité
+    <input type="text" value="<?php echo $sessionmembre->raison_sociale ?>" readonly="true" name="collectivite_name" style="width: 71%;font-size: 1.2em;">
+</P>
+<P class="p13 ft3">
+   Représentée par Mme/ M.
+   <input type="text" name="collectivite_representant" style="width: 67%;font-size: 1.2em;"></P>
+<P class="p19 ft3">
+   Demeurant à (ville/village) :
+   <input type="text" name="collectivite_domicile" style="width: 20%;font-size: 1.2em;">
+   Quartier:
+   <input type="text" name="collectivite_quartier" style="width: 35%;font-size: 1.2em;">
+</P>
+<P class="p16 ft3">
+   BP:
+   <input type="text" name="collectivite_bp" style="width: 27%;font-size: 1.2em;">
+   Tél:
+   <input type="text" name="collectivite_tel" style="width: 53%;font-size: 1.2em;">
+</P>
+
+</div>
+
+<div class="Association" style="display:none;" id="check_convent">
+  <P class="p20 ft3" style="margin-left:25px">
+    Nom de votre Association: <input type="text" name="association_name" style="width:68%;font-size: 1.2em;">
+  </P>
+</div>
+
+<div class="ONG" style="display:none;" id="check_convent">
+  <P class="p17 ft3" style="margin-left:28px">
+   Nom de l'ONG :<input type="text" name="ong_name" style="width: 77%;font-size: 1.2em;">
+  </P>
+  </div>
+
+<div class="Groupement" style="display:none;" id="check_convent">
+  <P class="p20 ft3" style="margin-left: 28px">
+    Nom du Groupement: <input type="text" name="groupement_name" style="width: 72%;font-size: 1.2em;">
+  </P>
+</div>
+
+<div class="Coopérative"style="display:none;" id="check_convent">
+   <P class="p21 ft3" style="margin-left: 30px;">
+     Nom de la Coopérative :<input type="text" name="cooperative_name" style="width: 70%;font-size: 1.2em;">
+   </P>
+</div>
+
+<div class="Union" style="display:none;" id="check_convent">
+<P class="p20 ft3" style="margin-left: 30px;">Nom de l’Union: <input type="text" name="union_name" style="width: 76%;font-size: 1.2em;"></P>
+</div>
+
+<div class="Fédération" style="display:none;" id="check_convent">
+<P class="p22 ft3" style="margin-left: 30px;">
+  Nom de la Fédération: <input type="text" name="federation_name" style="width: 71%;font-size: 1.2em;">
+  </P>
+</div>
+
+<div class="Confédération" style="display:none;" id="check_convent">
+ <P class="p23 ft3" style="margin-left: 32px;">
+   Nom de la Confédération: <input type="text" name="confédération_name" style="width: 68%;font-size: 1.2em;"></P>
+</div>
+
+<div class="Réseau" style="display:none;" id="check_convent">
+<P class="p16 ft3" style="margin-left: 5px;">
+    Nom du Réseau :<input type="text" name="reseau_name" style="width: 76%;font-size: 1.2em;">
+</P>
+</div>
+
+<div class="Faitière" style="display:none;" id="check_convent">
+<P class="p13 ft3" style="margin-left: -1px;">
+  Nom de La Faitière: <input type="text" name="faitiere_name" style="width: 75%;font-size: 1.2em;">
+</P>
+<P class="p16 ft3">
+   Numéro du récépissé/d’enregistrement/du registre des coopératives de la Faitière:
+   <input type="text" name="faitiere_numero" style="width: 91%;font-size: 1.2em;">
+</P>
+<P class="p20 ft3" style="margin-left: 24px;">
+  Siège social de la faitière :<input type="text" name="faitiere_siege" style="width: 70%;font-size: 1.2em;">
+</P>
+<P class="p16 ft3">
+  Nom du représentant:<input type="text" name="faitiere_representant" style="width: 68%;font-size: 1.2em;">
+</P>
+</div>
+
+<div class="Confession_réligieuse" style="display:none;" id="check_convent">
+  <P class="p21 ft3" style="margin-left:27px">
+     Nom de votre Confession religieuse :
+      <input type="text" name="confession_religieuse_name" style="width: 61%;font-size: 1.2em;">
+  </P>
+   <P class="p13 ft3">
+     Représentée par Mr/Mme:
+     <input type="text" name="confession_religieuse_representant" style="width: 60%;font-size: 1.2em;">
+   </P>
+   <P class="p13 ft3">
+     Demeurant à (ville/village):
+      <input type="text" name="confession_religieuse_demeure" style="width: 27%;font-size: 1.2em;">
+      Nom du Quartier:
+      <input type="text" name="confession_religieuse_quartier_name" style="width: 24%;font-size: 1.2em;">
+   </P>
+   <P class="p16 ft3">
+     BP:
+     <input type="text" name="confession_religieuse_bp" style="width: 33%;font-size: 1.2em;">
+     Tél:
+     <input type="text" name="confession_religieuse_phone" style="width: 50%;font-size: 1.2em;">
+   </P>
+</div>
+
+<div class="EPA" style="display:none;" id="check_convent">
+<P class="p13 ft5" style = "margin-left: 0px;">
+   Nom de l'établissement Public Administratif :
+   <input type="text"  name="etablissement_administratif_name" style="width: 56%;font-size: 1.2em;">
+</P>
+<P class="p16 ft3">
+   BP:
+   <input type="text" name="etablissement_administratif_bp" style="width: 27%;font-size: 1.2em;">
+   Tél:
+   <input type="text" name="etablissement_administratif_telephone" style="width: 57%;font-size: 1.2em;">
+</P>
+</div>
+
+<div class="EPIC" style="display:none;" id="check_convent">
+<P class="p13 ft3" style = "margin-left: 0px;">
+   Nom de l'Etablissement Public Industriel Commercial :
+   <input type="text" name="etablissement_industriel_commercial_name" style="width: 46%;font-size: 1.2em;">
+</P>
+<P class="p16 ft3">
+   BP:
+   <input type="text" name="etablissement_industriel_commercial_bp" style="width: 27%;font-size: 1.2em;">
+   Tél:
+   <input type="text" name="etablissement_industriel_commercial_phone" style="width: 56%;font-size: 1.2em;">
+</P>
+</div>
+<div class="OI" style="display:none;" id="check_convent">
+<P class="p25 ft3"  style="margin-left: 0px;">
+    Nom de l'Organisation Internationale
+    <input type="text" name="organisation_internationale_name" style="width: 60%;font-size: 1.2em;">
+</P>
+<P class="p13 ft3">
+   BP:
+   <input type="text" name="organisation_internationale_bp" style="width: 27%;font-size: 1.2em;">
+   Tél:
+   <input type="text" name="organisation_internationale_phone" style="width: 56%;font-size: 1.2em;">
+</P>
+</div>
+
+<div class="Société" style="display:none;" id="check_convent">
+<P class="p26 ft3" style="margin-left: 1px;" name="société">
+    Le Nom de votre société:
+    <input type="text" name="societe_name" value="<?php echo $sessionmembre->raison_sociale ?>" readonly="true" style="width: 71%;font-size: 1.2em;">
+</P>
+<P class="p16 ft3">
+Numéro d'imatriculation au RCCM:
+    <input type="text" name="societe_imatriculation_numero" style="width: 62%;font-size: 1.2em;">
+</P>
+<P class="p13 ft3" >Siège social de la société :<input type="text" name="societe_siege" style="width: 71%;font-size: 1.2em;"></P>
+<P class="p16 ft3">Nom du représentant :<input type="text" name="societe_representant_name" style="width: 73%;font-size: 1.2em;"></P>
+</div>
+
+<P class="p13 ft3"><NOBR>Ci-après</NOBR> dénommé(e) :</P>
+<P class="p27 ft13">(Cocher la case correspondante)</P>
+<P class="p16 ft7">« UTILISATEUR » :<SPAN class="ft3"><input type="checkbox" style="display: inline-block;position: relative;top: -3px;left: 10px;"></SPAN></P>
+<P class="p28 ft7">« FOURNISSEUR EXTERNE » : <SPAN class="ft3" style><input type="checkbox" style="display: inline-block;position: relative;top: -3px;left: 10px;"></SPAN></P>
+<P style="font-family: Cambria;font-weight: bold;font-size: 16px;position:relative;left:-263px">« FOURNISSEUR SPECIFIQUE » : <SPAN class="ft3"><input type="checkbox" style="display: inline-block;position: relative;top: -3px;left: 10px;"></SPAN></P>
+ <TABLE cellpadding=0 cellspacing=0 style="margin-left: -47px;">
+   <TR>
+     <TD>Producteur :</TD>
+     <TD><input type="checkbox" id="convention_fournisseur_tool" value="1" name="producteur"></TD>
+    	<TD ><P class="p30 ft3">Transformateur :</P></TD>
+     <TD><input type="checkbox" id="convention_fournisseur_tool" value="1"  name="transformateur"></TD>
+    	<TD ><P class="p31 ft3">Vendeur :</P></TD>
+     <TD><input type="checkbox" id="convention_fournisseur_tool" value="1"  name="vendeur"></TD>
+   </TR>
+   <TR>
+     <TD>Biens :</TD>
+     <TD><input type="checkbox" id="convention_fournisseur_tool" value="1" name="biens"></TD>
+    	<TD ><P class="p30 ft3">Produits :</P></TD>
+     <TD><input type="checkbox" id="convention_fournisseur_tool" value="1" name="produit"></TD>
+    	<TD ><P class="p31 ft3">Services :</P></TD>
+     <TD><input type="checkbox" id="convention_fournisseur_tool" value="1"  name="services"></TD>
+   </TR>
+    <TR>
+     <TD>Fournisseur Utilisateur :</TD>
+     <TD><input type="checkbox" id="convention_fournisseur_tool" value="1" name="fournisseur_utilisateur"></TD>
+    	<TD ><P class="p30 ft3">Fournisseur Spécifique :</P></TD>
+     <TD><input type="checkbox" id="convention_fournisseur_tool" value="1" name="fournisseur_specifique"></TD>
+    	<TD ><P class="p31 ft3">Fournisseur Externe:</P></TD>
+     <TD><input type="checkbox" id="convention_fournisseur_tool" value="1" name="fournisseur_externe"></TD>
+   </TR>
+
+ </TABLE>
+ <P class="p32 ft7">D’autre part</P>
+<P class="p33 ft3">Il a été préalablement exposé ce qui suit :</P>
+
+<P class="p35 ft25">PREAMBULE</P>
+<P class="p36 ft3">Créée le 30 Juin 2014, l’Entreprise Sociale de Marché Commun (<SPAN class="ft26">ESMC</SPAN>) a pour objet : « <SPAN class="ft27">conseils en organisation des affaires commerciales, recherche et développement de logiciels, exploitation du progiciel </SPAN><SPAN class="ft28">MCNP</SPAN><SPAN class="ft27">, commerce sur internet ».</SPAN></P>
+<P class="p37 ft5">Prenant pour cadre, les 17 Objectifs de Développement Durable (ODD), l’<SPAN class="ft29">ESMC </SPAN>met en place <SPAN class="ft6">la Production Commune</SPAN>. La Production Commune intègre dans le marché, l’Etre Humain sans <NOBR>laissés-pour-compte</NOBR> et chaque activité non prohibée de consommation, de production, de transformation et de distribution. Elle <SPAN class="ft6">concilie le social et l’efficacité du marché </SPAN>pour résoudre, dans notre communauté mondiale de marché, la thématique du <SPAN class="ft6">manque généralisé de clientèle face à la pauvreté de plus en plus grandissante</SPAN>.</P>
+<P class="p37 ft3">La Production Commune est réalisée par l’<SPAN class="ft7">exploitation du Progiciel </SPAN><SPAN class="ft30">MCNP </SPAN>(Marché de Crédit en Nature Pérenne) sur la plateforme <SPAN class="ft26">ESMC </SPAN>qui en est la concessionnaire et l’exploitante exclusive.</P>
+<P class="p13 ft7">L’EXPLOITATION DU PROGICIEL <SPAN class="ft30">MCNP</SPAN><SPAN class="ft3">, </SPAN>ACTIVITE MARCHANDE NON BANCAIRE ET NON</P>
+<P class="p11 ft7">FINANCIERE</P>
+<P class="p38 ft5">Le Marché de Crédit en Nature Pérenne, <SPAN class="ft31">MCNP</SPAN>, malgré le mot <SPAN class="ft6">crédit </SPAN>que comporte son nom, n’est pas une activité bancaire ou financière. Il n’a le sens ni d’emprunt, ni de prêt, ni d’épargne, ni de dépôt, ni de placement, ni d’action, ni d’assurance, ni d’aucune collecte ou réception de fonds, ni d’appel de fonds, ni d’aucun transfert de fonds, ni de moyen de payement.</P>
+<P class="p39 ft5">Cependant, il est porteur de <SPAN class="ft6">Comptes Marchands</SPAN>. Le Compte Marchand <SPAN class="ft31">MCNP </SPAN>loge les <SPAN class="ft6">Bons d’Achat</SPAN>, les <SPAN class="ft6">Bons de Consommation</SPAN>, les <SPAN class="ft6">Bons de Commande</SPAN>, les <SPAN class="ft6">Bons de Livraison </SPAN>et les <SPAN class="ft6">Ordres de Prélèvement Irrévocable</SPAN>.</P>
+<P class="p39 ft3">L’émission de bons dans les Comptes Marchands <SPAN class="ft30">MCNP </SPAN>contre des biens, des produits et des services, l’observation des délais de payement par voie d’Ordres de Prélèvement Irrévocable, de même que l’utilisation de supports TIC d’authentification et d’identification pour acheter et vendre sur les centrales de la plateforme <SPAN class="ft26">ESMC</SPAN>, l’exploitant du progiciel <SPAN class="ft30">MCNP </SPAN>sont des pratiques marchandes non bancaires : <SPAN class="ft32">article 14 alinéas 1 et 5 de la loi Togolaise N° </SPAN><NOBR><SPAN class="ft32">2009-019</SPAN></NOBR><SPAN class="ft32"> du 07 septembre 2009 portant réglementation bancaire</SPAN>.</P>
+<P class="p40 ft7"><NOBR>QU’EST-CE</NOBR> QUE L’EXPLOITATION DU PROGICIEL <SPAN class="ft30">MCNP </SPAN><SPAN class="ft3">?</SPAN></P>
+<P class="p41 ft3">L’exploitation du Progiciel <SPAN class="ft30">MCNP </SPAN>est la gestion numérique de l’ensemble des activités marchandes regroupées en Centrales Communes d’Achat, de Vente, de Production et de Transformation que confère l’usage de <SPAN class="ft7">supports marchands </SPAN><SPAN class="ft30">MCNP</SPAN>, Bons et Ordres de Prélèvement Irrévocable. C’est une activité de marché portée par les TIC, en vue des traitements instantanés et dynamiques des échanges. Le Progiciel <SPAN class="ft30">MCNP </SPAN>est une technologie qui est destinée à apporter à l’économie de marché actuelle des gains de productivité jusqu’ici insoupçonnés.</P>
+<P class="p42 ft6">GAINS DE PRODUCTIVITE LIES A L’EXPLOITATION DU PROGICIEL <SPAN class="ft31">MCNP </SPAN>SUR LA PLATEFORME <SPAN class="ft29">ESMC</SPAN></P>
+<P class="p43 ft3">Le gain de productivité est la chose que l’on ne peut obtenir sans le moyen qui en est la cause. Le progiciel <SPAN class="ft30">MCNP </SPAN>est le moyen qui est la cause des gains de productivité de la Production Commune. Cependant, sur la plateforme <SPAN class="ft26">ESMC, </SPAN>tout gain de productivité est compté, non pas en argent gagné mais en nature, <NOBR>c’est-à-dire</NOBR> en biens, en produits et en services additionnels.</P>
+<P class="p44 ft3">L’exploitation du progiciel <SPAN class="ft30">MCNP </SPAN>est la cause qui produit donc, des <NOBR>effets-gains</NOBR> de productivité économique par la Production Commune sur la plateforme <SPAN class="ft26">ESMC </SPAN>dont voici <NOBR>quelques-uns :</NOBR></P>
+<P class="p13 ft33">Effet entonnoir</P>
+<P class="p45 ft3">En utilisant les bons <SPAN class="ft30">MCNP </SPAN>pour leurs achats immédiats et futurs, les acheteurs concèdent à la la plateforme <SPAN class="ft26">ESMC </SPAN>le mode de <SPAN class="ft7">payement d’argent par avance</SPAN>, tandis qu’en utilisant les Ordres</P>
+
+<P class="p37 ft3">de Prélèvement Irrévocable (OPI) <SPAN class="ft30">MCNP</SPAN>, les vendeurs concèdent à la plateforme <SPAN class="ft26">ESMC </SPAN>des délais de <SPAN class="ft7">payement fractionné</SPAN>.</P>
+<P class="p44 ft5">L’achat à travers le payement d’argent par avance couplé à la vente contre le mode de payement fractionné fait un <SPAN class="ft6">effet entonnoir </SPAN>par rapport à l’entrée et à la sortie de l’argent. Par exemple, un souscripteur paye par avance <SPAN class="ft34">224 </SPAN>pour la consommation mensuelle de <SPAN class="ft34">10</SPAN>. Le fournisseur du bien affecté par cette consommation de <SPAN class="ft34">10 </SPAN>par période de trente jours est payé par fraction de <SPAN class="ft34">10/12</SPAN>. L’effet entonnoir à la première période est de : <SPAN class="ft34">224 </SPAN>à l’entrée contre <SPAN class="ft34">0.8</SPAN>, <NOBR>c’est-à-dire</NOBR> <SPAN class="ft34">10/12 </SPAN>à la sortie. La sortie devient le double à la période suivante, puis le triple, ainsi de suite jusqu’à se stabiliser à <SPAN class="ft34">10 </SPAN>à la douzième période, où l’entrée (<SPAN class="ft34">224</SPAN><SPAN class="ft35">), </SPAN>au lieu de servir à payer cette sortie va, plutôt, produire de façon indéterminée la contrepartie de la sortie de <SPAN class="ft34">10</SPAN>, en biens, produits et services.</P>
+<P class="p38 ft3">Par cet effet entonnoir, l’<SPAN class="ft26">ESMC </SPAN>dispose de l’argent sur ses comptes en banque grâce aux payements d’avance concédés à lui par ses acheteurs pour <SPAN class="ft7">cautionner </SPAN>ses achats à crédit auprès de ses grands fournisseurs et rembourser les montants fractionnés de tous les OPI à ses vendeurs à chaque échéance. C’est cela les gains de productivité d’effet entonnoir rendus possibles par l’exploitation du progiciel <SPAN class="ft30">MCNP </SPAN>qui permet à la plateforme <SPAN class="ft26">ESMC </SPAN>de disposer des ressources propres, en vue de constituer des cautions robustes pour la Production Commune, grâce à l’entrée de beaucoup d’argent sur ses comptes bancaires, contre peu d’argent qui en sort par fraction.</P>
+<P class="p46 ft33">Effet levier</P>
+<P class="p47 ft3">L’effet entonnoir, c’est également un effet <SPAN class="ft7">levier </SPAN>de marchandises pour la production, la transformation et la distribution sur la plateforme <SPAN class="ft26">ESMC</SPAN>. Par exemple, pour implanter les industries de la Production Commune, la plateforme <SPAN class="ft26">ESMC </SPAN>émet aux fournisseurs des OPI dont les échéances sont assurées par l’argent cumulé par l’effet entonnoir susmentionné. La plateforme <SPAN class="ft26">ESMC </SPAN>dispose alors, de délais de payements fractionnés concédés à lui par ces fournisseurs pour acheter, produire, transformer et distribuer à l’échelle de dernier ressort. C’est l’effet levier qui permet à la plateforme de lever des biens, produits et services pour créer toutes formes d’industries partout où besoin est, sans rencontrer la moindre résistance liée au manque d’argent. C’est cela les gains de productivité d’effet levier de biens, produits et services rendus possibles par l’exploitation du progiciel <SPAN class="ft30">MCNP </SPAN>sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p46 ft33">Effet réciprocité des achats et des ventes</P>
+<P class="p47 ft3">La possibilité d’utiliser les OPI sans attendre forcément leur échéance pour commander des biens, des produits et des services sur la plateforme ramène tous les achats des fournisseurs détenteurs des OPI sur les centrales de la Production Commune. La réduction des coûts que concède la centrale d’achat commune à ses acheteurs qui payent au comptant leur consommation et ceux qui prépayent pour le renouvellement de leur consommation à durée déterminée ou non, fait également ramener l’argent de montant supérieur ou égal au montant de l’argent des OPI encaissés par les fournisseurs de la plateforme. Exemple : Une industrie vend des produits sur la plateforme contre OPI. Elle utilise une partie des OPI sans attendre les échéances pour se faire livrer par commande des matières premières et, l’autre partie, après encaissement à l’échéance, pour acheter à moindre coût son équipement sur la plateforme. L’équivalant de l’argent issu des OPI qu’il a encaissé revient alors sur la plateforme. C’est l’effet réciprocité des achats et des ventes entre la plateforme et ses fournisseurs. Acheter des marchandises à crédit auprès de ses fournisseurs pour produire, transformer et leur vendre ses produits en retour grâce aux avantages exceptionnels que l’on offre à ses clients est un pouvoir de bouclage du circuit économique unique en son genre que le <SPAN class="ft30">MCNP </SPAN>s’est octroyé. Par cet effet, la plateforme <SPAN class="ft26">ESMC </SPAN>constitue le cercle vertueux qui engendre à plus ou moins long terme, sa <SPAN class="ft7">solvabilité absolue </SPAN>ou sa balance commerciale à somme nulle. C’est cela qui, aussi engendre des gains de productivité, d’où l’effet gains de productivité dits réciprocité des achats et des ventes, rendus possibles par l’exploitation du progiciel <SPAN class="ft30">MCNP </SPAN>sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+
+<P class="p19 ft33">Effet achat et vente en dernier ressort</P>
+<P class="p47 ft3">Les centrales communes d’achat, de vente, de transformation et de production permettent aux Utilisateurs d’agir ensemble par le biais de la plateforme pour acheter à tout vendeur en centrale et vendre à tout acheteur en centrale. Exemple : Tous les utilisateurs de Comptes Marchands <SPAN class="ft30">MCNP </SPAN>consomment de l’électricité par le biais de leur Bons de Consommation. Seule la plateforme paye leurs factures au fournisseur de l’électricité au moyen de l’argent. Ce fournisseur, par souci de compétitivité paye sur la plateforme <SPAN class="ft26">ESMC </SPAN>ses fournisseurs à moindre coût. Ces derniers qui, pour ce faire, doivent disposer de leur Compte Marchand et, pour les mêmes raisons de compétitivité vont, sur la plateforme, assurer également leurs achats à moindre coût. C’est l’effet achat et vente en dernier ressort face aux fournisseurs, effet qui ajoute des gains de productivité aux précédents sur la plateforme. Cet effet permet à la plateforme <SPAN class="ft26">ESMC </SPAN>de disposer de toutes les marges de manœuvre pour ajuster ses coûts de production à ses prix de vente. Ayant la capacité absolue d’ajuster ses coûts de production à ses prix de vente, la plateforme <SPAN class="ft26">ESMC </SPAN>se dote de la main invisible régulatrice de son marché qui lui évite toute possibilité de faillite. C’est cela les gains de productivité d’effet achat et vente en dernier ressort rendus possibles par l’exploitation du progiciel <SPAN class="ft30">MCNP </SPAN>sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p10 ft33">Effet économie de marché numérisé</P>
+<P class="p38 ft5">Le traitement instantané et dynamique des échanges basés sur les Supports Marchands <SPAN class="ft31">MCNP </SPAN>est un relais qui permet à l’argent de se cumuler sur les comptes bancaires de la plateforme <SPAN class="ft29">ESMC </SPAN>auprès des banques. Tandis que les Supports Marchands permettent aux échanges de se dérouler convenablement, l’argent de plus en plus robuste sur les comptes bancaires de la plateforme lui confère un pouvoir d’achat sans débourser de l’espèce. Exemple : L’argent sur les comptes bancaires de la plateforme a servi de garantie pour une lettre de crédit à un fournisseur de pétrole contre une commande ferme ou contre le payement d’avance fait par des acheteurs sur la plateforme <SPAN class="ft29">ESMC</SPAN>. Pour ce faire, il a fallu émettre des Bons et des OPI respectivement aux acheteurs contre leur argent et aux vendeurs contre leurs marchandises. Ceci a permis ou va permettre d’assurer leurs échanges en l’absence de l’argent. Cet argent disponible sur les comptes bancaires assure au même moment les payements au fournisseur du pétrole selon les clauses de payements morcelés et domiciliés auprès des banques grâce à la caution sur les comptes bancaires de l’<SPAN class="ft29">ESMC</SPAN>. Ce double rôle de l’argent sur la plateforme est dû au lien direct entre les Supports Marchands <SPAN class="ft31">MCNP </SPAN>et l’argent à travers la numérisation ou l’informatisation du marché. C’est l’effet économie de marché numérisé. Cet effet permet à l’<SPAN class="ft29">ESMC </SPAN>de dépasser les limites du pouvoir d’achat basé sur l’argent pour s’offrir grâce aux TIC des biens, des produits et des services à coûts d’argent nuls (à crédit assorti de solvabilité absolue). Ceci, parce qu’elle ne payera le prix de ses marchandises de façon morcelée par voie d’OPI aux fournisseurs que lorsque l’acheteur, l’importateur ou le grossiste qui a payé l’argent par avance, les aura consommées réellement. De plus, comme il a été démontré plus haut, par souci de compétitivité des fournisseurs, ces OPI peuvent être ramenés sur la plateforme par leur usage direct ou en argent après leur encaissement. C’est cela les gains de productivité d’effet économie de marché numérisé rendus possibles par l’exploitation du progiciel <SPAN class="ft31">MCNP</SPAN>, gains de productivité qui s’ajoutent aux précédents sur la plateforme <SPAN class="ft29">ESMC</SPAN>.</P>
+<P class="p49 ft33">Effet économie d’échelle</P>
+<P class="p38 ft3">Plus le nombre d’Utilisateurs de Comptes Marchands <SPAN class="ft30">MCNP </SPAN>grandit, plus la Production Commune est optimale, plus ses coûts marginaux tendent vers zéro, plus les profits de la plateforme <SPAN class="ft26">ESMC </SPAN>sont de plus en plus grands. C’est l’effet économie d’échelle. Exemple : Une industrie de la plateforme qui fonctionne sur un régime de 100 pour produire 1000, si elle n’a qu’une demande de 300 pour le même régime de 100, elle aura un manque à gagner de 700. Le coût marginal de 700 serait égal à 0, si elle avait une demande de 1000. La vente en dernier ressort ayant pour vocation de converger le grand nombre possible de demandes vers la plateforme <SPAN class="ft26">ESMC</SPAN>, cela lui permet à moyen et long termes d’aboutir aux coûts marginaux qui tendent vers zéro. Ceci se fera dans tous les domaines d’investissement industriels et</P>
+
+<P class="p37 ft3">commerciaux, du fait qu’elle ait une ambition multinationale et une couverture universelle ne laissant personne de côté. Au moment où les marges bénéficiaires qui sont obtenues n’engendrent plus de coûts additionnels, la plateforme gagnera de plus en plus de marges tout en dépensant de moins en moins d’argent. C’est cela les gains de productivité d’effet économie d’échelle qui s’ajoutent également aux précédents dont la cause est l’exploitation du progiciel <SPAN class="ft30">MCNP </SPAN>sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p13 ft33">Effet économie de richesses immatérielles inépuisables</P>
+<P class="p37 ft5">Le progiciel <SPAN class="ft31">MCNP </SPAN>est l‘intelligence artificielle porteuse des idées et mesures qui fondent les principes de la participation de tous aux activités du marché pour la répartition des richesses sans laisser personne de côté. Il est également l’artificiel <NOBR>savoir-faire</NOBR> relatif aux Supports Marchands de comptes, d’échanges et de réserve de valeurs, artificiel <NOBR>savoir-faire</NOBR> qui était exclusivement assuré par l’argent. Il est enfin, le <NOBR>pouvoir-faire</NOBR> artificiel capable de former toutes sortes d’industries créatrices de biens, de produits et de services, chose qui était exclusivement dévolue à la monnaie du secteur bancaire et financier classiques.</P>
+<P class="p38 ft3">L’intelligence artificielle de la répartition optimale des richesses, le <NOBR>savoir-faire</NOBR> artificiel de Supports Marchands de compte, de Supports Marchands d’échange et de Supports Marchands de réserve qui aboutit au <NOBR>pouvoir-faire</NOBR> artificiel, formateur de l’industrie, constitue la richesse immatérielle ayant la particularité d’être inépuisable. Exemple : Le progiciel <SPAN class="ft30">MCNP </SPAN>mis en exploitation est à la disposition de toutes les communautés du monde. Chaque localité dans le monde est appelée à l’adopter pour le développement durable sans aucune possibilité d’user ou d’épuiser le progiciel <SPAN class="ft30">MCNP</SPAN>. Le savoir, le <NOBR>savoir-faire</NOBR> et le <NOBR>pouvoir-faire</NOBR> que représente le progiciel <SPAN class="ft30">MCNP </SPAN>sont diffusés au monde pour toujours. C’est l’effet économie de richesses immatérielles inépuisables. Cet effet permet à la plateforme <SPAN class="ft26">ESMC </SPAN>de disposer de façon inépuisable la capacité de répartition des richesses sans <NOBR>laissés-pour</NOBR> comptes, la capacité de faire le marché <NOBR>au-delà</NOBR> des limites de l’argent et la capacité de produire suffisamment de façon optimale et efficiente les biens, les produits et les services par la voie industrielle. C’est cela les gains de productivité de l’économie de richesses immatérielles inépuisables rendus possibles par l’exploitation du progiciel <SPAN class="ft30">MCNP </SPAN>qui s’ajoutent aux précédents sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p10 ft33">Effet modèle économique de gratuité rentable</P>
+<P class="p38 ft3">A côté des avantages accordés aux souscripteurs acheteurs, vendeurs, producteurs et transformateurs sur la plateforme <SPAN class="ft26">ESMC</SPAN>, avantages qui semblent être de la gratuité, se trouvent en filigrane :</P>
+<P class="p51 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">les frais de souscriptions aux Comptes Marchands à payer par toutes personnes physiques et morales, membres des communautés dont la plateforme </SPAN><SPAN class="ft26">ESMC </SPAN>constitue un outil solution pour les résultats attendus des 17 ODD dans tous les pays du monde. Ces frais sont équivalants à 70 000 FCFA dans les pays à pouvoir d’achat faible (frais plus élevés selon que l’on se trouve dans les pays à pouvoir d’achat moyen ou dans les pays à pouvoir d’achat fort),</P>
+<P class="p52 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">les frais d’exploitation tirés sur chaque transaction des Utilisateurs,</SPAN></P>
+<P class="p53 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">les frais de la prestation de publicité facturée aux Utilisateurs bénéficiaires de la publicité sur la plateforme,</SPAN></P>
+<P class="p52 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">les frais de l’exploitation de données des Utilisateurs en guise du BIG DATA et</SPAN></P>
+<P class="p54 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">les profits sous la forme d’infrastructures industrielles de la Production Commune après</SPAN></P>
+<P class="p55 ft3">leur amortissement.</P>
+<P class="p56 ft40" style="margin-left:-2px">Tous ces gains ne sont obtenus que par la gratuité que semble offrir la plateforme aux Utilisateurs. Exemple : S’il n’y avait pas des avantages concédés immédiatement aux acheteurs et aux vendeurs, aucune somme ne serait payée sur les comptes de la plateforme <SPAN class="ft39">ESMC</SPAN>, aucun support marchand ne peut être émis, donc aucun des gains de productivité sus indiqués ne serait réalisable. La plateforme amène les Utilisateurs à rechercher leurs propres avantages immédiats et par ce fait, ils réalisent indirectement, en contrepartie à court, à moyen et à long terme, des gains de productivité sus mentionnés. C’est comme la plateforme Google qui offre un moteur de</P>
+
+<P class="p37 ft3">recherche gratuit à ses utilisateurs. Malgré la gratuité apparente de son activité, elle est l’une des entreprises les plus cotées sur les marchés boursiers. C’est l’effet modèle économique de gratuité rentable. Cet effet permet à la plateforme <SPAN class="ft26">ESMC </SPAN>d’anticiper le partage des gains de sa productivité aux Utilisateurs sous les formes <NOBR>ci-dessous</NOBR> mentionnées par rapport à leur réalisation effective. C’est cela l’effet gains de productivité de modèle économique de gratuité rentable rendus possibles par l’exploitation du progiciel <SPAN class="ft30">MCNP </SPAN>qui a entrainé les précédents sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p58 ft7">PARTAGE DES GAINS DE PRODUCTIVITE DE LA PRODUCTION COMMUNE SUR LA PLATEFORME <SPAN class="ft26">ESMC</SPAN></P>
+<P class="p37 ft5">Etre Utilisateur de Compte Marchand <SPAN class="ft31">MCNP</SPAN>, c’est participer aux activités des centrales communes d’achat, de production et de transformation qui se traduisent par la vente sur la plateforme <SPAN class="ft29">ESMC</SPAN>, de la même manière que toute activité sur le marché finit par la distribution donc par la vente. C’est à ce titre que le progiciel <SPAN class="ft31">MCNP </SPAN>pose à toute personne physique et morale, les bases d’un type nouveau de pouvoir, le <SPAN class="ft6">pouvoir de vente commune</SPAN>. Ce pouvoir de vente est fondé sur le rattachement aux quatre centrales de la Production Commune des Comptes d’Activités Marchandes individuels, accessibles à toutes personnes physiques et morales. En effet les centrales de la Production Commune jouent les rôles de pouvoir de vente et d’achat en dernier ressort au nom de tous ses Utilisateurs.</P>
+<P class="p59 ft5">Pour cela la somme des gains de productivité de l’effet entonnoir, de l’effet levier, de l’effet réciprocité des achats et des ventes, de l’effet achat et vente en dernier ressort, de l’effet économie de marché numérisé, de l’effet économie d’échelle, de l’effet économie de richesses immatérielles inépuisables et de l’effet modèle économique de gratuité rentable, tous regroupés sont directement partagés aux souscripteurs de la manière suivante :</P>
+<P class="p60 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">Le souscripteur aux Bons d’Achat non récurrent bénéficie des réductions des coûts sur ses achats,</SPAN></P>
+<P class="p54 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft41">Le souscripteur aux Bons d’Achat récurrent bénéficie d’un renouvellement de Bons de</SPAN></P>
+<P class="p55 ft3">Consommation <NOBR>au-delà</NOBR> des montants de sa souscription et</P>
+<P class="p53 ft3"><SPAN class="ft36">∙</SPAN><SPAN style="margin-left:19px">Le souscripteur au mode de vente des marchandises contre le payement fractionné bénéficie d’une augmentation du montant de ses ventes.</SPAN></P>
+<P class="p61 ft7">FONDEMENTS DE LA REPARTITION UNIVERSELLE DU POUVOIR DE VENTE : PRELEVEMENT AUTOMATIQUE DES REDEVANCES, SOLVABILITE ABSOLUE, SOUSCRIPTIONS POUR TIERS</P>
+<P class="p38 ft5">Le Bon de Consommation issu du Bon d’Achat récurrent a la particularité d’être renouvelable chaque trente jours, à durée déterminée ou indéterminée. Les OPI au nombre de 12 minimum sont émis chaque trente jours.</P>
+<P class="p9 ft3">La possibilité de prélever les redevances sur les Bons de Consommation récurrente et sur les OPI</P>
+<P class="p44 ft3"><SPAN class="ft23">à</SPAN><SPAN class="ft43">leur échéance garantit le remboursement des montants de souscriptions pour le compte de tiers. Ceci pose un fondement dont les effets positifs peuvent aisément atteindre chacun. En effet, la répartition universelle du pouvoir de vente peut facilement se réaliser grâce aux fonds d’investissement, aux fonds d’aide au développement, aux épargnes et surtout au pouvoir de création monétaire dont dispose toute communauté à travers son secteur bancaire. Le crédit bancaire peut alors être utilisé pour la participation de tous aux activités intégrées dans l’exploitation du progiciel </SPAN><SPAN class="ft30">MCNP</SPAN>.</P>
+<P class="p46 ft6">ACTIVITES INTEGREES DANS L’EXPLOITATION DU PROGICIEL <SPAN class="ft31">MCNP </SPAN>EN FAVEUR DES</P>
+<P class="p62 ft7">COMMUNAUTES D’UTILISATEURS EN VUE DE FAIRE PARTICIPER TOUS LEURS MEMBRES AUX ACTIVITES DU MARCHE POUR LE PARTAGE DES GAINS DE PRODUCTIVITE SUR LA PLATEFORME <SPAN class="ft26">ESMC</SPAN></P>
+<P class="p47 ft3">Plusieurs activités sont conçues à l’endroit de toute communauté pour doter chacun de ses membres de son pouvoir de vente, sans laisser personne de côté, dans le cadre du partage des gains de productivité de la Production Commune sur la plateforme <SPAN class="ft26">ESMC</SPAN>. Il s’agit de :</P>
+
+<P class="p64 ft33" style="margin-left:29px">Activités de souscriptions pour soi et pour tiers aux comptes marchands et aux bons de <span style="margin-left:-28px;padding-right:4px">consommation</span><SPAN class="ft44">MCNP</SPAN></P>
+<P class="p37 ft5">Chaque communauté, en dehors de la souscription autonome de ceux qui, en son sein, disposent de leurs propres moyens (souscriptions pour soi), peut mobiliser ses sources de financement : épargne locale, crédit bancaire aux mains de ses banques, bailleurs de fonds, fonds d’aide au développement, fonds transférés par sa diaspora au pays et l’épargne étrangère pour souscrire aux Comptes Marchands et aux Bons de Consommation récurrente pour tous ses membres sans laisser personne de côté. C’est l’activité dénommée souscriptions pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation <SPAN class="ft31">MCNP</SPAN>.</P>
+<P class="p38 ft3">La possibilité de prélever les créances sur les Bons de Consommation récurrente de tout utilisateur garantit le remboursement des montants de souscriptions pour tiers.</P>
+<P class="p13 ft33">Activités de prestataires de la Production Commune contre OPI</P>
+<P class="p47 ft3">Dans le souci du plein emploi pour éliminer toute forme de chômage, toute communauté peut utiliser les Comptes Marchands de <SPAN class="ft7">prestataires personnes physiques </SPAN>pour faire de ses hommes et femmes des prestataires qualifiés. C’est l’activité dénommée prestataires de la Production Commune contre OPI. Ces prestataires personnes physiques <SPAN class="ft45">adoptent</SPAN> pour le payement fractionné par voie d’OPI contre leurs prestations fournies aux personnes morales sur la plateforme <SPAN class="ft26">ESMC</SPAN>. Dans le cas de la Production Commune, les prestataires de la Production Commune contre OPI sont des coresponsables des industries et entreprises, patrimoines d’exploitation sur les centrales <SPAN class="ft26">ESMC </SPAN>qui abritent leurs activités.</P>
+<P class="p40 ft33">Activités <NOBR>d’Acheteurs-Revendeurs</NOBR> en ligne contre OPI</P>
+<P class="p37 ft5">Toute personne de chaque communauté peut souscrire en ligne aux Bons d’Achat neutres en tant <NOBR>qu’acheteur-revendeur</NOBR> auprès des Centrales d’Achat et Vente Communes, pour y dégager des bénéfices, à la fois sur son achat en mode d’achat non récurrent et sur sa vente contre payement fractionné par voie d’OPI. C’est l’activité dénommée <NOBR>acheteurs-revendeurs</NOBR> en ligne contre OPI. Elle est mise en place pour la participation de tous au <SPAN class="ft6">commerce sur internet sur la plateforme </SPAN><SPAN class="ft29">ESMC</SPAN>.</P>
+<P class="p37 ft3">La possibilité de prélever ses créances sur les OPI issus de cette activité garantit le remboursement d’éventuels prêts bancaires en faveur des <NOBR>acheteurs-revendeurs</NOBR> clients des banques partenaires de la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p13 ft33">Activités d’achat et vente réciproques</P>
+<P class="p38 ft3">Tout opérateur économique tête de division de filières de biens, de produits et de services de chaque communauté : faitières, monopoles et oligopoles, pour assurer ses achats et ses ventes, peut proposer à l’<SPAN class="ft26">ESMC </SPAN>son <SPAN class="ft7">Engagement de Livraison Irrévocable (ELI) </SPAN>contre l’émission anticipée d’Ordre de Prélèvement Irrévocable. Ces OPI, au nombre de 12 minimum seront utilisés pour : tirer de l’argent sur les comptes bancaires de l’<SPAN class="ft26">ESMC </SPAN>auprès des banques à chaque échéance de 30 jours, faire sur la plateforme <SPAN class="ft26">ESMC </SPAN>ses commandes, ses consommations directes ou honorer ses engagements <NOBR>vis-à-vis</NOBR> de ses créanciers. C’est l’activité dénommée achat et vente réciproques. Elle constitue le procédé idéal pour équilibrer ses ventes égales à ses achats en guise de preuve de sa solvabilité <NOBR>vis-à-vis</NOBR> de tous.</P>
+<P class="p40 ft7">APPROPRIATION DE L’EXPLOITATION DU PROGICIEL <SPAN class="ft30">MCNP </SPAN>SUR LA PLATEFORME <SPAN class="ft26">ESMC</SPAN></P>
+<P class="p11 ft7">COMME OUTIL DE LA LOCALISATION DES 17 ODD PAR CHAQUE COMMUNAUTE</P>
+<P class="p38 ft3">Toutes ses activités <NOBR>ci-dessus</NOBR> mentionnées ont pour finalité de permettre à chaque communauté de mobiliser ses forces productrices pour l’atteinte des 17 Objectifs de Développement Durable. L’appropriation locale de l’exploitation du progiciel <SPAN class="ft30">MCNP </SPAN>sur la plateforme <SPAN class="ft26">ESMC </SPAN>pour ces objectifs visera les quatre volets suivants :</P>
+
+<P class="p19 ft33">ODD volet social</P>
+<P class="p47 ft3">L’activité de souscriptions pour tiers aux Comptes Marchands et aux Bons de Consommation <SPAN class="ft30">MCNP </SPAN>va donner l’accès au montant de souscriptions au pouvoir d’achat récurrent à durée indéterminée pour tous. Cette souscription doit s’orienter surtout vers l’ensemble des Objectifs de Développement Durable qui visent le volet social.</P>
+<P class="p13 ft33">ODD volet économique</P>
+<P class="p38 ft3">L’accès au travail décent pour tous, l’accès aux activités commerciales pour tous, et l’accès à la mévente zéro de ses marchandises pour tout vendeur va entraîner une mobilisation générale des forces productrices. Cette mobilisation générale des ressources humaines, matérielles et financières, facteurs de production doit s’orienter vers les Objectifs de Développement Durable qui visent le volet économique.</P>
+<P class="p13 ft33">ODD volet environnement</P>
+<P class="p38 ft3">La technologie <SPAN class="ft30">MCNP </SPAN>permet à chaque communauté d’agir en action commune dans l’approche de l’appropriation et localisation des 17 Objectifs de Développement Durable. Cette gestion d’action commune va prendre en compte le volet environnemental des ODD. <IMG src="data:image/jpg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAANAA0DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD2q9vbiK5KJmNQO4Bz71cs7oXUZOMOv3hTrm1S5TDZDD7rDtSWlotqhAJZm6mgD//Z" alt=""></P>
+<P class="p13 ft33">ODD volet gouvernance et partenariat</P>
+<P class="p41 ft3">Dans le contexte de la réciprocité des achats et des ventes sur la plateforme <SPAN class="ft26">ESMC</SPAN>, l’équilibre de la balance commerciale entre les communautés va être systématique ou structurelle grâce aux centrales communes sur la plateforme <SPAN class="ft26">ESMC</SPAN>. Il n’y aura plus de communauté excédentaire face à une communauté déficitaire puisque ce sont les excédents des uns qui font les déficits des autres. Une gouvernance <NOBR>locale-globale</NOBR> va s’instaurer et va aboutir au partenariat automatique entre les communautés pour répondre au volet gouvernance et partenariat visé par les ODD.</P>
+<P class="p58 ft3">Les quatre volets des ODD à savoir, social, économique, environnement puis gouvernance et partenariat se voient alors pris en compte par l’exploitation du progiciel <SPAN class="ft30">MCNP </SPAN>sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p66 ft7" style="margin-left:27px">REGLES DE SOLVABILITE DE L’EXPLOITATION DU PROGICIEL <SPAN class="ft30">MCNP </SPAN>SUR LA PLATEFORME <SPAN class="ft26">ESMC</SPAN></P>
+<P class="p38 ft5">Pour que l’exploitation du progiciel <SPAN class="ft31">MCNP </SPAN>sur la plateforme <SPAN class="ft29">ESMC </SPAN>soit viable ou durable, il faut qu’elle soit solvable. Pour qu’elle soit solvable il faut qu’elle respecte trois règles qui sont :</P>
+<P class="p67 ft7"><SPAN class="ft36">∙</SPAN><SPAN class="ft46">le prépaiement et le payement au comptant par les acheteurs,</SPAN></P>
+<P class="p54 ft7"><SPAN class="ft36">∙</SPAN><SPAN class="ft46">le payement morcelé en 12 OPI minimum pour les vendeurs puis</SPAN></P>
+<P class="p52 ft7"><SPAN class="ft47">∙</SPAN><SPAN class="ft48" style="color:#000">l’achat et vente réciproques entre Utilisateurs et Partenaires.</SPAN></P>
+<P class="p68 ft5" style="margin-left:28px">En conclusion, la Production Commune est, pour le compte de tous les souscripteurs Utilisateurs, l’acheteur, le producteur, le transformateur et le vendeur en dernier ressort.</P>
+<P class="p44 ft5">Elle représente également, l’outil intégrateur par excellence au moyen des <SPAN class="ft6">facteurs de production : travail, argent et matières, </SPAN>outil qui est désormais mis à la disposition de toute communauté. Son marché <SPAN class="ft31">MCNP </SPAN>au circuit économique bouclé est, à cet effet, l’alternative qui a la capacité de transformer le marché linéaire mondial de bulles spéculatives, de dettes impayables, de crises multiples récurrents, de déséquilibre vicier, d’inégalité notoire et du chômage incurable, en marché structuré, circulaire, solvable, universel. Sa mise en application permet de concilier de façon formelle le social et l’efficacité du marché pour ne plus jamais avoir de pauvreté face au manque de clientèle sur le marché mondial.</P>
+<P class="p47 ft3">Voilà pourquoi l’<SPAN class="ft26">ESMC</SPAN>, l’EXPLOITANT DU PROGICIEL <SPAN class="ft30">MCNP</SPAN>, promoteur de la Production Commune se propose comme l’<SPAN class="ft7">Outil de Développement Durable </SPAN>(ODD) pour l’atteinte des résultats attendus des 17 ODD que le monde s’est assignés d’ici à 2030.</P>
+
+<P class="p37 ft3">C’est dans ce cadre qu’elle met en place avec les Utilisateurs, les Fournisseurs spécifiques et les Fournisseurs externes, cette présente, pour réguler leur collaboration, complémentarité, coopération ou solidarité sur l’exploitation du progiciel <SPAN class="ft30">MCNP </SPAN>visant l’atteinte des 17 ODD, de manière à inclure tous dans le marché afin de faire participer chacun aux activités du marché, en vue du partage universel et harmonieux des richesses.</P>
+<P class="p13 ft3">Ceci exposé, il a été convenu ce qui suit :</P>
+
+<P class="p19 ft7" ><SPAN class="ft49" style="color:#000">Article 1</SPAN> : <SPAN class="ft49" style="color:#000">Définitions et explications</SPAN></P>
+<P class="p71 ft5"><SPAN class="ft5">-</SPAN><SPAN class="ft50">Plateforme </SPAN><SPAN class="ft4">ESMC </SPAN>: C’est l’ensemble de mesures et d’idées qui fondent les principes du modèle, Economie Sociale de Marché Commun (<SPAN class="ft29">ESMC</SPAN>) et du système, Marché de Crédit en Nature Pérenne (<SPAN class="ft31">MCNP</SPAN>) sur lesquelles est bâtie sa convention de collaboration avec ses Utilisateurs.</P>
+<P class="p72 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">C’est aussi l’ensemble logistique : Centres de données, réseaux informatiques, réseaux de télécommunication, site internet et les périphériques (ordinateurs, boitiers, tablettes, téléphones, cartes individuelles d’accès et autres) qui permettent l’exploitation du Progiciel </SPAN><SPAN class="ft30">MCNP</SPAN>.</P>
+<P class="p73 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">C’est, enfin, le marché numérique de quatre centrales communes virtuelles, Comptes d’Activités Marchandes Communes : centrales communes d’achat, de</SPAN></P>
+<P class="p74 ft3">vente, de production et de transformation auxquelles sont rattachés des Comptes d’Activités Marchandes Personnels universels.</P>
+<P class="p75 ft5"><SPAN class="ft5">-</SPAN><SPAN class="ft51">MCNP </SPAN><SPAN class="ft6">: </SPAN>Marché de Crédit en Nature Pérenne. C’est l’ensemble de Comptes d’Administration et d’Animation d’Activités Marchandes qui logent les supports marchands numériques à l’usage des individus, des ménages, des personnes physiques et morales et qui aboutissent à l’action commune à travers la Centrale d’Achat Commune, la Centrale de Vente Commune, la Centrale de Transformation Commune et la Centrale de Production <SPAN class="ft52">Commune</SPAN> sur la plateforme <SPAN class="ft29">ESMC</SPAN>.</P>
+<P class="p76 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft53">Progiciel </SPAN><SPAN class="ft8">MCNP </SPAN>: Ensemble complet de programmes informatiques et la documentation qui l’accompagne, porteur de produits Comptes Marchands, mis en place pour la souscription de différents Utilisateurs, en vue d'une gestion professionnelle commune du marché.</P>
+<P class="p11 ft5"><SPAN class="ft5">-</SPAN><SPAN class="ft50">Comptes Marchands </SPAN>: Comptes portés par le Progiciel <SPAN class="ft31">MCNP </SPAN>qui logent les Supports</P>
+<P class="p77 ft3">Marchands : les Bons de Livraison, les Bons d’Achat, les Bons de Consommation, les Bons de Commande et les Ordres de Prélèvement Irrévocable.</P>
+<P class="p75 ft5"><SPAN class="ft5">-</SPAN><SPAN class="ft50">Compte Marchand dédié aux partenaires </SPAN>: Compte Marchand qui représente l’espace du partenaire fournisseurs spécifiques et externes, non utilisateurs des supports <SPAN class="ft31">MCNP </SPAN>sur la plateforme <SPAN class="ft29">ESMC</SPAN>.</P>
+<P class="p78 ft5"><SPAN class="ft5">-</SPAN><SPAN class="ft50">Supports marchands numériques </SPAN><SPAN class="ft54">MCNP</SPAN>: Ce sont les Bons de Consommation, les Bons de Livraison, les Bons d’Achat, les Bons de Commande et les Ordres de Prélèvement Irrévocable, émis automatiquement par le Progiciel <SPAN class="ft31">MCNP </SPAN>dans les Comptes Marchands des Utilisateurs, de même que dans les Comptes Marchands dédiés aux partenaires.</P>
+<P class="p79 ft5"><SPAN class="ft5">-</SPAN><SPAN class="ft50">Bons de Consommation </SPAN>: Supports marchands de consommation générés dans les Comptes Marchands sur le progiciel <SPAN class="ft31">MCNP </SPAN>aux titulaires de Comptes Marchands individus, ménages, entreprises et industries.</P>
+<P class="p80 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft53">Bons de Livraison </SPAN>: Supports marchands de livraison générés dans les Comptes Marchands <SPAN class="ft30">MCNP </SPAN>aux fournisseurs de biens, produits et services.</P>
+<P class="p81 ft5"><SPAN class="ft5">-</SPAN><SPAN class="ft50">Bons d’Achat </SPAN>: Supports marchands d’achat générés dans les Comptes Marchands <SPAN class="ft31">MCNP </SPAN>aux acheteurs personnes physiques, ménages, personnes morales, entreprises et industries.</P>
+<P class="p82 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft53">Consommation récurrente </SPAN>: Modalité de la consommation périodique répétitive à durée indéterminée ou déterminée.</P>
+<P class="p11 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft53">Consommation non récurrente </SPAN>: Modalité de consommation une fois pour de bon.</P>
+<P class="p11 ft5"><SPAN class="ft5">-</SPAN><SPAN class="ft50">Exploitant </SPAN><SPAN class="ft4">ESMC </SPAN>: Titulaire du contrat d’exploitation du Progiciel <SPAN class="ft31">MCNP</SPAN>.</P>
+<P class="p83 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft53">Utilisateur </SPAN>: Toute personne physique ou morale, titulaire d’un Compte Marchand qui utilise les Supports Marchands <SPAN class="ft30">MCNP </SPAN>sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p83 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft53">Non Utilisateur</SPAN>: Partenaire spécifique ou externe disposant d’un Compte Marchand dédié aux partenaires qui souscrit à la convention de collaboration avec l’exploitant <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p84 ft57" style="text-decoration:none;color:inherit"><SPAN class="ft3">-</SPAN><SPAN class="ft55">Production Commune : </SPAN>Toutes les activités marchandes des centrales <SPAN class="ft56">ESMC </SPAN>au profit impartageable, destinée à combler tous les écarts créés par les réductions des coûts à l’achat en mode non récurrent, des concessions de bénéfice à la vente en mode non récurrent et le renouvellement pérenne ou limité de toutes consommations en mode récurrent.</P>
+<P class="p82 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft53">Consommateur </SPAN>: Toute personne physique ou morale qui achète des Biens, Produits et Services par voie de Bons de Consommation sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+
+<P class="p86 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft53">Fournisseur spécifique </SPAN>: Personne à qui la loi impose le règlement de ses ventes au comptant et uniquement en espèce bancaire.</P>
+<P class="p75 ft5"><SPAN class="ft5">-</SPAN><SPAN class="ft50">Fournisseur externe </SPAN>: Producteur et transformateur ayant le monopole sur ses biens, ses produits ou ses services et qui choisit le Compte Marchand dédié au partenaire en lieu et place du Compte Marchand UTILISATEUR.</P>
+<P class="p87 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft53">Centrale d’Achat Commune : </SPAN>Centrale où s’opèrent les achats de tout UTILISATEUR sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p83 ft5"><SPAN class="ft5">-</SPAN><SPAN class="ft50">Centrale de Vente Commune : </SPAN>Centrale où s’opèrent les ventes de tout fournisseur et distributeur sur la plateforme <SPAN class="ft29" style="margin-left: 23px;">ESMC</SPAN>.</P>
+<P class="p14 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft53">Centrale de Production Commune : </SPAN>Centrale où s’opère la production sur la plateforme</P>
+<P class="p88 ft26">ESMC<SPAN class="ft3">.</SPAN></P>
+<P class="p83 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft53">Centrale de Transformation Commune : </SPAN>Centrale où s’opère la transformation sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p13 ft7">Article 2 : Objet de la convention</P>
+<P class="p38 ft5">Pour produire, transformer et distribuer, les producteurs, les transformateurs et les distributeurs consomment les Biens, Produits et Services.</P>
+<P class="p62 ft5">Ces Biens, Produits et Services à consommer sont proposés sur la plateforme <SPAN class="ft58">ESMC</SPAN> par d’autres acteurs producteurs, transformateurs, distributeurs, dans le cadre de leur souscription à la Production Commune.</P>
+<P class="p39 ft3">Cette Production Commune est organisée en Centrale d’Achat Commune, en Centrale de Vente Commune, en Centrale de Transformation Commune et en Centrale de Production Commune pour combler les écarts.</P>
+<P class="p38 ft3">La présente convention a pour objet de définir les conditions de la mise en œuvre de la collaboration étroite entre l’<SPAN class="ft26">ESMC </SPAN>et les Fournisseurs Utilisateurs, spécifiques et externes dans le cadre de l’observation des règles indispensables au fonctionnement du système et du modèle de l’<SPAN class="ft26">ESMC </SPAN>qui sont engagés dans l’alternative à l’économie classique, souscrivant aux 17 Objectifs de Développement Durable pour lesquels la plateforme se propose d’être <SPAN class="ft7">l’outil de marché intégrateur </SPAN>de chaque être humain sans <NOBR>laissés-pour-compte</NOBR> dans la répartition optimale des bienfaits de l’économie de marché mondialisée.</P>
+<P class="p89 ft49" style="color:#000">Article 3 : Fonctionnement des centrales communes sur la plateforme <SPAN class="ft59" style="display:block">ESMC </SPAN>3.1. Centrale de Vente Commune</P>
+<P class="p38 ft5">Elle concerne les vendeurs de biens, de produits et de services Utilisateurs de Comptes Marchands <SPAN class="ft31">MCNP </SPAN>contre la modalité de <SPAN class="ft6">post payement </SPAN>par voie d’Ordres de Prélèvement Irrévocable (OPI) divisés en 12 périodes de trente jours minimum.</P>
+<P class="p39 ft3">La vente des produits sur la plateforme <SPAN class="ft26">ESMC</SPAN>, contre l’émission de douze (12) OPI minimum de trente (30) jours successifs, se fait en mode de vente non récurrente.</P>
+<P class="p90 ft3">Le mode de vente non récurrente fait augmenter le prix des marchandises au profit des vendeurs.</P>
+<P class="p44 ft5">L’augmentation des prix en mode de vente non récurrente se fonde sur le calcul selon lequel : plus le délai de payement par périodes successives de trente jours est grand, plus le prix de la marchandise augmente. Plus le nombre des OPI est grand plus le prix de la marchandise augmente.</P>
+<P class="p39 ft3">Le calcul du prix des biens, produits et services en mode de vente non récurrente est disponible sur le site internet <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p91 ft49" style="color:#000"><SPAN class="ft49" style="color:#000">3.2</SPAN><SPAN class="ft60">: Centrale d’Achat Commune</SPAN></P>
+<P class="p47 ft3">Elle concerne les acheteurs <SPAN class="ft7">abonnés</SPAN>, Utilisateurs de Comptes Marchands <SPAN class="ft30">MCNP </SPAN>qui ont souscrit aux Bons d’Achat pour leurs commandes ou consommations de biens, de produits et de services sur la plateforme <SPAN class="ft26">ESMC</SPAN>. Autrement dit, la souscription aux Bons émis sur la plateforme <SPAN class="ft26">ESMC </SPAN>constitue <SPAN class="ft7">un abonnement</SPAN>.</P>
+
+<DIV class="dclr"></DIV>
+<P class="p93 ft3">L’achat de biens, de produits et de services est fait par la modalité de <SPAN class="ft7">payement au comptant </SPAN>ou par la modalité de <SPAN class="ft7">prépaiement</SPAN>.</P>
+<P class="p94 ft5">L’abonnement (souscriptions aux Bons) pour la consommation des marchandises vendues en centrale sur la plateforme <SPAN class="ft29">ESMC </SPAN>se fait en mode récurrent et non récurrent.</P>
+<P class="p95 ft3">Le mode d’achat récurrent se traduit par la modalité <SPAN class="ft7">de prépaiement </SPAN>et le mode d’achat non récurrent se traduit, lui, par la modalité <SPAN class="ft7">de payement au comptant</SPAN>.</P>
+<P class="p96 ft6">La modalité de consommation récurrente concerne :</P>
+<P class="p54 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">Le prépaiement pour la livraison quotidienne de marchandises à une durée de 30 jours</SPAN></P>
+<P class="p97 ft3">(mode d’achat récurrent journalier),</P>
+<P class="p52 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">Le prépaiement pour la livraison de marchandises pendant 11.2 périodes de 30 jours</SPAN></P>
+<P class="p55 ft3">(mode d’achat récurrent limité à 11.2 périodes),</P>
+<P class="p52 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">Le prépaiement pour la livraison de marchandises pendant 22.4 périodes de 30 jours</SPAN></P>
+<P class="p97 ft3">(mode d’achat récurrent limité à 22.4 périodes) et</P>
+<P class="p51 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">Le prépaiement pour la livraison de marchandises dont le montant de souscriptions se renouvèle chaque 22.4 périodes de 30 jours (mode d’achat récurrent à période de renouvellement illimité).</SPAN></P>
+<P class="p96 ft6">La modalité de consommation non récurrente concerne</P>
+<P class="p98 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">Le payement au comptant pour la livraison immédiate des marchandises (mode d’achat non récurrent) et</SPAN></P>
+<P class="p54 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">Le payement au comptant pour la livraison des marchandises à réaliser (mode d’achat</SPAN></P>
+<P class="p55 ft3">Période de Reconstitution Effective).</P>
+<P class="p66 ft5">Les facilités accordées par ces modes de payement sur la plateforme <SPAN class="ft29">ESMC </SPAN>sont <SPAN class="ft6">la réduction des coûts </SPAN>concédée aux abonnés acheteurs lorsque la souscription est faite en argent.</P>
+<P class="p62 ft5">La réduction des coûts d’achat en argent se fonde sur le calcul selon lequel : l’argent prépayé ou payé au comptant sur les comptes bancaires de la plateforme sert essentiellement à un robuste levier de facteurs de production sur les centrales de la Production Commune. Plus la quantité de consommation périodique de marchandises est petite, plus le nombre de périodes est grand et plus le coût de la marchandise consommée périodiquement est réduit.</P>
+<P class="p99 ft3">Le calcul du montant de souscriptions aux Bons de Consommation et de commande en mode récurrent et non récurrent est disponible sur le site internet <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p100 ft49" style="color:#000">3.3 : Centrale de transformation commune</P>
+<P class="p37 ft5">Elle concerne les personnes physiques et morales prestataires de services qui acceptent offrir leurs prestations sur les facteurs de transformation de la plateforme contre des frais libellés en douze (12) OPI minimum.</P>
+<P class="p39 ft3">Les biens, produits et services obtenus de leurs prestations sur ces facteurs sont mis à la disposition de la Centrale de Vente Commune.</P>
+<P class="p44 ft5">Ils sont vendus aux exportateurs, importateurs et aux grossistes dans le but de combler les écarts d’augmentation des prix de marchandises accordés aux vendeurs contre OPI et de réduction des coûts de souscriptions en espèces aux Bons de Consommation et de Commande.</P>
+<P class="p62 ft5">Les unités de transformation de la Production Commune seront mises à la disposition de ces prestataires hommes et femmes : administrateurs, experts, consultants, entrepreneurs, ingénieurs, techniciens certifiés et travailleurs de tous ordres.</P>
+<P class="p101 ft3">Elles sont mises en place par création, acquisition, fusion et par renfort de capacité des Utilisateurs personnes morales membres et partenaires.</P>
+<P class="p100 ft49" style="color:#000">3.4 : Centrale de production commune</P>
+<P class="p38 ft3">A l’instar de la centrale de transformation commune, la centrale de production commune concerne les personnes physiques et morales prestataires de services qui acceptent offrir leurs prestations sur les facteurs de production de la plateforme contre des frais libellés en douze (12) OPI minimum.</P>
+
+<P class="p99 ft5">Les biens, produits et services obtenus de leurs prestations sur ces facteurs sont mis à la disposition de la Centrale de Transformation et ou de Vente Commune. Les matières premières de cette production sont orientées vers les unités de de la centrale de transformation, en vue des produits finis et <NOBR>semi-finis</NOBR> qui finissent également à la Centrale de Vente Commune.</P>
+<P class="p103 ft3">Les unités de production de la plateforme seront mises à la disposition de ces prestataires hommes et femmes : administrateurs, experts, consultants, entrepreneurs, ingénieurs, techniciens certifiés et travailleurs de tous ordres.</P>
+<P class="p104 ft3">Elles sont mises en place par création, acquisition, fusion et par renfort de capacité des Utilisateurs personnes morales membres et partenaires.</P>
+<P class="p105 ft49" style="color:#000">3.5 : Comptes marchands reliés aux centrales</P>
+<P class="p37 ft5">Les personnes physiques et morales qui vendent, transforment, achètent et produisent pour leur propre compte ou pour le compte de la Production Commune disposent dans leur Compte Marchand d’un Terminal d’Echange (TE) relié aux Comptes Marchands des centrales. Ces Comptes Marchands équipés de TE sont des Utilisateurs.</P>
+<P class="p106 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">Pour activer leur TE, les acteurs personnes physiques ouvrent leur Compte Marchand à 70 000 FCFA plus 21 875 FCFA minimum pours tiers et les acteurs personnes morales ouvrent le leur à 70 000 FCFA plus 218 750 FCFA pour tiers.</SPAN></P>
+<P class="p107 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">L’échange de biens, produits et services entre TE se termine par une série de 12 OPI minimum émis en faveur des titulaires au niveau des centrales sur la plateforme </SPAN><SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p108 ft49" style="color:#000">Article 4 : Avantages attendus</P>
+<P class="p109 ft49" style="color:#000">4.1 : Coïncidence / Echange <SPAN class="ft61">/ </SPAN>Mévente zéro</P>
+<P class="p38 ft3">L’accès optimal à l’information se traduit par la <SPAN class="ft7">coïncidence </SPAN>des besoins en biens, en produits et en services contre les marchandises n’ayant pas trouvé de preneurs immédiats débouchant, par ce fait, sur la mévente zéro.</P>
+<P class="p110 ft49" style="color:#000">4.2 : Désendettement</P>
+<P class="p47 ft3">L’accès à la domiciliation sur la plateforme, de marchandises ou de la productivité potentielle n’ayant pas trouvé de preneurs pour se désendetter complètement <NOBR>vis-à-vis</NOBR> de ses créances se traduit par le désendettement. La plateforme <SPAN class="ft26">ESMC </SPAN>se servira de cet avantage pour se désendetter complètement <NOBR>vis-à-vis</NOBR> de ses créanciers conformément à la clause d’achat et de vente réciproques.</P>
+<P class="p111 ft49" style="color:#000">4.3 : Solvabilité absolue</P>
+<P class="p47 ft3">L’accès à la souscription pour soi et pour tiers qui se traduit par le prépaiement de ses consommations enlève toute possibilité d’insolvabilité au consommateur sur la plateforme.</P>
+<P class="p110 ft49" style="color:#000">4.4 : Gaspillage zéro</P>
+<P class="p96 ft5">Le gaspillage zéro correspond :</P>
+<P class="p54 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">Au plein emploi des ressources humaines et matérielles.</SPAN></P>
+<P class="p54 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">Au plein usage des Biens, Produits et Services.</SPAN></P>
+<P class="p54 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">Au recyclage optimal des déchets.</SPAN></P>
+<P class="p112 ft64"><SPAN class="ft49" style="color:#000">4.5 : Transparence optimale</SPAN><SPAN class="ft63" style="text-decoration:none"> La transparence optimale comprend :</SPAN></P>
+<P class="p113 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">Le service d’alerte,</SPAN></P>
+<P class="p54 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">Le service de réclamation,</SPAN></P>
+<P class="p54 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">Le service de recouvrement,</SPAN></P>
+<P class="p52 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">Le service de règlement,</SPAN></P>
+<P class="p54 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">Le service de traçabilité effective et</SPAN></P>
+
+<P class="p115 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">Le service de gestion à l’amiable de contentieux marchands.</SPAN></P>
+<P class="p116 ft49" style="color:#000">Article 5 : Caractéristiques des différents produits</P>
+<P class="p117 ft49"><SPAN class="ft49" style="color:#000">5.1</SPAN><SPAN class="ft65" style="color:#000">: Compte Marchand</SPAN></P>
+<P class="p118 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft66">Souscriptions</SPAN></P>
+<P class="p119 ft3">Le Compte Marchand des personnes physiques ou morales s’acquiert par voie de souscriptions moyennant des frais non remboursables.</P>
+<P class="p16 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft67">Interdépendance du Compte Marchand</SPAN></P>
+<P class="p96 ft3">Le Compte Marchand est interdépendant entre ses détenteurs Utilisateurs et partenaires.</P>
+<P class="p16 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft66">Durée de vie</SPAN></P>
+<P class="p38 ft3">La durée de vie du Compte Marchand est égale à celle de la société exploitante. Toutefois, la disparition, le décès, la liquidation et le renoncement du détenteur entrainent la caducité du compte.</P>
+<P class="p44 ft3">Le contenu du compte devenu caduque demeure tel et assujetti à la reconstitution des éventuels Supports Marchands qu’il contient, exclusivement en Bons d’Achat internes, au profit des héritiers s’il y en a.</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft66">Usage</SPAN></P>
+<P class="p120 ft3">Le Compte Marchand est à usage personnel ; contrairement aux supports Marchands qu’il contient, il est inaliénable.</P>
+<P class="p121 ft49" style="color:#000">5.2 : Supports Marchands contenus dans le Compte Marchand</P>
+<P class="p47 ft3">En cas d’absence catégorique des biens, de pénurie des biens ou en cas de suspension des activités des fournisseurs sur la plateforme, le cumul de tous les Supports Marchands devient des Bons de Consommation et s’échangera, à la reprise requise, contre des marchandises disponibles. Les Supports Marchands cumulés peuvent également servir de Bons de Commande pour une nouvelle production (consommation future).</P>
+<P class="p122 ft49"><SPAN class="ft49" style="color:#000">5.2.1</SPAN><SPAN class="ft60" style="color:#000">: Bons de Consommation récurrente</SPAN></P>
+<P class="p118 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft67">Période d’affectation</SPAN></P>
+<P class="p38 ft3">Le Bon de Consommation récurrente est affecté par période de trente (30) jours, période qui peut se prolonger en cas de pénurie généralisée des Biens, Produits et Services réels sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p44 ft3">L’affectation peut être limitée ou non limitée dans le temps selon le type de Bons de Consommation récurrente.</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft68">Spécificité d’affectation</SPAN></P>
+<P class="p38 ft3">Le Bon de Consommation récurrente est exclusivement affecté à des types de Biens, Produits ou Services spécifiques. Cette affectation spécifique peut s’élargir à d’autres biens en cas de pénurie généralisée des produits spécifiques auxquels il est affecté.</P>
+<P class="p16 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft68">Aspect non cumulable</SPAN></P>
+<P class="p96 ft3">Le Bon de Consommation récurrente n’est pas cumulable.</P>
+<P class="p47 ft3">En cas de suspension du Bon de Consommation récurrente, pour des fins de reconstitution et sur demande du titulaire, il se cumule compte tenu de la Période de Constitution du Montant de Souscriptions au Bon de Consommation qui est de 22.4 périodes de 30 jours. Le cumul devient un Bon d’Achat interne égal à 11.2 fois le Montant de Souscriptions pour soi, lorsque la période</P>
+
+<P class="p93 ft3">de jouissance est égale à 22.4 période de 30 jours. Une proportion est faite pour le cas des périodes de jouissance inférieure ou supérieure à 22.4 périodes de 30 jours.</P>
+<P class="p16 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft68">Aspect non redevable en monnaie bancaire</SPAN></P>
+<P class="p96 ft3">En aucun cas, le Bon de Consommation récurrente ne peut être dû en monnaie bancaire.</P>
+<P class="p124 ft49"><SPAN class="ft49" style="color:#000">5.2.2</SPAN><SPAN class="ft60" style="color:#000">: Bons de Consommation non récurrente</SPAN></P>
+<P class="p96 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft68">Période</SPAN></P>
+<P class="p47 ft3">Le Bon de Consommation non récurrente s’exprime une fois pour de bon. Il peut être affecté aux marchandises déjà produites (consommation immédiate) et aux marchandises à produire par les fournisseurs (consommation future).</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Spécificité d’affectation</SPAN></P>
+<P class="p38 ft3">Le Bon de Consommation non récurrente est exclusivement affecté à des types de Biens, Produits ou Services spécifiques. Cette affectation spécifique peut s’élargir à d’autres biens en cas de pénurie généralisée des produits spécifiques auxquels il est affecté.</P>
+<P class="p16 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Aspect cumulable</SPAN></P>
+<P class="p119 ft3">Le Bon de Consommation non récurrente est cumulable dans le cas où il est affectable aux biens futurs.</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Aspect non redevable en monnaie bancaire</SPAN></P>
+<P class="p118 ft3">En aucun cas, le Bon de Consommation non récurrente ne peut être dû en monnaie bancaire.</P>
+<P class="p125 ft49" style="color:#000">5.2.3 : Bons de commande</P>
+<P class="p126 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft70">Période</SPAN></P>
+<P class="p47 ft3">Les Bons de Commande sont issus des OPI non matures. Ils sont affectés par commande aux Biens, Produits ou Services selon les échéances des OPI dont ils sont issus. A cet effet les périodes de livraison des commandes varient selon les séries de 12, 18, 24, 30, 36 ... OPI et selon les tranches cumulées de 3 OPI égalent à 90 jours, 6 OPI égalent à 180 jours, 12 OPI égalent à 360 jours ainsi de suite.</P>
+<P class="p40 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft66">Spécificité d’affectation</SPAN></P>
+<P class="p38 ft5">Les Bons de Commande sont destinés à la commande auprès des centrales de la Production Commune et auprès de fournisseurs prestataires de travaux, industries de production et de transformation, importateurs et exportateurs.</P>
+<P class="p39 ft3">Les Bons de Commande s’échangent, à l’échéance des OPI de leur provenance, le cas échéant, contre des Bons d’Achat internes.</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Aspect cumulable</SPAN></P>
+<P class="p118 ft3">Les Bons de Commande sont cumulables.</P>
+<P class="p121 ft49"><SPAN class="ft49" style="color:#000">5.2.4</SPAN><SPAN class="ft60" style="color:#000">: Bons d’Achat</SPAN></P>
+<P class="p127 ft49"><SPAN class="ft49" style="color:#000">5.2.4.1</SPAN><SPAN class="ft71" style="color:#000">: Bons d’Achat neutres</SPAN></P>
+<P class="p118 ft3">Ils sont émis aux souscripteurs contre l’argent payé sur l’un des comptes bancaires de l’<SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p96 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Période</SPAN></P>
+<P class="p128 ft3">Les Bons d’Achat neutres sont émis instantanément ou 24 à 72 heures selon la banque et le mode de payement utilisé, après enregistrement sur le formulaire de souscriptions <SPAN class="ft26">ESMC </SPAN>des</P>
+
+<P class="p93 ft3">renseignements contenus par les fiches de versement bancaires. Ils sont valables à durée indéterminée.</P>
+<P class="p16 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Spécificité d’affectation</SPAN></P>
+<P class="p38 ft3">Les Bons d’Achat neutres sont affectés à la souscription aux Activités : Souscriptions pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation et <NOBR>Acheteurs-Revendeurs</NOBR> en ligne contre OPI.</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Aspect cumulable</SPAN></P>
+<P class="p118 ft3">Les Bons d’Achat neutres sont cumulables.</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Aspect non redevable en monnaie bancaire</SPAN></P>
+<P class="p118 ft3">En aucun cas, le Bon d’Achat neutre ne peut être dû en monnaie bancaire.</P>
+<P class="p130 ft49" style="color:#000">5.2.4.2 : Bons d’Achat internes</P>
+<P class="p47 ft3">Ils sont émis contre la souscription aux Activités d’Achat et vente réciproques et celles de Prestataires de la Production Commune. De mêmes, les Bons d’Achat internes sont émis contre des Bons de Consommation reconstitués et contre des Bons de Commande et des OPI non exprimés à leur échéance. Ils pourraient aussi être émis en apurement du passif engendré par l’exploitation antérieure du progiciel <SPAN class="ft30">MCNP.</SPAN></P>
+<P class="p40 ft73"><SPAN class="ft5">-</SPAN><SPAN class="ft72">Période</SPAN></P>
+<P class="p44 ft5">Les Bons d’Achat internes sont valables pour une durée indéterminée. Ils sont émis après la validation des Engagements de Livraison Irrévocable (cas des activités Achat et vente Réciproques et Prestataires de la Production Commune), à la reconstitution de Bons de Consommation dès la demande du titulaire et à l’échéance des Bons de Commande et des OPI non exprimés.</P>
+<P class="p103 ft3">Ils sont émis lorsque les conditions le permettent (cas du passif de l’exploitation du progiciel <SPAN class="ft30">MCNP</SPAN>),</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Spécificité d’affectation</SPAN></P>
+<P class="p47 ft3">Les Bons d’Achat internes, tout comme les Bons d’Achat neutres, sont affectés à la souscription aux Activités : Souscriptions pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation et <NOBR>Acheteurs-Revendeurs</NOBR> en ligne contre OPI.</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Aspect cumulable</SPAN></P>
+<P class="p118 ft3">Les Bons d’Achat internes sont cumulables.</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft74" style="color:#000">Aspect non redevable en monnaie bancaire</SPAN></P>
+<P class="p118 ft3">En aucun cas, le Bon d’Achat interne ne peut être dû en monnaie bancaire.</P>
+<P class="p131 ft49" style="color:#000">5.2.5 : Bons de livraison</P>
+<P class="p47 ft3">Les Bons de Livraison sont émis contre la vente de tous Biens, Produits et Services et contre toute souscription aux Activités payées par voie d’OPI sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p37 ft5">Ces Bons sont également émis aux FOURNISSEURS EXTERNES et SPECIFIQUES via les Comptes Marchands dédiés aux partenaires en vue de l’émission des OPI en leur faveur tirés sur les comptes de l’<SPAN class="ft29">ESMC</SPAN>.</P>
+<P class="p9 ft3">Les Bons de livraison s’échangent contre des OPI ou contre des Bons d’Achat neutres.</P>
+<P class="p115 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft70">Période</SPAN></P>
+<P class="p118 ft3">Les Bons de Livraison sont émis instantanément après la livraison de marchandises.</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Spécificité d’affectation</SPAN></P>
+<P class="p128 ft3">Les Bons de Livraison sont affectés aux Bons de Consommation non récurrente, aux Bons d’Achat neutres et aux OPI.</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Aspect cumulable</SPAN></P>
+<P class="p118 ft3">Les Bons de Livraison sont cumulables.</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Aspect non redevable en monnaie bancaire</SPAN></P>
+<P class="p118 ft3">En aucun cas, les Bons de Livraison ne peuvent être dus en monnaie bancaire.</P>
+<P class="p131 ft49" style="color:#000">5.2.6 : Ordres de Prélèvement Irrévocable <SPAN class="ft75">(</SPAN>OPI<SPAN class="ft75">)</SPAN></P>
+<P class="p47 ft3">Les OPI sont émis aux personnes physiques et morales contre la souscription aux Activités : Souscriptions pour soi et pour tiers aux Comptes Marchands et aux Bons <SPAN class="ft45">de</SPAN> Consommation, <NOBR>Acheteurs-Revendeurs</NOBR> en ligne contre OPI, Achat et Vente Réciproques et Prestataire de la Production Commune. S’agissant de la Production Commune, les OPI ne sont émis qu’en faveur des prestataires personnes physiques.</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Période</SPAN></P>
+<P class="p119 ft3">La période de (30) jours sépare un Ordre de Prélèvement Irrévocable à l’autre, à compter du premier qui, lui, peut être instantané.</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Modalités d’utilisation des OPI</SPAN></P>
+<P class="p119 ft5">Pour rendre liquide les OPI aux mains des bénéficiaires, <NOBR>ceux-ci</NOBR> ont le choix entre les quatre (04) modes d’utilisation <NOBR>ci-après :</NOBR></P>
+<P class="p67 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft38">Attendre les échéances pour obtenir le virement sur son compte bancaire ;</SPAN></P>
+<P class="p98 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">Choisir de se désendetter (payer ses dettes) au moyen de ses OPI auprès des banques ou auprès de tout créancier ;</SPAN></P>
+<P class="p53 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">S’approvisionner par commande de Biens, Produits et Services de consommation finale sur la plateforme </SPAN><SPAN class="ft26">ESMC </SPAN>;</P>
+<P class="p98 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">S’approvisionner par commande de Biens, Produits et Services de production sur la plateforme </SPAN><SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p16 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft69">Aspect cumulable</SPAN></P>
+<P class="p128 ft3">Les OPI sont cumulables tant qu’ils ne sont pas exprimés suivant les quatre (04) modes d’utilisation sus évoqués.</P>
+<P class="p13 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft66">Aspect non redevable en monnaie bancaire</SPAN></P>
+<P class="p119 ft3">Les OPI arrivés à maturité en cours d’activité sont payés en monnaie bancaire. Dans le cas contraire, ils sont affectés aux Bons d’Achat neutres ou aux Bons d’Achat internes.</P>
+<P class="p16 ft49" style="color:#000">Article 6 : Montant de Souscriptions (MS)</P>
+<P class="p133 ft49" style="color:#000"><SPAN class="ft49" style="color:#000">6.1</SPAN><SPAN class="ft76" style="color:#000">: Montant de Souscriptions aux Comptes Marchands </SPAN><SPAN class="ft75">(</SPAN>MSCM<SPAN class="ft75">) </SPAN>pour soi et pour tiers</P>
+<P class="p128 ft3">Les Montants de Souscriptions aux Comptes Marchands sont fonction du pouvoir d’achat de la monnaie en cours dans chaque pays.</P>
+<P class="p135 ft49"><SPAN class="ft49" style="color:#000">6.2</SPAN><SPAN class="ft60" style="color:#000">: Montant de souscriptions aux Bons de Consommation pour soi et pour tiers (MSBC)</SPAN></P>
+<P class="p94 ft5">Les Montants de Souscriptions aux Bons de Consommation sont fonction du pouvoir d’achat de la monnaie en cours dans chaque pays.</P>
+<P class="p95 ft3">Ils sont également fonction des deux modalités de souscriptions : pour soi et pour tiers marchands et non marchands.</P>
+<P class="p16 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft67">Consommation récurrente</SPAN></P>
+<P class="p136 ft3">Le Montant de Souscriptions aux Bons de Consommation récurrente se calcule en fonction des paramètres suivants :</P>
+<P class="p53 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">Le Montant du bon périodique que multiplie la PCMSBC (Période de Constitution du Montant de Souscriptions aux Bons de Consommation) ;</SPAN></P>
+<P class="p53 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">La PCMSBC, le multiplicateur, est fonction du pouvoir d’achat de la monnaie en cours dans chaque pays.</SPAN></P>
+<P class="p16 ft33"><SPAN class="ft3">-</SPAN><SPAN class="ft67">Consommation non récurrente</SPAN></P>
+<P class="p137 ft3">Le Montant de Souscriptions aux Bons de Consommation non récurrente se calcule en fonction des paramètres suivants intégrés à la table des calculs mis en ligne sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p138 ft49" style="color:#000">6.3 : Retombées de la souscription pour tiers</P>
+<P class="p139 ft49" style="color:#000">6.3.1 : Les retombées de la souscription aux Comptes Marchands pour tiers</P>
+<P class="p13 ft3">Le montant de souscriptions aux comptes marchands pour tiers bénéficie du</P>
+<P class="p140 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft77">payement par OPI égal à 2.565 fois le montant du Bon d’Achat neutre, morcelé en 22,4 périodes de trente jours indexé au compte bancaire des souscripteurs (cas des souscripteurs personnes physiques) et</SPAN></P>
+<P class="p141 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft77">1.42 fois le montant du Bon d’Achat neutre, morcelé en 22,4 périodes de trente jours par voie d’OPI indexé au compte bancaire des souscripteurs (cas des souscripteurs personnes morales).</SPAN></P>
+<P class="p110 ft49" style="color:#000"><SPAN class="ft49" style="color:#000">6.3.2</SPAN><SPAN class="ft60" style="color:#000">: Les retombées de la souscription aux Bons de Consommation pour tiers</SPAN></P>
+<P class="p13 ft3">Le montant de souscriptions aux Bons de Consommation pour tiers bénéficie du</P>
+<P class="p140 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft77">payement par OPI égal à 2.565 fois le montant du Bon d’Achat neutre, morcelé en 22,4 périodes de trente jours indexé au compte bancaire des souscripteurs (cas des souscripteurs personnes physiques) et</SPAN></P>
+<P class="p141 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft77">1.42 fois le montant du Bon d’Achat neutre, morcelé en 22,4 périodes de trente jours par voie d’OPI indexé au compte bancaire des souscripteurs (cas des souscripteurs personnes morales).</SPAN></P>
+<P class="p13 ft7"><SPAN class="ft49" style="color:#000">Article 7</SPAN><SPAN class="ft78" style="color:#000"> : </SPAN><SPAN class="ft49" style="color:#000">Obligations des Parties</SPAN></P>
+<P class="p142 ft81" style="color:#000"><SPAN class="ft49" style="display:block;color:#000">7.1: Obligations de l’EXPLOITANT </SPAN><SPAN class="ft79" style="color:#000;margin-left:10px">7.1.1 : Obligations générales de l’</SPAN><SPAN class="ft80">ESMC</SPAN></P>
+<P class="p143 ft3">L’EXPLOITANT <SPAN class="ft26">ESMC </SPAN>se met d’accord avec les Utilisateurs, les FOURNISSEURS SPECIFIQUES et EXTERNES, pour consommer continuellement sur sa plateforme leurs</P>
+<TABLE cellpadding=0 cellspacing=0 class="t1">
+<TR>
+	<TD class="tr8 td13"><P class="p29 ft3">Biens</P></TD>
+	<TD class="tr15 td14"><P class="p29 ft15">&nbsp;</P></TD>
+	<TD class="tr8 td15"><P class="p144 ft3">Produits</P></TD>
+	<TD class="tr16 td16"><P class="p29 ft15">&nbsp;</P></TD>
+	<TD class="tr8 td17"><P class="p145 ft3">Services</P></TD>
+</TR>
+</TABLE>
+<P class="p14 ft82">(Cocher la case correspondante).</P>
+
+<P class="p147 ft3">L’EXPLOITANT <SPAN class="ft26">ESMC </SPAN>s’engage à mettre à la disposition des Utilisateurs, des Fournisseurs spécifiques et externes, les Biens, Produits et Services de consommation Entreprise et Industrie à travers la Centrale d’Achat Commune par le biais de leur type de Comptes Marchands qui doit être ouvert sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p38 ft3">L’EXPLOITANT <SPAN class="ft26">ESMC </SPAN>s’engage à mettre à la disposition des Utilisateurs, des Fournisseurs spécifiques et externes, les deux types de souscriptions (pour soi et pour tiers) aux Bons de Consommation dans les modalités de consommation : la consommation en mode récurrent destinée à la pérennité de leur consommation et la consommation en mode non récurrent, destinée à la diminution de leurs coûts de production dans le but de leur assurer la compétitivité requise pour le développement durable de leurs activités sur le marché global, de même que les avantages de vente en mode non récurrent.</P>
+<P class="p37 ft3">Par ailleurs, l’EXPLOITANT <SPAN class="ft26">ESMC </SPAN>s’engage à fournir aux Utilisateurs, aux Fournisseurs Spécifiques et Externes en temps utile, tout élément d’information nécessaire au bon déroulement des présentes, afin que les échanges en Centrale d’Achat et de Vente se déroulent dans des conditions optimales.</P>
+<P class="p38 ft3">Enfin, l’EXPLOITANT <SPAN class="ft26">ESMC </SPAN>s’engage à fournir aux Utilisateurs, aux Fournisseurs spécifiques et externes, tous conseils appropriés au déroulement des échanges dans les Centrales.</P>
+<P class="p125 ft49" style="color:#000">7.1.2 : Obligations spécifiques de l’EXPLOITANT <SPAN class="ft59">ESMC</SPAN></P>
+<P class="p47 ft3">L’EXPLOITANT s’engage : à ouvrir des comptes auprès des banques, des institutions de microfinances, des services de transfert d’argent et des services de payement pour le payement en temps normal, des OPI arrivés à maturité.</P>
+<P class="p148 ft49" style="color:#000"><SPAN class="ft49" style="color:#000">7.1.3</SPAN><SPAN class="ft76" style="color:#000">: Obligations logistiques de l’EXPLOITANT </SPAN><NOBR>vis-à-vis</NOBR> des détenteurs de Comptes Marchands</P>
+<P class="p119 ft3">Au titre de la présente Convention, les prestations offertes par l’EXPLOITANT <SPAN class="ft26">ESMC </SPAN>à tout détenteur de Compte Marchand comprennent :</P>
+<P class="p149 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">L’accès au </SPAN><SPAN class="ft30">MCNP </SPAN>pour toutes ses transactions marchandes disponibles répondant à son type de Compte Marchand (Personne Physique ou Morale, Opératrice Economique ou Non Opératrice Economique) ;</P>
+<P class="p53 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">Les dénouements des difficultés des transactions liées aux dysfonctionnements éventuels du </SPAN><SPAN class="ft30">MCNP </SPAN>;</P>
+<P class="p150 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">L’EXPLOITANT </SPAN><SPAN class="ft26">ESMC </SPAN>s’engage à renouveler les supports marchands physiques, la carte ou code, les périphériques par lui fournis aux détenteurs de Comptes Marchands, en cas de vol, de perte ou défectuosité, aux frais du bénéficiaire;</P>
+<P class="p53 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">L’EXPLOITANT </SPAN><SPAN class="ft26">ESMC </SPAN>met à la disposition de ses Utilisateurs et non Utilisateurs, un service d’assistance pour le bon fonctionnement de leur interface utilisée.</P>
+<P class="p53 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">L’EXPLOITANT s’engage à gérer les réclamations, les recouvrements et les règlements dans la mesure où les opérations concernées sont lisibles sur la plateforme </SPAN><SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p151 ft7" style="color:#000"><SPAN class="ft49" style="color:#000">7.1.4: Obligations de l’EXPLOITANT </SPAN><SPAN class="ft49" style="color:#000">vis-à-vis</SPAN><SPAN class="ft49" style="color:#000"> des guichets uniques d’intégration</SPAN>.</P>
+<P class="p152 ft3">Les guichets uniques d’intégration sont créés pour jouer le rôle anciennement dévolu aux intégrateurs fixes et ambulants.</P>
+<P class="p128 ft3">L’EXPLOITANT s’engage à payer aux prestataires des guichets uniques d’intégration les commissions <NOBR>ci-après :</NOBR></P>
+<P class="p153 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">une commission de 200 FCFA par activation de Compte Marchand personne physique comme personne morale à travers son espace personnel d’intégrateur ;</SPAN></P>
+
+<P class="p155 ft3"><SPAN class="ft36">∙</SPAN><SPAN class="ft37">une commission de 5% sur l’approvisionnement de Bons d’Achat neutres dans le cadre</SPAN></P>
+<P class="p156 ft5">d’exécution de souscriptions aux Comptes Marchands personne physique comme personne morale ;</P>
+<P class="p157 ft3">Les paiements sont faits par OPI étalés sur douze (12) mois, à l’instar de tout prestataire et fournisseur sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p158 ft49"><SPAN class="ft49" style="color:#000">7.2.</SPAN><SPAN class="ft60" style="color:#000">Obligations spécifiques aux prestataires des guichets uniques d’intégration</SPAN></P>
+<P class="p66 ft3">La mission des prestataires des guichets uniques d’intégration se limite à l’activation et à la souscription aux comptes marchands.</P>
+<P class="p66 ft3">En aucun cas, l’appellation prestataires de guichets uniques d’intégration ne peut être utilisée comme titre professionnel pour solliciter, contracter ou obtenir quelques avantages que ce soient. Le cas échéant, l’acte de tout prestataire des guichets uniques d’intégration n’engagera aucunement l’<SPAN class="ft26">ESMC </SPAN><NOBR>vis-à-vis</NOBR> de ceux qui en seraient éventuellement victimes.</P>
+<P class="p66 ft3">Sans préjudice à l’action judiciaire des éventuelles victimes, l’<SPAN class="ft26">ESMC </SPAN>se réserve le droit de rayer le prestataire des guichets uniques d’intégration fautif de la liste des prestataires et/ou d’exercer une action judiciaire contre lui.</P>
+<P class="p66 ft3">Les prestataires des guichets uniques d’intégration sont responsables des ressources humaines, matérielles et techniques qu’ils utilisent.</P>
+<P class="p158 ft49" style="color:#000">7.3 : Obligations des détenteurs de Comptes Marchands</P>
+<P class="p38 ft3">Dès la réception de sa carte, son code, ses supports et périphériques d’accès à son interface <SPAN class="ft30">MCNP</SPAN>, le détenteur est entièrement responsable de son utilisation qu’elle soit par <NOBR>lui-même</NOBR> ou par un tiers, sur son terminal ou non ;</P>
+<P class="p90 ft3">En cas de désagrément, de perte ou de vol, le détenteur s’engage à avertir immédiatement l’EXPLOITANT <SPAN class="ft26">ESMC </SPAN>;</P>
+<P class="p47 ft3">Le détenteur prend toutes les mesures propres à assurer la sécurité de sa carte, son code, ses supports et périphériques d’accès à son interface <SPAN class="ft30">MCNP </SPAN>;</P>
+<P class="p38 ft3">Le détenteur s’engage à utiliser le Compte Marchand et est tenu de se conformer aux règles de confidentialité et de bon usage en général sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p38 ft3">Pour participer aux activités qui débouchent sur le payement par OPI, chaque utilisateur de Compte Marchand doit disposer d’un compte bancaire ou d’un compte auprès des structures de micro finances ou des systèmes de transferts d’argent et de payement.</P>
+<P class="p121 ft49" style="color:#000">7.4 : Obligations des FOURNISSEURS</P>
+<P class="p47 ft3">Pour vendre leurs Biens, Produits et Services sur la plateforme <SPAN class="ft26">ESMC</SPAN>, les FOURNISSEURS disposent d’un Compte Marchand qui à la fois leur permet d’y faire tous leurs achats, consommations usuelles d’entreprises : charges, biens, produits et services de production, d’achat de matières premières, d’investissements additionnels, de réapprovisionnement de leurs marchandises pour la distribution.</P>
+<P class="p38 ft3">En contrepartie des prestations de la plateforme <SPAN class="ft26">ESMC </SPAN>faites aux FOURNISSEURS et conformément à l’article 2 de la présente, <NOBR>ceux-ci</NOBR> collaborent étroitement avec l’<SPAN class="ft26">ESMC </SPAN>dans le cadre de l’observation des règles indispensables au fonctionnement de son système et modèle qui sont engagés dans l’alternative à l’économie classique, souscrivant aux 17 Objectifs de Développement Durable pour lesquels la plateforme se propose d’être l’outil intégrateur de chaque être humain sans <NOBR>laissés-pour-compte</NOBR> dans le marché.</P>
+<P class="p37 ft3">Les FOURNISSEURS s’engagent à payer les frais de prestation de service à l’Exploitant d’un montant supérieur ou égal au montant de bénéfice accordé à la vente en mode non récurrent</P>
+
+<P class="p37 ft3">contre OPI et aux avantages accordés aux consommateurs en aval, en contrepartie de l’économie d’échelle, de la solvabilité et de la clientèle garantie dont ils bénéficient. Ces frais de prestation ou frais de transaction sont prélevés de façon égalitaire par émission automatique de Bons de Livraison aux fins de Production Commune sans toucher directement aux ressources des Utilisateurs.</P>
+<P class="p38 ft3">Les Fournisseurs s’engagent à assurer la disponibilité de leur production selon les normes et qualités requises.</P>
+<P class="p160 ft84">En cas de difficultés à remplir ce dernier engagement de façon autonome, les FOURNISSEURS peuvent souscrire à l’activité de Prestataires de la Production Commune sur la plateforme <SPAN class="ft83">ESMC</SPAN>.</P>
+<P class="p161 ft49" style="color:#000">7.5. Obligations spécifiques aux BANQUES et aux MICROFINANCES</P>
+<P class="p47 ft3">Pour pouvoir assurer les services d’encaissement des montants de souscriptions aux produits de la plateforme et de décaissement pour le payement des OPI à ses fournisseurs, les institutions financières s’engagent à tenir l’interface de l’<SPAN class="ft26">ESMC</SPAN>. Cette interface évite toutes lourdeurs dans les traitements et les supports physiques (papiers).</P>
+<P class="p38 ft3">Elle est appelée Partenaires Bancaires et Financiers (PBF) et assure l’instantanéité des opérations de souscriptions aux Bons d’Achat neutres par voie de monnaie bancaire de même que les payements des OPI émis en faveur des fournisseurs par <SPAN class="ft26">ESMC</SPAN>, libellés au nom de l’institution détentrice de l’interface sur la plateforme <SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p38 ft3">Chacune de ces institutions conclura avec L’EXPLOITANT, leurs contrats d’entreprise contenant leurs clauses d’encaissement et de décaissement.</P>
+<P class="p13 ft49" style="color:#000">Article 8 : Mode de règlement</P>
+<P class="p96 ft5">Les fournitures seront réglées, selon le type d’acteurs :</P>
+<P class="p54 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft85">FOURNISSEURS SPECIFIQUES : Ordres de virement,… tirés sur les comptes de l’</SPAN><SPAN class="ft26">ESMC.</SPAN></P>
+<P class="p53 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft41">FOURNISSEURS EXTERNES : Ordres de Prélèvement Irrévocable (OPI) tirés sur les comptes de l’</SPAN><SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p52 ft3"><SPAN class="ft3">-</SPAN><SPAN class="ft85">FOURNISSEURS UTILISATEURS : Bons de livraison.</SPAN></P>
+<P class="p13 ft49" style="color:#000">Article 9 : Règlement litigieux de créance</P>
+<P class="p47 ft3">Conformément à l’esprit de collaboration qui régit le fonctionnement de la plateforme <SPAN class="ft26">ESMC</SPAN>, le règlement des créances en difficulté aux Utilisateurs, aux Fournisseurs Spécifiques et Externes doit se faire par équivalent de Biens, Produits et Services disponibles ou à rendre disponibles sur la plateforme suivant la règle de la solvabilité absolue requise pour le bon fonctionnement durable de l’<SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p37 ft3">En cas de litige, l’exigence de paiement exclusivement en monnaie de banque, par le FOURNISSEUR, qu’il soit Utilisateur, Fournisseur spécifique ou Externe, serait un refus du respect de cette règle objet de la présente convention.</P>
+<P class="p47 ft3">En cas de cessation des activités ou en cas de crise grave, la reprise des activités est et reste, le seul gage de solvabilité, étant entendu que, la solvabilité n’est réelle qu’en nature, <NOBR>c'est-à-dire</NOBR> en Biens, Produits et Services présents ou futurs.</P>
+<P class="p38 ft3">L’exigence de paiement des créances en monnaie de banque exclusivement sur la plateforme <SPAN class="ft26">ESMC </SPAN>en cas de litige, serait une cause principale de l’endettement généralisé qui paralyserait le développement durable des activités du marché et des Utilisateurs.</P>
+<P class="p13 ft49" style="color:#000">Article 10 : Durée de la convention</P>
+<P class="p38 ft3">La présente convention est établie sur une période d’un (01) an renouvelable par tacite reconduction.</P>
+
+<P class="p37 ft3">La partie qui n’entend pas renouveler la convention doit le signifier à l’autre par Acte d’Huissier ou par tout moyen permettant d’établir la réception effective par le destinataire au moins un (01) mois à l’avance.</P>
+<P class="p13 ft49" style="color:#000">Article 11 : Lieu d’exécution de la convention</P>
+<P class="p47 ft3">Les ventes et achats de Biens, Produits et Services en Centrale d’Achat et de Vente entre les parties se feront sur l’ensemble du Territoire National.</P>
+<P class="p13 ft49" style="color:#000">Article 12 : Confidentialité</P>
+<P class="p47 ft3">Les parties s’interdisent notamment d’utiliser ou de divulguer, directement ou indirectement à quelque tiers que ce soit, les informations échangées à l’occasion de la négociation, de la conclusion, de l’exécution et/ou après la cessation des présentes.</P>
+<P class="p38 ft3">Sont considérées comme confidentielles toutes les informations commerciales, financières ou techniques qui ne seraient pas dans le domaine public.</P>
+<P class="p38 ft3">Ne seront cependant pas considérées comme confidentielles, les informations connues du public ou qui seraient, postérieurement à la présente convention, connues du public de façon licite ou dont la divulgation aura expressément été autorisée par les parties.</P>
+<P class="p13 ft49" style="color:#000">Article 13 : Résiliation</P>
+<P class="p38 ft5">En cas d’inexécution ou de violation par l’une des Parties de l’une quelconque des dispositions de la convention, <NOBR>celle-ci</NOBR> pourra être résiliée unilatéralement et de plein droit par l’autre partie 30 jours après l’envoi d’une mise en demeure par lettre recommandée avec accusé de réception, restée sans effet.</P>
+<P class="p103 ft3">La présente convention sera résiliée automatiquement et de plein droit dans l’hypothèse où, par suite d’une modification législative ou règlementaire concernant ses activités, l’une ou l’autre partie se trouverait dans l’impossibilité de poursuivre la convention.</P>
+<P class="p13 ft49" style="color:#000">Article 14 : Révision</P>
+<P class="p38 ft3">Dans l’intérêt des parties, la présente convention pourra être révisée à tout moment et ceci à la demande de l’une des parties.</P>
+<P class="p11 ft3">Toute révision devra donner lieu à un avenant signé par chacune des parties.</P>
+<P class="p162 ft49" style="color:#000">Article 15 : Force majeure</P>
+<P class="p47 ft3">La force majeure s’entend d’un événement imprévisible, irrésistible et indépendant des parties (guerre déclarée ou non, épidémies ou mesures de quarantaine, tremblement de terre…) qui les met dans l’impossibilité de poursuivre le cours normal de l’exécution de la convention. La preuve de la force majeure appartient à celui qui l’invoque.</P>
+<P class="p103 ft3">Aucune des parties ne sera tenue pour responsable <NOBR>vis-à-vis</NOBR> de l’autre, de l’inexécution ou des retards dans l’exécution de leurs obligations prévues à la présente convention, et qui seraient dus à la survenance d’un cas de force majeure.</P>
+<P class="p116 ft49" style="color:#000">Article 16 : Arbitrage de litiges</P>
+<P class="p120 ft3">L’EXPLOITANT <SPAN class="ft26">ESMC </SPAN>s’engage à se rendre disponible en vue du dénouement heureux des difficultés éventuelles de transactions liées au dysfonctionnement du système.</P>
+<P class="p38 ft3">Sous réserve de l’existence en la matière de dispositions légales d’ordre public, toute contestation, tout litige ou quelque différend que ce soit sur l’interprétation ou l’exécution de la présente convention sera réglé à l’amiable.</P>
+<P class="p38 ft3">En cas d’échec du règlement à l’amiable, le différend sera soumis à la Cour d’Arbitrage du Togo (CATO).</P>
+
+<P class="p164 ft49" style="color:#000">Article 17 : Election de domiciles</P>
+<P class="p47 ft3">Les parties font élection de leur domicile à leurs adresses respectives indiquées dans la présente convention.</P>
+<P class="p13 ft49" style="color:#000">Article 18 : Documents annexés à la convention</P>
+<TABLE cellpadding=0 cellspacing=0 class="t2">
+<TR>
+	<TD rowspan=2 class="tr16 td18"><P class="p29 ft3">L’UTILISATEUR</P></TD>
+	<TD class="tr1 td19"><P class="p29 ft14">&nbsp;</P></TD>
+	<TD rowspan=2 class="tr16 td20"><P class="p165 ft3">le FOURNISSEUR SPECIFIQUE</P></TD>
+	<TD class="tr1 td21"><P class="p29 ft14">&nbsp;</P></TD>
+	<TD rowspan=2 class="tr16 td22"><P class="p166 ft3">le FOURNISSEUR EXTERNE</P></TD>
+</TR>
+<TR>
+	<TD class="tr9 td23"><P class="p29 ft21">&nbsp;</P></TD>
+	<TD class="tr9 td24"><P class="p29 ft21">&nbsp;</P></TD>
+</TR>
+</TABLE>
+<P class="p167 ft82">(Cocher la case correspondante)</P>
+<P class="p36 ft3">déclare avoir pris entièrement connaissance des informations, de même que la table de calcul automatique mis sur le site internet de l’<SPAN class="ft26">ESMC</SPAN>.</P>
+<P class="p13 ft49" style="color:#000">Article 19 <SPAN class="ft75">: </SPAN>Entrée en vigueur</P>
+<P class="p47 ft3">La présente convention entre en vigueur à la date de sa validation sur le site internet de L’EXPLOITANT, et tient lieu de loi aux parties qui doivent l’exécuter de bonne foi conformément à l’article 1104 du Code Civil français.</P>
+<P class="p13 ft49" style="color:#000">Article 20 : Réactualisation</P>
+<P class="p13 ft3">L’utilisateur est tenu de valider la présente convention à chaque fois qu’elle est réactualisée.</P>
+<P class="p16 ft3">La présente convention est réactualisée ce ……………..</P>
+<P class="p168 ft12">26</P>
+</DIV>
+
+<button type="submit" id="valid_convention_btn" class="btn btn-primary">J'ai lu et approuvé cette convention</button>
+</div>
+
+</form>
+</div>
+<div class="span3">
+  <a href="/publicites/convention_collaboration.pdf" class="btn btn-primary" target="blank">Telecharger la convention</a>
+  <a href="<?php echo $this->baseUrl();?>/espacepersonnel/nocompte" class="btn btn-danger">Déconnexion</a>
+</div>
+</div>

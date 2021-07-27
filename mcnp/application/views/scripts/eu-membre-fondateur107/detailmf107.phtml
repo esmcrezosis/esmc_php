@@ -1,0 +1,87 @@
+<div id="view-content"  >
+     <div class="ui-widget-content ui-corner-all" style="margin-bottom:3px; width: 827px; font-size:12px">
+          <fieldset>
+             <legend style=" font-weight:bold">Recherche </legend>
+             <h5> 
+                 Code membre apporteur <input type="text" id="code_membre" name="code_membre" size="35"/>
+                 Date placement        <input type="text" id="date_placement" name="date_placement" size="25"/>
+                 <input id="recherche" type="button" value="Recherche"/>
+             </h5>
+          </fieldset>
+          </div>
+          <div style="margin-bottom: 3px;">
+               <form action="/eu-pdf-reglt/crediter" name="" method="POST" target="_blank">
+                     <input id="apercu" type="submit" value="Aperçu" class="ui-widget button"/> 
+                     <input type="hidden" id="id_mf107" name="id_mf107"/>
+               </form>
+          </div>
+     <table id="tbl-detmf"></table>
+     <div id="pg-detmf"></div>
+	     
+<script type="text/javascript">
+        $("#tbl-detmf").jqGrid({
+        url: "/eu-membre-fondateur107/mfdetail",
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['','Code membre','Nom','Prenom','Montant apporté','Numero MF107','Quota en %'],
+        height: 410, width: 827,
+        colModel: [
+		     {name: 'id_mf107', index: 'id_mf107', width:50, sorttype: "int", editable: true, align: "left"},
+             {name: 'code_membre', index: 'code_membre', width:200, sorttype: "int", editable: true, align: "left"},
+             {name: 'nom', index: 'nom', width: 180, editable: true, align: "left"},
+             {name: 'prenom', index: 'prenom', width: 200, align: "left", editable: true},
+             {name: 'mont_apport', index: 'mont_apport', width:270, editable: true, align: "left"},
+             {name: 'numident', index: 'numident', width:150, editable: true, align: "left"},
+             {name: 'quota', index: 'quota', width:100, editable: true, align: "left"}  
+        ],
+        rowNum: 200000,
+        rowList: [200000, 400000, 600000],
+        pager: '#pg-detmf',
+        sortname: "id_mf107",
+        viewrecords: true,
+        sortorder: "DESC",
+        rownumbers:true,
+        caption: "Détail des placements sur les comptes marchands" 
+    });
+    $("#tbl-detmf").jqGrid('navGrid', '#pg-detmf', {edit: false, add: false, del: false, search: true});
+	
+	$('#recherche').click(function()
+    {
+      code_membre = $('#code_membre').val();
+      date_placement = $('#date_placement').val();
+      
+      jQuery("#tbl-detmf").jqGrid('setGridParam', {url:"/eu-membre-fondateur107/mfdetail?code_membre="+       
+	  code_membre+"&date_placement="+date_placement}).trigger('reloadGrid');
+	  
+    });
+	
+	$.get( "/eu-membre-fondateur107/membre",
+    function success(data)
+    {
+      $("#code_membre").autocomplete({"source":data});
+    });
+	
+	$(function(){
+      var pickerOpts = {
+          dateFormat: "dd-mm-yy",
+          changeMonth:true,
+          changeYear:true,
+          showOtherMonths:true
+      };
+          $.datepicker.setDefaults($.datepicker.regional["fr"]);
+          $("#date_placement").datepicker(pickerOpts);
+   });
+   
+   $("#apercu").click(function() {
+        var sel;
+        sel = jQuery("#tbl-detmf").jqGrid('getGridParam','selrow');
+        data = jQuery("#tbl-detmf").jqGrid('getRowData',sel);
+        $('#id_mf107').val(data.id_mf107);
+   });
+   
+   
+   
+   
+   		 
+</script> 
+</div>

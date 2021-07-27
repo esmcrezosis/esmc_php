@@ -1,0 +1,116 @@
+<div id="view-content" title="Demande de compensation par échéance" style="font-size: 12px">
+    <div class="ui-widget-content ui-corner-bottom" style="height: 500px;">
+        <form id="compenser_form" method="post" action="/compensation/compenser">
+            <table id="tab_compenser" style="width: 810px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+                <tr>
+                    <td colspan="2">
+                        <fieldset id="memb_field">
+                            <legend>Membre PBF</legend>
+                            <table>
+                                <tr>
+                                    <td><label>N° Membre PBF *</label></td>
+                                    <td><input required="true" type="text" size="30" id="membre_pbf" name="membre_pbf" value="<?php echo $this->membre_pbf; ?>" size="25"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="raison_soc">Raison sociale :</label></td><td><input size="30" type="text" id="raison_soc" name="raison_soc" value="<?php echo $this->raison_soc ?>" readonly="true"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="nom_rep">Nom Représentant :</label></td>
+                                    <td><input size="30" type="text" id="nom_rep" name="nom_rep" value="<?php echo $this->nom_rep ?>" readonly="true"/>
+                                        <input size="30" type="text" id="prenom_rep" name="prenom_rep" value="<?php echo $this->prenom_rep ?>" readonly="true"/></td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <fieldset id="gcp_field"><legend>Compte GCP</legend>
+                            <table>
+                                <tr>
+                                    <td><label for="mont_gcpr">Solde GCp réel :</label></td>
+                                    <td><input readonly="true" type="text" style="text-align:right;" id="mont_gcpr" name="mont_gcpr" value="<?php echo $this->mont_gcpr; ?>" size="25"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="bonus_pbf">Marge d'échange :</label></td>
+                                    <td><input readonly="true" type="text" style="text-align:right;" id="bonus_pbf" name="bonus_pbf" value="<?php echo $this->bonus_pbf; ?>" size="25"/></td>
+                                </tr>
+                                <tr><td><label for="montant_gcp">Solde du compte GCp :</label></td>
+                                    <td><input type="text" id="montant_gcp" style="text-align:right;" name="montant_gcp" value="<?php echo $this->montant_gcp; ?>" readonly="true" size="25"/></td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </td>
+                    <td>
+                        <fieldset id="comp_field">
+                            <legend>Compensation</legend>
+                            <table>
+                                <tr> <td><label>GCP réel</label></td><td><input style="text-align:right;" required="true" type="text" size="25" id="gcpr_compens" name="gcpr_compens"/></td></tr>
+                                <tr> 
+                                    <td><label>Marge</label></td><td><input style="text-align:right;" readonly="true" type="text" size="25" id="agio_compens" name="agio_compens"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="mont_compens">Montant à compenser *:</label></td>
+                                    <td><input readonly="true" type="text" style="text-align:right;" id="mont_compens" name="mont_compens" value="<?php echo $this->mont_compens; ?>" size="25"/></td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr><td></td><td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td></tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        $(function(){
+            $('#memb_field').puifieldset();
+            $('#gcp_field').puifieldset();
+            $('#comp_field').puifieldset();
+            $('#view-content').puipanel();
+        });
+        $.get( "/compensation/membre",
+        function success(data)
+        {
+            $('#membre_pbf').autocomplete({"source":data});
+        });
+        
+        $('#membre_pbf').blur(function(e){
+            $.get( "/compensation/gcppbf",
+            { membre: $(this).val()},
+            function success(data)
+            {
+                if(data !== false){
+                    $("#nom_rep").val(data[0]);
+                    $("#prenom_rep").val(data[1]);
+                    $("#raison_soc").val(data[2]);
+                    $('#montant_gcp').val(data[3]);
+                    $('#mont_gcpr').val(data[4]);
+                    $('#bonus_pbf').val(data[5]);
+                    $('#mont_compens').val(data[3]);
+                }else{
+                    $("#id_message").html('Ce membre n\'existe pas !!!');
+                }
+            });
+            e.preventDefault();
+        });
+        
+        $('#gcpr_compens').blur(function(e){
+            if($(this).val() !== ''){
+                $.get( "/compensation/calc",
+                { gcpr_compens: $(this).val()},
+                function success(data)
+                {
+                    if(data !== false){
+                        $("#mont_compens").val(data[0]);
+                        $("#agio_compens").val(data[1]);
+                    }
+                });
+            }
+            e.preventDefault();
+        });
+            
+    });
+</script>

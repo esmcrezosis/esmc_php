@@ -1,0 +1,143 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/recubpss.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification du reçu</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addrecu">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+        
+
+    
+
+
+<div class="control-group">
+<label class="control-label" for="recu_bps">Bps du recu *</label>
+<div class="controls">
+<?php 
+$bps = new Application_Model_EuRecuBpsMapper();
+$entries = $bps->fetchAll2();
+if(count($entries) > 0){?>
+<select id="recu_bps" name="recu_bps" required onchange="ouvre_recubpss(this.value); document.getElementById('recu_montant_credit').value = '';">
+  <option value="">Choisir le bps</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->recu_bps_id; ?>" <?php if($value->recu_bps_id == $this->recu->recu_bps){echo ' selected="selected"';}?>><?php echo $value->recu_bps_libelle; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="recu_code_membre">Code Membre *</label>
+<div class="controls">
+<input type="text" name="recu_code_membre" id="recu_code_membre" placeholder="Code Membre" class="input-xxlarge" value="<?php echo $this->recu->recu_code_membre; ?>" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="recu_numero">Numéro du recu *</label>
+<div class="controls">
+<input type="text" name="recu_numero" id="recu_numero" placeholder="Numéro du recu" class="input-xxlarge" value="<?php echo $this->recu->recu_numero; ?>" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="recu_facture">Numéro facture </label>
+<div class="controls">
+<input type="text" name="recu_facture" id="recu_facture" placeholder="Numéro facture" class="input-xxlarge" value="<?php echo $this->recu->recu_facture; ?>"  />
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="recu_date_debut">Date début facture</label>
+<div class="controls">
+<input type="date" name="recu_date_debut" id="recu_date_debut" placeholder="Date début facture" class="input-xxlarge" value="<?php echo $this->recu->recu_date_debut; ?>"  />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="recu_date_fin">Date fin facture </label>
+<div class="controls">
+<input type="date" name="recu_date_fin" id="recu_date_fin" placeholder="Date fin facture" class="input-xxlarge" value="<?php echo $this->recu->recu_date_fin; ?>"  />
+</div>
+</div>
+
+
+
+
+<div id="nivo"><?php 
+        $a = new Application_Model_EuRecuBps();
+        $ma = new Application_Model_EuRecuBpsMapper();
+		$ma->find($this->recu->recu_bps, $a);
+?>
+<input name="recu_bps_prk" type="hidden" id="recu_bps_prk" value="<?php echo str_replace(",", ".", $a->recu_bps_prk)?>" />
+</div>
+
+<div class="control-group">
+<label class="control-label" for="recu_montant">Montant du recu *</label>
+<div class="controls">
+<div class="input-append">
+<input type="number" name="recu_montant" id="recu_montant" placeholder="Montant du recu (nr)" class="input-xxlarge" value="<?php echo $this->recu->recu_montant; ?>" required />
+<button class="btn" type="button" onclick="if(document.getElementById('recu_bps_prk').value > 0){document.getElementById('recu_montant_credit').value = Math.floor(document.getElementById('recu_montant').value / document.getElementById('recu_bps_prk').value * 5.6)};">Calculer</button>
+</div>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="recu_montant_credit">Montant du recu (XOF) *</label>
+<div class="controls">
+<input type="number" name="recu_montant_credit" id="recu_montant_credit" placeholder="Montant du recu (XOF)" class="input-xxlarge" value="<?php echo $this->recu->recu_montant_credit; ?>" required />
+</div>
+</div>
+
+   
+    
+
+
+<div class="form-actions">
+<input name="recu_id" type="hidden" id="recu_id" value="<?php echo $this->recu->recu_id; ?>" />  
+<input name="recu_utilisateur" type="hidden" id="recu_utilisateur" value="<?php echo $sessionutilisateur->id_utilisateur; ?>" />  
+<input name="publier" type="hidden" id="publier" value="0" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier le reçu</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

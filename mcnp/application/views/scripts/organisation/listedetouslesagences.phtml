@@ -1,0 +1,59 @@
+
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+        "iDisplayLength":10,
+		"aaSorting": []
+    } );
+} );
+</script>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+	<div class="alert alert-danger">
+		<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+	</div>
+	<?php unset($_SESSION['validationerrors']); endif ?>
+	<?php if (isset($_SESSION["validationsuccess"])): ?>
+	<div class="alert alert-success">
+		<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+	</div>
+<?php unset($_SESSION['validationsuccess']); endif ?>
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+<?php if ($this->countlistedesagences > 0): ?>
+
+<h3>Liste de toutes les agences gérés par esmc</h3>
+
+
+ <table class="table table-stripped" id="example">
+   <thead> 
+        <tr>
+             <th>Référence d'une agence</th>
+             <th>Libellé d'une agence</th>
+             <th>Date de création d'une agence</th>
+             <th>Détail d'une agence</th>
+             <th>Edition d'une agence</th>
+         </tr>
+   </thead>
+   <tbody>
+         <?php foreach ($this->listedesagences as $key => $value): ?>
+         <tr>
+             <td><?php echo $value->reference_agences_odd ;?> </td>
+             <td><?php echo $value->libelle_agences_odd ;?> </td>
+             <td><?php echo $value->date_agences_odd ;?></td>
+             <td><a href="/organisation/detailduneagence/idagences/<?php echo $value->id_agences_odd ;?>" class = "btn btn-primary">Voir ses détails </a></td>
+             <td><a href="/organisation/editionduneagence/ideditonagence/<?php echo $value->id_agences_odd ;?>" class = "btn btn-danger">Modifier ses informations</a></td>
+         </tr>
+    	  <?php endforeach ?>       
+   </tbody>
+ 
+ </table>
+
+<?php else: ?>
+   <div class="alert alert-danger">
+       Aucune agence n'est encore enrégistré
+   </div>
+<?php endif ?>

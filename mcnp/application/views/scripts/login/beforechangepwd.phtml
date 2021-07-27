@@ -1,0 +1,32 @@
+<div id="view-content" title="Modification du mot de passe" style="font-size: 12px;">
+    <form id="pwd_form" method="post" action="/login/beforechangepwd">
+        <table id="tab_capa" style="width: 470px; margin-top: 10px;margin-left: auto; margin-right: auto;">
+            <thead></thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="hidden" id="id_user" name="id_user" class="validate[required]" value="<?php echo $this->id_user; ?>"/>
+                    </td><td></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Changer votre mot de passe</td>
+                </tr><tr>
+                    <td></td><td><input id="val_pwd" type="submit" value="Oui"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function()
+    {
+        $(function(){
+            $('#view-content').puipanel();
+        });
+        $("#pwd_form").validationEngine();
+        $('#val_pwd').button();
+        $('#reset_pwd').button().click(function(e) {
+            $(location).attr("href", "/index/index");
+        });
+    });
+</script>

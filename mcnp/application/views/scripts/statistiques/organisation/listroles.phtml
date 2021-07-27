@@ -1,0 +1,92 @@
+
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function() {
+
+    $('#example').dataTable( {
+
+        "sPaginationType": "full_numbers",
+
+        "iDisplayLength":10,
+
+		"aaSorting": []
+
+    } );
+
+} );
+
+</script>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+	<div class="alert alert-danger">
+
+		<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+	</div>
+
+	<?php unset($_SESSION['validationerrors']); endif ?>
+
+	<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+	<div class="alert alert-success">
+
+		<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+
+	</div>
+
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<h3>Liste de tous les roles</h3>
+
+<a href="addrole" class = "btn btn-danger">Ajouter un role</a>
+
+<?php if ($this->countlistedesroles > 0): ?>
+
+ <table class="table table-stripped" id="example">
+
+   <thead> 
+
+        <tr>
+
+             <th>Code du role</th>
+
+             <th>Libellé du role</th>
+
+             <th>Nom du parent direct du role</th>
+
+             <th>Date du role</th>
+
+         </tr>
+
+   </thead>
+
+   <tbody>
+
+         <?php foreach ($this->listedesroles as $key => $value): ?>
+
+         <tr>
+
+             <td><?php echo $value->code_roles ;?> </td>
+
+             <td><?php echo $value->libelle_roles ;?> </td>
+
+             <td><?php echo $value->date_roles ;?></td>
+
+             <td><a href="detailduncentre/id/<?php echo $value->id_roles ;?>" class = "btn btn-primary">Voir les détails du role</a></td>
+
+             <td><a href="editionduncentre/id/<?php echo $value->id_roles ;?>" class = "btn btn-danger">Editer le role</a></td>
+
+         </tr>
+
+    	  <?php endforeach ?>       
+     
+   
+   </tbody>
+ 
+ 
+ </table>
+
+<?php endif ?>

@@ -1,0 +1,54 @@
+<?php $sessionbanqueopi = new Zend_Session_Namespace('banqueopi');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php //include("../application/layouts/scripts/menubanqueopi.phtml"); ?>
+
+  <blockquote><p>Confirmation d'accès a cet espace de banque pour les OPI</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addbanqueopi">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  <?php //echo $sessionbanqueopi->confirmation; ?>
+  <blockquote>Vous allez recevoir dans un instant sur votre téléphone, le code confirmation qui vous permet d'accéder à votre espace d'administration. </blockquote>  
+<div class="control-group">
+<label class="control-label" for="confirme">Code de confirmation *</label>
+<div class="controls">
+<input type="text" name="confirme" id="confirme" placeholder="Code de confirmation reçu par SMS" required>
+</div>
+</div>
+
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<!--<button type="reset" class="btn">Annuler</button>-->
+<button type="submit" class="btn btn-success">Confirmer</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

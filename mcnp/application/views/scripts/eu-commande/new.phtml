@@ -1,0 +1,100 @@
+<div id="view-content" class="ui-widgets">
+     <div  class="cntError">
+        <?php
+           //echo $this->message;
+        ?>
+     </div>
+     <div style="margin-bottom: 3px;">
+        <input id="commande" type="button" value="Faire la commande" class="ui-widget button"/>
+     </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 5px; padding-left: 5px;">
+        <h3>Rechercher la liste des factures proforma liées à un besoin spécifique</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <div>
+            <?php
+			      $auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin'));
+                  $user = $auth->getIdentity();
+                  $code_membre = $user->code_membre;
+		          if(isset($code_membre)){
+                  $this->form->setAction($this->url());
+                  echo $this->form;
+				 }
+            ?>
+        </div>
+        <br/><br/>
+        <table id="tbl-com"></table>
+        <div id="pg-com"></div>
+    </div>        
+</div>
+
+<script type="text/javascript">
+        jQuery("#tbl-com").jqGrid({ 
+        url:'<?php echo $this->url(array('action' => 'listpforma')); ?>', 
+        datatype: "json", 
+        colNames:['Numero','Fournisseur','Date','Livraison','Payement','Montant httva','Montant net','Lieu','Type'], 
+        height:312, width:818,
+        colModel:[
+                 {name:'code_proforma',index:'code_proforma', width: 220, editable: true,align:"left"},
+                 {name:'code_membre_fournisseur',index:'code_membre_fournisseur', width:220, editable: true,align:"left"},
+                 {name:'date_proforma',index:'date_proforma', width: 150, align:"left", editable: true},
+				 {name:'date_livre',index:'date_livre', width: 150, align:"left", editable: true},
+				 {name:'date_paie',index:'date_paie', width: 150, align:"left", editable: true},
+                 {name:'montant_ht',index:'montant_ht', width: 200, align:"left", editable: true},
+                 {name:'montant_net',index:'montant_net', width: 200, align:"left", editable: true},
+                 {name:'lieu_livre',index:'lieu_livre', width: 150, align:"left", editable: true},
+                 {name:'type_proforma',index:'type_proforma', width: 100, align:"left", editable: true},
+            
+        ], 
+        rowNum:100000,
+        rowList:[100000,200000,300000],
+        pager: '#pg-com',
+        sortname:"date_pforma",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des factures proforma"
+    });
+    $("#tbl-com").jqGrid('navGrid','#pg-com',{edit:false,add:false,del:false,search:true});
+    
+    $(document).ready(function ()
+    {
+            $('#valider').click(function()
+            {
+                jQuery("#tbl-com").jqGrid('setGridParam',{url:"/eu-commande/listpforma?id_besoin="+$('#id_besoin').val()}).trigger('reloadGrid');
+            });
+            
+    $('#commande').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-com").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {   
+            $.get('/eu-commande/commandep',{
+                 code_proforma:rowsel
+              },function success(data) {
+                 if(data==rowsel) {
+				 
+                    alert("Cette facture proforma a été déjà l'objet d'un bon de commande"); 
+					
+                 }
+                 else {
+				 
+                       $.get('/eu-commande/demande',{
+                       code_proforma:rowsel
+                       },function success(data){
+                       $("#content").html(data);
+                });
+				
+                 }
+                }); 
+            }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+ });
+//$(function(){
+//$('select#id_besoin').selectmenu({style:'dropdown'})}); 
+$('#valider').button();
+$('#cancel').button();
+$('#commande').button();
+</script>    

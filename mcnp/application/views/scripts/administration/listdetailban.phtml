@@ -1,0 +1,152 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8">		
+$(document).ready(function() {
+    $('#example1').dataTable({
+      "sPaginationType": "full_numbers",
+	  "aaSorting": []
+    });
+	
+	$('#example2').dataTable({
+       "sPaginationType": "full_numbers",
+	   "aaSorting": []
+    });
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p>Details BAn Numéro <strong> <?php echo $this->ban->bon_neutre_code;?> </strong> du Membre  <strong><?php echo $this->ban->bon_neutre_nom." ".$this->ban->bon_neutre_prenom;?></strong></p></blockquote>
+  
+    <table class="table table-striped table-bordered table-hover table-condensed" id="example1" style="font-size:11px;">
+        <thead>
+			<tr>
+			    <th>Date opération</th>
+			    <th>Banque</th>
+				<th>Référence Versement</th>
+				<th>Date versement</th>
+                <th>Montant BAn</th>
+                <th>Montant BAn utilisé</th>
+                <th>Montant BAn restant</th>				
+			</tr>
+		</thead>
+        
+        <tbody>
+            <?php
+			    $ttmontant = 0;
+			    $ttmontantut = 0;
+			    $ttmontantsolde = 0;
+			
+			foreach($this->entries as $entry) : 
+			
+			?>
+			<tr>
+			    <td><div><?php echo datejourfr($entry->bon_neutre_detail_date);?></div></td>
+                <td><div><?php echo $entry->bon_neutre_detail_banque;?></div></td>
+                <td><div><?php echo $entry->bon_neutre_detail_numero;?></div></td>
+                <td><div><?php echo datejourfr($entry->bon_neutre_detail_date_numero);?></div></td>
+                <td><div align="right"><?php echo $entry->bon_neutre_detail_montant;?></div></td>
+                <td><div align="right"><?php echo $entry->bon_neutre_detail_montant_utilise;?></div></td>
+                <td><div align="right"><?php echo $entry->bon_neutre_detail_montant_solde;?></div></td>				
+			</tr>
+			<?php 
+			    $ttmontant = $ttmontant + $entry->bon_neutre_detail_montant;
+			    $ttmontantut = $ttmontantut + $entry->bon_neutre_detail_montant_utilise;
+			    $ttmontantsolde = $ttmontantsolde + $entry->bon_neutre_detail_montant_solde;
+			endforeach; 
+			?>
+        </tbody>
+         
+        <tfoot>
+		    <tr>
+                <td colspan="4"><div align="right" style="font-size:14px;"><strong>Total</strong></div></td>
+				<td><div align="right" style="font-size:14px;"><strong><?php echo number_format($ttmontant,0,',',' ');?></strong></div></td>
+				<td><div align="right" style="font-size:14px;"><strong><?php echo number_format($ttmontantut,0,',',' ');?></strong></div></td>
+				<td><div align="right" style="font-size:14px;"><strong><?php echo number_format($ttmontantsolde,0,',',' ');?></strong></div></td>
+			</tr>
+		    <tr>
+		    <td colspan="7"><div align="center" style="font-size:20px;"><strong>Detail BAn venant directement des banques</strong></div></td>
+			</tr>
+        </tfoot>		 
+    </table>
+	
+	<br/><br/><br/>
+	
+	<table class="table table-striped table-bordered table-hover table-condensed" id="example2" style="font-size:11px;">
+        <thead>
+			<tr>
+			    <th>Date opération</th>
+			    <th>Banque</th>
+				<th>Référence Versement</th>
+				<th>Date Versement</th>
+                <th>Montant BAn</th>
+                <th>Montant BAn utilisé</th>
+                <th>Montant BAn restant</th>				
+			</tr>
+		</thead>
+        
+        <tbody>
+            <?php 
+			
+			$ttmontant1 = 0;
+			$ttmontantut1 = 0;
+			$ttmontantsolde1 = 0;
+			
+			foreach($this->approlignes as $approligne) :
+                $euban = new Application_Model_DbTable_EuBonNeutre();
+                $rowseuban;			
+			    $euband = new Application_Model_DbTable_EuBonNeutreDetail();
+                $select = $euband->select();
+                $select->where("bon_neutre_detail_id = ? ", $approligne->bon_neutre_detail_id);
+                $select->limit(1);
+                $rowseuband = $euband->fetchRow($select);
+				if(count($rowseuband) > 0) {
+                  $select = $euban->select();
+                  $select->where("bon_neutre_id = ? ", $rowseuband->bon_neutre_id);
+                  $select->limit(1);
+                  $rowseuban = $euban->fetchRow($select);
+				} 
+			?>
+			<tr>
+			    <td><div><?php echo datejourfr($approligne->bon_neutre_appro_detail_date); ?></div></td>
+                <td><div><?php echo $approligne->bon_neutre_appro_detail_banque;?></div></td>
+                <td><div><?php if(count($rowseuband) > 0) { echo $rowseuband->bon_neutre_detail_numero ; } ?></div></td>
+                <td><div><?php if(count($rowseuband) > 0) { echo datejourfr($rowseuband->bon_neutre_detail_date_numero) ; } ?></div></td>
+                <td><div align="right"><?php echo $approligne->bon_neutre_appro_detail_montant ;?></div></td>
+                <td><div align="right"><?php echo $approligne->bon_neutre_appro_detail_mont_utilise ;?></div></td>
+                <td><div align="right"><?php echo $approligne->bon_neutre_appro_detail_solde ;?></div></td>				
+			</tr>
+			<?php 
+			$ttmontant1 = $ttmontant1 + $approligne->bon_neutre_appro_detail_montant;
+			$ttmontantut1 = $ttmontantut1 + $approligne->bon_neutre_appro_detail_mont_utilise;
+			$ttmontantsolde1 = $ttmontantsolde1 + $approligne->bon_neutre_appro_detail_solde;
+			endforeach; 
+			
+			?>
+        </tbody>
+         
+        <tfoot>
+		    <tr>
+                <td colspan="4"><div align="right" style="font-size:14px;"><strong>Total</strong></div></td>
+				<td><div align="right" style="font-size:14px;"><strong><?php echo number_format($ttmontant1,0,',',' ');?></strong></div></td>
+				<td><div align="right" style="font-size:14px;"><strong><?php echo number_format($ttmontantut1,0,',',' ');?></strong></div></td>
+				<td><div align="right" style="font-size:14px;"><strong><?php echo number_format($ttmontantsolde1,0,',',' ');?></strong></div></td>
+			</tr>
+			
+		    <tr>
+		        <td colspan="7"><div align="center" style="font-size:20px;"><strong>Detail BAn venant des approvisionnements</strong></div></td>
+			</tr>
+        </tfoot>		
+    </table>
+	
+	
+</div>
+</div>
+</div>  

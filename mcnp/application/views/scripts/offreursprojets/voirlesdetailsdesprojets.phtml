@@ -1,0 +1,510 @@
+<!-- Liste de card espacé avec les informations sur chaque aspect et leurs détails 
+
+Mettre pour chaque card le boutton de confirmation de l'exactitude des informations sur les aspects à acheter
+
+Mettre un boutton pour valider 
+
+Mettre un boutton modifier le montant d'achat des aspects au cas ou les montants ne correspondent pas
+
+Mettre le boutton acheter l'aspect
+
+-->
+
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+ <div class="span12">
+ 
+   <blockquote>
+
+         <h3>
+             <strong style="display:inline-block">Nom du projet:</strong>
+
+             <?php echo $this->selectopdetailvente[0]->libelle_vente_op ;?>
+
+         </h3>
+
+
+   </blockquote>
+     
+     <div class="span6">
+
+        <div class="control-group">
+
+            <label class="control-label" for="libelle_projet" style="font-weight:bold;display:inline-block">
+
+                 La référence du projet:
+
+	        </label>
+
+	         <div class="controls" style="display:inline-block;margin-left:15px">
+     
+                <?php echo $this->selectopdetailvente[0]->reference_op ;?>
+
+             </div>
+        
+        </div>
+
+        <div class="control-group">
+
+            <label class="control-label" for="libelle_projet" style="font-weight:bold;display:inline-block">
+
+                 La centrale d'achat s'occupant du projet:
+
+	        </label>
+
+	         <div class="controls" style="display:inline-block;margin-left:15px">
+     
+                <?php echo $this->selectopdetailvente[0]->libelle_type_centrales ;?>
+
+             </div>
+        
+        </div>
+
+        
+         <div class="control-group">
+
+             <label class="control-label" for="libelle_projet" style="font-weight:bold;display:inline-block;margin-left:15px">
+
+                      Bref description du projet:
+
+	         </label>
+
+	         <div class="controls" style="display:inline-block;margin-left:15px">
+
+                 <p><?php echo $this->selectopdetailvente[0]->description_vente_op ;?></p> 
+             
+             </div>
+        
+         </div>
+
+
+     </div>
+
+     <div class="span6">
+
+        <div class="control-group">
+
+            <label class="control-label" for="libelle_projet" style="font-weight:bold;display:inline-block">
+
+               Code membre du projet:
+
+	        </label>
+
+	      <div class="controls" style="display:inline-block;margin-left:15px">
+
+             <p><?php echo $this->selectopdetailvente[0]->code_membre_apporteur ;?></p> 
+             
+          </div>
+        
+        </div>
+     
+        <div class="control-group">
+
+            <label class="control-label" for="libelle_projet" style="font-weight:bold;display:inline-block">
+
+                 Date de soumission du projet:
+
+	        </label>
+
+	      <div class="controls" style="display:inline-block;margin-left:15px">
+
+             <p><?php echo $this->selectopdetailvente[0]->date_creation ;?></p> 
+             
+          </div>
+        
+        </div>
+
+        <div class="control-group">
+
+            <div class="controls">
+
+              <?php if($this->selectopdetailvente[0]->valid_op == 0): ?>
+
+               <a href="/offreursprojets/envoiagentvalidation/<?php echo $this->selectopdetailvente[0]->id_vente_op;?>" class="btn btn-danger" style="margin-top:20px;margin-bottom;20px" id="validationagentop" data-idventopvalidation="<?php echo $this->selectopdetailvente[0]->id_vente_op;?>">Envoyer les informations à l'agent validation</a>
+            
+               <?php elseif($this->selectopdetailvente[0]->valid_op == 1): ?>
+               
+                <span style="display: block;background-color: #e37d0b;padding: 4px;text-align: center;color: #FFF;font-weight: bold;font-size: 1.1em;border-radius: 5px;">Envoyé avec succès à l'agent validation OP</span>
+
+               <?php elseif($this->selectopdetailvente[0]->valid_op == 2): ?>
+
+                <span style="display: block;background-color: #05b7b4;padding: 4px;text-align: center;color: #FFF;font-weight: bold;font-size: 1.1em;border-radius: 5px;">Envoyé avec succès à l'agent achat</span>
+
+              <?php endif ?>
+
+            </div>
+        
+        </div>
+     
+     </div>
+
+    <blockquote>
+
+      ESPACE REFERENCE N°<strong><?php echo $this->selectopdetailespace[0]->reference_op_espace ;?></strong>
+
+    </blockquote>
+
+    <div class="span12" style = "clear:both">
+    
+         <div class="span4">
+
+            <h4>Informations liées à l'aspect espace</h4>
+
+            <div class="control-group">
+
+                 <label class="control-label" for="libelle_projet" style="font-weight:bold;">
+
+                      Libelle de l'aspect espace:
+
+	            </label>
+
+	             <div class="controls" >
+
+                     <p><?php echo $this->selectopdetailespace[0]->libelle_op_espace ;?></p> 
+             
+                </div>
+        
+            </div>
+
+            <div class="control-group">
+
+                 <label class="control-label" for="libelle_projet" style="font-weight:bold;">
+
+                      Superficie de l'aspect espace:
+
+	            </label>
+
+	             <div class="controls" >
+
+                     <p><?php echo $this->selectopdetailespace[0]->superficie_op_espace ;?></p> 
+             
+                </div>
+        
+            </div>
+
+            <div class="control-group">
+
+                 <label class="control-label" for="libelle_projet" style="font-weight:bold;">
+
+                      Description de l'aspect espace:
+
+	            </label>
+
+	             <div class="controls" style ="text-align:justify">
+
+                     <p><?php echo $this->selectopdetailespace[0]->description_op_espace ;?></p> 
+             
+                </div>
+        
+            </div>
+
+            <div class="control-group">
+
+                 <label class="control-label" for="libelle_projet" style="font-weight:bold;">
+
+                      Montant de vente de l'aspect espace:
+
+	            </label>
+
+	             <div class="controls" >
+
+                     <p><?php echo $this->selectopdetailespace[0]->montant_op_espace ;?></p> 
+             
+                </div>
+        
+            </div>
+             
+         </div>
+
+         <div class="span4">
+
+              <h4>Documents liés à l'aspect espace</h4>
+
+              <?php if ($this->selectopdetailespace[0]->document_op_espace == 1): ?>
+
+                     <?php foreach ($this->selectopdetailespace as $key => $value):?>
+                         
+                        <div>
+
+                          <label for=""><strong><?php echo $value->name_file_espace ;?>:</strong></label>
+                         
+
+                           <a href="http://webfiles.gacsource.net/pdfopespace/<?php echo $value->file_espace ;?>" class="btn btn-primary">Télécharger le document</a>
+              
+                         </div>
+
+                     <?php endforeach ;?>
+
+              <?php endif ;?>
+              
+
+    
+         </div>
+
+         <div class="span4">
+             
+              <h4>Actions liées à l'espace</h4>
+
+              <a href="/offreursprojets/modifierlemontantaspect/idventeaspectop/<?php echo $this->selectopdetailespace[0]->id_op_espace;?>/typeaspect/espace/idventeop/<?php echo $this->selectopdetailvente[0]->id_vente_op ?>" class="btn btn-primary" style="margin-top:20px;margin-bottom;20px" target="_blank">Modifier le montant de vente</a>
+
+              <?php if ($this->selectopdetailespace[0]->exactitude_op_espace == 0):?>
+
+                <a href="/offreursprojets/confirmationexactitudeaspect/<?php echo $this->selectopdetailespace[0]->id_op_espace;?>/typeaspect/espace" class="btn btn-success" style="margin-top:20px;margin-bottom;20px" data-idopdetailaspect= "<?php echo $selectopdetailespace[0]->id_op_espace;?>" data-typeaspect="espace" id="confirmexactitudeaspect">Confirmer l'exactitude de l'aspect</a>
+
+
+              <?php elseif($this->selectopdetailespace[0]->exactitude_op_espace == 1): ?>
+
+                 <span style="display: inline-block;background: #d24c4c;color: #FFF;text-align: center;margin-left: 66px;padding: 5px;border-radius: 4px;font-size: 1.1em;font-weight: bold;position: relative;top: 13px;"><i class="icon-ok"></i> Vérifié !!</span>
+
+              <?php endif ?>
+              
+              
+
+    
+         </div>
+    </div>
+
+
+    <blockquote>
+
+      MATERIELS REFERENCE N°<strong><?php echo $this->selectopdetailmateriel[0]->reference_op_materiel ;?></strong>
+
+    </blockquote>
+
+    <?php foreach ($this->selectopdetailmateriel as $key => $value): ?>
+
+        <div class="span12" style="clear:both; border-top:5px solid #2e2e2e; margin-left:20px">
+
+            <div class="span4" style="margin-top:20px; margin-bottom:10px">
+
+            <h4>Informations liées à l'aspect matériel</h4>
+
+                <div class="control-group">
+
+                     <label class="control-label" for="libelle_projet" style="font-weight:bold;">
+
+                      Libellé de l'aspect matériel:
+
+	                </label>
+
+	                <div class="controls" >
+
+                         <p><?php echo $value->libelle_materiel_disponible ;?></p> 
+             
+                     </div>
+                </div>
+
+                <div class="control-group">
+
+                     <label class="control-label" for="libelle_projet" style="font-weight:bold;">
+
+                         Quantité de l'aspect matériel:
+
+	                </label>
+
+	                <div class="controls" >
+
+                         <p><?php echo $value->quantite_materiel_disponible ;?></p> 
+             
+                     </div>
+                </div>
+
+                <div class="control-group">
+
+                     <label class="control-label" for="libelle_projet" style="font-weight:bold;">
+
+                         Prix du matériel de l'aspect matériel:
+
+	                </label>
+
+	                <div class="controls" >
+
+                         <p><?php echo $value->prix_materiel_disponible ;?></p> 
+             
+                     </div>
+                </div>
+            
+            </div>
+
+            <div class="span4" style="margin-top:20px; margin-bottom:10px">
+
+                <h4>Documents liés à l'aspect materiel</h4>
+
+                <?php if ($this->selectopdetailmateriel[0]->file_op_materiel != NULL): ?>
+                         
+                        <div>
+
+                          <label for=""><strong>Facture Proforma:</strong></label>
+                         
+
+                             <a href="http://webfiles.gacsource.net/pdfopmateriel/<?php echo $value->file_op_materiel ;?>" class="btn btn-primary">Télécharger le document</a>
+              
+                         </div>
+
+                <?php endif ;?>
+            
+            </div>
+
+            <div class="span4" style="margin-top:20px; margin-bottom:10px">
+
+                 <h4>Actions liées à l'aspect matériel</h4>
+
+                 <a href="/offreursprojets/modifierlemontantaspect/idventeaspectop/<?php echo $value->id_op_details_materiels;?>/typeaspect/materiels/idventeop/<?php echo $this->selectopdetailvente[0]->id_vente_op ?>" class="btn btn-primary" style="margin-top:20px;margin-bottom;20px" target="_blank">Modifier le montant de vente</a>
+
+                 <?php if($value->exactitude_details_materiel == 0): ?>
+                 
+                     <a href="/offreursprojets/confirmationexactitudeaspect/<?php echo $value->id_op_details_materiels;?>/typeaspect/materiels" class="btn btn-success" style="margin-top:20px;margin-bottom;20px" data-idopdetailaspect = "<?php echo $value->id_op_details_materiels;?>" data-typeaspect="materiels" id="confirmexactitudeaspect">Confirmer l'exactitude de l'aspect</a>
+            
+                  <?php elseif($value->exactitude_details_materiel == 1): ?>
+
+                     <span><i class="icon-ok"></i> Vérifié !!</span>
+                 
+                 <?php endif ?>
+
+            </div>
+        
+        </div>
+
+
+    <?php endforeach ?>
+    
+
+    <blockquote>
+
+      OUTILS REFERENCE N° <strong><?php echo $this->selectopdetailoutils[0]->reference_op_outils ;?></strong>
+
+    </blockquote>
+
+    <div class="span12" style="clear:both">
+
+       <div class="span6">
+
+       <h4>Informations liées à l'aspect Outils</h4>
+            
+          <?php foreach ($this->selectopdetailoutils as $key => $value): ?>
+
+             <div>
+
+                 <label for="" style=""><strong><?php echo $value->name_outils ;?></strong></label>
+                 
+                 <a href="http://webfilestesting.gacsource.net/pdfopoutils/<?php echo $value->file_outils ;?>" class="btn btn-primary">Télécharger le document</a>
+                 
+             </div>
+
+
+          <?php endforeach ?>   
+       
+       </div>
+
+       <div class="span6">
+
+            <h4>Actions liées à l'aspect outils</h4>
+
+            <a href="/offreursprojets/modifierlemontantaspect/idventeaspectop/<?php echo $this->selectopdetailoutils[0]->id_op_outils;?>/typeaspect/outils/idventeop/<?php echo $this->selectopdetailvente[0]->id_vente_op ?>" class="btn btn-primary" style="margin-top:20px;margin-bottom;20px" target="_blank">Modifier le montant de vente</a>
+
+            <?php if($this->selectopdetailoutils[0]->exactitude_op_outils == 0): ?>
+            
+                 <a href="/offreursprojets/confirmationexactitudeaspect/<?php echo $this->selectopdetailoutils[0]->id_op_outils;?>/typeaspect/outils" class="btn btn-success" style="margin-top:20px;margin-bottom;20px" data-idopdetailaspect = "<?php echo $this->selectopdetailoutils[0]->id_op_outils;?>" data-typeaspect="outils" id="confirmexactitudeaspect">Confirmer l'exactitude de l'aspect</a>
+       
+            <?php elseif($this->selectopdetailoutils[0]->exactitude_op_outils == 1): ?>
+
+                     <span><i class="icon-ok"></i> Vérifié !!</span>
+                 
+            <?php endif ?>
+
+       </div>
+
+    </div>
+
+
+    <blockquote>
+
+      RESSOURCE HUMAINE REFERENCE N°<?php echo $this->selectopdetailrh[0]->reference_op_rh ;?>
+
+    </blockquote>
+
+    <?php foreach ($this->selectopdetailrh as $key => $value): ?>
+
+
+        <div class="span12" style="clear:both; border-top:5px solid #2e2e2e; margin-left:20px">
+
+            <div class="span6" style="margin-top:20px; margin-bottom:10px">
+
+            
+                     <h4>Informations liées à l'aspect RH</h4>
+
+                     <div class="control-group">
+
+                        <label class="control-label" for="libelle_projet" style="font-weight:bold;">
+
+                          Libellé du poste RH:
+
+	                    </label>
+
+	                     <div class="controls" >
+
+                              <p><?php echo $value->libelle_poste ;?></p> 
+             
+                        </div>
+                        
+                    </div>
+
+                    <div class="control-group">
+
+                        <label class="control-label" for="libelle_projet" style="font-weight:bold;">
+
+                          Responsabilité du poste RH:
+
+	                    </label>
+
+	                     <div class="controls" >
+
+                              <p><?php echo $value->responsabilite_poste ;?></p> 
+             
+                        </div>
+                        
+                    </div>
+
+                    <div class="control-group">
+
+                        <label class="control-label" for="libelle_projet" style="font-weight:bold;">
+
+                          Salaire du poste RH:
+
+	                    </label>
+
+	                     <div class="controls" >
+
+                              <p><?php echo $value->salaire_op_details_rh ;?></p> 
+             
+                        </div>
+                        
+                    </div>
+
+            </div> 
+
+            <div class="span6" style="margin-top:20px; margin-bottom:10px">
+
+                <h4>Actions liées à l'aspect ressources humaines</h4>
+
+                <a href="/offreursprojets/modifierlemontantaspect/idventeaspectop/<?php echo $value->id_op_details_rh;?>/typeaspect/rh/idventeop/<?php echo $this->selectopdetailvente[0]->id_vente_op ?>" class="btn btn-primary" style="margin-top:20px;margin-bottom;20px" target="_blank">Modifier le montant de vente</a>
+
+                <?php if($value->exactitude_op_details_rh == 0): ?>
+ 
+                     <a href="/offreursprojets/confirmationexactitudeaspect/<?php echo $value->id_op_details_rh;?>/typeaspect/rh" class="btn btn-success" style="margin-top:20px;margin-bottom;20px" data-idopdetailaspect = "<?php echo $value->id_op_details_rh;?>" data-typeaspect="rh" id="confirmexactitudeaspect">Confirmer l'exactitude de l'aspect</a>
+
+                <?php elseif($value->exactitude_op_details_rh == 1): ?>
+
+                     <span><i class="icon-ok"></i> Vérifié !!</span>
+                 
+                <?php endif ?>
+
+            </div> 
+
+        </div> 
+
+ 
+    <?php endforeach ?>
+
+ </div>  

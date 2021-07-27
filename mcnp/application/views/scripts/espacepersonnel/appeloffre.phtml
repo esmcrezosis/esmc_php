@@ -1,0 +1,41 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+
+  <blockquote><p class="text-info">Les appels d'offres publiés</p></blockquote>
+
+
+<table class="table">
+<tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td style="border-bottom:1px solid #dddddd; border-top:1px solid #FFF;"><?php echo htmlentities($entry->numero_offre); ?></td>
+      <td style="border-bottom:1px solid #dddddd; border-top:1px solid #FFF;"><?php echo htmlentities($entry->nom_appel_offre); ?></td>
+      <td style="border-bottom:1px solid #dddddd; border-top:1px solid #FFF;"><div align="center"><a href="<?php echo $this->baseUrl(); ?>/<?php echo $entry->descrip_appel_offre; ?>"><i class="icon-download"></i>  Télécharger</a>&nbsp;&nbsp;&nbsp;<a href="<?php echo $this->baseUrl(); ?>/espacepersonnel/addproposition/id/<?php echo $entry->id_appel_offre; ?>"><i class="icon-hand-right"></i>  Postuler</a></div></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,58 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p> Ajout de réception d'un Procès verbal </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addpvacquisition">
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error != "") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+  <?php } ?>
+
+
+<div class="control-group">
+<label class="control-label" for="designation_pv">Désignation du Procès verbal * </label>
+<div class="controls">
+<input type="text" name="designation_pv" id="designation_pv" placeholder="Désignation du Procès verbal" class="input-xxlarge" required>
+</div>
+</div> 
+
+
+<div class="control-group">
+<label class="control-label" for="document_pv">Document du Procès verbal *</label>
+<div class="controls">
+<input name="document_pv" type="file" id="document_pv" class="input-xxlarge" required />  
+</div>
+</div> 
+
+<div class="form-actions">  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Valider</button>
+</div>                           
+  
+</form>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,84 @@
+
+<?php
+
+$month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+$true_month = "";
+$ex_date = explode('-',$this->resultatdemandeachat[0]->date_demande);
+
+foreach ($month as $key => $value) {
+  if($ex_date[1] == $key){
+    $true_month = $value;
+  }
+}
+$next_ex_date = explode(' ', $ex_date[2]);
+$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+
+?>
+<form action="" method="post">
+
+
+<h3>DEMANDE D'ACHAT N° <?php echo $this->resultatdemandeachat[0]->reference_demande_achat ;?></h3>
+
+<p style="text-align: right;font-weight: bold;">Date:<?php echo $true_date ;?></p>
+
+<table class="table table-stripped">
+    <thead>
+        <tr>
+			<th>Références</th>
+			<th>Désignation des Articles </th>
+			<th>Quantité </th>
+			<th>Prix Unitaire</th>
+			<th>TOTAL</th>
+		</tr> 
+    </thead>
+    <tbody>
+     <?php foreach ($this->searchdemandedetailachatfournisseur as $key => $value): ?>
+
+     <?php 
+     
+     $total_montant = $value->quantite * $value->prix_unitaire;
+     
+     ?>
+      <tr>
+        
+        <td><?php echo $value->reference_article ;?></td>
+        <td><?php echo $value->designation_article ;?></td>
+        <td><?php echo $value->quantite;?></td>
+        <td><?php echo $value->prix_unitaire;?></td>
+        <td id="total_visa_demande_achat"><?php echo $total_montant;?></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><label for="">Montant demande d’Achat</label></td>
+		<td id="montant_total_visa_demande_achat"></td>			                     
+	 </tr>
+    </tbody>
+ 	<?php endforeach ?>
+</table>
+<div style="text-align:left;margin-bottom:5px;margin-top:5px;">
+  <strong ><i><span style="text-decoration:underline">NB</span>: Cadre reservé à la technopole/filière</i></strong></div><div style="text-align:left;padding:5px;padding-top:20px;border:1px solid #000">
+ <strong style="margin-bottom:15px;"> Visa de la technopole/filière <input type="text" style="border: none;outline: none;box-shadow: 0px 0px 0px #FFF;color: #000;width: 80%;height: 28px;font-size: 1.8em;font-family: Matura MT Script Capitals;text-transform:uppercase;margin-top: -29px;margin-left: 176px;background: transparent;padding: 0;" id="visa_technofiliere_demande_achat_gerant" value="ok"></strong></div><div style="text-align:left;padding:5px;padding-top:20px;border:1px solid #000">
+</div>
+<h2>Liste des tous les fournisseurs disponibles</h2>
+
+
+<?php if(count($this->resultatdetouslesfournisseursdisponibles) > 0)?>
+
+
+<?php foreach ($this->resultatdetouslesfournisseursdisponibles as $key => $value): ?>
+<div class="span3" style="margin:0">
+      <label class="radio">
+                  <span style="inline-block;font-size:1.2em;font-weight:bold;float:left"><?php echo $value->offreur_projet_raison_sociale ;?></span>
+                  <input type="checkbox" name="comite_fournisseur[]" id="comite_fournisseurs" value="<?php echo $value->offreur_projet_code_membre ?>">
+      </label>
+</div>
+
+<?php endforeach ?>      
+
+<input type="text" name="iddemandeachatfournisseur" style="display:none" value="<?php echo $this->resultatdemandeachat[0]->id_demande_achat ;?>"> 
+
+<button class="btn btn-success">Aviser les fournisseurs</button>
+
+</form>

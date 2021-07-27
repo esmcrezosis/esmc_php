@@ -1,0 +1,552 @@
+<meta  http-equiv="Content-Type"  content="text/htmt;  charset=utf-8" />
+<div id="view-content" title="" style="font-size:11px;min-height: 520px;">
+     <form id="new_appel_form" method="post" action="/eu-appel-nn/donew">
+	       <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+		   <fieldset style="margin-bottom: 2px;">
+			    <legend></legend>
+				<table>
+				       <tr>
+						   <td>
+						      <label>Numero Appel offre *</label> 
+							  <select id="numero_offre" name="numero_offre" class="validate[required]"/>
+						   </td>   
+					   </tr>
+				</table>
+			</fieldset>
+			
+			<!--<fieldset style="margin-bottom: 2px;">
+			          <legend></legend>
+					  <table>
+					        <tr>
+							   <td>
+						          <label>Date Fin collecte  *</label> 
+							      <input name="date_fin" id="date_fin" required="true">
+						       </td>
+							   <td width="10">
+							   </td>
+							   <td>
+						           <label>Designation collecte NN  *</label> 
+							       <input name="appel_nn" id="appel_nn"  size="40" required="true">   
+						       </td>
+						    </tr>
+					   </table>          
+			</fieldset>-->
+			
+			<fieldset style="margin-bottom: 2px;">
+			          <legend></legend>
+					  <table id="tab_total" style="display: none;">
+
+                                            <tr>
+                                                 <td>
+							<label>Montant du projet</label>
+                                                        <input type="text" name="montant_budget" id="montant_budget" readonly="true">
+                                                 </td>
+                                                 <td>
+							<label>Total NN exigible collecte</label> 
+							<input name="total_nn" id="total_nn" class="validate[required]" size="30" readonly="true">
+							<input type="hidden" name="nrpre" id="nrpre">
+						        
+						 </td>
+                                            </tr>
+					      
+					  </table>
+			</fieldset>
+
+
+                        <fieldset style="margin-bottom: 2px;">
+                                  <legend></legend>
+                                  <table id="tab_apport" style="display: none;">
+                                         <tr>
+					     <td width="20"></td>
+						      <td><label>Total NN collecte</label> <input name="total_apport" id="total_apport" class="validate[required]" size="30" readonly="true">
+                                                   </td>
+					 </tr>
+
+                                  </table>
+
+                        </fieldset>
+
+
+			
+		    <!--<fieldset style="margin-bottom: 2px;">
+            <legend></legend>
+            <table id="tab_nn" style="display: none;" border="1">
+                <thead>
+                      <th>Type membre</th><th>Type NN</th><th>Code membre</th><th>Nom|Raison</th><th>Apport</th>
+                </thead>
+                <tbody>
+                      <tr>
+                          <td>
+						     <select id="type_membre1" type="text" name="type_membre1" required="true"/>
+							         <option value=""></option>
+                                     <option value="P">Physique</option>
+                                     <option value="M">Morale</option>
+							 </select>	  
+					     </td>
+						 <td>
+						     <select id="type_nn1" type="text" name="type_nn1" required="true"/>
+							         <option></option>
+                                     <option value="TPAGCP">GCP</option>
+                                     <option value="TPAGCI">I</option>
+                                     <option  value="TPAGCRPG">RPG</option>
+                                     <option value="TCNCS">Salaire</option>
+									 <option value="CAPA">CAPA nrPRE</option>
+							 </select>	  
+					     </td>
+						 <td><input id="code_membre1" type="text" name="code_membre1"  value="" size="25" class="validate[required]" /></td>
+						 <td><input id="nom_raison1" type="text" name="nom_raison1" value="" size="25" class="validate[required]" readonly="true"/></td>
+						 <td><input id="apport1" type="text" name="apport1" value="" size="20"  required="true"/></td> 
+                      </tr>
+                </tbody>
+            </table>
+        </fieldset>-->
+		<!--<table>
+            <tr>
+                <td>
+				   <input id="add" type="button" value="Ajouter" onclick="addRow('tab_nn');"/>
+				   <input id="remove" type="button" value="Supprimer" onclick="deleteRow('tab_nn');"/>
+			    </td>
+                <td></td>
+                <td>
+				   <input type="submit" id="val" value="Valider"/>
+				   <input type="reset" id="reset" value="Reinitialiser"/>
+				</td>
+            </tr>
+        </table>-->
+	 </form>   
+</div>
+
+
+<script type="text/javascript">
+
+  $(document).ready(function () {
+      $('#view-content').puipanel();
+      $('fieldset').puifieldset();
+	  $("#new_appel_form").validationEngine();
+	 
+	  var pickerOpts = {
+          dateFormat: "dd/mm/yy",
+          changeMonth: true,
+          changeYear: true,
+          showOtherMonths: true,
+		  maxDate: $(this).datepicker('getDate')
+       };
+       $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+       $("#date_fin").inputmask("d/m/y").datepicker(pickerOpts); 
+	
+       $('#code_membre1').attr('readonly',true);
+	
+	   $.get( "/eu-appel-nn/changem",
+           function success(data) {
+           $("input#code_membreb").autocomplete({"source": data, change: displayItem});
+       });
+	    
+	   function displayItem() {
+        if ($(this).val() !== '') {
+            $.get(
+               '/eu-appel-nn/recupraison', {
+               num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#raison_sociale").val(data[1]);
+            });
+        }
+    }	
+	   
+	
+	   $('form#new_appel_form').submit(function(e) {
+            $.ajax({
+               url: $('form').attr("action"),
+               data: $('form').serialize(),
+               type: 'post',
+               success: processServerResponse
+       });
+               e.preventDefault();
+       });
+	
+    function processServerResponse(data) {
+        if (data === true){
+        alert('Enregistrement effectue avec succes ');
+        $(location).attr("href", "/eu-appel-nn/index");
+    } else {
+         alert(data);
+    }
+  };
+	
+  $.get("/eu-appel-nn/offre",
+    function success(data) {
+     var options = '<option/>';
+     for (var i = 0; i < data.length; i++) {
+              options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+     }
+     $('select#numero_offre').html(options);
+  });
+	
+	
+  $("#numero_offre").change(function(e) {
+        e.preventDefault();
+        if ($(this).val() !== '') { 
+			$.get(
+                 '/eu-appel-nn/trouvemontant',{
+                 id_proposition : $(this).val()
+            },
+            function success(data) {
+              if (data !=0)  {
+
+	          //if (data[1] == data[0]) {
+		     //alert('Le montant total collecte a deja atteint le total des nn exigible')
+		 // } else {
+				    $('#tab_nn').css('display', 'block');
+			            $('#tab_total').css('display', 'block');
+                                    $('#tab_apport').css('display', 'block');
+				    $('#total_nn').val(data[0]);
+				    $('#total_apport').val(data[1]);
+			            $('#appel_nn').val(data[2]);
+				    $('#date_fin').val(data[3]);
+				    $('#montant_budget').val(data[4]);
+				    $('#nrpre').val(data[5]);
+                 //}					
+		      }  else {
+			         
+			  }
+			  
+			})		
+      }
+      else {
+           $('#tab_nn').css('display','none');
+	   $('#tab_total').css('display','none');
+           $('#total_nn').val('');
+           $('#total_apport').val('');
+	   $('#appel_nn').val('');
+           $('#date_fin').val('');
+      }			
+    
+    
+	
+});
+
+    
+$("#type_membre1").change(function(e) {
+        e.preventDefault();
+        $('#code_membre1').val('');
+		$('#type_nn1').val('');
+		$('#nom_raison1').val('');
+		//$('#solde1').val('');
+		$('#apport1').val('');
+        if ($(this).val() != '') {
+		   if($(this).val() == 'P') {
+		        var options = '<option/>';
+		        var tab=[];
+		        var tab1=[];
+				
+		        tab[0]='TPAGCRPG';
+		        tab[1]='TCNCS';
+				tab[2]='CAPA';
+		        tab1[0]='RPG';
+		        tab1[1]='Salaire';
+                tab1[2]='CAPA nrPRE';				
+                for( var i = 0; i < 3; i++) {
+                   options += '<option value="' + tab[i] + '">' + tab1[i] +' </option>';		 
+                }
+		  }else {
+		         var options = '<option/>';
+		         var tab=[];
+		         var tab1=[];
+		         tab[0]='TPAGCP';
+		         tab[1]='TPAGCI';
+				 tab[2]='CAPA';
+		         tab1[0]='GCP';
+		         tab1[1]='I';
+                 tab1[2]='CAPA nrPRE';				 
+                 for( var i = 0; i < 3; i++) {
+                     options += '<option value="' + tab[i] + '">' + tab1[i] +' </option>';		 
+                 }
+		   
+		  } 
+		      $('select#type_nn1').html(options);
+		      $('#code_membre1').attr('readonly',false);
+			  $.get("/eu-appel-nn/membreapporteur",{
+                type_membre : $('#type_membre1').val()
+              },
+              function success(data) {
+                $("#code_membre1").autocomplete({minLength: 5, "source": data});
+              });
+				  
+		  }else {
+		        $('#code_membre1').attr('readonly',true);	  
+		  }  
+        })
+	})
+		   var compteur = 1;
+		   function addRow(tableID) {
+		   var table = document.getElementById(tableID);
+           var rowCount = table.rows.length;
+           var cpte = rowCount;
+           var row = table.insertRow(rowCount);
+			
+		   var cell1 = row.insertCell(0);
+           var element0 = document.createElement("select");
+           element0.setAttribute("id", "type_membre" + cpte);
+           element0.setAttribute("name", "type_membre" + cpte);
+		   element0.setAttribute("required", "true");
+           cell1.appendChild(element0);
+		   $('#type_membre'+ cpte).button();
+			
+		   var options = '<option/>';
+		   var tab=[];
+		   var tab1=[];
+		   tab[0]='P';
+		   tab[1]='M';
+		   tab1[0]='Physique';
+		   tab1[1]='Morale';
+				
+           for( var i = 0; i < 2; i++) {
+              options += '<option value="' + tab[i] + '">' + tab1[i] +' </option>';		 
+           }
+           $('select#type_membre' + cpte).html(options);
+		   
+		   var cell2 = row.insertCell(1);
+           var element1 = document.createElement("select");
+           element1.setAttribute("id", "type_nn" + cpte);
+           element1.setAttribute("name", "type_nn" + cpte);
+		   element1.setAttribute("required", "true");
+           cell2.appendChild(element1);
+		   $('#type_nn'+ cpte).button();
+			
+		   var options = '<option/>';
+		   var tab=[];
+		   var tab1=[];
+		   tab[0]='TPAGCP';
+		   tab[1]='TPAGCI';
+		   tab[2]='TPAGCRPG';
+		   tab[3]='TCNCS';
+		   tab[4]='CAPA';
+		   tab1[0]='GCP';
+		   tab1[1]='I';
+		   tab1[2]='RPG';
+		   tab1[3]='Salaire';
+		   tab1[4]='CAPA nrPRE';
+				
+           for( var i = 0; i < 5; i++) {
+              options += '<option value="' + tab[i] + '">' + tab1[i] +' </option>';		 
+           }
+           $('select#type_nn' + cpte).html(options);
+			
+		   var cell3 = row.insertCell(2);
+           var element2 = document.createElement("input");
+           element2.type = "text";
+           element2.setAttribute("id", "code_membre" + cpte);
+		   element2.setAttribute("class", "validate[required]");
+           element2.setAttribute("name", "code_membre" + cpte);
+           element2.setAttribute("size", "25");
+           element2.setAttribute("readonly", "true");
+           cell3.appendChild(element2);
+		   $('#code_membre'+ cpte).button();
+			
+			
+		   var cell4 = row.insertCell(3);
+           var element3 = document.createElement("input");
+           element3.type = "text";
+           element3.setAttribute("id", "nom_raison" + cpte);
+		   element3.setAttribute("class", "validate[required]");
+           element3.setAttribute("name", "nom_raison" + cpte);
+           element3.setAttribute("size", "25");
+           element3.setAttribute("readonly", "true");
+           cell4.appendChild(element3);
+		   $('#nom_raison'+ cpte).button();
+			
+			
+		   var cell5 = row.insertCell(4);
+           var element4 = document.createElement("input");
+           element4.type = "text";
+           element4.setAttribute("id", "solde" + cpte);
+           element4.setAttribute("name", "solde" + cpte);
+		   element4.setAttribute("class", "validate[required]");
+           element4.setAttribute("size", "15");
+           element4.setAttribute("readonly","true");
+           cell5.appendChild(element4);
+		   $('#solde'+ cpte).button();
+		   var cell6 = row.insertCell(5);
+           var element5 = document.createElement("input");
+           element5.type = "text";
+           element5.setAttribute("id","apport" + cpte);
+           element5.setAttribute("name","apport" + cpte);
+		   element5.setAttribute("required", "true");
+           element5.setAttribute("size","20");
+           cell6.appendChild(element5);
+		   $('#apport'+ cpte).button();
+			
+			
+		   $('#type_membre'+ cpte).change(function(e) {
+                     e.preventDefault();
+					 $('#code_membre'+ cpte).val('');
+		             $('#type_nn'+ cpte).val('');
+		             $('#nom_raison'+ cpte).val('');
+		             $('#solde'+ cpte).val('');
+		             $('#apport'+ cpte).val('');
+			         $('#code_membre' + cpte).val('');
+                     if ($(this).val() != '') {
+					 
+					     if($(this).val() == 'P') {
+		        var options = '<option/>';
+		        var tab=[];
+		        var tab1=[];
+		        tab[0]='TPAGCRPG';
+		        tab[1]='TCNCS';
+				tab[2]='CAPA';
+		        tab1[0]='RPG';
+		        tab1[1]='Salaire';
+                tab1[2]='CAPA nrPRE';				
+                for( var i = 0; i < 3; i++) {
+                   options += '<option value="' + tab[i] + '">' + tab1[i] +' </option>';		 
+                }
+		  } else {
+		         var options = '<option/>';
+		         var tab=[];
+		         var tab1=[];
+		         tab[0]='TPAGCP';
+		         tab[1]='TPAGCI';
+				 tab[2]='CAPA';
+		         tab1[0]='GCP';
+		         tab1[1]='I';
+                 tab1[2]='CAPA nrPRE';				 
+                 for( var i = 0; i < 3; i++) {
+                     options += '<option value="' + tab[i] + '">' + tab1[i] +' </option>';		 
+                 }
+		   
+		  }
+					    $('#type_nn' + cpte).html(options);
+		                $('#code_membre' + cpte).attr('readonly',false);
+				        $.get("/eu-appel-nn/membreapporteur",{
+                        type_membre : $('#type_membre' + cpte).val()
+                     },
+                     function success(data) {
+                       $('#code_membre' + cpte).autocomplete({minLength: 5, "source": data});
+                    });
+				  
+			 }
+			 else {
+			      $('#code_membre' + cpte).attr('readonly',true);	  
+			 }
+			 
+			 /* $('#nom_raison' + cpte).blur(function(e) {
+              if ($(this).val() !== '' && $('#code_membre1').val() !== '') {
+                 $.get(
+                      '/eu-appel-nn/soldenn',{
+                            compte:$('#type_nn'+ cpte).val(),membre:$('#code_membre'+ cpte).val(),type_membre:$('#type_membre'+ cpte).val()
+                      },
+                function success(data) {
+                  if (data !== null) {
+                        $('#solde'+ cpte).val(data);
+                  } else {
+                        $('#solde'+ cpte).val(0);
+                 }
+
+                });
+            } else {
+                alert("Le code membre doit être renseigné!!!");
+            }
+            e.preventDefault();
+        });
+	*/		  
+			 $('#code_membre' + cpte).blur(function(e) {
+                if ($(this).val() !== '') {
+                $.get(
+                        '/eu-appel-nn/recupnom',{
+                            num_membre: $(this).val(),type_membre: $('#type_membre' + cpte).val()
+                        },
+                       function success(data) {
+                        if (data !== '') {
+                        $('#nom_raison' + cpte).val(data[1]);
+                      }   else {
+                          alert('Ce membre n\existe pas!!!');
+                      }
+                });
+            }
+            e.preventDefault();
+        });	 	 
+    })	
+            compteur = compteur + 1;
+            document.getElementById("cpteur").setAttribute('value', compteur);					
+		}
+		function deleteRow(tableID) {
+            try {
+                          var table = document.getElementById(tableID);
+                          var rowCount = table.rows.length - 1;
+                          if (rowCount > 1) {
+                             table.deleteRow(rowCount);
+                             compteur = compteur - 1;
+                             document.getElementById("cpteur").setAttribute('value', compteur);
+                          }
+            } catch (e) {
+                       alert(e);
+            }
+        }
+		
+		
+		$('#code_sms1').blur(function(e) {
+            if ($(this).val() !== '') {
+                $.get(
+                        '/eu-appel-nn/codesms',
+                        {
+                            code: $(this).val(),type_membre: $('#type_membre1').val()
+                        },
+                function success(data)
+                {
+                    if (data !== 0) {
+                        $('#apport1').val(data);
+                    } else {
+                        alert("Ce code est invalide");
+                    }
+
+                });
+            }
+            e.preventDefault();
+        });
+		
+		
+		/*$('#nom_raison1').blur(function(e) {
+            if ($(this).val() !== '' && $('#code_membre1').val() !== '')
+            {
+                $.get(
+                        '/eu-appel-nn/soldenn',
+                        {
+                            compte:$('#type_nn1').val(),membre:$('#code_membre1').val(),type_membre:$('#type_membre1').val()
+                        },
+                function success(data)
+                {
+                    if (data !== null) {
+                        $('#solde1').val(data);
+                    } else {
+                        $('#solde1').val(0);
+                    }
+
+                });
+            } else {
+                alert("Le code membre doit être renseigné!!!");
+            }
+            e.preventDefault();
+        });
+		
+		*/
+		
+	    $('#code_membre1').blur(function(e) {
+            if ($(this).val() !== '') {
+                $.get(
+                 '/eu-appel-nn/recupnom',
+                        {
+                            num_membre: $(this).val(),type_membre: $("#type_membre1").val()
+                        },
+                function success(data)
+                {
+                    if (data !== '') {
+                        $("#nom_raison1").val(data[1]);
+                    } else {
+                        alert('Ce membre n\existe pas!!!');
+                    }
+                });
+            }
+            e.preventDefault();
+        });
+		
+</script>

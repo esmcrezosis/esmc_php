@@ -1,0 +1,457 @@
+﻿<div id="view-content" title="ENROLEMENT PAR CAPS"  style="font-size:11px;min-height: 520px;">
+     <div style="margin-bottom:3px; width:820px">
+	    <form id="caps_form" method="Post" action="/eu-bnp/capscmfh">
+		    <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+            <div style="margin-bottom:3px;">
+			    <fieldset>
+	            <legend>BNP</legend>
+			    <table style="margin-left: 10px;">
+				<tbody>
+				        <tr>
+                        <td width="120px"><label>Type BNP</label></td>
+                            <td><input id="type_bnp" type="text" name="type_bnp"  size="7" readonly  value="CAPS"/></td>
+                        </tr>
+						<!--<tr><td height="6px"></td></tr>-->
+						<tr>
+					        <td width="120px">
+						       <label>Type CAPS *</label>
+						    </td>
+							<td>
+                                <select name="type_caps" id="type_caps" required="true">
+								<option></option>
+								<option value="CAPSFLFCPS" >CAPS Avec FL et FKPS</option>
+                            </td>
+                        </tr>
+						<!--<tr><td height="6px"></td></tr>-->
+						<tr>
+                            <td width="120px"><label>Montant CAPS *</label></td>
+							<td>
+							<input id="mont_caps" type="text" name="mont_caps"  size="10"  readonly />
+							<input id="dev_caps" type="text" name="dev_caps"  size="5"  value="XOF" readonly />
+							
+							</td>
+                        </tr>
+						
+						<!--<tr><td height="6px"></td></tr>-->
+						<tr>
+					        <td valign="top" width="120px"><label>Catégorie CMFH *</label></td>
+							<td>
+						    <label>
+		                        <input type="radio" checked="checked"  name="categorie" id="categorie1" value="SansListe" required="true">
+				                Sans Liste
+		                    </label>
+							</td>
+							<td>
+							<label>
+		                        <input type="radio"  name="categorie" id="categorie" value="AvecListe" required="true">
+				                Avec Liste
+		                    </label>
+						    </td>
+                            
+															
+					    </tr>
+                        <!--<tr><td height="6px"></td></tr>-->						
+					</tr>		
+			    </tbody>	
+				</table>
+                
+				
+				<table id="tab_apporteur" style="display:none;">
+				<tbody>		
+				    <tr>
+					<td width="130px"><label>Apporteur  CAPS  *</label></td>
+                                        <td><input id="apporteur" type="text" name="apporteur"  size="25" /></td>	
+			            </tr>
+					<!--<tr><td height="6px"></td></tr>-->
+				    <tr>
+					<td><label>Nom  &&  Prénom  *</label></td>
+                                        <td><input id="nom_apporteur" type="text" name="nom_apporteur"  size="25" /></td>
+				    </tr>
+                                    
+                    <tr>
+					    <td width="130px"><label>Code Souscription  *</label></td>
+                        <td>
+						   <input id="code_souscript" type="text" name="code_souscript"  size="25" />
+						   <input id="id_membretiers" type="hidden" name="id_membretiers"  size="5" />
+						</td>	
+			        </tr>
+					<!--<tr><td height="6px"></td></tr>-->
+				</tbody>	
+				</table>   
+            </div>
+            </fieldset>
+			
+			
+			<fieldset style="margin-bottom: 2px;">
+            <legend>Etat civil</legend>
+			<table>
+			    <tr>
+				    <td>Nom *</td>
+					<td><input size="30" name="nom_membre"  id="nom_membre" required="true" value="<?php echo $this->nom_membre ?>" /></td> 
+					<td>Prénoms *</td><td><input size="30" name="prenom_membre" id="prenom_membre" required="true" value="<?php echo $this->prenom_membre ?>" /></td>
+				</tr>
+                <tr>
+				    <td>Genre *</td>
+                    <td>
+					    <select name="sexe_membre" id="sexe_membre" required="true" value="<?php echo $this->sexe ?>" />
+                            <option value=""></option>
+                            <option value="M">Masculin</option>
+                            <option value="F">Féminin</option>
+                        </select>
+                    </td>
+                    <td>Date de naissance *</td>
+                    <td><input style="text-align: right" name="date_nais_membre" id="date_nais_membre" required="true" value="<?php echo $this->dat_nais ?>"  /></td>
+				</tr>
+                <tr>
+                    <td>Nationalité *</td><td><select id="nationalite_membre" name="nationalite_membre" required="true" value="<?php echo $this->nation ?>"  /></td> 
+                    <td>Lieu de naissance *</td><td><input size="30" name="lieu_nais_membre" id="lieu_nais_membre" required="true" value="<?php echo $this->lieu_nais ?>" /></td>
+				</tr>
+                <tr>
+				   <td>Nom du père</td>
+				   <td><input size="30" name="pere_membre" value="<?php echo $this->pere ?>" /></td> 
+				   <td>Nom de la mère</td>
+				   <td><input size="30" name="mere_membre" value="<?php echo $this->mere ?>" ></td>
+				</tr>
+
+                <tr>
+				    <td>Situation matrimoniale *</td>
+                    <td>
+					    <select name="sitfam_membre" required="true" >
+                            <option value=""></option>
+                            <option value="C">Célibataire</option>
+                            <option value="D">Divorcé(e)</option>
+                            <option value="M">Marié(e)</option>
+                            <option value="V">Veuf(ve)</option>
+                        </select>
+				    </td> 
+                    <td>Nombre d'enfant *</td>
+					<td>
+					   <input name="nbr_enf_membre" maxlength="2" required="true" class="validate[custom[onlyNumberSp]]" value="<?php echo $this->nbre_enf ?>">
+					</td>
+				</tr>
+			</table>
+			</fieldset>
+			<fieldset style="margin-bottom: 2px;">
+            <legend>Adresse</legend>
+            <table>
+                <tr>
+                    <td><label>BP : </label><input id="bp_membre" name="bp_membre" value="<?php echo $this->bp ?>" /></td>
+                    <td><label>Quartier * : </label><input size="25" name="quartier_membre" id="quartier_membre"  required="true"/></td> 
+                    <td><label>Ville * : </label><input size="25" name="ville_membre" id="ville_membre" required="true" value="<?php echo $this->ville_membre ?>" /></td>
+                </tr>
+                <tr>
+                    <td><label>Email : </label><input size="25" name="email_membre" class="validate[custom[email]]" value="<?php echo $this->email ?>"  /></td> 
+                    <td><label>Cellulaire * : </label><input style="text-align: right" id="portable_membre" name="portable_membre" required="true" value="<?php echo $this->portable ?>"  ></td>
+                    <td><label>Téléphone</label><input style="text-align: right" id="tel_membre" name="tel_membre" class="validate[custom[onlyNumberSp]]" value="<?php echo $this->tel ?>" /></td>
+                </tr>
+            </table>
+        </fieldset>
+		
+        <fieldset style="margin-bottom: 2px;">
+            <legend>Autres informations</legend>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Profession *</td><td><input size="26" name="profession_membre" required="true" value="<?php echo $this->profession ?>" /></td> 
+                        <td>Formation</td><td><input size="26" name="formation" value="<?php echo $this->formation ?>" ></td>
+                        <td>Religion *</td><td><select id="religion_membre" required="true" name="religion_membre" value="<?php echo $this->religion ?>" ></select></td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+        <fieldset style="margin-bottom: 2px;">
+            <legend>Comptes bancaires</legend>
+            <table id="tab_banque">
+                <thead>
+                <th>Banque</th><th>Nom</th><th>Numéro du Compte</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><select id="code_banque1" type="text" name="code_banque1" value=""/></td>
+                        <td><input id="nom_banque1" type="text" name="nom_banque1" value="" size="40" readonly="true"/></td>
+                        <td><input id="num_compte1" type="text" name="num_compte1" value="" size="30" /></td>
+                        <td><input id="add" type="button" value="+" onclick="addRow('tab_banque');"/><input id="remove" type="button" value="-" onclick="deleteRow('tab_banque');"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+		<div style="margin-top: 10px;">
+            <input name="codesecret" type="hidden" id="codesecret" value="<?php echo $this->codesecret; ?>" />
+            <input type="submit" value="Valider" id="valider"   />
+            <input type="reset" value="Rafraichir" id="refresh"   />
+        </div>	
+		</form>
+    </div> 
+</div>
+<script type="text/javascript">
+	$(function() {
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+	$("#caps_form").validationEngine();
+	  
+	  
+	var pickerOpts = {
+        dateFormat: "dd/mm/yy",
+        changeMonth: true,
+        changeYear: true,
+        showOtherMonths: true,
+        maxDate: $(this).datepicker('getDate')
+    };
+        $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+        $("#date_nais_membre").inputmask("d/m/y").datepicker(pickerOpts); 
+    });
+	
+	$.get("/eu-bnp/nation",
+            function success(data) {
+            var options = '<option/>';
+            for (var i = 0; i < data.length; i++) {
+                options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+        }
+            $('select#nationalite_membre').html(options);
+    });
+	
+	
+	$.get("/eu-bnp/compte",
+        function success(data) {
+        var options = '<option/>';
+        for (var i = 0; i < data.length; i++) {
+            options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+        }
+        $('select#code_banque1').html(options);
+    });
+	
+	
+	$.get("/eu-bnp/religion",
+            function success(data) {
+                var options = '<option/>';
+                for (var i = 0; i < data.length; i++) {
+                options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+            }
+            $('select#religion_membre').html(options);
+        });
+	
+	
+	$.get('/eu-membre/devise',function success(data) {
+        var options = '';
+        for (var i = 0; i < data.length; i++) {
+            if (data[i] === 'XOF') {
+                options += '<option value="' + data[i] + '" selected>' + data[i] + ' </option>';
+            } else {
+                options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+            }
+        }
+        $('select#dev_caps').html(options);
+        });
+	
+	$.get("/eu-membre/changem",
+        function success(data) {
+        $("#code_membre_dist").autocomplete({"source": data});
+    });
+	
+	$.get("/eu-membre/change",
+        function success(data) {
+        $("#apporteur").autocomplete({"source": data});
+        });
+	
+	$('#type_caps').change(function() {
+        var caps = 0;
+        if ($('#type_caps').val() === '') {
+            caps = '';
+			$('#mont_caps').val(caps);
+        } 
+        if ($(this).val() === 'CAPSFLFCPS') {
+            caps = 70000;
+            $('#mont_caps').val(caps);
+        }
+    });
+	
+	$("#categorie").change(function(e) {
+	    if($(this).val() == 'AvecListe') {
+	      $('#tab_apporteur').css('display', 'block');
+	      $('#apporteur').attr('required',true);
+	      $('#nom_apporteur').attr('required',true);
+              $('#code_souscript').attr('required',true);
+            } 		
+	});
+	
+	$("#categorie1").change(function(e) {
+	    if($(this).val() == 'SansListe') {
+	       $('#tab_apporteur').css('display', 'none');
+		   $('#apporteur').attr('required',false);
+		   $('#nom_apporteur').attr('required',false);
+                   $('#code_souscript').attr('required',false);
+                   
+                   $('#apporteur').val('');
+		   $('#nom_apporteur').val('');
+                   $('#code_souscript').val('');
+
+		} 		
+	});
+	
+
+        $('#code_souscript').blur(function(e) {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-bnp/souscription',{
+                            code: $(this).val()
+                        },
+                function success(data)
+                {
+                    if (data !== 0) {
+                        $('#nom_membre').val(data[0]);
+		                $('#prenom_membre').val(data[1]);
+                        $('#portable_membre').val(data[2]);
+                        $('#email_membre').val(data[3]);
+                        $('#quartier_membre').val(data[4]);
+                        $('#ville_membre').val(data[5]);
+						$('#id_membretiers').val(data[6]);  
+                    } else {
+                        alert("Ce code est invalide");
+                        $('#code_souscript').val('');
+                    }
+
+                });
+            } else {
+                $('#code_souscript').val('');
+            }
+            e.preventDefault();
+        });
+
+
+	
+	$('#code_membre_dist').blur(function(e) {
+        if ($(this).val() !== '') {
+            $.get(
+            '/eu-membre/recupnom1',{
+            num_membre: $(this).val(),
+           },
+            function success(data) {
+            if (data !== '') {
+               $("#nom_dist").val(data[2]);
+            } else {
+               alert('Ce membre n\existe pas!!!');
+            }
+            });
+        }
+        e.preventDefault();
+    });
+	
+	
+	$('#apporteur').blur(function(e) {
+        if ($(this).val() !== '') {
+            $.get(
+             '/eu-membre/recupnom',{
+             num_membre: $(this).val(),
+            },
+            function success(data) {
+            if (data !== '') {
+               $("#nom_apporteur").val(data);
+            } else {
+               alert('Ce membre n\existe pas!!!');
+            }
+            });
+        }
+        e.preventDefault();
+    });
+	
+	$('#code_banque1').change(function(e) {
+            if ($(this).val() !== '') {
+                $.get(
+                    '/eu-bnp/nomcompte',{
+                        code: $(this).val()
+                    },
+            function success(data) {
+                if (data !== false) {
+                    $('#nom_banque1').val(data);
+            } else {
+                alert('Pas de banque correspondant à ce code');
+            }
+            });
+        }
+        e.preventDefault();
+    });
+	
+	
+	
+	var compteur = 1;
+	function addRow(tableID) {
+        var table = document.getElementById(tableID);
+        var rowCount = table.rows.length;
+        var cpte = rowCount;
+        var row = table.insertRow(rowCount);
+
+        var cell1 = row.insertCell(0);
+        var element0 = document.createElement("select");
+        element0.setAttribute("id", "code_banque" + cpte);
+        element0.setAttribute("name", "code_banque" + cpte);
+        cell1.appendChild(element0);
+		$('#code_banque'+ cpte).puiinputtext();
+
+        var cell2 = row.insertCell(1);
+        var element1 = document.createElement("input");
+        element1.type = "text";
+        element1.setAttribute("id", "nom_banque" + cpte);
+        element1.setAttribute("name", "nom_banque" + cpte);
+        element1.setAttribute("size", "40");
+        element1.setAttribute("readonly", "true");
+        cell2.appendChild(element1);
+	    $('#nom_banque'+ cpte).puiinputtext();
+
+        var cell3 = row.insertCell(2);
+        var element2 = document.createElement("input");
+        element2.type = "text";
+        element2.setAttribute("id", "num_compte" + cpte);
+        element2.setAttribute("name", "num_compte" + cpte);
+        element2.setAttribute("size", "30");
+        cell3.appendChild(element2);
+		$('#num_compte'+ cpte).puiinputtext();
+
+        $.get("/eu-bnp/compte",
+            function success(data) {
+                var options = '<option/>';
+                for (var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                }
+                $('select#code_banque' + cpte).html(options);
+        });
+
+        $('#code_banque' + cpte).change(function(e) {
+            if ($(this).val() !== '') {
+                $.get('/eu-bnp/nomcompte',{
+                    code: $(this).val()
+                },
+            function success(data) {
+                if (data !== false) {
+                    $('#nom_banque' + cpte).val(data);
+                }
+                else {
+                    lert('Pas de banque correspondant à ce code');
+                }
+            });
+            }
+            e.preventDefault();
+        });
+        compteur = compteur + 1;
+        document.getElementById("cpteur").setAttribute('value', compteur);
+    }
+	
+	function deleteRow(tableID) {
+        try {
+            var table = document.getElementById(tableID);
+            var rowCount = table.rows.length - 1;
+            if (rowCount > 1) {
+                table.deleteRow(rowCount);
+                compteur = compteur - 1;
+                document.getElementById("cpteur").setAttribute('value', compteur);
+            }
+        } catch (e) {
+            alert(e);
+        }
+    }
+	
+	
+	
+	
+	
+</script> 

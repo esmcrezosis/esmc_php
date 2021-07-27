@@ -1,0 +1,50 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-objet-hors"></table>
+    <div id="pg-objet-hors"></div>
+
+</div>
+
+<script type="text/javascript">
+    jQuery("#tbl-objet-hors").jqGrid({ 
+        url:'<?php echo $this->url(array('action' => 'data')); ?>', 
+        datatype: "json", 
+        colNames:['Code ','Designation ','Expression du besoin','Date expression du besoin','Client'], 
+        height:220, width:828,
+        colModel:[
+            {name:'code_objet',index:'code_objet', width: 120, editable: true,align:"left"},
+            {name:'design_objet',index:'design_objet', width: 300, editable: true,align:"left"},
+            {name:'objet_besoin',index:'objet_besoin', width: 250, align:"left", editable: true},
+            {name:'date_besoin',index:'date_besoin', width: 150, align:"left", editable: true},
+            {name:'num_client',index:'num_client', width: 150, align:"left", editable: true},
+            
+        ], 
+        rowNum:10,
+        rowList:[10,20,30],
+        pager: '#pg-objet-hors',
+        sortname:"id_besoin",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Liste des nouveaux produits"          
+    });
+    $("#tbl-objet-hors").jqGrid('navGrid','#pg-objet-hors',{edit:false,add:false,del:false,search:true});
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-objet-hors").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+                $.get('/eu-objet-hors/edit',{
+                    objet:rowsel
+                },function success(data){
+                    $("#content").html(data);
+                }); 
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+   
+</script>

@@ -1,0 +1,42 @@
+<div id="view-content">
+    <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:11px">
+         <table id="tbl-domicilie"></table>
+         <div id="pg-domicilie"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-domicilie").jqGrid({
+        url: '<?php echo $this->url(array('action' => 'datadomiass')); ?>',
+        editurl: '<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code', 'Bénéficiaire', 'Ressource', 'Mt SMCIPN', 'Mt domicilié', 'Date début', 'Date fin', 'Appel d\'offre', 'Type', 'Propo','Etat'],
+        height: 450, width: 820,
+        colModel: [
+            {name: 'code_domici', index: 'code_domici', width: 100, align: "left", hidden: true},
+            {name: 'num_benef', index: 'num_benef', width: 180, editable: false, align: "left"},
+            {name: 'cat_ressource', index: 'cat_ressource', width: 100, editable: false, align: "left"},
+            {name: 'mt_subvent', index: 'mt_subvent', width: 130, align: "right", editable: false, formatter: 'number'},
+            {name: 'mt_domici', index: 'mt_domici', width: 130, editable: false, align: "right", formatter: 'number'},
+            {name: 'date_domici', index: 'date_domici', width: 110, align: "left", editable: false},
+            {name: 'date_fin', index: 'date_fin', width: 110, align: "left", editable: false},
+            {name: 'id_offre', index: 'id_offre', width: 170, align: "left", editable: false},
+            {name: 'type_domici', index: 'type_domici', width: 100, align: "right", hidden: true},
+            {name: 'id_propo', index: 'id_propo', width: 10, align: "right", hidden: true},
+            {name: 'domicilier', index: 'domicilier', width: 10, align: "right", hidden: true},
+        ],
+        rowNum: 10000,
+        rowList: [10000, 20000, 30000],
+        rownumbers: true,
+        pager: '#pg-domicilie',
+        sortname: "code_domici",
+        viewrecords: true,
+        sortorder: "desc",
+        caption: "Liste des domiciliations assurances",
+        footerrow: true,
+        userDataOnFooter: true
+    });
+    $("#tbl-domicilie").jqGrid('navGrid', '#pg-domicilie', {edit: false, add: false, del: false, search: true});
+
+</script>

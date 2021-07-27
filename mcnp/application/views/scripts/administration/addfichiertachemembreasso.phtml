@@ -1,0 +1,74 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout du fichier tache guichet</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addfichier">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="id_tache_membreasso">Tache guichet *</label>
+<div class="controls">
+<?php 
+$menu = new Application_Model_EuTacheMembreassoMapper();
+$entries = $menu->fetchAll();
+if(count($entries) > 0){?>
+<select id="id_tache_membreasso" name="id_tache_membreasso"  required>
+  <option value="">Choisir la tache</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->tache_id; ?>"><?php echo $value->tache_libelle; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="fichier_tache_membreasso">Url du fichier </label>
+<div class="controls">
+<input name="fichier_tache_membreasso" type="file" id="fichier_tache_membreasso" class="input-xxlarge" />  
+</div>
+</div>
+    
+    
+    
+<div class="form-actions">
+<input name="etat" type="hidden" id="etat" value="1" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter le fichier tache guichet</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

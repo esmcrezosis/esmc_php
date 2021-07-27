@@ -1,0 +1,48 @@
+<div id="view-content" title="Vue des gcp pbf eligibles" style="min-height:320px;padding: 1px;margin: 1px;font-size: 12px;">
+	 <table id="tab-tpagcp"></table>
+	 <div id="pg-tpagcp"></div>
+</div>
+<script type="text/javascript">
+        $("#tab-tpagcp").jqGrid({
+        url: '/eu-compensation/data',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Id', 'Membre', 'Compte','Date debut', 'Date fin','Montant','Montant Tranche','Montant Echu', 'Solde','Compensable'],
+        height:320, width: 807,
+        colModel: [
+            {name: 'id_tpagcp', index: 'id_tpagcp', width: 120, editable: false, align: "left", hidden:true},
+            {name: 'membre', index: 'membre', width: 120, editable: false, align: "left", hidden: true},
+            {name: 'compte', index: 'compte', width: 150, align: "left", editable: false, hidden: true},
+			{name: 'date_deb', index: 'date_deb', width: 90, align: "left", editable: false},
+            {name: 'date_fin', index: 'date_fin', width: 90, align: "left", editable: false},
+            {name: 'mont_gcp', index: 'mont_gcp', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+            {name: 'mont_tranche', index: 'mont_tranche', width: 100, editable: false, align: "right", formatter:"number", summaryType:'sum'},
+            {name: 'mont_echu', index: 'mont_echu', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+			{name: 'solde', index: 'solde', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+			{name: 'escompte', index: 'escompte', width: 150, align: "left", editable: false},       
+        ],
+        rowNum: 1000,
+        rowList: [1000, 2000, 3000],
+        sortname: "date_deb",
+        rownumbers: true,
+		pager: '#pg-tpagcp',
+        viewrecords: true,
+		multiselect: true,
+        sortorder: "ASC",
+        footerrow: true, userDataOnFooter: true,
+        caption: "COMPTE GCP PBF",
+      
+    });
+	$("#tab-tpagcp").jqGrid('navGrid','#pg-tpagcp',{edit: false, add: false, del: false, search: true});
+	
+	
+	$(document).ready(function() {
+	   $('#view-content').puipanel();
+	   $('fieldset').puifieldset();
+	});
+	
+	
+	
+	
+	
+</script>

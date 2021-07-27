@@ -1,0 +1,52 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 10px; padding-left: 7px;">
+        <h3>Edition d'un membre</h3>
+    </div>
+    <div class="ui-widget-content ui-corner-bottom">
+        <form action="<?php echo $this->url(); ?>" method="<?php echo $this->form->getMethod(); ?>" enctype="<?php echo $this->form->getEnctype(); ?>" > 
+            <div style="margin: 3px;text-align: left;">
+                <?php
+                $this->form->getElement("submit")->setLabel("Modifier");
+                ?>
+                <?php echo $this->form->getElement("submit"); ?>
+                <?php echo $this->form->getElement("cancel"); ?>
+            </div>
+            <div id="accordeon">
+                <h2><a href="#">Dénomination et Représentant</a></h2>
+                <div id="etat_civil">
+                    <table>
+                        <tr><td>Type</td><td><?php echo stripslashes (html_entity_decode($this->form->getElement("code_type_acteur"))); ?></td></tr>
+                        <tr><td>Statut</td><td><?php echo stripslashes (html_entity_decode($this->form->getElement("code_statut"))); ?></td></tr>
+                        <tr><td>Raison sociale</td><td><?php echo stripslashes (html_entity_decode($this->form->getElement("raison_sociale"))); ?></td></tr>
+                    </table>
+                </div>
+                <h2><a href="#">Coordonnées</a></h2>
+                <div id="coordonnees">
+                    <table>
+                        <tr><td>Quartier</td><td><?php echo stripslashes (html_entity_decode($this->form->getElement("quartier_membre"))); ?></td></tr>
+                        <tr><td>Ville</td><td><?php echo stripslashes(html_entity_decode($this->form->getElement("ville_membre"))); ?></td></tr>
+						<tr><td>Pays</td><td><?php echo $this->form->getElement("id_pays");?></td></tr>
+                        <tr><td>BP</td><td><?php echo $this->form->getElement("bp_membre"); ?></td></tr>
+                        <tr><td>Téléphone</td><td><?php echo $this->form->getElement("tel_membre"); ?></td> <td>Téléphone portable</td><td><?php echo $this->form->getElement("portable_membre"); ?></td></tr>
+                        <tr><td>Adresse email</td><td><?php echo stripslashes (html_entity_decode($this->form->getElement("email_membre"))); ?></td></tr>
+                    </table>
+                </div>
+                <h2><a href="#">Autres informations</a></h2>
+                <div id="autres">
+                     <table>
+                            <tr><td>Domaine d'activité</td><td><?php echo stripslashes (html_entity_decode($this->form->getElement("domaine_activite")));?></td></tr>
+                            <tr><td>Numero</td><td><?php echo $this->form->getElement("code_membre_morale"); ?></td></tr>
+                            <tr><td>Numéro Régistre</td><td><?php echo stripslashes (html_entity_decode($this->form->getElement("num_registre_membre")));?></td></tr>
+                     </table>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $(function() {
+            jQuery("form #accordeon").accordion();
+            $("#submit").button();
+            $("#cancel").button();
+        });
+    </script>
+</div>

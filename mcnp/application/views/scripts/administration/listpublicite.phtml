@@ -1,0 +1,109 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?> 
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des publicites</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Image</th>
+								  <th>Libellé</th>
+								  <th>Ancien</th>
+								  <th>Type</th>
+								  <th>Catégorie</th>
+								  <th>Box</th>
+								  <th>Interface</th>
+								  <?php /*?><th>Durée (Jours)</th><?php */?>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><img src="<?php echo $this->baseUrl(); ?>/<?php echo ($entry->desc_publicite); ?>" class="img-rounded" style="width: 100px;"></td>
+      <td><?php echo ($entry->libelle_publicite); ?></td>
+      <td><div align="center"><?php 
+$ancienpubliciteM = new Application_Model_EuAncienPubliciteMapper();
+$ancienpublicite = new Application_Model_EuAncienPublicite();
+$ancienpubliciteM->find($entry->ancien_publicite, $ancienpublicite);
+?><?php echo htmlentities($ancienpublicite->libelle_ancien_publicite); ?></div></td>
+      <td><div align="center"><?php 
+$typepubliciteM = new Application_Model_EuTypePubliciteMapper();
+$typepublicite = new Application_Model_EuTypePublicite();
+$typepubliciteM->find($entry->type_publicite, $typepublicite);
+?><?php echo htmlentities($typepublicite->libelle_type_publicite); ?></div></td>
+      <td><div align="center"><?php 
+$categoriepubliciteM = new Application_Model_EuCategoriePubliciteMapper();
+$categoriepublicite = new Application_Model_EuCategoriePublicite();
+$categoriepubliciteM->find($entry->categorie_publicite, $categoriepublicite);
+?><?php echo htmlentities($categoriepublicite->libelle_categorie_publicite); ?></div></td>
+      <td><div align="center"><?php 
+$boxpubliciteM = new Application_Model_EuBoxPubliciteMapper();
+$boxpublicite = new Application_Model_EuBoxPublicite();
+$boxpubliciteM->find($entry->box_publicite, $boxpublicite);
+?><?php echo htmlentities($boxpublicite->libelle_box_publicite); ?></div></td>
+      <td><div align="center"><?php 
+$interfacepubliciteM = new Application_Model_EuInterfacePubliciteMapper();
+$interfacepublicite = new Application_Model_EuInterfacePublicite();
+$interfacepubliciteM->find($entry->interface_publicite, $interfacepublicite);
+?><?php echo htmlentities($interfacepublicite->libelle_interface_publicite); ?></div></td>
+      <?php /*?><td><div align="center"><?php echo htmlentities($entry->duree_publicite); ?></div></td><?php */?>
+      <td><div align="center"><?php if($entry->status == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/statuspublicite/id/<?php echo $entry->id_publicite; ?>/status/0"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/statuspublicite/id/<?php echo $entry->id_publicite; ?>/status/1"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+	  <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/editpublicite/id/<?php echo $entry->id_publicite; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+
+			<a class="btn btn-mini btn-danger" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/administration/supppublicite/id/<?php echo $entry->id_publicite; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a></div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune publicite enrégistrée 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

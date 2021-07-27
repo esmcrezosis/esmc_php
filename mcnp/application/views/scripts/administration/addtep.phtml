@@ -1,0 +1,138 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p> Ajout d'un Terminal d'Echanges (TE) Prestataire </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addtep">
+      <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $sessionutilisateur->error; ?>
+      </div>
+      <?php } ?>
+
+      <?php if(isset($this->error) && $this->error!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $this->error; ?>
+      </div>
+      <?php } ?>	  
+	   
+	
+      <legend>Terminal d'Echanges (TE) Prestataire</legend>  
+      <div class="control-group">
+      <label class="control-label" for="nom">Code Membre Prestataire *</label>
+      <div class="controls">
+	  <input type="text" name="code_membre" id="code_membre" placeholder="Code Membre Prestataire"   required />
+      </div>
+      </div>
+
+	  
+	    <legend>Découpage géographique</legend>
+	    <div class="row-fluid">
+            <div class="span4">
+            <div class="control-group">
+            <label class="control-label span4">Zone Monétaire </label>
+            <div class="controls span8">
+            <select class="input-block-level" id="code_zone" name="code_zone" >
+            <option value="">Choisir une zone monétaire</option>
+                <?php foreach ($this->zones as $value) { ?>
+                    <option
+                        value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?>
+				    </option>                         
+                <?php } ?>
+            </select>
+            </div>
+            </div>
+            </div>
+			
+            <div class="span4">
+            <div class="control-group">
+            <label class="control-label span4">Pays </label>
+            <div class="controls span8">
+                <select class="input-block-level" id="id_pays" name="id_pays" >
+                <option value="">Choisir un pays</option>
+                <?php foreach ($this->pays as $value) { ?>
+                <option
+                    value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?>
+				</option>                         
+                <?php } ?>
+                </select>
+            </div>
+            </div>
+            </div>
+        </div>
+			  
+        <div class="row-fluid">
+            <div class="span4">
+            <div class="control-group">
+            <label class="control-label span4">Régions </label>
+            <div class="controls span8">
+            <select class="input-block-level" id="id_region" name="id_region" >
+                <option value="">Choisir une région</option>
+                <?php foreach ($this->regions as $value) { ?>
+                <option
+                    value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?>
+				</option>                         
+                <?php } ?>
+            </select>
+            </div>
+            </div>
+            </div>
+			   
+            <div class="span4">
+                <div class="control-group">
+                <label class="control-label span4">Préfectures </label>
+                <div class="controls span8">
+                <select class="input-block-level" id="id_prefecture" name="id_prefecture" >
+                <option value="">Choisir une préfecture</option>
+                <?php foreach ($this->prefectures as $value) { ?>
+                    <option
+                                 value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+                         <?php } ?>
+                         </select>
+                         </div>
+                         </div>
+            </div>
+				
+                <div class="span4">
+                     <div class="control-group">
+                     <label class="control-label span4">Cantons </label>
+                     <div class="controls span8">
+                     <select class="input-block-level" id="id_canton" name="id_canton">
+                             <option value="">Choisir un canton</option>
+                             <?php foreach ($this->cantons as $value) { ?>
+                             <option
+                                   value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>                         
+                             <?php } ?>
+                     </select>
+                     </div>
+                     </div>
+                     </div>
+                  </div>
+
+	  
+    <div class="form-actions">  
+         <button type="reset" class="btn">Annuler</button>
+         <button type="submit" class="btn btn-primary">Enrégistrer</button>
+    </div>
+  
+</form>
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

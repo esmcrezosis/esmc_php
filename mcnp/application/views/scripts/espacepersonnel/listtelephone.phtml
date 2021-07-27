@@ -1,0 +1,94 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+    <script type="text/javascript" charset="utf-8">
+      /*$(document).ready(function() {
+        $('#example').dataTable();
+      } );*/
+      $(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+    "aaSorting": []
+    } );
+} );
+    </script>
+  <?php 
+    $telephone2 = new Application_Model_EuTelephoneMapper();
+    $telephone_principal = $telephone2->findByCodeMembrePrincipal($sessionmembre->code_membre);
+  ?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+  <?php if(count($telephone_principal) == 0){?>
+  <?php }else{?>
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+  <?php }?>
+
+  <blockquote><p>Liste de mes numéros de téléphone</p></blockquote>
+
+<?php if(count($this->entries)>0){?> 
+
+  <?php if(count($telephone_principal) == 0){?>
+  <div class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    Veuillez cliquer sur le bouton secondaire du numéro de téléphone que vous voulez transformer en numéro principal. Merci
+    </div>
+  <?php }?>
+
+<!-- style="font-size:9px;" -->
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+              <thead>
+                <tr>
+                  <th>Numéro de téléphone</th>
+                  <th>Compagnie de téléphonie</th>
+                  <!--<th>Code Membre</th>-->
+                  <th>Principal</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php echo $entry->numero_telephone; ?></td>
+      <td><?php echo $entry->compagnie_telephone; ?></td>
+      <?php /*?><td><?php echo $entry->code_membre; ?></td><?php */?>
+      <td><div align="center"><?php if($entry->principal == 1){?>
+      <a class="btn btn-mini btn-success" href="#"><i class="icon-ok icon-white"></i>  Principal</a>&nbsp;
+<?php }else{?>
+      <a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/espacepersonnel/principaltelephone/id/<?php echo $entry->id_telephone; ?>/principal/1"><i class="icon-off icon-white"></i>  Secondaire</a>&nbsp;
+<?php }?></div></td>
+      <td><?php /*?><a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/espacepersonnel/edittelephone/id/<?php echo $entry->id_telephone; ?>"><i class="icon-edit icon-white"></i>  Modifier</a><?php */?></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+            </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun numéro de téléphone enregistré 
+</div>
+<?php }?>
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

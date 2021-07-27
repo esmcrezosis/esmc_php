@@ -1,0 +1,183 @@
+<style media="screen">
+  #files_ticket_container{
+    width: 100%;
+    height: auto;
+    padding: 25px;
+  }
+</style>
+
+<div class="span12" style="text-align:left">
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+</div>
+
+
+<?php
+
+$month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+$true_month = "";
+$ex_date = explode('-', $this->entries[0]['created']);
+
+foreach ($month as $key => $value) {
+  if($ex_date[1] == $key){
+    $true_month = $value;
+  }
+}
+$next_ex_date = explode(' ', $ex_date[2]);
+$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+?>
+<h3>Traitement du ticket N°<?php echo $this->entries[0]['numero_demandeur'] ?></h3>
+<div class="row">
+
+<div class="span9">
+  <div class="form-control" style="display:block;text-align:left;margin-bottom:10px"><label for="" style="font-weight:bold;display:inline-block">Date d'émission du Ticket:</label>
+    <span><?php echo $true_date ?></span>
+  </div>
+  <table style="width:100%;margin-bottom: 20px;border: 1px solid #ddd;border-collapse: separate;border-left: 0;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;">
+  <tbody>
+    <tr>
+      <td style="font-weight:bold;width:300px;padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">DEMANDEURS</td>
+      <td style="padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;"><?php echo $this->entries[0]['numero_demandeur'] ?></td>
+    </tr>
+    <tr>
+      <td style="font-weight:bold;width:300px;padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">CODE MEMBRE</td>
+      <td style="padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;"><?php echo $this->entries[0]['code_membre_demandeur'] ?></td>
+    </tr>
+    <tr>
+      <td style="font-weight:bold;width:300px;padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">TELEPHONE( pour vous contacter)</td>
+      <td style="padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;"><?php echo $this->entries[0]['telephone'] ?></td>
+    </tr>
+    <?php if ($this->entries[0]['email'] !== "" ): ?>
+      <tr>
+        <td style="font-weight:bold;width:300px;padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">EMAIL( pour vous contacter)</td>
+        <td style="padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;"><?php echo $this->entries[0]['email'] ?></td>
+      </tr>
+    <?php endif; ?>
+    <tr>
+      <td style="font-weight:bold;width:300px;padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">LIEU DE SOUSCRIPTION</td>
+      <td style="padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;"><?php echo $this->entries[0]['lieu'] ?></td>
+    </tr>
+    <tr>
+      <td rowspan="2" style="font-weight:bold;width:300px;padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">ADDRESSE INTEGRATEUR</td>
+      <td style="padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">Integrateur fixe:<?php echo $this->entries[0]['lieu'] ?></td>
+    </tr>
+    <tr>
+      <td style = "padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">Integrateur Ambulant:<?php echo $this->entries[0]['lieu'] ?></td>
+    </tr>
+  </tbody>
+  </table>
+  <div style="text-align:left"><strong style="text-decoration:underline;display:block;margin-bottom: -5px;">NB:</strong><p style="margin-left:10px;display:inline-block;margin-bottom:-15px;margin-top: 10px;"><span style="display:inline-block;font-size:20px;font-weight:bold;position: relative;top: 5px;left: -10px;">*</span><span style="display:inline-block;margin-left:15px;margin-top:-11px">Si la demande concerne des modifications de :</span></p><span style="display:block;margin-left:25px;text-align:justify"><span style="font-weight:bold;font-size:40px">.</span> nom, prénoms, email, date de naissance, nationalité, profession: veuillez joindre les pièces d\'identités ou toutes pièces justificatives à ce ticket</span><br/>
+  <span style="display:block;margin-left:25px;margin-top:-18px;margin-bottom:-10px;"><span style="font-weight:bold;font-size:40px">.</span> Téléphone: veullez joindre les codes membres et les pièces d\'identités à ce ticket</span><br/><p style="margin-left:10px;margin-bottom:-10px;margin-top:-15px"><span style="display:inline-block;font-size:20px;font-weight:bold;position: relative;top: 5px;left: -10px;">*</span><span style="display:inline-block;margin-left:15px;text-align:justify;margin-top:12px">Si la demande concerne les codes (membre, secret, d\'activation), veuillez joindre les pièces d\'identités à ce ticket.</span></p><p style="margin-left:10px"> <span style="display:inline-block;font-size:20px;font-weight:bold;position: relative;top: 26px;left: -10px;">*</span><span style="display:inline-block;margin-left:15px;text-align:justify">Si la demande concerne une restitution de BAn pour cause d\'erreur de nom sur le recu de versement bancaire: souscrire au BAn avec le reçu erroné puis joindre une lettre reconnaissance écrite de celui qui fait la restitution</span></p><div style="width:100%;padding:10px 0px 10px 10px;border:1px solid #000;font-style:italic;"> Ex: je sousigné....................(Code membre......) demande la restitution de ..... à .......</div><p style="margin-left:10px;margin-top:10px"><span style="display:inline-block;font-size:20px;font-weight:bold;position: relative;top: 5px;left: -10px;">*</span><span style="display:inline-block;margin-left:15px;text-align:justify"> Si la demande concerne une concession de BAn pour tiers, joindre une lettre de reconnaissance écrite de celui qui concède.</span></p><div style="width:100%;padding:10px 0px 10px 10px;border:1px solid #000;margin-bottom:10px;font-style:italic;"> Ex: je sousigné....................(Code membre......) demande la concession de ..... à ....... </div></div>
+
+  <div style="text-align:left">
+  <div style="width:100%;border:1px solid #000;padding:5px;font-weight:bold; ">Description du problème</div>
+  <div style="width:100%;border:1px solid #000;padding:5px;padding-bottom: 52px;margin-bottom: 15px;">
+  <?php echo $this->entries[0]['description'] ?>
+  </div>
+  </div>
+
+  <div style="text-align:left;margin-bottom:5px;margin-top:5px;">
+    <strong ><i><span style="text-decoration:underline">NB</span>: Cadre reservé à l\'Administration ESMC</i></strong></div><div style="text-align:left;padding:5px;padding-top:20px;border:1px solid #000">
+   <strong style="margin-bottom:15px;">  Visa 1 du Gérant
+     <span id="visa_one_sign_gerant" style="border: none;outline: none;box-shadow: 0px 0px 0px #FFF;color: #000;width: 15%;height: 28px;font-size: 1.8em;font-family: Matura MT Script Capitals;text-transform:uppercase"><?php echo $this->entries[0]['visa_one'] ?></span></strong></div><div style="text-align:left;padding:5px;padding-top:20px;border:1px solid #000">
+  <strong style="margin-bottom:15px;">
+    Avis 1 du Gérant
+    <span style="border: none;outline: none;box-shadow: 0px 0px 0px #FFF;color: #000;width: 88%;font-size: 1.8em;font-family: Matura MT Script Capitals;"><?php echo $this->entries[0]['avis_one'] ?></span>
+  </strong>
+
+  </div>
+
+  <div style="text-align:left">
+    <h3>Statut de ce ticket</h3>
+    <div class="control-group">
+        <label class="radio">
+           <input type="radio" name="statut_ticket" id="statut_ticket" value="traité">
+           <span style="inline-block;font-size:1.2em;font-weight:bold;float:left">Traité</span>
+        </label>
+        <label class="radio">
+           <input type="radio" name="statut_ticket" id="statut_ticket" value="en cours">
+           <span style="inline-block;font-size:1.2em;font-weight:bold;float:left">En cours de traitement</span>
+        </label>
+        <label class="radio">
+           <input type="radio" name="statut_ticket" id="statut_ticket" value="non traité">
+           <span style="inline-block;font-size:1.2em;font-weight:bold;float:left">Non traité</span>
+        </label>
+    </div>
+    <hr>
+    <blockquote style="font-size:1.3em;text-align:left">
+      A envoyer au demandeur du ticket
+    </blockquote>
+    <hr>
+    <h4>Observation</h4>
+    <textarea name="name" rows="8" cols="40" style="width:100%" id="comite_ticket_observation"><?php echo $dbasctselect_all[0]['statut'] ?></textarea>
+    <form action="#" enctype="multipart/form-data" method="post" class="form-horizontal">
+    <div class="control-group">
+      <label class="control-label" for="integrateur_description_probleme" style="font-weight:bold">
+         Joindre une pièce justificative
+      </label>
+     <div class="controls">
+       <input type="file" name="ticket_traitement_upload_file">
+
+       <div class="alert alert-danger">
+         <strong>Seul le format pdf est supporté</strong>
+       </div>
+       <button type="submit" class="btn btn-success">
+       Uploader le fichier charger
+       </button>
+    </div>
+    </div>
+  </form>
+
+    </div>
+    <hr>
+    <div style="text-align:left">
+      <a class="btn btn-primary" data-idticket="<?php echo $this->entries[0]['id_ticket']; ?>" data-numticket="<?php echo $this->entries[0]['numero_demandeur']; ?>" id="push_comment_section"><i class="icon-cog icon-white"></i> Valider ce ticket</a>
+    </div>
+</div>
+<div class="span3">
+  <?php
+
+  if ($this->entries[0]['file_name'] != null && $this->entries[0]['file_name'] != "true"){?>
+      <a class="btn btn-mini btn-primary" style="position: relative;float: right;text-align: right;padding: 5px;" href="http://webfiles.gacsource.net/pdf_upload/<?php echo $this->entries[0]['file_name']; ?>"><i class="icon-cog icon-white"></i> Telecharger la piece jointe de ce ticket</a>
+
+<?php }elseif($this->entries[0]['file_name'] === "true"){
+  $new_code_file = str_replace('/','_',$this->entries[0]['numero_demandeur']);
+  $true_new_code_file = str_replace('TS_','FILES_',$new_code_file);
+
+  $src_file = "../../webfiles/pdf_upload/".$true_new_code_file;?>
+  <p>
+    Les Pieces justificatives
+  </p>
+  <div id="files_ticket_container">
+  <?php
+    $verif_ts_file = is_dir($src_file);
+    if ($verif_ts_file == true){
+  
+    if ($folder = opendir($src_file)) {
+    while (false !== ($files = readdir($folder))) {
+      if($files != "." && $files != ".." && $files != "index.php"){
+
+     $ex_files = explode('.',$files);?>
+
+
+      <?php  if (in_array($ex_files[1], array('jpg','jpeg','png'))){ ?>
+          <a href="http://webfiles.gacsource.net/pdf_upload/<?php echo $true_new_code_file ?>/<?php echo $files ?>" style="display:block;"><?php echo $files ?></a>
+      <?php
+       }
+       }
+      }
+    }
+  } elseif ($verif_ts_file == false) { ?>
+    <label for="error_file_loading">Aucune piece disponible</label>
+    <?php
+  } 
+  ?>
+  
+  </div>
+
+<?php }elseif($this->entries[0]['renseignement_id'] > 0){?>
+    <a class="btn btn-mini btn-primary" style="position: relative;float: right;text-align: right;padding: 5px;" href="/ticketsupport/fileedit/id/<?php echo $this->entries[0]['renseignement_id']; ?>"><i class="icon-cog icon-white"></i> Telecharger la piece jointe de ce ticket</a>
+  <?php };?>
+
+
+</div>
+</div>

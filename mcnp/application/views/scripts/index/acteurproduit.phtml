@@ -1,0 +1,91 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/panierss.js"></script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+  <blockquote><p class="text-info">Les produits de <?php 
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($this->code_membre_vendeur, $membremorale);
+?><strong><?php echo ($membremorale->raison_sociale); ?></strong></p></blockquote>
+
+<blockquote>
+<p>
+  <i class="icon-home"></i> <strong><?php echo ($membremorale->raison_sociale); ?></strong>
+</p>
+<small>
+  <?php echo ($membremorale->domaine_activite); ?> - 
+  <abbr title="Quartier">Qt:</abbr> <?php echo ($membremorale->quartier_membre); ?> - <abbr title="Ville">Ville:</abbr> <?php echo ($membremorale->ville_membre); ?>
+</small>
+<small>
+  <abbr title="Boite Postale">BP:</abbr> <?php echo $membremorale->bp_membre; ?> - 
+  <abbr title="Téléphone">Tel:</abbr> <?php echo $membremorale->tel_membre; ?> - 
+  <abbr title="Portable">Cel:</abbr> <?php echo $membremorale->portable_membre; ?> - 
+  <abbr title="E-mail">E-mail:</abbr> <a href="mailto:<?php echo $membremorale->email_membre; ?>"><?php echo $membremorale->email_membre; ?></a>
+</small>
+</blockquote>
+
+  <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?> 
+<strong>Connexion</strong>   sinon <strong>Enrôlement</strong>
+    </div>
+  <?php }?>
+  
+  
+
+<?php if(count($this->entries)>0){?>  
+<table class="table table-condensed">
+<thead>
+<tr>
+<th>&nbsp;</th>
+<th>Produits</th>
+<th>Catégorie</th>
+<th><div align="right">Prix</div></th>
+<th><div align="center">Remise</div></th>
+<th><div align="center"><i class="icon-share-alt"></i> Panier</div></th>
+</tr>
+</thead>
+<tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+        <td><?php if($entry->imageArticle != ""){?><img src="<?php echo $this->baseUrl();?>/<?php echo ($entry->imageArticle); ?>" width="25" height="25" class="img-rounded"><?php }?></td>
+      <td><?php echo ($entry->designation); ?> <small>(<?php echo ($entry->reference); ?><?php // - echo ($entry->code_barre); ?>)</small></td>
+      <td><?php 
+$categoriebpsM = new Application_Model_EuCategorieBpsMapper();
+$categoriebps = new Application_Model_EuCategorieBps();
+$categoriebpsM->find($entry->categorie, $categoriebps);
+?><?php echo ($categoriebps->libelle_categorie); ?></td>
+      <td><div align="right"><strong><?php echo number_format($entry->prix, 0, ',', ' '); ?></strong></div></td>
+      <td><div align="center"><strong><?php echo number_format(($entry->remise * 100 / $entry->prix), 0, ',', ' '); ?> %</strong></div></td>
+      <td><div align="center" class="bs-docs-tooltip-examples">
+      <?php if (isset($sessionmembre->code_membre) && $sessionmembre->code_membre != "") { ?>
+      <a class="btn btn-link" onClick="ouvre_paniers('<?php echo $entry->code_barre; ?>');" title="Mettre dans le panier"><i class="icon-shopping-cart"></i> </a>
+       <?php }?>
+       </div></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php }?>
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

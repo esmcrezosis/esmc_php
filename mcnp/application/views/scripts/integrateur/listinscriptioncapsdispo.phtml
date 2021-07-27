@@ -1,0 +1,84 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+
+<script type="text/javascript" charset="utf-8">
+			
+	$(document).ready(function() {
+    $('#example').dataTable({
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+     });
+    });
+		
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+<blockquote><p>Liste des offres d'intégration disponible avec certificat </p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+	    <thead>
+			<tr>
+				<th>Date inscription</th>
+				<th>Nom & prénom(s) </th>
+				<th>Date naissance</th>
+				<th>Lieu de naissance</th>
+				<th>Apporteur</th>
+				<th>Bénéficiaire</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+
+		
+<tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+        <td><?php echo ($entry->date_listecm); ?></td>
+        <td><?php echo ($entry->nom_membre); ?> <?php echo ($entry->prenom_membre); ?> </td>
+        <td><?php echo ($entry->date_nais_membre); ?></td>
+        <td><?php echo ($entry->lieu_nais_membre); ?></td>
+		<td><?php echo ($entry->code_membre_apporteur); ?></td>
+        <td><?php echo ($entry->code_membre_beneficiaire); ?></td> 
+		<td>
+	        <div align="center">
+	           <a class="btn btn-mini btn-info" target="_blank" href="<?php echo $this->baseUrl(); ?>/souscriptionbon/certificatpdf/membre/<?php echo $entry->code_membre_beneficiaire; ?>"><i class="icon-edit icon-white"></i>Imprimer</a>&nbsp;	   
+            </div>
+	    </td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucune offre d'intégration avec certificat enrégistrée
+</div>
+<?php } ?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

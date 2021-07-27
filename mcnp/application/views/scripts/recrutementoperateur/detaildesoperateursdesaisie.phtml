@@ -1,0 +1,217 @@
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+<script>
+  $(document).ready(function(){
+	  $('#example').dataTable({
+    "sPaginationType": "full_numbers",
+		"aaSorting": []
+     });
+  });
+</script>
+<style>
+.control-group{
+    padding-top: 26px;
+    padding-bottom: 26px;
+}
+.control-group label{
+    margin-right: 10px;
+}
+</style>
+
+<?php 
+           $detailoperateurs = $this->detailoperateurs;
+           $detailoperateursindex = $detailoperateurs[0];
+           $canton = $this->cantonoperateur[0];
+           $cantonaffectation = $this->cantonaffectationoperateur[0];
+           
+           $month = array('01'=>'Janvier','02'=>'Février','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+           $true_month = "";
+           $true_val_month = "";
+
+           $ex_date = explode('-',$detailoperateursindex->date_naissance_recrutement_operateur);
+           $ex_operateur_date = explode('-',$detailoperateursindex->created_informatique_recrutement_operateur);
+           
+
+           foreach ($month as $ky => $vad) {
+               if($ex_date[1] == $ky){
+                   $true_month = $vad;
+               }
+           }
+           $next_ex_date = explode(' ', $ex_date[2]);
+           $true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+ 
+?>
+<h3>Les informations en détail de Mr  <?php echo $detailoperateurs[0]->nom_recrutement_operateur;?> <?php echo $detailoperateurs[0]->prenoms_recrutement_operateur;?></h3>
+<div class="well3">
+  <div class="row-fluid">
+   <div class="span6">
+   <a href="http://webfiles.gacsource.net/pdf_recrutement_operateur/<?php echo $detailoperateursindex->cv_recrutement_operateur;?>" class="btn btn-primary" style="float:left">Telecharger le curriculum vitae</a>
+     <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	         Code Membre: 
+        </label>
+        <span style="float:left">
+
+        <?php if($detailoperateursindex->code_membre_recrutement == ""):?>
+              Aucune
+        <?php else:?>
+        <?php echo $detailoperateursindex->code_membre_recrutement;?>
+              
+        <?php endif;?>
+        
+        </span>
+
+     </div>
+     <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	         Nom: 
+        </label>
+        <span style="float:left">
+           <?php echo $detailoperateurs[0]->nom_recrutement_operateur;?>        
+        </span>
+
+     </div>
+     <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	         Prénoms: 
+        </label>
+        <span style="float:left">
+           <?php echo $detailoperateursindex->prenoms_recrutement_operateur;?>        
+        </span>
+
+     </div>
+     <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	         Date de naissance: 
+        </label>
+        <span style="float:left">
+             <?php if($detailoperateursindex->date_naissance_recrutement_operateur == "0000-00-00 00:00:00"):?>
+               Non renseigné
+            <?php else:?>
+            <?php echo $true_date ;?>
+        <?php endif;?>          
+        </span>
+
+     </div>
+     <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	         Lieu de naissance: 
+        </label>
+        <span style="float:left">
+               <?php echo $detailoperateursindex->lieu_naissance_recrutement_operateur ;?>
+        </span>
+
+     </div>
+     <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	         Numéro de téléphone: 
+        </label>
+        <span style="float:left">
+               <?php echo $detailoperateursindex->whatsapp_recrutement_operateur ;?>
+        </span>
+
+     </div>
+     <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	         Email: 
+        </label>
+        <span style="float:left">
+               <?php echo $detailoperateursindex->email_recrutement_operateur ;?>
+        </span>
+
+     </div>
+     <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	         Numéro Whatsapp: 
+        </label>
+        <span style="float:left">
+               <?php echo $detailoperateursindex->whatsapp_recrutement_operateur ;?>
+        </span>
+
+     </div>
+
+    </div>
+    <div class="span6">
+    <a href="http://webfiles.gacsource.net/pdf_recrutement_operateur/<?php echo $detailoperateursindex->motivation_recrutement_operateur;?>" class="btn btn-danger" style="float:right">Telecharger la lettre de motivation</a>
+
+    <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	         Canton de recrutement: 
+        </label>
+        <span style="float:left">
+               <?php echo $canton->nom_canton ;?>
+        </span>
+
+     </div>
+     <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	         Ordinateur disponible ?: 
+        </label>
+        <span style="float:left">
+           <?php if($detailoperateursindex->ordinateur_disponible_recrutement_operateur == "1"):?>
+               Oui
+           <?php else:?>
+               Non
+           <?php endif;?>          
+           
+        </span>
+
+     </div>
+     <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	        Formation en informatique ?: 
+        </label>
+        <span style="float:left">
+           <?php if($detailoperateursindex->formation_integrateur_recrutement_operateur == "1"):?>
+               Oui
+           <?php else:?>
+               Non
+           <?php endif;?>          
+           
+        </span>
+     </div>
+     <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	        Dernier diplome obtenu: 
+        </label>
+        <span style="float:left">
+           <?php echo $detailoperateursindex->last_diplome_recrutement_operateur;?>
+           
+        </span>
+     </div>
+     <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	        Disponible immédiatement ?: 
+        </label>
+        <span style="float:left">
+           <?php if($detailoperateursindex->disponible_imediate_recrutement_operateur == "1"):?>
+               Oui
+           <?php else:?>
+               Non
+           <?php endif;?>          
+           
+        </span>
+     </div>
+     <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	        Canton d'affectation: 
+        </label>
+        <span style="float:left">
+           <?php echo $cantonaffectation->nom_canton;?>
+           
+        </span>
+     </div>
+     <div class="control-group" style="clear:both">
+        <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	        Langues parlées: 
+        </label>
+        <span style="float:left">
+           <?php echo $detailoperateursindex->langue_parle_recrutement_operateur;?>
+           
+        </span>
+     </div>
+    </div>
+  </div>
+</div>
+

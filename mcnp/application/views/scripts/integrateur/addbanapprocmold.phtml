@@ -1,0 +1,373 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques2.js"></script>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/fondateurs.js"></script><?php */?>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capasenrolement.js"></script><?php */?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banquespays.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+
+
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+<blockquote><p>Approvisionnement de Bon d'Achat neutre (BAn) pour Compte Marchand (CM)</p></blockquote>
+  <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+    </div>
+  <?php } ?>
+
+    <?php if(isset($sessionmembreasso->code_BAn) && $sessionmembreasso->code_BAn != "") { ?>
+<blockquote>
+  <a href="/souscriptionbon/bonachatneutrepdf/code/<?php echo $sessionmembreasso->code_BAn; ?>" target="_blank"><span style="color:#800080;">Télécharger votre Bon d'Achat neutre (<strong>BAn</strong>)</span></a> <br /><br />
+
+  <?php $sessionmembreasso->code_BAn = "";?>
+</blockquote>
+  <?php } ?>
+
+  <?php if (isset($sessionmembreasso->confirmation_envoi) && $sessionmembreasso->confirmation_envoi != "") {?>
+
+              <blockquote>Remplir le formulaire</blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription1" name="addsouscription1">
+<fieldset>
+<legend>Confirmer l'approvisionnement de Bon d'Achat neutre (BAn)  pour Compte Marchand (CM)<?php //echo $sessionmembreasso->confirmation_envoi; ?></legend>
+
+<div class="alert alert-success">
+<blockquote>Vous essayez de faire un approvisionnement de Bon d'Achat neutre (BAn) pour Compte Marchand (CM). Pour terminer l'opération, veuillez envoyer par SMS le code que voici : <strong style="font-size: 20px;"><?php echo Util_Utils::getParamEsmc(12); ?>-<?php echo $sessionmembreasso->confirmation_envoi; ?></strong> au numéro court : <br /><br />
+  <strong>TOGOCEL :</strong> <strong style="font-size: 20px;">3162</strong>. <br /><br />
+  <?php /* ?><strong>MOOV :</strong> <strong style="font-size: 20px;">4555</strong>. <br /><br /><?php */ ?>
+Ensuite vous recevrez un autre code sur votre téléphone. Veuillez le saisir dans le fomulaire <strong>Code SMS Reçu</strong>. Merci
+</blockquote>
+</div>
+
+
+<div class="control-group">
+  <label class="control-label" for="bon_neutre_personne">Type du souscripteur *</label>
+  <div class="controls">
+
+  <label class="radio">
+  <input name="bon_neutre_personne" type="radio" id="bon_neutre_personne_pp" value="PP" required readonly onclick="
+  document.getElementById('pp').style.display='block'; 
+  document.getElementById('bon_neutre_nom').setAttribute('required', true);
+  document.getElementById('bon_neutre_prenom').setAttribute('required', true);
+  document.getElementById('pm').style.display='none';
+  document.getElementById('bon_neutre_raison').removeAttribute('required');
+  " <?php if($sessionmembreasso->bon_neutre_personne == 'PP'){echo ' checked="checked"';}?>>
+  Personne Physique</label>
+  
+  <label class="radio">
+  <input type="radio" name="bon_neutre_personne" id="bon_neutre_personne_pm" value="PM" required readonly onclick="
+  document.getElementById('pp').style.display='block'; 
+  document.getElementById('bon_neutre_nom').setAttribute('required', true);
+  document.getElementById('bon_neutre_prenom').setAttribute('required', true);
+  document.getElementById('pm').style.display='block';
+  document.getElementById('bon_neutre_raison').setAttribute('required', true);
+  " <?php if($sessionmembreasso->bon_neutre_personne == 'PM'){echo ' checked="checked"';}?>>
+  Personne Morale</label>
+  
+</div>
+</div>
+
+<div id="pp" style="display:none;">
+<div class="control-group">
+<label class="control-label" for="bon_neutre_nom">Nom du souscripteur  * </label>
+<div class="controls">
+<input type="text" name="bon_neutre_nom" id="bon_neutre_nom" placeholder="Nom du souscripteur sur le reçu de banque ou de la transaction" class="input-xxlarge" required="required" readonly value="<?php echo $sessionmembreasso->bon_neutre_nom; ?>"  />
+<span class="help-block"><p class="text-error">Veuillez saisir votre <strong>Nom</strong> réel. </p></span>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="bon_neutre_prenom">Prénoms du souscripteur * </label>
+<div class="controls">
+<input type="text" name="bon_neutre_prenom" id="bon_neutre_prenom" placeholder="Prénom du souscripteur sur le reçu de banque ou de la transaction" class="input-xxlarge" required="required" readonly value="<?php echo $sessionmembreasso->bon_neutre_prenom; ?>"  />
+<span class="help-block"><p class="text-error">Veuillez saisir vos <strong>Prénoms</strong> réels. </p></span>
+</div>
+</div>
+    
+  <div class="control-group">
+  <label class="control-label" for="date_nais_membre">Date de naissance *</label>
+  <div class="controls">
+  <input type="text" name="date_nais_membre" id="date_nais_membre" placeholder="Date de naissance" class="input-large datepicker" data-provide="datepicker"  required="required"  readonly value="<?php echo $sessionmembreasso->date_nais_membre; ?>" />
+  </div>
+  </div>
+    
+</div>
+
+<div id="pm" style="display:none;">
+<div class="control-group">
+<label class="control-label" for="bon_neutre_raison">Raison sociale du souscripteur * </label>
+<div class="controls">
+  <input type="text" name="bon_neutre_raison" id="bon_neutre_raison" placeholder="Raison sociale du souscripteur" class="input-xxlarge" required="required" readonly  value="<?php echo $sessionmembreasso->bon_neutre_raison; ?>" />
+<span class="help-block"><p class="text-error">Veuillez saisir la <strong>Raison Sociale</strong> réelle de votre personne morale s'il y en a. </p></span>
+</div>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_mobile">Cellulaire du souscripteur  *</label>
+<div class="controls">
+<input type="number" name="bon_neutre_mobile" id="bon_neutre_mobile" placeholder="Cellulaire du souscripteur " class="input-xxlarge"  required="required" readonly value="<?php echo $sessionmembreasso->bon_neutre_mobile; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_email">E-mail du souscripteur * </label>
+<div class="controls">
+<div class="input-prepend">
+      <span class="add-on"><i class="icon-envelope"></i></span>
+    <input type="email" name="bon_neutre_email" id="bon_neutre_email" placeholder="E-mail du souscripteur" class="input-xxlarge"  required="required" readonly value="<?php echo $sessionmembreasso->bon_neutre_email; ?>" />
+    </div>
+</div>
+</div>
+  
+  
+  
+
+  <legend> Localités </legend>
+
+                        <div class="row-fluid">
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Zone M.</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="code_zone" name="code_zone">
+                                            <option value="">Choisir une zone monétaire</option>
+                                            <?php foreach ($this->zones as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Pays</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_pays" name="id_pays" onchange="ouvre_banquespays(this.value, 'nivo_banquespays');">
+                                            <option value="">Choisir un pays</option>
+                                            <?php foreach ($this->pays as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Régions</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_region" name="id_region">
+                                            <option value="">Choisir une région</option>
+                                            <?php foreach ($this->regions as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Préfectures</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_prefecture" name="id_prefecture">
+                                            <option value="">Choisir une préfecture</option>
+                                            <?php foreach ($this->prefectures as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Cantons *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_canton" name="id_canton" required="required">
+                                            <option value="">Choisir un canton</option>
+                                            <?php foreach ($this->cantons as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+  <div class="control-group">
+<label class="control-label" for="bon_neutre_appro_montant">Montant à allouer * </label>
+<div class="controls">
+  <input type="number" name="bon_neutre_appro_montant" id="bon_neutre_appro_montant" placeholder="Montant à allouer" class="input-xxlarge"  required="required" readonly value="<?php echo $sessionmembreasso->bon_neutre_appro_montant; ?>" />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_recu">Code SMS Reçu  </label>
+<div class="controls">
+  <input type="text" name="code_recu" id="code_recu" placeholder="Code SMS Reçu" class="input-medium" required />
+</div>
+</div>
+
+
+</fieldset>
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input name="confirmation" type="hidden" id="confirmation" value="2" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer l'approvisionnement de Bon d'Achat neutre (BAn) pour Compte Marchand (CM)</button>
+</div>
+
+
+
+</form>
+  <?php }else if(!isset($sessionmembreasso->code_BAn) || $sessionmembreasso->code_BAn == "") { ?>
+              <blockquote>Remplir le formulaire</blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription1" name="addsouscription1">
+<fieldset>
+<legend>Remplir le formulaire </legend>
+
+
+
+<div class="control-group">
+  <label class="control-label" for="bon_neutre_personne">Type du souscripteur *</label>
+  <div class="controls">
+
+  <label class="radio">
+  <input name="bon_neutre_personne" type="radio" id="bon_neutre_personne_pp" value="PP" required onclick="
+  document.getElementById('pp').style.display='block'; 
+  document.getElementById('bon_neutre_nom').setAttribute('required', true);
+  document.getElementById('bon_neutre_prenom').setAttribute('required', true);
+  document.getElementById('pm').style.display='none';
+  document.getElementById('bon_neutre_raison').removeAttribute('required');
+  ">
+  Personne Physique</label>
+  
+  <label class="radio">
+  <input type="radio" name="bon_neutre_personne" id="bon_neutre_personne_pm" value="PM" required onclick="
+  document.getElementById('pp').style.display='block'; 
+  document.getElementById('bon_neutre_nom').setAttribute('required', true);
+  document.getElementById('bon_neutre_prenom').setAttribute('required', true);
+  document.getElementById('pm').style.display='block';
+  document.getElementById('bon_neutre_raison').setAttribute('required', true);
+  " >
+  Personne Morale</label>
+  
+</div>
+</div>
+
+<div id="pp" style="display:none;">
+<div class="control-group">
+<label class="control-label" for="bon_neutre_nom">Nom du souscripteur  * </label>
+<div class="controls">
+<input type="text" name="bon_neutre_nom" id="bon_neutre_nom" placeholder="Nom du souscripteur sur le reçu de banque ou de la transaction" class="input-xxlarge" required="required"  />
+<span class="help-block"><p class="text-error">Veuillez saisir votre <strong>Nom</strong> réel. </p></span>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="bon_neutre_prenom">Prénoms du souscripteur * </label>
+<div class="controls">
+<input type="text" name="bon_neutre_prenom" id="bon_neutre_prenom" placeholder="Prénom du souscripteur sur le reçu de banque ou de la transaction" class="input-xxlarge" required="required"  />
+<span class="help-block"><p class="text-error">Veuillez saisir vos <strong>Prénoms</strong> réels. </p></span>
+</div>
+</div>
+    
+  <div class="control-group">
+  <label class="control-label" for="date_nais_membre">Date de naissance *</label>
+  <div class="controls">
+  <input type="text" name="date_nais_membre" id="date_nais_membre" placeholder="Date de naissance" class="input-large datepicker" data-provide="datepicker"  required="required"  readonly />
+  </div>
+  </div>
+
+</div>
+
+<div id="pm" style="display:none;">
+<div class="control-group">
+<label class="control-label" for="bon_neutre_raison">Raison sociale du souscripteur * </label>
+<div class="controls">
+  <input type="text" name="bon_neutre_raison" id="bon_neutre_raison" placeholder="Raison sociale du souscripteur" class="input-xxlarge" required="required" />
+<span class="help-block"><p class="text-error">Veuillez saisir la <strong>Raison Sociale</strong> réelle de votre personne morale s'il y en a. </p></span>
+</div>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_mobile">Cellulaire du souscripteur  *</label>
+<div class="controls">
+<input type="number" name="bon_neutre_mobile" id="bon_neutre_mobile" placeholder="Cellulaire du souscripteur " class="input-xxlarge"  required="required" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_email">E-mail du souscripteur * </label>
+<div class="controls">
+<div class="input-prepend">
+      <span class="add-on"><i class="icon-envelope"></i></span>
+    <input type="email" name="bon_neutre_email" id="bon_neutre_email" placeholder="E-mail du souscripteur" class="input-xxlarge"  required="required" />
+    </div>
+</div>
+</div>
+  
+  
+  
+
+  
+
+
+
+  <div class="control-group">
+<label class="control-label" for="bon_neutre_appro_montant">Montant à allouer * </label>
+<div class="controls">
+  <input type="number" name="bon_neutre_appro_montant" id="bon_neutre_appro_montant" placeholder="Montant à allouer" class="input-xxlarge"  required="required" />
+<span class="help-block"><p class="text-error">Veuillez saisir le montant à allouer</p></span>
+</div>
+</div>
+
+</fieldset>
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input name="confirmation" type="hidden" id="confirmation" value="1" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Envoi du code de confirmation de l'approvisionnement pour Compte Marchand (CM)</button>
+</div>
+
+
+
+</form>
+  <?php } ?>
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>

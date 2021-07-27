@@ -1,0 +1,100 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+  <div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Details d'une lettre d'annulation</p></blockquote>
+  
+    
+  
+<div class="control-group">
+<label class="control-label" for="id_eli">ELI</label>
+<div class="controls">
+<?php if($this->lettre_annulation->id_eli > 0){
+        $eli = new Application_Model_EuEli();
+        $eliM = new Application_Model_EuEliMapper();
+        $eliM->find($this->lettre_annulation->id_eli, $eli);
+        echo $eli->libelle_eli." - ".$eli->numero_eli;
+      }
+?>
+</div>
+</div>
+
+  
+<div class="control-group">
+<label class="control-label" for="code_membre">Code Membre </label>
+<div class="controls">
+<?php echo $this->lettre_annulation->code_membre; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="libelle">Libelle  de la lettre</label>
+<div class="controls">
+<?php echo $this->lettre_annulation->libelle; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="description">Description </label>
+<div class="controls">
+<?php echo $this->lettre_annulation->description; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="fichier">Document  de la lettre</label>
+<div class="controls">
+
+
+</div>
+</div>
+    
+
+
+<div class="control-group">
+<label class="control-label" for="datecreation">Date  </label>
+<div class="controls">
+<?php echo $this->lettre_annulation->datecreation; ?>
+</div>
+</div>
+    
+    
+<div class="control-group">
+<label class="control-label" for="id_utilisateur">Utilisateur</label>
+<div class="controls">
+<?php if($this->lettre_annulation->id_utilisateur > 0){
+        $utilisateur = new Application_Model_EuUtilisateur();
+        $utilisateurM = new Application_Model_EuUtilisateurMapper();
+        $utilisateurM->find($this->lettre_annulation->id_utilisateur, $utilisateur);
+        echo $utilisateur->nom_utilisateur." ".$utilisateur->prenom_utilisateur;
+      }
+?>
+</div>
+</div>
+
+    
+
+
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

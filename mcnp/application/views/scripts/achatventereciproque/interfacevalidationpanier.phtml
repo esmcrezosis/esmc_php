@@ -1,0 +1,174 @@
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        $('#example').dataTable({
+          "sPaginationType": "full_numbers",
+          "aaSorting": []
+        });
+      });
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+
+ 
+  
+<?php if(count($this->tableaupanier) > 0){?> 
+
+  <blockquote>Achat Vente Reciproque - validation d'achat</blockquote>
+			<?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+				</div>
+			<?php unset($_SESSION['validationpertesuccess']); endif ?>
+
+<form action="" method="post">
+
+
+<section>
+  <h3>Liste de tous les produits dans votre panier</h3>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+   <thead>
+  <tr>
+    <th>Article</th>
+    <th>Quantité </th>    
+    <th>Quantité disponible</th>
+    <th>Prix unitaire</th>    
+    <th>Prix Total</th>        
+    <th>Retrait du produit du panier</th>
+
+  </tr>         
+   </thead>
+   <tbody id="body_table_avr_ar_grand_public">
+      <?php foreach ($this->tableaupanier as $key => $value): ?>
+        
+        <tr>
+          <td><span id="produit_avr_achat_designation_produit"><?php echo $value['designation_produit'] ?></span></td>
+          <td><input type="number" value="<?php echo $value['quantite_article'] ?>" id="produit_avr_achat_quantite_achat"></td>
+          
+          <td><?php echo $value['quantite_disponible_produit'] ?></td>
+          <td><span id="produit_avr_achat_prix_unitaire"><?php echo $value['prix_produit'] ?></span></td>
+          <td><span id="produit_avr_achat_prix_total" style="font-weight:bold"><?php echo $value['total'] ?></span></td>
+          
+          <td><a href="#" id="produit_avr_achat_retrait_liste">Retirer de la liste</a></td>
+          <input type="hidden" name="produitavrdeletekeysession" id="produitavrdeletekeysession" value="<?php echo $key ?>">
+        </tr>
+        
+  <?php endforeach ?>
+   </tbody>
+
+ </table>
+</section>
+
+<section>
+  <h3>Récapitulatif de votre demande d'achat (AR)</h3>
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+   <thead>
+  <tr>
+    <th>Article</th>
+    <th>Quantité </th>    
+    <th>Quantité disponible</th>
+    <th>Prix unitaire</th>    
+    <th>Prix Total</th>        
+
+  </tr>         
+   </thead>
+   <tbody id="body_table_avr_ar_recap_grand_public">
+      <?php foreach ($this->tableaupanier as $key => $value): ?>
+        
+        <tr>
+          <td><input type="text" id="produit_avr_achat_recap_designation_produit" name="produit_avr_achat_recap_designation_produit[]" value="<?php echo $value['designation_produit'] ?>" style="background-color:transparent;border:0;" readonly="true"></td>
+          <td><input type="text" id="produit_avr_achat_recap_quantite_achat" name="produit_avr_achat_recap_quantite_achat[]" value="<?php echo $value['quantite_article'] ?>" style="background-color:transparent;border:0;" readonly="true" ></td>
+          
+          <td><input type="text" id="produit_avr_achat_recap_quantite_disponible_produit" name="produit_avr_achat_recap_quantite_disponible_produit[]" value="<?php echo $value['quantite_disponible_produit'] ?>" style="background-color:transparent;border:0;" readonly="true"></td>
+          <td><input type="text" id="produit_avr_achat_recap_prix_unitaire" name="produit_avr_achat_recap_prix_unitaire[]" value="<?php echo $value['prix_produit'] ?>" style="background-color:transparent;border:0;" readonly="true"></td>
+          <td><input type="text" id="produit_avr_achat_recap_prix_total" name="produit_avr_achat_recap_prix_total[]" value="<?php echo $value['total'] ?>" style="background-color:transparent;border:0;font-weight:bold" readonly="true"></td>
+          
+        </tr>
+        <input type="hidden" name="produit_avr_achat_recap_code_membre_fournisseur[]" value="<?php echo $value['code_membre_fournisseur'] ?>">
+        <input type="hidden" name="produit_avr_achat_recap_reference_produit[]" value="<?php echo $value['reference_produit'] ?>">
+        <input type="hidden" name="produit_avr_achat_recap_terminal_echange_produit[]" value="<?php echo $value['terminal_echange_produit'] ?>">
+        <input type="hidden" name="produit_avr_achat_recap_type_produit[]" value="<?php echo $value['type_produit'] ?>">
+        <input type="hidden" name="produit_avr_achat_recap_code_membre_acheteur" value="<?php echo $value['code_membre_acheteur'] ?>">
+        
+        
+        
+  <?php endforeach ?>
+   </tbody>
+
+ </table>
+</section>
+
+<section>
+<h3>Paiement</h3>
+
+			<div class="control-group">
+					<label class="radio">
+						 <input type="radio" name="moyen_paiement_ar_achat" id="moyen_paiement_ar_ban_achat" value="BAn" required="required">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:lighter;">BAn (Bon d'Achat neutre)</span>
+					</label>
+					<label class="radio">
+						 <input type="radio" name="moyen_paiement_ar_achat" id="moyen_paiement_ar_bai_achat" value="BAi">
+						 <span style="inline-block;font-size:1.2em;font-weight:lighter;">BAi (Bon d'Achat interne)</span>
+          </label>
+          <label class="radio">
+						 <input type="radio" name="moyen_paiement_ar_achat" id="moyen_paiement_ar_bc_achat" value="BC">
+						 <span style="inline-block;font-size:1.2em;font-weight:lighter;">BC (Bon de Commande)</span>
+          </label>
+          
+          <label class="radio">
+						 <input type="radio" name="moyen_paiement_ar_achat" id="moyen_paiement_ar_bcr_achat" value="BCr">
+						 <span style="inline-block;font-size:1.2em;font-weight:lighter;">BC (Bon de Consommation récurrente)</span>
+          </label>
+
+          <label class="radio">
+						 <input type="radio" name="moyen_paiement_ar_achat" id="moyen_paiement_ar_bl_achat" value="BL">
+						 <span style="inline-block;font-size:1.2em;font-weight:lighter;">BL (Bon de Livraison )</span>
+          </label>
+          
+          <label class="radio">
+						 <input type="radio" name="moyen_paiement_ar_achat" id="moyen_paiement_ar_bcnr_achat" value="BCnr">
+						 <span style="inline-block;font-size:1.2em;font-weight:lighter;">BCnr (Bon de Consommation non récurrente)</span>
+					</label>
+
+					<label class="radio">
+						 <input type="radio" name="moyen_paiement_ar_achat" id="moyen_paiement_ar_opi_achat" value="OPi">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:lighter;">OPi (Ordre de Prélèvement irrévocable)</span>
+					</label>
+      </div>
+
+</section>
+ 
+ <strong style="position: relative;font-size: 1.5em;font-weight: lighter;">Montant total :<input type="text" id="montant_total_avr_produit_achat" name="montant_total_avr_produit_achat" value="<?php echo $this->montanttotal ;?>" style="border:0;background-color:transparent"></strong>
+ <button class="btn btn-success" style="width:250px;margin-left:680px" >Envoyer la demande d'achat</button>
+
+</form>
+ 
+<?php } else {?>
+<div class="alert alert-danger">
+  Le contenu de votre panier est vide
+</div>
+<?php }?>
+
+
+
+
+</div>
+
+</div>
+</div>

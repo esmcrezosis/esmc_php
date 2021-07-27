@@ -1,0 +1,112 @@
+<div id="view-content" style="font-size:11px;min-height: 520px;">
+    
+     <div style="margin-bottom: 3px;">
+        <input id="mlister" type="button" value="Liste" />
+     </div>
+     
+     <div id="maccordeon">
+       <h2><a href="#">Infos sur immobilier</a></h2>
+       <div id="">
+       <table>
+         <tr>
+             <td>Numéro</td>
+             <td><input id="numero" value="<?php echo $this->numero; ?>" readonly="true"/></td>
+             <td>Désignation</td>
+             <td><input id="design" value="<?php echo $this->design; ?>" readonly="true"/></td>
+         </tr>
+         <tr>
+             <td>Code membre</td>
+             <td><input id="code_membre" value="<?php echo $this->code_membre ; ?>" readonly="true" size="30"/></td>
+             <td>Type acteur</td>
+             <td><input id="type_acteur" value="<?php echo $this->type_acteur ; ?>" readonly="true" size="30"/></td>
+         </tr>
+         <tr>
+             <td>Quartier</td>
+             <td><input id="quartier" value="<?php echo $this->quartier; ?>" readonly="true" size="30"/></td>
+             <td>Rue</td>
+             <td><input id="rue" value="<?php echo $this->rue; ?>" readonly="true" size="30"/></td>
+         </tr>
+         <tr>
+             <td>Type maison</td>
+             <td><input id="type_maison" value="<?php echo $this->type_maison; ?>" readonly="true" size="23"/></td>
+             <td>Description</td>
+             <td>
+                 <textarea id="desc" readonly="true"> <?php echo $this->desc; ?> </textarea>
+             </td>
+         </tr>
+       </table>
+      </div>
+          <h2><a href="#">Charges</a></h2>
+          <div id="coordonnees">
+               <table>
+                    <tr>
+                       <td>Frais d'eau</td>
+                       <td><input id="frais_eau" value="<?php if($this->frais_eau != 0) echo $this->frais_eau; ?>" readonly="true" size="30"/></td>
+                       <td>N°compteur eau</td>
+                       <td><input id="num_compteur" value="<?php echo $this->num_compteur; ?>" readonly="true" size="30"/></td>
+                    </tr>
+                    <tr>
+                       <td>Frais &eacute;lectricit&eacute;</td>
+                       <td><input id="frais_elect" value="<?php if($this->frais_elect != 0) echo $this->frais_elect; ?>" readonly="true" size="30"/></td>
+                       <td>N°police électricité</td>
+                       <td><input id="num_police" value="<?php echo $this->num_police; ?>" readonly="true" size="30"/></td>
+                    </tr>
+                    <tr>
+                       <td>Frais t&eacute;l&eacute;phonique</td>
+                       <td><input id="frais_tel" value="<?php if($this->frais_tel != 0) echo $this->frais_tel; ?>" readonly="true" size="30"/></td>
+                       <td>N°ligne téléphonique</td>
+                       <td><input id="num_ligne_tel" value="<?php echo $this->num_ligne_tel; ?>" readonly="true" size="30"/></td>
+                    </tr>
+                    <tr>
+                       <td>Frais vidange</td>
+                       <td><input id="frais_vidange" value="<?php if($this->frais_vidange != 0) echo $this->frais_vidange; ?>" readonly="true" size="30"/></td>
+                       <td>Montant Loyer</td>
+                       <td><input id="loyer" value="<?php if($this->loyer != 0) echo $this->loyer; ?>" readonly="true" size="30"/></td>
+                    </tr>
+					<tr>
+                       <td>Autres charges</td>
+                       <td><input id="autre_charge" value="<?php if($this->autre_charge != 0) echo $this->autre_charge; ?>" readonly="true" size="30"/></td>
+                       <td>Taxe</td>
+                       <td><input id="taxe" value="<?php if($this->taxe != 0) echo $this->taxe; ?>" readonly="true" size="30"/></td>
+                    </tr>
+               </table>
+          </div>
+          <h2><a href="#">Autres informations</a></h2>
+          <div id="autres">
+              <table>
+                    <tr>
+                       <td>BP</td>
+                       <td><input id="bp" value="<?php echo $this->bp; ?>" readonly="true" size="30"/></td>
+					   <td></td>
+                       <td></td>
+                    </tr>
+                    <tr>
+                       <td>Téléphone fixe</td>
+                       <td><input id="tel_membre" value="<?php  echo $this->tel_membre; ?>" readonly="true" size="30"/></td>
+                       <td>Téléphone portable</td>
+                       <td><input id="portable_membre" value="<?php echo $this->portable_membre; ?>" readonly="true" size="30"/></td>
+                    </tr>
+                    <tr>
+                       <td>Adresse électronique</td>
+                       <td><input id="email_membre" value="<?php  echo $this->email_membre; ?>" readonly="true" size="30"/></td>
+                       <td>Site web</td>
+                       <td><input id="site_web" value="<?php echo $this->site_web; ?>" readonly="true" size="30"/></td>
+                    </tr>
+              </table>
+          </div>
+     </div>    
+    
+    
+    
+</div>
+<script type="text/javascript">
+        $(function() {
+            $("#maccordeon").accordion();
+        });
+        
+        $('#mlister').button().click(function() {
+            $.get('/eu-maison/index',function(data) {
+            $("#view-content").html(data);
+        });
+      });   
+</script>    

@@ -1,0 +1,136 @@
+<div id="view-content" class="ui-widget">
+     <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Modification de facture proforma</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+         <form action="/eu-proforma/edit" name="fm_pforma" method="POST" id="fm_pforma">
+               <?php if (isset($this->data[0][0])) { 
+                   
+                     if($this->data[0][7]=='circulant') {   
+                ?>     
+                     <fieldset style="border-color:#000"><legend style=" font-weight:bold">Produits </legend>    
+                     <table style="font-family:verdana;font-weight:normal;margin: 5px"  border="1">
+                          <thead>
+                                <tr style="text-align: left;">
+                                    <th>Produit</th><th>Quantité</th><th>Prix unitaire</th><th colspan="2">Remise</th>
+                                </tr>
+                          </thead>
+                        <?php for ($i = 0; $i < count($this->data); $i++) { ?>
+                            <tr>
+                                <td><input type="text"  name="<?php echo "design_produit" . $i ?>" value="<?php echo $this->data[$i][2]; ?>" readonly="true" size="50"/></td>
+                                <td><input type="text" name="<?php echo "qte_objet" . $i ?>" value="<?php echo $this->data[$i][3]; ?>" size="8" class="validate[required,custom[onlyNumberSp]]"/></td>
+                                <td><input type="text" name="<?php echo "pu" . $i ?>" size="12" class="validate[required,custom[onlyNumberSp]]" value="<?php echo $this->data[$i][4]; ?>"/> </td>
+                                <td><input type="text" value="0" name="<?php echo "remise" . $i ?>" size="1" value="<?php echo $this->data[$i][5]; ?>"/></td><td><input type="text" value="%" disabled size="1"></td>
+                                <input type="hidden"  name="<?php echo "id_objet" . $i ?>" value="<?php echo $this->data[$i][1]; ?>"/>
+                                <input type="hidden"  name="<?php echo "id_porter" . $i ?>" value="<?php echo $this->data[$i][15]; ?>"/>
+                            </tr>
+                        <?php } ?>
+                               <input type="hidden" value="<?php echo $this->data[0][7]; ?>"  name="type_proforma">
+                               <input type="hidden" value="<?php echo $this->data[0][8]; ?>"  name="id_besoin">
+                               <input type="hidden" value="<?php echo count($this->data); ?>" name="compteur"> 
+                    </table>   
+                </fieldset> 
+               <?php } 
+                     else { ?>
+                     <fieldset style="border-color:#000"><legend style=" font-weight:bold">Produits </legend>    
+                     <table style="font-family:verdana;font-weight:normal;margin: 5px"  border="1">
+                            <thead>
+                              <tr style="text-align: left;">
+                                 <th>Produit</th><th>Quantité</th><th>Prix unitaire</th><th>Mdv</th><th colspan="2">Remise</th>
+                              </tr>
+                            </thead>
+                        <?php for ($i = 0; $i < count($this->data); $i++) { ?>
+						
+						    <tr>
+                                <td><input type="text"  name="<?php echo "design_produit" . $i ?>" value="<?php echo $this->data[$i][2]; ?>" readonly="true" size="50"/></td>
+                                <td><input type="text" name="<?php echo "qte_objet" . $i ?>" value="<?php echo $this->data[$i][3];?>" size="8" class="validate[required,custom[onlyNumberSp]]"/></td>
+                                <td><input type="text" name="<?php echo "pu" . $i ?>" size="12" class="validate[required,custom[onlyNumberSp]]" value="<?php echo $this->data[$i][4]; ?>"/> </td>
+                                <td><input type="text" name="<?php echo "mdv" . $i ?>" size="15" class="validate[required,custom[onlyNumberSp]]" id="number1" value="<?php echo $this->data[$i][6]; ?>"/></td>
+                                <td><input type="text" value="0" name="<?php echo "remise" . $i ?>" size="1" value="<?php echo $this->data[$i][5]; ?>"/></td><td><input type="text" value="%" disabled size="1" /></td>
+                                <input type="hidden"  name="<?php echo "id_objet" . $i ?>" value="<?php echo $this->data[$i][1];?>" />
+                                <input type="hidden"  name="<?php echo "id_porter" . $i ?>" value="<?php echo $this->data[$i][15]; ?>"/>
+                            </tr>
+                        <?php } ?>
+                                <input type="hidden" value="<?php echo $this->data[0][7]; ?>"  name="type_proforma">
+                                <input type="hidden" value="<?php echo $this->data[0][8]; ?>"  name="id_besoin">
+                                <input type="hidden" value="<?php echo count($this->data); ?>" name="compteur">
+                    </table>   
+                </fieldset>
+               <?php } 
+                     $date1 = explode("-",  $this->data[0][11]);
+                     $date_valid = $date1[2] . '-' . $date1[1] . '-' . $date1[0];
+					 $date2 = explode("-",  $this->data[0][9]);
+                     $date_livre = $date2[2] . '-' . $date2[1] . '-' . $date2[0];
+					 $date3 = explode("-",  $this->data[0][12]);
+                     $date_paie = $date3[2] . '-' . $date3[1] . '-' . $date3[0];
+               ?>
+               <fieldset style="border-color:#000"><legend style=" font-weight:bold">Autres Informations</legend>    
+                 <table style="font-family:verdana;font-weight:normal">
+                    <tr>
+						<td valign="top">Code proforma *</td>
+						<td><input type="text" value="<?php echo $this->data[0][0]; ?>" name="code_proforma" class="validate[required]" readonly></td>
+						<td valign="top">Date de validité *</td>
+						<td><input type="text" value="<?php echo $date_valid; ?>" name="delai_valid" class="validate[required]" readonly></td>
+				    </tr>
+                        
+						<tr><td valign="top">Date de livraison *</td>
+						<td><input type="text" value="<?php echo $date_livre; ?>" name="date_livre" id="date_livre" class="validate[required]" ></td>&nbsp;<td>Lieu de livraison</td><td><input type="text" value="<?php echo $this->data[0][10]; ?>"  name="lieu_livre"></td></tr>	
+                     <tr>
+						 <td valign="top">Date de payement *</td>
+						 <td><input type="text" value="<?php echo $date_paie; ?>" name="date_paie"  id="date_paie" class="validate[required]" ></td>
+						 <td valign="top">Taxe à imputer </td>
+					     <td><select name="taxe" id="taxe"></select></td>
+						 <input name="code" id="code" class="validate[required]" value="<?php echo $this->data[0][14] ?>" hidden="true"/>
+				     </tr>
+                     </table>
+                </fieldset>
+                <table style="margin-left: 310px">
+                    <tr>
+                        <td><input type="submit" id="valide" value="Valider"></td>
+                        <td><a href=""><input type="button" id="annuler" value="Annuler"></a></td>
+                    </tr>
+                </table>
+               <?php } ?>          
+         </form>      
+</div>
+    
+<script type="text/javascript">
+    
+$(document).ready(function ()
+{
+       $(function(){
+            var pickerOpts = {
+                dateFormat: "dd-mm-yy",
+                changeMonth:true,
+                changeYear:true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+            $("#date_paie").datepicker(pickerOpts);
+			$("#date_livre").datepicker(pickerOpts);
+        });
+         
+		 var code=$('#code').val();
+		 
+		 $.get(
+        '/eu-proforma/taxe',
+        function success(data)
+        {
+              var options = '<option value=""></option>';
+              for( var i = 0; i < data.length; i++) {
+			  if(code == data[i][1]) {
+                options += '<option value="' + data[i][1] + '" selected>' + data[i][2] + '-' +  data[i][3] +' </option>';
+			  }
+			  else{
+                options += '<option value="' + data[i][1] + '">' + data[i][2] + '-' +  data[i][3] +' </option>';
+               }
+            }
+            $('select#taxe').html(options);
+        }); 
+         $('#valide').button();
+         $('#annuler').button();
+         $("#fm_pforma").validationEngine();        
+})
+
+</script>       
+</div>

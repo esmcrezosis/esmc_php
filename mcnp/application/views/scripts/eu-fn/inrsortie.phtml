@@ -1,0 +1,65 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 10px; padding-left: 5px;">
+        <h3>Vue de la source FN</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+         <fieldset>
+            <legend style=" font-weight:bold">Recherche</legend>
+            <form id="cncs_form" action="/eu-fn/datairsortie" method="POST">
+                <h5 align="center">
+                    Date d&eacute;but <input type="text" id="date_deb" name="date_deb"/>
+                    Date fin <input type="text" id="date_fin" name="date_fin"/>
+                    <input id="ok" type="submit" value="Ok" />
+                </h5> 
+            </form>
+        </fieldset>
+        <table id="tbl_fn"></table>
+        <div id="pg-fn"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl_fn").jqGrid({
+        url:'<?php echo $this->url(array('action' =>'datairsortie')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Code capa','Type FN','Montant','Date cr&eacute;ation'],
+        height:350, width:817,
+        colModel:[
+               {name:'id_fn',index:'id_fn', width: 100, editable: false,align:"left",hidden:true},
+               {name:'code_capa',index:'code_capa', width: 100, editable: false,align:"left",hidden:true},
+               {name:'type_fn',index:'type_fn', width: 100, align:"left", editable: false},
+               {name:'montant',index:'montant', width: 120, align:"right", editable: false,formatter:'number'},
+               {name:'date_fn',index:'date_fn', width: 120, align:"left", editable: false}
+        ],
+        rownumbers:true,
+        rowNum:100,
+        rowList:[100,200,300],
+        pager: '#pg-fn',
+        sortname:"date_smc",
+        viewrecords: true,
+        sortorder: "desc",
+        caption:"Liste des Inr en sortie",
+        footerrow: true,
+        userDataOnFooter: true
+    });
+    $("#tbl_fn").jqGrid('navGrid',{edit:false,add:false,del:false,search:true});
+    $(document).ready(function() {
+        var pickerOpts = {
+            dateFormat:"dd/mm/yy",
+            changeMonth:true,
+            changeYear:true,
+            selectOtherMonths: true,
+            showButtonPanel: true
+        };
+        $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+        $("#date_deb").datepicker(pickerOpts);
+        $("#date_fin").datepicker(pickerOpts);
+        
+        $('#ok').click(function(e)
+        {         jQuery("#tbl_fn").jqGrid('setGridParam',{url:"/eu-fn/datairsortie?date_deb="+$('#date_deb').val()+"&date_fin="+$('#date_fin').val()}).trigger('reloadGrid');
+          e.preventDefault(); 
+        });
+        
+        $('#ok').button();
+    }) 
+</script>

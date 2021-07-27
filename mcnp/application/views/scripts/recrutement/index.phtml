@@ -1,0 +1,280 @@
+<div class="row-fluid">
+	<div class="span9">
+      <legend>Formulaire de Recrutement des operateurs de saisie</legend>
+			<?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+				</div>
+			<?php unset($_SESSION['validationpertesuccess']); endif ?>
+
+	  <form action="#" enctype="multipart/form-data" method="post" class="form-horizontal">
+	   <div class="control-group">
+	      <label class="control-label" for="code_membre_recrutement_operateur" style="font-weight:bold">
+	        Code membre *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="code_membre_recrutement_operateur" class="input-block-level code_membre_recrutement_operateur" placeholder="Mettre ici votre code membre" required="required"/>
+	      </div>
+          <div class="alert alert-danger">
+       	  <strong>veuillez mettre un code membre correct pour éviter tout désagrément:</strong>
+         </div>
+	   </div>
+	   <div class="control-group">
+	      <label class="control-label" for="nom_recrutement_operateur" style="font-weight:bold">
+	         Nom:
+	      </label>
+	      <div class="controls">
+		    <input type="text" name="nom_recrutement_operateur" placeholder="Mettre ici votre nom" class="input-block-level nom_recrutement_operateur" required="required"/>
+	      </div>
+	   </div>
+		 <div class="control-group">
+			<label class="control-label" for="prenoms_recrutement_operateur" style="font-weight:bold">
+				Prenoms:
+			</label>
+			<div class="controls">
+			<input type="text" name="prenoms_recrutement_operateur" placeholder="Mettre ici votre prenoms" class="input-block-level prenoms_recrutement_operateur" required="required"/>
+		</div>
+	 </div>
+     <div class="control-group">
+       <label class="control-label" for="lieu_naissance_recrutement_operateur" style="font-weight:bold">
+         Lieu de Naissance:
+       </label>
+       <div class="controls">
+       <input type="text" name="lieu_naissance_recrutement_operateur" placeholder="Mettre ici le lieu de Naissance" class="input-block-level lieu_naissance_recrutement_operateur"/>
+       </div>
+    </div>
+        <div class="control-group">
+	       <label class="control-label" for="email_rerutement_operateur" style="font-weight:bold" >
+	         Email de l'opérateur (pour vous contacter):
+	       </label>
+	       <div class="controls">
+		     <input type="email" name="email_recrutement_operateur" placeholder="Mettre ici l'email de l'opérateur" class="input-block-level email_recrutement_operateur" required="required"/>
+	       </div>
+	    </div>
+
+	    <div class="control-group">
+	       <label class="control-label" for="integrateur_addresse" style="font-weight:bold">
+	         Adresse integrateur: </label>
+	       <div class="controls">
+		     <input type="text" name="integrateur_addresse" placeholder="Mettre ici l'Adresse de l'integrateur" class="input-block-level integrateur_addresse_integrateur"/>
+	       </div>
+	    </div>
+			<div style="text-align:left"><strong style="text-decoration:underline;display:block;margin-bottom: 0px;">NB:</strong><p style="margin-left:10px;display:inline-block;margin-bottom: 0px" ><span style="display:inline-block;font-size:20px;font-weight:bold;position: relative;top: 5px;left: -10px;">*</span><span style="display:inline-block;margin-left:15px;margin-bottom:-10px">Si la demande concerne des modifications de :</span></p><span style="display:block;margin-left:25px"><span style="font-weight:bold;font-size:2.4em">.</span> nom, prénoms, email, date de naissance, nationalité, profession: veuillez joindre les pièces d'identités ou toutes pieces justificatives à ce ticket</span><br/>
+		<span style="display:block;margin-left:25px;margin-top:-18px"><span style="font-weight:bold;font-size:2.4em">.</span> Télephone: veullez joindre les codes membres et les pièces d'identités à ce ticket</span><br/><p style="margin-left:10px;margin-top:-9px"><span style="display:inline-block;font-size:20px;font-weight:bold;position: relative;top: 5px;left: -10px;">*</span><span style="display:inline-block;margin-left:8px;">Si la demande concerne les codes (membre, secret, d'activation), veuillez joindre les pièces d'identités à ce ticket.</span></p><p style="margin-left:10px"> <span style="display:inline-block;font-size:20px;font-weight:bold;position: relative;top: 5px;left: -10px;">*</span><span style="display:inline-block;margin-left:15px;margin-top: -19px;">Si la demande concerne une restitution de BAn pour cause d'erreur de nom sur le recu de versement bancaire: souscrire au BAn avec le reçu erroné puis joindre une lettre reconnaissance écrite de celui qui fait la restitution</span></p><div style="width:100%;padding:10px 0px 10px 10px;border:1px solid #000;font-style:italic;"> Ex: je sousigné....................(Code membre......) demande la restitution de ..... à .......</div><p style="margin-left:10px"> Si la demande concerne une concession de BAn pour tiers, joindre une lettre de reconnaissance écrite de celui qui concède.</p><div style="width:100%;padding:10px 0px 10px 10px;border:1px solid #000;margin-bottom:10px;font-style:italic;"> Ex: je sousigné....................(Code membre......) demande la concession de ..... à ....... </div></div>
+		<div class="alert alert-danger">
+			<strong>NB:Soumettre les tickets de support par problème. A chaque problème ou demande, son ticket de support.Tout cela dans le but de faciliter le traitement </strong>
+		</div>
+			<div class="control-group">
+	       <label class="control-label" for="integrateur_description_probleme" style="font-weight:bold;text-align:left">
+	          Description du problème *:
+	       </label>
+	       <div class="controls">
+              <textarea name="integrateur_description_probleme" rows="8" cols="40" class="input-xxlarge" style="width:674px" required="required"></textarea>
+	       </div>
+	    </div>
+
+			<blockquote style="text-transform:uppercase;font-weight:bold;font-size:1.3em;text-align:left">
+				AJOUT DE PIECES JUSTIFICATIVES
+			</blockquote>
+			<div class="control-group">
+					<label class="radio">
+						 <input type="radio" name="piece_perte_personne" id="piece_perte_personne" value="0">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:bold;float:left">Je suis une personne ayant perdu sa pièce justificative</span>
+					</label>
+					<label class="radio">
+						 <input type="radio" name="piece_perte_personne" id="piece_innexistant_personne" value="-1">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:bold;float:left">Je suis une personne n’ayant pas de pièce justificative</span>
+					</label>
+					<label class="radio">
+						 <input type="radio" name="piece_perte_personne" id="piece_existant_personne" value="1">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:bold;float:left">Je veux joindre des pièces justificatives</span>
+					</label>
+      </div>
+			<div class="control-group" id="piece_existance_justificative" style="display:none">
+				<label class="control-label" for="integrateur_description_probleme" style="font-weight:bold">
+					 Joindre les pieces justificatives
+				</label>
+			 <div class="controls">
+				 <input type="file" name="ticket_multiple_upload_file[]" multiple="multiple" style="position:relative;left:-207px;">
+				 <div class="alert alert-danger">
+                    <strong>Seul les formats jpg, png et jpeg sont supportés. Vous avez la possibilité de selectionner plusieurs pieces justificatives en même temps:</strong>
+				 </div>
+			</div>
+			</div>
+			<div class="row" style="margin-left:-1px;display:none" id="renseignement_piece_justificative" >
+        <div class="span12">
+					<blockquote style="text-transform:uppercase;font-weight:bold;font-size:1.2em">
+						FICHE DE RENSEIGNEMENT(A REMPLIR HONNETEMENT)
+					</blockquote>
+        </div>
+			<div class="span12">
+			 <div class="span6">
+              <div class="control-group">
+	 	       <label for="code_membre_recrutement_operateur" style="font-weight:bold;float:left">
+	 	         Code Membre (si vous en avez): </label>
+	 		       <input type="text" name="code_membre_recrutement_operateur" placeholder="Mettre ici Votre nom" class="input-block-level input_nom_recrutement_operateur"/>
+                 <div class="alert alert-danger">
+       	           <strong>veuillez mettre un code membre correct pour éviter tout désagrément:</strong>
+                </div>
+             </div>
+				 <div class="control-group">
+	 	       <label for="nom_recrutement_operateur" style="font-weight:bold;float:left">
+	 	         Nom*: </label>
+	 		       <input type="text" name="nom_recrutement_operateur" placeholder="Mettre ici Votre nom" class="input-block-level input_nom_recrutement_operateur"/>
+	 	    </div>
+				<div class="control-group">
+					<label  for="prenoms_recrutement_operateur" style="font-weight:bold;float:left">
+						Prenoms*: </label>
+					<input type="text" name="prenoms_recrutement_operateur" placeholder="Mettre ici Votre prenom" class="input-block-level input_prenom_recrutement_operateur"/>
+			 </div>
+			 <div class="control-group">
+				 <label for="sexe_recrutement_operateur" style="font-weight:bold;float:left">
+					 Sexe*: </label>
+					 <select class="input-block-level input_sexe_recrutement_operateur" name="sexe_recrutement_operateur" >
+                        <option value="Masculin">Masculin</option>
+						 <option value="Feminin">Feminin</option>
+					 </select>
+			</div>
+			<div class="control-group">
+				<label for="nationalite_recrutement_operateur" style="font-weight:bold;float:left">
+					Nationalite*: </label>
+				<input type="text" name="nationalite_recrutement_operateur" placeholder="Mettre ici Votre nationalite" class="input-block-level input_nationalite_perte"/>
+		 </div>
+	<div class="control-group">
+		<label for="date_naissance_recrutement_operateur" style="font-weight:bold;float:left">
+			Date de naissance*: </label>
+		<input type="text" name="date_naissance_recrutement_operateur" placeholder="Mettre ici la date de naissance" class="input-block-level input_date_naissance_recrutement_operateur datepicker" date-provide="datepicker"/>
+ </div>
+ <div class="control-group">
+	 <label for="lieu_naissance_perte" style="font-weight:bold;float:left">
+		 Lieu de naissance*: </label>
+	 <input type="text" name="lieu_naissance_perte" placeholder="Mettre ici Votre lieu de naissance" class="input-block-level input_lieu_naissance_recrutement_operateur"/>
+ </div>
+ <!--
+	<div class="control-group">
+			<label for="adresse_perte" style="font-weight:bold;float:left">
+				Adresse*: </label>
+				<textarea name="adresse_perte" class="input-block-level input_adresse_perte" placeholder="Mettre ici votre adresse" rows="8" cols="40"></textarea>
+	 </div>
+     -->
+	</div>
+       <div class="span6">
+                 <div class="control-group">
+						<label for="telephone_recrutement_operateur" style="font-weight:bold;float:left">
+							Telephone*: </label>
+							 <input type="text" name="telephone_recrutement_operateur" placeholder="Mettre ici votre numero de telephone" class="input-block-level input_telephone_recrutement_operateur"   />
+				 </div>
+				 <div class="control-group">
+						<label for="email_recrutement_operateur" style="font-weight:bold;float:left">
+							Email*: </label>
+						<input type="text" name="email_recrutement_operateur" placeholder="Mettre ici votre email" class="input-block-level input_email_recrutement_operateur"/>
+				 </div>
+
+				 <div class="control-group">
+						<label for="whatsapp_recrutement_operateur" style="font-weight:bold;float:left">
+							Numero Whatsapp: </label>
+							 <input type="text" name="whatsapp_recrutement_operateur" placeholder="Mettre ici votre Numero whatsapp" class="input-block-level input_whatsapp_recrutement_operateur"/>
+				 </div>
+                 <div class="control-group">
+						<label for="last_diplome_recrutement_operateur" style="font-weight:bold;float:left">
+							Dernier diplôme: </label>
+							 <input type="text" name="last_diplome_recrutement_operateur" placeholder="Mettre ici le dernier diplome" class="input-block-level input_last_diplome_recrutement_operateur"/>
+				 </div>
+
+
+                 <div class="control-group">
+						<label for="last_diplome_recrutement_operateur" style="font-weight:bold;float:left">
+                          Joindre les pieces justificatives: </label>
+							 <input type="text" name="last_diplome_recrutement_operateur" placeholder="Mettre ici le dernier diplome" class="input-block-level input_last_diplome_recrutement_operateur"/>
+				 </div>
+
+                 <div class="control-group">
+						 <label for="region_perte" style="font-weight:bold;float:left">
+							 Region*: </label>
+							 <select class="input-block-level" name="region_perte" id="input_region_perte" ="">
+ 								<option value>Choisir votre region </option>
+ 								 <?php foreach ($this->re_all_entry as $key => $value): ?>
+ 									<option value="<?php echo $value->id_region ?>" data-idpays="<?php echo $value->id_pays ?>"><?php echo $value->nom_region ?></option>
+ 								 <?php endforeach; ?>
+ 							</select>
+					</div>
+                    <div class="control-group">
+						<label for="prefecture_perte" style="font-weight:bold;float:left">
+							Prefecture*: </label>
+						<select class="input-block-level" name="prefecture_perte" id="input_prefecture_perte"   >
+							<option value>Choisir votre prefecture</option>
+              <?php foreach ($this->pre_all_entry as $key => $value): ?>
+								<option value="<?php echo $value->id_prefecture ?>" data-idregion="<?php echo $value->id_region ?>"><?php echo $value->nom_prefecture ?></option>
+              <?php endforeach; ?>
+						</select>
+				 </div>
+				 <div class="control-group">
+						<label for="canton_recrutement_operateur" style="font-weight:bold;float:left">
+							Canton de residence*: </label>
+							<select class="input-block-level" name="canton_recrutement_operateur" id="input_canton_perte"   >
+								<option value>Choisir votre canton</option>
+								 <?php foreach ($this->can_all_entry as $key => $value): ?>
+									<option value="<?php echo $value->id_canton ?>" data-idprefecture="<?php echo $value->id_prefecture ?>"><?php echo $value->nom_canton ?></option>
+								 <?php endforeach; ?>
+							</select>
+				 </div>
+                 <blockquote style="text-transform:uppercase;font-weight:bold;font-size:1.3em;text-align:left">
+				 AVEZ VOUS UN ORDINATEUR ?
+			    </blockquote>
+			    <div class="control-group">
+					<label class="radio">
+						 <input type="radio" name="confirmation_ordinateur_recrutement_operateur" id="piece_perte_personne" value="0">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:bold;float:left">Oui</span>
+					</label>
+					<label class="radio">
+						 <input type="radio" name="confirmation_ordinateur_recrutement_operateur" id="piece_innexistant_personne" value="1">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:bold;float:left">Non</span>
+					</label>
+                </div>
+
+                <blockquote style="text-transform:uppercase;font-weight:bold;font-size:1.3em;text-align:left">
+				 AVEZ VOUS EFFECTUE UNE FORMATION EN INFORMATIQUE ?
+			    </blockquote>
+			    <div class="control-group">
+					<label class="radio">
+						 <input type="radio" name="formation_informatique_recrutement_operateur" id="formation_informatique_recrutement_operateur" value="0">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:bold;float:left">Oui</span>
+					</label>
+					<label class="radio">
+						 <input type="radio" name="formation_informatique_recrutement_operateur" id="piece_innexistant_personne" value="1">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:bold;float:left">Non</span>
+					</label>
+                </div>
+                <blockquote style="text-transform:uppercase;font-weight:bold;font-size:1.3em;text-align:left">
+				 ETES VOUS DISPONIPLE IMMEDIATEMENT ?
+			    </blockquote>
+			    <div class="control-group">
+					<label class="radio">
+						 <input type="radio" name="disponible_informatique_recrutement_operateur" id="disponibilite_recrutement_operateur" value="0">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:bold;float:left">Oui</span>
+					</label>
+					<label class="radio">
+						 <input type="radio" name="disponible_informatique_recrutement_operateur" id="piece_innexistant_personne" value="1">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:bold;float:left">Non</span>
+					</label>
+                </div>
+       </div>
+		 </div>
+	 </div>
+      <div class="control-group" >
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative;left:-335px">
+          Valider le formulaire
+          </button>
+      </div>
+
+</form>
+	</div>
+	<div class="span3">
+		<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+	</div>
+</div>

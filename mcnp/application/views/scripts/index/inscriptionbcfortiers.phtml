@@ -1,0 +1,209 @@
+﻿<?php //$sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/integrateur.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#code_membre').blur(function(e) {
+	    if($(this).val() !== '') {
+            $.get('/integrateur/recupnom',{
+                code_membre: $(this).val()
+            },
+            function success(data) {
+                $("#nom_membre").val(data);
+	        })
+        } else {
+            $("#nom_membre").val("");
+        }		   
+	});
+	
+    $('#code_membre_beneficiaire').blur(function(e) {
+	    if($(this).val() !== '') {
+            $.get('/integrateur/recupnom',{
+                 code_membre: $(this).val()
+            },
+            function success(data) {
+                $("#beneficiaire").val(data);
+	        })
+        } else {
+            $("#beneficiaire").val("");
+        }		   
+	});
+})
+
+
+  function ouvreppnonenroler()  {
+	 $('#div_enrole1').css('display','block');
+	 $('#div_enrole2').css('display','none');
+	 $('#nom_beneficiaire').attr("required",true);
+	 $('#prenom_beneficiaire').attr("required",true);
+     $('#code_membre_beneficiaire').attr("required",false);
+   	 $('#beneficiaire').attr("required",false);
+  }
+  
+  
+  function ouvreppenroler()  {
+	 $('#div_enrole1').css('display','none');
+	 $('#div_enrole2').css('display','block');
+	 $('#nom_beneficiaire').attr("required",false);
+	 $('#prenom_beneficiaire').attr("required",false);
+     $('#code_membre_beneficiaire').attr("required",true);
+   	 $('#beneficiaire').attr("required",true);
+  }
+
+
+</script>
+
+
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+<blockquote><p class=""> Offreur d'Intégration au Programme de Souscription au Bon de Consommation (BC) pour Tiers </p></blockquote>
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="inscriptionbc">
+  <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+  </div>
+  <?php } ?>
+  
+  <?php if(isset($this->error) && $this->error !="") { ?>
+  <div class="alert alert-error">
+       <button type="button" class="close" data-dismiss="alert">&times;</button>
+       <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+  <legend>Souscripteur</legend>
+	
+    <div id="active" class="control-group">
+	<label class="control-label" for="code_membre">Code Membre * </label>
+    <div class="controls">
+    <div class="input-group mb-3">
+	     <input name="code_membre_apporteur" type="text" id="code_membre" class="input-xxlarge" placeholder="Entrer Le Code Membre Apporteur de la Souscription pour Tiers au BC" readonly />
+	</div>
+    </div>
+	</div>
+	
+	         
+    <div class="control-group">
+    <label class="control-label" > Souscripteur  * </label>
+    <div class="controls">
+    <input type="text" name="nom_membre" id="nom_membre" placeholder="Désignation "  class="input-block-level" readonly />
+    </div>
+    </div>
+    
+	
+	<div class="control-group">
+    <label class="control-label" for="type_souscription">Type Souscription * </label>
+    <div class="controls">
+    <select name="type_souscription" id="type_souscription"  class="input-xxlarge" >
+    <option value=""> Choisir un type de souscription </option>
+    <option value="CMIT">Souscription Marchande de type CMIT </option>
+    <option value="CAPU">Souscription Marchande de type CAPU </option>
+    <option value="CAIPC">Souscription Non Marchande de type CAIPC </option>
+    <option value="BPS">Souscription pour Tiers contre BPS</option>
+    </select>
+    </div>
+    </div>
+	
+    <legend> Bénéficiaire </legend>
+	<div class="control-group">
+	<label class="control-label" for="liste"> Type Liste *</label>
+    <div class="controls">
+	<label for="type_inscription0" class="radio">
+    <input name="type_inscription" type="radio" id="type_inscription0"   value="0" required onclick="ouvreppnonenroler()" />
+    Personne Ciblée Non Enrôlée
+    </label>
+	
+    <label for="type_inscription1" class="radio">
+    <input name="type_inscription" type="radio" id="type_inscription1"  value="1" required onclick="ouvreppenroler()" />
+    Personne Ciblée Déjà Enrôlée
+    </label>
+	</div>
+    </div>
+	
+
+	
+	<div id="div_enrole1"  style="display:none;">
+    <div class="control-group">
+    <label class="control-label" for="nom_membre">Nom bénéficiaire * </label>
+    <div class="controls">
+    <input type="text" name="nom_beneficiaire" id="nom_beneficiaire" placeholder="Nom du Bénéficiaire"   class="input-xxlarge" />
+    </div>
+    </div>
+	
+    <div class="control-group">
+    <label class="control-label" for="prenom_membre">Prénom bénéficiaire * </label>
+	<div class="controls">
+    <input type="text" name="prenom_beneficiaire" id="prenom_beneficiaire" placeholder="Prénom du Bénéficiaire"   class="input-xxlarge" />
+    </div>
+    </div>
+	</div>
+	
+	<div id="div_enrole2"  style="display:none;">
+    <div class="control-group">
+    <label class="control-label" for="code_membre_beneficiaire"> Code membre * </label>
+    <div class="controls">
+	<div class="input-group mb-3">
+    <input type="text" name="code_membre_beneficiaire" id="code_membre_beneficiaire" placeholder="Code Membre du Bénéficiaire"  class="input-xxlarge" />
+	</div>
+	</div>
+    </div>
+	
+    <div class="control-group">
+    <label class="control-label" for="code_membre">Nom & Prenom * </label>
+	<div class="controls">
+    <input type="text" name="beneficiaire" id="beneficiaire" placeholder="" readonly    class="input-xxlarge" />
+    </div>
+    </div>
+	</div>
+		 
+    <div class="form-actions">
+    <input name="publier" type="hidden" id="publier" value="0" />
+    <input name="ok" type="hidden" id="ok" value="ok" />
+    <button type="reset" class="btn">Annuler</button>
+    <button type="submit" id="submit" class="btn btn-primary">Enregistrer</button>
+    </div>
+</form>
+
+</div>
+
+</div>
+</div>
+
+<style>
+.button_qr_code {
+  background: #aa325f;
+}
+</style>
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr8.js"></script>
+<script type="text/javascript">
+//outilqr('addeli');
+outilqrformobligatoire("inscriptionbc","submit");
+//outilqr_champ_personnalise("button_qr_code_mandat", "code_membre_mandat", "designation_mandat");
+//outilqr_champ_personnalise("button_qr_code_mandataire", "code_membre_mandataire", "designation_mandataire");
+</script>
+
+
+
+
+
+
+
+

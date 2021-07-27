@@ -1,0 +1,39 @@
+<div id="view-content" style="font-size:11px">
+    <table id="tbl-smcipn"></table>
+    <div id="pg-smcipn"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-smcipn").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'mesreculist')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Code membre','Durée projet','Salaire','Investissement','Date','Heure'],
+        height:450, width:827,
+        colModel:[
+            {name:'code_demand',index:'code_demand', width:85, sorttype:"int",align:"left",summaryType:'count', summaryTpl : 'Total ({0})', hidden:true},
+            {name:'lib_demand',index:'lib_demand', width: 300, align:"left", editable: true},
+            {name:'num_membre',index:'num_membre', width: 150, editable: true,align:"left"},
+            {name:'dvm_demand',index:'dvm_demand', width: 125, editable: true,align:"left"},
+            {name:'mt_salaire',index:'mt_salaire', width: 120, align:"right",sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'mt_investis',index:'mt_investis', width: 145, align:"right",sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'date_demand',index:'date_demand', width: 110, editable: true,align:"left"},
+            {name:'heure_demand',index:'heure_demand', width: 100, align:"left", editable: false},
+        ],
+        rowNum:50,
+        rowList:[50,100,300],
+        rownumbers:true,
+        pager: '#pg-smcipn',
+        sortname:"date_demand",
+        viewrecords: true,
+        multiselect:false,
+        sortorder: "desc",
+        caption:"Liste de mes demandes de la SMCIPN accordées",
+        footerrow: true,
+        userDataOnFooter: true        
+    });
+  
+    $("#tbl-smcipn").jqGrid('navGrid','#pg-smcipn',{edit:false,add:false,del:false,search:true});
+    
+        
+</script>

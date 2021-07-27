@@ -1,0 +1,80 @@
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+  <blockquote><p class="text-info">Les produits par filières d'activités</p></blockquote>
+
+
+
+
+
+<?php if(count($this->entries)>0){?>  
+          <?php $idfiliere = ""; ?>
+<div class="accordion" id="accordion2">
+    <?php foreach ($this->entries as $entry): ?>
+    <?php if($entry->id_filiere != $idfiliere && $idfiliere != ""){ ?>
+</tbody>
+</table>
+      </div>
+    </div>
+  </div>
+ <?php }?>   
+    <?php if($entry->id_filiere != $idfiliere){ $idfiliere = $entry->id_filiere;?>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $entry->id_filiere; ?>">
+        <i class="icon-arrow-right"></i> <?php echo ($entry->nom_filiere); ?>, <span style="color:#666; font-size:11px; text-decoration:inherit;"><?php echo ($entry->descrip_filiere); ?></span>
+      </a>
+    </div>
+    <div id="collapse<?php echo $entry->id_filiere; ?>" class="accordion-body collapse in" align="left">
+      <div class="accordion-inner">
+<table class="table table-condensed">
+<thead>
+<tr>
+<th>Produits</th>
+<th><div align="right">Prix</div></th>
+<th><div align="center">Actions</div></th>
+</tr>
+</thead>
+<tbody>
+	<?php }?>
+        <?php $articlestockesM = new Application_Model_EuArticleStockesMapper();
+$articlestockes = new Application_Model_EuArticleStockes();
+$articlestockesM->find($entry->date_creation, $articlestockes);
+?>
+    <tr>
+      <td><?php echo ($articlestockes->designation); ?> <small style="color:#666; font-size:11px; text-decoration:inherit;"><?php echo ($articlestockes->reference); ?><?php // - echo ($articlestockes->code_barre); ?></small></td>
+      <td><div align="right"><strong><?php echo number_format($articlestockes->prix, 0, ',', ' '); ?></strong></div></td>
+      <td><div align="center"><a href="<?php echo $this->baseUrl();?>/index/acteurproduit/id/<?php echo $articlestockes->code_membre_morale; ?>"><!--<i class="icon-eye-open"></i>-->  <?php 
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($entry->id_utilisateur, $membremorale);
+?><?php echo ($membremorale->raison_sociale); ?></a></div></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+      </div>
+    </div>
+  </div>
+
+  </div>
+<?php }?>
+
+
+
+
+
+</div>
+<div class="span3">
+	<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

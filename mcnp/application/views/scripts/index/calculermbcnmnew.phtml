@@ -1,0 +1,155 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+
+<script type="text/javascript">
+	function calculmontant() {
+	  if(document.getElementById('type_activation1').checked) {
+	    if(document.getElementById('mont_msbcnm').value != "" && document.getElementById('mont_bc').value != "") {
+	        msbcnm = Math.floor((document.getElementById('mont_bc').value * document.getElementById('bnpnmpsfs').value));
+		    var mont_msbcnm = document.getElementById('mont_msbcnm').value;
+		    var nbre = Math.floor(mont_msbcnm / msbcnm);
+	        var mont_gopi   = mont_msbcnm;
+	        var mont_opi    = Math.floor(mont_gopi / 22.4);
+		    document.getElementById('nbre').value = nbre;
+	        document.getElementById('mont_gopi').value = mont_gopi;
+	        document.getElementById('mont_opi').value  = mont_opi;
+	    }
+		   
+	  } else if(document.getElementById('type_activation2').checked) {
+	     if(document.getElementById('mont_msbcnm').value != "" && document.getElementById('mont_bc').value != "") {
+	        msbc = Math.floor((document.getElementById('mont_bc').value * document.getElementById('bnpnmps').value));
+	        var mont_msbcnm = document.getElementById('mont_msbcnm').value;
+		    var nbre = Math.floor(mont_msbcnm / msbc);
+	        var mont_gopi   = mont_msbcnm;
+	        var mont_opi    = Math.floor(mont_gopi / 22.4);
+		    document.getElementById('nbre').value = nbre;
+	        document.getElementById('mont_gopi').value = mont_gopi;
+	        document.getElementById('mont_opi').value  = mont_opi;
+		 }
+	  }
+	
+   }
+	
+	function annuler() {
+       document.getElementById('mont_bc').value = "";
+	   document.getElementById('nbre').value = "";
+	   document.getElementById('mont_gopi').value = "";
+	   document.getElementById('mont_opi').value = "";
+	   document.getElementById('type_activation1').checked = true;
+    }
+	
+	function annuler1() {
+	   document.getElementById('nbre').value = "";
+	   document.getElementById('mont_gopi').value = "";
+	   document.getElementById('mont_opi').value = "";
+    }
+
+    function annulation1() {
+       document.getElementById('mont_bc').value = "";
+	   document.getElementById('nbre').value = "";
+	   document.getElementById('mont_gopi').value = "";
+	   document.getElementById('mont_opi').value = "";
+    }
+
+    function annulation2() {
+       document.getElementById('mont_bc').value = "";
+       document.getElementById('nbre').value = "";
+	   document.getElementById('mont_gopi').value = "";
+	   document.getElementById('mont_opi').value = "";	   
+    }
+	
+</script>
+
+<div class="card3">
+<div class="row">
+<div class="col-xl-12" style="text-align:left">
+
+<blockquote class="blockquote"><p>Calcul du nombre de bénéficiaires de la Souscription au Bon de Consommation (BC) pour Tiers (Non Marchand)</p></blockquote>
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+  
+
+<form  action="" method="post" enctype="multipart/form-data"  class="form-horizontal" id="" name="">
+<fieldset>
+<legend> Nombre de bénéficiaires de la Souscription au BC pour Tiers (Non Marchand) </legend>
+
+<div class="form-group">
+<label class="form-control-label" for="mont_bc">Montant de Souscription *</label>
+<div class="controls">
+<input type="text" name="mont_msbcnm" id="mont_msbcnm" placeholder="Montant de Souscription au Bon de Consommation " class="form-control" onblur="annuler();"  required="true" />
+</div>
+</div>
+<br/><br/>
+
+
+<div class="form-group" id="type">
+<label class="form-control-label"></label>
+<div class="controls"> 
+<input type="radio" checked="checked" name="type_activation" id="type_activation1" value="avecfs" onclick="annulation1()" />
+AVEC FS &nbsp;&nbsp;&nbsp;&nbsp;			  
+<input type="radio"  name="type_activation" id="type_activation2" value="sansfs"  onclick="annulation2()" />
+SANS FS
+</div>
+</div>
+<br/><br/>
+
+
+<div class="form-group">
+<label class="form-control-label" for="mont_msbcr">Montant minimum du Bon de Consommation par bénéficiaire *</label>
+<div class="controls">
+<input  type="text"    name="mont_bc"   id="mont_bc"    placeholder="Montant du Bon de Consommation" class="form-control" onblur="annuler1();" />
+<input  type="hidden"  name="bnpnmpo"   id="bnpnmpo"    placeholder="bnpnmpo"    readonly="true"  value="<?php echo $this->bnpnmpo; ?>" /> 
+<input  type="hidden"  name="bnpnmpofs" id="bnpnmpofs"  placeholder="bnpnmpofs"  readonly="true"  value="<?php echo $this->bnpnmpofs; ?>" />
+<input  type="hidden"  name="bnpmps"    id="bnpnmps"    placeholder="bnpnmps"    readonly="true"  value="<?php echo $this->bnpnmps; ?>" />
+<input  type="hidden"  name="bnpmpsfs"  id="bnpnmpsfs"  placeholder="bnpnmpsfs"  readonly="true"  value="<?php echo $this->bnpnmpsfs; ?>" />
+<input  type="hidden"  name="pck"       id="pck"        placeholder="pck"  readonly="true"  value="<?php echo $this->pck; ?>" />
+</div>
+</div>
+<br/><br/>
+
+<div class="form-group">
+<label class="form-control-label" for="nbre">Nombre de bénéficiaires de la souscription *</label>
+<div class="controls">
+<input type="text" name="nbre" id="nbre" placeholder="Nombre de bénéficiaires de la souscription" class="form-control" readonly="true"  required="required" />
+</div>
+</div>
+<br/><br/>
+
+<div class="form-group">
+<label class="form-control-label" for="mont_gopi">Montant Global des OPI à Obtenir *</label>
+<div class="controls">
+<input type="text" name="mont_gopi" id="mont_gopi" placeholder="Montant Global des OPI à Obtenir" class="form-control" readonly="true" />	 
+</div>
+</div>
+<br/><br/>
+
+<div class="form-group">
+<label class="form-control-label" for="mont_opi">Montant d'OPI / période * </label>
+<div class="controls">
+<input type="text" name="mont_opi" id="mont_opi" placeholder="Montant d'OPI par période" class="form-control" readonly="true" />	 
+</div>
+</div>
+</fieldset>
+
+<div class="form-actions">
+<button type="reset" class="btn">Annuler</button>
+<button type="button" class="btn btn-primary" onclick="calculmontant();">Calculer</button>
+</div> 
+</form>
+
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+

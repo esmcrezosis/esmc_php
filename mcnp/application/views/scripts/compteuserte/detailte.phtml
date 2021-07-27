@@ -1,0 +1,92 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+<blockquote><p>Details d'un Terminal de Vente</p></blockquote>
+
+<div class="control-group">
+<label class="control-label" for="objet_demande">Raison sociale </label>
+<div class="controls">
+<?php echo $this->tegc->nom_tegc; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="description_demande">Fili&egrave;re</label>
+<div class="controls">
+<?php echo $this->division; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="objet_demande">Nom du Produit </label>
+<div class="controls">
+<?php echo $this->tegc->nom_produit; ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label">PRK </label>
+<div class="controls">
+     
+	 <?php $x = 1; ?>
+	 <?php foreach ($this->typeprks as $value) : ?>
+	       <input disabled type="checkbox" name="<?php echo "prk".$x ?>" id="<?php echo "prk".$x ?>" value="<?php echo $value->valeur_prk; ?>" <?php foreach ($this->prks as $prk) { if($prk->valeur == $value->valeur_prk) { echo 'checked="checked"';} } ?>/>
+		   <?php echo $value->valeur_prk; ?> &nbsp;&nbsp;
+	 <?php $x++;endforeach; ?>
+	 
+	 
+     <!--
+     <input disabled type="checkbox" name="prk6" id="prk6" value="6" <?php foreach ($this->prks as $prk) { if($prk->valeur == 6) { echo 'checked="checked"';} } ?> /> 6 &nbsp;&nbsp;
+	 <input disabled type="checkbox" name="prk65" id="prk65" value="6.5" <?php foreach ($this->prks as $prk) { if($prk->valeur == 6.5) { echo 'checked="checked"';} } ?> /> 6.5 &nbsp;&nbsp;
+	 <input disabled type="checkbox" name="prk7" id="prk7" value="7" <?php foreach ($this->prks as $prk) { if($prk->valeur == 7) { echo 'checked="checked"';} } ?> /> 7 &nbsp;&nbsp;
+	 <input disabled type="checkbox" name="prk75" id="prk75" value="7.5"  <?php foreach ($this->prks as $prk) { if($prk->valeur == 7.5) { echo 'checked="checked"';} } ?>  /> 7.5 &nbsp;&nbsp;
+	 <input disabled type="checkbox" name="prk8" id="prk8" value="8" <?php foreach ($this->prks as $prk) { if($prk->valeur == 8) { echo 'checked="checked"';} } ?> /> 8
+     -->
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Produit </label>
+<div class="controls">
+     <input disabled type="checkbox"  name="produit1" id="produit1" value="ri" <?php if(isset($this->tegc) && ($this->tegc->recurrent_illimite == 1)) {echo 'checked="checked"';} ?> />
+     R&eacute;current Illimit&eacute; &nbsp;&nbsp;				                         
+     <input disabled type="checkbox"  name="produit2" id="produit2" value="rl" <?php if(isset($this->tegc) && ($this->tegc->recurrent_limite == 1)) {echo 'checked="checked"';} ?> />
+     R&eacute;current limit&eacute; &nbsp;&nbsp;				 
+     <input disabled type="checkbox"  name="produit3" id="produit3" value="nr" <?php if(isset($this->tegc) && ($this->tegc->nonrecurrent == 1)) {echo 'checked="checked"';} ?> />
+     Non R&eacute;current				                               
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label">P&eacute;riode </label>
+<div class="controls">
+     <input disabled type="checkbox"  name="periode1" id="periode1" value="11.2" <?php if(isset($this->tegc) && ($this->tegc->periode1 == 1)) {echo 'checked="checked"';} ?> />
+     11.2 &nbsp;&nbsp;				                     
+	 <input disabled type="checkbox"  name="periode2" id="periode2" value="22.4" <?php if(isset($this->tegc) && ($this->tegc->periode2 == 1)) {echo 'checked="checked"';} ?> />
+     22.4				 
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Cat&eacute;gorie </label>
+<div class="controls">
+     <input disabled type="checkbox"  name="categorie1" id="categorie1" value="special" <?php if(isset($this->tegc) && ($this->tegc->special == 1)) {echo 'checked="checked"';} ?> />
+     Sp&eacute;cial	&nbsp;&nbsp;			                        
+	 <input disabled type="checkbox"  name="categorie2" id="categorie2" value="ordinaire" <?php if(isset($this->tegc) && ($this->tegc->ordinaire == 1)) {echo 'checked="checked"';} ?> />
+     Ordinaire				 				 
+</div>
+</div>
+
+</div>
+
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+
+</div>
+</div>

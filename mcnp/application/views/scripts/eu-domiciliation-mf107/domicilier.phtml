@@ -1,0 +1,198 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Domiciliation des MF107</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form action="/eu-domiciliation-mf107/domicilier" name="fm_domicil" method="POST" id="fm_domicil">
+            <div>
+                <fieldset>
+                    <legend>Informations sur la domiciliation</legend>
+                    <table>
+                        <tr>
+                            <td>Montant à domicilier *</td><td><input name="mt_subvent" id="mt_subvent" class="validate[required,custom[onlyNumberSp]]" value="<?php echo $this->mt_subvent ?>" size="25"/></td>          
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Membre bénéficiaire *</td> 
+                            <td> 
+                                <input name="membre" id="membre" class="validate[required]" size="25">
+                            </td>
+                        </tr>
+                        <tr><td height="7px"></td></tr>
+                        <tr>
+                            <td>Nom bénéficiaire</td><td><input name="nom_benef" id="nom_benef"  class="validate[required]" size="25"></td>
+                            <td>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prénoms bénéficiaire
+                            </td>
+                            <td>
+                                <input name="prenom_benef" id="prenom_benef"  class="validate[required]" size="25">
+                            </td>
+                        </tr>
+                        <tr><td height="7px"></td></tr>
+                        <tr>
+                            <td>Code membre *</td>
+                            <td><input name="code_membre" id="code_membre"  class="validate[required]" size="25"></td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nom</td>
+                            <td><input name="nom" id="nom"  class="validate[required]" size="30"></td>
+                        </tr>
+                        <tr><td height="15px" colspan="4"></td></tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td colspan="2">
+                                <input type='button' value="Afficher" name="afficher" id="afficher" />
+                                <input type="reset" value="Rafraichir" name="refresh" id="refresh"   />
+                            <td>
+                        </tr>
+                    </table>    
+                </fieldset>
+            </div>
+            <table id="tbl-credit"></table>
+            <div id="pg-credit"></div>
+            <br>
+            <div style="margin-left: 150px">
+                <input type="button" value="Valider" name="valider" id="valider"   />
+                <input id="t_annuler" type="button" value="Annuler" />
+            </div>
+        </form>
+    </div>  
+</div>
+
+<script type="text/javascript">
+    $("#tbl-credit").jqGrid({
+        url:'/eu-domiciliation-mf107/credits?code_membre=0',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Numéro','Montant apport','Montant réel placé','Montant domicilié','Répartition','Date apport',''],
+        height:'100%', width:810,
+        colModel:[
+            {name:'numident',index:'numident',width: 150, editable: false,align:"left"},
+            {name:'mont_apport',index:'mont_apport',width: 150, align:"right", editable: false,formatter:'number'},
+            {name:'mt_reel',index:'mt_reel',width: 150, align:"right", editable:false,formatter:'number'},
+            {name:'mt_utilise',index:'mt_utilise',width: 150, align:"right", editable: true,formatter:'number'},
+            {name:'nb_repartition',index:'nb_repartition',width: 100, editable:true,align:"left"},
+            {name:'date_mf107',index:'date_mf107',width: 150, editable: false,align:"right"},
+            {name:'id_mf107',index:'id_mf107',width: 150,editable:false,align:"left",hidden:true}
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        pager: '#pg-credit',
+        sortname:"code_membre",
+        viewrecords: true,
+        multiselect:true,
+        sortorder: "asc",
+        caption:"Liste des placements de fonds",
+        forceFit : true, 
+        cellEdit: true, 
+        cellsubmit: 'clientArray'
+    });
+    $("#tbl-credit").jqGrid('navGrid','#pg-credit',{edit:false,add:false,del:false,search:true});
+   
+   
+    $(document).ready(function ()
+    {  
+        $('#refresh').button();
+        $('#afficher').button();
+        $('#valider').button();
+        $('#t_annuler').button();
+          
+        $.get("/eu-domiciliation-mf107/membre",
+        function success(data)
+        {
+            $('#code_membre').autocomplete({"source": data});
+            $('#membre').autocomplete({"source": data});
+        });
+         
+		 
+		$.get("/eu-domiciliation-mf107/membre",
+        function success(data)
+        {
+          $('#code_membre').autocomplete({"source": data,change:displayItems});
+          $('#membre').autocomplete({"source": data,change:display});
+        });
+        
+        
+        function display()
+        {
+           if ($(this).val() !== '')
+           {
+               $.get(
+               '/eu-domiciliation-mf107/recupnombenef',
+               {
+                  num_membre: $(this).val()
+               },
+               function success(data)
+               {
+                  $("#nom_benef").val(data[0]);
+                  $("#prenom_benef").val(data[1]);
+               });
+            } 
+         }
+        
+        
+         function displayItems()
+         {
+            if ($(this).val() !== '')
+            {
+               $.get(
+               '/eu-domiciliation-mf107/recupnom',
+               {
+                  num_membre: $(this).val()
+               },
+               function success(data)
+               {
+                  $("#nom").val(data[0]);
+               });
+            }
+         }
+		 
+		   
+        $('#afficher').click(function() {
+            jQuery("#tbl-credit").jqGrid('setGridParam',{url:"/eu-domiciliation-mf107/credits?code_membre="+$('#code_membre').val()}).trigger('reloadGrid');
+        });
+      
+        $('#valider').click(function() {
+            var sel;
+            sel = jQuery("#tbl-credit").jqGrid('getGridParam','selarrrow');
+            var tab=new Array();  
+            var rowsel;
+            rowsel = jQuery("#tbl-credit").jqGrid('getGridParam','selrow');
+            
+            for(var i=0; i<sel.length; i++) {
+                tab[i]=jQuery("#tbl-credit").jqGrid('getRowData',sel[i]);   
+            };
+            
+            if($('#mt_subvent').val()=='') {
+                alert('Préciser le montant à domicilier');
+            }
+            else if($('#membre').val()=='') {
+                alert('Préciser le membre bénéficiaire de la domiciliation');
+            }
+            else {
+                if(rowsel)
+                {
+                    $.get('/eu-domiciliation-mf107/create?mt_domi='+$('#mt_subvent').val()+'&membre='+$('#membre').val(),{
+                        lignes:tab
+                    },
+                    function success(data) {
+                        if(data=="cool"){
+                            alert("Revoir la répartition des montants domiciliés");
+                        }
+                        else if(data=="err_domi") {
+                            alert("Le montant à domicilier est supérieur au montant domicilié"); 
+                        }
+                        else if(data=="erreur") {
+                            alert("Le montant apporté doit être supérieur au montant utilisé"); 
+                        }
+                        else if(data=="bad") {
+                            alert("Echec de l'opération "); 
+                        }
+                        else if(data == 'good') {    
+                            alert('Opération effectuée avec succes');
+                            $(location).attr("href", "/eu-domiciliation-mf107/index");
+                        }
+                    })
+                }
+                else {
+                    alert('Aucune ligne de placement sélectionnée');
+                } 
+            }
+        });
+    })
+</script>    

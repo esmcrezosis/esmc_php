@@ -1,0 +1,222 @@
+<div id="view-content" style="font-size: 12px;min-height: 520px;" title="Vente de licences pour les membres personnes physiques avec l'utilisation des comptes membres fondateurs">
+    <form id="licence_form" method="Post" action="/eu-carte/donewlicencemf">
+          <table style="margin-left:auto;margin-right: auto;margin-top: 10px;" id="tab_fl">
+            <tbody>
+                <tr>
+                    <td colspan="2">
+                        <fieldset>
+                            <table>
+                                <tbody>
+                                    <tr><td>Code Membre    : </td> <td><input id="code_membre" type="text" name="code_membre" value="" required="true" style="width: 170px;"/></td></tr>
+                                    <tr><td>Nom et Prénoms : </td><td><input id="nom_membre_fl" type="text" name="nom_membre_fl" value="" style="width: 200px;" readonly="readonly"/></td></tr>
+                                    <tr>
+                                        <td><label>Mode de paiement :</label></td>
+                                        <td>
+                                            <select id="sel_mode_fin">
+											   <option value=""></option>
+					                           <option value="bon">Par bon</option>
+					                           <option value="autre">Autre</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+								</tbody>
+                            </table>
+                        </fieldset>
+                    </td> 
+                </tr>
+				<tr>
+                    <td colspan="2">
+                        <div id="nn_table">
+                            <fieldset>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><label>Compte MF * </label></td>
+                                            <td>
+											    <select id="type_mf" class="validate[required]" name="type_mf">
+											       <option value=""></option>
+					                               <option value="MF11000">MF11000</option>
+                                                   <option value="MF107">MF107</option>
+												</select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </div>
+                    </td>
+                </tr>
+				
+				<tr>
+                    <td colspan="2">
+                        <div id="div_bon" style="display:none">
+                            <fieldset>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Numero bon *:</td><td><input id="num_bon" type="text" name="num_bon" value="" size="12"/></td>
+                                        </tr>
+									 </tbody>
+								</table>
+							</fieldset>
+						</div>
+					</td>
+				</tr>
+				
+				<tr>
+                    <td colspan="2">
+                        <div id="div_membre" style="display:none">
+                            <fieldset>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td> Apporteur *:</td><td><input id="code_membre_app" type="text" name="code_membre_app" value="" size="25"/></td>
+                                        </tr>
+									 </tbody>
+								</table>
+							</fieldset>
+						</div>
+					</td>
+				</tr>					 	
+				
+                <tr>
+                    <td colspan="2">
+                        <fieldset>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Prix     :</td>    
+                                        <td><input id="prix" type="text" name="prix" value="" readonly="true" style="width: 120px; text-align:right;" class="validate[required,custom[onlyNumberSp]]"/>
+                                            <select class="validate[required]" type="text" id="dev_capa" name="dev_capa" value=""></select>
+                                        </td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>	
+<script>
+ var compteur = 1;
+ $(document).ready(function() {
+      $('#val').button();
+      $('#reset').button();
+      $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+            $("#licence_form").validationEngine();
+      });
+		
+      $.get("/eu-carte/membre",
+        function success(data) {
+          $("#code_membre").autocomplete({minLength: 5, "source": data});
+        });
+        $('#code_memb_caps').attr('readonly',true);
+		
+		$.get(
+             '/eu-carte/fl',
+             function success(data){
+                if (data !== null) {
+                   $('#prix').val(data);
+                } else {
+                   $('#prix').val(0);
+                }
+
+         });
+		
+		
+		
+		$("#type_mf option[value='MF107']").attr('disabled',true);
+		$("#num_bon").attr('required',true);
+		$('#sel_mode_fin').change(function() {
+            var mode = $(this).val();
+			if (mode === 'bon') {
+			   $('#div_bon').show();
+			   $('#div_membre').hide();
+			   $("#num_bon").attr('required',true);
+			   $("#type_mf option[value='MF107']").attr('disabled',true);
+			   $("#type_mf option[value='MF11000']").attr('selected','selected');
+			
+            } else  if (mode === 'bon' &&  $('#type_mf').val() == 'MF11000') {
+               $('#div_bon').show();
+			    $('#div_membre').hide();
+			   $("#num_bon").attr('required',true);
+			   $("#type_mf option[value='MF107']").attr('disabled',true);	
+            } 
+			else if (mode === 'autre') {
+               $('#div_bon').hide();
+			   $('#div_membre').show();
+			   $("#code_membre_app").attr('required',true);
+			   $("#num_bon").attr('required',false);
+			   $("#type_mf option[value='MF107']").attr('disabled',false);
+            }
+      });
+		
+		
+      $('form#licence_form').submit(function(event) {
+            event.preventDefault();
+            $.post('/eu-carte/donewlicencemf',{
+			  mode_fin: $('#sel_mode_fin').val(),
+              code_membre: $('#code_membre').val(),
+			  num_bon: $('#num_bon').val(),
+              prix: $('#prix').val(),
+			  code_membre_app: $('#code_membre_app').val(),
+			  compte_nn: $('#type_mf').val()
+            }
+            , function success(data) {
+                if (data == true) {
+                    alert('Opération effectuée avec succes');
+                    $(location).attr("href", "/eu-carte/listelicence");
+                } else {
+                    alert(data);
+                }
+            });
+        });
+
+        $('#code_membre').blur(function(e)
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-carte/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    if (data !== '') {
+                        $("#nom_membre_fl").val(data[1]);
+                    } else {
+                        alert('Ce membre n\existe pas!!!');
+                    }
+                });
+            }
+            e.preventDefault();
+        });
+
+
+        $.get(
+                '/eu-carte/devise',
+                function success(data)
+                {
+                    var options = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i] === 'XOF') {
+                            options += '<option value="' + data[i] + '" selected>' + data[i] + ' </option>';
+                        } else {
+                            options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                        }
+
+                    }
+                    $('select#dev_capa').html(options);
+                });
+
+    });
+</script>

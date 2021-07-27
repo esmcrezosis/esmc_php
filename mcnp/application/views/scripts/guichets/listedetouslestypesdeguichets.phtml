@@ -1,0 +1,89 @@
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function() {
+
+    $('#example').dataTable( {
+
+        "sPaginationType": "full_numbers",
+
+        "iDisplayLength":10,
+
+		"aaSorting": []
+
+    } );
+} );
+</script>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+	<div class="alert alert-danger">
+
+		<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+	</div>
+
+	<?php unset($_SESSION['validationerrors']); endif ?>
+
+	<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+	<div class="alert alert-success">
+
+		<?php echo implode('<br>',$_SESSION['validationsuccess']) ?>
+
+	</div>
+
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+
+<blockquote>    
+
+   <strong>Liste de tous les types de guichets</strong>
+
+</blockquote>
+
+
+<?php if ($this->countdetouslesguichets > 0): ?>
+
+<table class="table table-striped" id="example">
+
+   <thead> 
+
+        <tr>
+
+             <th>Code du type de guichet</th>
+
+             <th>Date de création de guichet</th>
+
+         </tr>
+
+   </thead>
+
+   <tbody>
+
+   <?php foreach ($this->listedesguichetsbycentres as $key => $value): ?>
+
+       <tr>
+
+             <td><?php echo $value->association_nom ;?> </td>   
+                 
+       </tr>
+   
+
+   <?php endforeach ?> 
+   
+   </tbody>
+
+</table>
+
+
+<?php else: ?>
+
+   <div class="alert alert-danger">
+
+      <strong>Vous n'avez pas encore enregistré aucun type de guichet</strong>
+       
+   </div>
+
+<?php endif ?>

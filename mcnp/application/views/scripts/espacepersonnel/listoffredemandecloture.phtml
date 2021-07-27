@@ -1,0 +1,364 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/codesmsoffredemandes.js"></script>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Les offres et demandes clôturées</p></blockquote>
+  
+<?php 
+
+/*$cloture = new Application_Model_EuOffreDemandeCloture();
+            $m_cloture = new Application_Model_EuOffreDemandeClotureMapper();
+            $m_cloture->find(1, $cloture);
+
+
+$compte_mapper =  new Application_Model_EuCompteMapper();
+$compte_credit_mapper =  new Application_Model_EuCompteCreditMapper();
+$compte_credit_ts_mapper =  new Application_Model_EuCompteCreditTsMapper();
+
+
+
+$compte_demande =  new Application_Model_EuCompte();
+$compte_mapper->find($cloture->code_compte_demande, $compte_demande);//depart demande
+echo $compte_demande_solde = $compte_demande->solde;
+echo "<br />";
+echo $cloture->code_compte_demande;
+echo "<br />";
+echo "<br />";
+$demande = new Application_Model_EuOffreDemande();
+$m_demande = new Application_Model_EuOffreDemandeMapper();
+$m_demande->find($cloture->id_demande, $demande);
+$compte_demande2 =  new Application_Model_EuCompte();
+$compte_mapper->find($demande->type_credit_of."-".$cloture->code_membre_demande, $compte_demande2);//arrivée demande
+echo $compte_demande2_solde = $compte_demande2->solde;
+echo "<br />";
+echo $demande->type_credit_of."-".$cloture->code_membre_demande;
+echo "<br />";
+echo $compte_demande2->code_compte;
+echo "<br />";
+echo $compte_demande2->code_membre;
+echo "<br />";
+echo "<br />";
+echo "<br />";
+
+
+$compte_offre =  new Application_Model_EuCompte();
+$compte_mapper->find($cloture->code_compte_offre, $compte_offre);//depart offre
+echo $compte_offre_solde = $compte_offre->solde;
+echo "<br />";
+echo $cloture->code_compte_offre;
+echo "<br />";
+echo "<br />";
+$offre = new Application_Model_EuOffreDemande();
+$m_offre = new Application_Model_EuOffreDemandeMapper();
+$m_offre->find($cloture->id_offre, $offre);
+$compte_offre2 =  new Application_Model_EuCompte();
+$compte_mapper->find($offre->type_credit_de."-".$cloture->code_membre_offre, $compte_offre2);//arrivée offre
+echo $compte_offre2_solde = $compte_offre2->solde;
+echo "<br />";
+echo $offre->type_credit_de."-".$cloture->code_membre_offre;
+echo "<br />";
+echo $compte_offre2->code_compte;
+echo "<br />";
+echo $compte_offre2->code_membre;
+echo "<br />";
+echo "<br />";
+echo "<br />";
+
+
+
+
+
+$compte_credit_ts_demande =  new Application_Model_EuCompteCreditTs();
+//if($cloture->id_credit_demande > 0){
+$compte_credit_ts_mapper->find($cloture->id_credit_demande, $compte_credit_ts_demande);
+echo $compte_credit_ts_demande_montant = $compte_credit_ts_demande->montant;
+echo "<br />";
+echo $cloture->id_credit_demande;
+	//}
+echo "<br />";
+echo "<br />";
+echo "<br />";
+$compte_credit_ts_offre =  new Application_Model_EuCompteCreditTs();
+//if($cloture->id_credit_offre > 0){
+$compte_credit_ts_mapper->find($cloture->id_credit_offre, $compte_credit_ts_offre);
+echo $compte_credit_ts_offre_montant = $compte_credit_ts_offre->montant;
+echo "<br />";
+echo $cloture->id_credit_offre;
+	//}
+
+*/
+
+
+
+?>  
+  
+  
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:9px;">
+						  <thead>
+							  <tr>
+								  <th>Date</th>
+								  <th>Offre</th>
+								  <th>Montant Offre</th>
+								  <th>Demande</th>
+								  <th>Montant Demande</th>
+								  <th>Code SMS</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php echo substr($entry->date_cloture,0,9); ?></td>
+
+<?php 
+$offredemande = new Application_Model_EuOffreDemande();
+$offredemande_m = new Application_Model_EuOffreDemandeMapper();
+$result = $offredemande_m->find($entry->id_offre, $offredemande);	
+
+if(strpos($offredemande->id_credit, "CAPA") !== false){
+$compte_ts_M = new Application_Model_EuCapaTsMapper();
+$compte_ts = new Application_Model_EuCapaTs();
+$compte_ts_M->find($offredemande->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->date_capa,0,9);
+$montant = number_format($compte_ts->montant_solde, 0, ',', ' ');
+
+}else if($offredemande->id_credit > 0){
+$compte_ts_M = new Application_Model_EuCompteCreditTsMapper();
+$compte_ts = new Application_Model_EuCompteCreditTs();
+$compte_ts_M->find($offredemande->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->datefin,0,9);
+$montant = number_format($compte_ts->montant, 0, ',', ' ');
+
+}else if($offredemande->code_compte != ""){
+$compte_M = new Application_Model_EuCompteMapper();
+$compte = new Application_Model_EuCompte();
+$compte_M->find($offredemande->code_compte, $compte);
+
+$categorieM = new Application_Model_EuCategorieCompteMapper();
+$categorie = new Application_Model_EuCategorieCompte();
+$categorieM->find($compte->code_cat, $categorie);
+
+$code_produit = $compte->code_cat;
+$lib_op = htmlentities($categorie->lib_cat);
+$datefin = "";//substr($compte->date_alloc,0,9)
+$montant = number_format($compte->solde, 0, ',', ' ');
+}
+
+?>
+
+      <td><?php echo $offredemande->type_credit_of;?><?php //echo $code_produit; ?></td>
+      <td><div align="right"><?php echo number_format($entry->montant_offre, 0, ',', ' '); ?></div></td>
+<?php 
+$offredemande = new Application_Model_EuOffreDemande();
+$offredemande_m = new Application_Model_EuOffreDemandeMapper();
+$result = $offredemande_m->find($entry->id_demande, $offredemande);	
+
+if(strpos($offredemande->id_credit, "CAPA") !== false){
+$compte_ts_M = new Application_Model_EuCapaTsMapper();
+$compte_ts = new Application_Model_EuCapaTs();
+$compte_ts_M->find($offredemande->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->date_capa,0,9);
+$montant = number_format($compte_ts->montant_solde, 0, ',', ' ');
+
+}else if($offredemande->id_credit > 0){
+$compte_ts_M = new Application_Model_EuCompteCreditTsMapper();
+$compte_ts = new Application_Model_EuCompteCreditTs();
+$compte_ts_M->find($offredemande->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->datefin,0,9);
+$montant = number_format($compte_ts->montant, 0, ',', ' ');
+
+}else if($offredemande->code_compte != ""){
+$compte_M = new Application_Model_EuCompteMapper();
+$compte = new Application_Model_EuCompte();
+$compte_M->find($offredemande->code_compte, $compte);
+
+$categorieM = new Application_Model_EuCategorieCompteMapper();
+$categorie = new Application_Model_EuCategorieCompte();
+$categorieM->find($compte->code_cat, $categorie);
+
+$code_produit = $compte->code_cat;
+$lib_op = htmlentities($categorie->lib_cat);
+$datefin = substr($compte->date_alloc,0,9);
+$montant = number_format($compte->solde, 0, ',', ' ');
+}
+
+$offredemande = new Application_Model_EuOffreDemande();
+$offredemandeM = new Application_Model_EuOffreDemandeMapper();
+$rowsod = $offredemandeM->find($entry->id_offre, $offredemande);
+if($offredemande->code_membre == $sessionmembre->code_membre){
+$id = $entry->id_offre;
+$type = "Offre";
+}else{
+$rowsod = $offredemandeM->find($entry->id_demande, $offredemande);
+if($offredemande->code_membre == $sessionmembre->code_membre){
+$id = $entry->id_demande;
+$type = "Demande";
+}
+}
+?>      
+      <td><?php echo $offredemande->type_credit_de;?><?php //echo $code_produit; ?></td>
+      <td><div align="right"><?php echo number_format($entry->montant_demande, 0, ',', ' '); ?></div></td>
+      <td><?php if($entry->cloture >= 2){?>
+<strong><?php if($entry->code_membre_offre == $sessionmembre->code_membre){
+		  echo $entry->code_sms_demande;
+		  }else if($entry->code_membre_demande == $sessionmembre->code_membre){
+			  echo $entry->code_sms_offre;
+			  } ?></strong><?php }?></td>
+      <td><div align="center">
+            <?php $id_message = 0;
+$messageM = new Application_Model_EuOffreDemandeMessageMapper();
+$message = $messageM->fetchAllByOffreDemande($entry->id_offre, $entry->id_demande);
+//if($message->type_message == "Offre"){
+//$id_offre_demande = $message->id_offre;
+//}else{
+//$id_offre_demande = $message->id_demande;
+//	}
+//$message = new Application_Model_EuOffreDemandeMessage();
+//$messageM = new Application_Model_EuOffreDemandeMessageMapper();
+//$message = $messageM->find($id_message, $message);
+	  ?>
+      <?php if($entry->cloture < 2){?>
+<?php if(count($message) > 0){?>
+      <a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/espacepersonnel/listoffredemandemessage/id/<?php echo $entry->id_offre; ?>/offre/<?php echo $entry->id_offre; ?>/demande/<?php echo $entry->id_demande; ?>/type/Demande"><i class="icon-plus icon-white"></i>  Clôturer la discussion</a>
+<?php }?>
+      
+      <a class="btn btn-mini btn-danger" href="<?php echo $this->baseUrl(); ?>/espacepersonnel/suppoffredemandecloture/id/<?php echo $entry->id_cloture; ?>"><i class="icon-off icon-white"></i>  Annuler la clôture</a> &nbsp; 
+      <?php }?>
+      <?php 
+$off = new Application_Model_EuOffreDemande();
+$offM = new Application_Model_EuOffreDemandeMapper();
+$resultoff = $offM->find($entry->id_offre, $off);
+	  
+$dem = new Application_Model_EuOffreDemande();
+$demM = new Application_Model_EuOffreDemandeMapper();
+$resultdem = $demM->find($entry->id_demande, $dem);
+
+		$table = new Application_Model_DbTable_EuActeur();
+        $select = $table->select()->where("code_membre = '".$dem->code_membre."'");
+        $acteur = $table->fetchRow($select);
+
+
+$taboff = array("NN-TPAGCRPG", "NN-TPAGCP", "NN-TCNCS");
+$tabdem = array("NN-TPAGCP");
+if(in_array(substr($off->code_compte, 0, -21), $taboff) && in_array(substr($dem->code_compte, 0, -21), $tabdem) && $acteur->type_ACTEUR == "PBF"){
+	  ?>
+      <?php if($entry->cloture == 2){?>
+      <span class="label label-success"><i class="icon-ok icon-white"></i>  Clôturer</span>
+	  <?php }else{?>
+      <span class="label label-danger"><i class="icon-off icon-white"></i>  Clôturer</span>
+	  <?php }?>
+	  <?php }else{?>
+      <?php if($entry->cloture_membre == $sessionmembre->code_membre){?>
+      <?php if($entry->cloture == 2){?>
+      <span class="label label-success"><i class="icon-ok icon-white"></i>  Clôturer</span>
+	  <?php }else if($entry->cloture == 1){?>
+      <a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/espacepersonnel/cloture/id/<?php echo $entry->id_cloture; ?>"><i class="icon-off icon-white"></i>  Clôturer</a>
+	  <?php }?><?php /*?><?php */?>
+      
+      
+	  <?php /*?><?php }else{?>
+      <a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/espacepersonnel/listoffredemandemessage/id/<?php echo $id; ?>/offre/<?php echo $entry->id_offre; ?>/demande/<?php echo $entry->id_demande; ?>/type/<?php echo $type; ?>"><i class="icon-plus icon-white"></i>  Continuer la discussion</a><?php */?>
+	  <?php }?>
+	  <?php }?>
+      
+      </div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune offre ou demande clôturée 
+</div>
+<?php }?>
+
+<br />
+<br />
+
+<br />
+<br />
+
+
+  <blockquote><p>Chargement du Code SMS Echange <small> Saisir votre Code SMS - Vérifier le Code SMS - Charger le Code SMS </small></p></blockquote>
+    <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin != "") { ?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+	</div>
+	<?php } ?>
+    
+<form action="<?php echo $this->baseUrl(); ?>/espacepersonnel/cloturesms" method="post" class="well form-inline" id="codesmsoffredemande">
+	  Code SMS Echange 
+      <input name="codesms" type="text" id="codesms" placeholder="Entrer le Code SMS Echange reçu" class="input-small">
+      <span id="niv2"><button type="button" class="btn btn-info" onclick="ouvre_codesmsoffredemandes(document.getElementById('codesms').value);">Vérifier code SMS Echange</button></span>             
+</form>
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,80 @@
+<div id="view-content" class="ui-widget">
+    <div  class="cntError">
+        <?php
+           //echo $this->message;
+        ?>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Ajout d'un nouveau produit</h3>
+    </div>
+    <div id="formProdiv" class="ui-widget-content">
+        
+      <?php
+            $auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin'));
+            $user = $auth->getIdentity();
+            $num_membre = $user->num_membre;
+            if($num_membre!='') {
+            $this->form->setAction($this->url());
+            echo $this->form;
+          }
+      ?>
+        <br><br><br>
+        <?php if($this->type=='BC') {
+            
+            $auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin'));
+            $user = $auth->getIdentity();
+            $num_membre = $user->num_membre;
+            if($num_membre!='') {
+            $this->form1->setAction($this->url(array('action' => 'envoi')));
+            echo $this->form1;
+            
+          }
+      }  
+            else  if($this->type=='BS') { 
+                
+            $auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin'));
+            $user = $auth->getIdentity();
+            $num_membre = $user->num_membre;
+            if($num_membre!='') {
+            $this->form2->setAction($this->url(array('action' => 'envoi1')));
+            echo $this->form2;
+          }
+    }
+        ?>
+    </div>
+    <br><br>          
+</div>
+
+<script type="text/javascript">
+    
+        $(document).ready(function ()
+        {
+           $('#design_objet').blur(function()
+            {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-objet/change',
+                    {
+                        objet: $(this).val()
+                    },
+                    function success(data)
+                    {
+                       $('select#num_gamme').val(data[0]);
+                       $('#caract_objet').val(data[2]);
+                       if(data[0]==$('select#num_gamme').val()) {
+                          document.getElementById('num_gamme').disabled=false;
+                       }
+                       else {
+                          document.getElementById('num_gamme').disabled=false;
+                       }
+                    });
+                }
+            });
+            $('#submit').button();
+            $('#cancel').button();
+            
+            
+        });
+        
+</script>

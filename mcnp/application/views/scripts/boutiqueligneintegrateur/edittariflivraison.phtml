@@ -1,0 +1,151 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+  <blockquote><p>Modification d'un tarif de livraison</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addarticle_stockes">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+<div class="control-group">
+<label class="control-label" for="code_membre_morale">Code Membre Morale du fournisseur *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="code_membre_morale" id="code_membre_morale" placeholder="Code Membre Morale du fournisseur" required  value="<?php echo $this->tariflivraison->code_membre_morale; ?>">
+</div>
+</div>
+
+
+
+  <legend> Localités </legend>
+  
+
+                        <div class="row-fluid">
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Zone M.</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="code_zone" name="code_zone">
+                                            <option value="">Choisir une zone monétaire</option>
+                                            <?php foreach ($this->zones as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->code_zone; ?>" <?php if($value->code_zone == $this->tariflivraison->code_zone){echo 'selected="selected"';} ?>><?php echo $value->nom_zone; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Pays *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_pays" name="id_pays" required="required" onchange="ouvre_paystelephones2(this.value);">
+                                            <option value="">Choisir un pays</option>
+                                            <?php foreach ($this->pays as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_pays; ?>" <?php if($value->id_pays == $this->tariflivraison->id_pays){echo 'selected="selected"';} ?>><?php echo $value->libelle_pays; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Régions</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_region" name="id_region">
+                                            <option value="">Choisir une région</option>
+                                            <?php foreach ($this->regions as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_region; ?>" <?php if($value->id_region == $this->tariflivraison->id_region){echo 'selected="selected"';} ?>><?php echo $value->nom_region; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Préfectures</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_prefecture" name="id_prefecture">
+                                            <option value="">Choisir une préfecture</option>
+                                            <?php foreach ($this->prefectures as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_prefecture; ?>" <?php if($value->id_prefecture == $this->tariflivraison->id_prefecture){echo 'selected="selected"';} ?>><?php echo $value->nom_prefecture; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php /*<div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Cantons *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_canton" name="id_canton" required="required">
+                                            <option value="">Choisir un canton</option>
+                                            <?php foreach ($this->cantons as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_canton; ?>" <?php if($value->id_canton == $this->tariflivraison->id_canton){echo 'selected="selected"';} ?>><?php echo $value->nom_canton; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>*/?>
+                        </div>
+
+
+<div class="control-group">
+<label class="control-label" for="montant_tarif_livraison">Montant *</label>
+<div class="controls">
+<div class="input-append">
+<input type="number" name="montant_tarif_livraison" id="montant_tarif_livraison" placeholder="Montant" value="<?php echo $this->tariflivraison->montant_tarif_livraison; ?>" required>
+  <span class="add-on">XOF</span>
+</div>
+</div>
+</div>
+    
+
+<div class="form-actions">
+<!--<input name="code_membre_morale" type="hidden" id="code_membre_morale" value="<?php echo $sessionmembre->code_membre; ?>" />-->  
+<input name="id_tarif_livraison" type="hidden" id="id_tarif_livraison" value="<?php echo $this->tariflivraison->id_tarif_livraison; ?>" />  
+<input name="statut" type="hidden" id="statut" value="1" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier le tarif de livraison</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

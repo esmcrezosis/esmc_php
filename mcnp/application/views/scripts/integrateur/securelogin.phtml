@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<title>ESMC - Entreprise Sociale de Marché Commun</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="/images/favicon_esmc.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/design/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/design/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/design/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="/design/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/design/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/design/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/design/css/main.css">
+<!--===============================================================================================-->
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr8.js"></script>
+
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-pic js-tilt" data-tilt>
+					<img src="/design/images/img-01.png" id="login_cover" alt="IMG">
+				</div>
+
+				<form class="login100-form validate-form" id="formulaire_login" action="<?php echo $this->baseUrl();?>/integrateur/securelogin" method="post">
+					<span class="login100-form-title">
+						Espace de franchise
+					</span>
+
+					<?php
+					
+                    $sessionmembreasso = new Zend_Session_Namespace('membreasso');
+                    //print_r($sessionutilisateur->numero_confirmation);
+                    //print_r($sessionutilisateur->code_membre);
+				    //$os=get_browser(null,true);
+					//echo $os;
+
+					if(isset($sessionmembreasso->errorlogin))
+					{
+						echo '<center><strong>'.$sessionmembreasso->errorlogin.'</strong></center><br/>';
+						
+						$sessionmembreasso->errorlogin = "";
+					}
+
+
+					if(strlen($sessionmembreasso->code_membre) == 20 && $sessionmembreasso->desactiver == 0) {
+							$numero_confirmation = $sessionmembreasso->numero_confirmation;
+							//echo 'authenticated';
+							?>
+
+
+							<div class="text-center p-t-12">
+							<span class="txt2">
+
+							<img src="/design/swirl.gif" id="swirl_icon"/>
+							<br/>
+							<br/><strong><span id="status_message_title">En attente de la confirmation biométrique</span></strong><br/><span id="status_message_text">Veuillez confirmer votre authentification sur l'un de vos appareils.</span>
+							</div>
+							
+							<br/><br/>
+
+							<a id="secondary_action" href="<?php echo $this->baseUrl();?>/integrateur/logout">
+								<button class="login100-form-btn" type="button" id="sms_confirmation">
+									Annuler
+								</button>
+							</a>
+
+							</span>
+
+							<script type="text/javascript">
+							//outilqrbouton("formulaire_login", "launch_qr_scanner");
+							outilqr_integrateur_auth('<?php echo $sessionmembreasso->code_membre ?>', '<?php echo $numero_confirmation ?>');
+							</script>
+
+						<?php
+
+						}
+						else
+						{
+							//echo 'not_authenticated';
+
+						?>
+
+
+					<div class="wrap-input100 validate-input" data-validate = "Votre identifiant est requis">
+						<input class="input100" type="text" name="login" placeholder="Votre identifiant">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Votre mot de passe est requis">
+						<input class="input100" type="password" name="pwd" placeholder="Mot de passe">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+					
+					<div class="container-login100-form-btn">
+                    <input name="ok" type="hidden" id="ok" value="ok" />
+                        <button class="login100-form-btn" id="login_button">
+                                Se connecter
+						</button>
+					</div>
+					<?php
+						}
+						?>
+
+
+					<div class="text-center p-t-136">
+						<a class="txt2" href="<?php echo $this->baseUrl();?>"><i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+						Retourner à la page d'accueil</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+
+<style>
+    .qr_code_login_img
+    {
+        width: 100px;
+    }
+
+    #launch_qr_scanner
+    {
+        display: none;
+    }
+    #swirl_icon
+    {
+        width: 120px;
+        height: 120px;
+    }
+</style>
+
+<!--===============================================================================================-->
+	<script src="/design/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/design/bootstrap/js/popper.js"></script>
+	<script src="/design/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/design/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/design/tilt/tilt.jquery.min.js"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="/design/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<div id="view-content">
+    <table id="tbl-produit"></table>
+    <div id="pg-produit"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-produit").jqGrid({
+        url:'/eu-produit/data',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Description','Type de produit','Catégorie'],
+        height:500, width:827,
+        colModel:[
+            {name:'code_produit',index:'code_produit', width: 120, align:"left", editable: true},
+            {name:'libelle_produit',index:'libelle_produit', width: 200, align:"left", editable: true},
+            {name:'description_produit',index:'description_produit', width: 300, align:"left", editable: true},
+            {name:'type_produit',index:'type_produit', width: 100, editable: true,align:"left"},
+            {name:'code_categorie',index:'code_categorie', width: 100, editable: true,align:"left"}
+        ],
+        rowNum:20,
+        rowList:[20,30,40],
+        pager: '#pg-produit',
+        sortname:"code_produit",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des produits"
+    });
+    $("#tbl-produit").jqGrid('navGrid','#pg-produit',{edit:false,add:false,del:false,search:true});
+    
+</script>

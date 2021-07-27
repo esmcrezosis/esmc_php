@@ -1,0 +1,176 @@
+<div id="view-content" title="CAPS POUR LES  APPORTEURS MEMBRES FONDATEURS 11000 & 107" style="font-size: 12px;min-height: 520px;">
+<form  id="new_caps_form"  method="post"  action="/eu-bnp/capsmf" > 
+   <table style="margin-top: 20px;margin-left: 10px;">
+            <tbody>
+                <tr>
+                    <td><label>type BNP</label></td>
+                    <td><?php echo $this->form->getElement("type_bnp"); ?></td>
+                </tr>
+				
+				<tr>
+				    <td><label>Type Membre *</label></td>
+				    <td>
+					<select id="type_membre" type="text" name="type_membre" required="true"/>
+					    <option value=""></option>
+                        <option value="P">Physique</option>
+                        <option value="M">Morale</option>
+					</select>	  
+					</td>
+				</tr>
+						   
+                <tr>
+                    <td><label>Code Membre Apporteur * </label></td>
+                    <td><input id="apport" type="text" name="apport"  size="25" class="validate[required]"  /></td>
+                </tr>
+				
+                <tr>
+                    <td><label>D&eacute;signation Membre *</label></td>
+                    <td><input id="raison_apport" type="text" name="raison_apport"  readonly="true" size="25" class="validate[required]" /></td>
+                </tr>
+                
+                <tr>
+                    <td><label>Type du CAPS * </label></td>
+                    <td>
+                        <?php echo $this->form->getElement("type_caps"); ?>
+                    </td>
+                </tr>
+				
+                <tr>
+                    <td><label>Montant CAPS *</label></td>
+                    <td><?php echo $this->form->getElement("mont_caps"); ?></td>
+                </tr>
+				
+				<tr>
+					<td><label>Mode de r&egrave;glement *</label></td>
+                    <td>
+					    <select id="mode_fin" name="mode_fin">
+					      <option value="bon">Par bon</option>
+						  <option value="autre">Autre</option>
+					    </select>
+					</td>
+				</tr>
+				
+				<tr id="tr_typenn" >
+                    <td><label>Compte MF * </label></td>
+                    <td>
+					    <select id="type_mf" name="type_mf">
+					       <option value="MF11000">MF11000</option>
+						   <option value="MF107">MF107</option>
+					    </select>
+					</td>
+                </tr>
+				
+				<tr id="tr_bon">
+				    <td><label>Num&eacute;ro du bon *</label></td>
+				    <td>
+					    <input id="num_bon" type="text" name="num_bon" size="25" />
+					</td>
+				</tr>
+				<tr><td colspan="2" height="5px"></td></tr>
+                <tr>
+                    <td></td>
+                    <td>
+					    <!--<input id="val" type="submit" value="Valider"/>
+                        <input id="cancel" type="reset" value="Annuler"/>-->
+						<?php
+                             echo $this->form->getElement("val");
+                             echo $this->form->getElement("cancel");
+                        ?>
+						
+                    </td>
+                </tr>	
+            </tbody>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function() {
+        $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+            //$('#fs_check').attr('disabled',true);
+            //$('input:checkbox').puicheckbox();
+        });
+		$("#new_caps_form").validationEngine();
+		
+		$("#type_membre").change(function(e) {
+		  if ($(this).val() != '') {
+		      $('#apport').attr('readonly',false);
+			  $.get("/eu-bnp/membreapporteur",{
+                type_membre : $('#type_membre').val()
+              },
+              function success(data) {
+                $("#apport").autocomplete({"source": data});
+              }); 
+		  } else {
+		        $('#apport').attr('readonly',true);	  
+		  }
+		});
+		
+		$("#type_mf option[value='MF107']").attr('disabled',true);
+		$("#num_bon").attr('required',true);
+		$('#mode_fin').change(function() {
+            var mode = $(this).val();
+			if (mode === 'bon') {
+			   $('#tr_bon').show();
+			   $("#num_bon").attr('required',true);
+			   $("#type_mf option[value='MF107']").attr('disabled',true);
+			   $("#type_mf option[value='MF11000']").attr('selected','selected');
+			
+            } else  if (mode === 'bon' &&  $('#type_mf').val() == 'MF11000') {
+               $('#tr_bon').show();
+			   $("#num_bon").attr('required',true);
+			   $("#type_mf option[value='MF107']").attr('disabled',true);	
+            } 
+			else if (mode === 'autre') {
+               $('#tr_bon').hide();
+			   $("#num_bon").attr('required',false);
+			   $("#type_mf option[value='MF107']").attr('disabled',false);
+            }
+         });
+		
+         $('#apport').blur(function(e) {
+            e.preventDefault();
+            if ($(this).val() !== '') {
+                $.get(
+                '/eu-bnp/recupnom',{
+                  num_membre: $(this).val(),type_membre:$("#type_membre").val()
+                },
+                function success(data)
+                {
+                    if (data !== '') {
+                        $("#raison_apport").val(data[1]);
+                    } else {
+                        alert('Ce membre n\existe pas!!!');
+                    }
+                });
+             }
+          });
+
+
+          $('#type_caps').change(function() {
+           var caps = 0;
+           if ($('#mont_caps').val() === '') {
+                caps = 0;
+           } else {
+                caps = parseFloat($('#mont_caps').val());
+           }
+           if ($(this).val() === 'CAPSFLFCPS') {
+                caps = 70000;
+                $('#mont_caps').val(caps);
+           } else if ($(this).val() === 'CAPSFL2FCPS') {
+                caps = 80000;
+                $('#mont_caps').val(caps);
+           } else {
+                caps = 90000;
+                $('#mont_caps').val(caps);
+           }
+        });
+		
+		$.get("/eu-bnp/membreapporteur",
+          function success(data) {
+          $("#apport").autocomplete({"source": data});
+        });
+		
+    });
+</script>

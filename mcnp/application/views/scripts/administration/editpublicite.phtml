@@ -1,0 +1,176 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?> 
+  <div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification de la publicite</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addpublicite">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+  
+<div class="control-group">
+<label class="control-label" for="ancien_publicite">Ancien de la publicite </label>
+<div class="controls">
+<?php 
+    $g = array();
+         $tab = new Application_Model_DbTable_EuAncienPublicite();
+           $sel = $tab->select();
+           $group = $tab->fetchAll($sel);
+           $i = 1;
+           foreach ($group as $value) {
+         ?>
+<label class="radio inline" for="ancien_publicite<?php echo $i; ?>">
+<input type="radio" id="ancien_publicite<?php echo $i; ?>" name="ancien_publicite" value="<?php echo $value->id_ancien_publicite; ?>" <?php if($this->publicite->ancien_publicite == $value->id_ancien_publicite){echo 'checked="checked"';}?> > <?php echo $value->libelle_ancien_publicite; ?></label>
+<br />
+         <?php $i++;}?>
+</div>
+</div>
+ 
+
+<div class="control-group">
+<label class="control-label" for="type_publicite">Type de la publicite </label>
+<div class="controls">
+<?php 
+    $g = array();
+         $tab = new Application_Model_DbTable_EuTypePublicite();
+           $sel = $tab->select();
+           $group = $tab->fetchAll($sel);
+           $i = 1;
+           foreach ($group as $value) {
+         ?>
+<label class="radio inline" for="type_publicite<?php echo $i; ?>">
+<input type="radio" id="type_publicite<?php echo $i; ?>" name="type_publicite" value="<?php echo $value->id_type_publicite; ?>" <?php if($this->publicite->type_publicite == $value->id_type_publicite){echo 'checked="checked"';}?> > <?php echo $value->libelle_type_publicite; ?></label>
+<br />
+         <?php $i++;}?>
+</div>
+</div>
+        
+<div class="control-group">
+<label class="control-label" for="categorie_publicite">Catégorie de la publicite </label>
+<div class="controls">
+<?php 
+    $g = array();
+         $tab = new Application_Model_DbTable_EuCategoriePublicite();
+           $sel = $tab->select();
+           $group = $tab->fetchAll($sel);
+           $i = 1;
+           foreach ($group as $value) {
+         ?>
+<label class="radio inline" for="categorie_publicite<?php echo $i; ?>">
+<input type="radio" id="categorie_publicite<?php echo $i; ?>" name="categorie_publicite" value="<?php echo $value->id_categorie_publicite; ?>" <?php if($this->publicite->categorie_publicite == $value->id_categorie_publicite){echo 'checked="checked"';}?> > <?php echo $value->libelle_categorie_publicite; ?></label>
+<br />
+         <?php $i++;}?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="box_publicite">Box de la publicite </label>
+<div class="controls">
+<?php 
+    $g = array();
+         $tab = new Application_Model_DbTable_EuBoxPublicite();
+           $sel = $tab->select();
+           $group = $tab->fetchAll($sel);
+           $i = 1;
+           foreach ($group as $value) {
+         ?>
+<label class="radio inline" for="box_publicite<?php echo $i; ?>">
+<input type="radio" id="box_publicite<?php echo $i; ?>" name="box_publicite" value="<?php echo $value->id_box_publicite; ?>" <?php if($this->publicite->box_publicite == $value->id_box_publicite){echo 'checked="checked"';}?> > <?php echo $value->libelle_box_publicite; ?></label>
+<br />
+         <?php $i++;}?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="interface_publicite">Interface </label>
+<div class="controls">
+<?php 
+    $g = array();
+         $tab = new Application_Model_DbTable_EuInterfacePublicite();
+           $sel = $tab->select();
+           $group = $tab->fetchAll($sel);
+           $i = 1;
+           foreach ($group as $value) {
+         ?>
+<label class="radio inline" for="interface_publicite<?php echo $i; ?>">
+<input type="radio" id="interface_publicite<?php echo $i; ?>" name="interface_publicite" value="<?php echo $value->id_interface_publicite; ?>" <?php if($this->publicite->interface_publicite == $value->id_interface_publicite){echo 'checked="checked"';}?> > <?php echo $value->libelle_interface_publicite; ?></label>
+<br />
+         <?php $i++;}?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="libelle_publicite">Libellé de la publicite *</label>
+<div class="controls">
+<input type="text" name="libelle_publicite" id="libelle_publicite" placeholder="Libellé de la publicite" class="input-xxlarge" value="<?php echo $this->publicite->libelle_publicite; ?>" required>
+</div>
+</div>
+    
+    
+<div class="control-group">
+<label class="control-label" for="desc_publicite">Image de la publicite </label>
+<div class="controls">
+<input name="desc_publicite" type="file" id="desc_publicite" class="input-xxlarge" />  
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="lien_publicite">Url de la publicite </label>
+<div class="controls">
+<div class="input-prepend">
+  <span class="add-on">http://</span>
+<input type="text" name="lien_publicite" id="lien_publicite" placeholder="Url de la publicite" class="input-xxlarge" value="<?php echo $this->publicite->lien_publicite; ?>" >
+</div>
+</div>
+</div>
+
+<?php /*?><div class="control-group">
+<label class="control-label" for="duree_publicite">Durée de la publicite </label>
+<div class="controls">
+<div class="input-append">
+  <input type="text" name="duree_publicite" id="duree_publicite" placeholder="Durée de la publicite" class="input-mini" value="<?php echo $this->publicite->duree_publicite; ?>" >
+  <span class="add-on">Jours</span>
+</div>
+</div>
+</div><?php */?>
+
+
+
+<div class="form-actions">
+<input name="id_publicite" type="hidden" id="id_publicite" value="<?php echo $this->publicite->id_publicite; ?>" />  
+<input name="desc_publicite_old" type="hidden" id="desc_publicite_old" value="<?php echo $this->publicite->desc_publicite; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier de la publicite</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

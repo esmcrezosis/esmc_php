@@ -1,0 +1,34 @@
+<div id="view-content" title="Liste des acteurs" style="font-size: 12px;">
+    <table id="tbl-acteur"></table>
+    <div id="pg-acteur"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-acteur").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['ID','Code Membre','Code Acteur','Activité','Type Acteur'],
+        height:440, width:800,
+        colModel:[
+            {name:'id_acteur',index:'id_acteur', width: 50, align:"left", editable: true,hidden:true},
+            {name:'code_membre',index:'code_membre', width: 200, editable: true,align:"left"},
+            {name:'code_acteur',index:'code_acteur', width: 250, editable: true,align:"left"},
+            {name:'code_activite',index:'code_activite', width:300, editable: true,align:"left"},
+            {name:'type_acteur',index:'type_acteur', width: 100, align:"left", editable: false }
+        ],
+        rowNum:1000,
+        rowList:[1000,2000,3000],
+        pager: '#pg-acteur',
+        sortname:"code_acteur",
+        viewrecords: true,
+        sortorder: "ASC"
+    });
+  
+    $("#tbl-acteur").jqGrid('navGrid','#pg-acteur',{edit:false,add:false,del:false,search:true});
+    $(document).ready(function(){
+        $(function(){
+            $('#view-content').puipanel();
+        });
+    });
+</script>

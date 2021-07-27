@@ -1,0 +1,44 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="c_editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-cours"></table>
+    <div id="pg-cours"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-cours").jqGrid({
+        url:'/eu-devise/cdata',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Devise iniale','Devise finale','Valeur à convertir','Valeur conversion'],
+        height:400, width:827,
+        colModel:[
+            {name:'code_cours',index:'code_cours', width: 90, align:"left", editable: true},
+            {name:'code_dev_init',index:'code_dev_init', width: 100, align:"left", editable: true},
+            {name:'code_dev_fin',index:'code_dev_fin', width: 100, align:"left", editable: true},
+            {name:'val_dev_init',index:'val_dev_init', width: 120, editable: true,align:"right"},
+            {name:'val_dev_fin',index:'val_dev_fin', width: 120, align:"right", editable: true}
+        ],
+        rowNum:20,
+        rowList:[20,30,40],
+        pager: '#pg-cours',
+        sortname:"code_cours",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Cours"
+    });
+    $("#tbl-cours").jqGrid('navGrid','#pg-cours',{edit:false,add:false,del:false,search:true});
+    
+    $('#c_editer').button().click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-cours").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+           $(location).attr("href", "/eu-devise/cupdate?code="+rowsel);
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+</script>

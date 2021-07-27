@@ -1,0 +1,122 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Modifier les informations du  membre fondateur 11000</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form action="/eu-membre-fondateur11000/edit " name="fm_membre_fondateur" method="POST" id="fm_membre_fondateur">
+            <div>
+                <fieldset>
+                    <legend>Informations sur le membre fondateur</legend>
+                    <table>
+                        <tr>     
+                            <td>Numéro bon &nbsp;</td>
+                            <td><input name="numero" id="numero" class="validate[required]" value="<?php echo $this->numero; ?>" size="35"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nom</td>
+                            <td>&nbsp<input name="nom" id="nom" class="validate[required]" value="<?php echo $this->nom; ?>" size="35"/></td>
+                        </tr>
+                        <tr><td colspan="4"></td></tr>
+                        <tr>
+                            <td>Prénom&nbsp;</td>
+                            <td><input name="prenom" id="prenom" class="validate[required]" value="<?php echo $this->prenom; ?>" size="35"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            &nbsp;
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Téléphone</td>
+                            <td>&nbsp<input name="tel" id="tel" value="<?php echo $this->tel; ?>"  size="35"/></td>
+                        </tr>
+                        <tr><td colspan="4"></td></tr>
+                        <tr>
+                            <td>Portable&nbsp;</td>
+                            <td><input name="cel" id="cel" class="validate[required]" value="<?php echo $this->cel; ?>" size="35"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            &nbsp;
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Code membre</td>
+                            <td>&nbsp<input name="code_membre" id="code_membre" value="<?php echo $this->code_membre; ?>" size="35"/></td>
+                        </tr>
+                        <tr>
+                            <td>Montant apporté *</td>
+                            <td>
+                                <input class="validate[required,number]" type="text" id="mont_apport" name="mont_apport" value="<?php echo $this->mont_apport; ?>" size="25" autocomplete="off"/>
+                                <select class="validate[required]" type="text" id="dev_apport" name="dev_apport" value=""></select>
+                            </td>
+                            <td>Répartition</td>
+                            <td><input name="nb_repartition" id="nb_repartition" class="validate[required]" value="<?php echo $this->nb_repartition; ?>" size="15" readonly="readonly"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        </tr>
+                        <input class="validate[required,number]" type="text" id="mont_init" name="mont_init" value="<?php echo $this->mont_init; ?>" size="25" hidden="true"/>
+                    </table>
+                </fieldset>
+            </div>
+            <div style="margin-left:100px">
+                <input type="submit" value="Valider" name="valider" id="valider"/>
+                <input type="reset" value="Rafraichir" name="refresh" id="refresh"/>
+                <input id="t_annuler" type="button" value="Annuler"/>
+            </div>  
+        </form>
+    </div>
+    <script type="text/javascript">  
+        $(document).ready(function ()
+        {
+            $('#refresh').button();
+            $('#valider').button();
+            $('#t_annuler').button();
+            
+            $('#t_annuler').click(function()
+            {
+                window.location="/eu-membre-fondateur11000/";
+            });
+            
+            jQuery(document).ready(function(){
+                // binds form submission and fields to the validation engine
+                jQuery("#fm_membre_fondateur").validationEngine();
+            });
+            $.get( "/eu-membre-fondateur107/membre",
+            function success(data)
+            {
+                $("#code_membre").autocomplete({"source":data});
+            });  
+            
+            $('#reset').click(function(){
+                dev = 'XOF';
+            });
+        
+            $.get(
+            '/eu-membre-fondateur11000/devise',
+            function success(data)
+            {
+                var options = '';
+                for( var i = 0; i < data.length; i++) {
+                    if(data[i] == 'XOF'){
+                        options += '<option value="' + data[i] + '" selected>' + data[i] +' </option>'; 
+                    }
+                    else{
+                        options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+                    }   
+                }
+                $('select#dev_apport').html(options);
+            });
+          
+          
+            var  dev = 'XOF';
+            $('#dev_apport').change(function()
+            {
+                var  dev1 = $('#dev_apport').val();
+                if(dev != dev1){
+                    if($('#mont_apport').val() != '' && parseInt($('#mont_apport').val()) > 0){
+                        $.get(
+                        '/eu-membre-fondateur11000/convertir',
+                        {
+                            montant: $('#mont_apport').val(),dev:dev,dev1 : dev1
+                        },
+                        function success(data)
+                        {
+                            if(data != false){
+                                $('#mont_apport').val(data);
+                                dev = dev1;
+                            }else{
+                                alert('Ce cours n\'est pas défini: '+ dev+'-'+dev1);
+                                $('#dev_apport').val(dev);
+                            }
+                        });
+                    }
+                }
+            });
+        })   
+    </script>   
+</div>

@@ -1,0 +1,108 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+
+<script type="text/javascript">
+   function calculernopi() {
+     if(Math.floor(document.getElementById('msbcnr_i').value * 1) > Math.floor(document.getElementById('msbcnr_r').value * 1)) {
+	   document.getElementById('nbre_opi').value = Math.ceil(((document.getElementById('msbcnr_i').value) / (document.getElementById('msbcnr_r').value)) * document.getElementById('serie').value); 
+	 } else {
+	   document.getElementById('nbre_opi').value = "Non disponible";
+	 }
+     document.getElementById('nbre_opi').readOnly = true;	 
+   }
+   
+   
+   function annuler() {
+    document.getElementById('msbcnr_r').value = "";
+	document.getElementById('nbre_opi').value = "";
+   }
+   
+   /*
+   function annuleropi() {
+      //document.getElementById('nbre_opi').readOnly = false;
+	  //document.getElementById('serie').value = "";
+      document.getElementById('nbre_opi').value = "";
+   }
+   */
+
+   
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p>Calcul du nombre d'OPI au Montant de Souscription au Bon de Consommation Insuffisant</p></blockquote>
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+
+<blockquote></blockquote>
+<form  action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="" name="">
+
+<fieldset>
+   <legend>Nombre d'OPI au Montant de Souscription au Bon de Consommation Insuffisant</legend>
+   <div class="control-group">
+   <label class="control-label" for="msbcnr_1"> Montant de Souscription au Bon de Consommation Non Récurrente Initial *</label>
+   <div class="controls">
+   <input type="text" name="msbcnr_i" id="msbcnr_i" placeholder="Montant de Souscription au Bon de Consommation Non Récurrente Initial" class="input-xxlarge" onchange="annuler();" required="required" />
+   </div>
+   </div>
+   
+   <div class="control-group">
+   <label class="control-label" for="msbcnr_2"> Montant de Souscription au Bon de Consommation Non Récurrente Insuffisant  *</label>
+   <div class="controls">
+   <input type="text" name="msbcnr_r" id="msbcnr_r" placeholder="Montant de Souscription au Bon de Consommation Non Récurrente Insuffisant" class="input-xxlarge" onchange="annuleropi();"  required="required" />
+   <span class="help-block"><p class="text-error"> Veuillez saisir un montant inférieur au montant initial </p></span>
+   </div>
+   </div>
+   
+   <!--
+   <div class="control-group">
+   <label class="control-label" for=""> Produit * </label>
+   <div class="controls">
+     <select name="produit" id="produit" class="input-xxlarge" required="required" onchange="calculernopi();">
+     <option value="">Choisir un produit </option>
+     <?php //foreach ($this->produits as $produit) { ?>
+     <option value="<?php //echo $produit->code_type_credit; ?>"> <?php //echo $produit->lib_type_credit;?> </option>
+     <?php //} ?>
+     </select>
+   </div>
+   </div>
+   <br/>
+   <br/>
+   -->
+   
+   <div class="control-group">
+   <label class="control-label" for="nbre_opi">Nombre d'OPI </label>
+   <div class="controls">
+   <input type="hidden"  name="serie"  id="serie"  placeholder="Serie d'OPI"  readonly="true"  value="<?php echo $this->serie; ?>" />
+   <input type="text" name="nbre_opi" id="nbre_opi" placeholder="Nombre d'OPI" class="input-xxlarge"  readonly="true" />
+   <a class="btn" onclick="calculernopi()">Calculer </a>
+   </div>
+   </div>
+     
+</fieldset>
+
+<div class="form-actions">
+     <button type="reset" class="btn">Annuler</button>
+</div>
+</form>
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

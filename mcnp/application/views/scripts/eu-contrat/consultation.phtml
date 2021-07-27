@@ -1,0 +1,101 @@
+﻿<div id="view-content" title="Liste des demandes de contrats" style="font-size: 12px;min-height: 520px;">
+     <div style="width:800px; font-family:Gill, Helvetica, sans-serif">
+          <fieldset id="contrat_field" style="margin-bottom: 2px;">
+          <form action="/eu-html2-pdf-contrat/list" name="" method="POST" target="_blank">
+                <!--<input id="editer" type="button" value="Editer"/>-->
+                <input id="apercu" type="submit" value="Aperçu" class="ui-widget button"/>
+                <input type="hidden" id="id_contrat" name="id_contrat"/>
+                <input type="hidden" id="type_membre" name="type_membre"/>
+                <input type="text" id="membre" name="membre" size="35"/>
+                <input id="recherche" type="button" value="Recherche"/>
+          </form>
+          </fieldset>    
+     </div>
+     <table id="tbl-contrat"> </table>
+     <div id="pg-contrat"></div>
+</div>
+   
+<script type="text/javascript">
+        $("#tbl-contrat").jqGrid({
+        url:'/eu-contrat/dataconsult?code_membre='+$('#membre').val(),
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Numero','Membre','Raison sociale','Date contrat'],
+        height:500, width:827,
+        colModel:[
+           {name:'id_contrat',index:'id_contrat', width:150, sorttype:"int", editable: true,align:"left"},
+           {name:'membre',index:'membre', width: 300, editable: true,align:"left"},
+	       {name:'raison_sociale',index:'raison_sociale', width: 100, align:"left", editable: true},
+           {name:'datecontrat',index:'datecontrat', width: 100, align:"left", editable: true}       
+        ],
+        rowNum:200000,
+        rowList:[200000,400000,600000],
+        pager: '#pg-contrat',
+        sortname:"id_contrat",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Contrats"
+    }); 
+   $(document).ready(function () {
+       $.get( "/eu-contrat/membrem",
+       function success(data){
+         $("input#membre").autocomplete({"source":data});
+       });
+               
+    $('#recherche').click(function() {
+       membre=$('#membre').val(); 
+       jQuery("#tbl-contrat").jqGrid('setGridParam',{url:"/eu-contrat/dataconsult?code_membre="+membre}).trigger('reloadGrid');
+    });  
+     
+    $("#tbl-contrat").jqGrid('navGrid','#pg-contrat',{edit:false,add:false,del:false,search:false});
+    
+    $("#apercu").click(function() {
+        var sel;
+        sel = jQuery("#tbl-contrat").jqGrid('getGridParam','selrow');
+        
+              data = jQuery("#tbl-contrat").jqGrid('getRowData',sel);
+              $('#id_contrat').val(data.id_contrat);
+              $('#type_membre').val(data.type_membre);
+			  $('#membre').val(data.membre); 
+             
+    });
+    $(function() {    
+      $('#view-content').puipanel();
+      $('#contrat_field').puifieldset();
+    });
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-contrat").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            seldata = jQuery("#tbl-contrat").jqGrid('getRowData',rowsel);
+            if(seldata.type_membre == 'P') {
+                $.get('/eu-contrat/pedit',{
+                    id_contrat:rowsel
+                },function success(data){
+                    $("#content").html(data);
+                }); 
+            }
+            else {
+              $.get('/eu-contrat/edit',
+              {
+                id_contrat:rowsel
+              },
+              function success(data)
+              {
+                    $("#content").html(data);
+              }); 
+            }
+            
+        }
+        else {
+             alert('Aucune ligne sélectionnée');
+        }
+    });
+       $("#apercu").button();
+       $("#recherche").button();
+       $("#editer").button();
+})
+</script>        

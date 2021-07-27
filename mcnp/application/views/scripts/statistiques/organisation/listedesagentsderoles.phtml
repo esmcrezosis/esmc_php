@@ -1,0 +1,106 @@
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function() {
+
+    $('#example').dataTable( {
+
+        "sPaginationType": "full_numbers",
+
+        "iDisplayLength":10,
+
+		"aaSorting": []
+
+    } );
+} );
+</script>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+	<div class="alert alert-danger">
+
+		<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+	</div>
+
+	<?php unset($_SESSION['validationerrors']); endif ?>
+
+	<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+	<div class="alert alert-success">
+
+		<?php echo implode('<br>',$_SESSION['validationsuccess']) ?>
+
+	</div>
+
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<?php if ($this->countitemsagentsdunrole > 0): ?>
+
+
+<blockquote>
+
+    <strong>LISTE DES UTILISATEURS CREEES (<?php echo $this->nomrole[0]->libelle_roles ?>)</strong>
+
+</blockquote>
+
+
+<table class="table table-striped" id="example">
+
+   <thead> 
+
+        <tr>
+
+             <th>Nom de l'utilisateur</th>
+
+             <th>Prénoms de l'utilisateur</th>
+
+             <th> Responsabilité </th>  
+
+             <th>Nom du poste occupé</th>
+
+         </tr>
+
+   </thead>
+
+   <tbody>
+
+   <?php foreach ($this->listedesagentsdunrole as $key => $value): ?>
+
+       <tr>
+
+             <td><?php echo $value->nom_utilisateur ;?> </td>   
+
+             <td><?php echo $value->prenom_utilisateur ;?> </td>
+
+             <?php if ($value->responsabilite == 1): ?>
+
+                <td><?php echo $value->libelle_responsabilite ;?> </td> 
+
+             <?php elseif($value->responsabilite == 0):  ?>
+
+                <td>  </td> 
+
+             <?php endif ?>
+
+            <td><?php echo $value->libelle_roles ;?> </td>    
+                              
+       </tr>
+
+
+   <?php endforeach ?> 
+   
+   </tbody>
+
+</table>
+
+<?php else: ?>
+
+   <div class="alert alert-danger">
+
+      <strong>Vous n'avez pas encore enregistré aucun utilisateur</strong>
+       
+   </div>
+
+<?php endif ?>

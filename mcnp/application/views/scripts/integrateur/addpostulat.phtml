@@ -1,0 +1,208 @@
+﻿<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+<blockquote><p class="text-info">Ajout de postulat CMFH</p></blockquote>
+  
+<?php if(isset($sessionmembreasso->errorlogin) && $sessionmembreasso->errorlogin!="") { ?>
+<div class="alert alert-success">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $sessionmembreasso->errorlogin; $sessionmembreasso->errorlogin = ""; ?>
+</div>
+<?php } ?>
+  
+<?php if(isset($this->error) && $this->error !="") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $this->error; ?>
+</div>
+<?php } ?>
+  
+  
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="postulat">
+    <fieldset>
+    <legend>Remplir le formulaire </legend>	    
+    <div class="control-group">
+        <label class="control-label" for="postulat_autonome">Etes vous déjà membre de l'ESMC ? *</label>
+        <div class="controls">
+        <label for="postulat_autonome_0" class="radio">
+        <input name="postulat_autonome" type="radio" id="postulat_autonome_0" value="0" required onclick="document.getElementById('postulat_code_membre').removeAttribute('required',false);" />
+        Non
+        </label>
+
+        <label for="postulat_autonome_1" class="radio">
+        <input type="radio" name="postulat_autonome" id="postulat_autonome_1" value="1" required onclick="document.getElementById('postulat_code_membre').setAttribute('required', true);" />
+        Oui
+        </label>
+        </div>
+    </div>
+  
+    <div class="control-group">
+    <label class="control-label" for="bon_neutre_code_membre">Code Membre du postulant  </label>
+    <div class="controls">
+        <input type="text" name="postulat_code_membre" id="postulat_code_membre" placeholder="Code Membre du postulant" class="input-block-level" />
+        <span class="help-block"><p class="text-error">Veuillez saisir votre <strong>Code Membre</strong> si vous disposez dèjà d'un Compte Marchand ESMC </p></span>
+    </div>
+    </div>
+	
+	<div class="control-group">
+    <label class="control-label"> Catégorie CMFH * </label>
+    <div class="controls">
+    <select  id="id_type_candidat" name="id_type_candidat"  class="input-block-level"  required >
+    <option value="">Choisir une catégorie </option>
+    <?php foreach ($this->candidats as $value) { ?>
+    <option
+        value="<?php echo $value->id_type_candidat; ?>"> <?php echo $value->libelle_type_candidat; ?>
+	</option>                         
+    <?php } ?>
+    </select>
+    </div>
+    </div>
+	
+	<div id="pp" style="display:block;">
+    <div class="control-group">
+    <label class="control-label" for="bon_neutre_nom">Nom du postulant  * </label>
+    <div class="controls">
+    <input type="text" name="postulat_nom" id="postulat_nom" placeholder="Nom du postulant" class="input-block-level" required="required"  />
+    <span class="help-block"><p class="text-error">Veuillez saisir votre <strong>Nom</strong> réel. </p></span>
+    </div>
+    </div>
+    
+    <div class="control-group">
+    <label class="control-label" for="bon_neutre_prenom">Prénoms du postulant * </label>
+    <div class="controls">
+    <input type="text" name="postulat_prenom" id="postulat_prenom" placeholder="Prénom du postulant" class="input-block-level" required="required"  />
+    <span class="help-block"><p class="text-error">Veuillez saisir vos <strong>Prénoms</strong> réels. </p></span>
+    </div>
+    </div>
+    </div>
+
+    <div id="pm" style="display:none;">
+    <div class="control-group">
+    <label class="control-label" for="postulat_raison">Raison sociale du postulant </label>
+    <div class="controls">
+    <input type="text" name="postulat_raison" id="postulat_raison" placeholder="Raison sociale du postulant" class="input-block-level"  />
+    <span class="help-block"><p class="text-error">Veuillez saisir la <strong>Raison Sociale</strong> réelle de votre personne morale. </p></span>
+    </div>
+    </div>
+    </div>
+
+    <div class="control-group">
+    <label class="control-label" for="bon_neutre_mobile">Cellulaire du postulant  *</label>
+    <div class="controls">
+    <input type="text" name="postulat_mobile" id="postulat_mobile" placeholder="Cellulaire du postulant " class="input-block-level"  required="required"   />
+    </div>
+    </div>
+
+    <div class="control-group">
+    <label class="control-label" for="p_email">E-mail du postulant * </label>
+    <div class="controls">
+    <div class="input-prepend">
+    <span class="add-on"><i class="icon-envelope"></i></span>
+    <input type="email" name="postulat_email" id="postulat_email" placeholder="E-mail du postulant" class="input-block-level"  required="required" />
+    </div>
+    </div>
+    </div>
+	
+	<legend> Découpage Géographique </legend>
+	
+	<div class="row-fluid">
+    <div class="span4">
+    <div class="control-group">
+    <label class="control-label span4">Zone M.</label>
+    <div class="controls span8">
+    <select class="input-block-level" id="code_zone" name="code_zone" required="required">
+    <option value="">Choisir une zone monétaire</option>
+    <?php foreach ($this->zones as $value) { ?>
+    <option
+        value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+    <?php } ?>
+    </select>
+    </div>
+    </div>
+    </div>
+    <div class="span4">
+    <div class="control-group">
+        <label class="control-label span4">Pays</label>
+        <div class="controls span8">
+        <select class="input-block-level" id="id_pays" name="id_pays" required="required" onchange="ouvre_banquespays(this.value, 'nivo_banquespays');">
+            <option value="">Choisir un pays</option>
+            <?php foreach ($this->pays as $value) { ?>
+            <option
+            value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+            <?php } ?>
+        </select>
+    </div>
+    </div>
+    </div>
+    </div>
+	
+	<div class="row-fluid">
+    <div class="span4">
+    <div class="control-group">
+    <label class="control-label span4">Régions</label>
+    <div class="controls span8">
+    <select class="input-block-level" id="id_region" name="id_region" required="required">
+        <option value="">Choisir une région</option>
+        <?php foreach ($this->regions as $value) { ?>
+        <option
+            value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+        <?php } ?>
+    </select>
+    </div>
+    </div>
+    </div>
+	
+    <div class="span4">
+    <div class="control-group">
+    <label class="control-label span4">Préfectures</label>
+    <div class="controls span8">
+    <select class="input-block-level" id="id_prefecture" name="id_prefecture" required="required">
+    <option value="">Choisir une préfecture</option>
+    <?php foreach ($this->prefectures as $value) { ?>
+    <option
+    value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+    <?php } ?>
+    </select>
+    </div>
+    </div>
+    </div>
+    <div class="span4">
+    <div class="control-group">
+    <label class="control-label span4">Cantons *</label>
+    <div class="controls span8">
+    <select class="input-block-level" id="id_canton" name="id_canton" required="required">
+    <option value="">Choisir un canton</option>
+    <?php foreach ($this->cantons as $value) { ?>
+    <option
+    value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>                         
+    <?php } ?>
+    </select>
+    </div>
+    </div>
+    </div>
+    </div>
+  
+    </fieldset>
+	<div class="form-actions">
+         <input name="ok" type="hidden" id="ok" value="ok" />
+         <button type="reset" class="btn">Annuler</button>
+         <button type="submit" class="btn btn-primary">Enrégistrer</button>
+     </div>
+</form>	
+</div>
+</div>
+</div>
+
+
+
+
+
+
+

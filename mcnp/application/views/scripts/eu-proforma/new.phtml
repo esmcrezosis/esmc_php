@@ -1,0 +1,121 @@
+<div id="view-content" class="ui-widget">
+     <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3 >Etablissement de la facture proforma des produits circulants </h3>
+     </div>
+
+     <div id="formdiv" class="ui-widget-content ui-corner-bottom">     
+      <?php
+	    $auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin'));
+        $user = $auth->getIdentity();
+        $code_membre = $user->code_membre;
+		if(isset($code_membre)){
+        $this->form->setAction($this->url());
+        echo $this->form;
+		}
+      ?>
+        <br><br>
+        <form action="/eu-proforma/envoipforma" name="fm_pforma" method="POST" id="fm_pforma">
+            <?php if (isset($this->data[0][1])) { ?>    
+                <fieldset style="border-color:#000"><legend style=" font-weight:bold">Produits </legend>    
+                    <table style="font-family:verdana;font-weight:normal;margin: 5px"  border="1">
+                        <thead>
+                              <tr style="text-align: left;">
+                                 <th>Unite</th><th>Produit</th><th>Quantité</th><th>Prix unitaire</th><th colspan="2">Remise</th>
+                              </tr>
+                        </thead>
+                        <?php for ($i = 0; $i < count($this->data); $i++) { ?>
+                            <tr>
+							<td><input type="text" value="<?php echo $this->data[$i][6]; ?>" readonly="true" size="20" readonly="readonly"/></td>
+                                <td><input type="text"  name="<?php echo "design_produit" . $i ?>" value="<?php echo $this->data[$i][2]; ?>" readonly="true" size="40"/></td>
+                            <td><input type="text" name="<?php echo "qte_objet" . $i ?>" value="<?php echo $this->data[$i][3];?>" size="7" class="validate[required,custom[onlyNumberSp]]"/></td>
+                            <td><input type="text" name="<?php echo "pu" . $i ?>" size="11" class="validate[required,custom[onlyNumberSp]]" /> </td>
+                            <td><input type="text" value="0" name="<?php echo "remise" . $i ?>" size="6"/></td><td><input type="text" value="%" disabled size="1"></td>
+                                <input type="hidden"  name="<?php echo "id_objet" . $i ?>" value="<?php echo $this->data[$i][1]; ?>"/>
+                            </tr>
+                        <?php } ?>
+                        <input type="hidden" value="<?php echo $this->data[0][4]; ?>" name="id_besoin">
+                        <input type="hidden" value="<?php echo count($this->data); ?>" name="compteur">
+                    </table>   
+                </fieldset>
+                <br>    
+            <?php } ?>      
+            <?php if (isset($this->data[0][1])) { $date1 = explode("-", $this->data[0][5]);
+                  $date_valid = $date1[2] . '-' . $date1[1] . '-' . $date1[0];?>    
+                  <fieldset style="border-color:#000"><legend style=" font-weight:bold">Autres Informations</legend>    
+                      <table style="font-family:verdana;font-weight:normal">
+					      <tr>
+						      <td>Date de validité</td>
+							  <td colspan="3">
+							     <input type="text" value="<?php echo  $date_valid; ?>" name="delai_valid" readonly="true">
+							  </td>
+						  </tr>
+                          <tr>
+						     <td valign="top">Date livraison *</td>
+						     <td><input name="date_livre" id="date_livre" class="validate[required]"></td>
+						     <td valign="top">Lieu de livraison </td>
+						     <td><input name="lieu_livre" id="lieu_livre"></td>
+						 </tr>
+                         <tr>
+						     <td valign="top">Date de payement *</td>
+						     <td><input name="date_paie" id="date_paie" class="validate[required]"></td>
+						     <td valign="top">Taxe à imputer </td>
+							 <td><select name="taxe" id="taxe"></select></td>
+						</tr>
+                    </table>
+                </fieldset>
+				
+                <table style="margin-left: 310px">
+                    <tr>
+                        <td><input type="submit" id="valide" value="Valider"></td>
+                        <td><a href="index"><input type="button" id="annuler" value="Annuler"></a></td>
+                    </tr>
+                </table>
+            <?php } ?>    
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    
+    $(function() {
+        $("#accordeon").accordion();
+    });
+        
+    $(document).ready(function ()
+    {   
+        $(function(){
+            var pickerOpts ={
+                dateFormat: "dd-mm-yy",
+                changeMonth:true,
+                changeYear:true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+            $("#date_paie").datepicker(pickerOpts);
+			$("#date_livre").datepicker(pickerOpts);
+         });
+         
+		 
+        // $(function(){   
+        // $('select#lib_besoin').selectmenu({style:'dropdown'})}); 
+		  
+         $('#valider').button();
+         $('#annuler').button();
+         $('#cancel').button();
+         $('#valide').button();
+         $("#fm_pforma").validationEngine();
+		 
+		 
+		 $.get(
+         '/eu-proforma/taxe',
+         function success(data)
+         {
+             var options = '<option value=""></option>';
+             for( var i = 0; i < data.length; i++) {
+             options += '<option value="' + data[i][1] + '">' + data[i][2] + '-' +  data[i][3] +' </option>';
+             }
+             $('select#taxe').html(options);
+         });
+		 
+		 
+});
+</script>

@@ -1,0 +1,127 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+    <script type="text/javascript" charset="utf-8">
+      /*$(document).ready(function() {
+        $('#example').dataTable();
+      } );*/
+      $(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+    "aaSorting": []
+    } );
+} );
+    </script>
+        
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+  <blockquote><p>Liste des commissions non calculés par utilisateurs</p></blockquote>
+  
+  <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+    </div>
+  <?php }?>
+  
+                                    
+
+
+<?php if(count($this->entries)>0){?> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+              <thead>
+                <tr>
+                  <th>Intégrateurs</th>
+                  <th>Utilisateurs</th>
+                  <th>Commission</th>
+                  <th>Payé</th>
+                  <th>Impôts</th>
+                  <th>Solde</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>  
+                    <tbody>
+<?php 
+$partagem_montant = 0;
+$partagem_montant_utilise = 0;
+$partagem_montant_solde = 0;
+$partagem_montant_impot = 0;
+?>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php 
+        $membreasso = new Application_Model_EuMembreasso();
+        $membreassoM = new Application_Model_EuMembreassoMapper();
+        $membreassoM->find($entry[3], $membreasso);
+    
+        $association = new Application_Model_EuAssociation();
+        $associationM = new Application_Model_EuAssociationMapper();
+        $associationM->find($membreasso->membreasso_association, $association);
+    
+    echo $association->association_nom; ?></td>
+      <td><?php echo $membreasso->membreasso_nom." ".$membreasso->membreasso_prenom;?></td>
+      <td><?php echo ($entry[0]); ?></td>
+      <td><?php echo ($entry[1]); ?></td>
+      <td><?php echo ($entry[4]); ?></td>
+      <td><?php echo ($entry[2]); ?></td>
+      <td><div align="center"><a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/integrateur/listsouscriptionetat2241/id/<?php echo $entry[3]; ?>"><i class="icon-search icon-white"></i>  Détails</a>&nbsp;</div></td>      
+    </tr>
+<?php 
+$partagem_montant += $entry[0];
+$partagem_montant_utilise += $entry[1];
+$partagem_montant_solde += $entry[2];
+$partagem_montant_impot += $entry[4];
+?>
+<?php endforeach; ?>
+
+</tbody>
+<tfoot>
+<tr>
+      <td>&nbsp;</td>
+      <td>TOTAUX</td>
+      <td><?php echo ($partagem_montant); ?></td>
+      <td><?php echo ($partagem_montant_utilise); ?></td>
+      <td><?php echo ($partagem_montant_impot); ?></td>
+      <td><?php echo ($partagem_montant_solde); ?></td>
+      <td><div align="center"></div></td>      
+    </tr>
+</tfoot>
+            </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune commission enregistrée 
+</div>
+<?php }?>
+
+
+<br />
+<br />
+<br />
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

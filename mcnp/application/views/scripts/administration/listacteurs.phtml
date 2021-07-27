@@ -1,0 +1,97 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" charset="utf-8">		
+	$(document).ready(function() {
+    $('#example').dataTable({
+       "sPaginationType": "full_numbers",
+	   "aaSorting": []
+    });
+    });
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des Acteurs : 
+  <?php if($this->type == "OE") { echo " Opérateurs Economiques";}
+        elseif($this->type == "POE") { echo  " Partenaires Opérateurs Economiques";}
+		elseif($this->type == "OSE") { echo  " Opérateurs Socio-Economiques";}
+		elseif($this->type == "POSE"){ echo  " Partenaires Opérateurs Socio-Economiques";}
+  
+  ?></p>
+  </blockquote>
+
+<?php if(count($this->entries)>0) { ?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+<thead>
+	  <tr>
+         <th>Raison sociale</th>
+		 <th>Représentant</th>
+		 <th>Cellulaire</th>
+		 <th>E-mail</th>
+		 <th>Boite Postale</th>
+		 <th>Domaine d'Activité</th>
+		 <th>Ville</th>
+		 <th>Quartier</th>
+	  </tr>
+</thead>  
+<tbody>
+<?php foreach ($this->entries as $entry) : ?>
+<tr>
+    <td><?php echo ($entry->raison_sociale); ?></td>
+    <td>
+	   <?php 
+	     $m_representation = new Application_Model_EuRepresentationMapper();
+		 $membre = new Application_Model_EuMembre();
+		 $m_membre = new Application_Model_EuMembreMapper();
+		 $representant = $m_representation->findbyrep($entry->code_membre_morale);
+		 
+		 if($representant != false) {
+		   $m_membre->find($representant->code_membre,$membre);
+	       echo $membre->nom_membre." ".$membre->prenom_membre;
+		 }	
+	   ?>
+	   
+	</td>
+    <td><?php echo ($entry->portable_membre); ?></td>
+    <td><?php echo ($entry->email_membre); ?></td>
+    <td><?php echo ($entry->bp_membre); ?></td>
+	<td><?php echo ($entry->domaine_activite); ?></td>
+    <td><?php echo ($entry->ville_membre); ?></td>
+    <td><?php echo utf8_encode($entry->quartier_membre); ?></td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun acteur enrégistré 
+</div>
+<?php } ?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

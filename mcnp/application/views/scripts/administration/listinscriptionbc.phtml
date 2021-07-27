@@ -1,0 +1,97 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+
+<script type="text/javascript" charset="utf-8">
+			
+	$(document).ready(function() {
+    $('#example').dataTable({
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+     });
+    });
+		
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p> Liste des Offreurs d'Intégration Avec Liste du Programme de Souscription au Bon de Consommation (BC) pour Tiers </p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+	   <thead>
+			  <tr>
+				  <th>Date Intégration</th>
+				  <th>Code Membre Apporteur</th>
+				  <th>Apporteur</th>
+				  <th>Code Membre Bénéficiaire</th>
+				  <th>Bénéficiaire</th>
+				  <th>Type Souscription</th>
+			  </tr>
+		</thead>
+
+		
+<tbody>
+<?php foreach($this->entries as $entry): 
+
+    $membre = new Application_Model_EuMembre();
+	$m_map  = new Application_Model_EuMembreMapper();
+	$membremoral = new Application_Model_EuMembreMorale();
+	$m_mapmoral  = new Application_Model_EuMembreMoraleMapper();
+	
+	$apporteur    = "";
+	$beneficiaire = "";
+	
+	if(substr($entry->code_membre_apporteur,19,1) == 'P')  {
+		$findapporteur = $m_map->find($entry->code_membre_apporteur,$membre);
+		$apporteur = $membre->nom_membre." ".$membre->prenom_membre;
+	} else {
+	    $findapporteur = $m_mapmoral->find($entry->code_membre_apporteur,$membremoral);
+		$apporteur = $membremoral->raison_sociale;
+	}
+	
+	$findbeneficiaire = $m_map->find($entry->code_membre_beneficiaire,$membre);
+	$beneficiaire = $membre->nom_membre." ".$membre->prenom_membre;
+	
+
+?>
+    <tr>
+        <td><?php echo ($entry->date_listebc); ?></td>
+		<td><?php echo ($entry->code_membre_apporteur); ?></td>
+        <td><?php echo ($apporteur); ?></td>
+		<td><?php echo ($entry->code_membre_beneficiaire); ?></td>
+		<td><?php echo ($beneficiaire); ?></td>
+		<td><?php echo ($entry->type_souscription); ?></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucune offre d'intégration enrégistrée
+</div>
+<?php } ?>
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

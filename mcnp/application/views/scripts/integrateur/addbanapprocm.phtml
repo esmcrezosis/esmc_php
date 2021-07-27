@@ -1,0 +1,196 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques2.js"></script>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/fondateurs.js"></script><?php */?>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capasenrolement.js"></script><?php */?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banquespays.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+<blockquote><p>Approvisionnement de Bon d'Achat neutre (BAn) pour Compte Marchand (CM)</p></blockquote>
+  <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+  </div>
+  <?php } ?>
+
+  <?php /* if(isset($sessionmembreasso->code_BAn) && $sessionmembreasso->code_BAn != "") { ?>
+  <blockquote>
+  <a href="/souscriptionbon/bonachatneutrepdf/code/<?php echo $sessionmembreasso->code_BAn; ?>" target="_blank"><span style="color:#800080;">Télécharger votre Bon d'Achat neutre (<strong>BAn</strong>)</span></a> <br /><br />
+
+  <?php $sessionmembreasso->code_BAn = "";?>
+  </blockquote>
+  <?php } */ ?>
+
+  
+  <?php /* if(isset($sessionmembreasso->code_BAn) && $sessionmembreasso->code_BAn != "") { ?>
+  <blockquote>
+  <a href="/bons/recudepayementdebanapprointegrateurcmpdf" target="_blank"><span style="color:#800080;">Télécharger le reçu de votre Bon d'Achat neutre (<strong>BAn</strong>)</span></a> <br /><br />
+
+  <?php $sessionmembreasso->code_BAn = "";?>
+  </blockquote>
+  <?php } */ ?>
+  
+  <?php  if(isset($sessionmembreasso->code_BAn) && $sessionmembreasso->code_BAn != "") { ?>
+    <blockquote>
+    <a href="/bons/recudepayementdebanapprointegrateurpdf/id/<?php echo $sessionmembreasso->bon_neutre_detail_id; ?>" target="_blank"><span style="color:#800080;">Télécharger votre Bon d'Achat neutre (<strong>BAn</strong>)</span></a> <br /><br />
+
+    <?php $sessionmembreasso->code_BAn = "";?>
+    </blockquote>
+  <?php }  ?>
+  
+  
+  
+  <?php 
+        if($sessionmembreasso->guichet == 1) {
+              if($sessionmembreasso->appro == 1){
+                $association_code_membre = $sessionmembreasso->code_membre;
+              }else{
+                $association_code_membre = $sessionmembreasso->association_code_membre;
+              }
+        } else {
+            $association_code_membre = $sessionmembreasso->code_membre;
+        }
+  ?>
+
+  
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription1" name="addsouscription1">
+<fieldset>
+<legend> Remplir le formulaire </legend>
+
+<div class="control-group">
+  <label class="control-label" for="bon_neutre_personne">Type du souscripteur *</label>
+  <div class="controls">
+
+  <label class="radio">
+  <input name="bon_neutre_personne" type="radio" id="bon_neutre_personne_pp" value="PP" required onclick="
+  document.getElementById('pp').style.display='block'; 
+  document.getElementById('bon_neutre_nom').setAttribute('required', true);
+  document.getElementById('bon_neutre_prenom').setAttribute('required', true);
+  document.getElementById('pm').style.display='none';
+  document.getElementById('bon_neutre_raison').removeAttribute('required');
+  ">
+  Personne Physique
+  </label>
+  
+  <label class="radio">
+  <input type="radio" name="bon_neutre_personne" id="bon_neutre_personne_pm" value="PM" required onclick="
+  document.getElementById('pp').style.display='block'; 
+  document.getElementById('bon_neutre_nom').setAttribute('required', true);
+  document.getElementById('bon_neutre_prenom').setAttribute('required', true);
+  document.getElementById('pm').style.display='block';
+  document.getElementById('bon_neutre_raison').setAttribute('required', true);
+  " >
+  Personne Morale</label>
+  
+</div>
+</div>
+
+<div id="pp" style="display:none;">
+<div class="control-group">
+<label class="control-label" for="bon_neutre_nom">Nom du souscripteur  * </label>
+<div class="controls">
+<input type="text" name="bon_neutre_nom" id="bon_neutre_nom" placeholder="Nom du souscripteur sur le reçu de banque ou de la transaction" class="input-xxlarge" required="required"  />
+<span class="help-block"><p class="text-error">Veuillez saisir votre <strong>Nom</strong> réel. </p></span>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="bon_neutre_prenom">Prénoms du souscripteur * </label>
+<div class="controls">
+<input type="text" name="bon_neutre_prenom" id="bon_neutre_prenom" placeholder="Prénom du souscripteur sur le reçu de banque ou de la transaction" class="input-xxlarge" required="required"  />
+<span class="help-block"><p class="text-error">Veuillez saisir vos <strong>Prénoms</strong> réels. </p></span>
+</div>
+</div>
+    
+  <div class="control-group">
+  <label class="control-label" for="date_nais_membre">Date de naissance *</label>
+  <div class="controls">
+  <input type="text" name="date_nais_membre" id="date_nais_membre" placeholder="Date de naissance" class="input-large datepicker" data-provide="datepicker"  required="required"  readonly />
+  </div>
+  </div>
+
+</div>
+
+<div id="pm" style="display:none;">
+<div class="control-group">
+<label class="control-label" for="bon_neutre_raison">Raison sociale du souscripteur * </label>
+<div class="controls">
+  <input type="text" name="bon_neutre_raison" id="bon_neutre_raison" placeholder="Raison sociale du souscripteur" class="input-xxlarge" required="required" />
+<span class="help-block"><p class="text-error">Veuillez saisir la <strong>Raison Sociale</strong> réelle de votre personne morale s'il y en a. </p></span>
+</div>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_mobile">Cellulaire du souscripteur  *</label>
+<div class="controls">
+<input type="number" name="bon_neutre_mobile" id="bon_neutre_mobile" placeholder="Cellulaire du souscripteur " class="input-xxlarge"  required="required" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_email">E-mail du souscripteur * </label>
+<div class="controls">
+<div class="input-prepend">
+     <span class="add-on"><i class="icon-envelope"></i></span>
+     <input type="email" name="bon_neutre_email" id="bon_neutre_email" placeholder="E-mail du souscripteur" class="input-xxlarge"  required="required" />
+     </div>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_appro_montant">Montant à allouer * </label>
+<div class="controls">
+     <input type="number" name="bon_neutre_appro_montant" id="bon_neutre_appro_montant" placeholder="Montant à allouer" class="input-xxlarge"  required="required" />
+<span class="help-block"><p class="text-error">Veuillez saisir le montant à allouer</p></span>
+</div>
+</div>
+</fieldset>
+
+<div id="qrcaptcha"></div>
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input name="confirmation" type="hidden" id="confirmation" value="1" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" id="submit" class="btn btn-primary">Valider</button>
+</div>
+
+</form>
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr1.js"></script>
+<script type="text/javascript">
+
+outil_confirmation_biometrique_personelle('addsouscription1', 'qrcaptcha', 'submit',"Veuillez confirmer cette opération d'approvisionnement ?", '<?php echo $association_code_membre;  ?>');
+
+</script>
+
+
+<?php //} ?>
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>

@@ -1,0 +1,51 @@
+<div id="view-content">
+    
+    <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    
+    <table id="tbl-stand"></table>
+    <div id="pg-stand"></div>
+    
+</div>
+<script type="text/javascript">
+    
+        $("#tbl-stand").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Désignation','Description'],
+        height:440, width:827,
+        colModel:[
+            
+            {name:'design_stand',index:'design_stand', width:300, editable: true,align:"left"},
+            {name:'description',index:'description', width:500, editable: true,align:"left"},
+            
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        rownumbers:true,
+        pager: '#pg-stand',
+        sortname:"id_stand",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des stands "
+    });
+    $("#tbl-stand").jqGrid('navGrid','#pg-stand',{edit:false,add:false,del:false,search:false});
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-stand").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+           $.get('/eu-stand/edit',{
+             id_stand:rowsel
+           },function success(data){
+             $("#content").html(data);
+           }); 
+        }
+        else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button(); 
+</script>    

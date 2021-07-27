@@ -1,0 +1,124 @@
+<div id="view-content" title="Modification d'un employé" style="min-height: 520px;padding: 1px;margin: 1px;font-size: 12px;">
+    <form id="employe_form" method="post" action="/eu-smcipn/editemploye">
+        <table id="tab_capa" style="width: 700px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+            <tr>
+                <input class="" type="text" id="id_employe" name="id_employe" value="<?php echo $this->id_employe; ?>" size="30" hidden="true"/>
+                <td><label for="code_dev">Code Membre Employeur* :</label></td>
+                <td>
+                    <input class="validate[required]" type="text" id="code_membre" name="code_membre" value="<?php echo $this->code_membre; ?>" size="30"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="raison_soc">Raison Sociale * :</label></td>
+                <td>
+                    <input class="validate[required]" type="text" id="raison_soc" name="raison_soc" value="<?php echo $this->raison_soc; ?>" size="50"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="code_membre_employe">Code Membre Employé * :</label></td>
+                <td>
+                    <input class="validate[required]" type="text" id="code_membre_employe" name="code_membre_employe" value="<?php echo $this->code_membre_employe; ?>" size="30"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="nom_membre">Nom Membre * :</label></td>
+                <td>
+                    <input class="validate[required]" type="text" id="nom_membre" name="nom_membre" value="<?php echo $this->nom_membre; ?>" size="30"/>
+                    <input class="validate[required]" type="text" id="prenom_membre" name="prenom_membre" value="<?php echo $this->prenom_membre; ?>" size="30"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="mont_salaire">Montant salaire * :</label></td>
+                <td>
+                    <input class="validate[required,custom[onlyNumberSp]]" type="text" id="mont_salaire" name="mont_salaire" value="<?php echo $this->mont_salaire; ?>" size="30"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="cnss">Déclaré au CNSS :</label></td>
+                <td>
+                    <input class="" type="checkbox" id="cnss" name="cnss" value="<?php echo $this->cnss ?>" <?php if ($this->cnss == 1) {
+    echo 'checked="checked"';
+} ?>/>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" value="Valider" id="val"/>
+                    <input type="reset" value="Rafraichir" name="refresh" id="refresh"/>
+                    <input type="button" value="Annuler" id="reset"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function ()
+    {
+        jQuery(document).ready(function(){
+            // binds form submission and fields to the validation engine
+            jQuery("#employe_form").validationEngine();
+        });
+        $("#new_dev_form").validationEngine();
+        $('#val').button();
+        $('#refresh').button();
+        $('#reset').button();
+        
+        $(function(){
+            $('#view-content').puipanel();
+        });
+        
+        $.get('/eu-smcipn/membrephys',
+        function success(data)
+        {
+            $('#code_membre_employe').autocomplete({"source": data,
+                change: displayItem});
+        });
+        
+        $.get('/eu-smcipn/membremoral',
+        function success(data)
+        {
+            $('#code_membre').autocomplete({"source": data,
+                change: displaymoral});
+        });
+
+        function displayItem()
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                '/eu-smcipn/recupnom1',
+                {
+                    num_membre: $(this).val()
+                },
+                function success(data)
+                {
+                    $("#nom_membre").val(data[0]);
+                    $("#prenom_membre").val(data[1]);
+                });
+            }
+        }
+        
+        function displaymoral()
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                '/eu-smcipn/recupnom1',
+                {
+                    num_membre: $(this).val()
+                },
+                function success(data)
+                {
+                    $("#raison_soc").val(data[2]);
+                });
+            }
+        }
+        
+        $('#reset').click(function()
+        {
+            window.location="/eu-smcipn/myemploye";
+        }); 
+       
+    });
+</script>

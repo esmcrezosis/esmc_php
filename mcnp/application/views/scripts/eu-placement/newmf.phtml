@@ -1,0 +1,518 @@
+<div id="view-content" title="Achat du Pouvoir d'Achat avec MF11000" style="font-size: 12px;min-height: 520px;">
+    <form id="new_capa_form" method="post" action="/eu-placement/newmf">
+        <input type="hidden" id="type" name="type" value="<?php echo $this->type; ?>"/>
+        <table id="tab_capa">
+            <thead></thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <fieldset>
+                            <legend>Source Numerique Noir</legend>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div id="img" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="code_membre">Code Membre * :</label></td>
+                                        <td>
+                                            <input class="validate[required]" type="text" id="code_membre" name="code_membre" value="<?php echo $this->code_membre; ?>" size="30"/>
+                                        </td>
+                                        <?php if ($this->type == 'I') { ?>
+                                            <td><label for="pl_raison">Raison sociale :</label>
+                                                <input readonly="true" class="validate[required]" type="text" id="pl_raison" name="pl_raison" value="<?php echo $this->pl_raison; ?>" size="30"/>
+                                            </td>
+                                        <?php } ?>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="nom_membre">Nom Membre :</label></td>
+                                        <td>
+                                            <input readonly="true" class="validate[required]" type="text" id="nom_membre" name="nom_membre" value="<?php echo $this->nom_membre; ?>" size="30"/>
+                                        </td>
+                                        <td><label for="prenom_membre">Prénoms :</label>
+                                            <input readonly="true" class="validate[required]" type="text" id="prenom_membre" name="prenom_membre" value="<?php echo $this->prenom_membre; ?>" size="30"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Numéro BS *: </label></td>
+                                        <td>
+                                            <input id="id_num_bon" name="id_num_bon" value="" />
+                                        </td>
+                                        <td>
+                                            <label style="color: red;">Solde MF :</label>
+                                            <input id="solde_mf" name="solde_mf" value="" readonly="true"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <fieldset>
+                            <legend>Destination</legend>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td><label for="code_membre_dest">Code Membre * :</label></td>
+                                        <td>
+                                            <input class="validate[required]" type="text" id="code_membre_dest" name="code_membre_dest" value="<?php echo $this->code_membre; ?>" size="30"/>
+                                        </td>
+                                        <?php if ($this->type == 'I') { ?>
+                                            <td><label for="pl_raison_dest">Raison sociale :</label>
+                                                <input readonly="true" class="validate[required]" type="text" id="pl_raison_dest" name="pl_raison_dest" value="<?php echo $this->pl_raison; ?>" size="30"/>
+                                            </td>
+                                        <?php } ?>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="nom_membre_dest">Nom Membre :</label></td>
+                                        <td>
+                                            <input readonly="true" class="validate[required]" type="text" id="nom_membre_dest" name="nom_membre_dest" value="<?php echo $this->nom_membre; ?>" size="30"/>
+                                        </td>
+                                        <td><label for="prenom_membre_dest">Prénoms :</label>
+                                            <input readonly="true" class="validate[required]" type="text" id="prenom_membre_dest" name="prenom_membre_dest" value="<?php echo $this->prenom_membre; ?>" size="30"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <fieldset>
+                            <legend>Type de CAPA</legend>
+                            <table>
+                                <tbody>
+                                    <tr><td><label for="code_produit">Produit à souscrire *:</label></td>
+                                        <td>
+                                            <select class="validate[required]" type="text" id="code_produit" name="code_produit" value="<?php echo $this->code_produit; ?>">
+                                                <?php
+                                                if ($this->type == 'I') {
+                                                    echo '<option value="I">Investissement</option>';
+                                                } else if ($this->type == 'RPG') {
+                                                    echo '<option value="RPG">RPG</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
+                                        <td><label for="val_dev">Catégorie *:</label></td>
+                                        <td>
+                                            <select class="validate[required]" type="text" id="cat_produit" name="cat_produit" value="<?php echo $this->cat_produit; ?>">
+                                                <?php
+                                                if ($this->type == 'CNCS') {
+                                                    echo '<option value="nr">Non Récurrent</option>';
+                                                } else {
+                                                    echo '<option></option>
+                                                          <option value="nr">Non Récurrent</option>
+                                                          <option  value="r">Récurrent</option>';
+                                                }
+                                                ?> 
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="type_credit">Type Crédit :</label>
+                                        </td>
+                                        <td>
+                                            <select class="validate[required]" type="text" id="type_credit" name="type_credit" value="">
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <label for="prk">PRK :</label>
+                                        </td>
+                                        <td>
+                                            <select class="validate[required]" type="text" id="prk" name="prk" value=""></select>
+                                        </td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="val_nat">Montant CAPA *:</label></td>
+                                        <td>
+                                            <input class="validate[required number]" type="text" id="mont_capa" name="mont_capa" value="<?php echo $this->mont_capa; ?>" size="30" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label style="color: red;">Code SMS *</label></td>
+                                        <td><input id="code_sms" class="validate[required number]" name="code_sms" value="" /></td>
+                                        <td><label for="val_nat">Montant SMS *:</label></td>
+                                        <td>
+                                            <input class="validate[required number]" type="text" id="mont_sms" name="mont_sms" value="<?php echo $this->mont_capa; ?>" size="30" />
+                                        </td>
+                                        <td><label for="val_nat">Devise *:</label></td>
+                                        <td>
+                                            <select class="validate[required]" type="text" id="dev_capa" name="dev_capa" value=""></select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="val_nat">Montant Crédit *:</label></td>
+                                        <td>
+                                            <input class="validate[required number]" type="text" id="mont_credit" name="mont_credit" value="<?php echo $this->mont_credit; ?>" size="30"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+            </tbody>
+            <tr><td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td></tr>
+        </table>
+    </form>
+    <div id="pdialog">
+        <table>
+            <tbody>
+                <tr>
+                    <td><label>Code Membre Apporteur:</label></td>
+                    <td><input type="text" id="membre_code" name="membre_code" readonly="true" size="30"/></td>
+                </tr>
+                <tr>
+                    <td><label>Numéro Bon de souscription:</label></td>
+                    <td><input type="text" id="num_bon_sousc" name="num_bon_sousc" readonly="true" size="30"/></td>
+                </tr>
+                <tr>
+                    <td><label>Code Membre Bénéficiaire :</label></td>
+                    <td><input type="text" id="membre_dest_code" name="membre_dest_code" readonly="true" size="30"/></td>
+                </tr>
+                <tr>
+                    <td><label>Nom et Prénoms :</label></td>
+                    <td><input type="text" size="30" id="membre_nomp" name="membre_nomp" readonly="true"/></td>
+                </tr>
+                <tr>
+                    <td><label>Type CAPA :</label></td>
+                    <td><input type="text" id="type_capa" name="type_capa" readonly="true"/></td>
+                </tr>
+                <tr>
+                    <td><label>Catégorie :</label></td>
+                    <td><input type="text" id="cat_capa" name="cat_capa" readonly="true"/></td>
+                </tr>
+                <tr>
+                    <td><label>Montant CAPA :</label></td>
+                    <td><input type="text" id="mt_capa" name="tel" readonly="true"/></td>
+                </tr>
+                <tr>
+                    <td><label>Montant Crédit:</label></td>
+                    <td><input type="text" id="mt_credit" name="mt_credit" readonly="true"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function()
+    {
+        $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+            $("#pdialog").dialog({
+                autoOpen: false,
+                height: 380,
+                width: 550,
+                title: 'Confirmez-vous cette opération ?',
+                modal: true,
+                buttons: {
+                    "OUI": function() {
+                        var mont_prel, mont_capa, mont_sms, solde_mf = 0;
+                        if ($('#mont_capa').val() !== '' && $('#mont_sms').val() !== '' && $('#solde_mf').val() !== '') {
+                            mont_capa = parseFloat($('#mont_capa').val());
+                            mont_sms = parseFloat($('#mont_sms').val());
+                            solde_mf = parseFloat($('#solde_mf').val());
+                            mont_prel = mont_capa * 10 / 100;
+                            if (mont_sms === mont_capa && mont_prel <= solde_mf) {
+                                $.post('/eu-placement/donewmf', {
+                                    mont_capa: $('#mt_capa').val(),
+                                    num_bon: $('#id_num_bon').val(),
+                                    code_sms: $('#code_sms').val(),
+                                    mont_credit: $('#mt_credit').val(),
+                                    cat_produit: $('#cat_produit').val(),
+                                    code_produit: $('#type_capa').val(),
+                                    code_membre: $('#membre_code').val(),
+                                    code_membre_dest: $('#code_membre_dest').val(),
+                                    dev_capa: $('#dev_capa').val(),
+                                    prk: $('#prk').val(),
+                                    type_credit: $('#type_credit').val()
+                                },
+                                function success(data) {
+                                    if (data === true) {
+                                        alert('Opération effectuée avec succes');
+                                        $(location).attr("href", "/eu-placement/index");
+                                    } else {
+                                        $('#message').html(data);
+                                    }
+                                });
+                                $(this).dialog("close");
+                            } else {
+                                $(this).dialog("close");
+                                alert('Votre solde est insuffisant ou le montant SMS est différent du montant CAPA!!!');
+                            }
+                        }
+                    },
+                    "NON": function() {
+                        $(this).dialog("close");
+                    }
+                },
+                close: function() {
+                    //allFields.val( "" ).removeClass( "ui-state-error" );
+                }
+            }
+            );
+        });
+        $("#new_dev_form").validationEngine();
+        $('#val').button();
+        $('#reset').button();
+        var type = '';
+        if ($('#code_produit').val() === 'RPG') {
+            type = 'P';
+        } else {
+            type = 'M';
+        }
+
+        $.get('/eu-placement/membre',
+                {type: type},
+        function success(data)
+        {
+            $('#code_membre').autocomplete({"source": data,change: displayItem});
+            $('#code_membre_dest').autocomplete({"source": data,change: displayItem1});
+        });
+
+        function displayItem()
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-placement/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    $("#nom_membre").val(data[0]);
+                    $("#prenom_membre").val(data[1]);
+                    $("#pl_raison").val(data[2]);
+                });
+            }
+        }
+        
+        function displayItem1()
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-placement/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    $("#nom_membre_dest").val(data[0]);
+                    $("#prenom_membre_dest").val(data[1]);
+                    $("#pl_raison_dest").val(data[2]);
+                });
+            }
+        }
+
+        $.get(
+                '/eu-placement/credits',
+                function success(data)
+                {
+                    var options = '<option></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                    $('select#type_credit').html(options);
+                });
+
+        $('#type_credit').change(function(e) {
+            e.preventDefault();
+            if ($(this).val() !== '' && $('#cat_produit').val() !== '') {
+                var acteur = '';
+                if ($('#type').val() === 'RPG') {
+                    acteur = 4;
+                } else {
+                    acteur = 1;
+                }
+                if ($('#cat_produit').val() === 'nr') {
+                    $.get(
+                            '/eu-placement/sprk', {acteur: acteur, code: $(this).val()},
+                    function success(data)
+                    {
+                        var options = '<option></option>';
+                        for (var i = 0; i < data.length; i++) {
+                            options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                        }
+                        $('select#prk').html(options);
+                    });
+                } else {
+                    var options = '<option value="1">1</option>';
+                    $('select#prk').html(options);
+                }
+            }
+        });
+
+        $('#id_num_bon').blur(function(e)
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-placement/soldemf',
+                        {
+                            num_bon: $(this).val()
+                        },
+                function success(data)
+                {
+                    if (data !== null) {
+                        $('#solde_mf').val(data);
+                    } else {
+                        $('#solde_mf').val(0);
+                    }
+
+                });
+            } else {
+                alert("Le Numéro du BS (Bon de souscription) doit être renseigné!!!");
+            }
+            e.preventDefault();
+        });
+
+        $.get(
+                '/eu-placement/devise',
+                function success(data)
+                {
+                    var options = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i] === 'XOF') {
+                            options += '<option value="' + data[i] + '" selected>' + data[i] + ' </option>';
+                        } else {
+                            options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                        }
+
+                    }
+                    $('select#dev_capa').html(options);
+                });
+
+        $('#code_sms').blur(function(e)
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-placement/codesms',
+                        {
+                            code: $(this).val(), cat: $('#cat_produit').val(), prk: $('#prk').val()
+                        },
+                function success(data)
+                {
+                    if (data !== 0) {
+                        $('#mont_sms').val(data[0]);
+                        $('#mont_credit').val(data[1]);
+                        $('#mont_sms').attr('readonly', true);
+                        $('#mont_credit').attr('readonly', true);
+                    } else {
+                        $('#mont_sms').attr('readonly', false);
+                        $('#mont_credit').attr('readonly', false);
+                        alert("Ce code est invalide !!!");
+                    }
+
+                });
+            } else {
+                $('#mont_sms').attr('readonly', false);
+                $('#mont_credit').attr('readonly', false);
+                $('#mont_sms').val('');
+                $('#mont_credit').val('');
+            }
+            e.preventDefault();
+        });
+
+        $('#cat_produit').change(function()
+        {
+            if ($('#mont_capa').val() !== '') {
+                $.get(
+                        '/eu-placement/calcul',
+                        {
+                            montant: $('#mont_capa').val(), cat: $('#cat_produit').val(), credit: ''
+                        },
+                function success(data)
+                {
+                    $('#mont_credit').val(data[0]);
+                });
+            } else if ($('#mont_credit').val() !== '' && $('#code_produit').val() === '') {
+                $.get(
+                        '/eu-placement/calcul',
+                        {
+                            credit: $(this).val(), cat: $('#cat_produit').val(), montant: ''
+                        },
+                function success(data)
+                {
+                    $('#mont_capa').val(data[0]);
+                });
+            }
+        });
+
+        $("#val").button().click(function(e) {
+            e.preventDefault();
+            $('#membre_code').val($('#code_membre').val());
+            $('#num_bon_sousc').val($('#id_num_bon').val());
+            $('#membre_dest_code').val($('#code_membre_dest').val());
+            $('#membre_nomp').val($('#nom_membre').val() + ' ' + $('#prenom_membre').val());
+            $('#type_capa').val($('#code_produit').val());
+            if ($('#cat_produit').val() === 'r') {
+                $('#cat_capa').val('Récurrent');
+            } else {
+                $('#cat_capa').val('Non Récurrent');
+            }
+            $('#mt_capa').val($('#mont_capa').val());
+            $('#mt_credit').val($('#mont_credit').val());
+            $("#pdialog").dialog("open");
+        });
+
+        var dev = 'XOF';
+        $('#dev_capa').change(function()
+        {
+            var dev1 = $('#dev_capa').val();
+            if (dev !== dev1) {
+                if ($('#mont_capa').val() !== '' && parseInt($('#mont_capa').val()) > 0 && $('#cat_produit').val() !== '') {
+                    $.get(
+                            '/eu-placement/convertir',
+                            {
+                                montant: $('#mont_capa').val(), cat: $('#cat_produit').val(), dev: dev, dev1: dev1, credit: ''
+                            },
+                    function success(data)
+                    {
+                        if (data !== false) {
+                            $('#mont_capa').val(data[0]);
+                            $('#mont_credit').val(data[1]);
+                            dev = dev1;
+                        } else {
+                            alert('Ce cours n\'est pas défini: ' + dev + '-' + dev1);
+                            $('#dev_capa').val(dev);
+                        }
+                    });
+                } else if ($('#mont_credit').val() !== '' && parseInt($('#mont_credit').val()) > 0 && $('#cat_produit').val() !== '') {
+                    $.get(
+                            '/eu-placement/convertir',
+                            {
+                                credit: $(this).val(), cat: $('#cat_produit').val(), dev: dev, dev1: dev1, montant: ''
+                            },
+                    function success(data)
+                    {
+                        if (data !== false) {
+                            $('#mont_capa').val(data[0]);
+                            $('#mont_credit').val(data[1]);
+                            dev = dev1;
+                        } else {
+                            alert('Ce cours n\'est pas défini: ' + dev + '-' + dev1);
+                            $('#dev_capa').val(dev);
+                        }
+                    });
+                }
+            }
+        });
+
+        $('#reset').click(function() {
+            dev = 'XOF';
+        });
+    });
+</script>

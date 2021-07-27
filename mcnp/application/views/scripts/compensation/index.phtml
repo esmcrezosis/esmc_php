@@ -1,0 +1,32 @@
+<div id="view-content" title="Liste des GCP compensés sur le FGFN" style="padding: 1px;margin: 1px;font-size: 12px;">
+<table id="tbl-compens"></table>
+    <div id="pg-compens"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#tbl-compens").jqGrid({
+        url:'/compensation/data',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Date','Membre PBF','Montant','Montant tranche'],
+        height:380, width:800,
+        colModel:[
+            {name:'date_compens',index:'date_compens', width: 120, sorttype:"date", formatter:"date",align:"left", editable: true},
+            {name:'num_membre_pbf',index:'num_membre_pbf', width: 170, align:"left", editable: true},
+            {name:'mont_compens',index:'mont_compens', width: 150, editable: true,align:"right",sorttype:"float", formatter:"number"},
+            {name:'mont_tranche',index:'mont_tranche', width: 150, align:"right", editable: true,sorttype:"float", formatter:"number"}
+        ],
+        rowNum:20,
+        rowList:[20,30,40],
+        pager: '#pg-compens',
+        sortname:"code_compens",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"FGFN Compensé"
+    });
+    $("#tbl-compens").jqGrid('navGrid','#pg-compens',{edit:false,add:false,del:false,search:true});
+    $(function(){
+        $('#view-content').puipanel();
+    });
+    });
+</script>

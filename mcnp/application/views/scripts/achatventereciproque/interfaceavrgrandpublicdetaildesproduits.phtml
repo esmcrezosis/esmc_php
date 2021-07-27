@@ -1,0 +1,79 @@
+<style>
+#avr-achat-btn-fire{
+	cursor:pointer
+}
+
+</style>
+
+
+<blockquote>Interface AVR Grand public- Détails de produits pour achat</blockquote>
+
+<div class="control-group">
+<label for="" style="float:left">
+ Nom du fournisseur:
+</label>
+<div class="controls">
+<?php echo $this->lalistedesdetailsdunproduit[0]->raison_sociale ;?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label for="" style="float:left">
+ Nom du produit:
+</label>
+<div class="controls">
+<?php echo $this->lalistedesdetailsdunproduit[0]->libelle_produit ;?>
+</div>
+</div>
+
+<div class="control-group">
+<label for="" style="float:left">
+ Quantité disponible:
+</label>
+<div class="controls">
+<?php echo $this->lalistedesdetailsdunproduit[0]->qte_vente ;?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label for="" style="float:left">
+ Prix unitaire:
+</label>
+<div class="controls">
+<?php echo $this->lalistedesdetailsdunproduit[0]->prix_vente ;?>
+</div>
+</div>
+
+<div class="control-group">
+<label for="" style="float:left">
+ Quantité :
+</label>
+<div class="controls">
+<input type="text" placeholder="Mettez ici la quantité de votre achat">
+</div>
+</div>
+
+<div class="control-group">
+    <label for="" style="float:left">
+    Mode de paiement:
+    </label>
+    <div class="controls">
+                  
+		<label class="radio" style="float:left">
+				<input type="radio" name="fournisseur_avr_produits" id="fournisseur_avr_produits"  value="ban">
+				<span style="inline-block;font-size:1em;font-weight:lighter">BAn</span>
+			</label>
+        <label class="radio"  style="float:left">
+				<input type="radio" name="fournisseur_avr_produits" id="fournisseur_avr_produits" value="bai ">
+				<span style="inline-block;font-size:1em;font-weight:lighter">BAi</span>
+		</label>
+        <label class="radio"  style="float:left">
+				<input type="radio" name="fournisseur_avr_produits" id="fournisseur_avr_produits" value="opi ">
+				<span style="inline-block;font-size:1em;font-weight:lighter">OPi</span>
+		</label>
+    </div>
+</div>
+
+<button class="btn btn-primary" id="avr-achat-btn-fire">Procéder à l'achat du produit</button>                 

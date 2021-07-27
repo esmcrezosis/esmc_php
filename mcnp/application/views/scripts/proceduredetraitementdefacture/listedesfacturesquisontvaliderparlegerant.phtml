@@ -1,0 +1,63 @@
+<h3>Liste des factures dejà validées par le gérant</h3>
+
+<?php if(count($this->listedesfacturesquisontvaliderparlegerant) > 0){?>
+
+<table class="table table-stripped">
+ 	<tr>
+		<th>Numéro interne de la facture</th>
+		<th>Référence de la facture</th>
+		<th>Libellé de la facture</th>    
+		<th>Date d'établissement de la facture</th>    
+		<th>Date d'arrivée de la facture</th>    
+		<th>Détail</th>
+        
+ 	</tr>
+   </thead>
+   <tbody>
+   	  <?php foreach ($this->listedesfacturesquisontvaliderparlegerant as $key => $value): ?>
+       
+         <tr class="primary">
+            <td> <?php echo $value->numero_facture ;?> </td>
+            <td> <?php echo $value->numero_interne ;?> </td>
+            <td> <?php echo $value->libelle ;?> </td>
+            
+            <?php
+              $month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+              $true_month = "";
+              $true_month_arrive = "";
+              $ex_date = explode('-',$value->date_facture);
+              $ex_date_arrive = explode('-',$value->date_arrivee);
+              
+
+              foreach ($month as $key => $val) {
+                if($ex_date[1] == $key){
+                  $true_month = $val;
+                }
+
+                if($ex_date_arrive[1] == $key){
+                    $true_month_arrive = $val;
+                }
+              }
+              $next_ex_date = explode(' ', $ex_date[2]);
+              $true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+
+              $next_ex_date_arrive = explode(' ', $ex_date_arrive[2]);
+              $true_date_arrive = $next_ex_date_arrive[0]." ".$true_month_arrive." ".$ex_date_arrive[0];
+             ?>
+
+            <td> <?php echo $true_date; ?> </td>
+
+            <td> <?php echo $true_date_arrive;?> </td>
+            <td><a href="/proceduredetraitementdefacture/detailsdunefacture/id/<?php echo $value->id_factures_procedure ?>">Détails</a> </td>
+         </tr>
+
+
+ 	  <?php endforeach ?>       
+   
+    </tbody>
+</table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucune facture disponible au gérant pour validation
+</div>
+<?php }?>

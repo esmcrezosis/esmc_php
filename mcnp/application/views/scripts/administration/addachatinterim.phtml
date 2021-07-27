@@ -1,0 +1,109 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script type="text/javascript">
+
+function physique()  {
+	
+	if(document.getElementById('type_acheteur0').checked) {
+		$('#div_physique').css('display','block');
+		$('#div_morale').css('display','none');
+		$('#nom_acheteur').attr("required",true);
+        $('#prenom_acheteur').attr("required",true);
+        $('#raison_acheteur').attr("required",false);
+		
+		$('#raison_acheteur').val("");
+        		
+	} else {
+		$('#div_physique').css('display','none');
+		$('#nom_acheteur').attr("required",false);
+		$('#prenom_acheteur').attr("required",false);
+	}
+		
+	
+}
+
+
+function morale()  {
+    if(document.getElementById('type_acheteur1').checked) {
+		$('#div_morale').css('display','block');
+		$('#div_physique').css('display','none');
+		$('#nom_acheteur').attr("required",false);
+        $('#prenom_acheteur').attr("required",false);
+        $('#raison_acheteur').attr("required",true);
+        $('#nom_acheteur').val("");
+        $('#prenom_acheteur').val("");		
+	} else {
+		$('#div_morale').css('display','none');
+		$('#raison_acheteur').attr("required",false);
+	}	
+}
+
+
+</script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p>Ajout d'achat par intérim</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="adduserte">
+      
+      <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $sessionutilisateur->error; ?>
+      </div>
+      <?php } ?>
+
+      <?php if(isset($this->error) && $this->error!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $this->error; ?>
+      </div>
+      <?php } ?>	  
+	   
+	  
+      <legend>Code BAn</legend>
+	  <div class="control-group">
+	  <label class="control-label" for="code_BAn">Code BAn *</label>
+      <div class="controls">
+           <input name="code_ban" type="text" id="code_ban" placeholder="Entrer le Code BAn" required="required" />
+	       <span id="nivban"><button type="button" class="btn btn-info" onclick="ouvre_bonachatneutres(document.getElementById('code_ban').value, 'nivban');">Vérifier</button></span>
+           <span class="help-block"><p class="text-error" style="color:red"> Veuillez saisir le Code BAn affiché lors de la souscription BAn </p></span>
+      </div>    
+      </div>
+	   
+      <legend> Achat Par Intérim  </legend>
+      <div class="control-group">
+      <label class="control-label" for="montant_achat">Montant achat *</label>
+      <div class="controls">
+      <input type="number" name="montant_achat" id="montant_achat" class="input-xxlarge" placeholder="Montant Achat" required />
+      </div>
+      </div>
+	  
+      <div class="form-actions">  
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <button type="reset" class="btn">Annuler</button>
+      <button type="submit" class="btn btn-primary">Enrégistrer</button>
+      </div>
+  
+</form>
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

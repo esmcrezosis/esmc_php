@@ -1,0 +1,285 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?> 
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout du questionnaire franchise </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addquestionnairefranchise">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+<div class="control-group">
+  <label class="control-label" for="designation"><strong>Désignation de l'opérateur économique *</strong></label>
+    <div class="controls">
+      <input type="text" name="designation" id="designation" placeholder="Désignation de l'opérateur économique" class="input-xxlarge" required />
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="type_membre"><strong>Type Membre *</strong></label>
+    <div class="controls">
+      <label for="type_membre_pp" class="radio">
+        <input type="radio" name="type_membre" id="type_membre_pp" value="PP" required />Personne Physique</label>
+      <label for="type_membre_pm" class="radio">
+        <input type="radio" name="type_membre" id="type_membre_pm" value="PM" required />Personne Morale</label>
+    </div>
+</div>
+    
+<div class="control-group">
+  <label class="control-label" for="code_membre"><strong>Code Membre </strong></label>
+    <div class="controls">
+      <input type="text" name="code_membre" id="code_membre" placeholder="Code Membre" class="input-xxlarge"  />
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="type_acteur"><strong>Type Acteur </strong></label>
+    <div class="controls">
+      <select name="type_acteur" id="type_acteur" >
+        <option value="">Choisir le type</option>
+        <option value="EI">Entreprise Industrie</option>
+        <option value="OE">Opérateur Economique</option>
+        <option value="OSE">Opérateur Socio-Economique</option>
+        <option value="PEI">Partenaire Entreprise Industrie</option>
+        <option value="POE">Partenaire Opérateur Economique</option>
+        <option value="POSE">Partenaire Opérateur Socio-Economique</option>
+      </select>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="intermediaire"><strong>Avec et ou Sans Intermédiaire</strong></label>
+    <div class="controls">
+      <label for="avec_intermediaire" class="checkbox">
+        <input type="checkbox" name="avec_intermediaire" id="avec_intermediaire" value="1" />Avec Intermédiaires</label>
+      <label for="sans_intermediaire" class="checkbox">
+        <input type="checkbox" name="sans_intermediaire" id="sans_intermediaire" value="1" />Sans Intermédiaires</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="abonne"><strong>Avec et ou Sans Abonné</strong></label>
+    <div class="controls">
+      <label for="avec_abonne" class="checkbox">
+        <input type="checkbox" name="avec_abonne" id="avec_abonne" value="1" />Avec Abonnés</label>
+      <label for="sans_abonne" class="checkbox">
+        <input type="checkbox" name="sans_abonne" id="sans_abonne" value="1" />Sans Abonnés</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="filiere"><strong>Filière BPS</strong></label>
+    <div class="controls">
+      <label for="filiere_biens" class="checkbox">
+        <input type="checkbox" name="filiere_biens" id="filiere_biens" value="1" />Biens</label>
+      <label for="filiere_produits" class="checkbox">
+        <input type="checkbox" name="filiere_produits" id="filiere_produits" value="1" />Produits</label>
+      <label for="filiere_services" class="checkbox">
+        <input type="checkbox" name="filiere_services" id="filiere_services" value="1" />Services</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="stock"><strong>Avec et ou Sans Stocks / Immobilisation</strong></label>
+    <div class="controls">
+      <label for="avec_stock" class="checkbox">
+        <input type="checkbox" name="avec_stock" id="avec_stock" value="1" />Avec Stocks / Immobilisation</label>
+      <label for="sans_stock" class="checkbox">
+        <input type="checkbox" name="sans_stock" id="sans_stock" value="1" />Sans Stocks / Immobilisation</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="vente_enligne"><strong>ESPACE VENTE EN LIGNE FOURNISSEUR</strong></label>
+    <div class="controls">
+      <label for="vente_enligne_0" class="radio">
+        <input type="radio" name="vente_enligne" id="vente_enligne_0" value="0" />Non</label>
+      <label for="vente_enligne_1" class="radio">
+        <input type="radio" name="vente_enligne" id="vente_enligne_1" value="1" />Oui</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="accord_partenariat"><strong>ACCORD DE PARTENARIAT</strong></label>
+    <div class="controls">
+      <label for="accord_partenariat_0" class="radio">
+        <input type="radio" name="accord_partenariat" id="accord_partenariat_0" value="0" />Non</label>
+      <label for="accord_partenariat_1" class="radio">
+        <input type="radio" name="accord_partenariat" id="accord_partenariat_1" value="1" />Oui</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="cm_soi"><strong>Compte Marchand pour Soi</strong></label>
+    <div class="controls">
+      <label for="cm_soi_reactive" class="radio">
+        <input type="radio" name="cm_soi" id="cm_soi_reactive" value="reactive" />CM Réactivé</label>
+      <label for="cm_soi_active" class="radio">
+        <input type="radio" name="cm_soi" id="cm_soi_active" value="active" />CM Activé</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="cm_tiers"><strong>Compte Marchand pour Tiers</strong></label>
+    <div class="controls">
+      <label for="cm_tiers_avec_liste" class="radio">
+        <input type="radio" name="cm_tiers" id="cm_tiers_avec_liste" value="avec_liste" />Avec Liste</label>
+      <label for="cm_tiers_sans_liste" class="radio">
+        <input type="radio" name="cm_tiers" id="cm_tiers_sans_liste" value="sans_liste" />Sans Liste</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="cm_tiers_opi_bps"><strong>Contre OPI ou contre BPS</strong></label>
+    <div class="controls">
+      <label for="cm_tiers_opi" class="checkbox">
+        <input type="checkbox" name="cm_tiers_opi" id="cm_tiers_opi" value="1" />Contre OPI</label>
+      <label for="cm_tiers_bps" class="checkbox">
+        <input type="checkbox" name="cm_tiers_bps" id="cm_tiers_bps" value="1" />Contre BPS</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="kit_su"><strong>KIT de Solvabilité universelle</strong></label>
+    <div class="controls">
+      <label for="kit_su_tic" class="checkbox">
+        <input type="checkbox" name="kit_su_tic" id="kit_su_tic" value="1" />TIC</label>
+      <label for="kit_su_finance" class="checkbox">
+        <input type="checkbox" name="kit_su_finance" id="kit_su_finance" value="1" />FINANCE</label>
+      <label for="kit_su_protection" class="checkbox">
+        <input type="checkbox" name="kit_su_protection" id="kit_su_protection" value="1" />PROTECTION</label>
+      <label for="kit_su_bcr" class="checkbox">
+        <input type="checkbox" name="kit_su_bcr" id="kit_su_bcr" value="1" />BCr</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="kit_t"><strong>KIT Technopole</strong></label>
+    <div class="controls">
+      <label for="kit_t_tic" class="checkbox">
+        <input type="checkbox" name="kit_t_tic" id="kit_t_tic" value="1" />TIC</label>
+      <label for="kit_t_finance" class="checkbox">
+        <input type="checkbox" name="kit_t_finance" id="kit_t_finance" value="1" />FINANCE</label>
+      <label for="kit_t_protection" class="checkbox">
+        <input type="checkbox" name="kit_t_protection" id="kit_t_protection" value="1" />PROTECTION</label>
+      <label for="kit_t_bcr" class="checkbox">
+        <input type="checkbox" name="kit_t_bcr" id="kit_t_bcr" value="1" />BCr</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="te_interim"><strong>Terminal d'Echange (TE) - Interim</strong></label>
+    <div class="controls">
+      <label for="te_interim_specifiques" class="radio">
+        <input type="radio" name="te_interim" id="te_interim_specifiques" value="specifiques" />Fournisseurs Spécifiques</label>
+      <label for="te_interim_externes" class="radio">
+        <input type="radio" name="te_interim" id="te_interim_externes" value="externes" />Fournisseurs Externes</label>
+      <label for="te_interim_acheteurs" class="radio">
+        <input type="radio" name="te_interim" id="te_interim_acheteurs" value="acheteurs" />Acheteurs</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="te_utilisateur"><strong>Terminal d'Echange (TE) - Utilisateur</strong></label>
+    <div class="controls">
+      <label for="te_utilisateur_ppc_op" class="checkbox">
+        <input type="checkbox" name="te_utilisateur_ppc_op" id="te_utilisateur_ppc_op" value="1" />Prestataires de la Production Commune - Offreurs de projet</label>
+      <label for="te_utilisateur_ppc_ot" class="checkbox">
+        <input type="checkbox" name="te_utilisateur_ppc_ot" id="te_utilisateur_ppc_ot" value="1" />Prestataires de la Production Commune - Offreurs de travail</label>
+      <label for="te_utilisateur_pp" class="checkbox">
+        <input type="checkbox" name="te_utilisateur_pp" id="te_utilisateur_pp" value="1" />Prestataires propriétaires</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="franchise"><strong>FRANCHISE</strong></label>
+    <div class="controls">
+      <label for="franchise_0" class="radio">
+        <input type="radio" name="franchise" id="franchise_0" value="0" />Non</label>
+      <label for="franchise_1" class="radio">
+        <input type="radio" name="franchise" id="franchise_1" value="1" />Oui</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="caution"><strong>CAUTION</strong></label>
+    <div class="controls">
+      <label for="caution_0" class="radio">
+        <input type="radio" name="caution" id="caution_0" value="0" />Non</label>
+      <label for="caution_1" class="radio">
+        <input type="radio" name="caution" id="caution_1" value="1" />Oui</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="eli"><strong>Engagement de Livraison Irrévocable(ELI)</strong></label>
+    <div class="controls">
+      <label for="eli_bai_anticipe" class="checkbox">
+        <input type="checkbox" name="eli_bai_anticipe" id="eli_bai_anticipe" value="1" />BAi anticipé</label>
+      <label for="eli_opi_anticipe" class="checkbox">
+        <input type="checkbox" name="eli_opi_anticipe" id="eli_opi_anticipe" value="1" />OPI anticipé</label>
+      <label for="eli_ban_anticipe" class="checkbox">
+        <input type="checkbox" name="eli_ban_anticipe" id="eli_ban_anticipe" value="1" />BAn anticipé</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="achat_vente_reciproque"><strong>Achat Vente Réciproque (AVR)</strong></label>
+    <div class="controls">
+      <label for="achat_vente_reciproque_0" class="radio">
+        <input type="radio" name="achat_vente_reciproque" id="achat_vente_reciproque_0" value="0" />Non</label>
+      <label for="achat_vente_reciproque_1" class="radio">
+        <input type="radio" name="achat_vente_reciproque" id="achat_vente_reciproque_1" value="1" />Oui</label>
+    </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="budget_nature"><strong>BUDGET EN NATURE</strong></label>
+    <div class="controls">
+      <label for="budget_nature_0" class="radio">
+        <input type="radio" name="budget_nature" id="budget_nature_0" value="0" />Non</label>
+      <label for="budget_nature_1" class="radio">
+        <input type="radio" name="budget_nature" id="budget_nature_1" value="1" />Oui</label>
+    </div>
+</div>
+
+
+
+
+<div class="form-actions">
+<input name="id_utilisateur" type="hidden" id="id_utilisateur" value="<?php echo $sessionutilisateur->id_utilisateur; ?>" />  
+<input name="etat" type="hidden" id="etat" value="1" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter le questionnaire de franchise </button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,113 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+<script src="<?php echo $this->baseUrl();?>/pv.js"></script>
+
+<script type="text/javascript" charset="utf-8">		
+	$(document).ready(function() {
+    $('#example').dataTable({
+       "sPaginationType": "full_numbers",
+	   "aaSorting": []
+    });
+    });
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+  <blockquote><p> Liste des devis établis </p></blockquote>
+  
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+<?php } ?>
+  
+<?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error != "") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+<?php } ?>
+
+<?php if(count($this->entries) > 0) { ?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+<thead>
+	  <tr>
+		  <th>Date devis</th>
+		  <th>Désignation demande</th>
+		  <th>Désignation devis</th>
+		  <th>Montant devis</th>
+		  <th>Actions</th>
+	  </tr>
+</thead>
+  
+<tbody>
+<?php foreach ($this->entries as $entry): 
+$fiche = new Application_Model_EuFicheBesoin();
+$m_fiche = new Application_Model_EuFicheBesoinMapper();
+$m_fiche->find($entry->id_fiche_besoin,$fiche);
+
+$tabela = new Application_Model_DbTable_EuBonPrestation();
+$select = $tabela->select();
+$select->where('id_devis_prestation = ?',$entry->id_devis_prestation);	   
+$bons = $tabela->fetchAll($select);
+
+
+?>
+<tr>
+<td> <?php echo ($entry->date_devis_prestation);?></td>
+<td> <?php echo ($fiche->designation_demande);?></td>
+<td> <?php echo ($entry->libelle_devis_prestation);?></td>
+<td> <?php echo ($entry->montant_devis_prestation);?></td>
+<td>
+  <div align="center">
+  <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/immobilisation/detaildevis/id/<?php echo $entry->id_devis_prestation; ?>"><i class="icon-edit icon-white"></i> Details </a>&nbsp;  
+    
+  <?php if($entry->viser == 1) { ?>
+	  <a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/immobilisation/updatedevis/id/<?php echo $entry->id_devis_prestation; ?>"><i class="icon-edit icon-white"></i> Modifier </a>&nbsp;  
+	  <a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/immobilisation/addvisadevisacnev/id/<?php echo $entry->id_devis_prestation; ?>/publier/2"><i class="icon-plus icon-white"></i>Viser devis</a>&nbsp;	     
+  <?php } else if(($entry->viser == 1) || ($entry->viser == 2)) {  ?>
+	  <a class="btn btn-mini btn-success" onclick=""><i class="icon-ok icon-white"></i> Devis visé </a>&nbsp;
+  <?php if(count($bons) == 0) { ?>
+      <a class="btn btn-mini btn-danger" href="<?php echo $this->baseUrl(); ?>/immobilisation/addbonprestation/id/<?php echo $entry->id_devis_prestation;?>"><i class="icon-plus icon-white"></i>Etablir un bon</a> &nbsp;		   
+  <?php } else { ?>
+        <a class="btn btn-mini btn-success" onclick=""><i class="icon-ok icon-white"></i> Bon etabli </a>&nbsp;
+  
+        <?php if($bons[0]->visa == 0) {   ?>     
+	    <a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/immobilisation/addvisabonacnev/id/<?php echo $bons[0]->id_bon_prestation; ?>/publier/1"><i class="icon-plus icon-white"></i>Viser bon</a>&nbsp;	     
+  
+        <?php } else if(($bons[0]->visa == 1) || ($bons[0]->visa == 2) || ($bons[0]->visa == 3)) {  ?>
+		<a class="btn btn-mini btn-success" onclick=""><i class="icon-ok icon-white"></i> Bon visé </a>&nbsp;
+		<?php }  ?>
+		
+  <?php }}  ?>
+
+    
+  </div>
+</td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun devis enrégistré 
+</div>
+<?php } ?>
+
+</div>
+</div>
+</div>
+
+

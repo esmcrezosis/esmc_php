@@ -1,0 +1,93 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript" charset="utf-8">		
+$(document).ready(function() {
+  $('#example').dataTable( {
+   "sPaginationType": "full_numbers",
+   "aaSorting": []
+  });
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p>Liste des opérations effectuées sur des comptes bancaires</p></blockquote>
+
+<?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error !="") { ?>
+  <div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+  <?php } ?>
+
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+
+
+
+<?php if(count($this->entries) > 0) { ?>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+        <thead>
+			 <tr>
+				<th>Banque</th>
+				<th>Type Compte</th>
+				<th>Type mouvement</th>
+				<th>Montant mouvement</th>
+				<th>Date Emission</th>
+				<th>Actions</th>
+			 </tr>
+		</thead>
+		<tbody>
+              <?php foreach ($this->entries as $entry): ?>
+                    <tr>
+					    <td><?php echo $entry->code_banque; ?></td>
+						<td><?php echo $entry->type_compte; ?></td>
+                        <td>
+						    <?php if($entry->type_mouvement == "DV") echo "Solde Debiteur Veille";?>
+							<?php if($entry->type_mouvement == "CV") echo "Solde Crediteur Veille";?>
+							<?php if($entry->type_mouvement == "CHEQUE") echo "Cheques emis";?>
+							<?php if($entry->type_mouvement == "TR") echo "Transfert reçu";?>
+							<?php if($entry->type_mouvement == "TE") echo "Transfert emis";?>
+						    <?php if($entry->type_mouvement == "DAT") echo "Dépot à Terme";?>
+							<?php if($entry->type_mouvement == "DECOUVERT") echo "Découvert";?>
+						</td>
+                        <td><?php echo $entry->montant_mouvement; ?></td>
+		                <td><?php echo $entry->date_emission; ?></td>
+						<td>
+						    <div align="center">
+	                             <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/editmb/id/<?php echo $entry->id_mouvement_bancaire; ?>"><i class="icon-edit icon-white"></i>Modifier</a>&nbsp;	   
+                            </div>
+						</td>
+					</tr>
+			  <?php endforeach; ?>
+        </tbody>
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun enrégistrement 
+</div>
+<?php } ?>
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>

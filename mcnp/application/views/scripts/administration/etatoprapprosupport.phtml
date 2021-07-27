@@ -1,0 +1,170 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+
+<script type="text/javascript" charset="utf-8">		
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align: left">
+		
+		<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+            <blockquote>
+               <p> <strong> Rapprochement Homogène : SUPPORTS MARCHANDS ENTRES vs SUPPORTS MARCHANDS SORTIS </strong></p>
+            </blockquote>
+			<br/>
+			<blockquote>BAn ENTRES vs BAn SORTIS</blockquote>
+			<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+			    <thead>
+			        <tr>
+				        <th>BAn ENTRES</th>
+				        <th>BAn SORTIS</th>
+					    <th>ECARTS DEGAGES</th>
+			        </tr>
+		        </thead>
+				
+				<tbody>
+				    <tr>
+						<td><div align="right"><?php echo number_format($this->ban_montant,0,',',' ');?></div></td>
+						<td><div align="right"><?php echo number_format($this->ban_montant_utilise,0,',',' ');?></div></td>
+						<td><div align="right"><?php echo number_format($this->ban_montant - $this->ban_montant_utilise,0,',',' ');?></div></td>
+					</tr>	
+				</tbody>
+				
+			</table>
+			
+			<br/>
+			
+			<blockquote>BAi ENTRES vs BAi SORTIS</blockquote>
+			<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+			    <thead>
+			        <tr>
+				        <th>BAi ENTRES</th>
+				        <th>BAi SORTIS</th>
+					    <th>ECARTS DEGAGES</th>
+			        </tr>
+		        </thead>
+				
+				<tbody>
+				    <tr>
+						<td><div align="right"><?php echo number_format($this->bai_montant,0,',',' ');?></div></td>
+						<td><div align="right"><?php echo number_format($this->bai_montant_utilise,0,',',' ');?></div></td>
+						<td><div align="right"><?php echo number_format($this->bai_montant - $this->bai_montant_utilise,0,',',' ');?></div></td>
+					</tr>	
+				</tbody>
+				
+			</table>
+			
+			<br/>
+			
+			
+			
+			<blockquote>BCr ENTRES vs BCr SORTIS </blockquote>
+			<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+			    <thead>
+			        <tr>
+				        <th>BCr ENTRES</th>
+				        <th>BCr SORTIS</th>
+					    <th>ECARTS DEGAGES</th>
+			        </tr>
+		        </thead>
+				
+				<tbody>
+				    <tr>
+						<td><div align="right"><?php echo number_format($this->bcr_montant,0,',',' ');?></div></td>
+						<td><div align="right"><?php echo number_format($this->bcr_utilise,0,',',' ');?></div></td>
+						<td><div align="right"><?php echo number_format($this->bcr_montant - $this->bcr_utilise,0,',',' ');?></div></td>
+					</tr>	
+				</tbody>
+			</table>
+			<br/>
+			
+			<blockquote>BCnr ENTRES vs BCnr SORTIS </blockquote>
+			<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+			    <thead>
+			        <tr>
+				        <th>BCnr ENTRES</th>
+				        <th>BCnr SORTIS</th>
+					    <th>ECARTS DEGAGES</th>
+			        </tr>
+		        </thead>
+				
+				<tbody>
+				    <tr>
+						<td><div align="right"> <?php echo number_format($this->bcnr_montant,0,',',' '); ?> </div></td>
+						<td><div align="right"><?php echo number_format($this->bcnr_utilise,0,',',' '); ?></div></td>
+						<td><div align="right"><?php echo number_format($this->bcnr_montant - $this->bcnr_utilise,0,',',' '); ?></div></td>
+					</tr>	
+				</tbody>
+			</table>
+			<br/>
+			
+			<blockquote>BL ENTRES vs BL SORTIS </blockquote>
+			<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+			    <thead>
+			        <tr>
+				        <th>BL ENTRES</th>
+				        <th>BL SORTIS</th>
+					    <th>ECARTS DEGAGES</th>
+			        </tr>
+		        </thead>
+				
+				<tbody>
+				    <tr>
+						<td><div align="right"><?php echo number_format($this->bl_montant,0,',',' '); ?></div></td>
+						<td><div align="right"><?php echo number_format($this->bl_utilise,0,',',' '); ?></div></td>
+						<td><div align="right"><?php echo number_format($this->bl_montant - $this->bl_utilise,0,',',' '); ?></div></td>
+					</tr>	
+				</tbody>
+			</table>
+			<br/>
+			
+			<!--
+			<blockquote>BC ENTRES vs BC SORTIS </blockquote>
+			<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+			    <thead>
+			        <tr>
+				        <th>BC ENTRES</th>
+				        <th>BC SORTIS</th>
+					    <th>ECARTS DEGAGES</th>
+			        </tr>
+		        </thead>
+				
+				<tbody>
+				    <tr>
+						<td><div align="right"><?php ?></div></td>
+						<td><div align="right"><?php ?></div></td>
+						<td><div align="right"><?php ?></div></td>
+					</tr>	
+				</tbody>
+			</table>
+			<br/>
+			-->
+			
+			<blockquote>OPI ENTRES vs OPI SORTIS </blockquote>
+			<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+			    <thead>
+			        <tr>
+				        <th>OPI ENTRES</th>
+				        <th>OPI SORTIS</th>
+					    <th>ECARTS DEGAGES</th>
+			        </tr>
+		        </thead>
+				
+				<tbody>
+				    <tr>
+						<td><div align="right"><?php echo number_format($this->traite_montant,0,',',' '); ?></div></td>
+						<td><div align="right"><?php echo number_format($this->traite_utilise,0,',',' '); ?></div></td>
+						<td><div align="right"><?php echo number_format($this->traite_montant - $this->traite_utilise,0,',',' '); ?></div></td>
+					</tr>	
+				</tbody>
+			</table>
+			
+    </div>
+</div>
+</div>

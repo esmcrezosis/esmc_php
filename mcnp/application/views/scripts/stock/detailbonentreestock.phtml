@@ -1,0 +1,53 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+  <div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Details d'un bon d'entree de stock</p></blockquote>
+  
+    
+  
+
+  
+
+
+<div class="control-group">
+<label class="control-label" for="reference_bon_entree_stock">Reference *</label>
+<div class="controls">
+<?php echo $this->bon_entree_stock->reference_bon_entree_stock; ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="libelle_bon_entree_stock">Libelle *</label>
+<div class="controls">
+<?php echo $this->bon_entree_stock->libelle_bon_entree_stock; ?>
+</div>
+</div>
+
+    
+
+
+
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

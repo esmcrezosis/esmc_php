@@ -1,0 +1,82 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+  <blockquote><p class="text-info">Publications des Dossiers d'Appel à Candidature (DAC) et d'Avis d'Appel d'Offres Ouverts (AAOO)</p></blockquote>
+
+          <?php if(count($this->entries)>0){?>  
+          <?php $idutilisateur = ""; ?>
+<div class="accordion" id="accordion2">
+
+<?php foreach ($this->entries as $entry): ?>
+    <?php if($entry->id_utilisateur != $idutilisateur && $idutilisateur != ""){ ?>
+</tbody>
+</table>
+      </div>
+    </div>
+  </div>
+ <?php }?>   
+    <?php if($entry->id_utilisateur != $idutilisateur){ $idutilisateur = $entry->id_utilisateur;?>
+    <?php 
+$utilisateurM = new Application_Model_EuUtilisateurMapper();
+$utilisateur = new Application_Model_EuUtilisateur();
+$utilisateurM->find($entry->id_utilisateur, $utilisateur);
+
+$acteur = new Application_Model_EuActeur();
+$acteurRow = $acteur->findByCodeActeur2($utilisateur->code_acteur);
+
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($acteurRow->code_membre, $membremorale);
+?>
+<div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $utilisateur->id_utilisateur; ?>">
+        <i class="icon-arrow-right"></i> <?php echo htmlentities($membremorale->raison_sociale); ?>, <span style="color:#666; font-size:11px; text-decoration:inherit;"><?php echo htmlentities($membremorale->domaine_activite); ?></span>
+      </a>
+    </div>
+    <div id="collapse<?php echo $utilisateur->id_utilisateur; ?>" class="accordion-body collapse" align="left">
+      <div class="accordion-inner">
+
+<table class="table">
+<tbody>
+	<?php }?>
+    <tr>
+      <td style="border-bottom:1px solid #dddddd; border-top:1px solid #FFF;">Du <?php echo ($entry->date_debut); ?> au <?php echo ($entry->date_fin); ?></td>
+<td style="border-bottom:1px solid #dddddd; border-top:1px solid #FFF;"><?php echo ($entry->nom_document); ?></td>
+      <td style="border-bottom:1px solid #dddddd; border-top:1px solid #FFF;"><div align="center"><a href="<?php echo $this->baseUrl(); ?>/<?php echo $entry->descrip_document; ?>"><i class="icon-download"></i> Télécharger</a></div></td>
+<?php if($entry->id_type_document == 4){?>
+      <td style="border-bottom:1px solid #dddddd; border-top:1px solid #FFF;"><div align="center"><a href="<?php echo $this->baseUrl(); ?>/index/addcandidatcmfh/id/<?php echo $entry->id_document; ?>"><i class="icon-plus"></i> Appel à Candidature</a></div></td>
+<?php }else{?>
+      <td style="border-bottom:1px solid #dddddd; border-top:1px solid #FFF;"><div align="center"><a href="<?php echo $this->baseUrl(); ?>/index/addappeloffres/id/<?php echo $entry->id_document; ?>"><i class="icon-plus"></i> Soumissionner</a></div></td>
+<?php }?>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+      </div>
+    </div>
+    </div>
+  
+    </div>
+	<?php }?>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

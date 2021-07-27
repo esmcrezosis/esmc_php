@@ -1,0 +1,264 @@
+<div id="view-content" title="Membres" style="font-size: 12px;min-height: 520px;">
+    <!--<div style="margin-bottom: 3px;">
+	
+        <form action="" method="post">
+            <input type="hidden" name="code_membre" id="code_membre" />
+            <fieldset id="rech_memb_field" style="margin-bottom: 2px;">
+                <legend>Recherche de membres</legend>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><label>Date Enrôlement</label></td><td><input type="text" id="date_enrol" name="date_enrol" size="20"/></td>
+                        </tr>
+                        <tr>
+                            <td><label>Type de membre</label></td>
+                            <td>
+                                <select id="type_memb" name="type_memb">
+                                    <option value=""></option>
+                                    <option value="%">Tous</option>
+                                    <option value="M">Personnes morales</option>
+                                    <option value="P">Personnes physiques</option>
+                                </select>
+                            </td>
+                            <td><label>Code Membre</label></td><td><input type="text" id="membre" name="membre" size="30"/></td>
+                        </tr>
+                        <tr>
+                            <td><label>Nom membre</label></td><td><input type="text" id="membre_nom" name="membre_nom" size="35"/></td>
+                            <td><label>Prénoms membre</label></td><td><input type="text" id="membre_prenom" name="membre_prenom" size="35"/></td>
+                        </tr>
+                        <tr>
+                            <td><label>Raison sociale</label></td><td><input type="text" id="membre_raison" name="membre_raison" size="35"/></td>
+                            <td><label>Agence</label></td><td><select id="agence_membre" name="agence_membre"></select></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            <input id="recherche" type="button" value="Rechercher"/>
+            <input id="detail" type="button" value="Afficher" class="ui-widget button"/>
+            <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+            <input id="contrat" type="button" value="Contrat" class="ui-widget button"/>
+        </form>
+		</div>
+      -->  
+    <div style="margin-bottom: 3px;">
+        <form action="">
+            <input id="p_editer" type="button" value="Editer" class="ui-widget button"/>
+            <input id="p_detail" type="button" value="Afficher" class="ui-widget button"/>
+            <input type="text" id="membrep" name="membrep" size="35"/>
+            <input id="recherchep" type="button" value="Recherche"/>
+        </form>  
+    </div>
+    <table id="tbl-membre"></table>
+    <div id="pg-membre"></div>
+	<br>
+	<!--<div style="margin-bottom: 3px;">
+         <input id="m_editer" type="button" value="Editer" class="ui-widget button"/>
+         <input id="m_detail" type="button" value="Afficher" class="ui-widget button"/>
+         <input type="text" id="membrem" name="membrem" size="35"/>
+         <input id="recherchem" type="button" value="Recherche"/>
+    </div>
+	<table id="tbl-morale"></table>
+    <div id="pg-morale"></div>
+	-->
+</div>
+
+<script type="text/javascript">
+   $("#tbl-membre").jqGrid({
+        url: "/eu-membre/dataphysique",
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Numero','Nom', 'Prenom', 'Sexe', 'Profession', 'Telephone', 'Ville'],
+        height:400, width: 815,
+        colModel: [
+            {name: 'code_membre', index: 'code_membre', width: 240, sorttype: "int", editable: true, align: "left"},
+            {name: 'nom_membre', index: 'nom_membre', width: 200, editable: true, align: "left"},
+            {name: 'prenom_membre', index: 'prenom_membre', width: 200, align: "left", editable: true},
+            {name: 'sexe_membre', index: 'sexe_membre', width: 70, editable: true, align: "left"},
+            {name: 'profession_membre', index: 'profession_membre', width: 150, align: "left", editable: true},
+            {name: 'tel_membre', index: 'tel_membre', width: 120, align: "left", editable: true},
+            {name: 'ville_membre', index: 'ville_membre', width: 140, align: "left", editable: true}
+        ],
+        rowNum: 200000,
+        rowList: [200000, 400000, 600000],
+        pager: '#pg-membre',
+        sortname: "num_membre",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste des membres physiques",
+        onSelectRow: function(id) {
+            if (id) {
+                var data = jQuery('#tbl-membre').getRowData(id);
+                $('#code_membre').val(data.code_membre);
+                lastSel = id;
+            }
+            ;
+        }
+    });
+    $("#tbl-membre").jqGrid('navGrid', '#pg-membre', {edit: false, add: false, del: false, search: true});
+/*	
+	$("#tbl-morale").jqGrid({
+      url:"/eu-membre/datamorale",
+      editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+      datatype: "json",
+      mtype: 'GET',
+      colNames:['Numero','Type','Statut','Raison sociale','Activité','Ville','Téléphone','Portable'],
+      height:180, width:815,
+      colModel:[
+                {name:'code_membre',index:'code_membre', width:300, sorttype:"int", editable: true,align:"left"},
+                {name:'type_acteur',index:'type_acteur', width: 80, editable: true,align:"left"},
+                {name:'statut_juridique',index:'statut_juridique', width: 100, editable: true,align:"left"},
+                {name:'raison_sociale',index:'raison_sociale', width: 250, editable: true,align:"left"},
+				{name:'domaine_activite',index:'domaine_activite', width: 180, align:"left", editable: true},
+				{name:'ville_membre',index:'ville_membre', width: 150, align:"left", editable: true},
+				{name:'tel_membre',index:'tel_membre', width: 150, align:"left", editable: true},
+                {name:'portable_membre',index:'portable_membre', width: 150, align:"left", editable: true},
+        ],
+        rowNum:200,
+        rowList:[200,300,400],
+        pager: '#pg-morale',
+        sortname:"code_membre",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des membres morales"
+    });
+    $("#tbl-morale").jqGrid('navGrid','#pg-morale',{edit:false,add:false,del:false,search:true});
+*/	
+    
+	$('#contrat').click(function() {
+      var rowsel;
+      rowsel = jQuery("#tbl-membre").jqGrid('getGridParam','selrow');
+      if(rowsel) {		   
+            seldata = jQuery("#tbl-morale").jqGrid('getRowData',rowsel);
+		    $.get('/eu-membre/contrat',{
+                 code_membre:rowsel
+            },function success(data) {
+                 if(data == rowsel){
+				    alert("Ce membre a déjà un contrat"); 
+	            }
+	            else {	 	
+                   $.get('/eu-membre/newcpp',{
+                   membre:rowsel
+               },function success(data){
+                  $("#content").html(data);
+               });    
+		     }
+		});	
+     }else {
+           alert('Aucune ligne sélectionnée');
+    }
+	
+});
+	
+    $('#m_editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-morale").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-membre/edit',{
+                membre:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+    $.get( "/eu-membre/changem",
+     function success(data){
+     $("input#membrem").autocomplete({"source":data});
+    }); 
+    
+    $('#recherchep').click(function() {
+       membre=$('#membrep').val(); 
+       jQuery("#tbl-membre").jqGrid('setGridParam',{url:"/eu-membre/dataphysique?membre="+membre}).trigger('reloadGrid');
+    });
+	
+    $('#recherchem').click(function()
+    {
+          membre=$('#membrem').val(); 
+          jQuery("#tbl-morale").jqGrid('setGridParam',{url:"/eu-membre/datamorale?membre="+membre}).trigger('reloadGrid');
+    });
+    
+    $('#m_detail').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-morale").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-membre/mdetail',{
+                membre:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+
+	$('#p_editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-membre").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-membre/pedit',{
+                membre:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+	
+    $('#p_detail').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-membre").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-membre/detail',{
+                membre:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+	
+	$('#p_editer').button();
+    $('#p_detail').button();
+    $('#recherchep').button();
+	$('#membrep').button();
+	
+	$('#m_editer').button();
+    $('#m_detail').button();
+    $('#recherchem').button();
+	$('#contrat').button();
+	$('#membrem').button();
+	
+	$.get( "/eu-membre/changep",
+         function success(data) {
+            $("input#membrep").autocomplete({"source":data});
+    });
+	
+	
+    $(function() {
+        $('#view-content').puipanel();
+        $('#rech_memb_field').puifieldset();
+        var pickerOpts = {
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true
+        };
+        $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+        $("#date_enrol").datepicker(pickerOpts);
+    });
+	
+</script>

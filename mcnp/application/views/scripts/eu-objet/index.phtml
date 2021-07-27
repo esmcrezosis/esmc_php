@@ -1,0 +1,80 @@
+<div id="view-content">
+  <div style="margin-bottom: 3px;">
+      <form action="/eu-objet/index" method="POST">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+        <input id="detail" type="button" value="Afficher" class="ui-widget button"/>
+        <input type="text" id="produit" name="produit" />
+            <input id="ok" type="submit" value="Recherche" />
+      </form>  
+  </div>
+    <table id="tbl-objet"></table>
+    <div id="pg-objet"></div>    
+</div>
+<script type="text/javascript"> 
+    $("#tbl-objet").jqGrid({
+        url:'/eu-objet/data?produit=<?php echo $this->produit ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Designation','Prix unitaire','PRC','Boutique','Subvention'],
+        height:440, width:827,
+        colModel:[
+            {name:'code_objet',index:'code_objet', width: 140, editable: true,align:"left"},
+            {name:'design_objet',index:'design_objet', width: 300, editable: true,align:"left"},
+            {name:'prix_unitaire',index:'prix_unitaire', width: 150, align:"left", editable: true, sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'duree_vie',index:'duree_vie', width: 120, align:"left", editable: true},
+            {name:'design_bout',index:'design_bout', width: 150, align:"left", editable: true},
+            {name:'code_demand',index:'code_demand', width: 100, align:"left", editable: true},
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        pager: '#pg-objet',
+        sortname:"code_objet",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Liste des produits "
+    });
+    $("#tbl-objet").jqGrid('navGrid','#pg-objet',{edit:false,add:false,del:false,search:true});
+    
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-objet").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-objet/edit',{
+                objet:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    }); 
+    
+    $.get( "/eu-objet/produit1",
+                function success(data){
+                $("input#produit").autocomplete({"source":data});
+                }
+        );
+    
+    $('#detail').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-objet").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+                $.get('/eu-objet/detail',{
+                    objet:rowsel
+                },function success(data){
+                    $("#content").html(data);
+                }); 
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+    $('#detail').button();
+    $('#ok').button();
+</script>

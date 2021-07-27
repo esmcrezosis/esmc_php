@@ -1,0 +1,57 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 10px; padding-left: 5px;">
+        <h3>Vue de la source CNP</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form id="gcp_form" method="POST" action="/eu-consommation/ee">
+            <input type="hidden" id="cnp_type" value="<?php echo $this->type; ?>">
+            <h5 style="margin-left: 30px;">Date Début<input id="date_cnp_deb" name="date_cnp" type="text" />
+                Date Fin  <input id="date_cnp_fin" name="date_cnp" type="text" />
+                <input type="submit" id="val_cnp" value="OK"/></h5>
+        </form>
+        <br/><br/>
+        <table id="tbl_cnp"></table>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl_cnp").jqGrid({
+        url:'/eu-cnp/ee?type='+$('#cnp_type').val()+'&date_deb='+$('#date_cnp_deb').val()+'&date_fin='+$('#date_cnp_deb').val(),
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Date','Type CNP Entrée','Montant CNP','Montant Entrée','Solde','Type CNP'],
+        height:350, width:815,
+        colModel:[
+            {name:'id_cnp_entree',index:'id_cnp_entree', width: 120, align:"left", editable: false,hidden:true},
+            {name:'date_entree',index:'date_entree', width: 90, editable: false,align:"left"},
+            {name:'type_cnp_entree',index:'type_cnp_entree', width: 100, align:"left", editable: false},
+            {name:'mont_debit',index:'mont_debit', width: 100, align:"left", editable: false},
+            {name:'mont_cno_entree',index:'mont_cnp_entree', width: 100, align:"left", editable: false},
+            {name:'solde_cnp',index:'solde_cnp', width: 100, align:"left", editable: false},
+            {name:'type_cnp_entree',index:'type_cnp_entree', width: 100, align:"left", editable: false}
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        rownumbers:true,
+        sortname:"id_cnp_entree",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des CNP Ir Sorties"
+    });
+    $(document).ready(function(){
+        var pickerOpts = {
+            dateFormat:"dd/mm/yy",
+            changeMonth:true,
+            changeYear:true,
+            selectOtherMonths: true,
+            showButtonPanel: true
+        };
+        $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+        $("#date_cnp_deb").datepicker(pickerOpts);
+        $("#date_cnp_fin").datepicker(pickerOpts);
+        $('#val_cnp').button().click(function(e)
+        {
+            jQuery("#tbl_cnp").jqGrid('setGridParam',{url:"/eu-cnp/ee?type="+$('#cnp_type').val()+"&date_deb="+$('#date_cnp_deb').val()+"&date_fin="+$('#date_cnp_fin').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+    })
+</script>

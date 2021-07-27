@@ -1,0 +1,218 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+	$(document).ready(function() {
+	
+       $('#example').dataTable( {
+         "sPaginationType": "full_numbers",
+		 "aaSorting": []
+       });
+	
+	
+	$('#example2').dataTable( {
+          "sPaginationType": "full_numbers",
+	  "aaSorting": []
+        });
+	
+	$('#example3').dataTable({
+          "sPaginationType": "full_numbers",
+	  "aaSorting": []
+        });
+	
+	
+	
+	
+} );
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p class="text-info">Vérification RPG/I Ancien Membre</p></blockquote>
+<div class="">
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="ancienpp">
+    <?php if(isset($sessionmcnp->errorlogin) && $sessionmcnp->errorlogin!="") { ?>
+    <div class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->errorlogin; $sessionmcnp->errorlogin = ""; ?>
+    </div>
+    <?php } ?>
+    <?php if(isset($this->message) && $this->message!="") { ?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->message; ?>
+    </div>
+    <?php } ?>
+  
+    <legend>Vérification RPG/I Ancien Membre</legend>
+  
+  
+    <div class="control-group">
+    <label class="control-label" for="code_membre">Ancien Code Membre *</label>
+    <div class="controls">
+    <input type="text" name="code_membre" id="code_membre" placeholder="Ancien Code Membre" value="<?php echo $this->code_membre; ?>" required>
+
+    <input name="ok" type="hidden" id="ok" value="ok" />
+    <!--<button type="reset" class="btn">Annuler</button>-->
+    <button type="submit" class="btn btn-primary">Historique</button>
+    <?php if (isset($_POST['code_membre']) && $_POST['code_membre']!="") { ?>
+    <a target="_blank" class="btn btn-danger" href="<?php echo $this->baseUrl(); ?>/index/verifierrpgipdf/code/<?php echo $_POST['code_membre']; ?>">Générer le PDF du relevé</a>
+    <?php } ?>
+    </div>
+    </div>
+    </form>
+	
+    <?php 
+         if (isset($_POST['ok']) && $_POST['ok']=="ok")  {
+         if (isset($_POST['code_membre']) && $_POST['code_membre']!="")  {
+    ?>
+	
+	<blockquote>Historique des Credits RPG/I</blockquote>
+	<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+	        <thead>
+                <tr>
+					<th><div align="left">Numéro crédit</div></th>
+				    <th><div align="left">Produit</div></th>
+				    <th><div align="left">Origine ressource</div></th>
+					<th><div align="left">Montant CAPA</div></th>
+					<th><div align="left">Montant Crédit</div></th>
+					<th><div align="left">Date octroi</div></th>
+				</tr>
+			</thead>
+			
+			<tbody>
+			<?php $montant_capa = 0;?>
+			<?php $montant_credit = 0;?>
+			<?php foreach ($this->credits as $entry): ?>
+			        <tr <?php if($entry->code_membre == $this->code_membre){?> class="error"<?php }?>>
+						<td><div align="left"><?php echo $entry->id_credit;?></div></td>
+						<td><div align="left"><?php echo $entry->code_produit;?></div></td>
+						<td><div align="left"><?php echo $entry->compte_source;?></div></td>
+						<td><div align="left"><strong><?php echo number_format($entry->montant_place,0,',',' ');?></strong></div></td>
+						<td><div align="left"><strong><?php echo number_format($entry->montant_credit,0,',',' ');?></strong></div></td>
+					    <?php $date_octroi = new Zend_Date($entry->date_octroi, Zend_Date::ISO_8601);?>
+                        <td><div align="center"><?php echo $date_octroi->toString('dd/MM/yyyy');?></div></td>
+			        </tr>
+					<?php $montant_capa += $entry->montant_place;?>
+					<?php $montant_credit += $entry->montant_credit;?>
+			<?php endforeach; ?>
+			        <tr>
+					    <td><div align="left">&nbsp;</div></td>
+                        <td><div align="left">&nbsp;</div></td>
+                        <td><div align="right"><strong>Total</strong></div></td>
+                        <td><div align="right"><strong><?php echo number_format($montant_capa,0,',',' ');?></strong></div></td>
+						<td><div align="right"><strong><?php echo number_format($montant_credit,0,',',' ');?></strong></div></td>
+                        <td><div align="center">&nbsp;</div></td>
+                    </tr>
+			</tbody>
+	</table>
+
+    <br/>
+    <br/>
+
+    <blockquote>Historique des opérations de consommations effectuées</blockquote>
+    <table class="table table-striped table-bordered table-hover table-condensed" id="example2">	
+        <thead>
+                <tr>        
+                    <th><div align="left">Numéro Crédit</div></th>
+					<th><div align="left">Produit</div></th>
+                    <th><div align="center">Distributeur</div></th>
+					<th><div align="center">Raison sociale</div></th>
+					<th><div align="right">Montant</div></th>
+					<th><div align="center">Date opération</div></th>
+                </tr>
+		</thead>
+        <tbody>
+        <?php $montant = 0;?>
+		<?php foreach ($this->consult as $entry): ?>
+		        <tr>
+					<td><div align="left"><?php echo $entry->id_credit;?></div></td>
+					<td><div align="left"><?php echo $entry->code_produit;?></div></td>
+					<td><div align="left"><?php echo $entry->ancien_code_membre;?></div></td>
+					<td><div align="left"><?php echo $entry->raison_sociale;?></div></td>
+					<td><div align="right"><strong><?php echo number_format($entry->mont_gcp,0,',',' ');?></strong></div></td>
+					<?php $date_conso = new Zend_Date($entry->date_conso, Zend_Date::ISO_8601);?>
+                    <td><div align="center"><?php echo $date_conso->toString('dd/MM/yyyy');?></div></td>
+		        </tr>
+				<?php $montant += $entry->mont_gcp;?>
+		<?php endforeach; ?>
+		        <tr>
+				    <td><div align="left">&nbsp;</div></td>
+				    <td><div align="left">&nbsp;</div></td>
+                    <td><div align="left">&nbsp;</div></td>
+                    <td><div align="right"><strong>Total</strong></div></td>
+                    <td><div align="right"><strong><?php echo number_format($montant,0,',',' ');?></strong></div></td>
+                    <td><div align="center">&nbsp;</div></td>
+                </tr>
+        </tbody>
+    </table>
+	
+	<br/>
+	<br/>
+	
+	<blockquote>Historique des crédits non consommés</blockquote>
+    <table class="table table-striped table-bordered table-hover table-condensed" id="example3">	
+        <thead>
+                <tr>        
+                    <th><div align="left">Numéro Crédit</div></th>
+					<th><div align="left">Produit</div></th>
+                    <th><div align="center">Montant non consommé</div></th>
+					<th><div align="center">Date opération</div></th>
+                </tr>
+		</thead>
+        <tbody>
+        <?php $montant = 0;?>
+		<?php foreach ($this->creditsnc as $entry): ?>
+		        <tr>
+					<td><div align="left"><?php echo $entry->id_credit;?></div></td>
+					<td><div align="left"><?php echo $entry->code_produit;?></div></td>
+					<td><div align="right"><strong><?php echo number_format($entry->mont_credit,0,',',' ');?></strong></div></td>
+					<?php $date_fin = new Zend_Date($entry->datefin, Zend_Date::ISO_8601);?>
+                    <td><div align="center"><?php echo $date_fin->toString('dd/MM/yyyy');?></div></td>
+		        </tr>
+				<?php $montant += $entry->mont_credit;?>
+		<?php endforeach; ?>
+		        <tr>
+                    <td><div align="left">&nbsp;</div></td>
+                    <td><div align="right"><strong>Total</strong></div></td>
+                    <td><div align="right"><strong><?php echo number_format($montant,0,',',' ');?></strong></div></td>
+                    <td><div align="center">&nbsp;</div></td>
+                </tr>
+        </tbody>
+    </table>
+	
+	
+	
+	
+	
+	
+
+    <?php }?>
+    <?php }?>
+	
+</div>
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

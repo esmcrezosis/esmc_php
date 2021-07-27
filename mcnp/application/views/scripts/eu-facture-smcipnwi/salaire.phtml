@@ -1,0 +1,229 @@
+<div id="view-content" class="ui-widget">
+    <div  class="cntError">
+        <?php
+        echo $this->message;
+        ?>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Etablissement de la facture salaire</h3>
+    </div> 
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom"  style="font-size:11px">
+        <form id="affecte_form" method="Post" action="/eu-facture-smcipnwi/budgetsalaire">
+            <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+            <fieldset style="margin-top: 5px"><legend style=" font-weight:bold">Informations sur les salariers</legend>
+                <table >
+                    <tr>
+                        <td>Appel d'offre *</td>
+                        <td>
+                            <select id="id_proposition" name="id_proposition" class="" required="true"/>
+                        </td>  
+                        <td>Subvention disponible</td>
+                        <td>
+                            <input name="mt_dispo" id="mt_dispo" class="validate[required,custom[onlyNumberSp]]" readonly="readonly" size=15/>
+                        </td>
+                    </tr>
+                </table>
+                <table border="1" style="margin: 5px;" id="tab_salaire">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th>Code membre</th><th>Nom</th><th>Salaire</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input id="num_membre1" type="text" name="num_membre1" value="" required="true" style="width: 170px;"/></td>
+                            <td><input id="nom1" type="text" name="nom1" value="" style="width: 250px;" readonly="readonly"/></td>
+                            <td><input id="salaire1" type="text" name="salaire1" value="" style="width: 120px;" required="true" class="validate[custom[onlyNumberSp]]"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <tr>
+                        <td><input id="add" type="button" value="Ajouter" onclick="addRow('tab_salaire')"/></td>
+                        <td><input id="remove" type="button" value="Supprimer" onclick="deleteRow('tab_salaire')"/></td>
+                        <td><input type="submit" id="val" value="Valider"/></td>
+                        <td><input type="reset" id="reset" value="Réinitialiser"/></td>
+                    </tr>
+                </table>
+            </fieldset> 
+        </form>
+    </div>    
+</div>
+<script type="text/javascript">
+
+    var compteur = 1;
+    $(document).ready(function()
+    {
+        $("#affecte_form").validationEngine();
+        $('#val').button();
+        $('#reset').button();
+        $('#add').button();
+        $('#remove').button();
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+
+        $.get("/eu-facture-smcipnwi/offrechange",
+                function success(data) {
+                    var options = '<option/>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][1] + '">' + data[i][2] + ' </option>';
+                    }
+                    $('select#id_proposition').html(options);
+                });
+
+        $('#id_proposition').change(function()
+        {
+            if ($(this).val() != '')
+            {
+                $.get(
+                        '/eu-facture-smcipnwi/montantdispo',
+                        {
+                            code_smcipn: $(this).val()
+                        },
+                function success(data)
+                {
+                    $('#mt_dispo').val(data);
+                });
+            } else {
+                $('#mt_dispo').val('');
+            }
+        });
+
+        $.get("/eu-facture-smcipnwi/membrephys",
+                function success(data)
+                {
+                    $("#num_membre1").autocomplete({minLength: 5, "source": data});
+                });
+
+        $('#num_membre1').blur(function(e)
+        {
+            if ($(this).val() != '')
+            {
+                $.get(
+                        '/eu-facture-smcipnwi/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data) {
+                    if (data !== '') {
+                        $("#nom1").val(data);
+                    } else {
+                        alert('Ce membre n\existe pas!!!');
+                    }
+                });
+            }
+            e.preventDefault();
+        });
+
+        $('#val').click(function(e) {
+            if ($('#id_proposition').val() == '') {
+                alert('Sélectionnez un appel d\'offre');
+            } else {
+                $.ajax({
+                    url: $('form').attr("action"),
+                    data: $('form').serialize(),
+                    type: 'post',
+                    success: processServerResponse
+                })
+                e.preventDefault();
+            }
+        });
+    });
+
+    function processServerResponse(data) {
+        if (data == 'sal_inf') {
+            alert('La subvention disponible est insuffisante');
+        }else if (data == 'bad') {
+            alert('Echec de l\'opération, vérifier votre saisie');
+        }else if (data == 'good') {
+            alert('Opération effectuée avec succes');
+            $(location).attr("href", "/eu-facture-smcipnwi");
+        }
+        else {
+            $('#message').html(data);
+        }
+    };
+
+    function addRow(tableID) {
+
+        var table = document.getElementById(tableID);
+        var rowCount = table.rows.length;
+        var cpte = rowCount;
+        var row = table.insertRow(rowCount);
+
+        var cell1 = row.insertCell(0);
+        var element0 = document.createElement("input");
+        element0.type = "text";
+        element0.setAttribute("id", "num_membre" + cpte);
+        element0.setAttribute("name", "num_membre" + cpte);
+        element0.setAttribute("style", "width:156px; text-align:left;font-weight:lighter");
+        element0.setAttribute("required", "true");
+        cell1.appendChild(element0);
+        $('#num_membre' + cpte).button();
+
+        var cell2 = row.insertCell(1);
+        var element1 = document.createElement("input");
+        element1.type = "text";
+        element1.setAttribute("id", "nom" + cpte);
+        element1.setAttribute("name", "nom" + cpte);
+        element1.setAttribute("style", "width:236px;text-align:left;font-weight:lighter");
+        element1.setAttribute("readonly", "true");
+        cell2.appendChild(element1);
+        $('#nom' + cpte).button();
+
+        var cell3 = row.insertCell(2);
+        var element2 = document.createElement("input");
+        element2.type = "text";
+        element2.setAttribute("id", "salaire" + cpte);
+        element2.setAttribute("name", "salaire" + cpte);
+        element2.setAttribute("value", "");
+        element2.setAttribute("style", "width:106px;text-align:left;font-weight:lighter");
+        element2.setAttribute("required", "true");
+        cell3.appendChild(element2);
+        $('#salaire' + cpte).button();
+
+        $.get("/eu-facture-smcipnwi/membrephys",
+                function success(data)
+                {
+                    $("#num_membre" + cpte).autocomplete({minLength: 5, "source": data});
+                });
+
+        $('#num_membre' + cpte).blur(function(e)
+        {
+            if ($(this).val() != '')
+            {
+                $.get(
+                        '/eu-facture-smcipnwi/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data) {
+                    if (data !== '') {
+                        $("#nom" + cpte).val(data);
+                    } else {
+                        alert('Ce membre n\existe pas!!!');
+                    }
+                });
+            }
+            e.preventDefault();
+        });
+
+        compteur = compteur + 1;
+        document.getElementById("cpteur").setAttribute('value', compteur);
+    }
+
+    function deleteRow(tableID) {
+        try {
+            var table = document.getElementById(tableID);
+            var rowCount = table.rows.length - 1;
+            if (rowCount > 1) {
+                table.deleteRow(rowCount);
+            }
+            compteur = compteur - 1;
+            document.getElementById("cpteur").setAttribute('value', compteur);
+        } catch (e) {
+            alert(e);
+        }
+    }
+
+</script>

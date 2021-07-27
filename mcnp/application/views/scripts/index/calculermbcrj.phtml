@@ -1,0 +1,106 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<script type="text/javascript">
+   function calculermbcrj()  {
+      var mont_msbcrj = document.getElementById('mont_msbcrj').value;
+	  var produit = document.getElementById('produit').value;
+	  
+	  var mont_bc = Math.floor((mont_msbcrj * produit) / 30); 
+	  document.getElementById('mont_bc').value = mont_bc;
+      //document.getElementById('mont_bc').readOnly = true;
+   }
+
+   function annuler() {
+     document.getElementById('mont_bc').value = "";
+	 document.getElementById('produit').value = "";
+	 //document.getElementById('mont_bc').readOnly = false;
+   }
+
+   
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p>Calcul du Montant de Bon de Consommation Récurrente Journalière ( BCr/j )</p></blockquote>
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+
+
+<blockquote></blockquote>
+<form  action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="" name="">
+
+<fieldset>
+<legend> Montant de Bon de Consommation Récurrente Journalière (MSBCr/j) </legend>
+<div class="control-group">
+<label class="control-label" for="mont_bcj">Montant de Souscription au Bon de Consommation Récurrente Journalière *</label>
+<div class="controls">
+<input type="text" name="mont_msbcrj" id="mont_msbcrj" placeholder="Montant de Souscription au Bon de Consommation Récurrente Journalière" class="input-xxlarge"  onblur="annuler();"  required="required" />
+</div>
+</div>
+
+<!--
+
+<div class="control-group">
+<label class="control-label" for="produit">BPS *</label>
+<div class="controls">
+<select name="produit" id="produit" required class="input-xxlarge" onchange="calculermbcrj();">
+<option value="">Choisir le Bien,Produit et Service</option>
+<option value="2">Restauration</option>
+<option value="1.75">Hébergement</option>
+<option value="1.5">Déplacement</option>
+<option value="1.25">Carburant</option>     
+</select>
+</div>
+</div>
+
+-->
+
+<div class="control-group">
+<label class="control-label" for="">BPS * </label>
+<div class="controls">
+<select name="produit" id="produit" class="input-xxlarge" required="required" onchange="calculermbcrj();">
+<option value="">Choisir le Bien,Produit et Service </option>
+<?php foreach ($this->bpss as $bps) { ?>
+<option value="<?php echo $bps->valeur_parametre; ?>"> <?php echo $bps->designation;?> </option>
+<?php } ?>
+</select>
+</div>
+</div>
+
+<br/><br/>
+
+<div class="control-group">
+<label class="control-label" for="mont_bc">Montant du Bon de Consommation Récurrente Journalière *</label>
+<div class="controls">
+<input type="text" name="mont_bc" id="mont_bc" placeholder="Montant du Bon de consommation Récurrente Journalière" class="input-xxlarge" readonly="true" />
+</div>
+</div>
+
+</fieldset>
+<div class="form-actions">
+<button type="reset" class="btn">Annuler</button>
+</div>  
+</form>
+</div>
+
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php /*?><?php */?>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,60 @@
+<div id="view-content" style="font-size:11px">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-pays"></table>
+    <div id="pg-pays"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-pays").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Id pays','Code pays','Nom pays','Nationalité','Code téléphonique','Zone monétaire'],
+        height:400, width:828,
+        colModel:[
+            {name:'id_pays',index:'id_pays', width:80, sorttype:"int", hidden:true},
+            {name:'code_pays',index:'code_pays', width:80, sorttype:"int", editable: true,align:"left"},
+            {name:'libelle_pays',index:'libelle_pays', width: 200, editable: true,align:"left"},
+            {name:'nationalite',index:'nationalite', width: 90, editable: true,align:"left"},
+            {name:'code_telephonique',index:'code_telephonique', width: 100, editable: true,align:"left"},
+            {name:'zone',index:'zone', width: 90, editable: true,align:"left"}
+        ],
+        rowNum:50,
+        rowList:[50,100,200],
+        rownumbers:true,
+        pager: '#pg-pays',
+        sortname:"libelle_pays",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des pays"
+    });
+  
+    $("#tbl-pays").jqGrid('navGrid','#pg-pays',{edit:false,add:false,del:false,search:true});
+	
+	$(function() {
+      $('#view-content').puipanel();
+    });
+	
+	
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-pays").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-pays").jqGrid('getRowData',rowsel);
+            $.get('/eu-pays/edit',{
+                id_pays:data.id_pays
+            },function success(data){
+                $("#content").html(data);
+            }); 
+            
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+</script>

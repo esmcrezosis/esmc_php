@@ -1,0 +1,68 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+        <input id="detail" type="button" value="Afficher" class="ui-widget button"/>
+    </div>
+    <table id="tbl-objet"></table>
+    <div id="pg-objet"></div>
+</div>
+<script type="text/javascript"> 
+    $("#tbl-objet").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code produit','Subvention','Designation produit','Numero Gamme','Prix unitaire','Quantité','Durée de vie'],
+        height:440, width:827,
+        colModel:[
+                {name:'code_objet',index:'code_objet', width: 120, editable: true,align:"left"},
+                {name:'code_demand',index:'code_demand', width: 100, editable: true,align:"left"},
+                {name:'design_objet',index:'design_objet', width: 300, editable: true,align:"left"},
+                {name:'num_gamme',index:'num_gamme', width: 100, align:"left", editable: true},
+                {name:'pu_objet',index:'pu_objet', width: 100, align:"left", editable: true},
+                {name:'qte_stock',index:'qte_stock', width: 80, align:"left", editable: true},
+                {name:'duree_vie',index:'duree_vie', width: 100, align:"left", editable: true},
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        pager: '#pg-objet',
+        sortname:"code_objet",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Liste des produits subventionnés"
+    });
+    $("#tbl-objet").jqGrid('navGrid','#pg-objet',{edit:false,add:false,del:false,search:true});
+    
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-objet").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-objet-sub/edit',{
+                objet:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    }); 
+    
+    $('#detail').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-objet").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+                $.get('/eu-objet-sub/detail',{
+                    objet:rowsel
+                },function success(data){
+                    $("#content").html(data);
+                }); 
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+</script>

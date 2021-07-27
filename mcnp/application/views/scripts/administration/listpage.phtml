@@ -1,0 +1,115 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des pages</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Vignette</th>
+								  <th>Titre et Résumé</th>
+								  <th>Menu</th>
+								  <th>Sous menu</th>
+								  <th>Ordre</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php if($entry->vignette != ""){?><img src="<?php echo $this->baseUrl(); ?>/<?php echo $entry->vignette; ?>" class="img-polaroid" style="width:100px; height:100px;" /><?php }?></td>
+      <td><?php echo ($entry->titre); ?><br />
+      <small><?php echo ($entry->titre_autre); ?></small><br />
+      <small><?php echo ($entry->titre_deroulant); ?></small><br />
+      <small><?php echo ($entry->resume); ?></small></td>
+      <td><div align="center"><?php if($entry->menu > 0){
+$menuM = new Application_Model_EuMenuMapper();
+$menu = new Application_Model_EuMenu();
+$menuM->find($entry->menu, $menu);
+echo ($menu->menu_libelle);} ?></div>
+	  
+      </td>
+      <td><div align="center"><?php if($entry->menusous > 0){
+$menusousM = new Application_Model_EuMenuSousMapper();
+$menusous = new Application_Model_EuMenuSous();
+$menusousM->find($entry->menusous, $menusous);
+echo ($menusous->menusous_libelle);} ?></div>
+	  
+      </td>
+      <td><div align="center"><?php echo ($entry->ordre); ?> 
+<a href="<?php echo $this->baseUrl();?>/administration/descendrepage/id/<?php echo $entry->id_page; ?>"><i class="icon-arrow-down"></i></a> 
+<a href="<?php echo $this->baseUrl();?>/administration/monterpage/id/<?php echo $entry->id_page; ?>"><i class="icon-arrow-up"></i></a>
+								</div></td>
+      <td><div align="center"><?php if($entry->spotlight == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/spotlightpage/id/<?php echo $entry->id_page; ?>/spotlight/0"><i class="icon-ok icon-white"></i>  Spotlight</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/spotlightpage/id/<?php echo $entry->id_page; ?>/spotlight/1"><i class="icon-off icon-white"></i>  Pas Spotlight</a>&nbsp;
+<?php }?>
+
+<?php if($entry->deroulant == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/deroulantpage/id/<?php echo $entry->id_page; ?>/deroulant/0"><i class="icon-ok icon-white"></i>  Deroulant</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/deroulantpage/id/<?php echo $entry->id_page; ?>/deroulant/1"><i class="icon-off icon-white"></i>  Pas Deroulant</a>&nbsp;
+<?php }?>
+
+<?php if($entry->publier == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/publierpage/id/<?php echo $entry->id_page; ?>/publier/0"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/publierpage/id/<?php echo $entry->id_page; ?>/publier/1"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+
+			
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/editpage/id/<?php echo $entry->id_page; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+
+			<a class="btn btn-mini btn-danger" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/administration/supppage/id/<?php echo $entry->id_page; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a></div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune page enrégistrée
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

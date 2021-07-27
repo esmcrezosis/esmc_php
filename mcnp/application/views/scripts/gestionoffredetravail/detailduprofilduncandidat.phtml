@@ -1,0 +1,94 @@
+<style>
+.control-group{
+    padding-top: 26px;
+    padding-bottom: 26px;
+}
+.control-group label{
+    margin-right: 10px;
+}
+</style>
+
+<?php 
+           $detailotindex = $this->detailcandidat[0];
+
+           $nom_membreot = $detailotindex->nom_membre;
+
+           $prenom_membreot = $detailotindex->prenom_membre;
+
+           $nom_complet_ot = $nom_membreot." ".$prenom_membreot;
+
+           $month = array('01'=>'Janvier','02'=>'Février','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+           $true_month = "";
+           $true_val_month = "";
+
+           $ex_date = explode('-',$detailotindex->date_postulat);           
+
+           foreach ($month as $ky => $vad) {
+               if($ex_date[1] == $ky){
+                   $true_month = $vad;
+               }
+           }
+           $next_ex_date = explode(' ', $ex_date[2]);
+           $true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+ 
+?>
+
+<h3>Les détails de la candidature de Mr  <?php echo $nom_complet_ot;?> pour le poste de <?php echo $detailotindex->libelle_roles ?></h3>
+
+
+<div class="control-group" style="clear:both">
+
+    <label for="Nom Candidat OT" style="font-weight:bold;float:left">
+	 	         Nom du candidat OT: 
+    </label>
+
+    <span style="float:left">
+
+           <?php echo $nom_complet_ot;?>
+
+    </span>
+
+</div>
+
+<div class="control-group" style="clear:both">
+
+    <label for="Nom Candidat OT" style="font-weight:bold;float:left">
+	 	         Code membre du candidat OT: 
+    </label>
+
+    <span style="float:left">
+
+           <?php echo $detailotindex->code_membre;?>
+
+    </span>
+
+</div>
+
+<blockquote>
+
+DOCUMENTS/DIPLOMES
+
+</blockquote>
+
+<hr>
+
+
+<?php foreach($this->detailcandidat as $keycandidat => $valcandidat): ?>
+
+    <div class="control-group" style="clear:both">
+
+<label for="Nom Candidat OT" style="font-weight:bold;float:left">
+              <?php echo $valcandidat->type_files_intrant_ot ?> du candidat OT: 
+</label>
+
+<span style="float:left">
+
+       <a href="https://webfiles.esmcgie.com/docot/<?php echo $valcandidat->folder_ref ?>/<?php echo $valcandidat->url_files_intrant_ot ?>" class="btn btn-danger">Télécharger son fichier</a>
+
+</span>
+
+</div>
+
+<?php endforeach ?>
+
+

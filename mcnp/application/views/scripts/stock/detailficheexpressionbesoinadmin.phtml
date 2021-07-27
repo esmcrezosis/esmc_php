@@ -1,0 +1,78 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+  <div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Details d'une fiche d'expression de besoin</p></blockquote>
+  
+    
+  
+
+<div class="control-group">
+<label class="control-label" for="designation_article">Designation article *</label>
+<div class="controls">
+<?php echo $this->fiche_expression_besoin->designation_article; ?>
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="description_bien">Description bien *</label>
+<div class="controls">
+<?php echo $this->fiche_expression_besoin->description_bien; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="quantite_article">Quantite article *</label>
+<div class="controls">
+<?php echo $this->fiche_expression_besoin->quantite_article; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="prix_unitaire">Prix unitaire *</label>
+<div class="controls">
+<?php echo $this->fiche_expression_besoin->prix_unitaire; ?>
+</div>
+</div>    
+
+<div class="control-group">
+<label class="control-label" for="appreciation">Appreciation  </label>
+<div class="controls">
+<?php echo $this->fiche_expression_besoin->appreciation; ?>
+</div>
+</div>
+
+   
+<div class="control-group">
+<label class="control-label" for="date_demande">Date  </label>
+<div class="controls">
+<?php echo $this->fiche_expression_besoin->date_demande; ?>
+</div>
+</div>
+
+
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

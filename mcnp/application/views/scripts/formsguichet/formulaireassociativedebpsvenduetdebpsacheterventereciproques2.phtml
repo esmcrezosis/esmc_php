@@ -1,0 +1,44 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+	<div class="well3">
+<div class="row-fluid">
+	<div class="span8">
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+      <legend>Formulaire de AVR</legend>
+			<?php if (isset($sessionmembre->validationerrors)): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $sessionmembre->validationerrors) ?>
+				</div>
+			<?php unset($sessionmembre->validationerrors); endif ?>
+			<?php if (isset($sessionmembre->validationsuccess)): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$sessionmembre->validationsuccess) ?></li>
+				</div>
+			<?php unset($sessionmembre->validationsuccess); endif ?>
+		
+    <form action="#" enctype="multipart/form-data" method="post" class="form-horizontal">
+    <div class="control-group"> 
+			<label for="bps_vendu" style="font-weight:bold;float:left">
+				BPS vendu*: 
+            </label>
+			<select class="input-block-level" name="bps_vendu" id="input_bps_vendu">
+ 			  <option value>Choisir le bps vendu </option>
+ 				<?php foreach ($this->bpsvendu as $key => $value): ?>
+ 				  <option value="<?php echo $value->id_bps_vendu_achat_vente_reciproque ?>" data-idbpsavr="<?php echo $value->id_bps_vendu_achat_vente_reciproque ?>"><?php echo $value->nom_bps_vendu ?></option>
+ 				<?php endforeach; ?>
+ 			</select>
+		</div>
+		<div id="avr_cocher_header" name="bps_achete_container">
+
+		</div>
+		</form>
+
+
+</div>
+<div class="span4">
+<a href="/achatventereciproque/interfaceavrautresproduits" class="btn btn-danger"  style="position:absolute;left:-35px"target="_blank">Ajout d'autres produits non existant dans la liste</a>
+
+</div>
+</div>
+</div>

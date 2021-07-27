@@ -1,0 +1,98 @@
+<?php $sessionbanqueopi = new Zend_Session_Namespace('banqueopi');?> 
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menubanqueopi.phtml"); ?>
+
+  <blockquote><p>Modification de l'utilisateur de Banque OPI</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addtelephone">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+        
+
+<div class="control-group">
+					<label class="control-label span3">Nom Utilisateur *</label>
+					<div class="controls span9">
+						<input type="text" id="nom_banque_user" name="nom_banque_user" required="required" class="input-xxlarge" value="<?php echo $this->banque_user->getNomBanqueUser(); ?>">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label span3">Prénoms Utilisateur *</label>
+					<div class="controls span9">
+						<input type="text" id="prenom_banque_user"
+							name="prenom_banque_user" class="input-xxlarge" required="required" value="<?php echo $this->banque_user->getPrenomBanqueUser(); ?>">
+					</div>
+				</div>
+
+
+<div class="control-group">
+<label class="control-label span3" for="telephone">Numéro de telephone *</label>
+<div class="controls span9">
+<input type="text" name="telephone" id="telephone" placeholder="Numéro de telephone" class="input-xlarge" value="<?php echo $this->banque_telephone->telephone; ?>"  />
+</div>
+</div>
+   
+
+<div class="control-group">
+<label class="control-label span3" for="email">E-mail *</label>
+<div class="controls span9">
+<input type="text" name="email" id="email" placeholder="E-mail" class="input-xlarge" value="<?php echo $this->banque_email->email; ?>"  />
+</div>
+</div>
+   
+
+
+				<div class="control-group">
+					<label class="control-label span3">Code Membre Utilisateur *</label>
+					<div class="controls span9">
+						<input type="text" id="code_membre"
+							name="code_membre" class="input-xxlarge" required="required" value="<?php echo $this->banque_user->getCode_membre(); ?>">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label span3" for="role">Role *</label>
+					<div class="controls span9">
+						<select id="role" name="role">
+						  <option value="B_USER" <?php if($this->banque_user->getRole() == "B_USER"){echo 'selected="selected"';} ?> >Utilisateurs</option>
+						  <option value="B_ADMIN" <?php if($this->banque_user->getRole() == "B_ADMIN"){echo 'selected="selected"';} ?> >Administrateurs</option>
+						</select>
+					</div>
+				</div>
+       
+    
+
+<div class="form-actions">
+<input name="id_banque_user" type="hidden" id="id_banque_user" value="<?php echo $this->banque_user->getIdBanqueUser(); ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier l'utilisateur</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+<div id="view-content" class="ui-widget">
+    <div id="c_header" class="ui-widget-header ui-corner-top" style="padding-left: 5px; height: 35px;">
+        <h4>Création de devises</h4>
+    </div>
+    <div class="ui-widget-content ui-corner-bottom" style="height: 500px;">
+        <form id="new_cours_form" method="post" action="/eu-devise/newcours">
+            <table id="tab_cours" style="width: 400px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+                <tr>
+                    <td><label for="code_dev">Code Devise initiale * :</label></td>
+                    <td>
+                        <select class="validate[required]" type="text" id="code_dev_init" name="code_dev_init" value="<?php echo $this->code_dev_init; ?>">
+                        </select>
+                    </td>
+                </tr>
+                <tr><td><label for="lib_dev">Code Devise finale*:</label></td>
+                    <td>
+                        <select class="validate[required]" type="text" id="code_dev_fin" name="code_dev_fin" value="<?php echo $this->code_dev_fin; ?>"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="val_dev">Valeur initiale *:</label></td>
+                    <td><input class="validate[required number]" type="text" id="val_dev_init" name="val_dev_init" value="<?php echo $this->val_dev_init; ?>"/></td>
+                </tr>
+                <tr>
+                    <td><label for="val_nat">Cours *:</label></td>
+                    <td><input class="validate[required number]" type="text" id="val_dev_fin" name="val_dev_fin" value="<?php echo $this->val_dev_fin; ?>"/></td>
+                </tr>
+                <tr><td></td><td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td></tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script>
+    $("#new_cours_form").validationEngine();
+    $('#val').button();
+    $('#reset').button();
+    
+    $.get(
+    '/eu-devise/devise',
+    function success(data)
+    {
+        var options = '';
+        for( var i = 0; i < data.length; i++) {
+            options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+        }
+        $('select#code_dev_init').html(options);
+        $('select#code_dev_fin').html(options);
+    });
+</script>

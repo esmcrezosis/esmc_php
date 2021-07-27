@@ -1,0 +1,81 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout du relevé bancaire</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addrelevebancaire">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="relevebancaire_banque">Banque *</label>
+<div class="controls">
+<select name="relevebancaire_banque" id="relevebancaire_banque" required>
+        <?php $tbanque = new Application_Model_DbTable_EuBanque();
+        $results = $tbanque->fetchAll();?>
+  <option value="">Choisir la banque</option>
+    <?php foreach ($results as $banque): ?>
+               <option value="<?php echo $banque->code_banque; ?>"><?php echo ($banque->libelle_banque); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+    
+<div class="control-group">
+<label class="control-label" for="relevebancaire_fichier">Fichier du relevé bancaire *</label>
+<div class="controls">
+<input name="relevebancaire_fichier" type="file" id="relevebancaire_fichier" class="input-xxlarge" required />  
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="relevebancaire_date">Date du relevé bancaire *</label>
+<div class="controls">
+<input type="date" name="relevebancaire_date" id="relevebancaire_date" placeholder="Date du relevé bancaire" class="input-xxlarge" required />
+</div>
+</div>
+
+    
+    
+<div class="form-actions">
+<input name="relevebancaire_utilisateur" type="hidden" id="relevebancaire_utilisateur" value="<?php echo $sessionutilisateur->id_utilisateur; ?>" />  
+<input name="publier" type="hidden" id="publier" value="1" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter le relevé bancaire</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

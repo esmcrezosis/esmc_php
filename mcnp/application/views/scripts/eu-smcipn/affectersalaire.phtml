@@ -1,0 +1,164 @@
+<div id="view-content" class="ui-widget" style="font-size: 12px;">
+    <div id="c_header" class="ui-widget-header ui-corner-top" style="padding-left: 5px; height: 35px;">
+        <h3>Affectation de salaire aux employés</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <?php
+        $this->form->setAction($this->url());
+        echo $this->form;
+        ?>
+        <br><br>
+        <div style="height: auto;">
+            <table>
+                <tr>
+<!--                    <td>Salaire perçu</td>
+                    <td><input id="sal_percu" type="text" name="sal_percu" value="<?php echo number_format($this->sal_percu, 0, '.', ' '); ?>" readonly="true" style="text-align:right"/></td>-->
+                    <td>Total</td><td><input name="tot_salaire" id="tot_salaire" class="" value="0" disabled="disabled" align="right"/></td>
+                </tr>
+            </table>
+            <table id="tbl-salaire"></table>
+            <div id="pg-salaire"></div>
+            <table>
+                <tr>
+                    <td></td><td><input type="button" id="val" value="Affecter"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $("#tbl-salaire").jqGrid({
+            url:'/eu-smcipn/listsalarie?code_demand=0',
+            datatype: "json",
+            mtype: 'GET',
+            colNames:['Code membre','Nom & Prénoms','Salaire','Montant affecté','Début','Fin','Code demande','sal'],
+            height:450, width:815,
+            colModel:[
+                {name:'code_membre',index:'code_membre', width:148, align:"left"},
+                {name:'nom',index:'nom', width: 180, editable: false,align:"left"},
+                {name:'salaire',index:'salaire', width: 90, align:"right", editable: false,formatter:'number'},
+                {name:'mt_affecte',index:'mt_affecte', width: 105, align:"right", editable: true,formatter:'number'},
+                {name:'date_deb',index:'date_deb', width: 75, editable: true,align:"left"},
+                {name:'date_fin',index:'date_fin', width: 75, editable: true,align:"left"},
+                {name:'code_demande',index:'code_demande', width: 80, editable: false,align:"left",hidden:true},
+                {name:'salaires',index:'salaires', width: 90, align:"right", editable: false,formatter:'number',hidden:true},
+            ],
+            rowNum:100,
+            rowList:[100,200,1000],
+            pager: '#pg-salaire',
+            sortname:"nom",
+            viewrecords: true,
+            multiselect:true,
+            forceFit : true, 
+            cellEdit: true, 
+            sortorder: "asc",
+            caption:"Liste des employés",
+            footerrow: true,
+            userDataOnFooter: true,
+            onSelectRow: function(id,status){
+                var montant = $('#tot_salaire').val();
+                if(id != 0 || id != null){
+                    var data = jQuery('#tbl-salaire').jqGrid('getRowData',id);
+                    var value = 0;
+                    var solde = data.mt_affecte;
+                    if(montant == ''){
+                        montant = 0;
+                    }else{
+                        montant = parseInt(montant,10);
+                    }
+                    if(status == true){
+                        value = parseInt(montant) + parseInt(solde);
+                        $('#tot_salaire').val(value);
+                    }else{
+                        value = montant - parseInt(solde);
+                        $('#tot_salaire').val(value);
+                    }
+                    lastsel=id; 
+                }
+            },
+		
+            onSelectAll: function(ids,status){
+                var montant = $('#tot_salaire').val();
+                if(status == true){
+                    if(montant == ''){
+                        montant = 0;
+                    }else{
+                        montant = 0;
+                    }
+                    for(var i = 0;i < ids.length;i++){
+                        var id = ids[i];
+                        var data = jQuery('#tbl-salaire').jqGrid('getRowData',id);
+                        var solde = data.mt_affecte;
+                        montant += parseInt(solde);
+                    }
+                    $('#tot_salaire').val(montant);
+                }else{
+                    $('#tot_salaire').val(0); 
+                }
+            }
+        }); 
+        $("#tbl-salaire").jqGrid('navGrid','#pg-salaire',{edit:false,add:false,del:false,search:true});
+        
+        $(document).ready(function ()
+        {
+            $('#val').button();
+            $('#reset').button();
+            $('#valider').button();
+            $('#cancel').button();
+            
+            $('#valider').click(function()
+            {
+                jQuery("#tbl-salaire").jqGrid('setGridParam',{url:"/eu-smcipn/listsalarie?code_demand="+$('#code_demand').val()}).trigger('reloadGrid');
+            }); 
+            
+            $('#val').click(function()
+            {
+                var sel;
+                sel = jQuery("#tbl-salaire").jqGrid('getGridParam','selarrrow');
+                var tab=new Array();  
+                var rowsel;
+                rowsel = jQuery("#tbl-salaire").jqGrid('getGridParam','selrow');
+                for(var i=0; i<sel.length; i++) {
+                    tab[i]=jQuery("#tbl-salaire").jqGrid('getRowData',sel[i]);   
+                };
+                if($('#tot_salaire').val()=='' || $('#tot_salaire').val()==0){
+                    alert('Aucun employé sélectionné');
+                }
+                else{
+                    if(rowsel)
+                    {
+                        data=jQuery("#tbl-salaire").jqGrid('getRowData',rowsel);
+                        $.get('/eu-smcipn/affectersal?tot_salaire='+$('#tot_salaire').val(),{
+                            lignes:tab
+                        },function success(data){
+                            if(data == 'erreur'){
+                                alert('Le montant à affecter est supérieur au salaire disponible');
+                            }
+                            else if(data == 'alloc_sal'){
+                                alert('Le salaire disponible sur votre compte est insuffisant');
+                            }
+                            else if(data == 'compte_err'){
+                                alert('Pas de subvention reçu');
+                            }
+                            else if(data == 'echec'){
+                                alert('Echec de l\'opération, vérifier votre saisie');
+                            }
+                            else if(data == 'credit_err'){
+                                alert('Pas de subvention reçu');
+                            }
+                            else if(data == 'credit_sal'){
+                                alert('Le salaire disponible sur votre compte est insuffisant');
+                            }
+                            else if(data == 'good'){
+                                alert('Affectation de salaires effectuée avec succès');
+                                jQuery("#tbl-salaire").jqGrid('setGridParam',{url: "/eu-smcipn/listsalarie?code_demand="+$('#code_demand').val()}).trigger('reloadGrid');
+                                $('#tot_salaire').val(0); 
+                            }
+                        });             
+                    }else{
+                        alert('Aucune ligne sélectionnée');
+                    }    
+                }
+            });
+        })
+    </script>
+</div>	

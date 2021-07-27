@@ -1,0 +1,40 @@
+<div id="view-content" class="ui-widget">
+    <div  class="cntError">
+        <?php
+        //echo $this->message;
+        ?>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Ajout d'un nouveau créneau d'activités</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <?php
+        $this->form->setAction($this->url());
+        echo $this->form;
+        ?>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#submit').button();
+    $('#cancel').button();
+    $(document).ready(function ()
+    {
+        $('#code_membre_gestionnaire').blur(function()
+        {
+            if($(this).val() != '')
+            {
+                $.get(
+                '/eu-creneau/gestionchange',
+                {
+                    gestion: $(this).val()
+                },
+                function success(data)
+                {
+                    $('#nom_gestion').val(data[0]);
+                    $('#prenom_gestion').val(data[1]);
+                    $('#tel_gestion').val(data[2]);
+                });
+            }
+        });
+    });
+</script>

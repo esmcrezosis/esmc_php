@@ -1,0 +1,147 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/facturedetails.js"></script>
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout de la facture</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addfacture">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+
+<div class="control-group">
+<label class="control-label" for="facture_code_membre">Code Membre *</label>
+<div class="controls">
+<select id="facture_code_membre" name="facture_code_membre" required>
+  <option value="">Choisir le Code Membre</option>
+<?php 
+        $date_id = new Zend_Date(Zend_Date::ISO_8601);
+
+	       $membre = new Application_Model_DbTable_EuMembre();
+           $select = $membre->select();
+		   $select->where("auto_enroler IS NULL");
+		   $select->where("date_identification >= ?", $date_id->toString('yyyy-MM-dd'));
+           $entries = $membre->fetchAll($select);
+if(count($entries) > 0){?>
+<?php foreach ($entries as $entry) {?>
+  <option value="<?php echo $entry->code_membre; ?>"><?php echo $entry->code_membre; ?> - <?php echo $entry->nom_membre; ?> <?php echo $entry->prenom_membre; ?></option>
+<?php }?>
+<?php }?>
+
+<?php 
+	       $membremorale = new Application_Model_DbTable_EuMembreMorale();
+           $select = $membremorale->select();
+		   $select->where("auto_enroler IS NULL");
+		   $select->where("date_identification >= ?", $date_id->toString('yyyy-MM-dd'));
+           $entries = $membremorale->fetchAll($select);
+if(count($entries) > 0){?>
+<?php foreach ($entries as $entry) {?>
+  <option value="<?php echo $entry->code_membre_morale; ?>"><?php echo $entry->code_membre_morale; ?> - <?php echo $entry->raison_sociale; ?></option>
+<?php }?>
+<?php }?>
+</select>
+</div>
+</div>
+    
+
+<!--<div class="control-group">
+<label class="control-label" for="facture_code_membre">Code Membre *</label>
+<div class="controls">
+<input type="text" name="facture_code_membre" id="facture_code_membre" placeholder="Code Membre" class="input-xxlarge" required />
+</div>
+</div>-->
+
+<div class="control-group">
+<label class="control-label" for="facture_numero">Numéro du facture *</label>
+<div class="controls">
+<input type="text" name="facture_numero" id="facture_numero" placeholder="Numéro du facture" class="input-xxlarge" value="<?php 
+function nbre_zero($nb){
+		$zero = "";
+	for ($i = $nb; $i < 9; $i++){
+		$zero .= "0";
+		}
+		return $zero;
+	}
+$a = new Application_Model_EuFactures();
+$ma = new Application_Model_EuFacturesMapper();
+$num = $ma->findConuterAnnee() + 1;
+//echo nbre_zero(strlen(strval($num))); ?><?php echo $num; ?>/<?php echo date("Y"); ?>/FACT/FGSEA/ESMC-<?php $p = new Application_Model_EuPays();
+        $mp = new Application_Model_EuPaysMapper();
+            $mp->find($sessionutilisateur->pays, $p); echo strtoupper($p->getCode_pays()); ?>" readonly />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="facture_montant">Montant du facture *</label>
+<div class="controls">
+<input type="number" name="facture_montant" id="facture_montant" placeholder="Montant du facture" class="input-xxlarge" required />
+</div>
+</div>
+
+    
+
+
+  <legend>Détails du facture</legend>
+
+
+<?php $a = 1;?>
+<div id="nivfacturedetail<?php echo $a;?>">
+
+<input type="text" name="facture_detail_libelle[]" id="facture_detail_libelle<?php echo $a;?>" placeholder="Libellé du détail" class="input-medium" required />
+
+<input type="text" name="facture_detail_reference[]" id="facture_detail_reference<?php echo $a;?>" placeholder="Réference du détail" class="input-medium" required />
+
+<input type="number" name="facture_detail_quantite[]" id="facture_detail_quantite<?php echo $a;?>" placeholder="Quantité du détail" class="input-medium" required />
+
+<input type="number" name="facture_detail_prix_unitaire[]" id="facture_detail_prix_unitaire<?php echo $a;?>" placeholder="Prix unitaire du détail" class="input-medium" required />
+
+
+<a class="btn btn-mini" onclick="document.getElementById('nivfacturedetail<?php echo $a;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_facturedetails('<?php echo $a + 1;?>','nivfacturedetail<?php echo $a + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+<div id="nivfacturedetail<?php echo $a + 1;?>"></div>
+
+
+
+
+    
+<div class="form-actions">
+<input name="facture_utilisateur" type="hidden" id="facture_utilisateur" value="<?php echo $sessionutilisateur->id_utilisateur; ?>" />  
+<input name="publier" type="hidden" id="publier" value="0" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter la facture</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

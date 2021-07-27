@@ -1,0 +1,120 @@
+<div id="view-content">
+    <div style="margin-bottom:3px;">
+        <fieldset>
+            <legend style=" font-weight:bold">Recherche</legend>
+            <h5> 
+                Numéro bon&nbsp;<input type="text" id="numero" name="numero" size="15"/>
+                Nom&nbsp;<input type="text" id="nom" name="nom" size="25"/>
+                Prénom&nbsp;<input type="text" id="prenom" name="prenom"  size="30"/>
+                <input id="recherche" type="button" value="Recherche"/>
+            </h5>
+        </fieldset>
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>&nbsp;&nbsp;<label style="font-weight:bold">Total placements</label>&nbsp;&nbsp;<input type="text" id="tot_apport" name="tot_apport" size="25" readonly="readonly" style="text-align:right"/>
+    </div>
+    <table id="tbl-fondateur"></table>
+    <div id="pg-fondateur"></div>
+</div>
+<script type="text/javascript">
+    $.get( "/eu-membre-fondateur11000/totapport",
+    function success(data)
+    {
+        $("#tot_apport").val(data);
+    });
+    
+    $("#tbl-fondateur").jqGrid({
+        url: "",
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Numero', 'Nom', 'Prenom', 'Code membre', 'Téléphone', 'Cellulaire', 'Mt placé', 'Repartition'],
+        height: 410, width: 827,
+        colModel: [
+            {name: 'numident', index: 'numident', width: 110, sorttype: "int", editable: true, align: "left"},
+            {name: 'nom', index: 'nom', width: 170, editable: true, align: "left"},
+            {name: 'prenom', index: 'prenom', width: 200, align: "left", editable: true},
+            {name: 'code_membre', index: 'code_membre', width: 200, editable: true, align: "left"},
+            {name: 'tel', index: 'tel', width:110, editable: true, align: "left", hidden:true},
+            {name: 'cel', index: 'cel', width:105, align: "left", editable: true},
+            {name: 'mt_place', index: 'mt_place', width:130, align: "right", editable: true,formatter:'number'},
+            {name: 'nb_repartition', index: 'nb_repartition', width:110, align: "right", editable: true},
+        ],
+        rowNum: 1000,
+        rowList: [1000, 10000, 20000],
+        pager: '#pg-fondateur',
+        sortname: "numident",
+        viewrecords: true,
+        rownumbers:true,
+        sortorder: "ASC",
+        caption: "Membres Fondateurs 11000",
+        footerrow: true,
+        userDataOnFooter: true
+    });
+    $("#tbl-fondateur").jqGrid('navGrid', '#pg-fondateur', {edit: false, add: false, del: false, search: true}); 
+    
+    $.get( "/eu-membre-fondateur11000/membre",
+    function success(data)
+    {
+        $("#membre").autocomplete({"source":data});
+    });
+    
+    $.get( "/eu-membre-fondateur11000/numbon",
+    function success(data)
+    {
+        $("#numero").autocomplete({"source":data});
+    });
+    
+    $('#recherche').click(function()
+    {
+        numero = $('#numero').val();
+        nom = $('#nom').val();
+        prenom = $('#prenom').val(); 
+        jQuery("#tbl-fondateur").jqGrid('setGridParam', { url: "/eu-membre-fondateur11000/data?numero=" + numero+"&nom="+nom+"&prenom="+prenom}).trigger('reloadGrid');
+    });
+    
+    $('#crediter').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-fondateur").jqGrid('getGridParam', 'selrow');
+        if (rowsel)
+        {
+            seldata = jQuery("#tbl-fondateur").jqGrid('getRowData', rowsel);
+            $.get('/eu-membre-fondateur11000/verifier', {
+                numero:rowsel
+            }, function success(data) {
+                if (data == null) {
+                    alert("Ce membre fondateur n'a pas de compte marchand");
+                }
+                else {
+                    $.get('/eu-membre-fondateur11000/crediter', {
+                        numero: rowsel,code_membre:seldata.code_membre
+                    }, function success(data) {
+                        $("#content").html(data);
+                    });  
+                }
+            }); 
+        }
+        else {
+            alert('Aucune ligne sélectionnée');
+        }
+    })
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-fondateur").jqGrid('getGridParam', 'selrow');
+        if (rowsel)
+        { 
+            $.get('/eu-membre-fondateur11000/edit', {
+                numident:rowsel
+            }, function success(data) {
+                $("#content").html(data);
+            });
+        } 
+        else {
+            alert('Aucune ligne sélectionnée');
+        }        
+    })
+    
+    $('#editer').button();
+    $('#recherche').button();
+    $('#crediter').button();
+</script>

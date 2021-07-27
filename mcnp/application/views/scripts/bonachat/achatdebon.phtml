@@ -1,0 +1,143 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/montantcodesms.js"></script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p class="text-info">Souscription au Bon d'Achat pour la consommation</p></blockquote>
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="codesms">
+  <?php if(isset($sessionmembre->error) && $sessionmembre->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->error; $sessionmembre->error = ""; ?>
+    </div>
+  <?php }?>
+  
+  <legend>Remplir le formulaire </legend>
+<div class="">
+  
+<div class="span12">
+
+  <div class="control-group">
+  <label class="control-label" for="acheteur_cel">Téléphone portable *</label>
+  <div class="controls">
+<div class="input-prepend">
+  <span class="add-on">228</span>
+  <input type="text" name="acheteur_cel" id="acheteur_cel" class="input-xxlarge" placeholder="Téléphone portable" required>
+</div>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="acheteur_email">E-mail</label>
+  <div class="controls">
+  <input type="text" name="acheteur_email" id="acheteur_email" class="input-xxlarge" placeholder="E-mail" >
+  </div>
+  </div>
+  
+
+<div class="control-group">
+  <label class="control-label" for="souscription_type">Type de payement *</label>
+  <div class="controls">
+  <label for="souscription_type_banque" class="radio">
+  <input name="souscription_type" type="radio" required id="souscription_type_banque" onclick="document.getElementById('banque').style.display='block';document.getElementById('flooz').style.display='none';document.getElementById('acheteur_banque').setAttribute('required', true);document.getElementById('banque2').style.display='block';document.getElementById('acheteur_vignette').setAttribute('required', true);" value="Banque">
+  Banque</label>
+
+  <label for="souscription_type_flooz" class="radio">
+  <input type="radio" name="souscription_type" id="souscription_type_flooz" value="Flooz" required onclick="document.getElementById('banque').style.display='none'; document.getElementById('banque2').style.display='none';  document.getElementById('flooz').style.display='block';document.getElementById('acheteur_banque').removeAttribute('required');document.getElementById('banque2').style.display='none';document.getElementById('acheteur_vignette').removeAttribute('required');">
+  Flooz</label>
+  
+  </div>
+  </div>
+
+<div class="control-group" id="banque" style="display:none;">
+<label class="control-label" for="acheteur_banque">Banque </label>
+<div class="controls">
+<select name="acheteur_banque" id="acheteur_banque" class="input-xxlarge" >
+        <?php $tbanque = new Application_Model_DbTable_EuBanque();
+        $results = $tbanque->fetchAll();?>
+  <option value="">Choisir la banque</option>
+    <?php foreach ($results as $banque): ?>
+               <option value="<?php echo $banque->code_banque; ?>"><?php echo ($banque->libelle_banque); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+  <div id="flooz" style="display:none;">
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="acheteur_numero">Numéro de reçu de banque ou Numéro de transation Flooz *</label>
+<div class="controls">
+<input type="text" name="acheteur_numero" id="acheteur_numero" class="input-xxlarge" placeholder="Numéro de reçu de banque ou Numéro de transation Flooz" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="acheteur_date_numero">Date du reçu de banque ou de la transation Flooz *</label>
+<div class="controls">
+<input type="text" name="acheteur_date_numero" id="acheteur_date_numero" placeholder="Date du reçu de banque ou de la transation Flooz" class="input-xxlarge datepicker" data-provide="datepicker" required />
+</div>
+</div>
+
+
+  <div id="banque2" style="display:none;">
+<div class="control-group">
+<label class="control-label" for="acheteur_vignette">Scanne du reçu *  </label>
+<div class="controls">
+  <input type="file" name="acheteur_vignette" id="acheteur_vignette" class="input-xxlarge" required />
+<span class="help-block"><p class="text-error">JPEG, JPG, PNG et PDF sont les extentions autorisées</p></span>
+</div>
+</div>
+</div>
+
+  
+  <div class="control-group">
+  <label class="control-label" for="mont_transfert">Montant du bon d'achat *</label>
+  <!--<div class="controls" id="niv2">-->
+<div class="input-append">
+  <input type="number" name="mont_transfert" id="mont_transfert" class="input-xxlarge" placeholder="Montant du bon d'achat" required>
+  <span class="add-on">XOF</span>
+</div>
+  <!--</div>-->
+  </div>
+  
+
+  </div>
+  
+  <legend></legend>
+  
+
+<div class="form-actions">
+<input name="type_transfert" type="hidden" id="type_transfert" value="CAPA" />
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Achat de Bon d'Achat</button>
+</div>
+
+  </div>
+
+
+</form>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

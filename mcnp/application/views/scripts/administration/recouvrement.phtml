@@ -1,0 +1,349 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<script type="text/javascript">
+   function checkAllInput(form, action) {
+        var i = document.forms[form].getElementsByTagName("input"); 
+        for (var cpt = 0; cpt < i.length; cpt++) 
+        i[cpt].checked = (action)? true : false ;
+   }
+//onclick="checkAllInput('form1', true);" //coche
+//onclick="checkAllInput('form1', false);" //decoche
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+<blockquote><p class="text-info">Service Recouvrement</p></blockquote>
+
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="ancien" name="ancien">
+      <?php if(isset($sessionutilisateur->errorlogin) && $sessionutilisateur->errorlogin!="") { ?>
+      <div class="alert alert-success">
+           <button type="button" class="close" data-dismiss="alert">&times;</button>
+           <?php echo $sessionutilisateur->errorlogin; $sessionutilisateur->errorlogin = ""; ?>
+      </div>
+      <?php } ?>
+	  
+      <?php if(isset($this->message) && $this->message!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $this->message; ?>
+      </div>
+      <?php } ?>
+	  
+	  <div class="control-group">
+	  <?php   
+	          if(isset($this->code_membre) && (count($this->creditsmf107) > 0) ) { 
+	             $x =1;$compteur =0;   
+	  ?>
+	  <legend>Faire le recouvrement des unités MF107</legend>
+	  <table class="table table-striped table-bordered table-hover table-condensed" id="example">
+	    <thead>
+            <tr>
+			    <th><input name="all" id="all" type="checkbox" value="1" onClick="if(document.ancien.all.checked){checkAllInput('ancien',true);} else {checkAllInput('ancien',false);}" /></th>
+				<th><div align="left">Membre</div></th>
+				<th><div align="left">Produit</div></th>
+				<th><div align="left">Montant Affecté</div></th>
+				<th><div align="left">Montant utilisé</div></th>
+                <th><div align="left">Solde</div></th>
+			</tr>
+	    </thead>
+	    <tbody>
+	        <?php foreach ($this->creditsmf107 as $entry) : ?>
+			<tr>
+			    <td><div><input type="checkbox" name="<?php echo "credit".$x ?>" id="<?php echo "credit".$x ?>" value="<?php echo $entry->relevedetail_id;?>"/></div></td>
+                <td><div align="left"> <?php echo $this->code_membre; ?> </div></td>
+			    <td><div align="left"> <?php echo $entry->relevedetail_produit; ?></div></td>
+				<td><div align="right"><strong> <?php echo number_format($entry->mont_rep,0,',',' '); ?> </strong></div></td> 
+				<td><div align="right"><strong> <?php echo number_format($entry->mont_reglt,0,',',' '); ?> </strong></div></td>
+				<td><div align="right"><strong> <?php echo number_format($entry->solde_rep,0,',',' '); ?> </strong></div></td>
+			</tr>
+			<?php 
+			     $x++;$compteur++;endforeach; 
+			?>
+			<tr>
+			   <td colspan="6">
+		           <div align="center">
+                        <input type="hidden" name="compteur" value="<?php echo $compteur ?>"/>
+                        <input name="ok1" type="hidden" id="ok1" value="ok1"/>
+                        <button type="submit" class="btn btn-success">Recouvrer</button>
+		           </div>
+			   </td>   
+		   	</tr>	 
+			
+	    </tbody>
+	</table>   
+	<?php  } else if( isset($this->code_membre) && (count($this->creditscnp) > 0) ) { 
+	      $x = 1;
+          $compteur = 0;  ?>
+		  <legend>Faire le recouvrement des credits CNP</legend>
+	<table class="table table-striped table-bordered table-hover table-condensed">
+	    <thead>
+            <tr>
+			    <th>#</th>
+				<th><div align="left">Membre</div></th>
+				<th><div align="left">Produit</div></th>
+				<th><div align="left">Origine ressource</div></th>
+				<th><div align="left">Montant CAPA</div></th>
+				<th><div align="left">Montant Crédit</div></th>
+			</tr>
+	    </thead>
+	    <tbody>
+	        <?php foreach ($this->creditscnp as $entry): ?>
+			<tr>
+			    <td>
+				<div>
+                     <input type="checkbox" name="<?php echo "credit".$x ?>" id="<?php echo "credit".$x ?>" value="<?php echo $entry->relevedetail_id;?>"/>
+                </div>
+				</td>
+                <td><div align="left"> <?php echo $this->code_membre; ?> </div></td>
+			    <td><div align="left"> <?php echo $entry->code_produit; ?></div></td>
+				<td><div align="left"> <?php echo $entry->compte_source; ?></div></td>
+				<td><div align="left"><strong> <?php echo number_format($entry->montant_place,0,',',' ');  ?> </strong></div></td>
+				<td><div align="left"><strong> <?php echo number_format($entry->montant_credit,0,',',' '); ?> </strong></div></td> 
+			</tr>
+			<?php 
+			     $x++;$compteur++;endforeach; 
+			?>
+			<tr>
+			   <td colspan="6">
+		           <div align="center">
+                           <input type="hidden" name="compteur" value="<?php echo $compteur ?>"/>
+                           <input name="ok1" type="hidden" id="ok1" value="ok1"/>
+                           <button type="submit" class="btn btn-success">Recouvrer</button>
+		           </div>
+			   </td>   
+		   	</tr>	 
+			
+	    </tbody>
+	</table>
+		  
+		  
+    <?php } elseif( isset($this->code_membre)  && (count($this->creditsgiecnp) > 0) )  { 
+            $x = 1 ; $compteur = 0; 
+	?>
+            <legend>Faire le recouvrement des credits CNP</legend>
+	<table class="table table-striped table-bordered table-hover table-condensed">
+	    <thead>
+            <tr>
+			    <th>#</th>
+				<th><div align="left">Membre</div></th>
+				<th><div align="left">Produit</div></th>
+				<th><div align="left">Montant CAPA</div></th>
+			</tr>
+	    </thead>
+	    <tbody>
+	        <?php foreach ($this->creditsgiecnp as $entry): ?>
+			<tr>
+			    <td>
+				<div>
+                     <input type="checkbox" name="<?php echo "credit".$x ?>" id="<?php echo "credit".$x ?>" value="<?php echo $entry->relevedetail_id;?>"/>
+                </div>
+				</td>
+                <td><div align="left"> <?php echo $this->code_membre; ?> </div></td>
+			    <td><div align="left"> <?php echo $entry->lib; ?></div></td>
+				<td><div align="left"><strong> <?php echo number_format($entry->montant,0,',',' '); ?> </strong></div></td> 
+			</tr>
+			<?php 
+			     $x++;
+				 $compteur++;
+				 endforeach; 
+			?>
+			<tr>
+			   <td colspan="6">
+		           <div align="center">
+                           <input type="hidden" name="compteur" value="<?php echo $compteur ?>"/>
+                           <input name="ok1" type="hidden" id="ok1" value="ok1"/>
+                           <button type="submit" class="btn btn-success">Recouvrer</button>
+		           </div>
+			   </td>   
+		   	</tr>	 
+			
+	    </tbody>
+	</table>
+	
+    <?php } elseif(isset($this->code_membre)  && (count($this->creditsgiecncs) > 0) )  {
+               $x = 1 ; $compteur = 0;  ?>
+	        
+			<legend>Faire le recouvrement des credits CNCS</legend>
+	<table class="table table-striped table-bordered table-hover table-condensed">
+	    <thead>
+            <tr>
+			    <th>#</th>
+				<th><div align="left">Membre</div></th>
+				<th><div align="left">Produit</div></th>
+				<th><div align="left">Montant Affecté</div></th>
+				<th><div align="left">Montant Restant</div></th>
+			</tr>
+	    </thead>
+	    <tbody>
+	        <?php foreach ($this->creditsgiecncs as $entry) : ?>
+			<tr>
+			    <td><div><input type="checkbox" name="<?php echo "credit".$x ?>" id="<?php echo "credit".$x ?>" value="<?php echo $entry->relevedetail_id;?>"/></div></td>
+                <td><div align="left"> <?php echo $this->code_membre; ?> </div></td>
+			    <td><div align="left"> <?php echo $entry->libelle; ?></div></td>
+				<td><div align="left"><strong> <?php echo number_format($entry->montplace,0,',',' '); ?> </strong></div></td> 
+				<td><div align="left"><strong> <?php echo number_format($entry->montantcredi,0,',',' '); ?> </strong></div></td>
+			</tr>
+			<?php 
+			     $x++;
+				 $compteur++;
+				 endforeach; 
+			?>
+			<tr>
+			   <td colspan="6">
+		           <div align="center">
+                        <input type="hidden" name="compteur" value="<?php echo $compteur ?>"/>
+                        <input name="ok1" type="hidden" id="ok1" value="ok1"/>
+                        <button type="submit" class="btn btn-success">Recouvrer</button>
+		           </div>
+			   </td>   
+		   	</tr>	 
+			
+	    </tbody>
+	</table>
+	
+	<?php } elseif(isset($this->code_membre)  && (count($this->creditscncs) > 0) ) { 
+              $x = 1 ; $compteur = 0;  ?>
+	          <legend>Faire le recouvrement des credits CNCS</legend>
+		      <table class="table table-striped table-bordered table-hover table-condensed">
+	              <thead>
+                        <tr>
+			               <th>#</th>
+				           <th><div align="left">Membre</div></th>
+				           <th><div align="left">Produit</div></th>
+				           <th><div align="left">Montant Salaire Affecté</div></th>
+			            </tr>
+	              </thead>
+				  
+			      <tbody>
+	                    <?php foreach ($this->creditscncs as $entry) : ?>
+			            <tr>
+			            <td><div><input type="checkbox" name="<?php echo "credit".$x ?>" id="<?php echo "credit".$x ?>" value="<?php echo $entry->relevedetail_id;?>"/></div></td>
+                        <td><div align="left"> <?php echo $this->code_membre; ?> </div></td>
+			            <td><div align="left"> <?php echo $entry->code_produit; ?></div></td>
+				        <td><div align="left"><strong> <?php echo number_format($entry->montant_place,0,',',' '); ?> </strong></div></td> 
+			            </tr>
+			            <?php $x++;$compteur++;endforeach;?>
+	               </tbody>
+	          </table>
+		      <br/>
+			  
+			  <?php  if(count($this->creditsescomptecncs) > 0) { 
+		           $j = 1 ; $compteur1 = 0;
+		      ?>
+		          <table class="table table-striped table-bordered table-hover table-condensed">
+						 <thead>
+                               <tr>
+			                   <th>#</th>
+				               <th><div align="left">Membre</div></th>
+				               <th><div align="left">Produit</div></th>
+				               <th><div align="left">Montant Salaire Escompté</div></th>
+			                   </tr>
+						 </thead> 
+						 <tbody>
+	                     <?php foreach ($this->creditsescomptecncs as $entry) : ?>
+			             <tr>
+			               <td><div><input type="checkbox" name="<?php echo "escompte".$j ?>" id="<?php echo "escompte".$j ?>" value="<?php echo $entry->releveescompte_id;?>"/></div></td>
+                           <td><div align="left"> <?php echo $this->code_membre; ?> </div></td>
+			               <td><div align="left"> <?php echo $entry->cat_echange; ?></div></td>
+				           <td><div align="left"><strong> <?php echo number_format($entry->montant,0,',',' '); ?> </strong></div></td> 
+			             </tr>
+			             <?php $j++;$compteur1++;endforeach;?>
+	                     </tbody>
+		          </table>
+		      <?php  }  ?>
+		      <br/>
+			  
+			  <?php  if(count($this->creditsechangecncs) > 0) { 
+		           $k = 1 ; $compteur2 = 0;
+		   ?>
+		   <table class="table table-striped table-bordered table-hover table-condensed">
+				  <thead>
+                         <tr>
+			                 <th>#</th>
+				             <th><div align="left">Membre</div></th>
+				             <th><div align="left">Produit</div></th>
+				             <th><div align="left">Montant Salaire Echangé</div></th>
+			             </tr>
+				  </thead> 
+				  <tbody>
+	                     <?php foreach ($this->creditsechangecncs as $entry) : ?>
+			             <tr>
+			               <td><div><input type="checkbox" name="<?php echo "echange".$k ?>" id="<?php echo "echange".$k ?>" value="<?php echo $entry->releveechange_id;?>"/></div></td>
+                           <td><div align="left"> <?php echo $this->code_membre; ?> </div></td>
+			               <td><div align="left"> <?php echo $entry->code_produit; ?></div></td>
+				           <td><div align="left"><strong> <?php echo number_format($entry->montant_place,0,',',' '); ?> </strong></div></td> 
+			             </tr>
+			             <?php $k++;$compteur2++;endforeach;?>
+	              </tbody>
+		   </table>
+		   <?php  }  ?>
+		   <br/>
+		   
+		   <table class="table table-striped table-bordered table-hover table-condensed">
+		          <tr>
+			      <td>
+		           <div align="center">
+                        <input type="hidden" name="compteur" value="<?php echo $compteur ?>"/>
+                        <input name="ok1" type="hidden" id="ok1" value="ok1"/>
+                        <button type="submit" class="btn btn-success">Recouvrer</button>
+		           </div>
+			     </td>   
+		   	     </tr>
+		   </table>
+	<?php }  ?>
+	
+	
+	
+	</div>
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+</form>
+
+
+
+
+<div class="span3">
+<?php /*include("../application/layouts/scripts/droite.phtml"); */ ?>
+</div>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

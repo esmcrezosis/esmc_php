@@ -1,0 +1,53 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <a href=""><input id="retour" type="button" value="Retour" class="ui-widget button"/></a>
+    </div>
+    <?php if(isset($this->data)) { ?>
+    <div id="accordeon">
+        <h2><a href="#">Info en détail sur le produit : <?php echo  $this->data[1][1]; ?></a></h2>
+        <div>
+            <table>
+                <tr><td valign="top">Désignation</td><td><input style="color:red" value="<?php echo $this->data[1][2]; ?>" readonly="true" size="40"></td></tr>
+                <tr><td valign="top">Prix unitaire </td><td><input style="color:red" value="<?php echo $this->data[1][3]; ?>" readonly="true" size="40"></td></tr>
+                <tr><td valign="top">Durée de vie</td><td><input style="color:red" value="<?php echo $this->data[1][4]." periodes de 30 jours"; ?>" readonly="true" size="40"></td></tr>
+                <tr><td valign="top">Code gamme</td><td><input style="color:red" value="<?php echo $this->data[1][5]; ?>" readonly="true" size="40"></td></tr>
+                <tr><td valign="top">Désignation gamme</td><td><input style="color:red" value="<?php echo $this->data[1][6]; ?>" readonly="true" size="40"></td></tr>
+                <tr><td valign="top">Code rayon</td><td><input style="color:red" value="<?php echo $this->data[1][7]; ?>" readonly="true" size="40"></td></tr>
+                <tr><td valign="top">Désignation rayon</td><td><input style="color:red" value="<?php echo $this->data[1][8]; ?>" readonly="true" size="40"></td></tr>
+                
+                <tr><td valign="top">Code boutique</td><td><input style="color:red" value="<?php echo $this->data[1][9]; ?>" readonly="true" size="40"></td></tr>
+                <tr><td valign="top">Désignation boutique</td><td><input style="color:red" value="<?php echo $this->data[1][10]; ?>" readonly="true" size="40"></td></tr>
+                <tr><td valign="top">Caractéristique</td><td><textarea style="color:red" readonly="true" cols="4" rows="5"> <?php echo $this->data1[1][11]; ?> </textarea></td></tr>
+                
+            </table>
+        </div>
+    </div>
+    <?php }
+    
+    else {    
+    ?>
+    <div id="accordeon">
+        <h2><a href="#">Info en détail sur le produit : <?php echo $this->data1[1][1]; ?></a></h2>
+        <div>
+            <table>
+                
+                <tr><td valign="top">Désignation</td><td><input style="color:red" value="<?php echo $this->data1[1][2]; ?>" readonly="true" size="40"></td></tr>
+                <tr><td valign="top">Prix unitaire </td><td><input style="color:red" value="<?php echo $this->data1[1][3]; ?>" readonly="true" size="40"></td></tr>
+                <tr><td valign="top">Durée de vie</td><td ><input style="color:red" value="<?php echo $this->data1[1][4]." périodes de 30 jours"; ?>" readonly="true" size="40"></label></td></tr>
+                <tr><td valign="top">Code gamme</td><td><input style="color:red" value="<?php echo $this->data1[1][5]; ?>" readonly="true" size="40"></td></tr>
+                <tr><td valign="top">Désignation gamme</td><td><input style="color:red" value="<?php echo $this->data1[1][6]; ?>" readonly="true" size="40"></td></tr>
+                <tr><td valign="top">Code boutique</td><td><input style="color:red" value="<?php echo $this->data1[1][7]; ?>" readonly="true" size="40"></td></tr>
+                <tr><td valign="top">Désignation boutique</td><td><input style="color:red" value="<?php echo $this->data1[1][8]; ?>" readonly="true" size="40"></td></tr>
+                <tr><td valign="top">Caractéristique</td><td><textarea style="color:red" readonly="true" cols="4" rows="5"> <?php echo $this->data1[1][9]; ?> </textarea></td></tr>
+                
+            </table>
+        </div>
+    </div>
+    <?php } ?>
+</div>
+<script type="text/javascript">
+        $(function() {
+            $("#accordeon").accordion();
+        });
+        $('#retour').button();
+</script>

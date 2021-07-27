@@ -1,0 +1,91 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/repass.js"></script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Choix du menu de la semaine</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addappeloffre">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<?php for ($i=0; $i < 7; $i++) { ?>   
+
+<label class="checkbox">
+  <input type="checkbox" id="jour_semaine<?php echo $i + 1; ?>" name="jour_semaine[]" value="<?php echo $i + 1; ?>">
+  <?php echo joursemaine($i + 1); ?>
+</label>
+
+
+<div class="control-group">
+<label class="control-label" for="code_membre_restaurant">Restaurant *</label>
+<div class="controls">
+<?php 
+$table = new Application_Model_DbTable_EuRepas();
+$select = $table->select();
+$select->distinct();    
+$select->from(array('eu_repas'), 'code_membre');
+$entries = $table->fetchAll($select);
+if(count($entries) > 0){?>
+<select id="code_membre_restaurant<?php echo $i + 1; ?>" name="code_membre_restaurant[]" onchange="ouvre_repass(this.value + '_' + document.getElementById('jour_semaine<?php echo $i + 1; ?>').value + '_' + <?php echo $i; ?>, 'nivorepas<?php echo $i; ?>');">
+  <option value="">Choisir le restaurant</option>
+<?php foreach ($entries as $value) { ?>
+<?php if (substr($value->code_membre, -1) == "P") {
+$membreM = new Application_Model_EuMembreMapper();
+$membre = new Application_Model_EuMembre();
+$membreM->find($value->code_membre, $membre);
+$nom = $membre->nom_membre.' '.$membre->prenom_membre;
+} else if (substr($value->code_membre, -1) == "M") {
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($value->code_membre, $membremorale);
+$nom = $membremorale->raison_sociale;
+}?>
+  <option value="<?php echo $value->code_membre; ?>"><?php echo $nom; ?></option>
+<?php } ?>
+</select>
+<?php }?>
+</div>
+</div>
+
+<div id="nivorepas<?php echo $i; ?>">
+
+</div>
+
+<br />
+<br />
+<br />
+
+
+    
+<?php }?>
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Choisir le menu de la semaine</button>
+</div>
+  
+</form>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

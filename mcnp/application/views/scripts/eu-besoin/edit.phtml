@@ -1,0 +1,147 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Modification de l'expression de besoin</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form action="/eu-besoin/edit" name="fm_besoin" method="POST" id="fm_besoin">
+            <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+            <table>
+                <tr><td>Libellé du besoin *</td><td><input class="required" maxlength="500" name="lib_besoin" id="lib_besoin" value="<?php echo $this->data[0][7]; ?>"/> </td> </tr>
+                <tr><td>Date de validité </td><td><input maxlength="100" name="date_valide" id="date_valide" readonly value="<?php echo $this->data[0][5]; ?>"/></td></tr>
+            </table>
+            <fieldset style="border-color:#000"><legend>Expressions des besoins</legend>
+                <table id="tab_produit">
+                    <thead>
+                        <tr style="text-align: left;">
+                            <th>Unité de mesure</th><th>Désignation produit</th><th>Quantité</th><th>Catégorie </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if (isset($this->data[0][4])) {
+                            $cpt = 1;
+                            for ($i = 0; $i < count($this->data); $i++) {
+                                ?>
+                                <tr>
+                                    <td>
+                                        <select name="<?php echo "unite" . $i ?>">
+                                            <option value=""></option>
+                                            <option value="litre" <?php if ($this->data[$i][2] == 'litres') {
+                            echo ' selected="selected"';
+                        } ?> >Litre</option>
+                                            <option value="mètres" <?php if ($this->data[$i][2] == 'mètres') {
+                                        echo ' selected="selected"';
+                                    } ?> >Mètre</option></option>
+                                            <option value="kilogrammes" <?php
+                                    if ($this->data[$i][2] == 'kilogrammes') {
+                                        echo ' selected="selected"';
+                                    }
+                                    ?> >Kilogramme</option>
+                                            <option value="tonnes" <?php if ($this->data[$i][2] == 'tonnes') {
+                                        echo ' selected="selected"';
+                                    } ?> >Tonnes</option>
+                                            <option value="autres" <?php if ($this->data[$i][2] == 'autres') {
+                                        echo ' selected="selected"';
+                                    } ?> >Autres</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="<?php echo "code" . $i ?>" value="<?php echo $this->data[$i][0]; ?>">
+                                        <input type='text' name="<?php echo "designs" . $i ?>"   id="design" size=40 value="<?php echo $this->data[$i][1]; ?>">
+                                    </td>    
+                                    <td>
+                                        <input type='text' name="<?php echo "qtes" . $i ?>"  size=6  id="qte"  value="<?php echo $this->data[$i][3]; ?>"> 
+                                    </td>
+                                    <td>
+                                        <select name="<?php echo "cat_objet" . $i ?>">
+                                            <option value=""></option>
+                                            <option value="fixe" <?php if ($this->data[$i][8] == 'fixe') {
+                        echo ' selected="selected"';
+                    } ?> >Fixe</option>
+                                            <option value="circulant" <?php if ($this->data[$i][8] == 'circulant') {
+                        echo ' selected="selected"';
+                    } ?>>Circulant</option>
+                                        </select>
+                                    </td>    
+                                </tr>    
+        <?php $cpt++;
+    } ?>
+                        <input type="hidden" name="compteur" value="<?php echo $cpt - 1; ?>">
+    <?php
+}
+?> 
+                    <input type="hidden" name="id_besoin" value="<?php echo $this->data[0][4]; ?>">
+                    </tbody>
+                </table>     
+            </fieldset>
+            <br>
+            <div align="left">
+                <input type="submit" value="Modifier" name="valider" id="valider" />
+                <!--<input id="add" type="button" value="Ajouter" onclick="addRow('tab_produit')"/>
+                <input id="remove" type="button" value="Supprimer" onclick="deleteRow('tab_produit')"/>-->
+            </div>
+
+        </form>   
+    </div>    
+</div>
+<script>
+    $(document).ready(function()
+    {
+        $(function() {
+            var pickerOpts = {
+                dateFormat: "dd-mm-yy",
+                changeMonth: true,
+                changeYear: true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+            $("#date_valide").datepicker(pickerOpts);
+        });
+        $.get("/eu-besoin/change",
+                function success(data) {
+                    $("input#design").autocomplete({"source": data});
+                })
+    });
+    // var compteur = 1;   
+    //  function addRow(tableID) {
+    //         var table = document.getElementById(tableID);
+    //        var rowCount = table.rows.length;
+    //         var cpte = rowCount;
+    //        var row = table.insertRow(rowCount);
+    //        var cell1 = row.insertCell(0);
+    //        var element1 = document.createElement("input");
+    //        element1.type = "text";
+    //element1.setAttribute("id","design" + cpte);
+    //        element1.setAttribute("name","design" + cpte);
+    //        element1.setAttribute("size","40");
+    //       cell1.appendChild(element1);
+    //       var cell2 = row.insertCell(1);
+    //       var element2 = document.createElement("input");
+    //       element2.type = "text";
+    //      //element2.setAttribute("id","qte" + cpte);
+    //      element2.setAttribute("name","qte" + cpte);
+    //      element2.setAttribute("size","6");
+    //      cell2.appendChild(element2);
+
+    //      var cell3 = row.insertCell(2);
+    //      var element3 = document.createElement("select");
+    //element3.type = "text";
+    //element3.setAttribute("id","cat" + cpte);
+    //     element3.setAttribute("name","cat" + cpte);
+    //     element2.setAttribute("option","");
+    //     cell3.appendChild(element3);
+
+    //     compteur = compteur + 1;
+    //    document.getElementById("cpteur").setAttribute('value',compteur);
+    //  } 
+    // function deleteRow(tableID) {
+    //    var table = document.getElementById(tableID);
+    //   var rowCount = table.rows.length - 1;
+    //   table.deleteRow(rowCount);
+    //   compteur = compteur - 1;
+    //   document.getElementById("cpteur").setAttribute('value',compteur);        
+    // }
+    $('#valider').button();
+    // $('#add').button();
+    // $('#remove').button();
+</script>    

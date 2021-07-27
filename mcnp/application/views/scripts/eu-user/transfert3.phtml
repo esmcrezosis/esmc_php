@@ -1,0 +1,601 @@
+<style>
+table {
+  max-width: 100%;
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.table th,
+.table td {
+  padding: 8px;
+  line-height: 20px;
+  text-align: left;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+
+.table th {
+  font-weight: bold;
+}
+
+.table thead th {
+  vertical-align: bottom;
+}
+
+.table caption + thead tr:first-child th,
+.table caption + thead tr:first-child td,
+.table colgroup + thead tr:first-child th,
+.table colgroup + thead tr:first-child td,
+.table thead:first-child tr:first-child th,
+.table thead:first-child tr:first-child td {
+  border-top: 0;
+}
+
+.table tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+
+.table .table {
+  background-color: #ffffff;
+}
+
+.table-condensed th,
+.table-condensed td {
+  padding: 4px 5px;
+}
+
+.table-bordered {
+  border: 1px solid #dddddd;
+  border-collapse: separate;
+  *border-collapse: collapse;
+  border-left: 0;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border-left: 1px solid #dddddd;
+}
+
+.table-bordered caption + thead tr:first-child th,
+.table-bordered caption + tbody tr:first-child th,
+.table-bordered caption + tbody tr:first-child td,
+.table-bordered colgroup + thead tr:first-child th,
+.table-bordered colgroup + tbody tr:first-child th,
+.table-bordered colgroup + tbody tr:first-child td,
+.table-bordered thead:first-child tr:first-child th,
+.table-bordered tbody:first-child tr:first-child th,
+.table-bordered tbody:first-child tr:first-child td {
+  border-top: 0;
+}
+
+.table-bordered thead:first-child tr:first-child > th:first-child,
+.table-bordered tbody:first-child tr:first-child > td:first-child,
+.table-bordered tbody:first-child tr:first-child > th:first-child {
+  -webkit-border-top-left-radius: 4px;
+          border-top-left-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+}
+
+.table-bordered thead:first-child tr:first-child > th:last-child,
+.table-bordered tbody:first-child tr:first-child > td:last-child,
+.table-bordered tbody:first-child tr:first-child > th:last-child {
+  -webkit-border-top-right-radius: 4px;
+          border-top-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+}
+
+.table-bordered thead:last-child tr:last-child > th:first-child,
+.table-bordered tbody:last-child tr:last-child > td:first-child,
+.table-bordered tbody:last-child tr:last-child > th:first-child,
+.table-bordered tfoot:last-child tr:last-child > td:first-child,
+.table-bordered tfoot:last-child tr:last-child > th:first-child {
+  -webkit-border-bottom-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+}
+
+.table-bordered thead:last-child tr:last-child > th:last-child,
+.table-bordered tbody:last-child tr:last-child > td:last-child,
+.table-bordered tbody:last-child tr:last-child > th:last-child,
+.table-bordered tfoot:last-child tr:last-child > td:last-child,
+.table-bordered tfoot:last-child tr:last-child > th:last-child {
+  -webkit-border-bottom-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+}
+
+.table-bordered tfoot + tbody:last-child tr:last-child td:first-child {
+  -webkit-border-bottom-left-radius: 0;
+          border-bottom-left-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+}
+
+.table-bordered tfoot + tbody:last-child tr:last-child td:last-child {
+  -webkit-border-bottom-right-radius: 0;
+          border-bottom-right-radius: 0;
+  -moz-border-radius-bottomright: 0;
+}
+
+.table-bordered caption + thead tr:first-child th:first-child,
+.table-bordered caption + tbody tr:first-child td:first-child,
+.table-bordered colgroup + thead tr:first-child th:first-child,
+.table-bordered colgroup + tbody tr:first-child td:first-child {
+  -webkit-border-top-left-radius: 4px;
+          border-top-left-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+}
+
+.table-bordered caption + thead tr:first-child th:last-child,
+.table-bordered caption + tbody tr:first-child td:last-child,
+.table-bordered colgroup + thead tr:first-child th:last-child,
+.table-bordered colgroup + tbody tr:first-child td:last-child {
+  -webkit-border-top-right-radius: 4px;
+          border-top-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+}
+
+.table-striped tbody > tr:nth-child(odd) > td,
+.table-striped tbody > tr:nth-child(odd) > th {
+  background-color: #f9f9f9;
+}
+
+.table-hover tbody tr:hover > td,
+.table-hover tbody tr:hover > th {
+  background-color: #f5f5f5;
+}
+
+table td[class*="span"],
+table th[class*="span"],
+.row-fluid table td[class*="span"],
+.row-fluid table th[class*="span"] {
+  display: table-cell;
+  float: none;
+  margin-left: 0;
+}
+
+.table td.span1,
+.table th.span1 {
+  float: none;
+  width: 44px;
+  margin-left: 0;
+}
+
+.table td.span2,
+.table th.span2 {
+  float: none;
+  width: 124px;
+  margin-left: 0;
+}
+
+.table td.span3,
+.table th.span3 {
+  float: none;
+  width: 204px;
+  margin-left: 0;
+}
+
+.table td.span4,
+.table th.span4 {
+  float: none;
+  width: 284px;
+  margin-left: 0;
+}
+
+.table td.span5,
+.table th.span5 {
+  float: none;
+  width: 364px;
+  margin-left: 0;
+}
+
+.table td.span6,
+.table th.span6 {
+  float: none;
+  width: 444px;
+  margin-left: 0;
+}
+
+.table td.span7,
+.table th.span7 {
+  float: none;
+  width: 524px;
+  margin-left: 0;
+}
+
+.table td.span8,
+.table th.span8 {
+  float: none;
+  width: 604px;
+  margin-left: 0;
+}
+
+.table td.span9,
+.table th.span9 {
+  float: none;
+  width: 684px;
+  margin-left: 0;
+}
+
+.table td.span10,
+.table th.span10 {
+  float: none;
+  width: 764px;
+  margin-left: 0;
+}
+
+.table td.span11,
+.table th.span11 {
+  float: none;
+  width: 844px;
+  margin-left: 0;
+}
+
+.table td.span12,
+.table th.span12 {
+  float: none;
+  width: 924px;
+  margin-left: 0;
+}
+
+.table tbody tr.success > td {
+  background-color: #dff0d8;
+}
+
+.table tbody tr.error > td {
+  background-color: #f2dede;
+}
+
+.table tbody tr.warning > td {
+  background-color: #fcf8e3;
+}
+
+.table tbody tr.info > td {
+  background-color: #d9edf7;
+}
+
+.table-hover tbody tr.success:hover > td {
+  background-color: #d0e9c6;
+}
+
+.table-hover tbody tr.error:hover > td {
+  background-color: #ebcccc;
+}
+
+.table-hover tbody tr.warning:hover > td {
+  background-color: #faf2cc;
+}
+
+.table-hover tbody tr.info:hover > td {
+  background-color: #c4e3f3;
+}
+
+	
+</style>
+<script type="text/javascript">
+function formSubmit()
+{
+document.getElementById("form1").submit()
+}
+</script>
+<?php if(isset($this->ssgrp) && $this->ssgrp != ""){?>
+<strong>Tableau de bord des transferts des <?php echo $this->code; ?> </strong><br />
+<br />
+
+<table class="table table-striped table-bordered table-hover table-condensed" style="font-size:10px;">
+<thead>
+  <tr>
+    <th colspan="8"><strong>
+      <?php 
+	if (substr($this->code_membre, -1) == "P") {
+$membre_mapper = new Application_Model_EuMembreMapper();
+$membre = new Application_Model_EuMembre();
+$membre_mapper->find($this->code_membre, $membre);
+echo $membre->nom_membre." ".$membre->prenom_membre;
+	}else if (substr($this->code_membre, -1) == "M") {
+$membre_mapper = new Application_Model_EuMembreMoraleMapper();
+$membre = new Application_Model_EuMembreMorale();
+$membre_mapper->find($this->code_membre, $membre);
+echo $membre->raison_sociale." ";
+
+$filiere_mapper = new Application_Model_EuFiliereMapper();
+$filiere = new Application_Model_EuFiliere();
+$filiere_mapper->find($membre->id_filiere, $filiere);
+echo "(".$filiere->nom_filiere.")";
+	}
+	?>
+      </strong></th>
+    <th colspan="4"><?php 
+				$tableannee = new Application_Model_DbTable_EuTransfertNn();
+				$select = $tableannee->select();
+				$select->distinct();
+                $select->from('eu_transfert_nn', array('YEAR(date_transfert) as Annee'));
+				$annee = $tableannee->fetchAll($select);
+				if(count($annee) > 0){?>
+        <form id="form1" name="form1" method="get" action="<?php echo $_SERVER['REQUEST_URI'];?>">
+      <!--<label for="select">Année</label>-->
+      <select name="annee" id="annee" >
+        <option value="">Choisir</option>
+        <?php foreach ($annee as $rowannee) {  
+              $date_encours = $rowannee->Annee;			  
+	    ?>
+        <option value="<?php echo $date_encours; ?>" <?php if($_GET['annee'] == $date_encours) { echo ' selected="selected"';}?>><?php echo $date_encours; ?></option>
+        <?php } ?>
+        </select>
+      <!--<label for="selectmois">Mois</label>-->
+      <select name="mois" id="mois">
+        <option value="">Choisir</option>
+        <option value="01" <?php if($_GET['mois'] == "01") { echo ' selected="selected"';}?>><?php echo moisfr("01"); ?></option>
+        <option value="02" <?php if($_GET['mois'] == "02") { echo ' selected="selected"';}?>><?php echo moisfr("02"); ?></option>
+        <option value="03" <?php if($_GET['mois'] == "03") { echo ' selected="selected"';}?>><?php echo moisfr("03"); ?></option>
+        <option value="04" <?php if($_GET['mois'] == "04") { echo ' selected="selected"';}?>><?php echo moisfr("04"); ?></option>
+        <option value="05" <?php if($_GET['mois'] == "05") { echo ' selected="selected"';}?>><?php echo moisfr("05"); ?></option>
+        <option value="06" <?php if($_GET['mois'] == "06") { echo ' selected="selected"';}?>><?php echo moisfr("06"); ?></option>
+        <option value="07" <?php if($_GET['mois'] == "07") { echo ' selected="selected"';}?>><?php echo moisfr("07"); ?></option>
+        <option value="08" <?php if($_GET['mois'] == "08") { echo ' selected="selected"';}?>><?php echo moisfr("08"); ?></option>
+        <option value="09" <?php if($_GET['mois'] == "09") { echo ' selected="selected"';}?>><?php echo moisfr("09"); ?></option>
+        <option value="10" <?php if($_GET['mois'] == "10") { echo ' selected="selected"';}?>><?php echo moisfr("10"); ?></option>
+        <option value="11" <?php if($_GET['mois'] == "11") { echo ' selected="selected"';}?>><?php echo moisfr("11"); ?></option>
+        <option value="12" <?php if($_GET['mois'] == "12") { echo ' selected="selected"';}?>><?php echo moisfr("12"); ?></option>
+        </select>
+
+<input name="" type="submit" value="Ok" />
+      </form><?php }?></th>
+  </tr>
+  <tr style="background-color:#D7EBF9;">
+    <th><strong title="Identité">Id.</strong></th>
+    <th><strong>Désignation</strong></th>
+    <th><strong>Dates</strong></th>
+    <th><strong>Motif</strong></th>
+    <th><strong>Code SMS</strong></th>
+    <th><strong>Créés</strong></th>
+    <th><strong>Utilsés</strong></th>
+    <th><strong>Solde</strong></th>
+    <th><strong>Cumul Créés</strong></th>
+    <th><strong>Cumul Utilsés</strong></th>
+    <th><strong>Cumul Solde</strong></th>
+    <th>
+<?php if($this->code_groupe == 'detentrice' || $this->code_groupe == 'detentrice_pays' || $this->code_groupe == 'detentrice_region' || $this->code_groupe == 'detentrice_secteur' || $this->code_groupe == 'detentrice_agence' || $this->code_groupe == 'surveillance' || $this->code_groupe == 'surveillance_pays' || $this->code_groupe == 'surveillance_region' || $this->code_groupe == 'surveillance_secteur' || $this->code_groupe == 'surveillance_agence' || $this->code_groupe == 'detentrice_filiere' || $this->code_groupe == 'agrement_filiere' || $this->code_groupe == 'executante_acnev' || $this->code_groupe == 'agrement_acnev'){?>
+#
+    <?php }?>
+    </th>
+  </tr>
+</thead>
+<tbody>
+<?php if(count($this->achat) > 0){?>
+<?php 
+        $totmontant = 0;
+        $totsortie = 0;
+        $totsolde = 0;
+?>
+<?php $codemembre = " ";?>
+<?php foreach ($this->achat as $row) {?>
+<?php if(isset($row->montant_apport)){?>
+<?php if($codemembre != $row->code_membre){$codemembre = $row->code_membre;?>
+<?php 
+$cellule10 = 0;
+$cellule11 = 0;
+$cellule12 = 0;
+?>
+  <!--<tr>
+    <td colspan="12">&nbsp;</td>
+  </tr>-->
+  <tr>
+    <td colspan="12"><strong><?php 
+	if (substr($row->code_membre, -1) == "P") {
+$membre_mapper = new Application_Model_EuMembreMapper();
+$membre = new Application_Model_EuMembre();
+$membre_mapper->find($row->code_membre, $membre);
+echo $membre->nom_membre." ".$membre->prenom_membre;
+	}else if (substr($row->code_membre, -1) == "M") {
+$membre_mapper = new Application_Model_EuMembreMoraleMapper();
+$membre = new Application_Model_EuMembreMorale();
+$membre_mapper->find($row->code_membre, $membre);
+echo $membre->raison_sociale." ";
+
+$filiere_mapper = new Application_Model_EuFiliereMapper();
+$filiere = new Application_Model_EuFiliere();
+$filiere_mapper->find($membre->id_filiere, $filiere);
+echo "(".$filiere->nom_filiere.")";
+	}
+	?></strong></td>
+  </tr>
+  <!--<tr>
+    <td colspan="12">&nbsp;</td>
+  </tr>-->
+<?php }?>
+<?php 
+            $totmontant+=$row->montant_apport;
+            $totsortie+=$row->mont_rep;
+            $totsolde+=$row->mont_marge;
+
+				$tabelb = new Application_Model_DbTable_EuDetailAppelNn();
+				$selectb = $tabelb->select(Zend_Db_Table::SELECT_WITH_FROM_PART);//
+				$selectb->setIntegrityCheck(false);
+                $selectb->from('eu_detail_appel_nn', array('SUM(mont_rep) AS somme'));
+                $selectb->join('eu_repartition_nn', 'eu_repartition_nn.in_detail_appel_nn = eu_detail_appel_nn.in_detail_appel_nn', array());
+				$selectb->where("eu_repartition_nn.date_rep <= ?", $row->date_rep);
+				//if($this->code_groupe != 'detentrice' && $this->code_groupe != 'surveillance'){
+				$selectb->where("eu_detail_appel_nn.code_membre LIKE '%".$row->code_membre."%' ");
+				//}
+				$selectb->where("YEAR(eu_repartition_nn.date_rep) = '".$_GET['annee']."' ");
+				$selectb->where("MONTH(eu_repartition_nn.date_rep) = '".$_GET['mois']."' ");
+				$achatb = $tabelb->fetchRow($selectb);
+				$total_date = $achatb->somme;
+?>
+<?php 
+$cellule1 = $row->date_rep;
+$cellule2 = "NN Repartition";
+$cellule3 = $row->creditcode;
+$cellule4 = $row->montant_apport;
+$cellule5 = $row->mont_rep;
+$cellule6 = $row->mont_marge;
+$cellule7 = $total_date;
+?>
+<?php }else if (isset($row->mont_transfert)){?>
+<?php if($row->code_compte_transfert == NULL){?>
+<?php $nummembre = "";?>
+<?php if($codemembre != $nummembre){$codemembre = $nummembre;?>
+<?php 
+$cellule10 = 0;
+$cellule11 = 0;
+$cellule12 = 0;
+?>
+  <!--<tr>
+    <td colspan="12">&nbsp;</td>
+  </tr>-->
+  <tr>
+    <td colspan="12"><strong>GSN (Gestion des Sources Numeriques)</strong></td>
+  </tr>
+  <!--<tr>
+    <td colspan="12">&nbsp;</td>
+  </tr>-->
+<?php }?>
+<?php }else{?>
+<?php $nummembre = substr($row->code_compte_dist, -20);?>
+<?php if($codemembre != $nummembre){$codemembre = $nummembre;?>
+<?php 
+$cellule10 = 0;
+$cellule11 = 0;
+$cellule12 = 0;
+?>
+  <!--<tr>
+    <td colspan="12">&nbsp;</td>
+  </tr>-->
+  <tr>
+    <td colspan="12"><strong><?php 
+	if (substr($nummembre, -1) == "P") {
+$membre_mapper = new Application_Model_EuMembreMapper();
+$membre = new Application_Model_EuMembre();
+$membre_mapper->find($nummembre, $membre);
+echo $membre->nom_membre." ".$membre->prenom_membre;
+	}else if (substr($nummembre, -1) == "M") {
+$membre_mapper = new Application_Model_EuMembreMoraleMapper();
+$membre = new Application_Model_EuMembreMorale();
+$membre_mapper->find($nummembre, $membre);
+echo $membre->raison_sociale." ";
+
+$filiere_mapper = new Application_Model_EuFiliereMapper();
+$filiere = new Application_Model_EuFiliere();
+$filiere_mapper->find($membre->id_filiere, $filiere);
+echo "(".$filiere->nom_filiere.")";
+	}
+	?></strong></td>
+  </tr>
+  <!--<tr>
+    <td colspan="12">&nbsp;</td>
+  </tr>-->
+<?php }?>
+<?php }?>
+<?php 
+            $totmontant+=$row->mont_transfert;
+            $totsortie+=$row->mont_vendu;
+            $totsolde+=$row->solde_transfert;
+
+				$tabelb = new Application_Model_DbTable_EuTransfertNn();
+				$selectb = $tabelb->select();
+                $selectb->from('eu_transfert_nn', array('SUM(mont_transfert) AS somme_transfert'));
+				//$selectb->where("date_transfert <= ?", $row->date_transfert);
+				$selectb->where("id_transfert_nn <= ?", $row->id_transfert_nn);
+				//if($this->code_groupe != 'detentrice' && $this->code_groupe != 'surveillance'){
+				if($nummembre != ""){
+				$selectb->where('code_compte_dist LIKE ?', '%'.$nummembre);
+				}
+				//}
+           		if($this->ssgrp != ""){
+				$selectb->where("code_type_nn LIKE '%".strtoupper($this->prd2.$this->prk.$this->prk2)."%' ");
+				}
+				$selectb->where("YEAR(date_transfert) = '".$_GET['annee']."' ");
+				$selectb->where("MONTH(date_transfert) = '".$_GET['mois']."' ");
+				$achatb = $tabelb->fetchRow($selectb);
+				$total_date = $achatb->somme_transfert;
+				//echo $selectb;
+?>
+<?php 
+$cellule1 = $row->date_transfert;
+$cellule2 = $row->code_type_nn;
+$cellule3 = $row->type_transfert;
+$cellule4 = $row->mont_transfert;
+$cellule5 = $row->mont_vendu;
+$cellule6 = $row->solde_transfert;
+$cellule7 = $total_date;
+
+$cellule8 = "P".substr($row->code_compte_dist, -1);
+
+	if (substr($row->code_compte_dist, -1) == "P") {
+$membre_mapper = new Application_Model_EuMembreMapper();
+$membre = new Application_Model_EuMembre();
+$membre_mapper->find(substr($row->code_compte_dist, -20), $membre);
+$cellule9 = $membre->code_membre;
+$cellule13 = $membre->nom_membre." ".$membre->prenom_membre;
+	}else if (substr($row->code_compte_dist, -1) == "M") {
+$membre_mapper = new Application_Model_EuMembreMoraleMapper();
+$membre = new Application_Model_EuMembreMorale();
+$membre_mapper->find(substr($row->code_compte_dist, -20), $membre);
+$cellule9 = $membre->code_membre_morale;
+$cellule13 = $membre->raison_sociale;
+	}
+
+$cellule10 += $row->mont_transfert;
+$cellule11 += $row->mont_vendu;
+$cellule12 += $row->solde_transfert;
+?>
+<?php }?>
+  <tr>
+    <td><?php echo $cellule8; ?></td>
+    <td title="<?php echo $cellule13; ?>"><?php echo $cellule9; ?></td>
+    <td><?php echo jourfr($cellule1); ?></td>
+    <td><?php echo $cellule2; ?></td>
+    <td><?php echo $cellule3; ?></td>
+    <td><div align="right"><?php echo number_format($cellule4, 0, ',', ' '); ?></div></td>
+    <td><div align="right"><?php echo number_format($cellule5, 0, ',', ' '); ?></div></td>
+    <td><div align="right"><?php echo number_format($cellule6, 0, ',', ' '); ?></div></td>
+    <td><div align="right"><?php echo number_format($cellule10, 0, ',', ' '); ?></div></td>
+    <td><div align="right"><?php echo number_format($cellule11, 0, ',', ' '); ?></div></td>
+    <td><div align="right"><?php echo number_format($cellule12, 0, ',', ' '); ?></div></td>
+    <td>
+    <?php 
+$acteur = new Application_Model_EuActeur();
+$result = $acteur->findByActeur2(substr($row->code_compte_dist, -20));
+	?>
+<?php if($result->code_activite == "semi-grossiste"){
+	$REQUEST_URI = $_SERVER['REQUEST_URI'];
+	$pos2 = stripos($REQUEST_URI, "transfert3");
+if ($pos2 !== false) {
+	$REQUEST_URI = str_replace("transfert3", "debitcredit3", $REQUEST_URI);
+	}
+	$pos2 = stripos($REQUEST_URI, "gsnp");
+if ($pos2 !== false) {
+	$REQUEST_URI = str_replace("gsnp", "e", $REQUEST_URI);
+	}
+	$pos2 = stripos($REQUEST_URI, "fgp");
+if ($pos2 !== false) {
+	$REQUEST_URI = str_replace("fgp", "e", $REQUEST_URI);
+	}
+	?> 
+    <a target="_blank" href="<?php $pos1 = stripos($REQUEST_URI, "?");if ($pos1 === false) {$connect = "?";}else{$connect = "&";}echo $REQUEST_URI;?><?php echo $connect; ?>membre2=<?php echo $row->code_compte_dist; ?>"><img src="<?php echo $this->baseUrl();?>/images/searchicon.png" /></a>
+<?php }else if($this->code_groupe == 'detentrice' || $this->code_groupe == 'detentrice_pays' || $this->code_groupe == 'detentrice_region' || $this->code_groupe == 'detentrice_secteur' || $this->code_groupe == 'detentrice_agence' || $this->code_groupe == 'surveillance' || $this->code_groupe == 'surveillance_pays' || $this->code_groupe == 'surveillance_region' || $this->code_groupe == 'surveillance_secteur' || $this->code_groupe == 'surveillance_agence' || $this->code_groupe == 'detentrice_filiere' || $this->code_groupe == 'agrement_filiere' || $this->code_groupe == 'executante_acnev' || $this->code_groupe == 'agrement_acnev'){?>
+    <a target="_blank" href="<?php $pos1 = stripos($_SERVER['REQUEST_URI'], "?");if ($pos1 === false) {$connect = "?";}else{$connect = "&";}echo $_SERVER['REQUEST_URI'];?><?php echo $connect; ?>membre=<?php echo $row->code_compte_dist; ?>"><img src="<?php echo $this->baseUrl();?>/images/searchicon.png" /></a>
+<?php }?>
+    </td>
+  </tr>
+<?php }?>
+  <tr>
+    <td colspan="12">&nbsp;</td>
+  </tr>
+<?php }else{?>
+  <tr>
+    <td colspan="12"><strong>Pas de résultat</strong></td>
+  </tr>
+<?php }?>
+</tbody>
+</table>
+<?php }?>

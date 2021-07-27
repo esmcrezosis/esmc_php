@@ -1,0 +1,158 @@
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<div class="role-fluid">
+
+<legend>Interface de modification des informations du centre N° <?php echo $this->editduncentre[0]->reference_centre ?></legend>
+
+			<?php if (isset($_SESSION["validationerrors"])): ?>
+
+				<div class="alert alert-danger">
+
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+				</div>
+
+			<?php unset($_SESSION['validationerrors']); endif ?>
+
+			<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+
+				<div class="alert alert-success">
+
+					<li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+
+				</div>
+
+			<?php unset($_SESSION['validationpertesuccess']); endif ?>
+
+            <form action="#"  method="post" class="form-horizontal" id="ajouteruncentre">
+
+                <div class="control-group">
+
+	                <label class="control-label" for="organisateur_modif_centre_nom_edition" style="font-weight:bold">
+
+	                    Nom du centre *:
+
+	                </label>
+
+	              <div class="controls">
+
+		             <input type="text" name="organisateur_modif_centre_nom_edition" class="input-block-level organisateur_centre_nom_edition" value="<?php echo $this->editduncentre[0]->libelle_centre ?>" required="required"/>
+
+	              </div>
+
+	            </div>
+
+
+                <div class="control-group">
+
+	                <label class="control-label" for="organisateur_modif_centre_surface_edition" style="font-weight:bold">
+
+	                    Superficie du centre(m2):
+
+	                </label>
+
+	              <div class="controls">
+
+		             <input type="text" name="organisateur_modif_centre_surface_edition" class="input-block-level organisateur_centre_surface_edition" value="<?php echo $this->editduncentre[0]->surface_centre ?>"/>
+	              
+                  </div>
+
+	            </div>
+
+                <div class="control-group">
+
+	                <label class="control-label" for="organisateur_centre_phone" style="font-weight:bold">
+
+	                    Numéro de téléphone du centre *:
+
+	                </label>
+
+	              <div class="controls">
+                  
+		             <input type="text" name="organisateur_modif_centre_phone_edition" class="input-block-level organisateur_centre_phone_edition" value="<?php echo $this->editduncentre[0]->telephone_centre ?>" required="required"/>
+	              
+                  </div>
+
+	            </div>
+
+                <div class="control-group">
+
+	                <label class="control-label" for="organisateur_modif_centre_bp_edition" style="font-weight:bold">
+
+	                    Boîte postale du centre *:
+
+	                </label>
+
+	              <div class="controls">
+
+		             <input type="text" name="organisateur_modif_centre_bp_edition" class="input-block-level organisateur_modif_centre_bp_edition" value="<?php echo $this->editduncentre[0]->bp_centre ?>" required="required"/>
+
+	              </div>
+
+	            </div>
+
+                <div class="control-group">
+
+	                <label class="control-label" for="organisateur_modif_centre_description_edition" style="font-weight:bold">
+
+	                    Bref description du centre *:
+
+	                </label>
+
+	              <div class="controls">
+
+                     <Textarea name="organisateur_modif_centre_description_edition" class="input-block-level organisateur_modif_centre_description_edition" required="required"><?php echo $this->editduncentre[0]->description_centre ?></Textarea>
+		          
+                  </div>
+
+	            </div>
+
+                <div class="control-group">
+
+	                <label class="control-label" for="organisateur_modif_centre_address_edition" style="font-weight:bold">
+
+	                    Addresse du centre *:
+
+	                </label>
+
+	              <div class="controls">
+
+                     <Textarea name="organisateur_modif_centre_address_edition" class="input-block-level organisateur_modif_centre_address" required="required"><?php echo $this->editduncentre[0]->addresse_centre ?></Textarea>
+		          
+                  </div>
+
+	            </div>
+
+                <input type="hidden" value = "<?php echo $this->idcentreedition ?>" name="idcentreedition">
+
+
+                <div class="control-group" style ="clear:both">
+
+                  <button type="submit" class="btn btn-large btn-primary" id ="validcentre_qrcode" style="position:relative">
+
+                    Modifier les informations concernant cet centre
+
+                  </button>
+
+                </div>
+
+            </form>
+
+</div>
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+
+<script src="/outil-qr.js"></script>
+
+<script type="text/javascript">
+
+        //outilqr('addeli');
+
+		//outilqrformobligatoire("ajouteruncentre","validcentre_qrcode");
+
+    </script>
+
+<style>
+
+
+</style>

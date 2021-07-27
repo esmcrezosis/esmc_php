@@ -1,0 +1,31 @@
+<style>
+     header::after{
+     	content: "";
+     	position: absolute;
+     	top: 0;
+     	right: 0;
+     	left: 0;
+     	bottom: 0;
+     	background: #000;
+     	opacity: 0.3;
+     }
+	</style>
+
+<div class="row-fluid">
+        <div class="span9"> 
+      
+<header style="position:relative;background-image:url(<?php echo $this->baseUrl();?>/images/404.jpg);background-position: 50% 50%;background-size: cover;z-index:0">
+	<div style="position:relative;z-index:1">
+		<h1 style="font-size: 6em;text-align: center;font-family: fantasy;color:#FFF;line-height:1;">Erreur <!--<span style="color:#FF0000;">404!</span>--></h1>
+		<p style="font-size:3em;color:#FFF;text-align:center;line-height:1;">La page que vous rechercher n'est pas encore disponible</p>
+	</div>
+
+	</header>      
+
+</div>
+
+<div class="span3">
+	<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+</div>
+
+</div>

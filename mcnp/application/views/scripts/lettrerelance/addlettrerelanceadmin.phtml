@@ -1,0 +1,102 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+
+    <div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajouter une lettre de relance</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addeli">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = "";?>
+    </div>
+  <?php }?>
+  
+  
+
+<div class="control-group">
+<label class="control-label" for="id_eli">ELI * </label>
+<div class="controls">
+<?php 
+$eli_m = new Application_Model_EuEliMapper();
+$eli = $eli_m->fetchAll();
+if(count($eli) > 0){?>
+<select name="id_eli" id="id_eli" required >
+<option value="">Choisir l'ELI' </option>
+<?php foreach ($eli as $value) { ?>
+<option value="<?php echo $value->id_eli; ?>"><?php echo $value->libelle_eli;?> - <?php echo $value->numero_eli;?></option>
+<?php } ?>
+</select>
+<?php } ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_membre">Code Membre *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="code_membre" id="code_membre" placeholder="Code Membre" required>
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="libelle">Libellé de la lettre *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="libelle" id="libelle" placeholder="Libellé de la lettre" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="description">Description * </label>
+<div class="controls">
+<textarea name="description" id="description" placeholder="Description" class="ckeditor" required></textarea>
+</div>
+</div>
+   
+<div class="control-group">
+<label class="control-label" for="fichier">Document de la lettre *</label>
+<div class="controls">
+<input name="fichier" type="file" id="fichier" class="input-xxlarge" required  />
+</div>
+</div>
+
+    
+
+
+
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter la lettre de relance</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

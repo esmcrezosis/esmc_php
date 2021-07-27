@@ -1,0 +1,128 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+         <input id="m_editer" type="button" value="Editer" class="ui-widget button"/>
+         <input id="m_detail" type="button" value="Afficher" class="ui-widget button"/>
+         <input type="text" id="membre" name="membre" size="35"/>
+         <input id="recherche" type="button" value="Recherche"/>
+    </div>
+    <table id="tbl-morale"></table>
+    <div id="pg-morale"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-morale").jqGrid({
+        url:"/eu-membre/data?type=M"+"&membre="+$('#membre').val(),
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Numero','Type','Statut','Raison sociale','Activité','Ville','Téléphone','Portable'],
+        height:410, width:827,
+        colModel:[
+        {name:'code_membre',index:'code_membre', width:300, sorttype:"int", editable: true,align:"left"},
+        {name:'type_acteur',index:'type_acteur', width: 80, editable: true,align:"left"},
+        {name:'statut_juridique',index:'statut_juridique', width: 100, editable: true,align:"left"},
+        {name:'raison_sociale',index:'raison_sociale', width: 250, editable: true,align:"left"},
+		{name:'domaine_activite',index:'domaine_activite', width: 180, align:"left", editable: true},
+	    {name:'ville_membre',index:'ville_membre', width: 150, align:"left", editable: true},
+		{name:'tel_membre',index:'tel_membre', width: 150, align:"left", editable: true},
+        {name:'portable_membre',index:'portable_membre', width: 150, align:"left", editable: true},
+        ],
+        rowNum:200,
+        rowList:[200,300,400],
+        pager: '#pg-morale',
+        sortname:"code_membre",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Membres morales"
+    });
+    $("#tbl-morale").jqGrid('navGrid','#pg-morale',{edit:false,add:false,del:false,search:true});
+   
+    $('#m_editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-morale").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-membre/edit',{
+                membre:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+    $.get( "/eu-membre/changem",
+                function success(data){
+                $("input#membre").autocomplete({"source":data});
+               }); 
+     
+    $('#recherche').click(function()
+    {
+          membre=$('#membre').val(); 
+          jQuery("#tbl-morale").jqGrid('setGridParam',{url:"/eu-membre/data?type=M"+"&membre="+membre}).trigger('reloadGrid');
+    });
+    
+    $('#m_detail').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-morale").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-membre/mdetail',{
+                membre:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+	$('#contrat').click(function()
+   {
+  var rowsel;
+  rowsel = jQuery("#tbl-morale").jqGrid('getGridParam','selrow');
+  if(rowsel)
+           {		   
+            seldata = jQuery("#tbl-morale").jqGrid('getRowData',rowsel);
+		    $.get('/eu-membre/contrat',{
+                 code_membre:rowsel
+            },function success(data) {
+                 if(data == rowsel){
+				    alert("Ce membre a déjà un contrat"); 
+			}
+		else {	 	
+                if(seldata.type_membre == 'P'){
+                $.get('/eu-membre/newcpp',{
+                    membre:rowsel
+                },function success(data){
+                    $("#content").html(data);
+                }); 
+            }
+            else
+            {
+                $.get('/eu-membre/newcpm',{
+                    membre:rowsel
+                },function success(data){
+                    $("#content").html(data);
+                }); 
+            }
+		}
+		});	
+        }
+        else
+        {
+            alert('Aucune ligne sélectionnée');
+        }
+	
+
+});
+	$('#membre').puiinputtext();
+    $('#m_editer').button();
+    $('#m_detail').button();
+    $('#recherche').button();
+	$('#contrat').button();
+   
+</script>

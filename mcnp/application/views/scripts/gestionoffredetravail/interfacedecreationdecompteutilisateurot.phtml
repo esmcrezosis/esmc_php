@@ -1,0 +1,64 @@
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+     <blockquote> <strong>INTERFACE DE CREATION DE COMPTE UTILISATEUR OT </strong></blockquote>
+
+     <?php if (isset($_SESSION["validationerrors"])): ?>
+
+     <div class="alert alert-danger">
+
+         <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+     </div>
+
+     <?php unset($_SESSION['validationerrors']); endif ?>
+
+     <?php if (isset($_SESSION["validationsuccess"])): ?>
+
+     <div class="alert alert-success">
+
+         <li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+
+     </div>
+
+     <?php unset($_SESSION['validationsuccess']); endif ?>
+
+	<table class="table table-striped table-condensed table-hover table-selection-all-prestataire" id="example">
+
+    <thead>
+    
+	    <tr>
+        
+		    <th>Code membre du candidat OT</th>
+
+		    <th>Nom du poste AGr OT</th>
+
+            <th>Appel à candidature</th>  
+
+            <th>Résumé de sa candidature</th>        
+
+            <th>Actions</th>
+
+        </tr>
+
+    </thead>
+
+	<tbody>
+
+	     <?php foreach ($this->tableaudesfuturutilisateurs as $key => $value): ?>
+
+           <td><?php echo $value['code_membre_ot']; ?></td>
+
+           <td><?php echo $value['nom_postes_ot']; ?></td>
+
+           <td><a href="/gestionoffredetravail/detaildunappeldoffre/id/<?php echo $value['id_candidature_ot']; ?>" class="btn btn-danger" target="_blank">Lire l'appel d'offre</a></td>
+
+           <td><a href="detailduprofilduncandidat/iddetailcandidat/<?php echo $value['id_candidature_membre_ot'] ?>/iddetailpost/<?php echo $value['id_candidature_postes_ot'] ?>/idcandidature/<?php echo $value['id_candidature_ot']?>/codemembre/<?php echo $value['code_membre_ot'] ?>/idsupportintrantot/<?php echo $value['id_supportintrant_ot'] ?>" class="btn btn-success" data-idcandidaat = "<?php echo $value->id_candidature_membre ;?>" target="_blank">Voir son profil</a></td>
+
+           <td><a href="#" class="btn btn-info" id="btn-createagrot" data-idcandidaturemembre= "<?php echo $value['id_candidature_membre_ot']; ?>" data-idcandidaturepost="<?php echo $value['id_candidature_postes'] ?>" data-codemembreot = "<?php echo $value['code_membre']; ?>">Créer son agent AGrOT </a></td>
+
+		 <?php endforeach ?>
+
+    </tbody>
+
+</table>

@@ -1,0 +1,117 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Liste de mes contrats de livraison irrévocable</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+<!-- style="font-size:9px;" -->
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Date contrat</th>
+								  <!--<th>Code Membre</th>-->
+								  <th>Type</th>
+								  <th>Nom</th>
+								  <th>Montant Total</th>
+								  <th>Période de garde</th>
+								  <th>Chargement</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php echo datejourfr($entry->date_contrat); ?></td>
+      <?php /*<td><?php echo $entry->code_membre; ?></td>*/?>
+      <td><?php 
+if($entry->type_validateur == "personne_physique"){echo "Mme / M.";
+}else if($entry->type_validateur == "etablissement"){echo "Etablissement";
+}else if($entry->type_validateur == "maison"){echo "Maison/Villa/Immeuble";
+}else if($entry->type_validateur == "collectivite"){echo "Collectivité";
+}else if($entry->type_validateur == "association"){echo "L’Association";
+}else if($entry->type_validateur == "ong"){echo "L’ONG";
+}else if($entry->type_validateur == "groupement"){echo "Le Groupement";
+}else if($entry->type_validateur == "cooperative"){echo "La Coopérative";
+}else if($entry->type_validateur == "union"){echo "L’Union";
+}else if($entry->type_validateur == "federation"){echo "La Fédération";
+}else if($entry->type_validateur == "confederation"){echo "La Confédération";
+}else if($entry->type_validateur == "reseau"){echo "Le Réseau";
+}else if($entry->type_validateur == "faitiere"){echo "La Faitière";
+}else if($entry->type_validateur == "confession_religieuse"){echo "Confession religieuse";
+}else if($entry->type_validateur == "ets_public_administratif"){echo "L’Etablissement Public Administratif";
+}else if($entry->type_validateur == "ets_public_industriel_commercial"){echo "L’Etablissement Public Industriel Commercial";
+}else if($entry->type_validateur == "organisation_internationale"){echo "L’Organisation Internationale";
+}else if($entry->type_validateur == "societe"){echo "La Société";
+}
+      //echo $entry->type_validateur; ?></td>
+      <td><?php echo $entry->nom; ?></td>
+      <td><?php 
+        $detail = new Application_Model_EuDetailContratLivraisonIrrevocableMapper();
+        $montant_produits = $detail->fetchAllByContratCumul($entry->id_contrat);
+      echo $montant_produits; ?></td>
+      <td><?php echo $entry->periode_garde; ?>mois</td>
+      <td><?php echo $entry->chargement_produit; ?></td>
+      <td><div align="center"><?php if($entry->statut == 1){?>
+			<i class="icon-ok icon-white"></i>  Activé &nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning"  onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir valider ce contrat de livraison? Cette opération est irrèssible.')) location='<?php echo $this->baseUrl(); ?>/contratlivraison/statutcontrat/id/<?php echo $entry->id_contrat; ?>/statut/1'"><i class="icon-off icon-white"></i>  Désactivé</a>
+<?php }?>
+ 
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/contratlivraison/pdfcontrat/id/<?php echo $entry->id_contrat; ?>" target="_blank"><i class="icon-pdf icon-white"></i>  PDF</a>
+
+<?php if($entry->statut == 1){?>
+<?php }else{?>
+
+			<?php /*?><a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/contratlivraison/editcontrat/id/<?php echo $entry->id_contrat; ?>"><i class="icon-edit icon-white"></i>  Modifier</a><?php */?>
+
+      			<a class="btn btn-mini btn-danger"  onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/contratlivraison/suppcontrat/id/<?php echo $entry->id_contrat; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a></div></td>
+<?php }?>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun contrat enregistré 
+</div>
+<?php }?>
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

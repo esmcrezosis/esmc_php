@@ -1,0 +1,169 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modifier un agrément OSE/OE</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addappeloffres">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<fieldset>
+<legend>Formulaire de modification d'un agrément OSE/OE</legend>
+    
+<div class="control-group">
+<label class="control-label" for="code_agence">Agence *</label>
+<div class="controls">
+<select name="code_agence" id="code_agence" required>
+        <?php $tagence = new Application_Model_DbTable_EuAgence();
+        $results = $tagence->fetchAll();?>
+  <option value="">Choisir l'agence</option>
+    <?php foreach ($results as $agence): ?>
+               <option value="<?php echo $agence->code_agence; ?>" <?php if($this->association->code_agence == $agence->code_agence){echo ' selected="selected"';}?>><?php echo ($agence->libelle_agence); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_nom">Raison sociale de l'agrément OSE/OE  *</label>
+<div class="controls">
+<input type="text" name="association_nom" id="association_nom" placeholder="Raison sociale de l'agrément OSE/OE " class="input-xxlarge" required value="<?php echo $this->association->association_nom; ?>" />
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="association_numero">Numero de l'agrément OSE/OE  *</label>
+<div class="controls">
+<input type="text" name="association_numero" id="association_numero" placeholder="Numero de l'agrément OSE/OE " class="input-xxlarge" required value="<?php echo $this->association->association_numero; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_date_agrement">Date Agrément de l'agrément OSE/OE  *</label>
+<div class="controls">
+<input type="date" name="association_date_agrement" id="association_date_agrement" placeholder="Date Agrément de l'agrément OSE/OE" class="input-xxlarge" required value="<?php echo $this->association->association_date_agrement; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_mobile">Cellulaire de l'agrément OSE/OE  *</label>
+<div class="controls">
+<input type="number" name="association_mobile" id="association_mobile" placeholder="Cellulaire de l'agrément OSE/OE" class="input-xxlarge" required value="<?php echo $this->association->association_mobile; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_email">E-mail de l'agrément OSE/OE  *</label>
+<div class="controls">
+<input type="email" name="association_email" id="association_email" placeholder="E-mail de l'agrément OSE/OE" class="input-xxlarge" required value="<?php echo $this->association->association_email; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_recepisse">Récépissé de l'agrément OSE/OE  </label>
+<div class="controls">
+  <input type="text" name="association_recepisse" id="association_recepisse" placeholder="Récépissé de l'agrément OSE/OE" class="input-xxlarge" value="<?php echo $this->association->association_recepisse; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_adresse">Adresse de l'agrément OSE/OE   </label>
+<div class="controls">
+  <textarea name="association_adresse" class="input-xxlarge" id="association_adresse" placeholder="Adresse de l'agrément OSE/OE"><?php echo $this->association->association_adresse; ?></textarea>
+</div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="type_acteur">Type Agrément OSE/OE *</label>
+  <div class="controls">
+  <select name="type_acteur" id="type_acteur" class="input-xxlarge" required>
+  <option value="">Choisir le type</option>
+    <option value="EI" <?php if($this->association->code_type_acteur == 'EI'){echo ' selected="selected"';}?>>Entreprise Industrie</option>
+    <option value="OE" <?php if($this->association->code_type_acteur == 'OE'){echo ' selected="selected"';}?>>Opérateur Economique</option>
+    <option value="OSE" <?php if($this->association->code_type_acteur == 'OSE'){echo ' selected="selected"';}?>>Opérateur Socio-Economique</option>
+    <option value="PEI" <?php if($this->association->code_type_acteur == 'PEI'){echo ' selected="selected"';}?>>Partenaire Entreprise Industrie</option>
+    <option value="POE" <?php if($this->association->code_type_acteur == 'POE'){echo ' selected="selected"';}?>>Partenaire Opérateur Economique</option>
+    <option value="POSE" <?php if($this->association->code_type_acteur == 'POSE'){echo ' selected="selected"';}?>>Partenaire Opérateur Socio-Economique</option>
+</select>
+  </div>
+  </div>
+  
+<div class="control-group">
+  <label class="control-label" for="statut_juridique">Statut juridique *</label>
+  <div class="controls">
+  <select  class="input-xxlarge" name="statut_juridique" id="statut_juridique" required>
+       <?php  $statutjuridique = new Application_Model_EuStatutJuridiqueMapper();
+		$selectstatutjuridique = $statutjuridique->fetchAll();?>
+               <option value="">Choisir un statut juridique</option>
+    <?php foreach ($selectstatutjuridique as $selectstatutjuridique): ?>
+               <option value="<?php echo $selectstatutjuridique->code_statut; ?>" <?php if($this->association->code_statut == $selectstatutjuridique->code_statut){echo ' selected="selected"';}?>><?php echo htmlentities($selectstatutjuridique->libelle_statut); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+
+<div class="control-group">
+  <label class="control-label" for="id_filiere">Filière *</label>
+  <div class="controls">
+  <select  class="input-xxlarge" name="id_filiere" id="id_filiere" required>
+       <?php  $filiere = new Application_Model_EuFiliereMapper();
+		$selectfiliere = $filiere->fetchAll();?>
+               <option value="">Choisir une filière</option>
+    <?php foreach ($selectfiliere as $selectfiliere): ?>
+               <option value="<?php echo $selectfiliere->id_filiere; ?>" <?php if($this->association->id_filiere == $selectfiliere->id_filiere){echo ' selected="selected"';}?>><?php echo htmlentities($selectfiliere->nom_filiere); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+  
+  
+<div class="control-group">
+<label class="control-label" for="code_membre">Code Membre de l'Agrément OSE/OE  *</label>
+<div class="controls">
+<input type="text" name="code_membre" id="code_membre" placeholder="Code Membre de l'Agrément OSE/OE " class="input-xxlarge" required value="<?php echo $this->association->code_membre; ?>" />
+</div>
+</div>
+
+
+</fieldset> 
+   
+    
+    
+
+<div class="form-actions">
+<input type="hidden" name="association_id" id="association_id" value="<?php echo $this->association->association_id; ?>" />
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

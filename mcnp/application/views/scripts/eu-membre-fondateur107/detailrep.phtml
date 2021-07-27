@@ -1,0 +1,30 @@
+<div id="view-content">  
+<table id="tbl-det"></table>
+<div id="pg-det"></div>    
+<script type="text/javascript">
+        $("#tbl-det").jqGrid({
+        url: "/eu-membre-fondateur107/mfdetailrep",
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Numero', 'Nom', 'Prenom', 'Montant réparti'],
+        height: 410, width: 827,
+        colModel: [
+             {name: 'code_membre', index: 'code_membre', width:200, sorttype: "int", editable: true, align: "left"},
+             {name: 'nom', index: 'nom', width: 180, editable: true, align: "left"},
+             {name: 'prenom', index: 'prenom', width: 200, align: "left", editable: true},
+             //{name: 'code_mf107', index: 'code_mf107', width:300, editable: true, align: "left"},
+             {name: 'mont_recu', index: 'mont_recu', width:180, editable: true, align: "left"},
+             //{name: 'numident', index: 'numident', width:300, editable: true, align: "left"},
+        ],
+        rowNum: 200000,
+        rowList: [200000, 400000, 600000],
+        pager: '#pg-det',
+        sortname: "id_mf107",
+        viewrecords: true,
+        rownumbers:true,
+        sortorder: "ASC",
+        caption: "Détail des répartitions des montants sur les comptes MF107" 
+    });
+    $("#tbl-det").jqGrid('navGrid', '#pg-det', {edit: false, add: false, del: false, search: true}); 
+</script> 
+</div>

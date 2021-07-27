@@ -1,0 +1,141 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur'); ?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+
+<script type="text/javascript" charset="utf-8">			
+$(document).ready(function() {
+    $('#example').dataTable({
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    });
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p> Liste des Offreurs d'Intégration Sans Liste du Programme de Souscription au BC pour Tiers </p></blockquote>
+
+<?php if(count($this->entries) > 0) { ?>
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+<thead>
+	  <tr>
+			<th>Date</th>
+			<th>Code Membre</th>
+			<th>Nom & prénom(s)</th>
+			<th>Cellulaire</th>
+			<th>Date et lieu de naissance</th>
+			<th>Enrôlé</th>
+			<th>Ville/Quartier</th>
+			<th>Actions</th>
+	  </tr>
+</thead>
+						  
+<tbody>
+<?php foreach($this->entries as $entry): ?>
+<tr>
+<td><?php echo ($entry->date_identification); ?> <?php echo ($entry->heure_identification); ?></td>
+<td><?php echo ($entry->code_membre); ?></td>
+<td><?php echo ($entry->nom_membre); ?> <?php echo ($entry->prenom_membre); ?></td>
+<td><?php echo ($entry->portable_membre); ?></td>
+<td><?php echo ($entry->date_nais_membre); ?> <?php echo ($entry->lieu_nais_membre); ?></td>
+<td>
+    <?php
+	   if($entry->auto_enroler == "O") {
+		  echo "NON"; 
+	   } else if($entry->auto_enroler == "N") {
+		  echo "OUI"; 
+	   }
+	
+       /*	
+	   if($entry->id_canton > 0) {
+            $canton = new Application_Model_EuCanton();
+            $cantonM = new Application_Model_EuCantonMapper();
+            $cantonM->find($entry->id_canton, $canton);
+            echo $canton->nom_canton;
+       }
+       */	   
+	 ?>
+</td>
+<td>
+	 <?php
+       $reponsetraiter = str_replace("&eacute;","e",strtoupper($entry->ville_membre));		  
+	   $reponsetraiter = str_replace("&EACUTE;","E",$reponsetraiter);
+	   $reponsetraiter = str_replace("A©","E",$reponsetraiter);
+	   echo ucfirst(htmlentities($reponsetraiter));
+		  
+     ?> / 
+		  
+	 <?php echo ucfirst(htmlentities($entry->quartier_membre));?> 
+</td>
+
+<td>
+    <div align="center">
+	<?php
+	     $db_membrefifo = new Application_Model_DbTable_EuMembreFifo();
+		 $select = $db_membrefifo->select();
+		 $select->where('code_membre_benef = ?',$entry->code_membre);
+		 $select->where('valider = ?',1);
+		 
+		 $entries = $db_membrefifo->fetchAll($select);
+	     if(count($entries) > 0) {
+	?>
+	     <a class="btn btn-mini btn-success"><i class="icon-ok icon-white"></i> Déjà Trié </a>&nbsp;
+	     <?php } else { ?>
+		 <a class="btn btn-mini btn-primary" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir trier ce membre ?')) 
+		   location='<?php echo $this->baseUrl(); ?>/administration/trierfifo/id/<?php echo $entry->code_membre;?>'">
+	       <i class="icon-edit icon-white"></i>
+		   Trier
+	     </a>
+		 &nbsp;
+	     <?php } ?>
+		 
+		 <!--<a class="btn btn-mini btn-warning" href="<?php //echo $this->baseUrl();?>/administration/desactiverfifo/id/<?php //echo $entry->code_membre;?>">
+	     <i class="icon-edit icon-white"></i> Désactiver</a>&nbsp;
+	     &nbsp; -->
+		 <?php
+		      if($entry->desactiver == 0) {
+		 ?>
+		 <a class="btn btn-mini btn-success"><i class="icon-ok icon-white"></i> Compte Activé </a>&nbsp;
+		 <?php } else { ?>
+		 <a class="btn btn-mini btn-warning"><i class="icon-off icon-white"></i> Compte Désactivé </a>&nbsp;
+		 <?php } ?>
+		 <?php
+		      $db_membrefifo = new Application_Model_DbTable_EuMembreFifo();
+			  $select = $db_membrefifo->select();
+			  $select->where('code_membre_benef = ?',$entry->code_membre);
+			  $select->where('substituer = ?',1);
+			  $select->where('valider = ?',1);
+			  $entries1 = $db_membrefifo->fetchAll($select);
+		 
+		      if(count($entries1) > 0) {
+		 ?>
+		 <a class="btn btn-mini btn-success"><i class="icon-ok icon-white"></i> Substitué </a>&nbsp; 	
+         <?php } else { ?>
+	     <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/substituerfifo/id/<?php echo $entry->code_membre;?>">
+	     <i class="icon-edit icon-white"></i> Substituer </a>&nbsp;
+         <?php } ?>
+		 
+	</div>
+</td>
+</tr>
+
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun membre trouvé 
+</div>
+<?php } ?>
+
+</div>
+</div>
+</div>

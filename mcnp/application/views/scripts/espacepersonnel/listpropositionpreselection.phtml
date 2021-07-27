@@ -1,0 +1,80 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Liste de mes propositions pré-selectionnées d'un appel d'offre</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:9px;">
+						  <thead>
+							  <tr>
+								  <th>Titre</th>
+								  <th>Montant proposition</th>
+								  <th>Montant salarial</th>
+								  <th>Autres budgets</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php 
+$appeloffreM = new Application_Model_EuAppelOffreMapper();
+$appeloffre = new Application_Model_EuAppelOffre();
+$appeloffreM->find($entry->id_appel_offre, $appeloffre);
+?><?php echo htmlentities($appeloffre->numero_offre); ?> (<?php echo htmlentities($appeloffre->nom_appel_offre); ?>)</td>
+      <td><div align="right"><?php echo number_format($entry->montant_proposition, 0, ',', ' '); ?></div></td>
+      <td><div align="right"><?php echo number_format($entry->montant_salaire, 0, ',', ' '); ?></div></td>
+      <td><div align="right"><?php echo number_format($entry->autre_budget, 0, ',', ' '); ?></div></td>
+      <td><div align="center"><a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/espacepersonnel/detailproposition/id/<?php echo $entry->id_proposition; ?>"><i class="icon-info-sign icon-white"></i>  Détails</a>&nbsp;
+      
+			<a class="btn btn-mini btn-danger"  onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/espacepersonnel/suppproposition/id/<?php echo $entry->id_proposition; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a></div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune proposition pré-selectionnée enregistrée
+</div>
+<?php }?>
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

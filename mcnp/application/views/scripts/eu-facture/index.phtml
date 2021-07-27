@@ -1,0 +1,101 @@
+<div id="view-content">
+   <div style="margin-bottom: 3px; width: 500px">
+        <form action="/eu-facture/index" method="POST">
+              <input id="reglement" type="button" value="Faire la facturation" class="ui-widget button" />
+              <input type="text" id="facture" name="facture"  size="25"/>
+              <input id="ok" type="submit" value="Ok"/>
+        </form>     
+   </div>
+   <table id="tbl-facture"></table>
+   <div id="pg-facture"></div>
+   <br>
+   <table id="tbl-objet"></table>
+   <div id="pg-objet"></div>
+    
+</div>
+
+<script type="text/javascript">
+    
+  jQuery("#tbl-facture").jqGrid({ 
+      url:'/eu-facture/data?code_facture=<?php echo $this->facture ?>', 
+      datatype: "json", 
+      colNames:['Date facture','Numero facture','Montant httva','Montant net','Membre client'], 
+      height:220, width:828,
+        colModel:[
+            {name:'date_facture',index:'date_facture', width: 150, align:"left", editable: true},
+            {name:'code_facture',index:'code_facture', width: 150, editable: true,align:"left"},
+            {name:'montant_ht',index:'montant_ht', width: 200, editable: true,align:"left",sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'total_net',index:'total_net', width: 200, align:"left", editable: true,sorttype:'number',formatter:'number',summaryType:'sum'}, 
+            {name:'code_membre_client',index:'code_membre_client', width: 200, align:"left", editable: true},
+        ], 
+        rowNum:100000,
+        rowList:[100000,200000,300000],
+        pager: '#pg-facture',
+        sortname:"date_facture",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Liste des factures disponibles",
+        onSelectRow: function(code_facture){ 
+                jQuery("#tbl-objet").jqGrid('setGridParam',{url:"/eu-facture/mdetail?code_facture="+code_facture,page:1}); 
+                jQuery("#tbl-objet").jqGrid('setCaption',"Detail de la facture N°: "+code_facture+"") .trigger('reloadGrid'); 
+                
+        }
+    });
+    $("#tbl-facture").jqGrid('navGrid','#pg-facture',{edit:false,add:false,del:false,search:false});
+    
+    $("#tbl-objet").jqGrid({
+        url:'/eu-facture/mdetail?code_facture=%',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Désignation','Quantité','Prix unitaire','Remise'],
+        height:'100%', width:827,
+        colModel:[
+            {name:'design_objet',index:'design_objet', width: 500, align:"left", editable: true},
+            {name:'qte_objet',index:'qte_objet', width: 100, align:"left", editable: true},
+            {name:'pu_objet',index:'pu_objet', width: 100, align:"left", editable: true,sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'remise',index:'remise', width: 100, align:"left", editable: true}
+        ],
+        rowNum:200,
+        rowList:[200,300,400],
+        pager: '#pg-objet',
+        sortname:"design_objet",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Detail de la facture"
+    });
+    $("#tbl-objet").jqGrid('navGrid','#pg-objet',{edit:false,add:false,del:false,search:false});
+     var rowsel;
+     $('#tbl-facture').click(function()
+     {   
+        rowsel = jQuery("#tbl-facture").jqGrid('getGridParam','selrow');    
+     });
+     
+    $(document).ready(function ()
+    {
+         $.get( "/eu-facture/change",
+                function success(data){
+                $("input#facture").autocomplete({"source":data});
+                }
+    );
+         
+    $('#reglement').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-facture").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-facture/reglement',{
+                code_facture:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }
+		else
+		{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+ }) 
+  $('#ok').button();
+  $('#reglement').button();
+</script>    

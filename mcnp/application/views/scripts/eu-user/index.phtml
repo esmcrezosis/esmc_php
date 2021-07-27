@@ -1,0 +1,64 @@
+<div id="view-content">
+    <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    <table id="tbl-user"></table>
+    <div id="pg-user"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-user").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        height:440, width:828,
+        colNames:['Login','Mot de passe','Groupe','Description','Actif','Connecté','Mise à jour','Membre','Secteur','Zone'],
+        colModel:[
+            {name:'login',index:'login', width:100, sorttype:"int", editable: true,align:"left"},
+            {name:'pwd',index:'pwd', width: 150,align:"left", editable: true,hidden:true, 
+                edittype:'password', editrules: { edithidden: true }},
+            {name:'usergroup',index:'usergroup', width: 100, editable: true,align:"left",
+                edittype:'text'},
+            {name:'descr',index:'descr', width: 240, editable: true, align:"left",
+                edittype:'textarea',editoptions: {rows:"4",cols:"40"}},
+            {name:'ulock',index:'ulock', width: 50, align:"left", editable: true, 
+                edittype:'checkbox'},
+            {name:'connecte',index:'connecte', width: 70, align:"left", editable: true,
+                edittype:'checkbox'},
+            {name:'ch_pwd_flog',index:'ch_pwd_flog', width: 90, editable: true,align:"left",
+                edittype:'checkbox', editOptions:{value:"YES:NO"},hidden:true},
+            {name:'num_membre',index:'num_membre', width: 150, editable: true,align:"left",
+                edittype:'text'},
+            {name:'secteur',index:'secteur', width: 150, editable: true,align:"left",
+                edittype:'text',hidden:true,editrules: { edithidden: true }},
+            {name:'zone',index:'zone', width: 150, editable: true,align:"left",
+                edittype:'text', hidden:true,editrules: { edithidden: true }},
+        ],
+        rowNum:1000000,
+        rowList:[1000000,2000000,3000000],
+        pager: '#pg-user',
+        sortname:"login",
+        viewrecords: true,
+        sortorder: "ASC",
+        rownumbers:true,
+        caption:"Liste des utilisateurs"
+    });
+    $("#tbl-user").jqGrid('navGrid','#pg-user',{edit:true,add:false,del:false,search:true,view:false});
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-user").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-user/edit',{
+                user:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+    $('#editer').button();     
+</script>

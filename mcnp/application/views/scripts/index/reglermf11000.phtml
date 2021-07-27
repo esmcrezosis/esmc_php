@@ -1,0 +1,108 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+
+<script type="text/javascript" charset="utf-8">			
+$(document).ready(function() {
+    $('#example').dataTable({
+      "sPaginationType": "full_numbers",
+      "aaSorting": []
+    });
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+<blockquote><p class="text-info">Règlement des unités MF11000</p></blockquote>
+<div class="">
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="ancienpp">
+    <?php if(isset($sessionmcnp->errorlogin) && $sessionmcnp->errorlogin!="") { ?>
+    <div class="alert alert-success">
+         <button type="button" class="close" data-dismiss="alert">&times;</button>
+         <?php echo $sessionmcnp->errorlogin; $sessionmcnp->errorlogin = ""; ?>
+    </div>
+      <?php } ?>
+      <?php if(isset($this->message) && $this->message!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $this->message; ?>
+      </div>
+    <?php } ?>
+	<legend>Règlement des unités MF11000</legend>
+    <div class="control-group">
+	<?php if (isset($_POST['num_bon']) && $_POST['num_bon']!="") { 
+	    $x =1;
+        $compteur=0;
+	?>
+	<label class="control-label" for="code_membre">Numéro bon*</label>
+    <div class="controls">
+    <input type="text" name="num_bon" id="num_bon" placeholder="Numéro bon" value="<?php echo $this->num_bon; ?>" readonly required>
+	</div>
+    <br/>
+    <br/>
+	<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+	        <thead>
+			    <tr>
+				    <th>#</th>
+					<th><div align="left">Vendeur</div></th>
+				    <th><div align="left">Produit</div></th>
+				    <th><div align="left">Montant Transféré</div></th>
+				    <th><div align="left">Montant Vendu</div></th>
+				    <th><div align="left">Montant Restant</div></th>
+	            </tr>
+	        </thead>
+			<tbody>
+	        <?php foreach ($this->mf11000 as $entry): ?>
+			<tr>
+			    <td>
+				    <div>
+                    <input type="checkbox" name="<?php echo "num".$x ?>" id="<?php echo "num".$x ?>" value="<?php echo $entry->id_detail_smsmoney;?>"/>           
+                    </div>
+				</td>
+				<td><div align="left"><?php echo $entry->code_membre_dist; ?></div></td>
+			    <td><div align="left">MF11000</div></td>
+				<td><div align="left"><strong><?php echo number_format($entry->mont_sms,0,',',' ');?></strong></div></td>
+				<td><div align="left"><strong><?php echo number_format($entry->mont_vendu,0,',',' ');?></strong></div></td>
+                <td><div align="left"><strong><?php echo number_format($entry->solde_sms,0,',',' ');?></strong></div></td>				
+			</tr>
+			<?php 
+			    $x++;
+				$compteur++;
+				endforeach; 
+			?>
+			<tr>
+			   <td colspan="6">
+		           <div align="center">
+                           <input type="hidden" name="compteur" value="<?php echo $compteur ?>"/>
+                           <input name="ok1" type="hidden" id="ok1" value="ok1"/>
+                           <button type="submit" class="btn btn-success">Regler</button>
+		           </div>
+			   </td>   
+		   	</tr>	 	
+	    </tbody>
+	</table>
+	<?php } else { ?>
+	    <label class="control-label" for="num_bon">Numéro bon *</label>
+        <div class="controls">
+        <input  type="text"   name="num_bon" id="num_bon" placeholder="Numéro bon" value="<?php echo $this->num_bon; ?>" required>
+        <input  name="ok"     type="hidden" id="ok" value="ok" />
+        <button type="submit" class="btn btn-primary">Valider</button>
+        </div>
+	<?php } ?>
+	
+    </div>
+</form>
+</div>
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+
+</div>
+</div>
+
+
+

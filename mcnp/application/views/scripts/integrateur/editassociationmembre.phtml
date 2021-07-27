@@ -1,0 +1,67 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+
+  <blockquote><p>Mise à jour de Code Membre Personne Morale du guichet</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addappeloffres">
+  <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+    </div>
+  <?php }?>
+  
+<fieldset>
+<legend>Formulaire de mise à jour de Code Membre Personne Morale du guichet. </legend>
+    
+<div class="alert alert-success">
+    Veuillez saisir votre <strong>Code Membre Personne Morale du guichet</strong> afin que nous puissions relier votre Espace Intégrateur à votre Compte Marchand.
+    </div>
+  
+<div class="control-group">
+<label class="control-label" for="code_membre">Saisir votre Code Membre Personne Morale du guichet  *</label>
+<div class="controls">
+<input type="text" name="code_membre" id="code_membre" placeholder="Saisir votre Code Membre Personne Morale du guichet " class="input-xlarge" required  value="<?php echo $sessionmembreasso->association_code_membre; ?>" />
+</div>
+</div>
+    
+
+</fieldset> 
+   
+    
+    
+
+<div class="form-actions">
+<input type="hidden" name="association_id" id="association_id" value="<?php echo $sessionmembreasso->membreasso_association; ?>" />
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer Code Membre Personne Morale du guichet</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,12 @@
+<div id="view-content">
+    <div id="formdiv">
+        <h1>Modifier un partenaire</h1>
+        <p>Utilisez ce formulaire pour manager les partenaires.</p>
+
+        <?php
+              $this->form->setAction($this->url());
+              $this->form->getElement("submit")->setLabel("Modifier");
+              echo $this->form;
+        ?>
+    </div>
+</div>

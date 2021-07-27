@@ -1,0 +1,65 @@
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        $('#example').dataTable({
+          "sPaginationType": "full_numbers",
+          "aaSorting": []
+        });
+      });
+    </script>
+<div class="row-fluid">
+	<div class="span12">
+      <legend>AVR-Demande d'achat de produit non existant</legend>
+    <?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+	<?php unset($_SESSION['validationerrors']); endif ?>
+	<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+				</div>
+	<?php unset($_SESSION['validationsuccess']); endif ?>
+	  <form action="#" method="post" class="form-horizontal">
+        <div class="control-group">
+	      <label class="control-label" for="avr-produit-inexistant" style="font-weight:bold">
+	        Nom du produit*:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="avr-produit-inexistant-name" class="input-block-level avr-produit-inexistant-name" placeholder="Mettre ici le nom complet du produit" required="required"/>
+	      </div>
+	   </div>
+		 
+		 <div class="control-group">
+	      <label class="control-label" for="avr-produit-inexistant-quantite" style="font-weight:bold">
+	        Quantité d'achat*:
+	      </label>
+	      <div class="controls">
+         		     <input type="text" name="avr-produit-inexistant-quantite" class="input-block-level avr-produit-inexistant-quantite" placeholder="Mettre ici la quantité du produit d'achat" required="required"/>
+	      </div>
+	   </div>
+
+        <div class="control-group">
+	      <label class="control-label" for="avr-produit-inexistant-caracteristique" style="font-weight:bold">
+	        Caracteristique du produit*:
+	      </label>
+	      <div class="controls">
+          <textarea name="avr-produit-inexistant-caracteristique" class="input-block-level" cols="30" rows="10" id="avr-produit-inexistant-caracteristique" placeholder="Mettre ici les caracteristiques du produit" required="required" >
+          
+          </textarea>
+
+		</div>
+	   </div>
+
+       <div class="control-group" >
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+          Valider le formulaire
+          </button>
+      </div>
+</form>    
+</div>
+
+</div>

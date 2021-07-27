@@ -1,0 +1,104 @@
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+  <blockquote><p class="text-info">Les acteurs par filières d'activités</p></blockquote>
+
+<form action="<?php echo $this->baseUrl();?>/index/recherche/" method="post" class="well form-inline" id="recherche">
+			  Rechercher 
+
+<?php $table = new Application_Model_DbTable_EuMembreMorale();
+$select = $table->select()
+				->distinct()
+				->from($table, array('quartier_membre'));
+$entriesmembremorale = $table->fetchAll($select);
+$listequartier = "";
+foreach ($entriesmembremorale as $entrymembremorale): 
+$listequartier .= '"'.htmlspecialchars($entrymembremorale->quartier_membre).'",';
+endforeach; 
+$listequartier = substr($listequartier, 0, -1);
+?>
+              <input name="quartier" type="text" id="quartier" placeholder="Entrer le quartier" class="input-medium" data-provide="typeahead" data-items="10" data-source='[<?php echo $listequartier;?>]'>
+			   - 
+<?php $table = new Application_Model_DbTable_EuMembreMorale();
+$select = $table->select()
+				->distinct()
+				->from($table, array('ville_membre'));
+$entriesmembremorale = $table->fetchAll($select);
+$listeville = "";
+foreach ($entriesmembremorale as $entrymembremorale): 
+$listeville .= '"'.htmlspecialchars($entrymembremorale->ville_membre).'",';
+endforeach; 
+$listeville = substr($listeville, 0, -1);
+?>
+               <input name="ville" type="text" id="ville" placeholder="Entrer la ville" class="input-medium" data-provide="typeahead" data-items="10" data-source='[<?php echo $listeville;?>]'>
+			   - 
+			   <select name="id_filiere" id="id_filiere" class="input-xlarge">
+               <option value="">Choisir une filière</option>
+    <?php foreach ($this->selectfiliere as $selectfiliere): ?>
+               <option value="<?php echo $selectfiliere->id_filiere; ?>"><?php echo ($selectfiliere->nom_filiere); ?></option>
+    <?php endforeach; ?>
+               </select>
+               
+              <input name="ok" type="hidden" value="ok" />
+			  <button type="submit" class="btn btn-danger">Rechercher</button>
+			</form>
+
+
+
+<?php if(count($this->entries)>0){?>  
+<div class="accordion" id="accordion2">
+<?php foreach ($this->entries as $entry): ?>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $entry->id_filiere; ?>">
+        <i class="icon-arrow-right"></i> <?php echo ($entry->nom_filiere); ?>, <span style="color:#666; font-size:11px; text-decoration:inherit;"><?php echo ($entry->descrip_filiere); ?></span>
+      </a>
+    </div>
+    <div id="collapse<?php echo $entry->id_filiere; ?>" class="accordion-body collapse" align="left">
+      <div class="accordion-inner">
+        <?php $membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$entriesmembremorale = $membremoraleM->fetchAllActeur($entry->id_filiere);
+?>
+<table class="table table-condensed">
+<thead>
+<tr>
+<th>Acteurs</th>
+<th><div align="center">Actions</div></th>
+</tr>
+</thead>
+<tbody>
+    <?php foreach ($entriesmembremorale as $entrymembremorale): ?>
+    <tr>
+      <td><?php echo ($entrymembremorale->raison_sociale); ?> <small style="color:#666; font-size:11px; text-decoration:inherit;"><?php echo ($entrymembremorale->domaine_activite); ?>, <?php echo ($entrymembremorale->quartier_membre); ?> - <?php echo ($entrymembremorale->ville_membre); ?></small></td>
+      <td><div align="center"><a href="<?php echo $this->baseUrl();?>/index/acteurproduit/id/<?php echo $entrymembremorale->code_membre_morale; ?>"><!--<i class="icon-eye-open"></i>--> Détails</a></div></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+      </div>
+    </div>
+  </div>
+<?php endforeach; ?>
+</div>
+<?php }?>
+
+
+
+
+
+
+</div>
+<div class="span3">
+	<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

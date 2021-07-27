@@ -1,0 +1,108 @@
+<?php /*?><?php $ssgrp = "e_cnp_consopp_rpgnr_prk_8";
+$sousgroupe = explode("_", $ssgrp);
+		
+		if(isset($sousgroupe[0]) && $sousgroupe[0] != ""){$S = $sousgroupe[0];}else{$S = "";}
+		if(isset($sousgroupe[1]) && $sousgroupe[1] != ""){$NN = $sousgroupe[1];}else{$NN = "";}
+		if($NN != "smc" && $NN != "fn"){
+		if(isset($sousgroupe[2]) && $sousgroupe[2] != ""){$PAR = $sousgroupe[2];}else{$PAR = "";}
+		if(isset($sousgroupe[3]) && $sousgroupe[3] != ""){$PRD = $sousgroupe[3];}else{$PRD = "";}
+		if($PRD != "capa" && $PRD != "nn"){
+		if(isset($sousgroupe[3]) && $sousgroupe[3] != ""){$prd2 = $sousgroupe[3];}else{$prd2 = "";}
+		if(isset($sousgroupe[4]) && $sousgroupe[4] != ""){$PRK = $sousgroupe[4];}else{$PRK = "";}
+		if(isset($sousgroupe[5]) && $sousgroupe[5] != ""){$prk2 = $sousgroupe[5];}else{$prk2 = "";}
+		if(isset($sousgroupe[6]) && $sousgroupe[6] != ""){$prk3 = $sousgroupe[6];}else{$prk3 = "";}
+		}else{
+		if($PAR == "reapropm"){
+		if(isset($sousgroupe[4]) && $sousgroupe[4] != ""){$prd2 = $sousgroupe[4];}else{$prd2 = "";}
+		if(isset($sousgroupe[5]) && $sousgroupe[5] != ""){$PRK = $sousgroupe[5];}else{$PRK = "";}
+		if(isset($sousgroupe[6]) && $sousgroupe[6] != ""){$prk2 = $sousgroupe[6]."REAPPRO";}else{$prk2 = "";}
+		if(isset($sousgroupe[7]) && $sousgroupe[7] != ""){$prk3 = $sousgroupe[7];}else{$prk3 = "";}
+		}else{
+		if(isset($sousgroupe[4]) && $sousgroupe[4] != ""){$prd2 = $sousgroupe[4];}else{$prd2 = "";}
+		if(isset($sousgroupe[5]) && $sousgroupe[5] != ""){$PRK = $sousgroupe[5];}else{$PRK = "";}
+		if(isset($sousgroupe[6]) && $sousgroupe[6] != ""){$prk2 = $sousgroupe[6];}else{$prk2 = "";}
+		if(isset($sousgroupe[7]) && $sousgroupe[7] != ""){$prk3 = $sousgroupe[7];}else{$prk3 = "";}
+		}
+		}
+		
+		}else{
+		//if(isset($sousgroupe[2]) && $sousgroupe[2] != ""){$PAR = $sousgroupe[2];}else{$PAR = "";}
+		if(isset($sousgroupe[2]) && $sousgroupe[2] != ""){$PRD = $sousgroupe[2];}else{$PRD = "";}
+		if($PRD != "creation"){
+		if(isset($sousgroupe[2]) && $sousgroupe[2] != ""){$prd2 = $sousgroupe[2];}else{$prd2 = "";}
+		if(isset($sousgroupe[3]) && $sousgroupe[3] != ""){$PRK = $sousgroupe[3];}else{$PRK = "";}
+		if(isset($sousgroupe[4]) && $sousgroupe[4] != ""){$prk2 = $sousgroupe[4];}else{$prk2 = "";}
+		if(isset($sousgroupe[5]) && $sousgroupe[5] != ""){$prk3 = $sousgroupe[5];}else{$prk3 = "";}
+		}else{
+		if(isset($sousgroupe[3]) && $sousgroupe[3] != ""){$prd2 = $sousgroupe[3];}else{$prd2 = "";}
+		if(isset($sousgroupe[4]) && $sousgroupe[4] != ""){$PRK = $sousgroupe[4];}else{$PRK = "";}
+		if(isset($sousgroupe[5]) && $sousgroupe[5] != ""){$prk2 = $sousgroupe[5];}else{$prk2 = "";}
+		if(isset($sousgroupe[6]) && $sousgroupe[6] != ""){$prk3 = $sousgroupe[6];}else{$prk3 = "";}
+		}
+			
+		}
+		
+				$tabela = new Application_Model_DbTable_EuCnp();
+				$select = $tabela->select();
+                $select->from(array('eu_cnp'), array('id_cnp', 'type_cnp', 'origine_cnp', 'mont_credit', 'mont_debit', 'solde_cnp', 'date_cnp', "TO_CHAR((date_cnp),'DD/MM/YYYY HH24:MI:SS') AS date_cnp2"));
+if($ssgrp != ""){
+	if($PRK == "prk"){
+           		$select->where("UPPER(type_cnp) LIKE '%".strtoupper($prd2)."%' ");//
+           		$select->where("id_credit IN (SELECT id_credit FROM eu_compte_credit WHERE UPPER(code_produit) LIKE '%".strtoupper($prd2)."%' AND PRK = ".$prk2.")");//
+	}else{
+           		$select->where("UPPER(type_cnp) LIKE '%".strtoupper($prd2.$PRK.$prk2)."%' ");//
+	}
+				}
+				if($code_groupe != 'detentrice' && $code_groupe != 'surveillance'){
+				$select->where("source_credit LIKE '%".$code_membre."%' ");
+				}
+				$select->order('id_cnp DESC');
+				$achat = $tabela->fetchAll($select);		
+		echo strtoupper($prd2.$PRK.$prk2);
+		echo "<br />";
+		echo $select;
+		?><?php */?>
+<div id="view-content" title="" style="font-size: 12px;min-height: 520px;">
+    <table id="tbl-user"></table>
+    <div id="pg-user"></div>
+</div>
+<script type="text/javascript">
+$("#tbl-user").jqGrid({
+    url:'<?php echo $this->url(array('action' => 'datadebitcredit')); ?>',
+    datatype: "json",
+    mtype: 'GET',
+        colNames:['Date','Motif','Code SMS','Entrée','Sortie','Solde','Total Entrée/Sortie'],
+        height:500, width:827,
+        colModel:[
+            {name:'datetransfert', index:'datetransfert', width: 150, editable: true, align:"center"},
+            {name:'code', index:'code', width:75, editable: true, align:"center"},
+            {name:'type', index:'type', width:75, editable: true, align:"center"},
+            {name:'montant_entrer', index:'montant_entrer', width: 120, editable: true, align:"right", sorttype: "float", formatter: "number"},
+			{name:'montant_sortie', index:'montant_sortie', width: 120, editable: true, align:"right", sorttype: "float", formatter: "number"},
+			{name:'solde', index:'solde', width: 120, editable: true, align:"right", sorttype: "float", formatter: "number"},
+            {name:'total', index:'total', width: 120, editable: true, align:"right", sorttype: "float", formatter: "number"},
+        ],
+     rowNum:100,
+     rowList:[100,200,300],
+     rownumbers:true,
+     pager: '#pg-user',
+        sortname:"datetransfert",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Tableau de bord des débits crédits",
+		grouping:true,
+        groupingView : {
+            groupField : ['code'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [true],
+            groupDataSorted : true
+        },       
+        footerrow: true,
+        userDataOnFooter: true
+    });
+    $("#tbl-user").jqGrid('navGrid','#pg-user',{edit:false,add:false,del:false,search:true});    
+    
+</script>   

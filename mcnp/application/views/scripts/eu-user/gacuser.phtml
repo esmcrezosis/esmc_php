@@ -1,0 +1,79 @@
+<div id="view-content">
+    <div class="ui-widget-header ui-corner-top" style="height: 30px;padding-bottom: 5px; padding-left: 5px;">
+        <h3>Création du compte d'utilisateur</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form action="/eu-user/gacuser" name="fm_user" method="POST" id="fm_user">     
+            <fieldset><legend>Informations de l'utilisateur </legend>
+                <table style="width: 600px;margin-left: auto;margin-right: auto;margin-top: 5px;">
+                    <tbody>
+                        <tr style="text-align: left;">
+                            <td>Code</td><td style="text-align: left;"><input type="text" name="numero" value="<?php echo $this->numero; ?>" readonly="true" size="25"></td>
+                            <td>Numéro membre</td><td style="text-align: left;"><input type="text" name="num_membre" value="<?php echo $this->num_membre; ?>" readonly="true" size="25"></td>
+                        </tr>
+                        <tr style="text-align: left;">
+                            <td>Nom *</td><td style="text-align: left;"><input type="text" name="nom_user" class="validate[required]" value="<?php echo $this->nom_user; ?>" size="25" readonly="true"></td>
+                            <td>Prénoms *</td><td style="text-align: left;"><input type="text" name="prenom_user" class="validate[required]" value="<?php echo $this->prenom_user; ?>" size="25" readonly="true"></td>
+                        </tr>
+                        <tr style="text-align: left;">
+                            <td>Login *</td><td style="text-align: left;"><input type="text" name="login" class="validate[required]" value="<?php echo $this->login; ?>" size="25"></td>
+                            <td>Mot de passe *</td><td style="text-align: left;"><input type="password" name="pwd" class="validate[required]" value="<?php echo $this->pwd; ?>" size="25"></td>
+                        </tr>
+                        <tr>
+                            <td>Secteur</td>
+                            <td><select id="numsect" type="text" name="numsect"></select></td>
+                            <td>Agence</td>
+                            <td><select id="numag" type="text" name="numag"></select></td>
+                            <td>
+                                <input type="text" name="type" value="<?php echo $this->type; ?>" hidden="true">
+                                <input type="text" name="zone" value="<?php echo $this->zone; ?>" hidden="true">
+                                <input type="text" name="code_type" value="<?php echo $this->code_type; ?>" hidden="true">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            <br>
+            <div>
+                <input type="submit" value="Valider" id="valider"/>
+                <input id="annuler" type="reset" value="Annuler"/>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function ()
+    {
+        $('#valider').button();
+        $('#annuler').button();
+        $("#fm_user").validationEngine(); 
+        
+        $.get(
+        '/eu-user/numsecteur',
+        function success(data)
+        {
+            var options = '<option value=""></option>';
+            for( var i = 0; i < data.length; i++) {
+                options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+            }
+            $('select#numsect').html(options);
+        });
+      
+        $('#numsect').change(function()
+        {
+            $.get(
+            "/eu-user/numagence?numsect="+$('#numsect').val(),
+            function success(data)
+            {
+                var options = '<option value=""></option>';
+                for( var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+                }
+                $('select#numag').html(options);
+            });
+        });
+        
+    });
+</script>

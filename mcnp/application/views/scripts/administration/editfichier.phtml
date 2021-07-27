@@ -1,0 +1,99 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification du fichier</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addfichier">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+<div class="control-group">
+<label class="control-label" for="fichier_categorie">Catégorie du fichier *</label>
+<div class="controls">
+<?php 
+$menu = new Application_Model_EuCategorieFichierMapper();
+$entries = $menu->fetchAll();
+if(count($entries) > 0){?>
+<select id="fichier_categorie" name="fichier_categorie" required>
+  <option value="">Choisir la catégorie</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->id_categorie_fichier; ?>" <?php if($this->fichier->fichier_categorie == $value->id_categorie_fichier){?> selected="selected"<?php }?>><?php echo $value->libelle_categorie_fichier; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+        
+
+<div class="control-group">
+<label class="control-label" for="fichier_type">Type du fichier *</label>
+<div class="controls">
+<label class="radio inline" for="fichier_type1">
+<input type="radio" id="fichier_type1" name="fichier_type" value="ESMC" <?php if($this->fichier->fichier_type == "ESMC"){echo 'checked="checked"';}?> required /> ESMC</label>
+<br />
+<label class="radio inline" for="fichier_type2">
+<input type="radio" id="fichier_type2" name="fichier_type" value="CEU/ReDeMaRe" <?php if($this->fichier->fichier_type == "CEU/ReDeMaRe"){echo 'checked="checked"';}?> required /> CEU/ReDeMaRe</label>
+<br />
+<label class="radio inline" for="fichier_type3">
+<input type="radio" id="fichier_type3" name="fichier_type" value="MCNP" <?php if($this->fichier->fichier_type == "MCNP"){echo 'checked="checked"';}?> required /> MCNP</label>
+<br />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="fichier_libelle">Libellé du fichier *</label>
+<div class="controls">
+<input type="text" name="fichier_libelle" id="fichier_libelle" placeholder="Libellé du fichier" class="input-xxlarge" value="<?php echo $this->fichier->fichier_libelle; ?>" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="fichier_url">Url du fichier </label>
+<div class="controls">
+<input name="fichier_url" type="file" id="fichier_url" class="input-xxlarge" />  
+</div>
+</div>
+    
+   
+    
+
+
+<div class="form-actions">
+<input name="fichier_id" type="hidden" id="fichier_id" value="<?php echo $this->fichier->fichier_id; ?>" />  
+<input name="fichier_url_old" type="hidden" id="fichier_url_old" value="<?php echo $this->fichier->fichier_url; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier de fichier</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

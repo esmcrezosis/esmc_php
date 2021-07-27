@@ -1,0 +1,128 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+
+<?php if(count($this->entries)>0){?> 
+<?php 
+if($this->ctc == "NB"){
+$color = "#00F";
+$btncolor = "primary";
+}else if($this->ctc == "NR"){
+$color = "#F00";
+$btncolor = "danger";
+}else if($this->ctc == "NN"){
+$color = "#000";
+$btncolor = "inverse";
+}
+?>
+
+  <?php 
+$categoriecompteM = new Application_Model_EuCategorieCompteMapper();
+$categoriecompte = new Application_Model_EuCategorieCompte();
+$categoriecompteM->find($this->code_cat, $categoriecompte);
+?>
+
+<?php 
+$produitM = new Application_Model_EuProduitMapper();
+$produit = new Application_Model_EuProduit();
+$produitM->find($this->code_produit, $produit);
+?>
+
+  <blockquote><p>Opérations <strong style="color:<?php echo $color; ?>;"><?php echo htmlentities($this->ctc); ?>-<?php echo htmlentities($categoriecompte->code_cat); ?> - <?php echo htmlentities($produit->code_produit); ?></strong>
+<small>Opérations effectuées sur le compte <strong><?php echo htmlentities($this->ctc); ?>-<?php echo htmlentities($categoriecompte->code_cat); ?> </strong>(<strong><?php echo htmlentities($produit->code_produit); ?></strong> : <?php echo htmlentities($produit->libelle_produit); ?>)</small></p></blockquote>
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:9px;">
+  <thead>
+    <tr>
+      <th>Opérations Effectuées</th>
+      <th><div align="center">Date Début</div></th>
+      <th><div align="center">Date Fin</div></th>
+      <th><div align="center">Solde</div></th>
+      <th><div align="center">Effectuée par</div></th>
+    </tr>
+  </thead>
+  <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php 
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($entry->id_operation, $operation);
+?><?php echo htmlentities($operation->lib_op); ?></td>
+      <td><div align="center"><?php echo substr($entry->datedeb, 0, 18); ?></div></td>
+      <td><div align="center"><?php if($entry->code_produit == "RPGr" || $entry->code_produit == "Ir"){?>
+<?php 
+			  $date_id = new Zend_Date(Zend_Date::ISO_8601);
+              $date_fin = clone $date_id;
+              $date_fin->addDay(10);
+
+
+/*list($annee1,$mois1,$jour1) = explode('-', substr($entry->datefin, 0, 10)); 
+list($jour2,$mois2,$annee2) = explode('-', date("d/m/y"));
+$timestamp1 = mktime(0,0,0,$mois1,$jour1,"20".$annee1); 
+$timestamp2 = mktime(0,0,0,$mois2,$jour2,"20".$annee2); 
+$nbrejour = intval(abs($timestamp2 - $timestamp1)/86400);*/ 
+?>
+<?php /*?><?php if($entry->datefin <= $date_fin){?><?php */?><?php /*?><span class="label label-important"><abbr title="Bientôt à échéance, il reste <?php echo $entry->datefin - $date_id; ?> jours"><?php echo $entry->datefin; ?></abbr></span><?php }else{?><?php */?><?php echo substr($entry->datefin, 0, 18); ?><?php /*?><?php }?><?php */?>
+
+<?php }else{?><?php echo substr($entry->datefin, 0, 18); ?><?php }?>	  
+	  </div></td>
+      <td><div align="right"><?php echo number_format($entry->montant_credit, 0, ',', ' '); ?></div></td>
+      <td><div align="center"><?php 
+$utilisateurM = new Application_Model_EuUtilisateurMapper();
+$utilisateur = new Application_Model_EuUtilisateur();
+$utilisateurM->find($operation->id_utilisateur, $utilisateur);
+?><?php echo htmlentities($utilisateur->nom_utilisateur); ?> <?php echo htmlentities($utilisateur->prenom_utilisateur); ?>
+</div></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune opératon effectuée sur ce compte
+</div>
+<?php }?>
+
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/bootstrap/css/carouselflip.css">
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/carouselegalite.js"></script>
+
+
+
+  <div class="container">
+
+<div id="carousel_legalite_esmc">
+  
+<?php 
+     $all = glob("publicites/legalite/*.jpg");
+     sort($all);
+?>
+
+   <?php foreach($all as $images):?>
+
+     <?php 
+        $ex_image = explode('publicites/legalite/',$images);
+        $str_ex_image = $ex_image[1];
+        $explode_ex_image = explode('.',$str_ex_image);
+        $image_title = $explode_ex_image[0];
+     ?> 
+    <div class="item">
+       <div class="item__image">
+        <img src="/<?php echo $images ;?>" alt="">
+       </div>
+       <div class="item__body">
+          <div class="item__title">
+            Page <?php echo $image_title ;?>
+          </div>
+       </div>
+     </div> 
+  
+    <?php endforeach;?>
+
+</div>
+</div>
+

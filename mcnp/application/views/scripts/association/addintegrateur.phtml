@@ -1,0 +1,266 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+	    <?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences2.js"></script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+<?php 
+$typeintegrateur = new Application_Model_EuTypeIntegrateur();
+$typeintegrateurM = new Application_Model_EuTypeIntegrateurMapper();
+$typeintegrateurM->find($this->param, $typeintegrateur);
+?>
+
+  
+  <?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+  <blockquote><p><?php echo $typeintegrateur->libelle_type_integrateur; ?> </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addintegrateur">
+  <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error != ""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+    </div>
+  <?php }?>
+  
+<fieldset>
+<legend>Remplir le formulaire</legend>
+  
+<div class="control-group">
+<label class="control-label" for="integrateur_souscription_ordre">Numéro de quittance  </label>
+<div class="controls">
+<input type="text" name="integrateur_souscription_ordre" id="integrateur_souscription_ordre" placeholder="Numéro de quittance " class="input-block-level"  />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="souscription_email">E-mail Intégrateur * </label>
+<div class="controls">
+<input type="text" name="souscription_email" id="souscription_email" placeholder="Indiquez à nouveau votre e-mail" class="input-block-level" required  />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_adresse">Adresse Intégrateur  </label>
+<div class="controls">
+<input type="text" name="integrateur_adresse" id="integrateur_adresse" placeholder="Indiquez le numéro et la rue du lieu" class="input-block-level"  />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_canton">Canton Intégrateur  </label>
+<div class="controls">
+<select name="integrateur_canton" id="integrateur_canton" class="input-block-level" >
+   <option value="">Choisir un canton</option>
+   <?php foreach ($this->cantons as $c) {?>
+      <option value="<?php echo $c->id_canton; ?>"><?php echo $c->nom_canton; ?></option>
+   <?php }?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_ville">Ville Intégrateur  </label>
+<div class="controls">
+<select name="integrateur_ville" id="integrateur_ville" class="input-block-level" >
+    <option value="">Choisir une ville</option>
+    <?php foreach ($this->villes as $value) {?>
+       <option value="<?php echo $value->id_ville; ?>"><?php echo $value->lib_ville; ?></option>
+    <?php }?>
+</select>
+</div>
+</div>
+  
+<div class="control-group">
+  <label class="control-label" for="integrateur_type">Type de postulat *</label>
+  <div class="controls">
+  <select  class="input-block-level" name="integrateur_type" id="integrateur_type" >
+       <?php  $typeintegrateur2 = new Application_Model_EuTypeIntegrateurMapper();
+		$selecttypeintegrateur2 = $typeintegrateur2->fetchAllByType($typeintegrateur->id_type_integrateur);?>
+               <option value="">Choisir un type</option>
+    <?php foreach ($selecttypeintegrateur2 as $selecttypeintegrateur): ?>
+               <option value="<?php echo $selecttypeintegrateur->id_type_integrateur; ?>" <?php if($selecttypeintegrateur->id_type_integrateur == $typeintegrateur->id_type_integrateur){echo ' selected="selected"';}?>><?php echo ($selecttypeintegrateur->libelle_type_integrateur); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_activite">Domaine d'activité *</label>
+<div class="controls">
+<select name="code_activite" id="code_activite" required onchange="ouvre_competences2(this.value);" class="input-block-level">
+        <?php $tactivite = new Application_Model_DbTable_EuActivite();
+        $results = $tactivite->fetchAll();?>
+  <option value="">Choisir le domaine </option>
+    <?php foreach ($results as $activite): ?>
+               <option value="<?php echo $activite->code_activite; ?>"><?php echo ($activite->nom_activite); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div id="niv2">
+
+<div class="control-group">
+<label class="control-label" for="id_metier">Métiers </label>
+<div class="controls">
+<select name="id_metier" id="id_metier" class="input-block-level">
+  <option value="">Choisir le métier</option>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="id_competence">Compétence </label>
+<div class="controls">
+<select name="id_competence" id="id_competence" class="input-block-level">
+  <option value="">Choisir la compétence</option>
+</select>
+</div>
+</div>
+
+</div>
+
+
+<?php if($this->param == 1 || $this->param == 2 || $this->param == 3|| $this->param == 4 || $this->param == 5 || $this->param == 6 || $this->param == 7 || $this->param == 8){?>
+<div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox" name="integrateur_critere1" id="integrateur_critere1" value="1"> Je dispose d'un ordinateur ou d'une tablette
+      </label>
+    </div>
+  </div>
+  
+<div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox" name="integrateur_critere2" id="integrateur_critere2" value="1"> Je dispose d'une moto
+      </label>
+    </div>
+  </div>
+    
+<div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox" name="integrateur_critere3" id="integrateur_critere3" value="1"> J'ai un permis de conduire
+      </label>
+    </div>
+  </div>
+<?php }?>  
+    
+<?php if($this->param == 15 || $this->param == 16 || $this->param == 17|| $this->param == 18 || $this->param == 19 || $this->param == 20){?>
+<?php if($this->param == 15 || $this->param == 16 || $this->param == 17|| $this->param == 18){?>
+<div class="control-group">
+<label class="control-label" for="integrateur_poste">Poste occupé *</label>
+<div class="controls">
+<input type="text" name="integrateur_poste" id="integrateur_poste" placeholder="Poste occupé" class="input-block-level"  />
+</div>
+</div>
+<?php }?>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_education">Education / Formation / Cursus  *</label>
+<div class="controls">
+  <textarea name="integrateur_education" class="input-block-level" id="integrateur_education" placeholder="Education/Formation/Cursus" ></textarea>
+  <span class="help-block">Indiquer les études universitaires et autres études spécialisées ainsi que les noms des institutions fréquentées, les diplômes obtenus et les dates auxquelles ils l’ont été</span>
+</div>
+</div>
+
+<?php if($this->param == 15 || $this->param == 16 || $this->param == 17|| $this->param == 18){?>
+<div class="control-group">
+<label class="control-label" for="integrateur_affiliation">Affiliation à des associations/groupements professionnels   </label>
+<div class="controls">
+  <textarea name="integrateur_affiliation" class="input-block-level" id="integrateur_affiliation" placeholder="Affiliation à des associations/groupements professionnels"></textarea>
+</div>
+</div>
+<?php }?>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_formation">Autres formations   </label>
+<div class="controls">
+  <textarea name="integrateur_formation" class="input-block-level" id="integrateur_formation" placeholder="Autres formations"></textarea>
+  <span class="help-block">Indiquer toute autre formation reçue</span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_langue">Langues   *</label>
+<div class="controls">
+  <textarea name="integrateur_langue" class="input-block-level" id="integrateur_langue" placeholder="Langues" ></textarea>
+  <span class="help-block">Indiquer pour chacune le degré de connaissance : bon, moyen, médiocre pour ce qui est de la langue parlée, lue et écrite</span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_experience">Expérience professionnelle    </label>
+<div class="controls">
+  <textarea name="integrateur_experience" class="input-block-level" id="integrateur_experience" placeholder="Expérience professionnelle"></textarea>
+  <span class="help-block">En commençant par son poste actuel, donner la liste par ordre chronologique inverse de tous les emplois exercés  depuis la fin des études. Pour chaque emploi, donner les dates, le nom, le poste occupé et le nom, titre et téléphone de la personne de référence.</span>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="integrateur_diplome">Dernier diplôme  </label>
+<div class="controls">
+  <input type="file" name="integrateur_diplome" id="integrateur_diplome" class="input-block-level" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_document">Curriculum Vitae  </label>
+<div class="controls">
+  <input type="file" name="integrateur_document" id="integrateur_document" class="input-block-level" />
+</div>
+</div>
+<?php }?>  
+
+
+
+
+<div class="control-group">
+<label class="control-label" for="integrateur_attestation">Attestation  *  </label>
+<div class="controls">
+<label class="checkbox">
+<input name="integrateur_attestation" type="checkbox" id="integrateur_attestation" value="1" required /> Je, soussigné, certifie, en toute conscience, que les renseignements ci-dessus rendent fidèlement compte de ma situation, de mes qualifications et de mon expérience. J’accepte que toute fausse déclaration volontaire puisse entraîner ma disqualification de la présente procédure.
+</label>
+</div>
+</div>
+
+</fieldset> 
+   
+    
+    
+
+<div class="form-actions">
+<input name="publier" type="hidden" id="publier" value="0" />
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>   <?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

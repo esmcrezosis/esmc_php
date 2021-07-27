@@ -1,0 +1,128 @@
+﻿<div id="view-content" style="margin-bottom: 3px; width: 827px;font-size:11px" class="ui-widget-content ui-corner-all">
+        <div>
+            <fieldset>
+              <legend style=" font-weight:bold">Recherche</legend>
+              <h5>
+                Ancien code membre <input type="text" id="code_membre" name="code_membre" size="25"/>
+                Nom                <input type="text" id="nom" name="nom" size="20"/>
+                Prénom             <input type="text" id="prenom" name="prenom" size="20"/>
+                                   <input id="ok" type="button" value="Ok" />
+              </h5> 
+              
+            </fieldset>
+        </div>
+        <div style="margin-bottom: 3px;">
+        <input id="ncm" type="button" value="Nouveau CM" class="ui-widget button"/>
+        </div>
+        <table id="tbl-physique"></table>
+        <div id="pg-physique"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-physique").jqGrid({
+        url:"",
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Numero','Nom','Prenom','Sexe','Profession','Telephone','Ville','','','','','','','','',''],
+        height:410,width:827,
+        colModel:[
+                {name:'numidentp',index:'numidentp', width:180, sorttype:"int", editable: true,align:"left"},
+                {name:'nom',index:'nom', width: 220, editable: true,align:"left"},
+                {name:'prenom',index:'prenom', width: 250, align:"left", editable: true},
+                {name:'sexe',index:'sexe', width: 70, editable: true,align:"left"},
+                {name:'prof',index:'prof', width: 170, align:"left", editable: true},
+                {name:'tel',index:'tel', width: 150, align:"left", editable: true},
+                {name:'ville',index:'ville', width: 150, align:"left", editable: true},
+                {name:'pere',index:'pere', width: 150, align:"left", editable: true,hidden:true},
+                {name:'mere',index:'mere', width: 150, align:"left", editable: true,hidden:true},
+				{name:'qartresid',index:'qartresid', width: 150, align:"left", editable: true,hidden:true},
+				{name:'bp',index:'bp', width: 150, align:"left", editable: true,hidden:true},
+				{name:'nbrenf',index:'nbrenf', width: 150, align:"left", editable: true,hidden:true},
+				{name:'email',index:'email', width: 150, align:"left", editable: true,hidden:true},
+			    {name:'portable',index:'portable', width: 150, align:"left", editable: true,hidden:true},
+				{name:'formation',index:'formation', width: 150, align:"left", editable: true,hidden:true},
+				{name:'lieunais',index:'lieunais', width: 150, align:"left", editable: true,hidden:true},         
+        ],
+		
+        rowNum:100000,
+        rowList:[100000,300000,500000],
+        pager: '#pg-physique',
+        sortname:"numidentp",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Membres physiques du GIE EX-ReDeMaRe"
+    });
+    $("#tbl-physique").jqGrid('navGrid','#pg-physique',{edit:false,add:false,del:false,search:false});
+   
+   
+    $(function() {
+        $('#view-content').puipanel();
+	    $('fieldset').puifieldset();
+    });
+   
+   
+    //$.get( "/eu-membre-ancien/changep",
+    //       function success(data){
+          //$("input#code_membre").autocomplete({minLength:10,"source":data}); 
+    //}); 
+    
+	$('#ok').click(function() {
+    code_membre = $('#code_membre').val();
+    nom = $('#nom').val();
+    prenom = $('#prenom').val();             
+ jQuery("#tbl-physique").jqGrid('setGridParam',{url:"/eu-membre-ancien/datap?code_membre="+code_membre+"&nom="+nom+"&prenom="+prenom}).trigger('reloadGrid');		
+});
+	
+	 
+    $('#m_detail').click(function(){
+        var rowsel;
+        rowsel = jQuery("#tbl-morale").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-membre-ancien/mdetail',{
+                membre:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }
+        else {
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+    $('#ncm').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-physique").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        { 
+            $.get('/eu-membre-ancien/cmp',{
+            numident:rowsel
+            },function success(data) {
+              if(data == 1){
+	      alert("Ce membre a déjà son nouveau code de membre"); 
+            }
+            else {
+            seldata = jQuery("#tbl-physique").jqGrid('getRowData',rowsel);
+            $.get('/eu-membre-ancien/ncmp',{
+              numident:seldata.numidentp,nom:seldata.nom,prenom:seldata.prenom,sexe:seldata.sexe,datenais:seldata.datenais,sitmatr:seldata.sitmatr,
+              prof:seldata.prof,tel:seldata.tel,ville:seldata.ville,pere:seldata.pere,mere:seldata.mere,qartresid:seldata.qartresid,bp:seldata.bp,nbrenf:seldata.nbrenf,email:seldata.email,portable:seldata.portable,formation:seldata.formation,lieunais:seldata.lieunais
+            },
+            function success(data) {
+                $("#content").html(data);
+            });
+            };
+            }) 
+        }
+        else
+        {
+            alert('Aucune ligne sélectionnée');
+        }
+        
+    });
+    
+    $('#ncm').button();
+    $('#ok').button()
+   
+</script>

@@ -1,0 +1,86 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Modification de compte bancaire</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="adddemande">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="code_banque">Banque  *</label>
+<div class="controls">
+<select  name ="code_banque" id="code_banque"  required="required">
+     <?php  $banque_mapper = new Application_Model_EuBanqueMapper();
+		    $selectbanques = $banque_mapper->fetchAll();?>
+            <option value="">Choisir la banque </option>
+            <?php foreach ($selectbanques as $selectbanque): ?>
+            <option value="<?php echo $selectbanque->code_banque; ?>" <?php if($selectbanque->code_banque == $this->comptebancaire->code_banque) echo 'selected="selected"'; ?>><?php echo $selectbanque->libelle_banque; ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="num_compte_bancaire">Numéro de compte bancaire *</label>
+<div class="controls">
+<input class="input-xxlarge" type="text" name="num_compte_bancaire" id="num_compte_bancaire" placeholder="Numéro de compte bancaire" value="<?php echo $this->comptebancaire->num_compte_bancaire; ?>" required>
+</div>
+</div>
+
+
+<div class="control-group">
+    <label class="control-label">Ce numéro de compte bancaire est il le principal ? *</label>
+    <div class="controls">
+    <label class="radio inline">
+  <input type="radio" name="principal" id="principal_1" value="1"  <?php if($this->comptebancaire->principal == 1){ echo 'checked="checked"';} ?>  required >
+  OUI
+</label>
+<label class="radio inline">
+  <input type="radio" name="principal" id="principal_0" value="0"  <?php if($this->comptebancaire->principal == 0){ echo 'checked="checked"';} ?>  required >
+  NON
+</label>
+    </div>
+  </div>
+
+
+
+<div class="form-actions">
+<input name="id_compte" type="hidden" id="id_compte" value="<?php echo $this->comptebancaire->id_compte; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier le compte bancaire</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

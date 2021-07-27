@@ -1,0 +1,334 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+
+<?php if(count($this->entries)>0){?> 
+  <blockquote><p>Mes comptes <small>La liste de mes comptes</small></p></blockquote>
+      <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin != ""){?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+	</div>
+	<?php }?>
+                        <?php if (substr($sessionmembre->code_membre, -1) == "P") {
+                            $sessionmembre->type = 'RPG';
+                            $sessionmembre->desctype = 'Revenu Périodique Garanti';
+                            $sessionmembre->typepernonne = 'P';
+                        } else if (substr($sessionmembre->code_membre, -1) == "M") {
+                            $sessionmembre->type = 'I';
+                            $sessionmembre->desctype = 'Investissement';
+                            $sessionmembre->typepernonne = 'M';
+                        }?>
+
+<div class="accordion" id="accordion2">
+<?php foreach ($this->entries as $entry): ?>
+<?php 
+if($entry->code_type_compte == "NB"){
+$color = "#00F";
+$btncolor = "primary";
+}else if($entry->code_type_compte == "NR"){
+$color = "#F00";
+$btncolor = "danger";
+}else if($entry->code_type_compte == "NN"){
+$color = "#000";
+$btncolor = "inverse";
+}
+?>
+  <div class="accordion-group" style="border:1px solid <?php echo $color; ?>;">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $entry->code_compte; ?>">
+        <i class="icon-arrow-right"></i> <strong style="color:<?php echo $color; ?>;"><?php echo substr($entry->code_compte, 0, -21); ?><?php /*echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat;*/ ?></strong>, <span style="color:#666; font-size:11px; text-decoration:inherit;"><?php 
+$categoriecompteM = new Application_Model_EuCategorieCompteMapper();
+$categoriecompte = new Application_Model_EuCategorieCompte();
+$categoriecompteM->find($entry->code_cat, $categoriecompte);
+?><?php echo ($categoriecompte->lib_cat); ?></span>
+      </a>
+    </div>																		<!-- in-->
+    <div id="collapse<?php echo $entry->code_compte; ?>" class="accordion-body collapse" align="left">
+      <div class="accordion-inner">
+<strong>Compte</strong> : <?php echo $entry->code_compte; ?><br />
+<?php if ($entry->code_type_compte."-".$entry->code_cat != "NN-TR"){?>
+<strong>Solde</strong> : <strong><?php echo number_format($entry->solde, 0, ',', ' '); ?></strong>
+<?php }?>
+<?php 
+		$table = new Application_Model_DbTable_EuCompteCredit();
+        $select = $table->select()
+						->distinct()
+             			->from($table, array('code_produit'))
+						->where("code_membre = '".$sessionmembre->code_membre."'")
+						->where('code_compte = ?', $entry->code_compte);
+        $codeproduit = $table->fetchAll($select);
+?>
+<?php if(count($codeproduit)>0){?>
+<table class="table table-bordered table-hover table-condensed">
+<caption>Liste des sous comptes de <strong style="color:<?php echo $color; ?>;"><?php echo substr($entry->code_compte, 0, -21); ?><?php /*echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat;*/ ?></strong> et leurs soldes</caption>
+  <tbody>
+<?php foreach ($codeproduit as $codeproduit): ?>
+    <tr>
+      <td><?php echo substr($entry->code_compte, 0, -21); ?><?php /*echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat;*/ ?></td>
+      <td><strong><?php echo $codeproduit->code_produit; ?></strong></td>
+      <td><?php 
+$produitM = new Application_Model_EuProduitMapper();
+$produit = new Application_Model_EuProduit();
+$produitM->find($codeproduit->code_produit, $produit);
+?><?php echo ($produit->libelle_produit); ?></td>
+      <td><div align="right"><?php $soldecomptecreditM = new Application_Model_EuCompteCreditMapper();
+$soldecomptecredit = new Application_Model_EuCompteCredit();
+$soldecomptecreditM->findByCompteProduitSolde($entry->code_compte, $codeproduit->code_produit, $soldecomptecredit);?>
+<?php echo number_format($soldecomptecredit->solde, 0, ',', ' '); ?></div></td>
+      <td width="100"><div align="center"><a class="btn btn-mini btn-<?php echo $btncolor; ?>" href="<?php echo $this->baseUrl();?>/espacepersonnel/operation/ctc/<?php echo $entry->code_type_compte; ?>/cc/<?php echo $entry->code_cat; ?>/cp/<?php echo $codeproduit->code_produit; ?>"><i class="icon-white icon-th-list"></i> Opérations</a></div></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php }?>
+
+<?php if ($entry->code_cat == "TPAGCP" && $entry->code_type_compte == "NB"){?>
+<?php 
+$acteur = new Application_Model_EuActeur();
+$rows = $acteur->findByBpf($sessionmembre->code_membre, $acteur);
+if($rows === FALSE){
+?>
+
+
+<?php 
+		$table = new Application_Model_DbTable_EuGcp();
+        $select = $table->select()
+						->distinct()
+             			->from($table, array('code_cat'))
+						->where("code_membre = '".$sessionmembre->code_membre."'");
+        $codecat = $table->fetchAll($select);
+?>
+<?php if(count($codecat)>0){?>
+<table class="table table-bordered table-hover table-condensed">
+<caption>Liste des sous comptes de <strong style="color:<?php echo $color; ?>;"><?php echo substr($entry->code_compte, 0, -21); ?><?php /*echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat;*/ ?></strong> et leurs soldes</caption>
+  <tbody>
+<?php foreach ($codecat as $codecat): ?>
+    <tr>
+      <td><?php echo substr($entry->code_compte, 0, -21); ?><?php /*echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat;*/ ?></td>
+      <td><strong><?php echo $codecat->code_cat; ?></strong></td>
+      <td><?php 
+$produitM = new Application_Model_EuCategorieCompteMapper();
+$produit = new Application_Model_EuCategorieCompte();
+$produitM->find($codecat->code_cat, $produit);
+?><?php echo ($produit->lib_cat); ?></td>
+      <td><div align="right"><?php $soldegcpM = new Application_Model_EuGcpMapper();
+$soldegcp = new Application_Model_EuGcp();
+$soldegcpM->findByCodeCatSolde($sessionmembre->code_membre, $codecat->code_cat, $soldegcp);?>
+<?php echo number_format($soldegcp->reste, 0, ',', ' '); ?></div></td>
+      <td width="100"><div align="center"><a class="btn btn-mini btn-<?php echo $btncolor; ?>" href="<?php echo $this->baseUrl();?>/espacepersonnel/detailgcp/ctc/<?php echo $entry->code_type_compte; ?>/cc/<?php echo $entry->code_cat; ?>/tc/<?php echo $codecat->code_cat; ?>"><i class="icon-white icon-th-list"></i> Opérations</a></div></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php }?>
+
+<?php /*?><br /><a class="btn btn-link" href="<?php echo $this->baseUrl();?>/espacepersonnel/detailgcp/ctc/<?php echo $entry->code_type_compte; ?>/cc/<?php echo $entry->code_cat; ?>"><i class="icon-th-list"></i> Détails GCP</a><?php */?>
+<?php }else{?>
+<?php 
+		$table = new Application_Model_DbTable_EuDetailGcpPbf();
+        $select = $table->select()
+						->distinct()
+             			->from($table, array('type_capa'))
+						->where("code_gcp_pbf LIKE '%".$sessionmembre->code_membre."'");
+        $typecapa = $table->fetchAll($select);
+?>
+<?php if(count($typecapa)>0){?>
+<table class="table table-bordered table-hover table-condensed">
+<caption>Liste des sous comptes de <strong style="color:<?php echo $color; ?>;"><?php echo substr($entry->code_compte, 0, -21); ?><?php /*echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat;*/ ?> PBF</strong> et leurs soldes</caption>
+  <tbody>
+<?php foreach ($typecapa as $typecapa): ?>
+    <tr>
+      <td><?php echo substr($entry->code_compte, 0, -21); ?><?php /*echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat;*/ ?></td>
+      <td><strong><?php echo $typecapa->type_capa; ?></strong></td>
+      <td>FG <?php 
+$produitM = new Application_Model_EuCategorieCompteMapper();
+$produit = new Application_Model_EuCategorieCompte();
+$produitM->find(substr($typecapa->type_capa, 2), $produit);
+?><?php echo ($produit->lib_cat); ?></td>
+      <td><div align="right"><?php $soldedetailgcppbfM = new Application_Model_EuDetailGcpPbf();
+$soldedetailgcppbf = new Application_Model_EuDetailGcpPbf();
+$soldedetailgcppbfM->findByTypeCapaSolde($sessionmembre->code_membre, $typecapa->type_capa, $soldedetailgcppbf);?>
+<?php echo number_format($soldedetailgcppbf->solde_gcp_pbf, 0, ',', ' '); ?></div></td>
+      <td width="100"><div align="center"><a class="btn btn-mini btn-<?php echo $btncolor; ?>" href="<?php echo $this->baseUrl();?>/espacepersonnel/detailgcppbf/ctc/<?php echo $entry->code_type_compte; ?>/cc/<?php echo $entry->code_cat; ?>/tc/<?php echo $typecapa->type_capa; ?>"><i class="icon-white icon-th-list"></i> Opérations</a></div></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php }?>
+<?php /*?><br /><a class="btn btn-link" href="<?php echo $this->baseUrl();?>/espacepersonnel/detailgcppbf/ctc/<?php echo $entry->code_type_compte; ?>/cc/<?php echo $entry->code_cat; ?>"><i class="icon-th-list"></i> Détails GCP PBF</a>
+<?php */?>
+<?php }?>
+<?php }?>
+
+
+
+
+
+
+
+<?php /*?><?php if ($entry->code_cat == "CAPA" && $entry->code_type_compte == "NN"){?>
+<br /><a class="btn btn-link" href="<?php echo $this->baseUrl();?>/espacepersonnel/operationcapa/ctc/<?php echo $entry->code_type_compte; ?>/cc/<?php echo $entry->code_cat; ?>"><i class="icon-th-list"></i>Liste des recharges <strong style="color:<?php echo $color; ?>;"><?php echo substr($entry->code_compte, 0, -21); ?><?php //echo $entry->code_type_compte; ?>-<?php //echo $entry->code_cat; ?></strong> et leurs soldes</a>
+<?php }?><?php */?>
+
+<?php if ($entry->code_cat == "TSCAPA" && $entry->code_type_compte == "NN"){?>
+<br /><a class="btn btn-link" href="<?php echo $this->baseUrl();?>/espacepersonnel/operationcapats/ctc/<?php echo $entry->code_type_compte; ?>/cc/<?php echo $entry->code_cat; ?>"><i class="icon-th-list"></i>Liste des recharges <strong style="color:<?php echo $color; ?>;"><?php echo substr($entry->code_compte, 0, -21); ?><?php //echo $entry->code_type_compte; ?>-<?php //echo $entry->code_cat; ?></strong> et leurs soldes</a>
+<?php }?>
+
+
+
+
+
+<?php 
+		$table = new Application_Model_DbTable_EuCompteCreditTs();
+        $select = $table->select()
+						->where("code_compte = '".$entry->code_compte."'");
+        $codeproduit5 = $table->fetchAll($select);
+		//echo $select;
+?>
+<?php if (count($codeproduit5) > 0){// && $entry->code_type_compte == "NB"?>
+<?php 
+		$table = new Application_Model_DbTable_EuCompteCreditTs();
+        $select = $table->select()
+						->distinct()
+             			->from($table, array('code_produit'))
+						->where("code_compte = '".$entry->code_compte."'");
+						//->where('id_credit IN (SELECT id_credit FROM eu_compte_credit_ts)');
+        $codeproduit = $table->fetchAll($select);
+		//echo $select;
+?>
+<?php if(count($codeproduit)>0){?>
+<table class="table table-bordered table-hover table-condensed">
+<caption>Liste des sous comptes de <strong style="color:<?php echo $color; ?>;"><?php echo substr($entry->code_compte, 0, -21); ?><?php /*echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat;*/ ?></strong> et leurs soldes</caption>
+  <tbody>
+<?php foreach ($codeproduit as $codeproduit): ?>
+    <tr>
+      <td><?php echo substr($entry->code_compte, 0, -21); ?><?php /*echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat;*/ ?></td>
+      <td><strong><?php echo $codeproduit->code_produit; ?></strong></td>
+      <td><?php 
+$produitM = new Application_Model_EuProduitMapper();
+$produit = new Application_Model_EuProduit();
+$produitM->find($codeproduit->code_produit, $produit);
+?><?php echo ($produit->libelle_produit); ?></td>
+      <td><div align="right"><?php $soldecomptecreditM = new Application_Model_EuCompteCreditTsMapper();
+$soldecomptecredit = new Application_Model_EuCompteCreditTs();
+$soldecomptecreditR = $soldecomptecreditM->findByCompteProduitSolde($entry->code_compte, $codeproduit->code_produit, $soldecomptecredit);?>
+<?php if(count($soldecomptecreditR) > 0){echo number_format($soldecomptecreditR['solde'], 0, ',', ' ');} ?></div></td>
+      <td width="100"><div align="center"><a class="btn btn-mini btn-<?php echo $btncolor; ?>" href="<?php echo $this->baseUrl();?>/espacepersonnel/operationts/ctc/<?php echo $entry->code_type_compte; ?>/cc/<?php echo substr($entry->code_compte, 3, -21); ?>/cp/<?php echo $codeproduit->code_produit; ?>"><i class="icon-white icon-th-list"></i> Opérations</a></div></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php }?>
+
+
+<?php }?>
+
+
+
+
+
+<?php if ($entry->code_cat == "TR" && $entry->code_type_compte == "NN"){?>
+
+<?php 
+		$table = new Application_Model_DbTable_EuTransfertNn();
+        $select = $table->select()
+						->distinct()
+             			->from($table, array('code_type_nn','code_compte_dist'))
+						->where("code_compte_dist like '".$entry->code_compte."'");
+        $originesms = $table->fetchAll($select);
+		//echo $select;
+?>
+<?php if(count($originesms)>0){?>
+<table class="table table-bordered table-hover table-condensed">
+<caption>Liste des origines de <strong style="color:<?php echo $color; ?>;"><?php echo substr($entry->code_compte, 0, -21); ?><?php /*echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat;*/ ?></strong> et leurs soldes</caption>
+  <tbody>
+<?php foreach ($originesms as $originesms): ?>
+    <tr>
+      <td><?php echo substr($entry->code_compte, 0, -21); ?><?php /*echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat;*/ ?></td>
+      <td><strong><?php echo $originesms->code_type_nn; ?></strong></td>
+      <td><div align="right"><?php 
+	  $table = new Application_Model_DbTable_EuTransfertNn();
+        $select = $table->select();
+		$select->from(array('eu_transfert_nn'), array('code_compte_dist', 'code_type_nn', 'solde' => 'SUM(solde_transfert)'));
+        $select->group(array('code_compte_dist', 'code_type_nn'));
+		$select->having("code_compte_dist like '".$entry->code_compte."'");
+		$select->having('code_type_nn like ?', $originesms->code_type_nn);
+        $result = $table->fetchRow($select);
+	 /* echo $select;
+	  
+	  $soldetransfertnnM = new Application_Model_EuTransfertNnMapper();
+$soldetransfertnn = new Application_Model_EuTransfertNn();
+$soldetransfertnnM->findByTypeNNSmsSolde($originesms->code_compte_dist, $originesms->code_type_nn, $soldetransfertnn);*/?>
+<?php echo number_format($result->solde, 0, ',', ' '); ?></div></td>
+      <td width="100"><div align="center"><a class="btn btn-mini btn-<?php echo $btncolor; ?>" href="<?php echo $this->baseUrl();?>/espacepersonnel/operationnntr/ctc/<?php echo $entry->code_type_compte; ?>/cc/<?php echo $entry->code_cat; ?>/origsms/<?php echo $originesms->code_type_nn; ?>"><i class="icon-white icon-th-list"></i> Détails</a></div></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php }?>
+
+<?php }?>
+
+
+
+
+
+<?php if ($entry->code_type_compte == "NN"){?>
+<?php 
+		$table = new Application_Model_DbTable_EuDetailAppelNn();
+        $select = $table->select()
+						->distinct()
+             			->from($table, array('code_compte'))
+						->where('code_compte = ?', $entry->code_compte);
+        $detailsappelnn = $table->fetchAll($select);
+		//echo $select;
+		if(count($detailsappelnn) > 0){
+?>
+<br /><a class="btn btn-link" href="<?php echo $this->baseUrl();?>/espacepersonnel/repartitiondetails/ctc/<?php echo $entry->code_type_compte; ?>/cc/<?php echo $entry->code_cat; ?>"><i class="icon-th-list"></i>Liste des collectes et répartitions <strong style="color:<?php echo $color; ?>;"><?php echo substr($entry->code_compte, 0, -21); ?><?php /*echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat;*/ ?></strong> et leurs montants</a>
+<?php }?>
+
+
+<?php if ($entry->code_type_compte == "NN" && $entry->code_cat == "TMARGE"){?>
+<br /><a class="btn btn-link" href="<?php echo $this->baseUrl();?>/espacepersonnel/repartitionsurveillance/ctc/<?php echo $entry->code_type_compte; ?>/cc/<?php echo $entry->code_cat; ?>"><i class="icon-th-list"></i>Liste des marges répartitions <strong style="color:<?php echo $color; ?>;"><?php echo substr($entry->code_compte, 0, -21); ?><?php /*echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat;*/ ?></strong> et leurs montants</a>
+<?php }?>
+
+<?php }?>
+
+
+      </div>
+    </div>
+  </div>
+<?php endforeach; ?>
+</div>
+
+
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun compte
+</div>
+<?php }?>
+
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

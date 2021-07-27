@@ -1,0 +1,112 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+  <div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Detail d'un message</p></blockquote>
+  
+    
+<div class="control-group">
+<label class="control-label" for="code_membre_expediteur">Code Membre Expediteur</label>
+<div class="controls">
+<?php echo $this->message->code_membre_expediteur; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="date_message">Date </label>
+<div class="controls">
+<?php echo $this->message->date_message; ?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="titre_message">Titre </label>
+<div class="controls">
+<?php echo $this->message->titre_message; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="description_message">Description </label>
+<div class="controls">
+<?php echo $this->message->description_message; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="code_membre_destinataire">Destinataire(s) </label>
+<div class="controls">
+<?php 
+        $destinataire_messageM = new Application_Model_EuDestinataireMessageMapper();
+        $destinataire_message = $destinataire_messageM->fetchAllByMessage($this->message->id_message);
+foreach ($destinataire_message as $row) {
+        echo $row->code_membre_destinataire;
+        echo " ; ";
+      }
+?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="alerte">Alerte <?php if($this->message->alerte){echo "Activé";}else{echo "Désactivé";} ?></label>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="admin">Admin <?php if($this->message->admin){echo "Activé";}else{echo "Désactivé";} ?></label>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="etat">Etat <?php if($this->message->etat){echo "Activé";}else{echo "Désactivé";} ?></label>
+</div>
+        
+<div class="control-group">
+<label class="control-label" for="id_message_envoi">Message reçu</label>
+<div class="controls">
+<?php if($this->message->id_message_envoi > 0){
+        $message = new Application_Model_EuMessage();
+        $messageM = new Application_Model_EuMessageMapper();
+        $messageM->find($this->message->id_message_envoi, $message);
+        echo $message->titre_message;
+      }
+?>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="fichier_message">Fichier(s) </label>
+<div class="controls">
+<?php 
+        $fichier_messageM = new Application_Model_EuFichierMessageMapper();
+        $fichier_message = $fichier_messageM->fetchAllByMessage($this->message->id_message);
+foreach ($fichier_message as $row) {
+?>
+<a href="<?php echo $this->baseUrl(); ?>/<?php echo $row->fichier_message; ?>" target="_blank"><?php echo str_replace('messages/', '', $row->fichier_message); ?></a><br />
+<?php }?>
+</div>
+</div>
+
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,99 @@
+<div id="view-content" style="font-size: 12px;min-height: 520px;" title="Création d'un compte utilisateur">
+    <form method="POST" action="/eu-compte-cyber/new" id="acteur_form" name="acteur_form">
+        <table style="margin-left: 15px;">
+            <tbody>
+                <tr>
+                    <td colspan="2">
+                        <fieldset>
+                            <legend>Infos sur l'utilisateur</legend>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td><label>Nom utilisateur *</label></td><td><input type="text" id="nom" name="nom" size="27" required="true"></td>
+                                        <td><label>Prénom utilisateur *</label></td><td><input type="text" id="prenom" name="prenom" required="true" size="27"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Login *</label></td><td><input type="text" id="login" name="login" size="27" required="true"></td>
+                                        <td><label>Mot de passe *</label></td><td><input type="password" id="pwd" name="pwd" required="true" size="27"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Confirmer mot de passe *</label></td><td><input type="password" id="pwd1" name="pwd1" required="true" size="27"></td>
+                                        <td><label><label>Code membre</label></td><td><input type="text" id="code_membre" name="code_membre" size="27"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Raison sociale</label></td><td><input type="text" id="raison_sociale" name="raison_sociale" size="27" required="false" readonly="true"></td>
+                                        <td><label>Nom && Prénom</label></td><td><input type="text" id="nom_prenom" name="nom_prenom" required="false" size="27" readonly="true"></td>
+                                    </tr>
+                                    <tr> 
+                                        <td><label>Groupe *</label></td><td><select id="groupe" name="groupe" required="true"></td>
+                                        <td><label>Agence *</label></td><td><select id="agence" name="agence"></td>
+                                    </tr>
+                                    <tr> 
+                                        <td><label>Description</label></td>
+                                        <td colspan='3'> <textarea id="desc" name="desc"> </textarea> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input id="compte_val" type="submit" value="Valider"/>
+                        <input id="acteur_reset" type="reset" value="Annuler"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>      
+    </form>    
+</div>
+<script>
+    $(document).ready(function() {
+
+        $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+        });
+
+        $.get('/eu-compte-cyber/membres',
+                function success(data)
+                {
+                    $('#code_membre').autocomplete({"source": data});
+                });
+
+        $('#code_membre').blur(function()
+        {
+            $.get(
+                    '/eu-compte-cyber/recupnom',
+                    {
+                        num_membre: $(this).val()
+                    },
+            function success(data)
+            {
+                $("#raison_sociale").val(data[0]);
+                $("#nom_prenom").val(data[1]);
+            });
+        })
+
+        $.get('/eu-compte-cyber/groupe',
+                function success(data)
+                {
+                    var options = '<option></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                    $('select#groupe').html(options);
+                });
+
+        $.get('/eu-compte-cyber/agence',
+                function success(data)
+                {
+                    var options = '<option></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                    $('select#agence').html(options);
+                });
+
+    })
+</script>    

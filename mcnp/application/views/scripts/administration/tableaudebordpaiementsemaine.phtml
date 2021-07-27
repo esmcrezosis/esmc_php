@@ -1,0 +1,121 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur'); ?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript" charset="utf-8">		
+	$(document).ready(function() {
+       $('#example').dataTable({
+         "sPaginationType": "full_numbers",
+         "aaSorting": []
+       });
+    });
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+<blockquote><p>Tableaux de bord des paiement de la semaine du <strong><?php echo $this->lundi; ?></strong> au <strong><?php echo $this->dimanche; ?></strong></p></blockquote>
+
+<table class="table table-striped table-bordered table-condensed" style="font-style: 10px;"><!-- table-hover id="example"-->
+      <tr>
+        <th style="text-align: center;">TMONEY</th>
+        <th style="text-align: center;">FLOOZ</th>
+      </tr>
+      <tr>
+        <th colspan="2" style="text-align: center;">Solde</th>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><?php echo $this->soldetmoney; ?></td>
+        <td style="text-align: center;"><?php echo $this->soldeflooz; ?></td>
+      </tr>
+      <!--<tr>
+        <th colspan="2" style="text-align: center;"><?php echo datefr($this->today); ?></th>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><?php echo $this->traite_montant_tmoney_0; ?></td>
+        <td style="text-align: center;"><?php echo $this->traite_montant_flooz_0; ?></td>
+      </tr>-->
+      <tr>
+        <th colspan="2" style="text-align: center;">Cumul OPI : <?php echo datefr($this->today); ?></th>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><?php echo $this->traite_montant_tmoney_0; ?></td>
+        <td style="text-align: center;"><?php echo $this->traite_montant_flooz_0; ?></td>
+      </tr>
+      <tr>
+        <th colspan="2" style="text-align: center;">Cumul OPI en retard de paiement de : <?php echo datefr($this->today); ?></th>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><?php echo $this->traite_montant_tmoney_moins_1; ?></td>
+        <td style="text-align: center;"><?php echo $this->traite_montant_flooz_moins_1; ?></td>
+      </tr>
+      <tr>
+        <th colspan="2" style="text-align: center;">Cumul OPI : <?php echo datefr($this->demain_1); ?></th>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><?php echo $this->traite_montant_tmoney_1; ?></td>
+        <td style="text-align: center;"><?php echo $this->traite_montant_flooz_1; ?></td>
+      </tr>
+      <tr>
+        <th colspan="2" style="text-align: center;">Cumul OPI : <?php echo datefr($this->demain_2); ?></th>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><?php echo $this->traite_montant_tmoney_2; ?></td>
+        <td style="text-align: center;"><?php echo $this->traite_montant_flooz_2; ?></td>
+      </tr>
+      <tr>
+        <th colspan="2" style="text-align: center;">Cumul OPI : <?php echo datefr($this->demain_3); ?></th>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><?php echo $this->traite_montant_tmoney_3; ?></td>
+        <td style="text-align: center;"><?php echo $this->traite_montant_flooz_3; ?></td>
+      </tr>
+      <tr>
+        <th colspan="2" style="text-align: center;">Cumul OPI : <?php echo datefr($this->demain_4); ?></th>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><?php echo $this->traite_montant_tmoney_4; ?></td>
+        <td style="text-align: center;"><?php echo $this->traite_montant_flooz_4; ?></td>
+      </tr>
+      <tr>
+        <th colspan="2" style="text-align: center;">Cumul OPI : <?php echo datefr($this->demain_5); ?></th>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><?php echo $this->traite_montant_tmoney_5; ?></td>
+        <td style="text-align: center;"><?php echo $this->traite_montant_flooz_5; ?></td>
+      </tr>
+      <tr>
+        <th colspan="2" style="text-align: center;">Cumul OPI : <?php echo datefr($this->demain_6); ?></th>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><?php echo $this->traite_montant_tmoney_6; ?></td>
+        <td style="text-align: center;"><?php echo $this->traite_montant_flooz_6; ?></td>
+      </tr>
+      <tr>
+        <th colspan="2" style="text-align: center;">Cumul Total</th>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><?php echo ($this->traite_montant_tmoney_moins_1 + $this->traite_montant_tmoney_1 + $this->traite_montant_tmoney_2 + $this->traite_montant_tmoney_3 + $this->traite_montant_tmoney_4 + $this->traite_montant_tmoney_5 + $this->traite_montant_tmoney_6); ?></td>
+        <td style="text-align: center;"><?php echo ($this->traite_montant_flooz_moins_1 + $this->traite_montant_flooz_1 + $this->traite_montant_flooz_2 + $this->traite_montant_flooz_3 + $this->traite_montant_flooz_4 + $this->traite_montant_flooz_5 + $this->traite_montant_flooz_6); ?></td>
+      </tr>
+</table>
+
+
+
+</div>
+</div>
+</div>
+       
+
+
+
+
+
+
+
+
+
+

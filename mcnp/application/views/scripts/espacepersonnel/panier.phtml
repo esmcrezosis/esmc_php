@@ -1,0 +1,239 @@
+<?php $sessionpanier = new Zend_Session_Namespace('panier');?>
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/intermediaires2.js"></script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+<script>
+function totalmontant(nbre){
+	montant = 0;
+	for(i = 0; i < nbre; i++){ 
+	
+		if(document.getElementById('qte'+i)){
+		if(document.getElementById('qte'+i).value > 0){
+			}else{
+			document.getElementById('qte'+i).value = 1;
+				}
+	montant += document.getElementById('qte'+i).value * (document.getElementById('prix_unitaire'+i).value - document.getElementById('remise'+i).value);
+		}
+		if(montant < document.getElementById('mont_capa').value){
+	document.getElementById('montant').value = montant;
+			}else{
+	document.getElementById('montant').value = "Insuffisant";
+				}
+	}
+	}
+</script>
+
+<?php if(isset($sessionmembre->code_membre) && $sessionmembre->code_membre != ""){?> 
+  <blockquote><p>Mon panier <small>Liste de mes achats encours</small></p></blockquote>
+
+<form method="post" enctype="multipart/form-data" class="well form-horizontal" id="panier">
+  
+<blockquote><strong>Compte de transaction </strong> : NB-TS<?php echo $sessionmembre->type; ?>-<?php echo $sessionmembre->code_membre; ?><br />
+
+
+<?php /*?>Solde : <strong><?php echo number_format($this->compte_solde, 0, ',', ' '); ?></strong><?php */?>
+</blockquote>
+
+<table class="table table-bordered">
+  <tr>
+    <td><label class="control-label">Bon de Consommation<?php /*?> NB-TS<?php echo $sessionmembre->type; ?><?php */?>*</label></td>
+    <td><label class="radio inline">
+  <input type="radio" name="categorie" id="categorier" value="<?php echo $type; ?>-r" required onclick="ouvre_intermediaires2('NB-TS<?php echo $type; ?>-<?php echo $type; ?>r-<?php echo $sessionmembre->code_membre; ?>');">
+  Récurrent
+</label>
+<label class="radio inline">
+  <input type="radio" name="categorie" id="categorienr" value="<?php echo $type; ?>-nr" required onclick="ouvre_intermediaires2('NB-TS<?php echo $type; ?>-<?php echo $type; ?>nr-<?php echo $sessionmembre->code_membre; ?>');">
+  Non Récurrent
+</label></td>
+    <td><label class="control-label" for="mont_capa">Cumul des CAPA  *</label></td>
+    <td><span id="niv2">
+      <input type="hidden" name="mont_capa" id="mont_capa">
+    </span></td>
+  </tr>
+</table>
+
+    
+
+    
+
+    
+    
+
+
+
+       
+	   <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin != ""){?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+	</div>
+	<?php }?>
+ 
+<table class="table table-condensed">
+<thead>
+<tr>
+<th>&nbsp;</th>
+<th>Produits</th>
+<th>Catégorie</th>
+<th><div align="center">Quantité</div></th>
+<th><div align="right">Prix</div></th>
+<th><div align="center">Remise</div></th>
+<th><div align="center">Vendeurs</div></th>
+<th><div align="center">Actions</div></th>
+</tr>
+</thead>
+<tbody>
+<?php $total = 0;?>
+<?php for($i = 0; $i < count($sessionpanier->produit); $i++){ ?>
+<?php if(isset($sessionpanier->produit[$i][0]) && $sessionpanier->produit[$i][0] != ""){?>
+    <tr>
+      <td><?php if($sessionpanier->produit[$i][11] != ""){?><img src="<?php echo $this->baseUrl();?>/<?php echo ($sessionpanier->produit[$i][11]); ?>" width="25" height="25" class="img-rounded"><?php }?></td>
+      <td><?php echo htmlentities($sessionpanier->produit[$i][2]); ?> <small>(<?php echo htmlentities($sessionpanier->produit[$i][1]); ?> - <?php echo htmlentities($sessionpanier->produit[$i][0]); ?>)</small></td>
+      <td><?php 
+$categoriebpsM = new Application_Model_EuCategorieBpsMapper();
+$categoriebps = new Application_Model_EuCategorieBps();
+$categoriebpsM->find($sessionpanier->produit[$i][9], $categoriebps);
+?><?php echo ($categoriebps->libelle_categorie); ?></td>
+      <td><div align="center"><input class="input-mini" type="number" name="qte[]" id="qte<?php echo $i; ?>" placeholder="Qté" value="1" required onchange="totalmontant(<?php echo count($sessionpanier->produit); ?>);" /></div></td>
+      <td><div align="right"><strong><?php echo number_format($sessionpanier->produit[$i][3], 0, ',', ' '); ?></strong></div>
+      <input name="prix_unitaire[]" id="prix_unitaire<?php echo $i; ?>" type="hidden" value="<?php echo $sessionpanier->produit[$i][3]; ?>" /></td>
+      <td><div align="center"><strong><?php echo number_format(($sessionpanier->produit[$i][12] * 100 / $sessionpanier->produit[$i][3]), 0, ',', ' '); ?> %</strong></div>
+      <input name="remise[]" id="remise<?php echo $i; ?>" type="hidden" value="<?php echo $sessionpanier->produit[$i][12]; ?>" /></td>
+      <td><div align="center"><a href="<?php echo $this->baseUrl();?>/index/acteurproduit/id/<?php echo $sessionpanier->produit[$i][6]; ?>"><?php 
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($sessionpanier->produit[$i][6], $membremorale);
+?><small><?php echo ($membremorale->raison_sociale); ?></small></a></div></td>
+      <td><div align="center"><a href="<?php echo $this->baseUrl();?>/espacepersonnel/retirerpanier/id/<?php echo $i; ?>"><i class="icon-remove"></i> Retirer</a></div></td>
+    </tr>
+    <?php $total = $total + ($sessionpanier->produit[$i][3] - $sessionpanier->produit[$i][12]);?>
+	<?php }?>
+<?php } ?>
+    <tr>
+      <td><div align="right"></div></td>
+      <td><div align="right"></div></td>
+      <td><div align="right"></div></td>
+      <td><div align="right"></div></td>
+      <td><div align="center"></div></td>
+      <td><div align="center"></div></td>
+      <td><div align="center"></div></td>
+      <td><div align="center"></div></td>
+    </tr>
+    <tr>
+      <td><div align="center"></div></td>
+      <td><div align="center"></div></td>
+      <td><div align="center"></div></td>
+      <td><div align="right"><strong>Total</strong></div></td>
+      <td><div align="right"><strong><input class="input-small" type="text" name="montant" id="montant" value="<?php echo $total; ?>" readonly /></strong></div></td>
+      <td><div align="center"></div></td>
+      <td><div align="center"></div></td>
+      <td><div align="center"></div></td>
+    </tr>
+</tbody>
+</table>
+
+
+<br />
+
+<div class="">
+  
+<div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="quartier_acheteur">Quartier *</label>
+  <div class="controls">
+  <input type="text" name="quartier_acheteur" id="quartier_acheteur" placeholder="Quartier" value="<?php echo $sessionmembre->quartier_membre; ?>" required>
+  </div>
+  </div>
+
+
+  <div class="control-group">
+  <label class="control-label" for="ville_acheteur">Ville *</label>
+  <div class="controls">
+  <input type="text" name="ville_acheteur" id="ville_acheteur" placeholder="Ville" value="<?php echo $sessionmembre->ville_membre; ?>" required>
+  </div>
+  </div>
+
+</div>
+<div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="tel_acheteur">Cellulaire *</label>
+  <div class="controls">
+  <input type="text" name="tel_acheteur" id="tel_acheteur" placeholder="Cellulaire" value="<?php echo $sessionmembre->tel_membre; ?>" required>
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="code_livraison">Mode de livraison *</label>
+  <div class="controls">
+  <select name="code_livraison" id="code_livraison" required>
+        <?php $tmode_livraison = new Application_Model_DbTable_EuModeLivraison();
+        $results = $tmode_livraison->fetchAll();?>
+  <option value="">Choisir le mode de livraison</option>
+    <?php foreach ($results as $mode_livraison): ?>
+               <option value="<?php echo $mode_livraison->code_livraison; ?>"><?php echo ($mode_livraison->designation_livraison); ?></option>
+    <?php endforeach; ?>
+</select>
+  </div>
+  </div>
+
+</div>
+
+  
+  <div class="control-group">
+  <label class="control-label" for="adresse_livraison">Adresse </label>
+  <div class="controls">
+    <textarea name="adresse_livraison" id="adresse_livraison" placeholder="Adresse"></textarea>
+  </div>
+  </div>
+
+
+</div>
+
+
+  
+
+
+
+
+
+
+  <div class="form-actions">
+              <input name="total" id="total" type="hidden" value="<?php echo $total; ?>" />
+              <input name="ok" type="hidden" value="ok" />
+      <button type="submit" class="btn btn-primary">Enregistrer la commande</button>
+</div>  
+</form>
+
+
+
+<?php }else{?>
+<div class="alert alert-error">
+  Vous devez d'abord vous connecter, c'est par ici <i class="icon-hand-right"></i>
+</div>
+<?php }?>
+
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,67 @@
+<?php $sessionbanqueopi = new Zend_Session_Namespace('banqueopi'); ?>
+
+<div class="well3">
+	<div class="row-fluid">
+		<div class="span12" style="text-align: left">
+
+<?php include("../application/layouts/scripts/menubanqueopi.phtml"); ?>
+
+             <blockquote>
+				<p>Ajouter un utilisateur de banque</p>
+			</blockquote>
+			<form method="post" id="form_addbanque" class="well form-horizontal"
+				action="<?php echo $this->baseUrl();?>/banqueopi/addbanque">
+                <?php if(isset($this->message) && $this->message != ""){?>
+                    <div class="alert alert-error">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+                <?php echo $this->message; $this->message = ""; ?>
+	              </div>
+	            <?php }?>
+				<div class="control-group">
+					<label class="control-label span3">Nom Utilisateur *</label>
+					<div class="controls span9">
+						<input type="text" id="nom_banque_user" name="nom_banque_user" required="required" class="input-xxlarge" value="<?php echo $this->nom;?>">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label span3">Prénoms Utilisateur *</label>
+					<div class="controls span9">
+						<input type="text" id="prenom_banque_user"
+							name="prenom_banque_user" class="input-xxlarge" required="required" value="<?php echo $this->prenom;?>">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label span3">Login *</label>
+					<div class="controls span9">
+						<input type="text" id="login_banque_user" name="login_banque_user" class="input-xxlarge" required="required" value="<?php echo $this->login;?>">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label span3">Mot de passe *</label>
+					<div class="controls span9">
+						<input type="password" id="pwd_banque_user" name="pwd_banque_user" class="input-xxlarge" required="required">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label span3">Confirmer le mot de passe *</label>
+					<div class="controls span9">
+						<input type="password" id="c_pwd_banque_user"
+							name="c_pwd_banque_user" class="input-xxlarge" required="required">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label span3" for="role">Role *</label>
+					<div class="controls span9">
+						<select id="role" name="role">
+						  <option value="B_USER">Utilisateurs</option>
+						</select>
+					</div>
+				</div>
+				<div class="controls">
+					<button type="submit" class="btn btn-primary">Valider</button>
+					<button type="reset" class="btn">Annuler</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

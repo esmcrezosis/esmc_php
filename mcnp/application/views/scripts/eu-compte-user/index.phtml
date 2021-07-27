@@ -1,0 +1,176 @@
+<div id="view-content" style="font-size: 11px;min-height: 520px;">
+     <div style="margin-bottom: 7px;Button-align:right">
+	 <a href="<?php echo $this->baseUrl();?>/documents/<?php /*$auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin'));
+	    $user = $auth->getIdentity(); echo $user->code_groupe;*/?>manuel.pdf" target="_blank">
+     <input id="telecharge" type="button" value="Télécharger la documentation"/>
+	 </a>
+	</div>
+    <div class="ui-widget-content ui-corner-all">
+            <fieldset><legend>Recherche</legend>
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="text-align: right;">Groupe</td>
+                        <td colspan='4'>
+                            <select id="code_groupe" name="code_groupe">
+                        </td>    						
+                    </tr>
+                    <tr>					
+                        <td style="text-align: right;">Utilisateur connecté</td>
+                        <td>
+                           <select name="connecte" id="connecte">
+                                <option value=""></option>
+                                <option value=1>Oui</option>
+                                <option value=0>Non</option>
+                            </select>
+                        </td>
+                        <td style="text-align: right;">Etat compte</td>
+                        <td>
+                           <select name="ulock" id="ulock">
+                                <option value=""></option>
+                                <option value=0>Actif</option>
+                                <option value=1>Non Actif</option>
+                            </select>
+                        </td>
+                        <td><button id="bt_show">Afficher</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+		<br>
+        <input id="activer" type="button" value="Activer" class="ui-widget button"/> 
+        <input id="desactiver" type="button" value="Désactiver" class="ui-widget button"/>
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+        <div style="margin-top:10px">
+		</div>
+        <table id="tbl-user"></table>
+        <div id="pg-user"></div>
+     </div>   
+</div>
+<script type="text/javascript">
+    $("#tbl-user").jqGrid({
+    url:'/eu-compte-user/data',
+    datatype: "json",
+    mtype: 'GET',
+    colNames:['ID','Nom user','Prenom user','Login','Groupe','Connecte','Etat compte'],
+    height:440, width:827,
+    colModel:[
+	 {name:'id_utilisateur',index:'id_utilisateur', width: 100, align:"left", editable:true,visible:false},
+     //{name:'id_utilisateur',index:'id_utilisateur', width:10, align:"right", hidden:true},
+     {name:'nom_utilisateur',index:'nom_utilisateur', width:150, editable: true,align:"left"},
+     {name:'prenom_utilisateur',index:'prenom_utilisateur', width:180, editable: true,align:"left"},
+     {name:'login',index:'login', width:130, editable: true,align:"left"},
+     {name:'libelle_groupe',index:'libelle_groupe', width: 250, editable: true,align:"left"},
+     {name:'connecte',index:'connecte', width: 80, editable: true,align:"left"},
+     {name:'ulock',index:'ulock', width: 110, editable: true,align:"left"}, 
+    ],
+     rowNum:1000,
+     rowList:[1000,2000,3000],
+     //rownumbers:true,
+     pager: '#pg-user',
+     sortname:"id_utilisateur",
+     //multiselect:true,
+     viewrecords: true,
+     sortorder: "ASC",
+     caption:"Liste des comptes utilisateurs"
+    });
+    $("#tbl-user").jqGrid('navGrid','#pg-user',{edit:false,add:false,del:false,search:true});   
+    
+	$(function() {
+      $('#view-content').puipanel();
+      $('fieldset').puifieldset();  
+    });
+    
+    $.get('/eu-compte-user/groupe',
+        function success(data) {
+            var options = '<option></option>';
+            for (var i = 0; i < data.length; i++) {
+              options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+        }
+        $('select#code_groupe').html(options);
+    });
+     
+	   
+    $('#activer').button().click(function(e) {
+        e.preventDefault();
+        var sel;
+        var rowsel;
+        var tab=[];
+        sel = jQuery("#tbl-user").jqGrid('getGridParam','selarrrow');
+        rowsel = jQuery("#tbl-user").jqGrid('getGridParam','selrow');
+        for (var i=0;i<sel.length;i++) {
+            tab[i]=jQuery("#tbl-user").jqGrid('getRowData',sel[i]);   
+        };
+        if(rowsel) {
+            $.get('/eu-compte-user/activer',{
+                   lignes:tab
+            },
+            function success(data) {
+                if(data == 'good') {
+                  jQuery("#tbl-user").jqGrid('setGridParam',{url:"/eu-compte-user/data"}).trigger('reloadGrid');
+                  alert('Activation de compte effectuée avec succes');
+            }
+            else {
+                jQuery("#tbl-user").jqGrid('setGridParam',{url:"/eu-compte-user/data"}).trigger('reloadGrid');
+                alert('Echec de l\'opération');
+            }
+           });
+        }
+        else {
+          alert('Aucune ligne sélectionnée');
+        }   
+    });
+      
+    $('#desactiver').button().click(function(e) {
+        e.preventDefault();
+        var sel;
+        var rowsel;
+        var tab=[];
+        sel = jQuery("#tbl-user").jqGrid('getGridParam','selarrrow');
+        rowsel = jQuery("#tbl-user").jqGrid('getGridParam','selrow');
+        for (var i=0;i<sel.length;i++) {
+            tab[i]=jQuery("#tbl-user").jqGrid('getRowData',sel[i]);   
+        };
+        if(rowsel) {
+          $.get('/eu-compte-user/desactiver',{
+            lignes:tab
+        },
+        function success(data) {
+            if(data == 'good') {
+                jQuery("#tbl-user").jqGrid('setGridParam',{url:"/eu-compte-user/data"}).trigger('reloadGrid'); 
+                alert('Désactivation de compte effectuée avec succes');      
+            } else {
+                alert('Echec de l\'opération');
+                jQuery("#tbl-user").jqGrid('setGridParam',{url:"/eu-compte-user/data"}).trigger('reloadGrid');    
+            }
+          });
+        } else {
+               alert('Aucune ligne sélectionnée');
+        }   
+    });
+     
+	 
+	 
+    $('#editer').click(function() {
+        var rowsel;
+        rowsel = jQuery("#tbl-user").jqGrid('getGridParam','selrow');
+        if(rowsel) {
+            data=jQuery("#tbl-user").jqGrid('getRowData',rowsel);
+            $.get('/eu-compte-user/edit',{
+                id_utilisateur:data.id_utilisateur
+            },function success(data){
+                $("#content").html(data);
+            });             
+        } else {
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button(); 
+     
+    $('#bt_show').button().click(function(e) {
+      e.preventDefault();
+      jQuery("#tbl-user").jqGrid('setGridParam', {url: "/eu-compte-user/data?code_groupe="+$('#code_groupe').val()+"&connecte="+$('#connecte').val()+"&ulock="+$('#ulock').val()}).trigger('reloadGrid');
+    });
+    
+    
+</script>    

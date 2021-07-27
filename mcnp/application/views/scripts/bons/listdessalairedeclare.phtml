@@ -1,0 +1,32 @@
+<a href="/bons/declarelessalarie" class="btn btn-primary"><strong>Declarer le salaraire des employés</strong></a>
+
+
+<table class="table table-striped table-bordered">
+	<tr>
+		<th>Employeur</th>
+		<th>Nom du salarié</th>
+		<th>Prénom du salarié</th>
+		<th>Date de la déclaration</th>
+		<th>Déclaré à la CNSS?</th>
+		<th>Montant du salarié</th>
+	</tr>
+
+<?php foreach ($this->entries as $value): ?>
+      <tr>
+      	<td> <?php echo $value['raison_sociale'] ?> </td>
+      	<td><?php echo $value['nom_membre'] ?></td>
+      	<td><?php echo $value['prenom_membre'] ?></td>
+      	<td><?php echo $value['date_declaration'] ?></td>
+      	<td>
+      		<?php if ($value['cnss' ] === "1"): ?>
+      			<?php echo "Oui" ?>
+      		<?php else: ?>
+      			<?php echo "Non" ?>
+      		<?php endif ?>
+      	</td>
+      	<td>
+      		<?php echo $value['montant_salaire'] ?>
+      	</td>
+      </tr>
+<?php endforeach ?>
+</table>

@@ -1,0 +1,71 @@
+<div id="view-content" title="<font color='black'>CREANCES</font>" style="font-size: 12px;min-height: 520px;font-family:Arial Black"">
+     <div id="tab_nb">
+	      <ul>
+	        <li><a href="#tab_gcnrb" style="font-size:12px;font-family:Arial Black"><font color="blue">TPS NB</font></a></li>
+			<li><a href="#tab_gcnrn" style="font-size:12px;font-family:Arial Black"><font color="black">TPS NN</font></a></li>
+			<li><a href="#tab_gcnrr" style="font-size:12px;font-family:Arial Black"><font color="red">TPS NR</font></a></li>     
+	      </ul>
+	      <div style="padding: 1px;margin: 1px;">
+		  <div style="padding: 1px;margin: 1px;">
+		  <div id="tab_gcnrb" style="padding:1px;font-family:Arial Black">
+               <table border="1" width="450" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                        <thead>
+                              <th colspan="2"><label style="text-align: center;width: 280px;font-size:12px;font-family:Arial Black">Voici la situation des <font color="blue">TPS NB</font> en attentes</label></th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><label>Solde</label></td>
+                            <td><label><?php echo number_format($this->solde_nb,0,',',' '); ?></label></td>
+                        </tr>
+                      </tbody>
+              </table>
+              </div>
+		   </div>
+		   <div id="tab_gcnrn" style="padding: 1px;font-family:Arial Black;font-size:10px">
+                   <table border="1" width="450" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                      <thead>
+                         <th colspan="2"><label style="text-align: center;width:280px;font-size:10px;font-family:Arial Black">Voici la situation <font color="black">TPS NN</font> en attentes</label></th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                            <td><label>Solde</label></td>
+                            <td><label><?php echo number_format($this->solde_nn,0,',',' ') ;?></label></td>
+                        </tr>
+                      </tbody>
+                   </table>
+            </div>
+			<div id="tab_gcnrr" style="padding: 1px;font-family:Arial Black;font-size:10px">
+                   <table border="1" width="450" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                      <thead>
+                         <th colspan="2"><label style="text-align: center;width:280px;font-size:10px;font-family:Arial Black">Voici la situation <font color="red">TPS NR</font> en attentes</label></th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                            <td><label>Solde</label></td>
+                            <td><label><?php echo number_format($this->solde_nr,0,',',' ') ;?></label></td>
+                        </tr>
+                      </tbody>
+                   </table>
+            </div>
+		 
+		   </div>
+	 </div>
+</div>
+<script>
+  $(document).ready(function() {
+      $(function() {
+      $('#view-content').puipanel();
+      $('fieldset').puifieldset();
+      $('#tab_nb').puitabview();
+      var pickerOpts = {
+        dateFormat: "dd/mm/yy",
+        changeMonth: true,
+        changeYear: true,
+        selectOtherMonths: true,
+        showButtonPanel: true
+      };
+      $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+      $("#date_fg").datepicker(pickerOpts);
+  });		
+});		
+</script>

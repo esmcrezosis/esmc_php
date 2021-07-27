@@ -1,0 +1,121 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+
+<script type="text/javascript" charset="utf-8">		
+$(document).ready(function() {
+  $('#example').dataTable( {
+   "sPaginationType": "full_numbers",
+   "aaSorting": []
+  });
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p>Liste des Souscripteurs au Bon de Consommation (BC) pour Tiers</p></blockquote>
+
+<?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error !="") { ?>
+  <div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+  <?php } ?>
+
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+
+
+
+<?php if(count($this->entries)>0) { ?>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+       <thead>
+			 <tr>
+				<th>Date Souscription</th>
+				<th>Code Membre</th>
+				<th>Souscripteur</th>
+				<th>Portable</th>
+				<th>Email</th>
+				<th>Montant  souscrit</th>
+				<th>Action</th>
+			 </tr>
+		</thead>
+		<tbody>
+            <?php foreach ($this->entries as $entry):
+                $membre = new Application_Model_EuMembre();
+	            $m_map  = new Application_Model_EuMembreMapper();
+			    $membremoral = new Application_Model_EuMembreMorale();
+	            $m_mapmoral  = new Application_Model_EuMembreMoraleMapper();
+				
+				$desactiver = null;
+                
+                if(substr($entry->code_membre,19,1) == 'P')  {
+				  $findmembre = $m_map->find($entry->code_membre,$membre);
+				  $desactiver = $membre->desactiver;
+                } else {
+                  $findmembre = $m_mapmoral->find($entry->code_membre,$membremoral);
+				  $desactiver = $membremoral->desactiver;
+                }				
+			  
+			?>
+            <tr>
+                        <td><?php echo $entry->date_mstiers;  ?></td>
+                        <td><?php echo $entry->code_membre; ?></td>
+		                <td>
+						    <?php if(substr($entry->code_membre,19,1) == 'P')  { echo $membre->nom_membre." ".$membre->prenom_membre; } 
+							    else { echo $membremoral->raison_sociale;}
+							?>
+						</td>
+						<td>
+						    <?php if(substr($entry->code_membre,19,1) == 'P')  { echo $membre->portable_membre; } 
+							    else { echo $membremoral->portable_membre;}
+							?>
+						</td>
+						<td>
+						    <?php if(substr($entry->code_membre,19,1) == 'P')  { echo $membre->email_membre; } 
+							    else { echo $membremoral->email_membre;}
+							?>
+						</td>
+						<td><?php echo $entry->montant_souscris; ?></td>
+						<td>
+						    <div align="center">
+							     <?php if($desactiver == 0) { ?>
+						               <a class="btn btn-mini btn-success" href="<"><i class="icon-ok icon-white"></i>Compte Activé</a>&nbsp;		 
+								 <?php } else { ?>
+								      <a class="btn btn-mini btn-warning" href=""><i class="icon-off icon-white"></i>Compte Désactivé</a>&nbsp;
+							     <?php } ?>
+							</div>
+						</td>
+						
+			</tr>
+			<?php endforeach; ?>
+        </tbody>
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucune souscription enrégistrée 
+</div>
+<?php } ?>
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>

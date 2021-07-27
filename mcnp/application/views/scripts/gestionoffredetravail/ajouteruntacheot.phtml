@@ -1,0 +1,81 @@
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+<div class="alert alert-danger">
+
+  <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+</div>
+
+<?php unset($_SESSION['validationerrors']); endif ?>
+
+<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+<div class="alert alert-success">
+
+  <strong><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></strong>
+
+</div>
+
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+
+<form action="#" method="post" class="form-horizontal">
+
+<blockquote>INTERFACE D'AJOUT DE TACHES</blockquote>
+
+<form action="#" method="post">
+
+
+
+</form>
+
+<table class="table table-bordered">
+
+    <thead>
+
+         <tr>
+
+					 <th>Libelle de la tâche</th>
+
+					 <th>Date début de la tâche </th>
+
+					 <th>Date fin de la tâche </th>
+
+					 <th>Plus</th>					 
+		</tr> 
+
+    </thead>
+
+    <tbody>
+
+         <tr id="clone_article_demande_achat">
+
+			<td><input type="text"  id="ref_article_demande_achat" name="ref_article_demande_achat[]" required="required"></td>
+
+			<td><input type="text" id="designation_article_demande_achat" name="designation_des_Articles[]" required="required"></td>
+
+			<td><input type="text" id="quantite_article_demande_achat" name="quantite_article_demande_achat[]" value="0" required="required"></td>
+
+			<td><input type="text" id="prix_unitaire_article_demande_achat" name="prix_unitaire_article_demande_achat[]" value="0" required="required"></td>
+
+			<td><input type="text" id="total_article_demande_achat" name="total_article_demande_achat[]" readonly="true" value="0" required="required"></td>
+                     
+			<td><button class="btn btn-primary" id="clone_article">Ajouter</button></td>
+
+		</tr>
+        
+             </tbody>
+			 </table>
+
+
+<div class="control-group" style="clear:both">
+
+<button type="submit" class="btn btn-large btn-primary" style="position:relative">
+   
+    Enrégistrer les tâches
+
+</button>
+
+</div>
+
+</form>

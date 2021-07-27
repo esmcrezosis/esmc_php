@@ -1,0 +1,118 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+        
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des activations membres personnes morales effectuées</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+      <table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+					    <thead>
+						    <tr>
+							    <th>OSE/OE</th>
+							    <th>Date</th>
+							    <th>Code Membre</th>
+							    <th>Raison sociale</th>
+							    <th>Cellulaire</th>
+							    <th>Domaine d'activité</th>
+							    <th>Quartier</th>
+							    <th>Ville</th>
+							    <th>Actions</th>
+						    </tr>
+					    </thead>  
+                  <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php 
+        $codeactivationM = new Application_Model_EuCodeActivationMapper();
+        $codeactivation = $codeactivationM->fetchAllByCodeMembre($entry->code_membre_morale);
+		if(count($codeactivation) > 0 && $codeactivation->souscription_id > 0){
+			
+        $souscription = new Application_Model_EuSouscription();
+        $souscriptionM = new Application_Model_EuSouscriptionMapper();
+        $souscriptionM->find($codeactivation->souscription_id, $souscription);
+    
+			}else{
+	  
+        $membretierscodeM = new Application_Model_EuMembretierscodeMapper();
+        $membretierscode = $membretierscodeM->fetchAllByCodeMembre($entry->code_membre_morale);
+			if(count($membretierscode) > 0 && $membretierscode->membretierscode_souscription > 0){
+    
+        $souscription = new Application_Model_EuSouscription();
+        $souscriptionM = new Application_Model_EuSouscriptionMapper();
+        $souscriptionM->find($membretierscode->membretierscode_souscription, $souscription);
+        
+				}
+      }
+	  
+        if(isset($souscription) && count($souscription) && $souscription->souscription_membreasso > 0){
+		$membreasso = new Application_Model_EuMembreasso();
+        $membreassoM = new Application_Model_EuMembreassoMapper();
+        $membreassoM->find($souscription->souscription_membreasso, $membreasso);
+	  //echo $souscription->souscription_membreasso;
+        $association = new Application_Model_EuAssociation();
+        $associationM = new Application_Model_EuAssociationMapper();
+        $associationM->find($membreasso->membreasso_association, $association);
+	  echo $association->association_nom;
+	  }?></td>
+      <td><?php echo datejourfr($entry->date_identification); ?></td>
+      <td><?php echo ($entry->code_membre_morale); ?></td>
+      <td><?php echo ($entry->raison_sociale); ?></td>
+      <td><?php echo ($entry->portable_membre); ?></td>
+      <td><?php echo ($entry->domaine_activite); ?></td>
+      <td><?php echo ($entry->quartier_membre); ?></td>
+      <td><?php echo ($entry->ville_membre); ?></td>
+      <td><div align="center">&nbsp;</div></td>
+    </tr>
+<?php endforeach; ?>
+
+</tbody>
+      </table>
+      <br />
+
+<br />
+<br />
+
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun membre enrégistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

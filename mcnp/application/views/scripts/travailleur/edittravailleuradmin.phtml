@@ -1,0 +1,175 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modifier un travailleur</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="edittravailleur">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = "";?>
+    </div>
+  <?php }?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_libelle">Nom et prénom(s) du travailleur *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="travailleur_libelle" id="travailleur_libelle" placeholder="Nom et prénom(s) du travailleur" required value="<?php echo $this->travailleur->travailleur_libelle;?>">
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="id_postes"> Postes * </label>
+<div class="controls">
+<select id="id_postes" name="id_postes" required class="input-xxlarge">
+<option value="">Choisir un poste</option>
+<?php 
+$t_postes = new Application_Model_DbTable_EuPostes();
+$postes = $t_postes->fetchAll();
+?>
+<?php foreach ($this->postes as $value) { ?>
+<option value="<?php echo $value->id_postes; ?>" <?php if($this->travailleur->id_postes == $value->id_postes){?> selected="selected"<?php }?>><?php echo $value->nom_postes; ?></option>                         
+<?php } ?>
+</select>     
+</div>     
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_numero_cin">Numero d'identité *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="travailleur_numero_cin" id="travailleur_numero_cin" placeholder="Numero d'identité" value="<?php echo $this->travailleur->travailleur_numero_cin;?>" >
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_date_delivrance_cin">Date de delivrance *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="travailleur_date_delivrance_cin" id="travailleur_date_delivrance_cin" placeholder="Date de delivrance" value="<?php echo $this->travailleur->travailleur_date_delivrance_cin;?>" >
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_date_expiration_cin">Date d'expiration *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="travailleur_date_expiration_cin" id="travailleur_date_expiration_cin" placeholder="Date d'expiration" value="<?php echo $this->travailleur->travailleur_date_expiration_cin;?>" >
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="travailleur_type"> Type de travail * </label>
+<div class="controls">
+<select id="travailleur_type" name="travailleur_type" required class="input-xxlarge">
+<option value="">Choisir un type</option>
+<option value="Emplois" <?php if($this->travailleur->travailleur_type == "Emplois"){?> selected="selected"<?php }?>>Emplois</option>
+<option value="Stages" <?php if($this->travailleur->travailleur_type == "Stages"){?> selected="selected"<?php }?>>Stages</option>
+<option value="Formation" <?php if($this->travailleur->travailleur_type == "Formation"){?> selected="selected"<?php }?>>Formation</option>
+<option value="Apprentissage" <?php if($this->travailleur->travailleur_type == "Apprentissage"){?> selected="selected"<?php }?>>Apprentissage</option>
+<option value="Education" <?php if($this->travailleur->travailleur_type == "Education"){?> selected="selected"<?php }?>>Education</option>
+</select>     
+</div>     
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_niveau">Niveau scolaire du travailleur *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="travailleur_niveau" id="travailleur_niveau" placeholder="Niveau scolaire du travailleur" required value="<?php echo $this->travailleur->travailleur_niveau;?>">
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="travailleur_experience">Experience du travailleur * </label>
+<div class="controls">
+<textarea name="travailleur_experience" id="travailleur_experience" placeholder="Experience du travailleur" class="ckeditor"><?php echo $this->travailleur->travailleur_experience;?></textarea>
+</div>
+</div>
+
+
+
+
+<div class="control-group">
+<label class="control-label" for="travailleur_education">Education / Formation / Cursus  *</label>
+<div class="controls">
+  <textarea name="travailleur_education" class="input-xxlarge" id="travailleur_education" placeholder="Education/Formation/Cursus" ><?php echo $this->travailleur->travailleur_education;?></textarea>
+  <span class="help-block">Indiquer les études universitaires et autres études spécialisées ainsi que les noms des institutions fréquentées, les diplômes obtenus et les dates auxquelles ils l’ont été</span>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_formation">Autres formations   </label>
+<div class="controls">
+  <textarea name="travailleur_formation" class="input-xxlarge" id="travailleur_formation" placeholder="Autres formations"><?php echo $this->travailleur->travailleur_formation;?></textarea>
+  <span class="help-block">Indiquer toute autre formation reçue</span>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_adresse">Adresse du travailleur *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="travailleur_adresse" id="travailleur_adresse" placeholder="Adresse du travailleur" required value="<?php echo $this->travailleur->travailleur_adresse;?>">
+</div>
+</div>
+        
+<div class="control-group">
+<label class="control-label" for="travailleur_observation">Observation du validateur </label>
+<div class="controls">
+<textarea name="travailleur_observation" id="travailleur_observation" placeholder="Observation du validateur" class="ckeditor"><?php echo $this->travailleur->travailleur_observation;?></textarea>
+</div>
+</div>
+
+
+    
+<div class="control-group">
+<label class="control-label" for="montant_prestation">Montant prestation *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="montant_prestation" id="montant_prestation" placeholder="Montant prestation" value="<?php echo $this->travailleur->montant_prestation;?>" >
+</div>
+</div>
+
+
+
+
+<div class="form-actions">
+<input name="travailleur_id" type="hidden" id="travailleur_id" value="<?php echo $this->travailleur->travailleur_id; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier le travailleur</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

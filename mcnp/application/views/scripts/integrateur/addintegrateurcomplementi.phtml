@@ -1,0 +1,98 @@
+﻿<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+<script type="text/javascript">
+   var compteur = 1;
+   function addRow(tableID) {
+      var table = document.getElementById(tableID);
+      var rowCount = table.rows.length;
+      var cpte = rowCount;
+      var row = table.insertRow(rowCount);
+   
+      var cell1 = row.insertCell(0);
+      var element0 = document.createElement("input");
+      element0.type = "text";
+      element0.setAttribute("id", "integrateur_souscription_ordre" + cpte);
+      element0.setAttribute("name", "integrateur_souscription_ordre" + cpte);
+	  element0.setAttribute("placeholder","Numéro de quittance");
+      cell1.appendChild(element0);
+	  compteur = compteur + 1;
+      document.getElementById("cpteur").setAttribute('value', compteur);
+   }
+
+   function deleteRow(tableID) {
+      try {
+          var table = document.getElementById(tableID);
+          var rowCount = table.rows.length - 1;
+          if (rowCount >= 1) {
+             table.deleteRow(rowCount);
+             compteur = compteur - 1;
+             document.getElementById("cpteur").setAttribute('value', compteur);
+          }
+        } catch (e) {
+             alert(e);
+        }
+   }
+  
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+<blockquote><p>Formulaire de Complément de Quittance Intégrateur</p></blockquote>
+<div class="">
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addquittance">
+      
+      <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error != "") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+      </div>
+      <?php } ?>
+	  
+	  <legend>Rappel des informations sur la quittance</legend>
+	  <div class="control-group">
+           <label class="control-label" for="ancien_numero_quittance">Ancien Numéro * </label>
+           <div class="controls">
+                <input type="text" name="ancien_numero_quittance" id="ancien_numero_quittance" placeholder="Numéro de quittance déjà utilisé" class="input-large"  value="<?php echo $this->ancien_numero_quittance;?>" required />
+           </div>
+      </div>
+	  
+	 
+	  <legend>Complément de quittance</legend>
+	  <div>
+           <label class="control-label" for="integrateur_souscription_ordre">Numéro de quittance *  </label>
+	       <div class="controls">
+	       <table id="tab_quittance">
+		          <tr>
+			          <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+                      <td><input id="integrateur_souscription_ordre0" type="text" name="integrateur_souscription_ordre0" placeholder="Numéro de quittance " class="input-large" required/> </td>
+	                  <td><input class="btn btn-mini"  id="add"      type="button"      value="+"      onclick ="addRow('tab_quittance');" /> <input class="btn btn-mini"  id="remove"   type="button"      value="-"  onclick="deleteRow('tab_quittance');" /> </td>
+		          </tr>
+	       </table>
+           </div>
+       </div>
+	    
+      <div class="form-actions">
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <button type="reset" class="btn">Annuler</button>
+      <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+
+</form>
+</div>
+</div>
+<br/><br/>
+<?php /* ?>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml");?>
+</div>
+<?php  */ ?>
+</div>
+</div>
+
+
+
+

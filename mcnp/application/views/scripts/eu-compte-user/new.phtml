@@ -1,0 +1,213 @@
+﻿<meta  http-equiv="Content-Type"  content="text/htmt;  charset=utf-8" />
+<div   id="view-content" style="font-size: 11px;min-height: 520px;" title="Création d'un compte utilisateur">
+
+<form method="POST" action="/eu-compte-user/new" id="user_form" name="user_form">
+     <fieldset>
+        <legend>Infos sur l'utilisateur</legend>
+        <table>
+              <tbody>
+                     <tr>
+                         <td><label>Nom utilisateur *</label></td><td><input type="text" id="nom" name="nom" size="27" required="true" value="<?php echo $this->nom; ?>"></td>
+                         <td><label>Prénom utilisateur *</label></td><td><input type="text" id="prenom" name="prenom" required="true" value="<?php echo $this->prenom; ?>" size="27"></td>
+                     </tr>
+					 <tr>
+                                        <td><label>Login *</label></td><td><input type="text" id="login" name="login" size="27" required="true" value="<?php echo $this->login;?>"></td>
+                                        <td><label>Mot de passe *</label></td><td><input type="password" id="pwd" name="pwd" required="true" size="27"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Confirmer mot de passe *</label></td><td><input type="password" id="pwd1" name="pwd1" required="true" size="27"></td>
+                                        <td><label>Groupe *</label></td><td><select id="groupe" name="groupe" required="true"></td>
+									</tr>
+                                    <tr>
+                                        <td><label>Pays *</label></td>
+					                    <td><select id="pays" name="pays" required="true"></td>
+										
+										<td><label>Canton *</label></td>
+					                    <td><select id="canton" name="canton" required="true"></td>        
+                                    </tr>
+                                    <tr id="tr_f">
+                                        <?php  
+                                            //$auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin'));
+                                            //$user = $auth->getIdentity();
+                                            $group = $this->code_groupe;
+											$group_create = $this->code_groupe_create;
+                                            if($group == 'detentrice_agence' || $group == 'detentrice_secteur' || $group == 'detentrice_region' || $group == 'detentrice_pays' || $group == 'detentrice' || $group == 'mise_chaine' || $group == 'mise_chainep' || $group == 'mise_chainer' || $group == 'mise_chaines' || $group == 'mise_chainea'  ||  $group == 'agregat' || $group == 'enrolement' || $group == 'mise_chainepmoe' || $group == 'mise_chainepmose' 
+										    || $group == 'mise_chainepmpoe' || $group ==  'mise_chainepmpose' || $group ==  'mise_chainepmmaison' || $group ==  'mise_chainepmpbf' || $group ==  'mise_chainepmkr' || $group ==  'detentrice_filiere' || $group == 'mise_chainepmd' || $group == 'mise_chainepmex' || $group == 'mise_chainepms' || $group == 'executante_acnev' || $group == 'surveillance' || $group == 'executante') {
+                                         ?>
+                                            <td><label>Agence *</label></td>
+				                            <td><select id="agence" name="agence" required="true"></td>
+											<?php } if($group_create != 'personne_physique') { ?>
+                                            <td><label id='label_membre'>Code membre</label></td>
+                                            <td><input type="text" id="code_membre" name="code_membre" size="32"></td>
+                                            <td colspan="2"></td>											
+                                            <?php } ?>
+                                    
+                                    </tr>
+                                    <tr>
+                                        <td><label>Filière </label></td>
+										<td><select id="filiere" name="filiere"></td>
+										<td><label>Description</label></td>
+                                        <td colspan='3'> <textarea id="desc" name="desc"> </textarea> </td>
+                                    </tr>
+									
+									<tr>
+									    <td><label> Rôle * </label></td>
+										<td>
+										   <select name="role" id="role" required="true" >
+                                                <option value="">Choisir un rôle </option>
+                                                <option value="FOADDIP"> FOADDIP </option>
+                                                <option value="ESMC"> ESMC </option>
+                                                <option value="CMFH"> CMFH </option>
+                                           </select>
+										 </td>
+										 
+										 <td><label>Section </label></td>
+										 <td>
+										     <select name="section" id="section" >
+                                                <option value=""> Choisir une section </option>
+                                                <option value="COMPTA">Comptabilité</option>
+                                                <option value="TRESOR">Trésorerie</option>
+                                                <option value="BUDGET">Budget</option>
+												<option value="STOCK">Stock</option>
+                                             </select>
+										 </td>
+									</tr>
+              </tbody>					 
+	    </table>
+     </fieldset>
+	 
+	 <br/>
+	 <div style="margin-left: 400px;">
+	      <input id="compte_val" type="submit" value="Valider"/>
+          <input id="acteur_reset" type="reset" value="Annuler"/>
+	 </div>
+</form>
+</div>
+<script>
+$(document).ready(function() {
+  $(function() {
+    $('#view-content').puipanel();
+    $('fieldset').puifieldset();
+  });
+  
+  $("#groupe").change(function(e) {
+	e.preventDefault();
+	if($(this).val() == 'mise_chaine' || $(this).val() == 'enrolement' || $(this).val() == 'gacd' || $(this).val() == 'gacs' || $(this).val() == 'gacex'
+	|| $(this).val() == 'mise_chainep' || $(this).val() == 'mise_chainer' || $(this).val() == 'mise_chaines' || $(this).val() == 'mise_chainea'
+	|| $(this).val() == 'gacdregion' || $(this).val() == 'gacsregion' || $(this).val() == 'gacexregion'
+	|| $(this).val() == 'gacdsecteur' || $(this).val() == 'gacssecteur' || $(this).val() == 'gacexsecteur'
+	|| $(this).val() == 'gacdagence' || $(this).val() == 'gacsagence' || $(this).val() == 'gacexagence') {
+	  $('input#code_membre').attr('disabled',true);
+	  $('select#agence').attr('required',true);
+	  if($(this).val() == 'gacd' ||  $(this).val() == 'gacs' || $(this).val() == 'gacex'
+	  || $(this).val() == 'gacdregion' || $(this).val() == 'gacsregion' || $(this).val() == 'gacexregion'
+	  || $(this).val() == 'gacdsecteur' || $(this).val() == 'gacssecteur' || $(this).val() == 'gacexsecteur'
+	  || $(this).val() == 'gacdagence' || $(this).val() == 'gacsagence' || $(this).val() == 'gacexagence') {
+	    $.get("/eu-compte-user/filiere",
+        function success(data) {
+        var options = '<option/>';
+        for (var i = 0; i < data.length; i++) {
+           options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+        }
+        $('select#filiere').html(options);
+	    $('select#filiere').attr('required',true);
+    });
+   }
+	} 
+	else
+    if($(this).val() == 'agrement_filiere'  || $(this).val() == 'agrement_technopole' || $(this).val() == 'agrement_acnev') {
+	//$('#tr_f').css('display','block'); 	
+	$.get("/eu-compte-user/filiere",
+       function success(data) {
+       var options = '<option/>';
+       for (var i = 0; i < data.length; i++) {
+       options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+    }
+       $('select#filiere').html(options);
+	   $('select#filiere').attr('required',true);
+    });
+	
+	$.get("/eu-compte-user/agence",
+       function success(data) {
+       var options = '<option/>';
+       for (var i = 0; i < data.length; i++) {
+       options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+    }
+       $('select#agence').html(options);
+	   $('select#agence').attr('required',true);
+    });
+	
+	
+	} else
+    if($(this).val() == 'paraenro') {  
+	   $('select#agence').attr('required',false);
+	}
+	else {
+	    var options = '<option/>';
+		$('select#filiere').html(options);
+		$('select#filiere').attr('required',false);
+		$('input#code_membre').attr('disabled',false); 
+	}		 
+ }); 
+  
+  /*$("#groupe").change(function(e) {
+       e.preventDefault();
+       if ($(this).val() == 'detentrice_technopole' || $(this).val() == 'surveillance_filiere' || $(this).val() == 'executante_acnev'
+	      || $(this).val() == 'agrement_technopole' || $(this).val() == 'agrement_filiere' || $(this).val() == 'agrement_acnev') {
+	       $('#admin').css('display','block');
+		   $('#fieldset_admin').css('display','block');
+		   $('select#type_admin').attr('required',true);   
+	   } else {
+	       $('#admin').css('display','none');
+		   $('#fieldset_admin').css('display','none');
+		   $('select#type_admin').attr('required',false);
+	   }
+  });*/  
+  
+  
+  
+  
+ $.get('/eu-compte-user/groupe',
+        function success(data) {
+          var options = '<option></option>';
+          for (var i = 0; i < data.length; i++) {
+              options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+          }
+          $('select#groupe').html(options);
+        });
+        
+        $.get('/eu-compte-user/pays',
+        function success(data) {
+          var options = '<option></option>';
+          for (var i = 0; i < data.length; i++) {
+            options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+          }
+          $('select#pays').html(options);
+        });
+		
+		$.get('/eu-compte-user/canton',
+        function success(data) {
+          var options = '<option></option>';
+          for (var i = 0; i < data.length; i++) {
+            options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+          }
+          $('select#canton').html(options);
+        });
+		
+		
+		
+        
+        $.get('/eu-compte-user/agence',
+        function success(data) {
+            var options = '<option></option>';
+            for (var i = 0; i < data.length; i++) {
+              options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+            } $('select#agence').html(options);
+        });
+
+    })
+</script>
+
+
+
+

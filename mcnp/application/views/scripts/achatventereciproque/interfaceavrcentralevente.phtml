@@ -1,0 +1,68 @@
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+    <script type="text/javascript" charset="utf-8">
+      /*$(document).ready(function() {
+        $('#example').dataTable();
+      } );*/
+      $(document).ready(function() {
+        $('#example').dataTable({
+          "sPaginationType": "full_numbers",
+          "aaSorting": []
+        });
+      });
+    </script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+
+  <blockquote>Achat Vente Reciproque - centrale de vente: La liste de tous les fournisseurs de produits de vente disponible sur la plateforme</blockquote>
+ 
+  
+<?php if(count($this->countlalistedetousleseliquisontvalides) > 0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+   <thead>
+  <tr>
+    <th>Code membre du fournisseur</th>
+    <th>Raison sociale du fournisseur</th>
+    <th>Libellé de la vente</th>
+    <th>Date de mise en service</th>
+    <th>Actions</th>
+
+  </tr>         
+   </thead>
+   <tbody>
+      <?php foreach ($this->lalistedetousleseliquisontvalides as $key => $value): ?>
+        <tr>
+          <td><?php echo $value->code_membre_morale ?></td>
+          <td><?php echo $value->raison_sociale ?></td>
+          <td><?php echo $value->designation ?></td>
+          <td><?php echo $value->date_enregistrement ?></td>
+          <td><a href="interfaceavrcentraleventedetail/id/<?php echo $value->id_article_stockes ?>" class="btn btn-primary">Détails</a></td>
+          
+        </tr>
+  <?php endforeach ?>
+   </tbody>
+
+ </table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucun fournisseurs disponible
+</div>
+<?php }?>
+
+
+
+
+</div>
+
+</div>
+</div>

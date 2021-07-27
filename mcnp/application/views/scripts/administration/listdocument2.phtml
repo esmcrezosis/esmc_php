@@ -1,0 +1,90 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des documents type archivés</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Type</th>
+								  <th>Titre</th>
+								  <th>Début</th>
+								  <th>Fin</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php 
+$typedocumentM = new Application_Model_EuTypeDocumentMapper();
+$typedocument = new Application_Model_EuTypeDocument();
+$typedocumentM->find($entry->id_type_document, $typedocument);
+?><?php echo ($typedocument->libelle_type_document); ?></td>
+      <td><?php echo ($entry->nom_document); ?></td>
+      <td><?php echo ($entry->date_debut); ?></td>
+      <td><?php echo ($entry->date_fin); ?></td>
+      <td><div align="center">
+	  <?php if($sessionutilisateur->code_groupe == "executante" || $sessionutilisateur->code_groupe == "executante_pays" || $sessionutilisateur->code_groupe == "executante_region" || $sessionutilisateur->code_groupe == "executante_secteur" || $sessionutilisateur->code_groupe == "executante_agence"){?>
+<?php if($entry->descrip_document != ""){?><a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/<?php echo $entry->descrip_document; ?>"><i class="icon-download icon-white"></i>  Télécharger</a>&nbsp;<?php }?>
+      
+<?php if($entry->publier == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/publierdocument/id/<?php echo $entry->id_document; ?>/publier/0"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/publierdocument/id/<?php echo $entry->id_document; ?>/publier/1"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/editdocument/id/<?php echo $entry->id_document; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+<?php }?>
+<?php }?>
+
+			<a class="btn btn-mini btn-danger" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/administration/suppdocument/id/<?php echo $entry->id_document; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a></div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun document type enrégistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

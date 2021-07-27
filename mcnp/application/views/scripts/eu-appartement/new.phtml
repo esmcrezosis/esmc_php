@@ -1,0 +1,126 @@
+<div id="view-content" class="ui-widget">
+     <div class="ui-widget-header ui-corner-top" style="height: 30px;padding-bottom: 5px; padding-left: 10px;">
+        <h3>Enrégister un appartement</h3>
+     </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+         <form id="fm_appartement" action="/eu-appartement/save" method="POST">
+            
+               <fieldset><legend>Infos Appartement</legend>
+                         <table>
+                            <tbody>
+                                  <tr>
+                                      <td>Code membre maison *</td><td> <input id="code_membre" name="code_membre" class="validate[required]" value="<?php echo $this->code_membre ?>"> </td>
+                                      <td>Désignation *</td><td> <input readonly="true" id="design" name="design"> </td> 
+                                  </tr>
+                                  <tr>
+                                      <td>Type appartement *</td><td> <input id="type_appart" name="type_appart" class="validate[required]" value="<?php echo $this->type_appart ?>"> </td>
+                                   <td>Nombre de pièces *</td><td> <input id="nbre" name="nbre" class="validate[required,custom[onlyNumberSp]]"  value="<?php echo $this->nbre ?>"> </td>   
+                                  </tr>
+                                  <tr>
+                                      <td>Prix location *</td><td> <input id="prix_location" name="prix_location" class="validate[required,custom[onlyNumberSp]]" value="<?php echo $this->prix_location ?>" size="15"> <input value="/mois" disabled="true" size="4"></td>
+									  <td>Description </td> <td> <textarea id="desc_appart" name="desc_appart"> <?php echo $this->desc_appart ?> </textarea> </td>    
+                                  </tr>
+                                  
+                            </tbody>
+                        </table>      
+               </fieldset>    
+               <fieldset>
+                        <legend>Autres</legend>
+                        <table>
+                              <tbody>
+                                     <tr>
+                                         <td>
+                                             <input type="checkbox" id="wd" name="wd" value="1">
+                                         </td>
+                                         <td>
+                                             Wc-Douche-Interne
+                                         </td>
+                                         <td width="100px"></td>
+                                         <td>
+                                            <input type="checkbox" id="terasse" name="terasse" value="1"> 
+                                         </td>
+                                         <td>
+                                             Terrasse
+                                         </td>
+                                         <td width="100px"></td>
+                                         <td>
+                                            <input type="checkbox" id="cuisine" name="cuisine" value="1"> 
+                                         </td>
+                                         <td>
+                                             Cuisine
+                                         </td>
+                                         <td width="100px"></td>
+                                         <td>
+                                            <input type="checkbox" id="garage" name="garage" value="1"> 
+                                         </td>
+                                         <td>
+                                             Garage
+                                         </td>
+                                     </tr>    
+                              </tbody>
+                        </table>    
+               </fieldset>
+               <div style="margin-top: 10px;">
+                    <input type="submit" value="Valider" id="valider"/>
+                    <input type="reset" value="Rafraichir" id="refresh"/>
+                    <input id="t_annuler" type="button" value="Annuler"/>
+               </div>
+         </form> 
+    </div>  
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function ()
+  {
+     $("#fm_appartement").validationEngine();
+     $('#view-content').puipanel();
+     $('fieldset').puifieldset();
+           
+     $('form#fm_appartement').submit(function(e){
+     $.ajax({
+      url: $('form').attr("action"),
+       data: $('form').serialize(),
+       type: 'post',
+          success: processServerResponse
+      });
+            e.preventDefault();
+        });
+        
+        function processServerResponse(data) {
+            if(data === true) {
+                alert('L\'enrégistrement a été effectué avec succès ');
+                $(location).attr("href", "/eu-appartement/index");
+            }
+            else {
+                 $('#message').html(data);
+            }
+        };
+           
+           
+           
+        $.get( "/eu-appartement/maison",
+          function success(data)
+          {
+             $("#code_membre").autocomplete({"source":data});
+          });
+           
+          $('#code_membre').blur(function(e)
+          {
+              if($(this).val() !== '')
+              {
+                $.get(
+                  '/eu-appartement/recupnom',
+                {
+                        num_membre: $(this).val()
+                },
+                function success(data)
+                {
+                  $("#design").val(data);
+                });
+              }
+                  e.preventDefault();
+          });
+           
+        })
+          
+</script>

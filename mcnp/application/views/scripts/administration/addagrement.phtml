@@ -1,0 +1,171 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout d'agrement</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addagrement">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<div class="control-group">
+<label class="control-label" for="id_type_agrement">Type d'agrement *</label>
+<div class="controls">
+<?php 
+		$g = array();
+	       $tab = new Application_Model_DbTable_EuTypeAgrement();
+           $sel = $tab->select();
+           $group = $tab->fetchAll($sel);
+           $i = 1;
+           foreach ($group as $value) {
+			   ?>
+<?php 
+//$utilisateur = new Application_Model_EuUtilisateur();
+//$utilisateur_m = new Application_Model_EuUtilisateurMapper();
+//$utilisateur_m->find($sessionutilisateur->id_utilisateur_parent, $utilisateur);
+if($sessionutilisateur->code_groupe == "agrement_filiere" && $value->id_type_agrement != 1){$disabled = "disabled";$muted = "muted";}
+else if($sessionutilisateur->code_groupe == "agrement_acnev" && $value->id_type_agrement != 2){$disabled = "disabled";$muted = "muted";}
+else if($sessionutilisateur->code_groupe == "agrement_technopole" && $value->id_type_agrement != 3){$disabled = "disabled";$muted = "muted";}
+else{$disabled = "";$muted = "";}
+?>
+<label class="radio inline <?php echo $muted; ?>" for="id_type_agrement<?php echo $i; ?>">
+<input type="radio" id="id_type_agrement<?php echo $i; ?>" name="id_type_agrement" value="<?php echo $value->id_type_agrement; ?>" required <?php echo $disabled; ?>> <?php echo $value->libelle_type_agrement; ?></label>
+<?php $i++;} ?>
+</div>
+</div>
+    
+  
+<div class="control-group">
+<label class="control-label" for="id_type_acteur">Type d'acteur *</label>
+<div class="controls">
+<?php 
+		$g = array();
+	       $tab = new Application_Model_DbTable_EuTypeActeur();
+           $sel = $tab->select();
+           $group = $tab->fetchAll($sel);
+           $i = 1;
+           foreach ($group as $value1) {
+			   if($value1->id_type_acteur != 4){
+			   ?>
+<label class="radio inline" for="id_type_acteur<?php echo $i; ?>">
+<input type="radio" id="id_type_acteur<?php echo $i; ?>" name="id_type_acteur" value="<?php echo $value1->id_type_acteur; ?>" required> <?php echo $value1->lib_type_acteur; ?></label>
+			   <?php }?><?php $i++;}?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="id_type_creneau">Type de créneau *</label>
+<div class="controls">
+<?php 
+		$g = array();
+	       $tab = new Application_Model_DbTable_EuTypeCreneau();
+           $sel = $tab->select();
+           $group = $tab->fetchAll($sel);
+           $i = 1;
+           foreach ($group as $value1) {
+			   ?>
+<label class="radio inline" for="id_type_creneau<?php echo $i; ?>">
+<input type="radio" id="id_type_creneau<?php echo $i; ?>" name="id_type_creneau" value="<?php echo $value1->id_type_creneau; ?>" required> <?php echo $value1->libelle_type_creneau; ?></label>
+			   <?php $i++;}?>
+</div>
+</div>
+    
+    
+    
+<div class="control-group">
+<label class="control-label" for="id_filiere">Filiere *</label>
+<div class="controls">
+<?php 
+$filiere = new Application_Model_EuFiliere();
+$filiere_mapper = new Application_Model_EuFiliereMapper();
+$filiere_mapper->find($sessionutilisateur->id_filiere, $filiere);
+if(count($filiere) > 0) { ?>
+<select id="id_filiere" name="id_filiere">
+  <option value="0">Choisir la filiere</option>
+<?php foreach($entries as $value1) { ?>
+  <option value="<?php echo $filiere->id_filiere; ?>"><?php echo $filiere->nom_filiere; ?></option>
+<?php  } ?>
+</select>
+<?php } ?>
+</div>
+</div>
+
+    
+    
+<div class="control-group">
+<label class="control-label" for="num_agrement">Numéro de l'agrément *</label>
+<div class="controls">
+<input type="text" name="num_agrement" id="num_agrement" placeholder="Numéro de l'agrement" class="input-xxlarge" value="<?php $a = new Application_Model_EuAgrement();
+        $ma = new Application_Model_EuAgrementMapper();
+            echo $ma->findConuterAnnee() + 1;?>/<?php echo date("Y"); ?>/AG-<?php if($sessionutilisateur->code_groupe == "agrement_filiere" && $value->id_type_agrement != 1){echo "FI";}
+else if($sessionutilisateur->code_groupe == "agrement_acnev" && $value->id_type_agrement != 2){echo "AC";}
+else if($sessionutilisateur->code_groupe == "agrement_technopole" && $value->id_type_agrement != 3){echo "TE";}
+else{echo "TE";}?>/MCNP/<?php $p = new Application_Model_EuPays();
+        $mp = new Application_Model_EuPaysMapper();
+            $mp->find($sessionutilisateur->pays, $p); echo strtoupper($p->getCode_pays()); ?>" readonly>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="libelle_agrement">Libellé de l'agrement *</label>
+<div class="controls">
+<input type="text" name="libelle_agrement" id="libelle_agrement" placeholder="Libellé de l'agrement" class="input-xxlarge" required>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="cel_agrement">Cellulaire de l'acteur *</label>
+<div class="controls">
+<input type="tel" name="cel_agrement" id="cel_agrement" placeholder="Cellulaire de l'acteur" class="input-xxlarge" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="desc_agrement">Fichier de l'agrement *</label>
+<div class="controls">
+<input name="desc_agrement" type="file" id="desc_agrement" class="input-xxlarge" required />  
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="code_membre_morale_agrement">Code Membre du donneur d'agrement *</label>
+<div class="controls">
+<input type="text" name="code_membre_morale_agrement" id="code_membre_morale_agrement" placeholder="Code Membre du donneur d'agrement" class="input-xxlarge" value="<?php echo $sessionutilisateur->code_membre; ?>" readonly>
+</div>
+</div>
+
+<div class="form-actions">
+<input name="id_utilisateur" type="hidden" id="id_utilisateur" value="<?php echo $sessionutilisateur->id_utilisateur; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter l'agrement</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,51 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-contrat"></table>
+    <table id="pg-contrat"></table>
+</div>
+
+<script type="text/javascript">
+    
+     $("#tbl-contrat").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['','Désignation type contrat'],
+        height:'100%', width:800,
+        colModel:[
+                 {name:'id_type_contrat',index:'id_type_contrat', width:50, sorttype:"int", editable: true,align:"left",hidden:true},
+                 {name:'libelle_type_contrat',index:'libelle_type_contrat', width:500, editable: true,align:"left"}
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        rownumbers:true,
+        pager: '#pg-contrat',
+        sortname:"id_type_contrat",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des types de contrat"
+    });
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-contrat").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-contrat").jqGrid('getRowData',rowsel);
+            $.get('/eu-type-contrat/edit',{
+                id_type_contrat:data.id_type_contrat
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+    $("#tbl-contrat").jqGrid('navGrid','#pg-contrat',{edit:false,add:false,del:false,search:false});
+    $('#editer').button();
+</script>    

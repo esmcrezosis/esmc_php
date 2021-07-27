@@ -1,0 +1,397 @@
+﻿<div id="view-content" title="<?php echo $this->type; ?>" style="font-size: 12px;min-height: 520px;">
+    <form action="<?php echo $this->url(); ?>" method="<?php echo $this->form->getMethod(); ?>" enctype="<?php echo $this->form->getEnctype(); ?>" >
+        <table style="width: 800px;" align="center">
+            <tbody>
+                <tr>
+                    <td colspan="2">
+                        <fieldset id="type_bnp_field">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td><label>Type BNP</label></td><td><?php echo $this->form->getElement("type_bnp"); ?></td>
+                                        <td><label>Mode de financement </label></td><td><?php echo $this->form->getElement("mode_fin"); ?></td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                        </fieldset>
+                    </td>
+                </tr>
+
+                <?php if ($this->type == 'CAPU' || $this->type == 'CAPUNRPREKITTEC') { ?>
+                    <tr>
+                        <td colspan="2">
+                            <fieldset id="apporteur_field">
+                                <legend>Membre Apporteur</legend>
+                                <table>
+                                    <tbody>
+										<tr>
+				                            <td><label>Type Membre  </label></td>
+				                            <td>
+					                           <select id="type_membre" type="text" name="type_membre" required="true"/>
+					                            <option value=""></option>
+                                                <option value="P">Physique</option>
+                                                <option value="M">Morale</option>
+					                           </select>	  
+					                        </td>
+				                        </tr>
+										<tr>
+                                            <td><label>Code Membre</label></td>
+					    <td>
+						<input size="30" name="code_membre_app" id="code_membre_app"  value="<?php echo $this->code_membre_app ?>"/>
+					    </td>
+                                        </tr>
+					<tr>
+                                            <td><label>Designation membre</label></td><td><?php echo $this->form->getElement("raison_app"); ?></td>    
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+                <?php } else { ?>
+                        <tr>
+                        <td colspan="2">
+                            <fieldset id="apporteur_field">
+                                <legend>Membre Apporteur</legend>
+                                <table>
+                                    <tbody>
+					  <tr>
+				              <td><label>Type Membre  </label></td>
+				              <td>
+					          <select id="type_membre" type="text" name="type_membre" required="true"/>
+					          <option value=""></option>
+                                                  <!--<option value="P">Physique</option>-->
+                                                  <option value="M">Morale</option>
+					          </select>	  
+					       </td>
+				           </tr>
+					   <tr>
+                                            <td><label>Code Membre</label></td>
+					    <td>
+					        <input size="30" name="code_membre_app" id="code_membre_app"  value="<?php echo $this->code_membre_app ?>"/>
+					    </td>
+                                        </tr>
+										<tr>
+                                            <td><label>Raison sociale</label></td><td><?php echo $this->form->getElement("raison_app"); ?></td>    
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+
+
+                <?php }   ?>
+                <tr>
+                    <td colspan="2">
+                        <fieldset id="benef_field">
+                            <legend>Membre Bénéficiaire</legend>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td><label>Code Membre</label></td>
+					<td>
+					    <input size="30" name="code_membre_benef" id="code_membre_benef"  value="<?php echo $this->code_membre_benef ?>"/>
+					</td>
+                                    </tr>
+                                    <tr>
+                                        <!--<td><label>Nom Membre</label></td><td><?php echo $this->form->getElement("nom_rep_benef"); ?></td>-->
+                                        <td><label>Nom & Prénoms Membre</label></td><td><?php echo $this->form->getElement("prenom_rep_benef"); ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <fieldset id="bnp_field">
+                            <legend>BNP</legend>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td><label>Produit BNP</label></td><td><?php echo $this->form->getElement("produit"); ?></td>
+                                    </tr>
+                                    <tr id="tr_cat_bnp">
+                                        <td><label>Catégorie BNP</label></td><td><?php echo $this->form->getElement("categorie"); ?></td>
+                                    </tr>
+                                    <tr id="tr_sms">
+                                        <td><label>Code SMS</label></td>
+                                        <td><?php echo $this->form->getElement("code_sms"); ?></td>
+                                    </tr>
+                                    <tr id="tr_typenn" style="display: none">
+                                        <td><label>Type NN</label></td><td><?php echo $this->form->getElement("type_nn"); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Montant BNP</label></td><td><?php echo $this->form->getElement("montant"); ?></td>
+                                        <td><?php echo $this->form->getElement("code_dev"); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Crédit BNP</label></td><td><?php echo $this->form->getElement("credit"); ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+					<?php
+                        $this->form->getElement("submit")->setLabel("Valider");
+                        echo $this->form->getElement("submit");
+                    ?>
+                        <?php
+                        $this->form->getElement("cancel")->setLabel("Annuler");
+                        echo $this->form->getElement("cancel");
+                        ?>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        $(function() {
+            $('#view-content').puipanel();
+            $('#apporteur_field').puifieldset();
+            $('#benef_field').puifieldset();
+            $('#bnp_field').puifieldset();
+            $('#type_bnp_field').puifieldset();
+        });
+        $("#submit").button();
+        $("#cancel").button();
+
+        $('#mode_fin').change(function() {
+            var mode = $(this).val();
+            if (mode === 'GCP') {
+                $('#tr_sms').hide();
+                $('#tr_typenn').hide();
+            } else if (mode === 'SMS') {
+                $('#tr_sms').show();
+                $('#tr_typenn').hide();
+            } else {
+                $('#tr_sms').hide();
+                $('#tr_typenn').show();
+            }
+        });
+
+        $('#type_bnp').change(function() {
+            if ($(this).val() !== '') {
+                $.get(
+                        '/eu-bnp/bnpchange',
+                        {
+                            bnp: $(this).val()
+                        },
+                function success(data)
+                {
+                    $('#benef').autocomplete({"source": data});
+                });
+                $.get(
+                    '/eu-bnp/typechange',{
+                            bnp: $(this).val()
+                    },
+                function success(data)
+                {
+                    var options = '';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                    }
+                    $('select#categorie').html(options);
+                });
+            }
+        });
+
+        $('#montant').change(function()
+        {
+            if ($(this).val() !== '')
+            {
+                if ($('#categorie').val() === '') {
+                    alert("Le type du pouvoir d'achat et le produit doivent être renseignés");
+                    return false;
+                }
+                $.get(
+                        '/eu-bnp/calc',
+                        {
+                            montant: $(this).val(), cat: $('#categorie').val()
+                        },
+                function success(data)
+                {
+                    $('#credit').val(data);
+                });
+            }
+        });
+
+        $('#credit').change(function()
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-bnp/calc',
+                        {
+                            credit: $(this).val(), cat: $('#categorie').val(), montant: ''
+                        },
+                function success(data)
+                {
+                    $('#montant').val(data);
+                });
+            }
+        });
+        
+		
+		$.get( "/eu-bnp/membremoral",{ type_bnp: $('#type_bnp').val() },
+             function success(data) {
+             $("#code_membre_app").autocomplete({"source":data});
+        });
+        
+		
+        $.get( "/eu-bnp/membrephys",
+            function success(data) {
+            $("#code_membre_benef").autocomplete({"source":data});
+        });		
+		
+		
+		$("#type_membre").change(function(e) {
+		  if ($(this).val() != '') {
+		      $('#code_membre_app').attr('readonly',false);
+			  $('#code_membre_app').val('');
+			  $('#nom_rep_app').val('');
+              $('#prenom_rep_app').val('');
+			  $("#raison_app").val('');
+			  $.get("/eu-bnp/membreapporteur",{
+                type_membre : $('#type_membre').val()
+              },
+              function success(data) {
+                 $("#code_membre_app").autocomplete({"source": data});
+              }); 
+		} else {
+		        $('#code_membre_app').attr('readonly',true);
+				$('#code_membre_app').val('');
+                $('#nom_rep_app').val('');
+                $('#prenom_rep_app').val('');
+			    $("#raison_app").val('');				
+		}
+		
+		});
+		
+		
+        $('#code_membre_app').blur(function(e) {
+            e.preventDefault();
+            var membre = $(this).val();
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-bnp/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    if (membre.slice(-1) === 'M') {
+                        $("#raison_app").val(data[1]);
+                    } else {
+                        //$('#nom_rep_app').val(data[0]);
+                        //$('#prenom_rep_app').val(data[1]);
+                         
+                        $("#raison_app").val(data[1]);
+
+                    }
+                });
+            }
+        });
+
+		
+        $('#code_membre_benef').blur(function(e) {
+            e.preventDefault();
+            if ($(this).val() !== '')
+            {
+                $.get(
+                    '/eu-bnp/recupnom',{
+                            num_membre: $(this).val()
+                    },
+                function success(data)
+                {
+                    $('#nom_rep_benef').val(data[0]);
+                    $('#prenom_rep_benef').val(data[1]);
+                    $("#raison_benef").val(data[2]);
+                });
+            }
+        });
+
+        $('#code_sms').blur(function(e)
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-bnp/codesms', {code: $(this).val(), cat: $('#categorie').val()},
+                function success(data)
+                {
+                    if (data !== 0) {
+                        $('#montant').val(data[0]);
+                        $('#credit').val(data[1]);
+                        $('#code_dev').val(data[2]);
+                        $('#montant').attr('readonly', true);
+                        $('#credit').attr('readonly', true);
+                    } else {
+                        $('#montant').attr('readonly', false);
+                        $('#credit').attr('readonly', false);
+                        $("#id_message").html("<label>Ce code est invalide</label>");
+                    }
+
+                });
+            } else {
+                $('#montant').attr('readonly', false);
+                $('#credit').attr('readonly', false);
+                $('#montant').val('');
+                $('#credit').val('');
+            }
+            e.preventDefault();
+        });
+
+        var dev = 'XOF';
+		
+        $('#dev_capa').change(function() {
+            var dev1 = $('#dev_capa').val();
+            if (dev !== dev1) {
+                if ($('#montant').val() !== '' && parseInt($('#montant').val()) > 0 && $('#categorie').val() !== '') {
+                    $.get(
+                            '/eu-bnp/convertir',
+                            {
+                                montant: $('#montant').val(), cat: $('#categorie').val(), dev: dev, dev1: dev1, credit: ''
+                            },
+                    function success(data)
+                    {
+                        if (data !== false) {
+                            $('#montant').val(data[0]);
+                            $('#credit').val(data[1]);
+                            dev = dev1;
+                        } else {
+                            alert('Ce cours n\'est pas défini: ' + dev + '-' + dev1);
+                            $('#dev_capa').val(dev);
+                        }
+                    });
+                } else if ($('#credit').val() !== '' && parseInt($('#credit').val()) > 0 && $('#categorie').val() !== '') {
+                    $.get(
+                            '/eu-bnp/convertir',{
+                                credit: $(this).val(), cat: $('#categorie').val(), dev: dev, dev1: dev1, montant: ''
+                            },
+                    function success(data) {
+                        if (data !== false) {
+                            $('#montant').val(data[0]);
+                            $('#credit').val(data[1]);
+                            dev = dev1;
+                        } else {
+                            alert('Ce cours n\'est pas défini: ' + dev + '-' + dev1);
+                            $('#dev_capa').val(dev);
+                        }
+                    });
+                }
+            }
+        });
+
+    });
+</script>

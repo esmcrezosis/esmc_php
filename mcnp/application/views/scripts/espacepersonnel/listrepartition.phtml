@@ -1,0 +1,85 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote>
+    <p>Liste de mes repartitions</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:9px;">
+  <thead>
+    <tr>
+      <th>Collectes</th>
+      <th><div align="center">Date</div></th>
+      <th><div align="center">Montant Collecté</div></th>
+      <th><div align="center">Montant Répartition</div></th>
+      <th><div align="center">Montant Marge</div></th>
+    </tr>
+  </thead>
+  <tbody>
+<?php foreach ($this->entries as $entry): ?>
+<?php 
+$repartitionM = new Application_Model_EuRepartitionNnMapper();
+$repartition = $repartitionM->fetchAllByDetailAppelNn($entry->id_detail_appel_nn);
+?>
+<?php foreach ($repartition as $repart): ?>
+    <tr>
+      <td>
+	  <?php 
+$appelnnM = new Application_Model_EuAppelNnMapper();
+$appelnn = new Application_Model_EuAppelNn();
+$appelnnM->find($entry->id_appel_nn, $appelnn);
+?><?php echo htmlentities($appelnn->designation_appel); ?></td>
+      <td><div align="center"><?php echo $entry->date_apport; ?></div></td>
+      <td><div align="right"><?php echo number_format($entry->montant_apport, 0, ',', ' '); ?></div></td>
+      <td><div align="right"><?php echo number_format($repart->mont_rep, 0, ',', ' '); ?></div></td>
+      <td><div align="right"><?php echo number_format($repart->mont_marge, 0, ',', ' '); ?></div></td>
+    </tr>
+<?php endforeach; ?>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune collecte enregistrée 
+</div>
+<?php }?>
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

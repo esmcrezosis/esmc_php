@@ -1,0 +1,58 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Modifier un mobilisateur</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="editmobilisateur">
+  <?php if(isset($sessionmembre->error) && $sessionmembre->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->error; $sessionmembre->error = "";?>
+    </div>
+  <?php }?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="code_membre">Code membre *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="code_membre" id="code_membre" placeholder="Code emmbre" required value="<?php echo $this->mobilisateur->code_membre;?>">
+</div>
+</div>
+
+
+
+
+
+<div class="form-actions">
+<input name="id_utilisateur" type="hidden" id="id_utilisateur" value="<?php echo $sessionmembre->id_utilisateur; ?>" />  
+<input name="id_mobilisateur" type="hidden" id="id_mobilisateur" value="<?php echo $this->mobilisateur->id_mobilisateur; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier le mobilisateur</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

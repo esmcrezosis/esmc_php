@@ -1,0 +1,33 @@
+<div id="view-content">
+    <table id="tbl-compte_gene"></table>
+    <div id="pg-compte_gene"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-compte_gene").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Code type','Service','Intitulé','Solde'],
+        height:'100%', width:827,
+        colModel:[
+            {name:'code_compte',index:'code_compte', width:150, sorttype:"int", editable: true,align:"left"},
+            {name:'code_type_compte',index:'code_type_compte', width:80, editable: true,align:"left"},
+            {name:'service',index:'service', width:80, align:"left", editable: true},
+            {name:'intitule',index:'intitule', width:200, sorttype:"int", editable: true,align:"left"},
+            {name:'solde',index:'solde', width:150, sorttype:"int", editable: true,align:"right",formatter:'number'}
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        rownumbers:true,
+        pager: '#pg-compte_gene',
+        sortname:"code_compte",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des comptes généraux"
+    });
+  
+    $("#tbl-compte_gene").jqGrid('navGrid','#pg-compte_gene',{edit:true,add:true,del:false,search:true});
+
+    
+</script>

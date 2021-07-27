@@ -1,0 +1,87 @@
+<style> 
+
+    /* MARKETING CONTENT
+    -------------------------------------------------- */
+
+    /* Center align the text within the three columns below the carousel */
+    .marketing .span4 {
+      text-align: center;
+    }
+    .marketing h2 {
+      font-weight: normal;
+    }
+    .marketing .span4 p {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+
+    /* Featurettes
+    ------------------------- */
+
+    .featurette-divider {
+      margin: 40px 0; /* Space out the Bootstrap <hr> more */
+    }
+    .featurette {
+      padding-top: 30px; /* Vertically center images part 1: add padding above and below text. */
+      overflow: hidden; /* Vertically center images part 2: clear their floats. */
+    }
+    .featurette-image {
+      margin-top: -10px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
+    }
+
+    /* Give some space on the sides of the floated elements so text doesn't run right into it. */
+    .featurette-image.pull-left {
+      margin-right: 30px;
+    }
+    .featurette-image.pull-right {
+      margin-left: 30px;
+    }
+
+    /* Thin out the marketing headings */
+    .featurette-heading {
+      /*font-size: 30px;*/
+      font-weight: 200;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+
+
+
+</style>
+<br />
+
+<div class="row-fluid">
+        <div class="span9"> 
+             
+        <?php 
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAllByMenu($this->menu->menu_id);
+	?>
+<?php if(count($entriespage)>0){?> 
+<?php foreach ($entriespage as $entrypage): ?>
+<div class="media thumbnail">
+  <?php if($entrypage->vignette != ""){?><a class="pull-left" href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>">
+    <img class="media-object" data-src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/<?php echo ($entrypage->vignette); ?>&w=64&h=64&zc=1" />
+  </a><?php }?>
+  <div class="media-body" align="left">
+    <h5 class="media-heading"><i class="icon-arrow-right"></i> <?php echo ($entrypage->titre); ?></h5>
+    <?php echo ($entrypage->resume); ?>
+ <a class="link" href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>">Voir plus &raquo;</a>
+  </div>
+</div>
+<?php endforeach; ?>
+		<?php }?>
+
+</div>
+
+<div class="span3">
+	<?php include("../application/layouts/scripts/droite_ceu.phtml"); ?>
+</div>
+
+</div>
+      <hr class="featurette-divider" />
+
+
+
+</div>

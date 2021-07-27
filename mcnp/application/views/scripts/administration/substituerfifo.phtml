@@ -1,0 +1,118 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/integrateur.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr8.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#code_membre_mandataire').blur(function(e) {
+    if($(this).val() !== '') {
+        $.get('/integrateur/recupnom',{
+            code_membre: $(this).val()
+        },
+        function success(data) {
+            $("#designation_mandataire").val(data); 
+        })
+    } else {
+        $("#designation_mandataire").val("");
+    }       
+    });
+});
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p class=""> Opérations de Substitution de compte Marchand  </p> </blockquote>
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="substituerfifo">
+      <div id="myModal" class="qrmodal overlayDiv"><div id="qrmodal-content" class="qrmodal-content"><span id="close-qrmodal">&times;</span><br/> <br/><p>Veuillez mettre le code QR du membre en façe de votre Caméra afin de l\'authentifier.</p><video class="cam_video" autoplay></video><br/></div></div>
+      <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error != "") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+           <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+      </div>
+      <?php } ?>
+  
+      <?php if(isset($this->error) && $this->error !="") { ?>
+      <div class="alert alert-error">
+           <button type="button" class="close" data-dismiss="alert">&times;</button>
+           <?php echo $this->error; ?>
+      </div>
+      <?php } ?>
+  
+      <legend> Substitution </legend>
+	  
+      <div  class="control-group">
+	  <label class="control-label" for="code_membre_substituer"> Code Membre du Substitué * </label>
+      <div class="controls">
+      <input name="code_membre_substituer" type="text" id="code_membre_substituer" value="<?php echo $this->membresubstituer->code_membre; ?>"  class="input-block-level" placeholder="Code Membre Bénéficiaire" readonly="true"  />
+	  </div>
+      </div>
+	
+	  <div class="control-group">
+      <label class="control-label" for="code_membre"> NOM & PRENOM </label>
+	  <div class="controls">
+      <input type="text" name="nom_membre" id="nom_membre" value="<?php echo $this->membresubstituer->nom_membre." ".$this->membresubstituer->prenom_membre; ?>"  placeholder="NOM & PRENOM"  class="input-block-level" readonly="true" />
+      </div>
+      </div>
+	  
+	  <div  class="control-group">
+	  <label class="control-label" for="code_membre_beneficiaire"> Code Membre du Substitut * </label>
+      <div class="input-group mb-3">
+      <input name="code_membre_beneficiaire" type="text" id="code_membre_mandataire" value="<?php echo $this->membrebenef->code_membre; ?>"  class="form-control" placeholder="Code Membre Bénéficiaire" required />
+	  <div class="input-group-append">
+      <button class="btn btn-outline-secondary button_qr_code" type="button" id="button_qr_code_mandataire"> QR Code </button>
+      </div>
+	  </div>
+      </div>
+	
+	  <div class="control-group">
+      <label class="control-label" for="code_membre"> NOM & PRENOM </label>
+	  <div class="controls">
+      <input type="text" name="nom_membre_benef" id="designation_mandataire" value="<?php echo $this->membrebenef->nom_membre." ".$this->membrebenef->prenom_membre; ?>"  placeholder="NOM & PRENOM"  class="input-block-level" readonly="true" />
+      </div>
+      </div>
+	  
+	  <div class="control-group">
+      <label class="control-label" for="motif"> Motif </label>
+      <div class="controls">
+      <textarea name="motif" id="motif" class="input-block-level"  placeholder="Motif" ></textarea>
+      </div>
+      </div>
+		 
+      <div class="form-actions">
+      <input name="publier" type="hidden" id="publier" value="0" />
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <button type="reset" class="btn">Annuler</button>
+      <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+</form>
+</div>
+
+</div>
+</div>
+
+<style>
+.button_qr_code
+{
+    background: #aa325f;
+}
+</style>
+<script type="text/javascript">
+    outilqr_champ_personnalise("button_qr_code_mandataire", "code_membre_mandataire", "designation_mandataire");
+</script>
+
+

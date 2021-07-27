@@ -1,0 +1,209 @@
+<div id="view-content" class="ui-widget">
+    <div  class="cntError">
+        <?php
+        echo $this->message;
+        ?>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Etablissement du budget d'investissement</h3>
+    </div> 
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom"  style="font-size:11px">
+        <div>
+            <?php
+            $this->form->setAction($this->url());
+            echo $this->form;
+            ?>    
+        </div>
+        <br/><br/>
+        <table id="tbl-pformas"></table>
+        <div id="pg-pformas"></div>
+        <br/>
+        <div>
+            <fieldset style="border-color:#000"><legend style=" font-weight:bold">Autres besoins </legend>
+                <INPUT id="add" type="button" value="Ajouter" onclick="addRow('tab_produit')" />
+                <INPUT id="remove" type="button" value="Retirer" onclick="deleteRow('tab_produit')" />
+                <input type='hidden' name='cpteur' id='cpteur' class='cpteur' value="1">
+                <TABLE width="500px" border="1" id="tab_produit">
+                    <thead>
+                        <tr style="text-align: left;">
+                            <th width="40">Libellé</th>
+                            <th width="25">Montant</th>
+                            <th width="15">Type</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><input type='text' name='besoin' id='besoin1' class='besoin' size="50"></td>
+                        <td><input type='text' name='mt' size='50'  id='mt1' class='mt'></td> 
+                        <td>
+                            <select name='cat' id='cat1' class='cat'>
+                                <option value=''></option>
+                                <option value='fixe'>Fixe</option>
+                                <option value='circulant'>Circulant</option>
+                            </select>
+                        </td> 
+                    </tr>
+                </TABLE> 
+            </fieldset>     
+        </div>
+        <p><input id="ajouter" type="button" value="Valider"></p>
+    </div>    
+</div>
+<script type="text/javascript">
+
+    $("#tbl-pformas").jqGrid({
+        url: '/eu-budget/listprod?id_besoin=0',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Id', 'Code', 'Code produit', 'Libellé produit', 'Distributeur', 'Type', 'MDV', 'PU produit', 'Quantité', 'Remise', 'Total', 'Besoin'],
+        height: 'auto', width: 822,
+        colModel: [
+            {name: 'id_porter', index: 'id_porter', width: 100, align: "right", hidden: true},
+            {name: 'code_proforma', index: 'code_proforma', width: 90, editable: false, align: "left"},
+            {name: 'id_objet', index: 'id_objet', width: 130, align: "left", summaryType: 'count', summaryTpl: '({0}) total'},
+            {name: 'design_objet', index: 'design_objet', width: 210, align: "left", editable: false},
+            {name: 'distributeur', index: 'distributeur', width: 130, align: "left", editable: false},
+            {name: 'type', index: 'type', width: 70, editable: false},
+            {name: 'mdv', index: 'mdv', width: 60, sortable: false, align: "right"},
+            {name: 'pu_objet', index: 'pu_objet', width: 100, align: "right", sorttype: 'number', formatter: 'number', summaryType: 'sum'},
+            {name: 'qte_objet', index: 'qte_objet', width: 80, align: "right", sorttype: 'number', summaryType: 'sum'},
+            {name: 'remise', index: 'remise', width: 60, align: "right", sorttype: 'number', summaryType: 'sum'},
+            {name: 'total', index: 'total', width: 110, align: "right", sorttype: 'number', summaryType: 'sum', formatter: 'number'},
+            {name: 'besoin', index: 'besoin', width: 100, align: "right", hidden: true},
+        ],
+        rowNum: 100000,
+        rowList: [100000, 200000, 300000],
+        rownumbers: true,
+        pager: '#pg-pformas',
+        sortname: "code_proforma",
+        viewrecords: true,
+        multiselect: true,
+        sortorder: "ASC",
+        caption: "Liste des produits liés aux factures proforma",
+        grouping: true,
+        groupingView: {
+            groupField: ['code_proforma'],
+            groupColumnShow: [true],
+            groupText: ['<b>{0}</b>'],
+            groupCollapse: false,
+            groupOrder: ['asc'],
+            groupSummary: [true],
+            groupDataSorted: true
+        },
+        footerrow: false,
+        userDataOnFooter: true
+    });
+    $("#tbl-pformas").jqGrid('navGrid', '#pg-pformas', {edit: false, add: false, del: false, search: true});
+
+    $(document).ready(function()
+    {
+        $('#valider').click(function()
+        {
+            jQuery("#tbl-pformas").jqGrid('setGridParam', {url: "/eu-budget/listprod?id_besoin=" + $('#id_besoin').val()}).trigger('reloadGrid');
+        });
+    });
+
+    $('#ajouter').click(
+            function() {
+                var sel;
+                var test = 'false';
+                for (var i = 1; i <= $("#cpteur").val(); i++) {
+                    if ($("#besoin" + i).val() != '' || $("#mt" + i).val() != '' || $("#cat" + i).val() != '') {
+                        if ($("#besoin" + i).val() == '' || $("#mt" + i).val() == '' || $("#cat" + i).val() == '') {
+                            alert('Un champ est non renseigné')
+                            test = 'true';
+                        }
+                    }
+                    break;
+                }
+                if (test == 'false') {
+
+                    sel = jQuery("#tbl-pformas").jqGrid('getGridParam', 'selarrrow');
+                    var tab = [];
+                    var tab1 = [];
+                    var tab2 = [];
+                    var tab3 = [];
+                    var rowsel;
+                    rowsel = jQuery("#tbl-pformas").jqGrid('getGridParam', 'selrow');
+                    for (var i = 0; i < sel.length; i++) {
+                        tab[i] = jQuery("#tbl-pformas").jqGrid('getRowData', sel[i]);
+                    }
+                    ;
+                    for (var i = 1; i <= $("#cpteur").val(); i++) {
+                        tab1[i] = $("#besoin" + i).val();
+                        tab2[i] = $("#mt" + i).val();
+                        tab3[i] = $("#cat" + i).val();
+                    }
+                    ;
+
+                    if (rowsel)
+                    {
+                        $.get('/eu-budget/demande?compteur=' + $('#cpteur').val(), {
+                            lignes: tab, lignes1: tab1, lignes2: tab2, lignes3: tab3
+                        },
+                        function success(data) {
+                            if (data == 'good') {
+                                jQuery("#tbl-pformas").jqGrid('setGridParam', {url: "/eu-budget/listprod?id_besoin=" + $('#id_besoin').val()}).trigger('reloadGrid');
+                                alert('Opération effectuée avec succes');
+                            }
+                            else {
+                                jQuery("#tbl-pformas").jqGrid('setGridParam', {url: "/eu-budget/listprod?id_besoin=" + $('#id_besoin').val()}).trigger('reloadGrid');
+                                alert('Echec de l\'opération');
+                            }
+                        });
+                    }
+                    else
+                    {
+                        alert('Aucun produit sélectionné');
+                    }
+                }
+            });
+
+    var compteur = 1;
+    function addRow(tableID) {
+
+        var table = document.getElementById(tableID);
+        var rowCount = table.rows.length;
+        var cpte = rowCount;
+        var row = table.insertRow(rowCount);
+        var cell1 = row.insertCell(0);
+        var element1 = document.createElement("input");
+        element1.type = "text";
+        //element1.setAttribute("id","design" + cpte);
+        element1.setAttribute("name", "besoin" + cpte);
+        element1.setAttribute("id", "besoin" + cpte);
+        element1.setAttribute("size", "50");
+        cell1.appendChild(element1);
+        var cell2 = row.insertCell(1);
+        var element2 = document.createElement("input");
+        element2.type = "text";
+        //element2.setAttribute("id","qte" + cpte);
+        element2.setAttribute("name", "mt" + cpte);
+        element2.setAttribute("id", "mt" + cpte);
+        element2.setAttribute("size", "50");
+        cell2.appendChild(element2);
+
+        var cell3 = row.insertCell(2);
+        var element3 = document.createElement("select");
+        element3.setAttribute("name", "cat" + cpte);
+        element3.setAttribute("id", "cat" + cpte);
+        cell3.appendChild(element3);
+
+        options = '<option value="">' + "" + '</option>' + '<option value="fixe">' + "Fixe" + '</option>' + '<option value="circulant">' + "Circulant" + '</option>';
+        $('select#cat' + cpte).html(options);
+
+        compteur = compteur + 1;
+        document.getElementById("cpteur").setAttribute('value', compteur);
+    }
+
+    function deleteRow(tableID) {
+        var table = document.getElementById(tableID);
+        var rowCount = table.rows.length - 1;
+        table.deleteRow(rowCount);
+        compteur = compteur - 1;
+        document.getElementById("cpteur").setAttribute('value', compteur);
+    }
+    $('#valider').button();
+    $('#ajouter').button();
+    //$(function(){
+    //    $('select#id_besoin').selectmenu({style:'dropdown'})});
+</script>

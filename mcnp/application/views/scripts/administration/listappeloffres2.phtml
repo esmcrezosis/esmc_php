@@ -1,0 +1,186 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des contrats archivés<!--dossiers d'appels d'offres--></p></blockquote>
+<?php /*?><?php 
+            $table = new Application_Model_DbTable_EuAppeloffres();
+$select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
+        $select->setIntegrityCheck(false);
+		$select->join('eu_utilisateur', 'eu_utilisateur.id_utilisateur = eu_appeloffres.id_utilisateur');
+		$select->join('eu_acteur', 'eu_acteur.code_acteur = eu_utilisateur.code_acteur');
+		
+		$select->where("(eu_appeloffres.selection = ? ", 1);
+		$select->where("eu_appeloffres.id_document IN (SELECT id_document FROM eu_document WHERE accord <= 2))");
+		
+		
+		
+		$select->orwhere("(eu_appeloffres.selection = ? ", 0);
+		$select->where("eu_appeloffres.id_document IN (SELECT id_document FROM eu_document WHERE accord <= 1))");
+		
+		
+		
+		$select->order(array("eu_appeloffres.id_document DESC", "eu_appeloffres.date_appeloffres DESC"));
+        $resultSet = $table->fetchAll($select);
+		echo $select; ?><?php */?>
+<?php if(count($this->entries)>0){?> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Canevas</th>
+								  <th>Numero</th>
+								  <th>Libellé</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php $date_id = new Zend_Date(Zend_Date::ISO_8601);
+$documentM = new Application_Model_EuDocumentMapper();
+$document = new Application_Model_EuDocument();
+$documentM->find3($entry->id_document, $document);
+?><?php echo htmlentities($document->nom_document); ?></td>
+      <td><?php if($entry->preselection == 1 && $entry->selection == 1 && $document->accord == 2){?>
+	  <span class="label label-mini label-important"><?php echo htmlentities($entry->num_appeloffres); ?></span>
+	  <?php }else{?><?php echo htmlentities($entry->num_appeloffres); ?><?php }?>
+      </td>
+      <td><?php echo htmlentities($entry->libelle_appeloffres); ?></td>
+      <td><div align="center">
+      <?php if(($document->date_fin <= $date_id->toString('yyyy-MM-dd'))){?>
+	  <?php if($sessionutilisateur->code_groupe == "executante" || $sessionutilisateur->code_groupe == "executante_pays" || $sessionutilisateur->code_groupe == "executante_region" || $sessionutilisateur->code_groupe == "executante_secteur" || $sessionutilisateur->code_groupe == "executante_agence"){?>
+      <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/<?php echo $entry->desc_appeloffres; ?>"><i class="icon-download icon-white"></i>  Télécharger</a>&nbsp;
+
+<?php if($entry->preselection == 1){?>
+<?php if($document->accord == 2){?>
+			<span class="label label-mini label-success"><i class="icon-ok icon-white"></i>  Pré-selectionnée</span>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-success" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir dé-selectionner?')) location='<?php echo $this->baseUrl(); ?>/administration/preselectionappeloffres/id/<?php echo $entry->id_appeloffres; ?>/preselection/0'"><i class="icon-ok icon-white"></i>  Pré-selectionnée</a>&nbsp;
+<?php }?>
+
+<?php if($entry->selection == 1){?>
+<?php if($document->accord == 2){?>
+			<span class="label label-mini label-success"><i class="icon-ok icon-white"></i>  Choisie</span>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-success"  onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir dé-selectionner la sélection finale?')) location='<?php echo $this->baseUrl(); ?>/administration/selectionappeloffres/id/<?php echo $entry->id_appeloffres; ?>/selection/0'"><i class="icon-ok icon-white"></i>  Choisie</a>&nbsp;
+<?php }?>
+<?php if($document->accord == 2){?>
+			<span class="label label-mini label-success"><i class="icon-ok icon-white"></i>  Accordé</span>&nbsp;
+<?php }else if($document->accord == 1){?>
+			<span class="label label-mini label-inverse"><i class="icon-ok icon-white"></i>  Vérification en cours</span>&nbsp;
+<?php }else if($document->accord == 0){?>
+			<a class="btn btn-mini btn-primary"  onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir demander à la surveillance une vérification de la sélection finale?')) location='<?php echo $this->baseUrl(); ?>/administration/accorddocument/id/<?php echo $entry->id_document; ?>/accord/1/num/<?php echo $entry->id_appeloffres; ?>'"><i class="icon-ok icon-white"></i>  Vérification</a>&nbsp;
+<?php }?>
+<?php }else{?>
+			<a class="btn btn-mini btn-warning"  onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir faire la sélection finale?')) location='<?php echo $this->baseUrl(); ?>/administration/selectionappeloffres/id/<?php echo $entry->id_appeloffres; ?>/selection/1'"><i class="icon-off icon-white"></i>  Pas Choisie</a>&nbsp;
+<?php }?>
+
+<?php }else{?>
+			<a class="btn btn-mini btn-warning"  onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir selectionner?')) location='<?php echo $this->baseUrl(); ?>/administration/preselectionappeloffres/id/<?php echo $entry->id_appeloffres; ?>/preselection/1'"><i class="icon-off icon-white"></i>  Pas Pré-selectionnée</a>&nbsp;
+      
+      		<?php /*?><a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administraation/editappeloffres/id/<?php echo $entry->id_appeloffres; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;<?php */?>
+
+			<a class="btn btn-mini btn-danger" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/administration/suppappeloffres/id/<?php echo $entry->id_appeloffres; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a>
+<?php }?>
+<?php if($document->accord == 0 && $entry->propo == 1){?>
+			<span class="label label-mini label"><i class="icon-ok icon-white"></i>  Proposer</span>&nbsp;
+<?php }?>
+            <?php }?>
+            
+	  <?php if($sessionutilisateur->code_groupe == "surveillance" || $sessionutilisateur->code_groupe == "surveillance_pays" || $sessionutilisateur->code_groupe == "surveillance_region" || $sessionutilisateur->code_groupe == "surveillance_secteur" || $sessionutilisateur->code_groupe == "surveillance_agence"){?>
+      <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/<?php echo $entry->desc_appeloffres; ?>"><i class="icon-download icon-white"></i>  Télécharger</a>&nbsp;
+
+<?php if($entry->preselection == 1){?>
+			<span class="label label-mini label-success"><i class="icon-ok icon-white"></i>  Pré-selectionnée</span>&nbsp;
+
+<?php if($entry->selection == 1){?>
+			<span class="label label-mini label-success"><i class="icon-ok icon-white"></i>  Choisie</span>&nbsp;
+<?php if($document->accord == 2){?>
+			<span class="label label-mini label-success"><i class="icon-ok icon-white"></i>  Accordé</span>&nbsp;
+<?php }else if($document->accord == 1){?>
+			<a class="btn btn-mini btn-primary"  onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir désaccorder la sélection finale?')) location='<?php echo $this->baseUrl(); ?>/administration/accorddocument/id/<?php echo $entry->id_document; ?>/accord/0/num/<?php echo $entry->id_appeloffres; ?>'"><i class="icon-ok icon-white"></i>  Pas d'accord</a>&nbsp;
+			<a class="btn btn-mini btn-primary"  onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir accorder la sélection finale?')) location='<?php echo $this->baseUrl(); ?>/administration/accorddocument/id/<?php echo $entry->id_document; ?>/accord/2/num/<?php echo $entry->id_appeloffres; ?>'"><i class="icon-ok icon-white"></i>  D'accord</a>&nbsp;
+<?php }?>
+<?php }else{?>
+			<span class="label label-mini label-warning"><i class="icon-off icon-white"></i>  Pas Choisie</span>&nbsp;
+<?php }?>
+
+<?php }else{?>
+			<span class="label label-mini label-warning"><i class="icon-off icon-white"></i>  Pas Pré-selectionnée</span>&nbsp;
+<?php }?>
+<?php if($document->accord == 0 && $entry->propo == 0){?>
+			<a class="btn btn-mini btn-inverse"  onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir proposer une sélection finale?')) location='<?php echo $this->baseUrl(); ?>/administration/proposerappeloffres/id/<?php echo $entry->id_appeloffres; ?>/propo/1'"><i class="icon-off icon-white"></i>  Proposer</a>&nbsp;
+<?php }else if($document->accord == 0 && $entry->propo == 1){?>
+			<span class="label label-mini label"><i class="icon-ok icon-white"></i>  Proposé</span>&nbsp;
+<?php }?>
+            <?php }?>
+            
+	  <?php if($sessionutilisateur->code_groupe == "detentrice" || $sessionutilisateur->code_groupe == "detentrice_pays" || $sessionutilisateur->code_groupe == "detentrice_region" || $sessionutilisateur->code_groupe == "detentrice_secteur" || $sessionutilisateur->code_groupe == "detentrice_agence"){?>
+            
+<?php if($entry->preselection == 1){?>
+			<span class="label label-mini label-success"><i class="icon-ok icon-white"></i>  Pré-selectionnée</span>&nbsp;
+<?php if($entry->selection == 1){?>
+			<span class="label label-mini label-success"><i class="icon-ok icon-white"></i>  Choisie</span>&nbsp;
+<?php if($document->accord == 2){?>
+			<span class="label label-mini label-success"><i class="icon-ok icon-white"></i>  Accordé</span>&nbsp;
+<?php if($entry->okfinal == 1){?>
+			<span class="label label-mini label-success"><i class="icon-ok icon-white"></i>  OK Final</span>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning"  onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir donner un OK final à la sélection finale?')) location='<?php echo $this->baseUrl(); ?>/administration/okfinalappeloffres/id/<?php echo $entry->id_appeloffres; ?>/okfinal/1'"><i class="icon-off icon-white"></i>  OK Final</a>&nbsp;
+<?php }?>
+
+<?php }?>
+<?php }?>
+<?php }?>
+            <?php }?>
+			<?php }?>
+            </div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun contrat<!--dossier d'appel d'offre--> enrégistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,152 @@
+<?php $sessionmcnp = new Zend_Session_Namespace('mcnp'); ?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript" charset="utf-8">		
+	$(document).ready(function() {
+    $('#example').dataTable({
+        "sPaginationType": "full_numbers",
+        "aaSorting": []
+    });
+    });
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p> Recherche de postulat </p></blockquote>
+
+<div class="accordion" id="accordion2">
+<div class="accordion-group">
+<div class="accordion-heading">
+<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+        Formulaire de trie par critères
+</a>
+</div>
+	 
+<div id="collapseOne" class="accordion-body collapse <?php if (!isset($_POST['ok'])) {?> in <?php }?>">
+<div class="accordion-inner">
+<form method="post" enctype="multipart/form-data" role="form" name="souscription" id="souscription" action="" class="">
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+   
+<div class="">
+    <div class="span3">
+       <div class="control-group">
+       <label class="control-label" for="code_postulat">Code postulat</label>
+       <div class="controls">
+       <input type="text" name="code_postulat" id="code_postulat" placeholder="Code Postulat" class="input-large" value="<?php echo $this->code_postulat; ?>"  />
+       </div>
+       </div>
+    </div>
+</div>
+    
+<div class="">
+<div class="span12">  
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="submit" class="btn btn-primary">Rechercher</button>
+</div>    
+</div>
+</div>
+
+</form>
+</div>
+</div>
+</div> 
+</div>
+
+<?php if(count($this->entries) > 0) { ?>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+    <thead>
+		<tr>
+			<th>CMFH</th>
+			<th>Date</th>
+			<th>Nom & prénom(s) / Raison sociale</th>
+			<th>Cellulaire</th>
+			<th>Zone</th>
+			<th>Pays</th>
+			<th>Région</th>
+			<th>Préfecture</th>
+			<th>Canton</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+	<?php foreach ($this->entries as $entry): ?>
+	    <tr>
+	    <td><?php echo ($entry->libelle_type_candidat); ?></td>
+		<td><?php echo datejourfr($entry->date_postulat); ?></td>
+		<td><?php echo ($entry->raison_postulat)." ".($entry->nom_postulat)." ".($entry->prenom_postulat); ?></td>
+		<td><?php echo ($entry->mobile_postulat); ?></td>
+		<td><?php echo ($entry->nom_zone); ?></td>
+		<td><?php echo ($entry->libelle_pays); ?></td>
+		<td><?php echo ($entry->nom_region); ?></td>
+		<td><?php echo ($entry->nom_prefecture); ?></td>
+		<td><?php echo ($entry->nom_canton); ?></td>
+		
+	    <td>
+        <?php if(($entry->id_type_candidat == 1) or $entry->id_type_candidat == 2 or $entry->id_type_candidat == 3 or $entry->id_type_candidat == 4
+            or $entry->id_type_candidat == 5  or $entry->id_type_candidat == 8  or $entry->id_type_candidat == 9  or $entry->id_type_candidat == 10
+            or $entry->id_type_candidat == 11  or $entry->id_type_candidat == 12	or $entry->id_type_candidat == 13	) { ?>
+		    <div align="center">
+	            <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/index/souscrireintegrateur/id/<?php echo $entry->id_postulat; ?>"><i class="icon-edit icon-white"></i>Souscrire</a>&nbsp;	   
+            </div>
+			<?php } 
+			/*
+			else if((($entry->id_type_candidat == 6) or ($entry->id_type_candidat == 7)) && ((substr($entry->code_membre,19,1) == 'M')))  { ?>
+			<div align="center">
+	            <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/integrateur/souscrireoffreur/id/<?php echo $entry->id_postulat; ?>"><i class="icon-edit icon-white"></i>Souscrire</a>&nbsp;	   
+            </div>
+			<?php }
+             */			
+			 
+			else {  ?>
+			    
+			<div class="alert alert-info">
+                   Veuillez revoir votre catégorie de CMFH choisi
+            </div>
+			<?php }  ?>
+	    </td>
+	    </tr>
+	<?php endforeach; ?>
+	</tbody>
+</table>
+
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun postulat enrégistré 
+</div>
+<?php } ?>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+</div>
+</div>
+</div>
+       
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,105 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+
+<script type="text/javascript" charset="utf-8">		
+$(document).ready(function() {
+  $('#example').dataTable({
+    "sPaginationType": "full_numbers",
+    "aaSorting": []
+  }); 
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align: left">
+		
+		<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+            <blockquote>
+               <p> <strong> Etat des Opérations des BAn Exprimés </strong></p>
+            </blockquote>
+			
+			<?php 
+			    if(count($this->entries) > 0) {
+			        $montant = 0;
+			?>
+			
+			<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+			    <thead>
+			        <tr>
+				        <th>Souscripteur</th>
+				        <th>Code BAn</th>
+						<th>Activité</th>
+					    <th>Date Opération</th>
+					    <th>Montant BAn Exprimé </th>
+					    <th>Détails BAn</th>
+			        </tr>
+		        </thead>
+				
+				<tbody>
+				    <?php 
+					    foreach($this->entries as $entry) :
+					?>
+				    <tr>
+					    <td><?php echo $entry->bon_neutre_nom." ".$entry->bon_neutre_prenom." ".$entry->bon_neutre_raison; ?></td>
+						<td><?php echo $entry->bon_neutre_code; ?></td>
+						<td>
+						<?php 
+						    if($entry->bon_neutre_utilise_libelle == "CMFH")                             {echo "Souscription Pour Tiers aux Comptes Marchands";}
+							else if($entry->bon_neutre_utilise_libelle == "Activation PP")               {echo "Souscription Pour Soi au Compte Marchand PP";}
+							else if($entry->bon_neutre_utilise_libelle == "Activation PM")               {echo "Souscription Pour Soi au Comptes Marchand PM";}
+							else if($entry->bon_neutre_utilise_libelle == "Re-activation PM")            {echo "Reactivation de Compte Marchand PM";}
+							else if($entry->bon_neutre_utilise_libelle == "BC")                          {echo "Souscription Pour Tiers au Bon de Consommation";}
+							else if($entry->bon_neutre_utilise_libelle == "Souscription au Bon d'Achat") {echo $entry->bon_neutre_utilise_libelle;}
+						
+						?>
+						</td>
+						<td><?php echo datejourfr($entry->bon_neutre_utilise_date);?></td>
+						<td><div align="right"><?php echo $entry->bon_neutre_utilise_montant; ?></div></td>
+						<td> 
+						    <div align="center">
+						        <a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/listopexp/id/<?php echo $entry->bon_neutre_id; ?>"><i class="icon-plus icon-white"></i> Détails</a>&nbsp;
+						    </div>
+						</td>
+					</tr>
+					<?php 
+					    $montant += $entry->bon_neutre_utilise_montant;
+					    endforeach; 
+					?>	
+				</tbody>
+				
+				<tfoot>
+				    <tr><td colspan="6">&nbsp;</td></tr>
+				    <tr>
+                        <td>
+						    <div align="left">&nbsp;</div>
+						</td>
+					    <td>
+						    <div align="center">&nbsp;</div>
+						</td>
+						<td>
+						    <div align="center">&nbsp;</div>
+						</td>
+                        <td>
+						    <div align="right" style="font-size:20px;"><strong> Total Montant BAn Exprimés </strong></div>
+						</td>
+                        <td colspan="2">
+						    <div align="right" style="font-size:20px;"><strong><?php echo number_format($montant,0,',',' ');?></strong></div>
+						</td>
+                    </tr>
+				</tfoot>
+				
+			</table>
+			
+			<?php } else { ?>
+            <div class="alert alert-info">
+                Aucun enrégistrement de BAn Exprimé
+            </div>
+			<?php } ?>
+    </div>
+</div>
+</div>

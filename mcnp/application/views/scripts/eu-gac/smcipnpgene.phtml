@@ -1,0 +1,104 @@
+<div id="view-content" style="font-size:11px">
+    <div style="margin-bottom: 3px; font-size:12px">
+        <input id="detail" type="button" value="Détail"/>
+        <input id="accorder" type="button" value="Accorder"/>
+    </div>
+    <table id="tbl-smcipnp"></table>
+    <div id="pg-smcipnp"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-smcipnp").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'listgenesmcipnp')); ?>',
+        editurl:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Code membre','Montant SMCIPNP','Type acteur','Nom Acteur','Date'],
+        height:450, width:827,
+        colModel:[
+            {name:'code_smcipnp',index:'code_smcipnp', width:85, align:"left", hidden:true},
+            {name:'lib_smcipnp',index:'lib_smcipnp', width: 300, align:"left", editable: true},
+            {name:'code_membre',index:'code_membre', width: 180, editable: true,align:"left"},
+            {name:'mt_smcipnp',index:'mt_smcipnp', width: 155, align:"right",sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'type_acteur',index:'type_acteur', width: 150, editable: true,align:"left"},
+            {name:'nom_acteur',index:'nom_acteur', width: 200, editable: true,align:"left"},
+            {name:'date_smcipnp',index:'date_smcipnp', width: 105, align:"left", editable: false},
+        ],
+        rowNum:100,
+        rowList:[100,200,300],
+        rownumbers:true,
+        pager: '#pg-smcipnp',
+        sortname:"date_smcipnp",
+        viewrecords: true,
+        multiselect:false,
+        sortorder: "desc",
+        caption:"Liste des demandes de la SMCIPNP en attente",
+        grouping: true,
+        groupingView : {
+            groupField : ['nom_acteur'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [true],
+            groupDataSorted : true
+        },
+        footerrow: true,
+        userDataOnFooter: true
+    });
+  
+    $("#tbl-smcipnp").jqGrid('navGrid','#pg-smcipnp',{edit:false,add:false,del:false,search:true});
+    
+    $('#detail').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-smcipnp").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-gac/detailsmcipnp',{
+                code_smcipnp:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });   
+    
+    $('#accorder').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-smcipnp").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-gac/allouersmcipnp',{
+                lignes:rowsel
+            },
+            function success(data){
+                if(data == 'sal'){
+                        alert('Le salaire disponible à la source est insuffisant');
+                    }
+                else if(data == 'sal1'){
+                    alert('Pas de ressources créées à la source SMC');
+                }
+                else if(data == 'allocs'){
+                    alert('Le salaire est déjà allouée');
+                }else if(data == 'no_sal1'){
+                    alert('Tout le salaire n\'est pas encore disponible à la source' );
+                }
+                else if(data == 'good'){
+                    jQuery("#tbl-smcipnp").jqGrid('setGridParam',{url:"/eu-gac/listgenesmcipnp"}).trigger('reloadGrid');
+                    alert('Allocation de la SMCIPNP effectuée avec succès');
+                }
+                else if(data == 'echec'){
+                    alert('Echec de l\'opération');
+                }
+            });        
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }       
+    });
+    
+    $('#detail').button();
+    $('#accorder').button();
+</script>

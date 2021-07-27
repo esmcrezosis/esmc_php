@@ -1,0 +1,79 @@
+<div id="view-content">
+    <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:11px">
+        <div style="margin-bottom: 3px; font-size:12px" >
+            <input id="transfert" type="button" value="Transférer"/>
+        </div>
+        <table id="tbl-smcipnp"></table>
+        <div id="pg-smcipnp"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-smcipnp").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'listaccordsmcipnp')); ?>',
+        editurl:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Code membre','Nom Acteur','Montant SMCIPNP','Date','Heure'],
+        height:450, width:815,
+        colModel:[
+            {name:'code_smcipnp',index:'code_smcipnp', width:5, align:"left", hidden:true},
+            {name:'lib_smcipnp',index:'lib_smcipnp', width: 290, align:"left", editable: true},
+            {name:'code_membre',index:'code_membre', width: 165, editable: true,align:"left"},
+            {name:'nom_acteur',index:'nom_acteur', width: 190, editable: true,align:"left"},
+            {name:'mt_smcipnp',index:'mt_smcipnp', width: 150, align:"right",sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'date_smcipnp',index:'date_smcipnp', width: 90, align:"left", editable: false},
+            {name:'heure_smcipnp',index:'heure_smcipnp', width: 50, align:"left", editable: false},
+        ],
+        rowNum:100,
+        rowList:[100,200,500],
+        rownumbers:true,
+        pager: '#pg-smcipnp',
+        sortname:"code_smcipnp",
+        viewrecords: true,
+        multiselect:true,
+        sortorder: "ASC",
+        caption:"Liste des demandes de la SMCIPNP accordées",
+        grouping: false,
+        groupingView : {
+            groupField : ['nom_acteur'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [true],
+            groupDataSorted : true
+        },
+        footerrow: false,
+        userDataOnFooter: false
+    });
+  
+    $("#tbl-smcipnp").jqGrid('navGrid','#pg-smcipnp',{edit:false,add:false,del:false,search:true});
+
+    $('#transfert').click(
+    function(){
+        var sel;
+        sel = jQuery("#tbl-smcipnp").jqGrid('getGridParam','selarrrow');
+        if(sel!=0)
+        {
+            $.get('/eu-smcipnp/transferer', {
+                lignes:sel
+            },
+            function success(data){
+                if(data == 'no_tpa'){
+                    alert('Le montant disponible est insuffisant');
+                }
+                else if(data == 'echec'){
+                    alert('Echec de l\'opération');
+                }
+                else if(data == 'good'){
+                    jQuery("#tbl-smcipnp").jqGrid('setGridParam',{url:"/eu-smcipnp/listaccordsmcipnp"}).trigger('reloadGrid');
+                    alert('Transmission de la SMCIPNP effectuée avec succès');
+                }
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+     $('#transfert').button();
+</script>

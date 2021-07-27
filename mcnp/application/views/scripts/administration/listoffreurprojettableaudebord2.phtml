@@ -1,0 +1,285 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+    <script type="text/javascript" charset="utf-8">
+      /*$(document).ready(function() {
+        $('#example').dataTable();
+      } );*/
+      $(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+    "aaSorting": []
+    } );
+} );
+    </script>
+       
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Effectifs des Offreurs de projets </p></blockquote>
+
+<div class="accordion" id="accordion2">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+        Formulaire de trie par critères
+      </a>
+    </div>
+    <div id="collapseOne" class="accordion-body collapse <?php if (!isset($_POST['ok'])) {?> in <?php }?>">
+      <div class="accordion-inner">
+<form method="post" enctype="multipart/form-data" role="form" name="souscription" id="souscription" action="" class="">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+   
+<div class="">
+  <div class="span4">
+    <div class="control-group">
+    <label class="control-label" for="offreur_projet_type">Type offreur de projet </label>
+    <div class="controls">
+      <select name="offreur_projet_type" id="offreur_projet_type" >
+        <?php  $offreur_projettype = new Application_Model_EuTypeOffreurProjetMapper();
+    $selectoffreur_projettype = $offreur_projettype->fetchAll();?>
+        <option value="">Choisir un type offreur de projet</option>
+        <?php foreach ($selectoffreur_projettype as $selectoffreur_projettype): ?>
+        <option value="<?php echo $selectoffreur_projettype->id_type_offreur_projet; ?>"><?php echo ($selectoffreur_projettype->libelle_type_offreur_projet); ?></option>
+        <?php endforeach; ?>
+        </select>
+      </div>
+    </div>
+  
+    
+    
+    
+  <div class="control-group">
+    <label class="control-label" for="offreur_projet_association">Association </label>
+    <div class="controls">
+      <select name="offreur_projet_association" id="offreur_projet_association" >
+        <?php  $association = new Application_Model_DbTable_EuAssociation();
+                        $select = $association->select();
+                        $select->where("association_numero NOT LIKE '%PP%'");
+                        $select->where("association_numero NOT LIKE '%INT%'");
+                        $select->order(array('association_nom ASC'));
+                        $selectassociation = $association->fetchAll($select);
+                        ?>
+        <option value="">Choisir une association</option>
+        <?php foreach ($selectassociation as $selectassociation): ?>
+        <option value="<?php echo $selectassociation->association_id; ?>"><?php echo ($selectassociation->association_nom); ?></option>
+        <?php endforeach; ?>
+        </select>
+      </div>
+    </div>
+
+
+    <div class="control-group">
+    <label class="control-label" for="offreur_projet_membreasso">Utilisateur </label>
+    <div class="controls">
+      <select name="offreur_projet_membreasso" id="offreur_projet_membreasso" >
+        <?php  $membreasso = new Application_Model_DbTable_EuMembreasso();
+                        $select = $membreasso->select();
+                        $select->where("membreasso_id IN (SELECT offreur_projet_membreasso FROM eu_offreur_projet)");
+                        $select->order(array('membreasso_nom ASC', 'membreasso_prenom ASC'));
+                        $selectmembreasso = $membreasso->fetchAll($select);
+                        ?>
+        <option value="">Choisir un utilisateur</option>
+        <?php foreach ($selectmembreasso as $selectmembreasso): ?>
+        <option value="<?php echo $selectmembreasso->membreasso_id; ?>"><?php echo ($selectmembreasso->membreasso_nom." ".$selectmembreasso->membreasso_prenom); ?></option>
+        <?php endforeach; ?>
+        </select>
+      </div>
+    </div>    
+  
+     
+
+  <div class="control-group">
+  <label class="control-label" for="offreur_projet_code_membre">Code Membre  </label>
+  <div class="controls">
+    <input type="text" name="offreur_projet_code_membre" id="offreur_projet_code_membre" placeholder="Code Membre" class="input-medium" />
+  </div>
+  </div>
+    
+    
+    
+    </div>
+  
+  <div class="span4">
+    
+
+  <div class="control-group">
+  <label class="control-label" for="offreur_projet_produit">Produits  </label>
+  <div class="controls">
+    <input type="text" name="offreur_projet_produit" id="offreur_projet_produit" placeholder="Produits" class="input-medium" />
+  </div>
+  </div>
+    
+   
+  
+    <div class="control-group">
+  <label class="control-label" for="offreur_projet_date1">Date Début  </label>
+  <div class="controls">
+    <input type="text" name="offreur_projet_date1" id="offreur_projet_date1" placeholder="Date Début" class="input-medium datepicker" data-provide="datepicker" value="<?php 
+                        $eumemb = new Application_Model_DbTable_EuOffreurProjet();
+                        $select = $eumemb->select();
+                        $select->order(array('offreur_projet_date ASC'));
+                        $select->limit(1);
+                        $rowseumemb = $eumemb->fetchRow($select);
+                        echo substr($rowseumemb->offreur_projet_date, 0, 10); ?>" readonly />
+  </div>
+  </div>
+  
+
+  <div class="control-group">
+  <label class="control-label" for="offreur_projet_date2">Date Fin  </label>
+  <div class="controls">
+    <input type="text" name="offreur_projet_date2" id="offreur_projet_date2" placeholder="Date Fin" class="input-medium datepicker" data-provide="datepicker" value="<?php 
+                        $eumemb = new Application_Model_DbTable_EuOffreurProjet();
+                        $select = $eumemb->select();
+                        $select->order(array('offreur_projet_date DESC'));
+                        $select->limit(1);
+                        $rowseumemb = $eumemb->fetchRow($select);
+                        echo substr($rowseumemb->offreur_projet_date, 0, 10); ?>" readonly />
+  </div>
+  </div>
+
+
+
+
+  <div class="control-group">
+  <label class="control-label" for="offreur_projet_ville">Ville </label>
+  <div class="controls">
+  <select name="offreur_projet_ville" id="offreur_projet_ville" >
+    <?php $tville = new Application_Model_DbTable_EuVille();
+        $results = $tville->fetchAll();?>
+    <option value="">Choisir la ville</option>
+    <?php foreach ($results as $ville): ?>
+    <option value="<?php echo $ville->id_ville; ?>"><?php echo ($ville->lib_ville); ?></option>
+    <?php endforeach; ?>
+  </select>
+  </div>
+  </div>
+    
+    
+    
+    </div>
+  
+  <div class="span4">
+  
+    <div class="control-group">
+  <label class="control-label" for="id_region">R&eacute;gion du souscripteur  </label>
+  <div class="controls">
+  <select name ="id_region" id="id_region" onchange="ouvre_decoupage(this.value);">
+    <?php  $region_mapper = new Application_Model_EuRegionMapper();
+        $selectregions = $region_mapper->fetchAll();?>
+    <option value="">Choisir la région </option>
+    <?php foreach ($selectregions as $selectregion): ?>
+    <option value="<?php echo $selectregion->id_region; ?>"><?php echo $selectregion->nom_region; ?></option>
+    <?php endforeach; ?>
+  </select>
+  </div>
+  </div>
+    
+  <div id="nivpref">
+  <div class="control-group">
+  <label class="control-label" for="id_prefecture">Pr&eacute;fecture du souscripteur </label>
+  <div class="controls">
+  <select name="id_prefecture" id="id_prefecture" >
+    <option value="">Choisir la Pr&eacute;fecture</option>
+  </select>
+  </div>
+  </div>
+  </div>
+    
+    
+  <div id="nivcant">
+  <div class="control-group">
+  <label class="control-label" for="id_canton">Canton du Souscripteur </label>
+  <div class="controls">
+  <select name="id_canton" id="id_canton" >
+    <option value="">Choisir le canton </option>
+  </select>
+  </div>
+  </div>
+  </div>
+    
+  
+ 
+    </div>
+    </div>
+    
+ <div class="">
+  <div class="span12">
+   
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<!--<button type="reset" class="btn">Annuler</button>-->
+<button type="submit" class="btn btn-primary">Rechercher</button>
+</div>    
+
+    </div>
+    </div>
+
+</form>
+
+
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+
+
+<?php if(count($this->entries)>0){?> 
+<table class="table table-striped table-bordered table-hover table-condensed">
+<tfoot>
+<tr>
+      <td><strong>Nombre</strong> :</td>
+      <td><strong><?php echo count($this->entries); ?></strong></td>
+    </tr>
+</tfoot>
+            </table>
+                      <br />
+
+
+<br />
+<br />
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun offreur de projet enrégistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

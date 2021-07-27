@@ -1,0 +1,53 @@
+
+<div class="row-fluid">
+	<div class="span9" style="text-align:left">
+		<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+      <legend>Formulaire de Ticket Interne de Support</legend>
+      <?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+				</div>
+			<?php unset($_SESSION['validationpertesuccess']); endif ?>
+
+	  <form action="#" enctype="multipart/form-data" method="post" class="form-horizontal">
+	   <div class="control-group">
+	      <label class="control-label" for="integrateur_demandeur_ticket_support" style="font-weight:bold">
+	        Demandeur (Nom et Prenoms) :
+	      </label>
+	      <div class="controls">
+		      <input type="text" name="integrateur_demandeur_ticket_support" class="input-block-level integrateur_demandeur_ticket_support" placeholder="Mettre ici le nom et prenoms du demandeur" required="required"/>
+	      </div>
+	   </div>
+	   	<div class="control-group">
+	      <label class="control-label" for="integrateur_demandeur_email_interne" style="font-weight:bold">
+	        Email Interne du Demandeur :
+	      </label>
+	      <div class="controls">
+		      <input type="email" name="integrateur_demandeur_email_interne" class="input-block-level integrateur_demandeur_email_interne" placeholder="Mettre ici le nom et prenoms du demandeur" required="required"/>
+	      </div>
+	   </div>
+			<div class="control-group">
+	       <label class="control-label" for="integrateur_description_probleme" style="font-weight:bold;">
+	          Description du problème:
+	       </label>
+	       <div class="controls">
+              <textarea name="integrateur_description_probleme" rows="8" cols="40" class="input-xxlarge" style="width:674px" required="required"></textarea>
+	       </div>
+	    </div>
+			<div class="control-group" >
+					<button type="submit" class="btn btn-large btn-primary">
+					Valider le formulaire
+					</button>
+			</div>
+</form>
+	</div>
+	<div class="span3">
+		<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+	</div>
+</div>

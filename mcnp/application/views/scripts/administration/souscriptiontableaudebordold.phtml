@@ -1,0 +1,275 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+
+<script type="text/javascript" charset="utf-8"> 
+    $(document).ready(function() {
+    $('#example').dataTable({
+        "sPaginationType": "full_numbers",
+        "aaSorting": []
+    });
+    });
+</script>
+       
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Effectifs des tableaux de bord </p></blockquote>
+
+
+<table class="table table-striped table-bordered table-hover table-condensed">
+<tfoot>
+<tr>
+      <td><strong>Nombre Total des Membres </strong> :</td>
+      <td><strong><?php echo ($this->entries_membres); ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong>Nombre Total des Membres PP </strong> :</td>
+    <td><strong><?php echo ($this->entries_membres_pp);?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong>Nombre Total des Membres PM </strong> :</td>
+    <td><strong><?php echo ($this->entries_membres_pm);?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong>Nombre Total des Activations PM </strong> :</td>
+    <td><strong><?php echo ($this->entries_membres_pmn); ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong>Nombre Total des Activations Pour Soi PP </strong> :</td>
+    <td><strong><?php echo ($this->entries_membres_ppn); ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong>Nombre Total des Activations Pour Tiers PP </strong> :</td>
+    <td><strong><?php echo ($this->entries_membres_pppt); ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong>Nombre Total des Comptes Marchands Souscris Pour Tiers </strong> :</td>
+    <td><strong><?php echo ($this->entries_cmpppt); ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong> Nombre Total des Réactivations </strong> :</td>
+    <td><strong><?php echo ($this->entries_membres_a); ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong> Nombre Total des Réactivations PP</strong> :</td>
+    <td><strong><?php echo ($this->entries_membres_ppa); ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong> Nombre Total des Réactivations PP ReDeMaRe</strong> :</td>
+    <td><strong><?php echo ($this->entries_membres_ppgie); ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong> Nombre Total des Réactivations PP MCNP</strong> :</td>
+    <td><strong><?php echo ($this->entries_membres_ppmcnp); ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+
+
+
+<tr>
+    <td><strong> Nombre Total des Réactivations PM</strong> :</td>
+    <td><strong><?php echo ($this->entries_membres_pma); ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong> Nombre Total des Réactivations PM ReDeMaRe</strong> :</td>
+    <td><strong><?php echo ($this->entries_membres_pmgie); ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong> Nombre Total des Réactivations PM MCNP</strong> :</td>
+    <td><strong><?php echo ($this->entries_membres_pmmcnp); ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong> Nombre Total des Souscriptions</strong> :</td>
+    <td><strong><?php  echo ($this->entries_souscriptions);  ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong> Nombre Total des Souscriptions Pour Soi</strong> :</td>
+    <td><strong><?php echo ($this->entries_souscriptions_kacm); ?></strong></td>
+</tr>
+
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td><strong> Nombre Total des Souscriptions Pour Tiers</strong> :</td>
+    <td><strong><?php echo ($this->entries_souscriptions_cmfh); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong> Nombre Total des Souscriptions Pour Tiers exprimées</strong> : </td>
+    <td><strong><?php echo ($this->entries_souscriptions_cmfhexp); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong> Nombre Total des Souscriptions Pour Tiers non exprimées</strong> :</td>
+    <td><strong><?php echo ($this->entries_souscriptions_cmfhnexp); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong> Nombre Total des Membres Intégrateurs</strong> :</td>
+    <td><strong><?php echo ($this->entries_integrateurs); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+<tr>
+    <td><strong> Nombre Total des Membres Offreurs de Projet</strong> :</td>
+    <td><strong><?php echo ($this->entries_offreurs); ?></strong></td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+
+</tfoot>
+</table>
+                      
+<br/>
+<br/>
+<br/>
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

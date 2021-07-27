@@ -1,0 +1,193 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/detailpropositions.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/membrepropositions.js"></script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<script type="text/javascript">
+function montant_proposition(prix_unitaire, quantite){
+		total = prix_unitaire * quantite;
+		document.getElementById('montant_proposition').value = document.getElementById('montant_proposition').value + total;
+	}
+</script>
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Postuler à un appel d'offre</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addproposition">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<div class="control-group">
+<label class="control-label" for="nom_appel_offre">Appel d'offre</label>
+<div class="controls">
+<label><?php 
+$appeloffreM = new Application_Model_EuAppelOffreMapper();
+$appeloffre = new Application_Model_EuAppelOffre();
+$appeloffreM->find($this->id_appel_offre, $appeloffre);
+?>
+  <strong><?php echo htmlentities($appeloffre->numero_offre); ?> (<?php echo htmlentities($appeloffre->nom_appel_offre); ?>)</strong></label>
+</div>
+</div>
+    
+<?php /*?><div class="control-group">
+<label class="control-label" for="montant_proposition">Montant de la proposition *</label>
+<div class="controls">
+<div class="input-append">
+<input type="text" name="montant_proposition" id="montant_proposition" placeholder="Montant de la proposition"  readonly>
+  <span class="add-on">XOF</span>
+</div>
+</div>
+</div><?php */?>
+
+
+<div class="control-group">
+<label class="control-label" for="montant_salaire">Montant salarial *</label>
+<div class="controls">
+<div class="input-append">
+<input type="text" name="montant_salaire" id="montant_salaire" placeholder="Montant salarial" required readonly>
+  <span class="add-on">XOF</span>
+</div>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="autre_budget">Autres budgets *</label>
+<div class="controls">
+<div class="input-append">
+<input type="text" name="autre_budget" id="autre_budget" placeholder="Autres budgets" required>
+  <span class="add-on">XOF</span>
+</div>
+</div>
+</div>
+
+<label>Détails de la proposition </label>
+<?php $a = 1;?>
+<div id="nivdetail<?php echo $a;?>">
+<input class="input-medium" type="text" name="libelle_produit[]" id="libelle_produit<?php echo $a;?>" placeholder="Libellé produit" >
+<input class="input-small" type="text" name="prix_unitaire[]" id="prix_unitaire<?php echo $a;?>" placeholder="Prix unitaire" >
+<input class="input-mini" type="text" name="quantite[]" id="quantite<?php echo $a;?>" placeholder="Quantité" >
+<select class="input-small" name="type_produit[]" id="type_produit<?php echo $a;?>" onChange=" if(this.value == 'Fixe'){document.getElementById('mdv<?php echo $a;?>').readOnly = true;}else{document.getElementById('mdv<?php echo $a;?>').readOnly = false;}" >
+  <option value="">Type de produit</option>
+  <option value="Fixe">Fixe</option>
+  <option value="Circulant">Circulant</option>
+</select>
+<input class="input-small" type="text" name="unite_mesure[]" id="unite_mesure<?php echo $a;?>" placeholder="Unité de mesure" >
+<?php 
+$utilisateur = new Application_Model_DbTable_EuUtilisateur();
+$select = $utilisateur->select();
+$select->where('code_groupe = ?', 'executante');
+$resultSet = $utilisateur->fetchRow($select);
+$code_membre_executante = $resultSet->code_membre;
+?>
+<select class="input-small" name="appartenance[]" id="appartenance<?php echo $a;?>" onChange=" if(this.value == 'Propre'){document.getElementById('code_membre_morale_four<?php echo $a;?>').readOnly = true;document.getElementById('code_membre_morale_four<?php echo $a;?>').value = '<?php echo $sessionmembre->code_membre; ?>';}else if(this.value == 'A Acquerir'){document.getElementById('code_membre_morale_four<?php echo $a;?>').readOnly = true;document.getElementById('code_membre_morale_four<?php echo $a;?>').value = '<?php echo $code_membre_executante; ?>';}else{document.getElementById('code_membre_morale_four<?php echo $a;?>').readOnly = false;document.getElementById('code_membre_morale_four<?php echo $a;?>').value = '';}" >
+  <option value="">Choisir</option>
+  <option value="Propre">Propre</option>
+  <option value="A louer">A louer</option>
+  <option value="A Acquerir">A Acquerir</option>
+</select>
+
+<?php $membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$entriesmembremorale = $membremoraleM->fetchAll();
+$liste = "";
+foreach ($entriesmembremorale as $entrymembremorale): 
+$liste .= '"'.$entrymembremorale->code_membre_morale.'",';
+endforeach; 
+$liste = substr($liste, 0, -1);
+?>
+<input class="input-small" type="text" name="code_membre_morale_four[]" id="code_membre_morale_four<?php echo $a;?>" placeholder="Code fournisseur" data-provide="typeahead" data-items="5" data-source='[<?php echo $liste;?>]' readonly>
+
+<input class="input-mini" type="text" name="mdv[]" id="mdv<?php echo $a;?>" placeholder="MDV" value="">
+<a class="btn btn-mini" onclick="document.getElementById('nivdetail<?php echo $a;?>').style.display='none';document.getElementById('nbre').value = Number(document.getElementById('nbre').value) - 1;"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_detailpropositions('<?php echo $a + 1;?>','nivdetail<?php echo $a + 1;?>');document.getElementById('nbre').value = Number(document.getElementById('nbre').value) + 1;"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+<div id="nivdetail<?php echo $a + 1;?>"></div>
+<br />
+<br />
+
+
+<label>Salariés de la proposition </label>
+<?php $b = 1;?>
+<div id="nivmembre<?php echo $b;?>">
+<input class="input-large" type="text" name="code_membre[]" id="code_membre<?php echo $b;?>" placeholder="Code Membre du salarié" >
+<?php /*?><input class="input-large" type="text" name="salaire[]" id="salaire<?php echo $b;?>" placeholder="Salaire" ><?php */?>
+<a class="btn btn-mini" onclick="document.getElementById('nivmembre<?php echo $b;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_membrepropositions('<?php echo $b + 1;?>','nivmembre<?php echo $b + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+<div id="nivmembre<?php echo $b + 1;?>"></div>
+<?php 
+					$appeloffre = new Application_Model_EuAppelOffre();
+                    $m_appeloffre = new Application_Model_EuAppelOffreMapper();
+					$m_appeloffre->find($this->id_appel_offre, $appeloffre);
+					$pck = Util_Utils::getParametre('pck', 'nr');
+					$pre = $appeloffre->duree_projet;
+
+?>
+<input name="pck" type="hidden" id="pck" value="<?php echo $pck; ?>" />
+<input name="pre" type="hidden" id="pre" value="<?php echo $pre; ?>" />
+
+<script>
+function salaire() {
+montant_proposition = 0;
+nbre = Number(document.getElementById('nbre').value);
+for (i = 1; i <= nbre; i++) {
+	if(document.getElementById('prix_unitaire' + i + '').value != ""){
+montant_proposition = montant_proposition + (Number(document.getElementById('prix_unitaire' + i + '').value) * Number(document.getElementById('quantite' + i + '').value));
+	}
+}
+
+pck = Number(document.getElementById('pck').value);
+pre = Number(document.getElementById('pre').value);
+investissement = montant_proposition + Number(document.getElementById('autre_budget').value);
+mont_salaire = investissement * ((pre / pck) - 1);
+					
+return mont_salaire;				
+}
+</script>
+
+
+
+<div class="form-actions">
+<input name="code_membre_morale" type="hidden" id="code_membre_morale" value="<?php echo $sessionmembre->code_membre; ?>" />  
+<input name="id_appel_offre" type="hidden" id="id_appel_offre" value="<?php echo $this->id_appel_offre; ?>" />  
+<input name="disponible" type="hidden" id="disponible" value="0" />  
+<input name="choix_proposition" type="hidden" id="choix_proposition" value="0" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input name="nbre" type="hidden" id="nbre" value="1" />
+
+
+<button type="reset" class="btn">Annuler</button>
+<a class="btn btn-warning" onclick="document.getElementById('montant_salaire').value = Math.floor(salaire());">Calculer le montant salarial </a>
+<button type="submit" class="btn btn-primary">Envoyer ma proposition</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

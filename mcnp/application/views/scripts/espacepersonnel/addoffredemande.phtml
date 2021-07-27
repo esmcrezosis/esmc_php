@@ -1,0 +1,253 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<?php 
+function cat_code($code_cat){
+switch ($code_cat) {
+    case "TSGCI":
+        $code_cat2 = "TPAGCI";
+        break;
+    case "TSCNCSEI":
+        $code_cat2 = "TCNCSEI";
+        break;
+    case "TSPN":
+        $code_cat2 = "TPN";
+        break;
+    case "TSFS":
+        $code_cat2 = "TFS";
+        break;
+    case "TSI":
+        $code_cat2 = "TI";
+        break;
+    case "TSGCP":
+        $code_cat2 = "TPAGCP";
+        break;
+    case "TSCI":
+        $code_cat2 = "TSCI";
+        break;
+    case "TSCAPA":
+        $code_cat2 = "CAPA";
+        break;
+    case "TR":
+        $code_cat2 = "TR";
+        break;
+    case "TSRPG":
+        $code_cat2 = "TPAGCRPG";
+        break;
+    case "TSCNCS":
+        $code_cat2 = "TCNCS";
+        break;
+    case "TSPaNu":
+        $code_cat2 = "TPaNu";
+        break;
+    case "TSPaR":
+        $code_cat2 = "TPaR";
+        break;
+    case "TSMF107":
+        $code_cat2 = "TMF107";
+        break;
+    case "TSMF11000":
+        $code_cat2 = "TMF11000";
+        break;
+    case "TSMFL":
+        $code_cat2 = "TMFL";
+        break;
+}
+return $code_cat2;
+}
+?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/credits.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+<blockquote><p>Faire une offre ou une demande d'échange</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addoffredemande">
+  <?php if(isset($this->error) && $this->error !="") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php } ?>
+  
+    
+<div class="control-group">
+    <label class="control-label">Type O/D *</label>
+    <div class="controls">
+    <label class="radio inline">
+  <input type="radio" name="type_offre_demande" id="type_offre_demande_o" value="Offre"  required onchange="if(this.value) { document.getElementById('typecreditof').style.display = 'block';document.getElementById('typecreditde').style.display ='none';document.getElementById('offreur').style.display = 'block';document.getElementById('demandeur').style.display ='none';} ">
+  Offre
+</label>
+<label class="radio inline">
+  <input type="radio" name="type_offre_demande" id="type_offre_demande_d" value="Demande" required onchange="if(this.value) { document.getElementById('typecreditde').style.display = 'block';document.getElementById('typecreditof').style.display ='none';document.getElementById('demandeur').style.display = 'block';document.getElementById('offreur').style.display ='none';} ">
+  Demande
+</label>
+    </div>
+  </div>
+
+<!--<div class="control-group">
+<label class="control-label" for="code_membre">Code Membre *</label>
+<div class="controls">-->
+<input class="input-large" type="hidden" name="code_membre" id="code_membre" placeholder="Code Membre" value="<?php echo $sessionmembre->code_membre; ?>" readonly>
+<!--</div>
+</div>-->
+
+<div class="control-group">
+<label class="control-label" for="code_compte" id="offreur" style="display:none;">Compte à débiter de l'offreur *</label>
+<label class="control-label" for="code_compte" id="demandeur" style="display:none;">Compte à débiter du demandeur *</label>
+<div class="controls">
+<select name="code_compte" id="code_compte" required onchange="ouvre_credits(this.value);
+if(this.value) { 
+codec = document.getElementById('code_compte').value;
+document.getElementById('type_credit_of1').value = codec.substring(0, codec.lastIndexOf('-')); 
+document.getElementById('type_credit_de1').value = codec.substring(0, codec.lastIndexOf('-'));
+}">
+  <option value="">Choisir le compte</option>
+<?php 
+$mapper_compte = new Application_Model_EuCompteMapper();
+$compte = new Application_Model_EuCompte();
+$entries_compte = $mapper_compte->fetchAllByCompteTS2($sessionmembre->code_membre);
+foreach ($entries_compte as $entry):						
+?>  
+  <option value="<?php echo $entry->code_compte; ?>">
+  <?php $mapper_categorie = new Application_Model_EuCategorieCompteMapper();
+$categorie = new Application_Model_EuCategorieCompte();
+$mapper_categorie->find(substr($entry->code_compte, 3, -21), $categorie);
+echo $categorie->lib_cat; ?> (<?php echo $entry->code_compte;//substr( , 3, -21)?>)</option>
+<?php endforeach; ?>  
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="prix">Credits </label>
+<div class="controls" id="nivo">
+</div>
+</div>
+
+
+
+  <div id="typecreditof" style="display:none;">
+<!--<div class="control-group">
+<label class="control-label" for="type_credit_of">Type de crédit offre *</label>
+<div class="controls">-->
+<input class="input-large" type="hidden" name="type_credit_of1" id="type_credit_of1" placeholder="Type de crédit offre">
+<!--</div>
+</div>-->
+
+<div class="control-group">
+<label class="control-label" for="type_credit_de">Type de compte à créditer de l'offreur *</label>
+<div class="controls">
+<select name="type_credit_de1" id="type_credit_de">
+  <option value="">Choisir le type de crédit demande</option>
+<?php 
+$categoriecompteM = new Application_Model_EuCategorieCompteMapper();
+$categoriecompte = new Application_Model_EuCategorieCompte();
+$entries = $categoriecompteM->findByTypeMembre3($sessionmembre->typepernonne);
+?>
+<?php if(count($entries)>0){?> 
+<?php $a = 1;?>
+<?php foreach ($entries as $entry): ?>
+<?php 
+$mapper_compte_credit = new Application_Model_EuCompteCreditMapper();
+$compte_credit = new Application_Model_EuCompteCredit();
+$entries_compte_credit = $mapper_compte_credit->fetchAllByCompteCreditTS3($entry->code_type_compte, cat_code($entry->code_cat));
+//if(count($entries_compte_credit) > 0){$categoriee = cat_code($entry->code_cat);}else{$categoriee = $entry->code_cat;}	
+$categoriee = cat_code($entry->code_cat);
+?>
+  <option value="<?php echo $entry->code_type_compte; ?>-<?php echo $categoriee; ?>">
+  <?php $mapper_categorie = new Application_Model_EuCategorieCompteMapper();
+$categorie = new Application_Model_EuCategorieCompte();
+$mapper_categorie->find($entry->code_cat, $categorie);
+echo $categorie->lib_cat; ?> (<?php echo $entry->code_type_compte; ?>-<?php echo $categoriee; ?>)
+  </option>
+<?php $a++;?>
+<?php endforeach; ?>
+<?php }?>
+</select>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+  <div id="typecreditde" style="display:none;">
+<!--<div class="control-group">
+<label class="control-label" for="type_credit_de">Type de crédit demande *</label>
+<div class="controls">-->
+<input class="input-large" type="hidden" name="type_credit_de2" id="type_credit_de1" placeholder="Type de crédit demande">
+<!--</div>
+</div>-->
+
+<div class="control-group">
+<label class="control-label" for="type_credit_of">Type de compte à créditer du demandeur *</label>
+<div class="controls">
+<select name="type_credit_of2" id="type_credit_of">
+  <option value="">Choisir le type de crédit offre</option>
+<?php 
+$categoriecompteM = new Application_Model_EuCategorieCompteMapper();
+$categoriecompte = new Application_Model_EuCategorieCompte();
+$entries = $categoriecompteM->findByTypeMembre3($sessionmembre->typepernonne);
+?>
+<?php if(count($entries)>0){?> 
+<?php $a = 1;?>
+<?php foreach ($entries as $entry): ?>
+<?php 
+$mapper_compte_credit = new Application_Model_EuCompteCreditMapper();
+$compte_credit = new Application_Model_EuCompteCredit();
+$entries_compte_credit = $mapper_compte_credit->fetchAllByCompteCreditTS3($entry->code_type_compte, cat_code($entry->code_cat));
+//if(count($entries_compte_credit) > 0){$categoriee = cat_code($entry->code_cat);}else{$categoriee = $entry->code_cat;}	
+$categoriee = cat_code($entry->code_cat);
+?>
+  <option value="<?php echo $entry->code_type_compte; ?>-<?php echo $categoriee; ?>">
+  <?php $mapper_categorie = new Application_Model_EuCategorieCompteMapper();
+$categorie = new Application_Model_EuCategorieCompte();
+$mapper_categorie->find($entry->code_cat, $categorie);
+echo $categorie->lib_cat; ?> (<?php echo $entry->code_type_compte; ?>-<?php echo $categoriee; ?>)
+  </option>
+<?php $a++;?>
+<?php endforeach; ?>
+<?php }?>
+</select>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter l'offre ou la demande</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+

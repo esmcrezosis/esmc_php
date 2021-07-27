@@ -1,0 +1,69 @@
+<div class="row-fluid">
+	<div class="span12">
+      <legend>FORMULAIRE DE BUDGET EN NATURE AVR</legend>
+			<?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationsuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+				</div>
+			<?php unset($_SESSION['validationsuccess']); endif ?>
+    <form action="#" method="post" class="form-horizontal">
+        <div class="control-group"> 
+			<label for="bps_vendu" style="font-weight:bold;float:left">
+				BPS vendu*: 
+            </label>
+			<select class="input-block-level" name="bps_vendu" id="input_bps_vendu" required="required">
+ 			  <option value>Choisir le bps vendu </option>
+ 				<?php foreach ($this->bpsvendu as $key => $value): ?>
+ 				  <option value="<?php echo $value->id_bps_vendu_achat_vente_reciproque ?>" data-idbpsavr="<?php echo $value->id_bps_vendu_achat_vente_reciproque ?>"><?php echo $value->nom_bps_vendu ?></option>
+ 				<?php endforeach; ?>
+ 			</select>
+		</div>
+		<div class="control-group"> 
+			<label for="type_budget" style="font-weight:bold;float:left">
+				Type budget*: 
+            </label>
+			<select class="input-block-level" name="type_budget" id="input_type_budget" required="required">
+ 			  <option value>Choisir le type budget </option>
+			   <option value="Demande d'achat">Demande d'achat</option>
+			   <option value="projet">Projet</option>
+ 			</select>
+		</div>
+        <div class="control-group">
+		   <table class="table table-bordered">
+             <thead>
+                 <tr>
+					 <th>BPS DEMANDES</th>
+					 <th>QTE</th>
+					 <th>PU</th>
+					 <th>TOTAL</th>
+					 <th>DISPONIBLE(O/N)</th>
+					 <th>Plus</th>					 
+				 </tr> 
+             </thead>
+             <tbody>
+                 <tr id="clone_budget_nature_avr">
+					 <td><input type="text"  id="bps_demande_avr" name="bps_demande_avr[]" required="required"></td>
+					 <td><input type="text" id="qte_avr" name="qte_avr" value="0" required="required"></td>
+					 <td><input type="text" id="prix_unitaire_avr" name="prix_unitaire_avr[]" value="0" required="required"></td>
+					 <td><input type="text" id="total_avr" name="total_avr[]" readonly="true" required="required"></td>
+					 <td>
+					   <select class="input-block-level" name="disponible_avr[]" id="disponible_avr" required="required">
+ 			            <option value>Choisir la disponibilité du produit</option>
+ 				          <option value="1">Oui</option>
+ 				          <option value="0">Non</option>					   
+ 			           </select>					 
+					</td>
+					 <td><button class="btn btn-primary" id="clone_budget_avr">Ajouter</button></td>
+				 </tr>
+             </tbody>
+			 </table>
+			 <button class="btn btn-danger" style="width:133px">Valider</button>
+		</div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,610 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+            
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques2.js"></script>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/fondateurs.js"></script><?php */?>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capasenrolement.js"></script><?php */?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<!--
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/telephones.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/paystelephones2.js"></script>
+-->
+
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/loadpays.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/loadregion.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/loadprefecture.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/loadcanton.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/loadtel.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+		/*
+        $('#id_pays').change(function(e) {
+          if($(this).val() !== '') {
+	        $('#display_telephone').css('display', 'block'); 
+            $('#tab_telephone').css('display', 'block');
+            $.get('/integrateur/codetelephonique',{
+               id_pays: $(this).val()
+            },
+            function success(data) {
+                $('#code_telephonique0').val(data);
+			    if($('#cpteur').val() >= 1) {
+			       for(var i=1;i < $('#cpteur').val();i++) {
+				       $('#code_telephonique' + i).val($('#code_telephonique0').val());
+			       }
+			    }
+             });
+             e.preventDefault(); 
+	        } else {
+	         $('#display_telephone').css('display','none');
+			 $('#tab_telephone').css('display','none');
+			 $('#numero_telephone0').setAttribute("required","false");
+	       }
+	      e.preventDefault();
+        });
+		*/
+    })
+
+    var compteur = 1;
+    function addRow(tableID)  {
+      var table = document.getElementById(tableID);
+      var rowCount = table.rows.length;
+      var cpte = rowCount;
+      var row = table.insertRow(rowCount);
+     
+	  var cell1 = row.insertCell(0);
+      var element0 = document.createElement("input");
+      element0.type = "text";
+      element0.setAttribute("id", "code_telephonique" + cpte);
+      //element0.setAttribute("name", "code_telephonique" + cpte);
+	  
+	  element0.setAttribute("name", "code_telephonique[]");
+	  element0.setAttribute("readonly", "true");
+	  element0.setAttribute("class","input-small");
+	  element0.setAttribute("value", $('#code_telephonique0').val());
+      cell1.appendChild(element0);
+	  
+	  var cell2 = row.insertCell(1);
+      var element1 = document.createElement("input");
+      element1.type = "text";
+      element1.setAttribute("id", "numero_telephone" + cpte);
+      //element1.setAttribute("name", "numero_telephone" + cpte);
+	  
+	  element1.setAttribute("name", "numero_telephone[]");
+      element1.setAttribute("placeholder","Numéro téléphone");
+      cell2.appendChild(element1);
+	  
+	  compteur = compteur + 1;
+      document.getElementById("cpteur").setAttribute('value', compteur);  
+    }
+  
+    function deleteRow(tableID)  {
+        try {
+         var table = document.getElementById(tableID);
+         var rowCount = table.rows.length - 1;
+         if (rowCount >= 1) {
+            table.deleteRow(rowCount);
+            compteur = compteur - 1;
+            document.getElementById("cpteur").setAttribute('value', compteur);
+         }
+      } catch (e) {
+         alert(e);
+      }
+    }
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+
+<blockquote><p>Activation de CM PM </p></blockquote>
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+  <?php } ?>
+  <?php if(isset($sessionmcnp->membre) && $sessionmcnp->membre != "") { ?>
+<blockquote>
+  <a href="/souscriptionbon/certificatpdf/membre/<?php echo $sessionmcnp->membre; ?>" target="_blank"><span style="color:#800080;">Télécharger votre Certificat de Compte Marchand</span></a> <br />
+  <?php $sessionmcnp->membre = "";?>
+</blockquote>
+  <?php }else{?>
+  
+
+
+              <blockquote>Activation De Compte Marchand Membre Personne Morale Pour Soi</blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription3" name="addsouscription3">
+  
+<fieldset>
+ 
+
+
+
+  <legend>Code BAn</legend>
+  <div class="control-group">
+  <label class="control-label" for="code_BAn">Code BAn *</label>
+  <div class="controls">
+  <input name="code_BAn" type="text" id="code_BAn" placeholder="Entrer le Code BAn" required="required" />
+	<span id="nivban2"><button type="button" class="btn btn-info" onclick="ouvre_bonachatneutres2(document.getElementById('code_BAn').value, 'nivban2');">Vérifier</button></span>
+<span class="help-block"><p class="text-error">Veuillez saisir le Code BAn affiché lors de la souscription BAn</p></span>
+  </div>
+  </div>
+  
+
+
+
+  <legend>Informations membres morales</legend>
+<div class="">
+  
+  
+<div class="span6">
+    
+<div class="control-group">
+<label class="control-label" for="code_agence">Agence *</label>
+<div class="controls">
+<select name="code_agence" id="code_agence"  required="required">
+        <?php $tagence = new Application_Model_DbTable_EuAgence();
+	      $select = $tagence->select();
+	      $select->where('code_agence like ? ','001001001001');
+              $results = $tagence->fetchAll($select);
+        ?>
+  <option value="">Choisir l'agence</option>
+    <?php foreach ($results as $agence): ?>
+               <option value="<?php echo $agence->code_agence; ?>"><?php echo ($agence->libelle_agence); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+  
+  <div class="control-group">
+  <label class="control-label" for="code_type_acteur">Type Membre morale *</label>
+  <div class="controls">
+  <select name="code_type_acteur" id="code_type_acteur"  required="required">
+  <option value="">Choisir le type</option>
+    <option value="EI" <?php if($this->code_type_acteur == 'EI'){echo ' selected="selected"';}?>>Entreprise Industrie</option>
+    <option value="OE" <?php if($this->code_type_acteur == 'OE'){echo ' selected="selected"';}?>>Opérateur Economique</option>
+    <option value="OSE" <?php if($this->code_type_acteur == 'OSE'){echo ' selected="selected"';}?>>Opérateur Socio-Economique</option>
+    <option value="PEI" <?php if($this->code_type_acteur == 'PEI'){echo ' selected="selected"';}?>>Partenaire Entreprise Industrie</option>
+    <option value="POE" <?php if($this->code_type_acteur == 'POE'){echo ' selected="selected"';}?>>Partenaire Opérateur Economique</option>
+    <option value="POSE" <?php if($this->code_type_acteur == 'POSE'){echo ' selected="selected"';}?>>Partenaire Opérateur Socio-Economique</option>
+</select>
+  </div>
+  </div>
+  
+  <?php /*?><div class="control-group">
+  <label class="control-label" for="raison_sociale">Raison sociale *</label>
+  <div class="controls">
+<input type="text" name="raison_sociale" id="raison_sociale" value="<?php echo $this->raison; ?>" placeholder="Raison sociale"  required="required" />
+  </div>
+  </div><?php */?>
+  
+  <div class="control-group">
+  <label class="control-label" for="num_registre_membre">N° RCCM *</label>
+  <div class="controls">
+  <input type="text" name="num_registre_membre" id="num_registre_membre" value="<?php echo $this->num_registre_membre; ?>" placeholder="N° RCCM"  required="required" />
+  </div>
+  </div>  
+  
+</div>
+  <div class="span6">
+    
+  <div class="control-group">
+  <label class="control-label" for="code_statut">Statut juridique *</label>
+  <div class="controls">
+  <select class="input-large" name="code_statut" id="code_statut"  required="required">
+       <?php  $statutjuridique = new Application_Model_EuStatutJuridiqueMapper();
+		$selectstatutjuridique = $statutjuridique->fetchAll();?>
+               <option value="">Choisir un statut juridique</option>
+    <?php foreach ($selectstatutjuridique as $selectstatutjuridique): ?>
+               <option value="<?php echo $selectstatutjuridique->code_statut; ?>"><?php echo htmlentities($selectstatutjuridique->libelle_statut); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="domaine_activite">Domaine d'activité </label>
+  <div class="controls">
+  <input type="text" name="domaine_activite" id="domaine_activite" value="<?php echo $this->domaine_activite; ?>" placeholder="Domaine d'activité" />
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="site_web">Site web</label>
+  <div class="controls">
+  <input type="text" name="site_web" id="site_web" value="<?php echo $this->site_web; ?>" placeholder="Site web" />
+  </div>
+  </div>
+        
+    
+       
+  <?php /*?><div class="control-group">
+  <label class="control-label" for=""></label>
+  <div class="controls">
+&nbsp;<br />&nbsp;
+  </div>
+  </div><?php */?>
+  
+  </div>
+
+  </div>
+
+
+
+  <legend>Représentant</legend>
+  
+  <div class="control-group">
+  <label class="control-label" for="code_rep">Code membre PP représentant *</label>
+  <div class="controls">
+<input type="text" name="code_rep" id="code_rep" value="<?php echo $this->code_rep; ?>" placeholder="Code membre PP représentant"  required="required" />
+  </div>
+  </div>
+    
+
+
+
+
+  <legend>Adresse</legend>
+
+
+<div class="">
+
+  <div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="bp_membre">BP</label>
+  <div class="controls">
+  <input type="text" name="bp_membre" id="bp_membre" value="<?php echo $this->bp; ?>" placeholder="BP" />
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="quartier_membre">Quartier *</label>
+  <div class="controls">
+  <input type="text" name="quartier_membre" id="quartier_membre" value="<?php echo $this->quartier_membre; ?>" placeholder="Quartier"  required="required" />
+  </div>
+  </div>
+
+<?php /*?><div class="control-group">
+  <label class="control-label" for="id_pays">Pays *</label>
+  <div class="controls">
+  <select name="id_pays" id="id_pays"  required="required">
+       <?php  $pays = new Application_Model_EuPaysMapper();
+		$selectpays = $pays->fetchAll();?>
+               <option value="">Choisir un pays</option>
+    <?php foreach ($selectpays as $selectpays): ?>
+               <option value="<?php echo $selectpays->id_pays; ?>" <?php if($this->pays == $selectpays->id_pays){echo ' selected="selected"';}?>><?php echo htmlentities($selectpays->libelle_pays); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div><?php */?>
+  
+    </div>
+<div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="email_membre">Email *</label>
+  <div class="controls">
+<div class="input-prepend">
+      <span class="add-on"><i class="icon-envelope"></i></span>
+  <input type="text" name="email_membre" id="email_membre" value="<?php echo $this->email; ?>" placeholder="Email"  required="required" />
+  </div>
+  </div>
+  </div>
+
+  <?php /*?><div class="control-group">
+  <label class="control-label" for="portable_membre">Cellulaire *</label>
+  <div class="controls">
+  <input type="text" name="portable_membre" id="portable_membre" value="<?php echo $this->portable; ?>" placeholder="Cellulaire"  required="required" />
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="tel_membre">Téléphone</label>
+  <div class="controls">
+  <input type="text" name="tel_membre" id="tel_membre" value="<?php echo $this->tel; ?>" placeholder="Téléphone" />
+  </div>
+  </div><?php */?>
+    
+  
+  <div class="control-group">
+  <label class="control-label" for="ville_membre">Ville *</label>
+  <div class="controls">
+  <input type="text" name="ville_membre" id="ville_membre" value="<?php echo $this->ville_membre; ?>" placeholder="Ville"  required="required" />
+  </div>
+  </div>
+
+  
+       
+  <div class="control-group">
+  <label class="control-label" for=""></label>
+  <div class="controls">
+&nbsp;<br />&nbsp;
+  </div>
+  </div>
+  
+  </div>
+  
+  </div>  
+  
+
+  
+    <legend> Localités </legend>
+
+                        <div class="row-fluid">
+                            <div class="span4">
+							    <div id="nivo_zone">
+                                <div class="control-group">
+                                    <label class="control-label span4">Zone Monétaire *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="code_zone" name="code_zone" required onchange="ouvre_loadpays(this.value,'nivo_pays');">
+                                            <option value="">Choisir une zone monétaire</option>
+                                            <?php foreach ($this->zones as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+								</div>
+                            </div>
+                            <div class="span4">
+							    <div id="nivo_pays">
+                                <div class="control-group">
+                                    <label class="control-label span4">Pays *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_pays" name="id_pays" required onblur="ouvre_loadtel(this.value,'nivo_telephone');" onchange="ouvre_loadregion(this.value,'nivo_region');" >
+                                            <option value="">Choisir un pays</option>
+                                            <?php foreach ($this->pays as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+								</div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span4">
+							    <div id="nivo_region">
+                                <div class="control-group">
+                                    <label class="control-label span4">Régions *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_region" name="id_region" required onchange="ouvre_loadprefecture(this.value,'nivo_prefecture');">
+                                            <option value="">Choisir une région</option>
+                                            <?php foreach ($this->regions as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+								</div>
+                            </div>
+                            <div class="span4">
+							    <div id="nivo_prefecture">
+                                <div class="control-group">
+                                    <label class="control-label span4">Préfectures *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_prefecture" name="id_prefecture" required  onchange="ouvre_loadcanton(this.value,'nivo_canton');">
+                                            <option value="">Choisir une préfecture</option>
+                                            <?php foreach ($this->prefectures as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+								</div>
+                            </div>
+                            <div class="span4">
+							    <div id="nivo_canton">
+                                <div class="control-group">
+                                    <label class="control-label span4">Cantons *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_canton" name="id_canton" required >
+                                            <option value="">Choisir un canton</option>
+                                            <?php foreach ($this->cantons as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+								</div>
+                            </div>
+                        </div>
+  
+    <div class="span9">&nbsp </div>	
+  
+    <legend>Numéro de téléphone</legend>
+	
+	<div class="control-group">
+	    <label class="control-label" for="numero_telephone">Numéro de téléphone * </label>
+        <div class="controls">
+		    <div id="nivo_telephone">
+		        <input type="text" id="code_telephonique" name="code_telephonique"  class="input-small" readonly />
+			</div>
+            <input type="text" name="numero_telephone" id="numero_telephone" class="input-xxlarge"  placeholder="Numéro de téléphone" required />
+	    </div>
+	</div>
+
+
+  
+<?php /*?>
+<div class="control-group">
+<label class="control-label" for="id_region">R&eacute;gion du souscripteur  *</label>
+<div class="controls">
+<select  name ="id_region" id="id_region"  required="required" onchange="ouvre_decoupage(this.value);" class="input-xxlarge">
+     <?php  $region_mapper = new Application_Model_EuRegionMapper();
+		    $selectregions = $region_mapper->fetchAll();?>
+            <option value="">Choisir la région </option>
+            <?php foreach ($selectregions as $selectregion): ?>
+            <option value="<?php echo $selectregion->id_region; ?>"><?php echo $selectregion->nom_region; ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div id="nivpref">
+<div class="control-group">
+<label class="control-label" for="id_prefecture">Pr&eacute;fecture du souscripteur *</label>
+<div class="controls">
+<select name="id_prefecture" id="id_prefecture"  class="input-xxlarge" >
+  <option value="">Choisir la Pr&eacute;fecture</option>
+</select>
+</div>
+</div>
+</div>
+
+
+<div id="nivcant">
+<div class="control-group">
+<label class="control-label" for="id_canton">Canton du Souscripteur *</label>
+<div class="controls">
+<select name="id_canton" id="id_canton"  class="input-xxlarge" >
+  <option value="">Choisir le canton </option>
+</select>
+</div>
+</div>
+</div>
+
+<?php */?>
+
+
+    <!--<div id="nivo2"></div>
+	<div class="control-group" id="display_telephone" style="display:none;">
+    <label class="control-label" for="numero_telephone">Numéro de téléphone * </label>
+	<div class="controls">
+	    <table id="tab_telephone">
+                <tr>
+					<input type="hidden" name="cpteur" id="cpteur" value="1"/>
+                    <td>
+					    <input type="text" id="code_telephonique0" name="code_telephonique[]"  class="input-small" readonly />
+					</td>
+                    <td>					 
+					    <input id="numero_telephone0" type="text" name="numero_telephone[]" placeholder="Numéro de téléphone" class="input-large" required /> 
+					</td>
+					<td>
+				        <input class="btn btn-mini"  id="add"     type="button"  value="+"  onclick ="addRow('tab_telephone');"   /> 
+					    <input class="btn btn-mini"  id="remove"  type="button"  value="-"  onclick="deleteRow('tab_telephone');" /> 
+				    </td>
+				</tr>
+        </table>			
+	</div>
+    </div>
+	-->
+	
+
+
+
+  <legend> Domaines d'activités</legend>
+
+<div class="control-group">
+<label class="control-label" for="code_activite">Domaine d'activité *</label>
+<div class="controls">
+<select name="code_activite" id="code_activite" onchange="ouvre_competences(this.value);" required="required" class="input-xxlarge">
+        <?php $tactivite = new Application_Model_DbTable_EuActivite();
+        $results = $tactivite->fetchAll();?>
+  <option value="">Choisir le domaine </option>
+    <?php foreach ($results as $activite): ?>
+               <option value="<?php echo $activite->code_activite; ?>"><?php echo ($activite->nom_activite); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div id="niv2">
+
+<div class="control-group">
+<label class="control-label" for="id_metier">Métiers </label>
+<div class="controls">
+<select name="id_metier" id="id_metier"  class="input-xxlarge" >
+  <option value="">Choisir le métier</option>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="id_competence">Compétences </label>
+<div class="controls">
+<select name="id_competence" id="id_competence"  class="input-xxlarge" >
+  <option value="">Choisir la compétence</option>
+</select>
+</div>
+</div>
+
+</div>
+
+  
+
+
+  <legend>Comptes bancaires</legend>
+
+<?php $a = 1;?>
+<div id="nivbanque<?php echo $a;?>">
+<select name="code_banque[]" id="code_banque<?php echo $a;?>">
+        <?php $tbanque = new Application_Model_DbTable_EuBanque();
+        $results = $tbanque->fetchAll();?>
+  <option value="">Choisir une banque</option>
+    <?php foreach ($results as $banque): ?>
+               <option value="<?php echo $banque->code_banque; ?>"><?php echo htmlentities($banque->libelle_banque); ?></option>
+    <?php endforeach; ?>
+</select>
+<input class="input-large" type="text" name="num_compte[]" id="num_compte<?php echo $a;?>" placeholder="Numéro de compte">
+
+<a class="btn btn-mini" onclick="document.getElementById('nivbanque<?php echo $a;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_banques('<?php echo $a + 1;?>','nivbanque<?php echo $a + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+<div id="nivbanque<?php echo $a + 1;?>"></div>
+
+
+
+
+</fieldset> 
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer l'Activation au Compte Marchand PM</button>
+</div>
+ 
+                            
+  
+</form>
+  <?php }?>
+
+
+ 
+    
+
+
+</div>
+<div class="span3">
+<?php //include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

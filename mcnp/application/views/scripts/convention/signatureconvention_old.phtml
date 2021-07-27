@@ -1,0 +1,1464 @@
+<?php
+$month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+$true_month = "";
+$ex_date = explode('-',$this->dateconvention);
+
+foreach ($month as $key => $value) {
+  if($ex_date[1] == $key){
+    $true_month = $value;
+  }
+}
+$next_ex_date = explode(' ', $ex_date[2]);
+$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+
+?>
+<?php if (isset($_SESSION["validationerrors"])): ?>
+   <div class="alert alert-danger">
+	   <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+   </div>
+	<?php unset($_SESSION['validationerrors']); endif ?>
+	<?php if (isset($_SESSION["validationsuccess"])): ?>
+		<div class="alert alert-success">
+			<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+		</div>
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+<style>
+#convention_header_title{
+    font-family: "Algerian";
+    font-size: 2em;
+    line-height: 52px;
+    text-align: justify;
+    margin: 14px;
+    letter-spacing: -2px;
+    margin-bottom:100px;
+    border: 3px solid #7030a0;
+    padding: 20px;
+    border-radius: 11px;
+}
+#convention_select_invisible{
+      display: none;
+}
+
+
+</style>
+
+<form action="#" method="post">
+<article>
+  <header id="convention_header_title">
+    CONVENTION DE COLLABORATION ENTRE L’<span  style="color: #7030a0;">ESMC</span>
+    ET LES FOURNISSEURS DE BIENS, PRODUITS ET SERVICES :
+    <span >Utilisateurs, </span>
+    Fournisseurs Spécifiques et Fournisseurs Externes pour la réalisation par le marché des 17 objectifs de développement durable
+  </header>
+
+  <p>Entre les soussignées :</p>
+
+  <section> 
+     <p>
+       <strong><span  style="color: #7030a0;">ESMC</span> (Entreprise Sociale de Marché Commun) SARL U </strong>, au capital de 1 000 000 F CFA ; Siège social : Lomé (TOGO), Nukafu, Angle rue Sagouda, Kiyeou et Bandjeli, BP 30038, immatriculée au RCCM, sous le numéro TG-LOM 2014 B514, représentée par son Gérant <strong>Monsieur Essohamlon SAMA</strong> 
+     </p>
+    </section>
+
+  <section>
+     <p style="margin-bottom:30px">
+     Ci-après dénommée <strong>« L’EXPLOITANT DU PROGICIEL<span>MCNP</span> »</strong> ou <strong>« L’EXPLOITANT »</strong> ou 
+     <strong>«  L’EXPLOITANT <span>ESMC</span> »</strong>
+     </p>
+     <p>D’une part</p>
+     <p>Et </p>
+     <p><i>(Cocher la case correspondante)</i></p>
+  </section>
+
+  <section>
+  <p id="personne_physique" style="margin-top:1rem">
+        <span id="convention_select_visible">
+           <label for="personne physique">
+             <strong>Mme / M:</strong>     
+             <input type="radio" name="convention_select" style="position relative;left:-90px;top:3px" value="personne_physique">
+           </label>
+          <span><input type="text" name="civilite_name" style="width: 92%;position: relative;margin-top: -39px;margin-left: 76px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[.........................................................................................................................]"> </span>
+        </span>
+        <span id="convention_select_invisible">
+
+    <label for="ville/village" style="margin-top:20px">Demeurant à (ville/village)
+        <input type="text" name="civilite_domicile" style="width: 25%;margin-top: -21px;position: relative;border:0;right: -160px;padding: 0;background: transparent;font-size: 1.3em;" placeholder="[................................]">
+       </label>
+       <label for="quartier" style="margin-top: -29px;position: relative;right: -411px;">
+       (Quartier)
+       <input type="text" name="civilite_quartier" style="width: 43%;margin-top: -25px;position: relative;font-size: 1.3em;left: 73px;padding: 0;border:0;background:transparent" placeholder="[.........................................................]">
+       </label>         
+       <label for="bp" style="position: relative;top: 17px;">
+        (BP) 
+        <input type="text" name="civilite_bp" style="width: 26%;margin-top: -25px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+       </label> 
+       <label for="tel" style="margin-top: -12px;margin-left: 260px;">
+        (Tél)
+        <input type="text" name="civilite_phone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>
+       <p>Ou</p>
+       </span>
+       
+    </p>
+  </section>
+
+
+    <section>
+  <p style="margin-top:1rem">
+        <span id="convention_select_visible">
+           <label for="maison/villa/immeuble">
+              <strong>Etablissement:</strong>
+              <input type="radio" name="convention_select" style="position relative;left:-116px;top:2px" value="Maison/Villa/Immeuble">         
+            </label>
+           <span><input type="text" name="etablissement_name" style="width: 81%;position: relative;margin-top: -40px;margin-left: 155px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[..........................................................................................................]"> </span>      
+        </span>
+        <span id="convention_select_invisible">
+       <label for="ville/village" style="margin-top:20px">Situé(e) à (ville/village)
+        <input type="text" name="etablissement_residence" style="width: 25%;margin-top: -22px;position: relative;border:0;right: -139px;padding: 0;background: transparent;font-size: 1.3em;" placeholder="[.........................................]">
+       </label>
+       <label for="quartier"  style="margin-top: -28px;position: relative;right: -369px;">
+       (Quartier)
+       <input type="text" name="etablissement_quartier" style="width: 43%;margin-top: -22px;position: relative;font-size: 1.3em;left: 73px;padding: 0;border:0;background:transparent" placeholder="[.........................................................]">
+       </label> 
+
+       <label for="rue" style="margin-top:20px">
+       Rue
+       <input type="text" name="etablissement_rue" style="width:95%;padding:0;font-size:1.4em;border:0;background-color:transparent;margin-top:-23px;margin-left:33px" placeholder="[......................................................................................................................]">
+       </label>
+
+       <label for="rue" style="margin-top:20px">
+       Représenté par Mme/ M.
+       <input type="text" name="etablissement_representant_name" style="width:95%;padding:0;font-size:1.4em;border:0;background-color:transparent;margin-top:-23px;margin-left:156px" placeholder="[......................................................................................................................]">
+       </label>
+           
+       <label for="bp" style="position: relative;top: 12px;">
+        (BP) 
+        <input type="text"  name="etablissement_representant_bp" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+       </label> 
+       <label for="tel"  style="position:relative;margin-top: -18px;margin-left: 260px;">
+        (Tél)
+        <input type="text" name="etablissement_representant_phone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>
+       <label for="rue" style="margin-top:20px">
+       Numéro de la carte d’Opérateur Economique
+       <input type="text" name="etablissement_representant_operateur" style="width:63%;padding:0;font-size:1.4em;border:0;background-color:transparent;margin-top:-23px;margin-left:274px" placeholder="[....................................................................................................]">
+       </label>
+       </span>
+       
+    </p>
+  
+  </section>
+
+  <section>
+  <p style="margin-top:1rem">
+        <span id="convention_select_visible">
+            <label for="maison/villa/immeuble">
+              <strong>Maison/Villa/Immeuble:</strong>
+              <input type="radio" name="convention_select" style="position relative;left:-178px;top:2px" value="Maison/Villa/Immeuble">         
+            </label>
+           <span><input type="text" name="residence_name" style="width: 81%;position: relative;margin-top: -40px;margin-left: 155px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[..........................................................................................................]"> </span>
+        </span>
+        <span id="convention_select_invisible">
+
+       <label for="ville/village" style="margin-top:20px">Situé(e) à (ville/village)
+        <input type="text" name="residence_situation" style="width: 25%;margin-top: -22px;position: relative;border:0;right: -139px;padding: 0;background: transparent;font-size: 1.3em;" placeholder="[.........................................]">
+       </label>
+       <label for="quartier"  style="margin-top: -28px;position: relative;right: -369px;">
+       (Quartier)
+       <input type="text" name="residence_quartier" style="width: 43%;margin-top: -22px;position: relative;font-size: 1.3em;left: 73px;padding: 0;border:0;background:transparent" placeholder="[.........................................................]">
+       </label> 
+
+       <label for="rue" style="margin-top:20px">
+       Rue
+       <input type="text" name="residence_rue" style="width:95%;padding:0;font-size:1.4em;border:0;background-color:transparent;margin-top:-23px;margin-left:33px" placeholder="[......................................................................................................................]">
+       </label>
+
+       
+       <label for="ville/village" style="margin-top:26px">Demeurant à (ville/village)
+        <input type="text" name="residence_representant_demeure" style="width: 25%;margin-top: -24px;position: relative;border:0;right: -162px;padding: 0;background: transparent;font-size: 1.3em;" placeholder="[................................]">
+       </label>
+       <label for="quartier" style="margin-top: -26px;position: relative;right: -411px;">
+       (Quartier)
+       <input type="text" name="residence_representant_quartier" style="width: 43%;margin-top: -23px;position: relative;font-size: 1.3em;left: 73px;padding: 0;border:0;background:transparent" placeholder="[.........................................................]">
+       </label>         
+       <label for="bp" style="position: relative;top: 12px;">
+        (BP) 
+        <input type="text"  name="residence_representant_bp" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+       </label> 
+       <label for="tel"  style="position:relative;margin-top: -18px;margin-left: 260px;">
+        (Tél)
+        <input type="text" name="residence_representant_phone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>
+        </span>
+    </p>
+  
+  </section>
+
+  <section>
+  <p style="margin-top:1rem">
+        <span id="convention_select_visible">
+           <label for="Collectivité">
+            <strong>Collectivité:</strong>
+            <input type="radio" name="convention_select" style="position relative;left:-99px" value="Collectivité">         
+          </label>
+          <span><input type="text" name="collectivite_name" style="width: 90%;position: relative;margin-top: -43px;margin-left: 91px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................................]"> </span>
+        </span>
+        <span id="convention_select_invisible">
+        <label for="personne physique" style="margin-top:16px">
+       Représentée par Mme/ M.
+       </label>
+       <span><input type="text" name="collectivite_representant" style="width: 78%;position: relative;margin-top: -43px;margin-left: 190px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................]"> </span>
+
+
+       <label for="ville/village" style="margin-top:20px">Demeurant à (ville/village)
+        <input type="text" name="collectivite_domicile" style="width: 25%;margin-top: -28px;position: relative;border:0;right: -193px;padding: 0;background: transparent;font-size: 1.3em;" placeholder="[................................]">
+       </label>
+       <label for="quartier" style="margin-top: -34px;position: relative;right: -411px;">
+       (Quartier)
+       <input type="text" name="collectivite_quartier" style="width: 43%;margin-top: -27px;position: relative;font-size: 1.3em;left: 73px;padding: 0;border:0;background:transparent" placeholder="[.........................................................]">
+       </label>         
+       <label for="bp" style="position: relative;top: 10px;">
+        (BP) 
+        <input type="text" name="collectivite_bp" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+       </label> 
+       <label for="tel" style="margin-top: -26px;margin-left: 260px;">
+        (Tél)
+        <input type="text" name="collectivite_tel" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>
+        </span>
+    
+       
+    </p>
+
+  </section>
+<section>
+<p style="margin-top:1rem">
+      <span id="convention_select_visible">
+        <label for="L’Association">
+             <strong>L’Association:</strong> 
+            <input type="radio" name="convention_select" style="position:relative;left:-107px" value="Association">
+         </label>
+         <span><input type="text" name="association_name" style="width: 90%;position: relative;margin-top: -43px;margin-left: 101px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................................]"> </span>
+      </span>
+    </p>
+</section>  
+<section>
+<p style="margin-top:1rem">
+      <span id="convention_select_visible">
+        <label for="L’ONG">
+         <strong>L’ONG:</strong>
+         <input type="radio" name="convention_select" style="position:relative;left:-67px" value="ONG">
+        </label>
+       <span><input type="text" name="ong_name" style="width: 95%;position: relative;margin-top: -43px;margin-left: 52px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[..............................................................................................................................]"> </span>
+      </span>
+ </p>
+</section>
+
+<section>
+<p style="margin-top:1rem">
+      <span id="convention_select_visible">
+        <label for="personne physique">
+         <strong>Le Groupement:</strong>
+         <input type="radio" name="convention_select" style="position:relative;left:-124px" value="Groupement">
+        </label>
+        <span><input type="text" name="groupement_name" style="width: 88%;position: relative;margin-top: -41px;margin-left: 121px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[....................................................................................................................]"> </span>
+      </span>
+    </p>
+</section>  
+
+<section>
+<p style="margin-top:1rem">
+      <span id="convention_select_visible">
+        <label for="L’Union">
+         <strong>L’Union:</strong>
+         <input type="radio" name="convention_select" style="position:relative;left:-74px" value="Union">
+       </label>
+       <span><input type="text" name="union_name" style="width: 90%;position: relative;margin-top: -43px;margin-left: 91px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................................]"> </span>  
+      </span>
+ </p> 
+</section>
+
+<section>
+<p style="margin-top:1rem">
+      <span id="convention_select_visible">
+        <label for="La Fédération">
+          <strong>La Fédération:</strong>
+          <input type="radio" name="convention_select" style="position:relative;left:-111px" value="Fédération">
+        </label>
+        <span><input type="text" name="federation_name" style="width: 90%;position: relative;margin-top: -43px;margin-left: 105px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................................]"> </span>
+      </span>
+   </p>
+</section>
+
+<section>
+<p style="margin-top:1rem">
+      <span id="convention_select_visible">
+        <label for="La Confédération">
+        <strong>La Confédération:</strong>
+        <input type="radio" name="convention_select" style="position:relative;left:-130px" value="Confédération">
+        </label>
+        <span><input type="text" name="confédération_name" style="width: 86%;position: relative;margin-top: -43px;margin-left: 132px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[.................................................................................................................]"> </span>
+      </span>
+   </p>
+</section>
+<section>
+<p style="margin-top:1rem">
+      <span id="convention_select_visible">
+       <label for="Le Réseau">
+         <strong>Le Réseau:</strong> 
+         <input type="radio" name="convention_select" style="position:relative;left:-88px" value="Réseau">
+       </label>
+       <span><input type="text" name="reseau_name" style="width: 90%;position: relative;margin-top: -43px;margin-left: 91px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................................]"> </span>
+      </span>
+   </p>
+</section>
+
+<section>
+    <p style="margin-top:1rem">
+          <span id="convention_select_visible">
+            <label for="La Faitière">
+            <strong>La Faitière:</strong>
+            <input type="radio" name="convention_select" style="position:relative;left:-88px" value="Faitière">
+            </label>
+            <span><input type="text" name="faitiere_name" style="width: 90%;position: relative;margin-top: -43px;margin-left: 91px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................................]"> </span>
+          </span>
+   </p>
+   <span id="convention_select_invisible">
+   <p>
+    Ayant pour numéro du récépissé/d’enregistrement/du registre des coopératives <input type="text" name="faitiere_numero" style="border: 0;padding: 0;font-size: 1.3em;background-color: transparent;" placeholder="[…………………..…………………………………………………………………………......]">,
+    dont le siège social est <input type="text" name="faitiere_siege" style="font-size: 1.3em;padding:0;border: 0;background-color: transparent;" placeholder="[……………………………………………………………………….…………………..........]">,
+    représenté (e) par <input type="text" name="faitiere_representant" style="font-size: 1.3em;padding:0;margin-bottom:20px;border: 0;background-color: transparent;" placeholder="[…………………………………………………………………………………………...........]">
+    Ou
+    </p>
+   </span>
+
+</section>
+
+<section>
+
+    <p style="margin-top:1rem">
+      <span id="convention_select_visible">
+        <label for="personne physique">
+         <strong>Confession religieuse:</strong>
+       <input type="radio" name="convention_select" style="position:relative;left:-157px" value="Confession_religieuse">
+       </label>
+       <span><input type="text" name="confession_religieuse_name" style="width: 83%;position: relative;margin-top: -43px;margin-left: 162px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[.............................................................................................................]"> </span>
+      </span>
+ 
+      <span id="convention_select_invisible">
+      <label for="personne physique" style="margin-top:16px">
+       Représentée par Mme/ M.
+       </label>
+       <span><input type="text" name="confession_religieuse_representant" style="width: 78%;position: relative;margin-top: -43px;margin-left: 190px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................]"> </span>
+
+
+       <label for="ville/village" style="margin-top:20px">Demeurant à (ville/village)
+        <input type="text" name="confession_religieuse_demeure" style="width: 25%;margin-top: -28px;position: relative;border:0;right: -193px;padding: 0;background: transparent;font-size: 1.3em;" placeholder="[................................]">
+       </label>
+       <label for="quartier" style="margin-top: -34px;position: relative;right: -411px;">
+       (Quartier)
+       <input type="text" name="confession_religieuse_quartier_name" style="width: 43%;margin-top: -27px;position: relative;font-size: 1.3em;left: 73px;padding: 0;border:0;background:transparent" placeholder="[.........................................................]">
+       </label>         
+       <label for="bp" style="position: relative;top: 10px;">
+        (BP) 
+        <input type="text" name="confession_religieuse_bp" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+       </label> 
+       <label for="tel" style="margin-top: -26px;margin-left: 260px;">
+        (Tél)
+        <input type="text" name="confession_religieuse_phone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>  
+       Ou
+                
+      </span>
+ 
+    </p>
+    </section>
+    <section>
+
+    <p style="margin-top:1rem">
+          <span id="convention_select_visible">
+            <label for="La société">
+            <strong>La société:</strong>
+            <input type="radio" name="convention_select" style="position:relative;left:-88px" value="société" >
+           </label>
+           <span><input type="text" name="societe_name" style="width: 92%;position: relative;margin-top: -43px;margin-left: 92px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[.........................................................................................................................]"> </span>
+          </span>
+       <span id="convention_select_invisible">
+       <label for="personne physique" style="margin-top:16px">
+       Immatriculée au RCCM sous le numéro 
+       </label> 
+       <span><input type="text" name="societe_imatriculation_numero" style="width: 68%;position: relative;margin-top: -43px;margin-left: 279px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[.........................................................................................]"> </span>
+
+
+       <label for="ville/village" style="margin-top:20px">dont le siège social est 
+        <input type="text" name="societe_siege" style="width: 27%;margin-top: -28px;position: relative;border:0;right: -163px;padding: 0;background: transparent;font-size: 1.3em;" placeholder="[..................................]">
+       </label>
+       <label for="quartier" style="margin-top: -34px;position: relative;right: -396px;">
+       représentée par 
+       <input type="text" name="societe_representant_name" style="width: 40%;margin-top: -27px;position: relative;font-size: 1.3em;left: 116px;padding: 0;border:0;background:transparent" placeholder="[....................................................]">
+       </label>   
+       <p>dûment habilité aux fins des présentes,</p>      
+       
+       <p>Ou</p>
+
+
+       </span>
+    </p>
+</section>
+<section>
+    
+    <p style="margin-top:1rem">
+          <span id="convention_select_visible">
+           <label for="L’Etablissement Public Administratif">
+           <strong>L’Etablissement Public Administratif :</strong>
+          <input type="radio" name="convention_select" style="position:relative;left:-247px" value="Etablissement_Public_Administratif">
+          </label>
+           <span><input type="text" name="etablissement_administratif_name" style="width: 71%;position: relative;margin-top: -43px;margin-left: 270px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[.............................................................................................]"> </span>
+          </span>
+          <span id="convention_select_invisible">
+           <label for="bp" style="position: relative;top: 10px;">
+            (BP) 
+            <input type="text" name="etablissement_administratif_bp" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+           </label> 
+           <label for="tel" style="margin-top: -26px;margin-left: 260px;">
+             (Tél)
+            <input type="text" name="etablissement_administratif_telephone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+            </label>
+          </span>
+    </p>
+    </section>
+    <section>
+
+    <p style="margin-top:1rem">
+          <span id="convention_select_visible">
+          <label for="L’Etablissement Public Industriel Commercial">
+       <strong>L’Etablissement Public Industriel Commercial:</strong>  
+       <input type="radio" name="convention_select" style="position:relative;left:-299px" value="Etablissement_Public_Industriel_Commercial">
+      </label>
+       <span><input type="text" name="etablissement_industriel_commercial_name" style="width: 64%;position: relative;margin-top: -43px;margin-left: 333px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[...................................................................................]"> </span>
+       </span>
+       <span id="convention_select_invisible">
+       <label for="bp" style="position: relative;top: 10px;">
+        (BP) 
+        <input type="text" name="etablissement_industriel_commercial_bp" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+       </label> 
+       <label for="tel"  style="margin-top: -26px;margin-left: 260px;">
+        (Tél)
+        <input type="text" name="etablissement_industriel_commercial_phone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>
+       <p>Ou</p>
+       </span>
+
+          </span>
+
+    </p>
+</section>
+<section>
+    
+    <p style="margin-top:1rem">
+          <span id="convention_select_visible">
+          <label for="L’Organisation Internationale">
+            <strong>L’Organisation Internationale:</strong>
+            <input type="radio" name="convention_select" style="position:relative;left:-204px" value="Organisation_Internationale">
+            </label>
+            <span><input type="text" name="organisation_internationale_name" style="width: 77%;position: relative;margin-top: -43px;margin-left: 218px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[.....................................................................................................]"> </span>
+         
+          </span>
+          <span id="convention_select_invisible">
+            <label for="bp" style="position: relative;top: 10px;">
+             (BP) 
+            <input type="text" name="organisation_internationale_bp" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+            </label> 
+       <label for="tel" style="margin-top: -26px;margin-left: 260px;">
+        (Tél)
+        <input type="text" name="organisation_internationale_phone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>
+          </span>
+
+    </p>
+
+
+</section>
+
+<section>
+<p>Ci-après dénommé(e) : </p>
+
+<small>(Cocher la case correspondante)</small>
+
+</section>
+
+<section style="margin-bottom:32px">
+<div class="span12" style="margin-left:-25px">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;font-weight:bold;float:left">« UTILISATEUR » : </span>
+                  <input type="checkbox" style="margin-top:7px" name="check_type_acteur" id="comite_fournisseurs" value="UTILISATEUR">
+
+      </label>
+</div>
+<div class="span12" style="margin-left:-25px">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;font-weight:bold;float:left">« FOURNISSEUR EXTERNE » : </span>
+                  <input type="checkbox" style="margin-top:7px" name="check_type_acteur" id="comite_fournisseurs" value="FOURNISSEUR EXTERNE">
+
+      </label>
+</div>
+
+<div class="span12" style="margin-left:-25px">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;font-weight:bold;float:left">« FOURNISSEUR SPECIFIQUE» :</span>
+                  <input type="checkbox" style="margin-top:7px" name="check_type_acteur" id="comite_fournisseurs" value="FOURNISSEUR SPECIFIQUE">
+
+      </label>
+</div>
+
+</section>
+<section>
+
+<div class="span12" style="margin-left:-25px">
+
+<div class="span4" style="margin-left:-13px">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">Producteur</span>
+                  <input type="checkbox" style="margin-top:7px" name="producteur" id="comite_fournisseurs" value="Producteur">
+
+      </label>
+</div>
+<div class="span4">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">Transformateur :</span>
+                  <input type="checkbox" style="margin-top:7px" name="transformateur" id="comite_fournisseurs" value="Transformateur">
+
+      </label>
+</div>
+<div class="span4">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">Vendeur :</span>
+                  <input type="checkbox" style="margin-top:7px" name="vendeur" id="comite_fournisseurs" value="Vendeur">
+
+      </label>
+</div>
+<div class="span4" style="margin-left:-13px">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">Biens :</span>
+                  <input type="checkbox" style="margin-top:7px" name="biens" id="comite_fournisseurs" value="Biens">
+
+      </label>
+</div>
+<div class="span4">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">Produits :</span>
+                  <input type="checkbox" style="margin-top:7px" name="produit" id="comite_fournisseurs" value="Produits">
+
+      </label>
+</div>
+<div class="span4">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">Services :</span>
+                  <input type="checkbox" style="margin-top:7px" name="services" id="comite_fournisseurs" value="Services">
+
+      </label>
+</div>
+<div class="span4" style="margin-left:-13px">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">OSE : </span>
+                  <input type="checkbox" style="margin-top:7px" name="ose" id="comite_fournisseurs" value="OSE">
+
+      </label>
+</div>
+<div class="span4">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">OE :</span>
+                  <input type="checkbox" style="margin-top:7px" name="oe" id="comite_fournisseurs" value="OE">
+
+      </label>
+</div>
+<div class="span4">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">Prestataire de la PC :</span>
+                  <input type="checkbox" style="margin-top:7px" name="prestataire_pc" id="comite_fournisseurs" value="Prestataire de la PC">
+
+      </label>
+</div>
+
+<div class="span4" style="margin-left:-13px">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">Fournisseur Utilisateur : </span>
+                  <input type="checkbox" style="margin-top:7px" name="fournisseur_utilisateur" id="comite_fournisseurs" value="Fournisseur Utilisateur">
+
+      </label>
+</div>
+
+<div class="span4">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">Fournisseur Spécifique :</span>
+                  <input type="checkbox" style="margin-top:7px" name="fournisseur_specifique" id="comite_fournisseurs" value="Fournisseur Spécifique">
+
+      </label>
+</div>
+
+<div class="span4">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">Fournisseur Externe :</span>
+                  <input type="checkbox" style="margin-top:7px" name="fournisseur_externe" id="comite_fournisseurs" value="Fournisseur Externe">
+
+      </label>
+</div>
+
+</div>
+
+
+
+</section>
+
+
+<section style="margin-left:-13px">
+<p><strong>D’autre part</strong></p>
+
+<p>Il a été préalablement exposé ce qui suit :</p>
+
+</section>
+
+<section style="text-align:center;text-decoration:underline;font-size:2em"> PREAMBULE </section>
+<section>
+<p>Créée le 30 Juin 2014,  l’Entreprise Sociale de Marché Commun (<span  style="color: #7030a0;">ESMC</span>) a pour objet : <i>« conseils en organisation des affaires commerciales, recherche et développement de logiciels, exploitation du progiciel MCNP, commerce sur internet »</i>. 
+L’ESMC, se basant sur son objet ci-dessus, met en place la <strong>Production Commune</strong> à travers le Progiciel du nom de  MCNP (Marché de Crédit en Nature Pérenne). 
+</p>
+</section>
+<section>
+<p>Le Progiciel MCNP est une mise en commun d’une centrale d’achat, d’une centrale de production, d’une centrale de transformation et d’une centrale de vente. A ces quatre centrales sont rattachées des <strong>Comptes d’Activités Marchandes</strong> à usage personnel pour une action commune et coordonnée du marché commun, c’est-à-dire la Production Commune. </p>
+</section>
+
+<section>
+<p>Ce dispositif vient en complément au marché classique. En effet, selon le model ESMC, ce qui manque à l’économie, c’est rien qu’une action commune qui se résume en achats et ventes réciproques entre les acteurs de l’industrie,  du commerce et leur clientèle composée de tout le reste des personnes physiques et morales par tout dans le monde. Pour cela, où qu’elle soit partout dans le monde, cette clientèle est obligée de disposer de son industrie et de son commerce pour être capable de produire la contrepartie de ce qu’elle achète auprès des autres.</p>
+</section>
+
+<section>
+<p>C’est une innovation qui a, pour effet de permettre à chacun, sans exclusion, d’être un opérateur économique formel, solvable et une clientèle fidèle de façon durable au profit de tous les opérateurs économiques, grâce à son usage personnel de Compte Marchand rattaché aux quatre centrales sur la plateforme ESMC. </p>
+<p>Cela a, par la même occasion, pour effet de réduire les coûts de production et d’assurer à tous l’action commune qui élimine les faibles revenus, le chômage et l’extrême pauvreté. </p>
+</section>
+
+<section>
+<p>L’ère du progrès industriel, des Technologie de l’Information et de la Communication (TIC) et de l’intelligence artificielle notamment la robotique industrielle à grande vitesse, conduisent le monde à une capacité croissante de productivité jusqu’ici inégalée. Paradoxalement, le monde est confronté au manque généralisé de clientèle solvable, face à cette capacité croissante de productivité, tandis que les faibles revenus, le chômage et la pauvreté gagnent de plus en plus du terrain. </p>
+</section>
+
+<section>
+<p>C’est dans ce contexte que, succédant aux OMD mis en place en 2000, à New York, le 25 septembre 2015, les 193 Etats-membres de l’Organisation des Nations Unies (ONU) ont adopté dix-sept (17) Objectifs de Développement Durable (ODD), qui sont des objectifs universels visant un développement humain intégral « sans laisser personne de côté » à l’horizon 2030. A cet effet, un appel a été lancé à tous : gouvernants, société civile, secteur privé et toute personne de bonne volonté de chaque nation pour œuvrer ensemble pour l’atteinte desdits objectifs. Pour ce faire, vingt-et-un (21) pays pilotes volontaires dont le Togo ont été choisis pour la mise en œuvre de ce Programme des Nations Unies. 
+</p>
+</section>
+
+<section>
+  <p>En réponse à cet appel et soucieuse de jouer sa partition, l’ESMC, bénéficiant du cadre de la politique de libéralisation et de promotion des activités socio-économiques établi par les Gouvernements visant la réalisation de ces objectifs onusiens, et, s’inscrivant particulièrement dans l’ODD N° 9 : « Mettre en place une infrastructure résiliente, promouvoir une industrialisation soutenable qui profite à tous et encourager l’innovation », entend contribuer par l’exploitation du progiciel MCNP, à la mise en œuvre effective des 17 ODD.</p>
+   <p><strong>QU’EST-CE QUE L’EXPLOITATION DU PROGICIEL MCNP ?</strong></p>
+</section>
+
+<section>
+<p>L’exploitation du Progiciel MCNP est la gestion numérique de l’ensemble des activités marchandes regroupées en Centrales Communes d’Achat, de Vente, de Production et de Transformation que confère l’usage de <strong>supports marchands</strong> MCNP, Bons et Ordres de Prélèvement Irrévocable. C’est une activité de marché portée par les TIC, en vue des traitements instantanés et dynamiques des échanges. Le Progiciel MCNP est une technologie qui est destinée à apporter à l’économie de marché actuelle des gains de productivité jusqu’ici insoupçonnés.</p>
+</section>
+<section>
+<p><strong>GAINS DE PRODUCTIVITE LIES A L’EXPLOITATION DU PROGICIEL MCNP SUR LA PLATEFORME ESMC</strong></p>
+
+<p>Le gain de productivité est la chose que l’on ne peut obtenir sans le moyen qui en est la cause. Le progiciel MCNP est le moyen qui est la cause des gains de productivité de la Production Commune. Cependant, sur la plateforme ESMC, tout gain de productivité est compté, non pas en argent mais en gains en nature, c’est-à-dire en biens, en produits et en services additionnels. 
+L’exploitation du progiciel MCNP est la cause qui produit donc, des effets-gains de productivité économique par la Production Commune sur la plateforme ESMC dont voici quelques-uns : 
+</p>
+</section>
+<section>
+<p style="text-decoration:underline"><strong><i>Effet entonnoir</i></strong></p>
+<p>En utilisant les bons MCNP pour leurs achats immédiats et futurs, les acheteurs concèdent à la plateforme ESMC le mode de payement d’argent par avance, tandis qu’en utilisant les Ordres de Prélèvement Irrévocable (OPI) MCNP, les vendeurs concèdent à la plateforme ESMC des délais de <strong>payement fractionné</strong>.</p>
+<p>L’achat à travers le payement d’argent par avance couplé à la vente contre le mode de payement fractionné fait un effet entonnoir par rapport à l’entrée et à la  sortie de l’argent. Par exemple, un souscripteur paye par avance <strong>224</strong> pour la consommation mensuelle de <strong>10</strong>. Le fournisseur du bien affecté par cette consommation de <strong>10</strong> par période de trente jours ouvrés est payé par fraction de <strong>10/12</strong>. L’effet entonnoir à la première période est de : <strong>224</strong> à l’entrée contre <strong>0.8</strong>, c’est-à-dire <strong>10/12</strong> à la sortie. La sortie devient le double à la période suivante, puis le triple, ainsi de suite jusqu’à se stabiliser à <strong>10</strong> à la douzième période, où l’entrée <strong>(224)</strong>, au lieu de servir à payer cette sortie va, plutôt, produire, en s’amortissant, de façon indéterminée la contrepartie de la sortie de <strong>10</strong>, en biens, produits et services. </p>
+
+<p>Par cet effet entonnoir, l’ESMC dispose de l’argent sur ses comptes en banque grâce aux payements d’avance concédés à lui par ses acheteurs pour <strong>cautionner</strong> ses achats à crédit auprès de ses grands fournisseurs et rembourser les montants fractionnés de tous les OPI à ses vendeurs à chaque échéance. C’est cela les gains de productivité d’effet entonnoir rendus possibles par l’exploitation du progiciel MCNP qui permet à la plateforme ESMC de disposer des ressources propres, en vue de  constituer des cautions robustes pour la Production Commune, grâce à l’entrée de beaucoup d’argent sur ses comptes bancaires, contre peu d’argent qui en sort par fraction.</p>
+
+</section>
+<section>
+<p style="text-decoration:underline"><strong><i>Effet  levier</i></strong></p>
+<p>L’effet entonnoir, c’est également un effet <strong>levier</strong> de marchandises pour la production, la transformation et la distribution sur la plateforme ESMC. Par exemple, pour implanter les industries de la Production Commune, la plateforme ESMC émet aux fournisseurs des OPI dont les échéances sont assurées par l’argent cumulé par l’effet entonnoir susmentionné. La  plateforme ESMC dispose alors, de délais de payements fractionnés concédés à lui par ces fournisseurs pour acheter, produire, transformer et distribuer à l’échelle de dernier ressort. C’est l’effet levier qui permet à la plateforme de lever des biens, produits et services pour créer toutes formes d’industries partout où besoin est, sans rencontrer la moindre résistance liée au manque d’argent. C’est cela les gains de productivité d’effet levier de biens, produits et services rendus possibles par l’exploitation du progiciel MCNP sur la plateforme ESMC.</p>
+</section>
+
+<section>
+<p style="text-decoration:underline"><strong><i>Effet réciprocité des achats et des ventes</i></strong></p>
+<p>
+La possibilité d’utiliser les OPI sans attendre forcément leur échéance pour commander des biens, des produits et des services sur la plateforme ramène tous les achats des fournisseurs détenteurs des OPI sur les centrales de la Production Commune. La réduction des coûts que concède la centrale d’achat commune à ses acheteurs qui payent au comptant leur consommation et ceux qui prépayent pour le renouvellement de leur consommation à durée déterminée ou non, fait également ramener l’argent de montant supérieur ou égal au montant de l’argent des OPI encaissés par les fournisseurs de la plateforme.  Exemple : Une industrie vend des produits sur la plateforme contre OPI. Elle utilise une partie des OPI sans attendre les échéances pour se faire livrer par commande des matières premières et, l’autre partie, après encaissement à l’échéance,  pour acheter à moindre coût son équipement sur la plateforme. L’équivalant de l’argent issu des OPI qu’il a encaissé revient alors sur la plateforme. C’est l’effet réciprocité des achats et des ventes entre la plateforme et ses fournisseurs. Acheter des marchandises à crédit auprès de ses fournisseurs pour produire, transformer et leur vendre ses produits en retour grâce aux avantages exceptionnels que l’on offre à ses clients est un pouvoir de bouclage du circuit économique unique en son genre que le MCNP s’est octroyé. Par cet effet, la plateforme ESMC constitue le cercle vertueux qui engendre à plus ou moins long terme, sa solvabilité absolue ou sa balance commerciale à somme nulle. C’est cela qui, aussi engendre des gains de productivité, d’où l’effet gains de productivité dits réciprocité des achats et des ventes, rendus possibles par l’exploitation du progiciel MCNP sur la plateforme ESMC.
+</p>
+</section>
+
+<section>
+<p style="text-decoration:underline"><strong><i>Effet achat et vente en dernier ressort</i></strong></p>
+<p>
+Les centrales communes d’achat, de vente, de transformation et de production permettent aux Utilisateurs d’agir ensemble par le biais de la plateforme pour acheter à tout vendeur en centrale et vendre à tout acheteur en centrale. Exemple : Tous les utilisateurs de Comptes Marchands MCNP consomment de l’électricité par le biais de leur Bons de Consommation. Seule la plateforme paye leurs factures au fournisseur de l’électricité au moyen de l’argent.                               Ce fournisseur, par souci de compétitivité paye sur la plateforme ESMC ses fournisseurs à moindre coût. Ces derniers qui, pour ce faire, doivent disposer de leur Compte Marchand et, pour les mêmes raisons de compétitivité vont, sur la plateforme, assurer également leurs achats à moindre coût. C’est l’effet achat et vente en dernier ressort face  aux fournisseurs, effet qui ajoute des gains de productivité aux précédents sur la plateforme. En effet, cela permet à la plateforme ESMC de disposer de toutes les marges de manœuvre pour ajuster ses prix de vente à la réduction des coûts faite à ses clients. Ayant la capacité absolue d’ajuster ses prix de vente à la réduction des coûts faite à ses clients, la plateforme ESMC se dote de la main invisible régulatrice de son marché qui lui évite toute possibilité de faillite. C’est cela les gains de productivité d’effet achat et vente en dernier ressort rendus possibles par l’exploitation du progiciel MCNP sur la plateforme ESMC. 
+</p>
+</section>
+
+<section>
+<p style="text-decoration:underline"><strong><i>Effet économie de marché numérisé</i></strong></p>
+<p>
+Le traitement instantané et dynamique des échanges basés sur les Supports Marchands MCNP est un relais qui permet à l’argent de se cumuler sur les comptes bancaires de la plateforme ESMC auprès des banques. Tandis que les Supports Marchands MCNP permettent aux échanges de se dérouler convenablement, l’argent de plus en plus robuste sur les comptes bancaires de la plateforme lui confère un pouvoir d’achat sans débourser de l’espèce. Exemple : L’argent sur les comptes bancaires de la plateforme a servi de garantie pour une lettre de crédit à un fournisseur de pétrole contre une commande ferme ou contre le payement d’avance fait par des acheteurs sur la plateforme ESMC. Pour ce faire, il a fallu émettre des Bons et des OPI respectivement aux acheteurs contre leur argent et aux vendeurs contre leurs marchandises. Ceci a permis ou va permettre d’assurer leurs échanges en l’absence de l’argent. Cet argent disponible sur les comptes bancaires assure au même moment les payements au fournisseur du pétrole selon les clauses de payements morcelés et domiciliés auprès des banques grâce à la caution sur les comptes bancaires de l’ESMC.  Ce double rôle de l’argent sur la plateforme est dû à la numérisation ou à l’informatisation du  marché qui tisse un lien direct  entre les Supports Marchands MCNP et l’argent sur les comptes de l’ESMC auprès des banques. C’est l’effet économie de marché numérisé. Cet effet permet à l’ESMC de dépasser les limites du pouvoir d’achat basé sur l’argent pour s’offrir grâce aux TIC des biens, des produits et des services à coûts d’argent nuls (à crédit assorti de solvabilité absolue). Ceci, parce qu’elle ne payera le prix de ses marchandises de façon morcelée par voie d’OPI aux fournisseurs que lorsque l’acheteur, l’importateur ou le grossiste qui a payé l’argent par avance, les aura consommées réellement. De plus, comme il a été démontré plus haut, par souci de compétitivité des fournisseurs, ces OPI peuvent être ramenés sur la plateforme par leur usage direct ou en argent après leur encaissement. C’est cela les gains de productivité d’effet économie de marché numérisé rendus possibles par l’exploitation du progiciel MCNP, gains de productivité qui  s’ajoutent aux précédents sur la plateforme ESMC.
+</p>
+
+</section>
+
+<section>
+<p style="text-decoration:underline"><strong><i>Effet économie d’échelle</p></i></strong></p>
+<p>Plus le nombre d’Utilisateurs de Comptes Marchands MCNP grandit, plus la Production Commune est optimale, plus ses coûts marginaux tendent vers zéro, plus les profits de la plateforme ESMC sont de plus en plus grands. C’est l’effet économie d’échelle. Exemple : Une industrie de la plateforme qui fonctionne sur un régime de 100 pour produire 1000, si elle n’a qu’une demande de 300 pour le même régime de 100, elle aura un manque à gagner de 700. Le coût marginal de 700 serait égal à 0, si elle avait une demande de 1000. La vente en dernier ressort ayant pour vocation de converger le grand nombre possible de demandes vers la plateforme ESMC, cela lui permet à moyen et long termes d’aboutir aux coûts marginaux qui tendent vers zéro. Ceci se fera dans tous les domaines d’investissement industriels et commerciaux, du fait qu’elle ait une ambition multinationale et une couverture universelle ne laissant personne de côté. Au moment où les marges bénéficiaires qui sont obtenues n’engendrent plus de coûts additionnels, la plateforme gagnera de plus en plus de marges tout en dépensant de moins en moins d’argent. C’est cela les gains de productivité d’effet économie d’échelle qui s’ajoutent également aux précédents dont la cause est l’exploitation du progiciel MCNP sur la plateforme ESMC.</p>
+</section>
+
+<section>
+<p style="text-decoration:underline"><strong><i>Effet économie de richesses immatérielles inépuisables</p></i></strong></p>
+
+<p>Le progiciel MCNP est l‘intelligence artificielle porteuse des idées et mesures qui fondent les principes de la participation de tous aux activités du marché pour la répartition des richesses sans laisser personne de   côté. Il est également l’artificiel savoir-faire relatif aux Supports Marchands de comptes, d’échanges et de réserve de valeurs, artificiel savoir-faire qui était exclusivement assuré par l’argent. Il est enfin, le pouvoir-faire artificiel capable de former toutes sortes d’industries créatrices de biens, de produits et de services, chose qui était exclusivement dévolue à la monnaie du secteur bancaire et financier classiques. 
+L’intelligence artificielle de la répartition optimale des richesses, le savoir-faire artificiel  de Supports Marchands de compte, de Supports Marchands d’échange et de Supports Marchands de réserve qui aboutit au pouvoir-faire artificiel, formateur de l’industrie, constitue la richesse immatérielle ayant la particularité d’être inépuisable. Exemple : Le progiciel MCNP mis en exploitation est à la disposition de toutes les communautés du monde. Chaque localité dans le monde est appelée à l’adopter pour le développement durable sans aucune possibilité d’user ou d’épuiser le progiciel MCNP. Le savoir, le savoir-faire et le pouvoir-faire que représente le progiciel MCNP sont diffusés au monde pour toujours. C’est l’effet économie de richesses immatérielles inépuisables. Cet effet permet à la plateforme ESMC de disposer de façon inépuisable la capacité de répartition des richesses sans laisser personne de côté, la capacité de faire le marché au-delà des limites de l’argent et la capacité de produire suffisamment de façon optimale et efficiente les biens, les produits et les services par la voie industrielle. C’est cela les gains de productivité de l’économie de richesses immatérielles inépuisables rendus possibles par l’exploitation du progiciel MCNP qui s’ajoutent aux précédents sur la plateforme ESMC.
+</p>
+
+</section>
+
+<section>   
+<p style="text-decoration:underline"><strong><i>Effet modèle économique de gratuité rentable</p></i></strong></p>
+<p>
+A côté des avantages accordés aux souscripteurs acheteurs, vendeurs, producteurs et transformateurs sur la plateforme ESMC, avantages qui semblent être de la gratuité, se trouvent en filigrane : 
+<ul>
+  <li>les frais de souscriptions aux Comptes Marchands à payer par toutes personnes physiques et morales, membres des communautés dont la plateforme ESMC constitue un outil solution pour les résultats attendus des 17 ODD dans tous les pays du monde. Ces frais sont équivalants à 70 000 FCFA dans les pays à pouvoir d’achat faible (frais plus élevés selon que l’on se trouve dans les pays à pouvoir d’achat moyen ou dans les pays à pouvoir d’achat fort),</li>
+  <li>les frais d’exploitation tirés sur chaque transaction des Utilisateurs,</li>
+  <li>les frais de la prestation de publicité facturée aux Utilisateurs bénéficiaires de la publicité sur la plateforme,</li>
+  <li>les profits de l’exploitation de données des Utilisateurs en guise du BIG DATA et </li>
+  <li>les profits sous la forme d’infrastructures industrielles de la Production Commune après leur amortissement. </li>
+</ul>
+Tous ces gains ne sont obtenus que par la gratuité que semble offrir la plateforme aux Utilisateurs. Exemple : S’il n’y avait pas des avantages concédés immédiatement aux acheteurs et aux vendeurs, aucune somme ne serait payée sur les comptes de la plateforme ESMC, aucun support marchand ne peut être émis, donc aucun des gains de productivité sus indiqués ne serait réalisable. La plateforme amène les Utilisateurs à rechercher leurs propres avantages immédiats et par ce fait, ils réalisent indirectement, en contrepartie à court, à moyen et à long terme, des gains de productivité sus mentionnés. C’est comme la plateforme Google qui offre un moteur de recherche gratuit à ses utilisateurs. Malgré la gratuité apparente de son activité, elle est l’une des entreprises les plus cotées sur les marchés boursiers. C’est l’effet modèle économique de gratuité rentable. Cet effet permet à la plateforme ESMC d’anticiper le partage des gains de sa productivité aux Utilisateurs sous les formes ci-dessous mentionnées par rapport à leur réalisation effective. C’est cela l’effet gains de productivité de modèle économique de gratuité rentable rendus possibles par l’exploitation du progiciel MCNP qui a entrainé les précédents sur la plateforme ESMC.
+</p>
+</section>
+
+<section>
+<p>PARTAGE DES GAINS DE PRODUCTIVITE DE L’EXPLOITATION DU PROGICIEL MCNP SUR LA PLATEFORME ESMC</p>
+<p>Etre Utilisateur de Compte Marchand MCNP, c’est participer aux activités des centrales communes d’achat, de production et de transformation qui se traduisent par la vente sur la plateforme ESMC, de la même manière que toute activité sur le marché finit par la distribution donc par la vente. C’est à ce titre que le progiciel MCNP pose à toute personne physique et morale, les bases d’un type nouveau de pouvoir, le pouvoir de vente commune. Ce pouvoir de vente est fondé sur le rattachement aux  quatre centrales de la Production Commune des Comptes d’Activités Marchandes individuels, accessibles à toutes personnes physiques et morales sur la plateforme ESMC. En effet les centrales de la Production Commune jouent les rôles de pouvoir de vente et d’achat en dernier ressort en faveur de tous ses Utilisateurs. 
+ Pour cela la somme des gains de productivité de l’effet entonnoir, de l’effet levier, de l’effet réciprocité des achats et des ventes, de l’effet achat et vente en dernier ressort, de l’effet économie de marché numérisé, de l’effet économie d’échelle, de l’effet économie de richesses immatérielles inépuisables et de l’effet modèle économique de gratuité rentable, tous regroupés sont directement partagés aux souscripteurs de la manière suivante :
+</p>
+
+<ul>
+      <li>Le souscripteur aux Bons d’Achat non récurrent bénéficie des réductions des coûts sur ses achats, </li>
+      <li>Le souscripteur aux Bons d’Achat récurrent bénéficie d’un renouvellement de Bons de Consommation au-delà des montants de sa souscription et</li>
+      <li>Le souscripteur au mode de vente des marchandises contre le payement fractionné bénéficie d’une augmentation du montant de ses ventes. </li>
+</ul>
+
+</section>
+
+<section>
+<p>LE POUVOIR DE VENTE COMMUNE, FONDEMENT DE LA SOLVABILITE ABSOLUE DE TOUT TITULAIRE DE COMPTE D’ACTIVITES MARCHANDES MCNP</p>
+<ul>
+      <li>Le Bon de Consommation issu du Bon d’Achat récurrent a la particularité d’être renouvelable chaque trente jours, à durée déterminée ou indéterminée. </li>
+      <li>Les OPI au nombre de 12 minimum sont émis chaque trente jours ouvrés.</li>
+</ul>
+</section>
+
+<section>
+<p>La possibilité de prélever les redevances sur les Bons de Consommation récurrente et sur les OPI à leur échéance garantit le remboursement du fonds de commerce à celui qui prête, crédite ou alloue les montants de souscriptions aux activités sur la plateforme ESMC pour le compte de tiers. Ceci pose un fondement dont les effets positifs peuvent aisément atteindre tous les êtres humains sur la terre. En effet, la répartition universelle du pouvoir de vente peut facilement se réaliser grâce aux fonds d’investissement, aux fonds d’aide au développement et surtout, au pouvoir de création monétaire dont dispose toute communauté à travers son secteur bancaire. Ces fonds et le crédit bancaire peuvent alors être utilisés pour la participation de tous aux activités génératrices de revenus non négligeables grâce à la plateforme ESMC.</p>
+</section>
+
+<section>
+<p>ACTIVITES INTEGREES DANS L’EXPLOITATION DU PROGICIEL MCNP EN FAVEUR DES COMMUNAUTES D’UTILISATEURS</p>
+<p>Plusieurs activités sont conçues à l’endroit de toute communauté pour doter chacun de ses membres de son pouvoir de vente, sans laisser personne de côté, dans le cadre du partage des gains de productivité de la Production Commune sur la plateforme ESMC.  Il s’agit de :</p>
+</section>
+
+<section>
+<p style="text-decoration:underline"><strong><i>Activités de souscriptions pour soi et pour tiers aux comptes marchands et aux bons de consommation MCNP</p></i></strong></p>
+<p>Chaque communauté, en dehors de la souscription autonome de ceux qui, en son sein, disposent de leurs propres moyens (souscriptions pour soi), peut mobiliser ses sources de financement : épargne locale, crédit bancaire aux mains de ses banques, bailleurs de fonds, fonds d’aide au développement,  fonds transférés par sa diaspora au pays et l’épargne étrangère pour souscrire aux Comptes Marchands et aux Bons de Consommation récurrente pour tous ses membres sans laisser personne de côté. C’est l’activité dénommée souscriptions pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation MCNP. </p>
+<p>La possibilité de prélever les créances sur les Bons de Consommation récurrente sur le Compte Marchand de tout utilisateur garantit à tout souscripteur pour tiers le remboursement des montants de ses souscriptions. </p>
+</section>
+
+<section>
+<p style="text-decoration:underline"><strong><i>Activités de souscriptions pour soi et pour tiers aux comptes marchands et aux bons de consommation MCNP</p></i></strong></p>
+<p>Toute personne de chaque communauté peut souscrire en ligne aux Bons d’Achat neutres en tant qu’acheteur-revendeur auprès des Centrales d’Achat et Vente Communes, pour y dégager des bénéfices, à la fois sur son achat en mode d’achat non récurrent et sur sa vente contre payement fractionné par voie d’OPI. C’est l’activité dénommée acheteurs-revendeurs en ligne contre OPI. Elle est mise en place pour la participation de tous au commerce sur internet sur la plateforme ESMC. </p>
+<p>La possibilité de prélever ses créances sur les OPI issus de cette activité garantit le remboursement d’éventuels prêts bancaires en faveur des acheteurs-revendeurs, clients des banques partenaires de la plateforme ESMC.</p>
+
+</section>
+
+<section>
+<p style="text-decoration:underline"><strong><i>Activités d’achat- vente réciproques</p></i></strong></p>
+<p>Tout opérateur économique de chaque communauté, pour assurer ses achats et ses ventes, signe sur la plateforme ESMC, son Engagement de Livraison Irrévocable (ELI) contre l’émission anticipée ou non de Bons d’Achat neutres (BAn), de Bons d’Achat Internes (BAi) et d’Ordre de Prélèvement Irrévocable (OPI). Ces Supports Marchands MCNP seront utilisés pour : obtenir de l’argent auprès des souscripteurs (cas du BAn), sur les comptes bancaires de l’ESMC auprès des banques à chaque échéance de 30 jours, faire au-delà de la plateforme ESMC ses commandes, ses consommations directes ou honorer ses engagements vis-à-vis de ses créanciers (cas des OPI) et acquérir en réciproque sur la plateforme ESMC des marchandises et les services (cas du BAi). C’est l’activité  dénommée achat-vente réciproques. Elle constitue pour chaque acteur économique, le procédé idéal pour équilibrer ses ventes à ses achats en guise de preuve de sa solvabilité vis-à-vis de tous.</p>
+
+</section>
+<section>
+<p style="text-decoration:underline"><strong><i>Activités de prestataires de la Production Commune contre OPI</p></i></strong></p>
+<p>Dans le souci de réaliser le plein emploi des ressources humaines et matérielles, pour le compte de la Production Commune, toute communauté peut mobiliser tous les projets utiles en son sein et le travail aux mains de tout travailleur en chômage, par les Comptes Marchands des Prestataires de la Production Commune personnes physiques, personnes morales. C’est l’activité dénommée prestataires de la Production Commune contre OPI. Ces prestataires adoptent le payement fractionné par voie d’OPI. 
+Dans le but de la bonne gouvernance, les <strong>prestataires de la Production Commune </strong>contre OPI sont les coresponsables des industries et entreprises de la Production Commune qui abritent leurs activités sur la plateforme ESMC.
+</p>
+</section>
+
+<section>
+<p>LOCALISATION DES 17 ODD DANS CHAQUE COMMUNAUTE </p>
+<p>Toutes ses activités ci-dessus mentionnées ont pour finalité de permettre à chaque communauté de mobiliser ses forces productrices pour l’atteinte des 17 Objectifs de Développement Durable. L’appropriation locale de l’exploitation du progiciel MCNP sur la plateforme ESMC pour  ces objectifs visera les quatre  volets suivants :</p>
+</section>
+<section>
+<p style="text-decoration:underline"><strong><i>Activités de prestataires de la Production Commune contre OPI</p></i></strong></p>
+<p>L’activité de souscriptions pour tiers aux Comptes Marchands et aux Bons de Consommation MCNP va donner l’accès au montant de souscriptions au pouvoir d’achat récurrent à durée indéterminée pour tous. Cette souscription doit s’orienter surtout vers l’ensemble des Objectifs de Développement Durable qui visent le volet social. </p>
+</section>
+
+<section>
+<p style="text-decoration:underline"><strong><i>ODD volet économique</p></i></strong></p>
+<p>L’accès au travail décent pour tous, l’accès aux activités commerciales pour tous, et l’accès à la mévente zéro de ses marchandises pour tout vendeur va entraîner une mobilisation générale des forces productrices. Cette mobilisation générale des ressources humaines, matérielles et financières, facteurs de production doit s’orienter vers les Objectifs de Développement Durable qui visent le volet économique. </p>
+</section>
+<section>
+<p style="text-decoration:underline"><strong><i>ODD volet environnement</p></i></strong></p>
+<p>La technologie MCNP permet à chaque communauté d’agir en action commune dans l’approche de l’appropriation et localisation des 17 Objectifs de Développement Durable. Cette gestion d’action commune prend en compte le volet environnemental des ODD.</p>
+</section>
+
+<section>
+<p style="text-decoration:underline"><strong><i>ODD volet gouvernance et partenariat</p></i></strong></p>
+<p>Dans le contexte de la réciprocité des achats et des ventes sur la plateforme ESMC, l’équilibre de la balance commerciale entre les communautés est systématique et structurelle grâce aux centrales communes sur la plateforme ESMC. Il n’y aura plus de communauté excédentaire face à une communauté déficitaire puisque ce sont les excédents des uns qui font les déficits des autres.  Une gouvernance locale-globale va s’instaurer et va aboutir au partenariat automatique entre les communautés pour répondre au volet gouvernance et partenariat visé par les ODD. 
+
+Les quatre volets des ODD à savoir, social, économique, environnement puis gouvernance et partenariat  se voient alors pris en compte par l’exploitation du progiciel MCNP sur la plateforme ESMC. 
+</p>
+
+</section>
+
+<section>
+<p>LA SOLVABILITE DE L’EXPLOITATION DU PROGICIEL MCNP SUR LA PLATEFORME ESMC</p>
+<p>Pour que l’exploitation du progiciel MCNP sur la plateforme ESMC soit viable ou durable, il faut qu’elle soit solvable. Pour qu’elle soit solvable il faut qu’elle respecte des règles suivantes </p>
+<p>- <strong>Première règle :</strong> La règle de base est que l’exploitation du progiciel MCNP (Marché de Crédit en Nature Pérenne) se rapporte à la Production Commune. La Production Commune requiert quatre (04) centrales marchandes en ligne (Centrale d’Achat Commune, Centrale de Production Commune, Centrale de Transformation Commune et Centrale de Vente Commune). A ces centrales sont rattachés des Comptes d’Activités Marchandes personnels universels dans lesquels circulent des Supports Marchands MCNP. Ce dispositif de la Production Commune est destiné à l’usage des personnes physiques ou morales, dénommées ‘’Utilisateurs’’. </p>
+<p>Les Supports Marchands MCNP sont les suivants : </p>
+<ul>
+      <li>Bon d’Achat neutre (BAn), </li>
+      <li>Bon de Consommation récurrente (BCr), </li>
+      <li>Bon de Consommation non récurrente (BCnr), </li>
+      <li>Bon de Livraison (BL), </li>
+      <li>Bon de Commande (BC), </li>
+      <li>Bon d’Achat interne (BAi), </li>
+      <li>Ordre de Prélèvement Irrévocable (OPI), </li>
+      <li>Engagement de livraison irrévocable (ELI) et </li>
+      <li>Cartes.</li>
+</ul>
+<p>-<strong>Deuxième règle :</strong> L’ESMC est une entreprise innovante dans le domaine des TIC et surtout celui du commerce sur internet. Elle s’est engagée dans l’économie de connaissance en se dotant d’une nouvelle forme d’organisation des affaires commerciales. Elle se base sur la recherche & le développement de logiciel en l’occurrence, le progiciel MCNP. Le progiciel MCNP a déjà à son actif 182 marques déposées dont l’ESMC détient les certificats. A ce titre, elle met, comme produits, à la disposition de ses souscripteurs abonnés, c’est-à-dire  ses Utilisateurs, ses Comptes  d’Activités Marchandes pour leur servir à faire ses quatre (04) Activités Marchandes suivantes : </p>
+<ul>
+<li>Souscriptions pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation, </li>
+<li>Acheteurs-Revendeurs en ligne contre OPI, </li>
+<li>Achat-Vente Réciproques et</li>
+<li>Prestataires de la Production Commune. </li>
+</ul>
+<p>- <strong>Troisième règle :</strong> Toutes ces Activités de l’ESMC se font dans le cadre exclusif du commerce de biens, de produits et de services réels, c’est-à-dire que ces activités se font dans le cadre exclusif d’achat, de vente  ou de revente (échange) de marchandises réelles sur sa plateforme.  
+Toute vente sur la plateforme est faite à l’ESMC en dernier ressort par ses utilisateurs vendeurs et revendeurs. C’est l’ESMC qui aussi, en dernier ressort, revend les Biens, les Produits et les Services à tout utilisateur acheteur, puisque c’est elle qui encaisse le payement de tout acheteur et paye tout  vendeur sur sa plateforme.
+</p>
+<p>- <strong>Quatrième règle : </strong> Pour revendre sur la plateforme ESMC, les souscripteurs qui n’ont pas préalablement leurs marchandises sont d’abord obligés de les y acheter avec leurs fonds. Quant aux souscripteurs qui disposent préalablement de leurs biens, de leurs produits ou de leurs services, ils les y vendent directement. </p>
+<p>Aux premiers sont destinées les Activités :</p>
+<p>
+<ul>
+      <li>Souscriptions pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation et </li>
+      <li>Acheteurs-Revendeurs en ligne contre OPI. </li>
+    
+</ul>
+</p>
+<p>Et aux seconds sont destinées les activités : 
+<ul>
+      <li>Achat-Vente Réciproques et</li>
+      <li>Prestataires de la Production Commune. </li>
+</ul>
+</p>
+<p>- <strong>Cinquième règle :</strong> La cible commerciale prioritaire de l’ESMC est toute communauté ayant souscrit aux 17 ODD que le monde s’est assigné d’ici à 2030. Ceci, à cause des vertus de l’ESMC :  </p>
+<ul>
+<li>Concilier l’efficacité du marché et l’esprit de partage sans laisser personne de côté, </li>
+<li>Prendre en compte les questions d’élimination de la pauvreté et du respect de l’environnement. </li>
+</ul>
+
+<p>- <strong>Sixième règle :</strong> Cette règle consiste à traduire dans les faits le concept ESMC. Ce concept est dénommé « la Philanthropie Industrielle et Commerciale ». C’est le fait d’assurer par l’ESMC la clientèle fidèle et pérenne sur sa plateforme. Cela se fait par la mise en place des Kits de solvabilité universelle et des Kits technopole qui font de chaque être humain un consommateur-producteur absolument solvable. Le procédé est d’intégrer ces Kits dans les Activités marchandes : Souscriptions pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation et d’y proposer des revenus ou autres avantages sensibles aux souscripteurs. </p>
+<p>Les Kits de solvabilité universelle concernent:</p>
+
+<ul>
+<li>TIC universelles. Il s’agit de la couverture totale des localités incluant les ménages et les individus en matière des Technologies de l’Information et de la Communication : 
+<li>-	Centres de données (systèmes et réseaux informatiques),</li>
+<li>-	Connectivités (connections internet, intranet et téléphonie) et</li>
+<li>-	Périphériques (utilisateurs : ordinateurs, tablettes, téléphones, cartes magnétiques, cartes acoustiques, …),</li>
+</li>
+<li>	Bancarisation universelle. Il s’agit de coupler le Compte Marchand et un compte bancaire ou équivalant pour tous, sans laisser personne de côté, en vue de leur Montant de Souscription aux Comptes Marchands et aux Bons de Consommation récurrente renouvelable à durée illimitée sur la plateforme de la Production Commune ESMC et</li>
+<li>	Assurances et protections sociales universelles. Il s’agit d’un bouquet de polices d’assurance pour tous sans laisser personne pour compte.</li>
+</ul>
+<p>Les Kits technopole concernent les bourses d’étude et de formation: 
+<span>Les Kits technopole concernent les bourses d’étude et de formation: </span>
+</p>
+
+<p>- <strong>Septième règle :</strong> Toute souscription en argent sur la plateforme de l’ESMC passe par le payement sur ses comptes auprès des partenaires bancaires et financiers pour déboucher sur l’émission des Bons d’Achat neutre au souscripteur. 
+L’existence du Bon d’Achat neutre est conditionnée par son affectation à un Bien, un Produit ou un Service.
+</p>
+
+<p>- <strong>Huitième règle :</strong> Pour son affectation aux marchandises, le Bon d’Achat neutre débouche sur le Bon de Consommation récurrente (BCr) ou sur le Bon de Consommation non récurrente (BCnr).
+<ul>
+<li>Les Bons de Consommation récurrente (BCr) ont une durée de vie de 30 jours. Ils sont renouvelables à durée déterminée ou illimitée. Au-delà de ces 30 jours, ils sont renouvelés au montant initial lorsqu’ils sont utilisés. Le renouvellement automatique n’augmente jamais les BCr au-delà de leur montant initial. Autrement dit, les bons de consommation récurrente non utilisés s’annulent trente (30) jours après leur émission au moment du renouvellement des nouveaux Bons. En aucun cas, les Bons de Consommation récurrente ne peuvent être dus en monnaie bancaire. L’avantage pour le souscripteur est qu’il dispose d’un droit d’achat de marchandises au montant défini, dans un délai de 30 jours sur la plateforme ESMC et ce, à durée déterminée ou illimitée.  </li>
+</ul>
+Les éventuels problèmes d’insolvabilité monétaire liés au renouvellement à durée illimitée du Bon de Consommation récurrente, ne se posent pas aux quatre centrales réunies sur la plateforme de la Production Commune, parce qu’il ne s’agit pas de l’espèce bancaire mais des biens, des produits et des services réels. 
+<ul>
+<li>Les Bons de Consommation non récurrente (BCnr) s’émettent en une seule fois. Ils peuvent être affectés aux marchandises déjà produites (consommation immédiate) et aux marchandises à produire par les fournisseurs (consommation future). Ils sont cumulables. En aucun cas, les Bons de Consommation non récurrente ne peuvent être dus en monnaie bancaire. L’avantage pour le souscripteur est qu’il obtient une réduction des coûts de ses achats sur les centrales ESMC.</li>
+</ul>
+Les éventuels problèmes d’insolvabilité monétaire liés aux réductions des coûts du Bon de Consommation non récurrente ne se posent pas aux quatre centrales réunies sur la plateforme de la Production Commune. Parce qu’il ne s’agit pas de l’espèce bancaire mais, dans la pratique ESMC, cela correspond à une augmentation des biens, des produits ou des services réels accordée à l’acheteur. 
+</p>
+<p>- <strong>Neuvième règle :</strong> Les Biens acquis à partir des Bons MCNP sont destinés, soit à la consommation finale, soit à la production, soit à la transformation, soit à la distribution ou à la revente sur la plateforme ESMC. </p>
+<p>- <strong>Dixième règle :</strong> Lorsque le souscripteur dispose d’une unité industrielle, d’un entrepôt, d’un magasin, d’une boutique, d’un Guichet Unique d’Intégration Universelle ou d’un stand, toute souscription pour soi aboutit à sa propre consommation finale ou à son activité de production, de transformation ou de distribution. </p>
+<p>Lorsque le souscripteur ne fait pas usage d’unité industrielle, d’entrepôt, de magasin, de boutique, de Guichet Unique d’Intégration Universelle ou de stand, pour revendre les marchandises issues de sa souscription, il doit passer par la souscription pour tiers. La souscription pour tiers aux Bons MCNP est faite à travers le Compte d’Activités Marchandes d’un autre Utilisateur que soi. Aussi, est-elle faite par voie des Bons de consommation récurrente. 
+Le souscripteur peut également, lorsqu’il est une personne physique, revendre les marchandises issues de sa souscription à travers les Comptes d’Activités Marchandes Communs des Centrales de la Production Commune. En ce moment, la souscription est faite par voie des Bons de consommation non récurrente.
+</p>
+<p>- <strong>Onzième règle :</strong> Tout paiement en argent effectué par l’ESMC aux Utilisateurs de sa plateforme se fait par voie d’Ordres de Prélèvement Irrévocable (OPI) échelonnés sur une durée de 12 périodes de 30 jours ouvrés minimum. Ils (les OPI) sont émis aux personnes physiques et morales fournisseurs, vendeurs et revendeurs contre leurs ventes de biens, de produits et de services réels à travers les quatre (04) Activités ESMC.  </p>
+<p>Les détenteurs des OPI ont le choix :
+<ul>
+<li>d’attendre les échéances de ces OPI pour obtenir les virements respectifs sur leur compte auprès des banques auxquelles ESMC a émis lesdits ordres ;</li>
+<li>de payer leurs dettes en renonçant au virement au profit de tout créancier ;</li>
+<li>de procéder à l’annulation de ces OPI au profit de leurs achats de Biens, de Produits et de Services sur la plateforme ESMC ou</li>
+<li>de procéder à l’annulation de ces OPI au profit des commandes de Biens, de Produits et de Services, sur la plateforme ESMC, pour leurs activités de production, de transformation ou de distribution.</li>
+</ul>
+L’avantage pour le souscripteur est que, pour cause de concession des délais d’attente des échéances des OPI, l’ESMC, en retour, lui concède une compensation sensible en Bons de Livraison (BL) à l’émission de ces OPI.
+</p>
+<p>Les éventuels problèmes d’insolvabilité monétaire liés à la compensation en Bons de livraison ne se posent pas aux quatre centrales réunies sur la plateforme de la Production Commune, parce qu’il ne s’agit pas de l’espèce bancaire mais des biens, des produits et des services réels. Car, dans la pratique sur la plateforme, la compensation en Bons de livraison n’est qu’une augmentation des Biens accordée aux vendeurs qui les y abandonnent contre des payements périodiques par voie d’OPI. </p>
+<p>L’EXPLOITATION DU PROGICIEL MCNP, ACTIVITE COMMERCIALE NON FINANCIERE</p>
+<p><strong><i>Caractère commercial des Activités </i></strong></p>
+<p>Aux termes de l’article 3 de l’Acte Uniforme portant sur le Droit Commercial Général, a le caractère d’acte de commerce par nature, « l’achat de biens, meubles ou immeubles, en vue de leur revente ».
+<span>Or, le souscripteur à l’une et/ou à l’autre des deux (02) activités que sont : ‘’souscriptions pour soi et pour tiers aux comptes marchands et aux bons de consommation ‘’ et ‘’ Acheteur-Revendeur en ligne contre OPI ‘’, achète des marchandises et les revend sur la plateforme ESMC. 
+Les deux (02) activités sont donc sans nul doute des actes de commerce par nature fait par ESMC.
+</span>
+</p>
+
+<p><strong><i>Caractère non financier des activités</i></strong></p>
+<p>Le Marché de Crédit en Nature Pérenne, MCNP, malgré le mot <strong>crédit</strong> que comporte son nom, n’a le sens ni d’emprunt, ni de prêt, ni d’épargne, ni de dépôt, ni de placement, ni d’action, ni d’assurance, ni d’aucune collecte ou réception de fonds, ni d’appel de fonds, ni d’aucun transfert de fonds, ni de moyen de payement. Le Marché de Crédit en Nature Pérenne, MCNP n’est donc pas une activité financière.</p>
+<p>En effet, le Vocabulaire juridique de Gérard CORNU définit le mot ‘’financier’’ comme étant ce <i>«qui a trait aux capitaux, à leur gestion, aux activités et opérations qui s’y rapportent, spécialement aux mouvements et placements de fonds ; en ce sens, financier englobe boursier ».</i>
+Il ressort de cette définition que les activités financières englobent celles exercées par le secteur bancaire, les systèmes financiers décentralisés, les secteurs d’assurance et de bourse.   
+Les activités ESMC ne sont pas assimilables aux activités bancaires, de micro finance,  d’assurance et de bourse pour des raisons ci-après : 
+  </p>
+<ul>
+<li>Le caractère non bancaire des activités ESMC</li>
+</ul>
+<p>Aux termes de l’article 2, alinéa 2 de la loi N°2009-019 du 07.09.09 portant réglementation bancaire, <i>« Constituent des opérations de banque, au sens de la présente loi, la réception de fonds du public, les opérations de crédit, ainsi que la mise à disposition de la clientèle et la gestion de moyens de paiement ».</i>
+Les Activités ESMC ne sont pas bancaires dans la mesure où :
+<ul>
+<li>D’une part, l’article 5 de ladite loi dispose que « sont considérés comme fonds reçus du public, les fonds qu'une personne recueille d'un tiers, notamment sous forme de dépôts, avec le droit d'en disposer pour son propre compte, mais à charge pour elle de les restituer ».</li>
+</ul>
+Conformément à la pratique bancaire, le déposant dépose son argent sur son compte ouvert dans les livres d’une institution financière qui a l’obligation de le restituer. Ce fait est dénommé recevoir l’argent ou les fonds du public.
+<strong><i>L’argent utilisé par le souscripteur sur la plateforme est versé sur les comptes de l’ESMC ouverts dans les livres des institutions bancaires de la place, tout comme le fait un acheteur qui paye à son vendeur. Aussi, les frais de souscriptions à ses activités qui débouchent forcément sur un bien, un produit ou un service ne sauraient être restitués par ESMC.</i></strong>
+<ul>
+<li>D’autre part, d’après l’article 6 de la même loi, <i>« Constitue une opération de crédit, pour l'application de la présente loi, tout acte par lequel une personne, agissant à titre  onéreux :</i>
+<ul>
+<li><i>1)    met ou promet de mettre des fonds à la disposition d'une autre personne ;</i> </li>
+<li><i>2)	 prend, dans l'intérêt de celle-ci, un engagement par signature tel qu'un aval, un cautionnement ou une garantie. Sont assimilés à des opérations de crédit, le crédit-bail et, de manière générale, toute opération de location assortie d'une option d'achat ».</i></li>
+</ul>
+</li>
+</ul>
+<strong><i>Les OPI émis à l’ordre du souscripteur ne sont pas des fonds mis à sa disposition ; ce sont plutôt des paiements consécutifs à la vente en centrale de ses marchandises sur la plateforme ESMC.  </i></strong>
+<ul>
+<li>	Par ailleurs, l’article 7 de ladite loi dispose que « sont considérés comme moyens de paiement, tous les instruments qui, quel que soit le support ou le procédé technique utilisé, permettent à toute personne de transférer des fonds. Il s’agit notamment des chèques bancaires, chèques de voyage, cartes de paiement et de retrait, virements ou avis de prélèvement, cartes de crédit et transferts électroniques de fonds ». </li>
+</ul>
+<strong><i>ESMC n’émet aucun de ces moyens de paiement. Les Bons et cartes pour l’achat et les ordres de paiement (OPI) émis lors de l’exercice des Activités ESMC sont, comme démontré plus haut, respectivement admis par l’article 14 5) de la loi N°2009-019 du 07.09.09 portant réglementation bancaire et l’article 1er du règlement N° 15/2002/CM/UEMOA relatif aux systèmes de paiement dans les Etats membres de l’Union Economique et Monétaire Ouest Africaine. </i></strong>
+Eu égard aux développements qui précèdent, il échoit qu’aucune activité ESMC n’est bancaire. 
+</p>
+<p>
+<ul>
+<li>Les activités ESMC ne relèvent pas des systèmes financiers décentralisés</li>
+</ul>
+<strong>L’article 1er 21°) de la loi N°2011-009 du 12/12/2011 portant réglementation des systèmes financiers décentralisés</strong> définit le système financier décentralisé comme étant <i>l’«institution dont l’objet principal est d’offrir des services financiers à des personnes qui n’ont généralement pas accès aux opérations des banques et établissements financiers tels que définis par la loi portant réglementation bancaire et habilitée aux termes de la présente loi à fournir des prestations ». </i>
+Selon <strong>l’article 4</strong> de ladite loi, ces services financiers sont de trois ordres, à savoir : la collecte de dépôts, les opérations de prêts et les opérations d’engagement par signature.
+<ul>
+<li>Relativement à l’opération de collecte de dépôts, <strong>l’article 4 1°)</strong> dispose que « sont considérés comme dépôts, les fonds autres que les cotisations et contributions obligatoires, recueillis par le système financier décentralisé auprès de ses membres ou de sa clientèle avec le droit d’en disposer dans le cadre de son activité, à charge pour lui de les restituer à la demande des déposants selon les termes convenus ».  </li>
+<li>S’agissant des opérations de prêts, <strong>l’article 4 2°)</strong> dit qu’ « est considérée comme une opération de prêts, tout acte par lequel un système financier décentralisé met, à titre onéreux, des fonds à la disposition d’un membre ou d’un client à charge pour ce dernier de les rembourser à l’échéance convenue" ».</li>
+<li>Concernant les opérations d’engagement par signature, <strong>l’article 4 3°)</strong> dispose qu’ « est considérée comme une opération d’engagement par signature, tout acte par lequel un système financier décentralisé prend, dans l’intérêt d’un membre ou d’un client, un aval, une caution ou une autre garantie ». </li>
+</ul>
+A la lumière des <strong>articles 4 1°), 4 2°) et 4 3°)</strong> précités, <strong>les activités ESMC ne s’exercent, ni dans le cadre de la collecte des dépôts, ni dans le cadre des opérations de prêts, ni dans le cadre des opérations d’engagement par signature.</strong>
+Il échoit qu’aucune des activités ESMC ne relève des opérations du système financier décentralisé.  
+</p>
+<p>
+<ul>
+
+<li>Les activités ESMC ne sont pas des opérations d’assurances</li>
+
+</ul>
+<i>Le Vocabulaire juridique de Gérard CORNU</i> définit l’assurance comme étant l’ <i>« opération par laquelle une partie, l’assuré, se fait promettre, moyennant une rémunération, la prime (ou cotisation), pour lui ou pour un tiers, en cas de réalisation d’un risque, une prestation (pécuniaire) par une autre partie, l’assureur (société d’assurance), qui, prenant en charge un ensemble de risques, les compense conformément aux lois de la statistique ».</i>
+C’est ainsi que le Code CIMA distingue trois sortes d’assurances : les assurances de dommages non maritimes, les assurances de personnes et aux contrats de capitalisation, puis les assurances de groupe.
+<ul>
+<li>Les assurances de dommages non maritimes sont, d’après l’article 31 dudit Code, celles qui sont relatives aux dommages causés aux biens en général. Il s’agit des assurances contre incendie, des assurances de responsabilité et des assurances des risques agricoles. </li>
+<li>Suivant les articles 58 et 64 dudit Code, il y a assurance sur la vie lorsque la vie d'une personne est assurée par elle-même ou par un tiers pour un capital déterminé dont le montant et les conditions de remboursement sont déterminés à partir d’un contrat de capitalisation.  </li>
+<li>L’article 95 dispose : <i>« Est un contrat d'assurance de groupe le contrat souscrit par une personne morale ou un chef d'entreprise en vue de l'adhésion d'un ensemble de personnes répondant à des conditions définies au contrat, pour la couverture des risques dépendant de la durée de la vie humaine, des risques portant atteinte à l'intégrité physique de la personne ou liés à la maternité, des risques d'incapacité de travail ou d'invalidité ou du risque de chômage ».</i> </li>
+</ul>
+<strong><i>Les activités ESMC n’ont aucun lien avec ces trois types d’assurances définis par le Code CIMA.</i></strong>
+<strong>Par conséquent, elles ne sont pas des opérations d’assurances.</strong>
+</p>
+<p>
+<ul>
+<li>Les activités ESMC ne sont pas des opérations boursières</li>
+</ul>
+Dans le <i>Lexique de banque et de bourse,</i> Mme Blanche SOUSI-ROUBI déclare qu’ <i>« aujourd’hui, lorsqu’on parle de bourse c’est pour désigner la bourse de valeurs » que le Vocabulaire juridique de Gérard CORNU définit comme « la réunion des agents de change qui a pour objet la négociation et la constatation du cours des valeurs mobilières ».</i> 
+Il ressort de <strong>l’article 744 et suivants de l’Acte uniforme relatif au droit des sociétés commerciales et du groupement d’intérêt économique</strong> que les valeurs mobilières sont, soit des actions, soit des obligations, soit les deux (cas des valeurs mobilières composées).
+<strong><i>L’exercice des activités ESMC ne porte en aucun moment sur des actions ou des obligations.</i></strong>
+Par conséquent, aucune des Activités ESMC ne saurait être classée au rang des opérations boursières. 
+<strong><i>Au regard de ce qui précède, les activités ESMC ne sont donc pas assimilables aux activités bancaires, de micro finance,  d’assurance et de bourse.  </i></strong>
+<p>
+<ul>
+<li>Les activités ESMC ne sont pas un appel public à l’épargne </li>
+</ul>
+<strong>L’Article 83 de l’Acte uniforme relatif au droit des sociétés commerciales et du groupement d’intérêt économique dispose : </strong>
+<i>« L'offre au public de valeurs mobilières est constituée par l'une des opérations suivantes : une communication adressée sous quelque forme et par quelque moyen que ce soit à des personnes et présentant une information suffisante sur les conditions de l'offre et sur les valeurs mobilières à offrir, de manière à mettre une personne en mesure d'envisager d'acheter ou de souscrire ces valeurs ; un placement de valeurs mobilières par des intermédiaires financiers dans le cadre soit d'une émission soit d'une cession ».</i>
+A titre de rappel, les souscriptions faites par les Utilisateurs sur la plateforme ESMC sont destinées aux opérations d’achat prépayées et aux opérations de vente post-payées liées aux biens, produits et services qui n’ont aucun rapport avec les valeurs mobilières.
+Comme exposé plus haut, <strong><i>les activités ESMC ne portent en aucun moment ni sur des actions ni sur des obligations ni sur les deux qui font partie des valeurs mobilières offertes au public à l’occasion des appels publics à l’épargne.</i></strong>
+Par conséquent, aucune des Activités ESMC ne saurait être classée au rang des opérations d’appel public à l’épargne. 
+</p>
+</p>
+<p style="color:#FF0000">Notons Bien pour résumer que, les activités innovées par ESMC se rapportent essentiellement :</p>
+<p>
+<ul>
+ <li>Au prépaiement et au payement au comptant par les acheteurs de biens, de produits et de services sur la plateforme ESMC, </li>
+ <li>Au payement morcelé en 12 OPI minimum par ESMC  à ses utilisateurs  contre leurs ventes de biens, de produits et de services et  </li>
+ <li>A l’achat et vente réciproques entre ESMC, ses Utilisateurs et Partenaires. </li>
+</ul>
+</p>
+<p><strong>En conclusion,</strong> la Production Commune est, pour le compte de tous les souscripteurs Utilisateurs, l’acheteur, le producteur, le transformateur et le vendeur en dernier ressort. 
+Elle représente également, l’outil intégrateur par excellence au moyen des <strong>facteurs de production : travail, argent et matières,</strong> outil qui est désormais mis à la disposition de toute communauté. Son marché MCNP au circuit économique bouclé est, à cet effet, l’alternative qui a la capacité de transformer le marché linéaire mondial de bulles spéculatives, de dettes impayables, de crises multiples récurrents, de déséquilibre vicier, d’inégalité notoire et du chômage incurable, en marché structuré, circulaire, solvable, universel. Sa mise en application permet de concilier de façon formelle le social et l’efficacité du marché pour ne plus jamais avoir de pauvreté face au manque de clientèle sur le marché mondial. 
+</p>
+<p>Voilà pourquoi l’ESMC, l’EXPLOITANT DU PROGICIEL MCNP, promoteur de la Production Commune se propose comme l’Outil de Développement Durable (ODD) pour l’atteinte des résultats attendus des 17 ODD que le monde s’est assignés d’ici à 2030. </p>
+<p>C’est dans ce cadre qu’elle met en place avec ses Fournisseurs Utilisateurs, ses Fournisseurs spécifiques et ses Fournisseurs externes, cette présente convention pour réguler leur collaboration. </p>
+<p>Etant attendu que le préambule fait partie intégrante du contrat, il a été convenu ce qui suit :</p>
+</section>
+
+<section>
+<p><strong><i>Article 1 : Définitions et explications</i></strong></p>
+<p>
+<ul>
+<li> <strong>Plateforme ESMC :</strong> C’est l’ensemble de mesures et d’idées qui fondent les principes du modèle économique de l’Entreprise Sociale de Marché Commun (ESMC) et du système, Marché de Crédit en Nature Pérenne (MCNP) sur lesquelles est bâtie sa convention de collaboration avec ses Utilisateurs. </li>
+<li>C’est aussi l’ensemble logistique : Centres de données, réseaux informatiques, réseaux de télécommunication, site internet et les périphériques (ordinateurs, boitiers, tablettes, téléphones, cartes individuelles d’accès et autres) qui permettent l’exploitation du Progiciel MCNP. </li>
+<li>C’est, enfin, le marché numérique de quatre centrales communes virtuelles, Comptes d’Activités Marchandes Communes : centrales communes d’achat, de vente, de production  et de transformation auxquelles sont rattachés des Comptes d’Activités Marchandes Personnels universels.</li>
+<li>MCNP : Marché de Crédit en Nature Pérenne. C’est l’ensemble de Comptes d’Administration et d’Animation d’Activités Marchandes qui logent les supports marchands numériques à l’usage des individus, des ménages, des personnes physiques et morales et qui aboutissent à l’action commune à travers la Centrale d’Achat Commune, la Centrale de Vente Commune, la Centrale de Transformation Commune et la Centrale de Production Commune sur la plateforme ESMC.</li>
+<li> <strong>Progiciel MCNP :</strong> Ensemble complet de programmes informatiques et la documentation qui l’accompagne. Il est porteur de quatre Activités innovées qui s’exercent à travers ses Supports Marchands contenus dans ses Comptes Marchands, mis en place pour la souscription de différents Utilisateurs, en vue d'une gestion professionnelle commune du marché. </li>
+<li> <strong>Comptes Marchands :</strong> Comptes portés par le Progiciel MCNP qui logent les Supports Marchands : les Bons de Livraison, les Bons d’Achat, les Bons de Consommation, les Bons de Commande et les Ordres de Prélèvement Irrévocable.</li>
+<li> <strong>Supports marchands MCNP:</strong> Ce sont les Bons de Consommation, les Bons de Livraison, les Bons d’Achat, les Bons de Commande et les Ordres de Prélèvement Irrévocable, émis automatiquement par le Progiciel MCNP dans les Comptes Marchands des Utilisateurs, de même que dans les Comptes Marchands dédiés aux partenaires.  </li>
+<li> <strong>Engagement de Livraison Irrévocable :</strong> C’est un engagement pris par les fournisseurs de l’ESMC en vue de livrer ou de fournir en continu sur sa plateforme, leurs Biens, Produits et Services.</li>
+<li> <strong>Carte :</strong> Support plastique magnétique, acoustique ou à puce électronique servant à identifier et à authentifier le porteur, dans le cadre de l’usage de son Compte Marchand et des Supports Marchands y afférents.</li>
+<li> <strong>Consommation récurrente :</strong> Modalité de la consommation périodique répétitive à durée indéterminée ou déterminée. </li>
+<li><strong>Consommation récurrente :</strong> Modalité de la consommation périodique répétitive à durée indéterminée ou déterminée. </li>
+<li><strong>Consommation non récurrente : </strong>Modalité de consommation une fois pour de bon. </li>
+<li><strong>>Utilisateur :</strong Toute personne physique ou morale, titulaire d’un Compte Marchand qui utilise les Supports Marchands MCNP sur la plateforme ESMC.</li>
+<li><strong>Production Commune :</strong> C’est l’ensemble des activités marchandes des centrales ESMC au profit impartageable. Elle est destinée à combler tous les écarts créés par les réductions des coûts, le renouvellement pérenne ou non aux consommateurs et les concessions de bénéfice aux vendeurs.</li>
+<li><strong>Consommateur :</strong> Toute personne physique ou morale qui achète des Biens, Produits et Services par voie de Bons de Consommation sur la plateforme ESMC. </li>
+<li><strong>>Fournisseur spécifique :</strong Personne à qui la loi impose le règlement de ses ventes au comptant et uniquement en espèce bancaire.</li>
+<li><strong>Fournisseur externe :</strong> Producteur et transformateur ayant le monopole sur ses biens, ses produits ou ses services. </li>
+<li><strong>Centrale d’Achat Commune :</strong> Centrale où s’opèrent les achats de tout UTILISATEUR sur la plateforme ESMC.</li>
+<li><strong>Centrale de Vente Commune :</strong> Centrale où s’opèrent les ventes de tout fournisseur et distributeur sur la plateforme ESMC.</li>
+<li><strong>Centrale de Production Commune :</strong> Centrale où s’opère la production sur la plateforme ESMC.</li>
+<li><strong>Centrale de Transformation Commune :</strong> Centrale où s’opère la transformation sur la plateforme ESMC.</li>
+</ul>
+</p>
+</section>
+
+<section>
+<p><strong style="text-decoration:underline">Article 2 : Objet de la convention</strong></p>
+<p>Pour produire, transformer et distribuer, les producteurs, les transformateurs et les distributeurs consomment les Biens, Produits et Services.</p>
+<p>Ces Biens, Produits et Services à consommer sont proposés sur la plateforme ESMC par d’autres acteurs producteurs, transformateurs, distributeurs, dans le cadre de leur souscription à la Production Commune.</p>
+<p>Cette Production Commune est organisée en Centrale d’Achat Commune, en Centrale de Vente Commune, en Centrale de Transformation Commune et en Centrale de Production Commune pour combler les écarts. </p>
+<p>La présente convention a pour objet de définir les conditions de la mise en œuvre de la collaboration étroite entre l’ESMC et les Fournisseurs Utilisateurs, spécifiques et externes dans le cadre de l’observation des règles indispensables au fonctionnement du système et du modèle de l’ESMC qui sont engagés dans l’alternative à l’économie classique, souscrivant aux 17 Objectifs de Développement Durable pour lesquels la plateforme se propose d’être <strong>l’outil de marché intégrateur de chaque être humain dans la répartition optimale des bienfaits de l’économie de marché mondialisée, sans laisser personne de côté.</strong> </p>
+
+<p>
+<strong style="text-decoration:underline">Article 3 : Fonctionnement des Centrales Communes sur la plateforme ESMC </strong>
+</p>
+<p><strong style="text-decoration:underline;margin-left:35px"> 3.1. Centrale de Vente Commune </strong>
+</p>
+<p>C’est la centrale qui est chargée de consommer les biens, produits et services matières premières, produits semi-finis et finis  sur la plateforme ESMC pour leur vente en dernier ressort aux exportateurs, importateurs, grossistes, semi-grossistes, détaillants et consommateurs finaux. Cette centrale permet l’écoulement rapide des marchandises de tout vendeur puisqu’il lui suffit de les lui confier contre le mode de payement morcelé par voie d’OPI. Elle encourage la participation de tous aux activités : Prestataires de la Production Commune contre OPI, Acheteurs-revendeurs en ligne contre OPI,                        Achat-vente réciproques par voie d’ELI contre OPI et la souscription aux Comptes Marchands et aux Bons de Consommation pour tiers contre OPI.  Pour ce faire, on recense les offres des uns et des autres en matière de distribution puis on tente de leur apporter la demande correspondante sur la plateforme ESMC. Ainsi, tout ce qui est acheté, produit, transformé et distribué contre le mode de payement fractionné par voie d’OPI est vendu par la centrale de vente commune en dernier ressort à tous les acheteurs. 
+Comme dans le cas de toutes les centrales, la centralisation de la vente et de l’achat est basée sur la mise à disposition de biens infrastructures et logistiques des achats et ventes, aux organisateurs, têtes de divisions des différentes sortes de filières d’achat et de vente dans les communautés. 
+Par ailleurs, les biens de production acquis dans toutes les divisions de toutes les centrales contre la production future par  ses divisions, dans le cadre de la mise en œuvre des industries et entreprises  constituent le patrimoine de la Production Commune.   
+</p>
+<p><strong style="text-decoration:underline">3.2 : Centrale d’Achat Commune </strong></p>
+<p>C’est elle qui est chargée d’apporter  l’argent payé contre des Bons par les souscripteurs sur les Comptes bancaires de ESMC auprès des banques et d’assurer le payement morcelé par voie d’Ordres de Prélèvement Irrévocable (OPI) aux fournisseurs de marchandises consommées par les souscripteurs, avant que les autres centrales de la plateforme ESMC ne soient utilisées pour consommer et investir. La centralisation des achats et du payement morcelé à la centrale des achats par voie d’OPI permet de réduire les coûts de production et donc de consommation aux souscripteurs et d’augmenter les montants de vente aux fournisseurs en raison des gains de productivité qu’ils engendrent. La réduction des coûts est aussi et surtout destinée à  retourner sur les comptes de ESMC auprès des banques, l’argent payé par voie d’OPI aux fournisseurs importateurs-exportateurs, industries, entreprises, distributeurs grossistes, semis- grossistes et détaillants. L’augmentation des montants de vente pour cause de  payement morcelé accroît le pouvoir d’achat des fournisseurs qui utilisent directement les OPI pour faire leurs commandes aboutissant par ce fait à la compensation interne qui renforce le cumule de l’argent sur les comptes bancaires destinés à assurer la solvabilité de ESMC. La fiabilité et la liquidité des OPI ESMC dépendent du cumul de plus en plus grand de l’argent sur ses comptes bancaires qui assure la disponibilité en quantité et en qualité des biens, produits et services matières premières, manufacturés et prestations de tous genres  traduisant donc la solvabilité de la plateforme ESMC face à ses engagements vis-à-vis de ses consommateurs intermédiaires et finaux.
+Cette centrale concerne les acheteurs abonnés, Utilisateurs de Comptes Marchands MCNP qui ont souscrit aux Bons d’Achat pour leurs commandes ou consommations de biens, de produits et de services sur la plateforme ESMC. Autrement dit, la souscription aux Bons émis sur la plateforme ESMC constitue un <strong>abonnement</strong>. 
+L’achat de biens, de produits et de services est fait par la modalité de <strong>payement au comptant</strong> ou par la modalité de <strong>prépaiement</strong>. 
+L’abonnement (souscriptions aux Bons) pour la consommation des marchandises vendues en centrale sur la plateforme ESMC se fait en mode récurrent et non récurrent.  
+Le mode d’achat récurrent se traduit par la modalité <strong>de prépaiement</strong> et le mode d’achat non récurrent se traduit, lui, par la modalité de <strong>payement au comptant.</strong>
+</p>
+<p><strong>La modalité de consommation récurrente concerne :</strong>
+<ul>
+<li>Le prépaiement pour la livraison quotidienne de marchandises à une durée de 30 jours (mode d’achat récurrent journalier), </li>
+<li>Le prépaiement pour la livraison de marchandises pendant 11.2 périodes de 30 jours (mode d’achat récurrent limité à 11.2 périodes), </li>
+<li>Le prépaiement pour la livraison de marchandises pendant 22.4 périodes de 30 jours (mode d’achat récurrent limité à 22.4 périodes) et</li>
+<li>Le prépaiement pour la livraison de marchandises dont le montant de souscriptions se renouvèle chaque 22.4 périodes de 30 jours (mode d’achat récurrent à période de renouvellement illimité).</li>
+</ul>
+</p>
+
+<p><strong>La modalité de consommation non récurrente concerne </strong>
+<ul>
+<li>Le payement au comptant pour la livraison immédiate des marchandises (mode d’achat non récurrent) et</li>
+<li>Le payement au comptant pour la livraison des marchandises à réaliser (mode d’achat Période de Reconstitution Effective).</li>
+</ul>
+</p>
+<p>
+Les facilités accordées par ces modes de payement sur la plateforme ESMC sont <strong>la réduction des coûts </strong>concédée aux abonnés acheteurs lorsque la souscription est faite en argent.
+La réduction des coûts d’achat en argent se fonde sur le calcul selon lequel : l’argent prépayé ou payé au comptant sur les comptes bancaires de la plateforme sert essentiellement à un robuste levier de facteurs de production sur les centrales de la Production Commune. Plus la quantité de consommation périodique de marchandises est petite, plus le nombre de périodes est grand et plus le coût de la marchandise consommée périodiquement est réduit. 
+Le calcul du montant de souscriptions aux Bons de Consommation et de commande en mode récurrent et non récurrent est disponible sur le site internet ESMC.
+
+</p>
+</section>
+<section>
+<p><strong style="text-decoration:underline">3.3 : Centrale de transformation commune</strong></p>
+<p>C’est la centrale qui est chargée de consommer les biens, produits et services matières premières  sur la plateforme ESMC pour les transformer en produits semi-finis et finis. Elle encourage la création de valeur ajoutée et offre les facilités de transformer les matières premières en produits semi-finis et finis. Sur la base de la participation des individus des communautés en tant que prestataires de la Production Commune contre une rémunération en mode de payement fractionné par voie d’OPI, la centralisation de la transformation est basée sur la mise à disposition de biens de transformation de matières premières, dans les communautés, aux organisateurs des différentes sortes de filières de transformation de matières premières. Grâce à cette centrale on peut transformer du mais, de l’arachide, de l’ananas respectivement en farine, en huile ou en jus. Pour ce faire, les têtes de divisions organisent leurs acteurs, recensent leurs besoins en matière de transformation de matières premières, en vue de les satisfaire sur la plateforme ESMC. Par exemple, des transformateurs organisés en coopératives, en groupements, et les transformateurs entreprises et industries pour leurs besoins en moyens modernes de transformation vont adresser une demande à la plateforme pour l’acquisition. En retour, ils vont signer à la centrale d’achat commune un Engagement de Livraison Irrévocable de leurs produits. La fiabilité de ses engagements assure la disponibilité en quantité et en qualité des biens, produits et services manufacturés et donc la solvabilité de la plateforme ESMC.</p>
+<p><strong style="text-decoration:underline">3.4 : Centrale de production commune</strong></p>
+<p>C’est la centrale qui est chargée de consommer les biens, les produits et les services, matières premières sur la plateforme ESMC pour produire des marchandises destinées à combler les écarts dus aux avantages concédés aux souscripteurs. Cette centrale encourage à produire les biens- matières premières par la participation des individus des communautés en tant que prestataires de la Production Commune contre une rémunération en mode de payement fractionné par voie d’OPI. La centralisation de la production est basée sur la mise à disposition de biens de production de matières premières, dans les communautés, aux organisateurs des différentes sortes de filières de production de matières premières.  Pour ce faire, les têtes de divisions organisent leurs acteurs, recensent leurs besoins en matière de production de matières premières, en vue de les satisfaire sur la plateforme ESMC. Par exemple, des producteurs organisés en coopératives, en groupements, et des producteurs entreprises et industries pour leurs besoins en moyens de production vont adresser une demande à la plateforme pour l’acquisition. En retour, ils vont signer à la centrale d’achat commune un Engagement de Livraison Irrévocable (ELI) de leurs produits. La fiabilité de ses engagements assure la disponibilité en quantité et en qualité des biens, produits et services matières premières et donc la solvabilité de la plateforme ESMC.</p>
+<p><strong style="text-decoration:underline">3.5 : Comptes marchands reliés aux centrales</strong></p>
+<p>Les personnes physiques et morales qui vendent, transforment, achètent et produisent pour leur propre compte ou pour le compte de la Production Commune disposent dans leur Compte Marchand d’un Terminal d’Echange (TE) relié aux Comptes Marchands des centrales. Ces Comptes Marchands équipés de TE sont des Utilisateurs.</p>
+<ul>
+
+<li>Pour activer leur TE, les acteurs personnes physiques ouvrent leur Compte Marchand à 70 000 FCFA plus 21 875 FCFA minimum pours tiers et les acteurs personnes morales ouvrent le leur à 70 000 FCFA plus 218 750 FCFA pour tiers. </li>
+<li>L’échange de biens, produits et services entre TE se termine par une série de 12 OPI minimum émis en faveur des titulaires au niveau des centrales  sur la plateforme ESMC.</li>
+</ul>
+</section>
+
+<section>
+<p><strong style="text-decoration:underline">Article 4 : Avantages attendus </strong>
+</p>
+<p><strong style="text-decoration:underline;margin-left:25px">4.1 : Coïncidence / Echange / Mévente zéro</strong>
+</p>
+<p>L’accès optimal à l’information se traduit par la coïncidence des besoins en biens, en produits et en services contre les marchandises n’ayant pas trouvé de preneurs immédiats débouchant, par ce fait, sur la mévente zéro.</p>
+<p><strong style="text-decoration:underline;margin-left:25px">4.2 : Désendettement</strong>
+</p>
+<p>L’accès à la domiciliation sur la plateforme, de marchandises ou de la productivité potentielle n’ayant pas trouvé de preneurs pour se désendetter complètement vis-à-vis de ses créances se traduit par le désendettement. La plateforme ESMC se servira de cet avantage pour se désendetter complètement vis-à-vis de ses créanciers conformément à la clause d’achat et de vente réciproques.</p>
+<p ><strong style="text-decoration:underline;margin-left:25px">4.3 : Solvabilité absolue</strong></p>
+<p>
+L’accès à la souscription pour soi et pour tiers qui se traduit par le prépaiement de ses consommations enlève toute possibilité d’insolvabilité au consommateur sur la plateforme.
+</p>
+<p><strong style="text-decoration:underline;margin-left:25px">4.4 : Gaspillage zéro</strong></p>
+
+<p>Le gaspillage zéro correspond :
+<ul>
+<li>Au plein emploi des ressources humaines et matérielles.</li>
+<li>Au plein usage des Biens, Produits et Services.</li>
+<li>Au recyclage optimal des déchets.</li>
+</ul>
+
+</p>
+<p><strong style="text-decoration:underline;margin-left:25px">4.5 : Transparence optimale</strong></p>
+<p>La transparence optimale comprend : 
+<ul>
+<li>Le service d’alerte, </li>
+<li>Le service de réclamation, </li>
+<li>Le service de recouvrement, </li>
+<li>Le service de règlement, </li>
+<li>Le service de traçabilité effective et </li>
+<li>Le service de gestion à l’amiable de contentieux marchands.</li>
+</ul>
+
+</p>
+<p><strong style="text-decoration:underline">Article 5 : Caractéristiques des différents produits </strong></p>
+<p><strong style="text-decoration:underline;margin-left:25px">5.1	: Compte Marchand</strong></p>
+<ul>
+<li style="text-decoration:underline;font-weight:bold">Souscriptions</li>
+</ul>
+<p>Le Compte Marchand des personnes physiques ou morales s’acquiert par voie de souscriptions moyennant des frais non remboursables.</p>
+<ul>
+<li style="text-decoration:underline;font-weight:bold">Interdépendance du Compte Marchand</li>
+</ul>
+<p>Le Compte Marchand  est interdépendant entre ses détenteurs Utilisateurs et partenaires. </p>
+<ul>
+<li style="text-decoration:underline;font-weight:bold">Durée de vie </li>
+</ul>
+<p>La durée de vie du Compte Marchand est égale à celle de la société exploitante. Toutefois, la disparition, le décès, la liquidation et le renoncement du détenteur entrainent la caducité du compte. 
+Le contenu du compte devenu caduque demeure tel et assujetti à la reconstitution des éventuels Supports Marchands qu’il contient, exclusivement en Bons d’Achat internes, au profit des héritiers s’il y en a.
+</p>
+<ul>
+<li style="text-decoration:underline;font-weight:bold">Usage </li>
+</ul>
+<p>Le Compte Marchand est à usage personnel ; contrairement aux supports Marchands qu’il contient, il est inaliénable.</p>
+<p style="font-weight:bold;text-decoration:underline">5.2 : Supports Marchands contenus dans le Compte Marchand</p>
+<p>En cas d’absence catégorique des biens, de pénurie des biens ou en cas de suspension des activités des fournisseurs sur la plateforme, le cumul de tous les Supports Marchands devient des Bons de Consommation et s’échangera, à la reprise requise, contre des marchandises disponibles. Les Supports Marchands cumulés peuvent également servir de Bons de Commande pour une nouvelle production (consommation future). </p>
+
+<p><strong><u>5.2.1 : Bons de Consommation récurrente</u></strong></p>
+<p style="margin-left:25px"><strong><u><i>Période d’affectation </i></u></strong></p>
+<p>Le Bon de Consommation récurrente est affecté par période de trente (30) jours, période qui peut se prolonger en cas de pénurie généralisée des Biens, Produits et Services réels sur la plateforme ESMC.
+L’affectation peut être limitée ou non limitée dans le temps selon le type de Bons de Consommation récurrente. 
+</p>
+<p style="margin-left:25px"><strong><u><i>Spécificité d’affectation  </i></u></strong></p>
+<p>Le Bon de Consommation récurrente est exclusivement affecté à des types de Biens, Produits ou Services spécifiques. Cette affectation spécifique peut s’élargir à d’autres biens en cas de pénurie généralisée des produits spécifiques auxquels il est affecté. </p>
+<p style="margin-left:25px"><strong><u><i>Aspect non cumulable  </i></u></strong></p>
+<p>Le Bon de Consommation récurrente n’est pas cumulable.</p>
+<p>En cas de suspension du Bon de Consommation récurrente, pour des fins de reconstitution et sur demande du titulaire, il se cumule compte tenu de la Période de Constitution du Montant de Souscriptions au Bon de Consommation qui est de 22.4 périodes de 30 jours. Le cumul devient un Bon d’Achat interne égal à 11.2 fois le Montant de Souscriptions pour soi, lorsque la période de jouissance est égale à 22.4 période de 30 jours. Une proportion est faite pour le cas des périodes de jouissance inférieure ou  supérieure à 22.4 périodes de 30 jours.</p>
+<p style="margin-left:25px"><strong><u><i>Aspect non redevable en monnaie bancaire </i></u></strong></p>
+<p>
+En aucun cas, le Bon de Consommation récurrente ne peut être dû en monnaie bancaire. 
+</p>
+<p><strong><u><i>5.2.2 : Bons de Consommation non récurrente</i></u></strong></p>
+
+<p style="margin-left:25px"><strong><u><i> Période </i></u></strong></p>
+<p>Le Bon de Consommation non récurrente s’exprime une fois pour de bon. Il peut être affecté aux marchandises déjà produites (consommation immédiate) et aux marchandises à produire par les fournisseurs (consommation future).</p>
+<p style="margin-left:25px"><strong><u><i> Spécificité d’affectation  </i></u></strong></p>
+<p>Le Bon de Consommation non récurrente est exclusivement affecté à des types de Biens, Produits ou Services spécifiques. Cette affectation spécifique peut s’élargir à d’autres biens en cas de pénurie généralisée des produits spécifiques auxquels il est affecté.  </p>
+<p style="margin-left:25px"><strong><u><i>Aspect cumulable </i></u></strong></p>
+<p>Le Bon de Consommation non récurrente est cumulable dans le cas où il est affectable aux biens futurs.</p>
+<p style="margin-left:25px"><strong><u><i>Aspect non redevable en monnaie bancaire </i></u></strong></p>
+
+<p>En aucun cas, le Bon de Consommation non récurrente ne peut être dû en monnaie bancaire. </p>
+<p><strong><u> 5.2.3 : Bons de commande</u></strong></p>
+<p style="margin-left:25px"><strong><u><i> Période </i></u></strong></p>
+<p>Les Bons de Commande sont issus des OPI non matures. Ils sont affectés par commande aux Biens, Produits ou Services selon les échéances des OPI dont ils sont issus. A cet effet les périodes de livraison des commandes varient selon les séries de 12, 18, 24, 30, 36 ... OPI et selon les tranches cumulées de 3 OPI égalent à 90 jours ouvrés, 6 OPI égalent à 180 jours ouvrés, 12 OPI égalent à 360 jours ouvrés ainsi de suite.</p>
+<p style="margin-left:25px"><strong><u><i>Spécificité d’affectation </i></u></strong></p>
+<p>Les Bons de Commande sont destinés à la commande auprès des centrales de la Production Commune et auprès de  fournisseurs prestataires de travaux, industries de production et de transformation, importateurs et exportateurs.  
+Les Bons de Commande s’échangent, à l’échéance des OPI de leur provenance, le cas échéant, contre des Bons d’Achat internes. 
+</p>
+<p style="margin-left:25px"><strong><u><i>Aspect cumulable</i></u></strong></p>
+<p>Les Bons de Commande sont cumulables.</p>
+<p><strong><u>5.2.4 : Bons d’Achat</u></strong></p>
+<p style="margin-left:25px"><strong><u><i>5.2.4.1 : Bons d’Achat neutres</i></u></strong></p>
+<p>Ils sont émis aux souscripteurs contre l’argent payé sur l’un des comptes bancaires de l’ESMC. </p>
+<p style="margin-left:25px"><strong><u><i>Période </i></u></strong></p>
+<p>Les Bons d’Achat neutres sont émis instantanément ou 24 à 72 heures selon la banque et le mode de payement utilisé, après enregistrement sur le formulaire de souscriptions ESMC des renseignements contenus par les fiches de versement bancaires. Ils sont valables à durée indéterminée. </p>
+<p style="margin-left:25px"><strong><u><i>Spécificité d’affectation</i> </u></strong></p>
+<p>Les Bons d’Achat neutres sont affectés à la souscription aux Activités : Souscriptions pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation et Acheteurs-Revendeurs en ligne contre OPI.</p>
+<p style="margin-left:25px"><strong><u><i>Aspect cumulable</i></u></strong></p>
+
+<p>Les Bons d’Achat neutres sont cumulables.</p>
+
+<p style="margin-left:25px"><strong><u><i>Aspect non redevable en monnaie bancaire</i></u></strong></p>
+<p>En aucun cas, le Bon d’Achat neutre ne peut être dû en monnaie bancaire. </p>
+
+<p><strong><u>5.2.4.2 : Bons d’Achat internes</u></strong></p>
+<p>Ils sont émis contre la souscription aux Activités d’Achat et vente réciproques et celles de Prestataires de la Production Commune. De mêmes, les Bons d’Achat internes sont émis contre des Bons de Consommation reconstitués et contre des Bons de Commande et des OPI non exprimés à leur échéance. Ils pourraient aussi être émis en apurement du passif engendré par l’exploitation antérieure du progiciel MCNP. </p>
+<p style="margin-left:25px"><strong><u><i> Période </i></u></strong></p>
+<p>Les Bons d’Achat internes sont valables pour une durée indéterminée. Ils sont émis après la validation des Engagements de Livraison Irrévocable (cas des activités Achat et vente Réciproques et Prestataires de la Production Commune), à la reconstitution de Bons de Consommation dès la demande du titulaire et à l’échéance des Bons de Commande et des OPI non exprimés.
+Ils sont émis lorsque les conditions le permettent (cas du passif de l’exploitation du progiciel MCNP), 
+</p>
+<p style="margin-left:25px"><strong><u><i>Spécificité d’affectation </i></u></strong></p>
+<p>Les Bons d’Achat internes, tout comme les Bons d’Achat neutres, sont affectés à la souscription aux Activités : Souscriptions pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation et Acheteurs-Revendeurs en ligne contre OPI.</p>
+
+<p style="margin-left:25px"><strong><u><i>Aspect cumulable</i></u></strong></p>
+
+<p>Les Bons d’Achat internes sont cumulables.</p>
+<p style="margin-left:25px;font-weight:bold"><u><i>Aspect non redevable en monnaie bancaire</i></u></p>
+
+<p>En aucun cas, le Bon d’Achat interne ne peut être dû en monnaie bancaire.   </p>
+<p><strong><u>5.2.5 : Bons de livraison</u></strong></p>
+<p>Les Bons de Livraison sont émis contre la vente de tous Biens, Produits et Services et contre toute souscription aux Activités payées par voie d’OPI sur la plateforme ESMC.
+
+Ces Bons sont également émis aux FOURNISSEURS EXTERNES et SPECIFIQUES via les Comptes Marchands dédiés aux partenaires en vue de l’émission des OPI en leur faveur tirés sur les comptes de l’ESMC. 
+Les Bons de livraison s’échangent contre des OPI ou contre des Bons d’Achat neutres.
+</p>
+<p style="margin-left:25px;font-weight:bold"><u><i>Période </i></u></p>
+<p>Les Bons de Livraison sont émis instantanément après la livraison de marchandises. </p>
+<p style="margin-left:25px;font-weight:bold"><u><i>Spécificité d’affectation </i></u></p>
+<p>Les Bons de Livraison sont affectés aux Bons de Consommation non récurrente,  aux Bons d’Achat neutres et aux OPI.</p>
+<p style="margin-left:25px;font-weight:bold"><u><i>Aspect cumulable</i></u></p>
+<p>Les Bons de Livraison sont cumulables.</p>
+<p style="margin-left:25px;font-weight:bold"><u><i>Aspect non redevable en monnaie bancaire</i></u></p>
+<p>En aucun cas, les Bons de Livraison ne peuvent être dus en monnaie bancaire.</p>
+<p><u><strong> 5.2.6 : Ordres de Prélèvement Irrévocable (OPI)</strong></u></p>
+<p>Les OPI sont émis aux personnes physiques et morales contre la souscription aux Activités : Souscriptions pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation, Acheteurs-Revendeurs en ligne contre OPI, Achat et Vente Réciproques et Prestataire de la Production Commune. S’agissant de la Production Commune, les OPI ne sont émis qu’en faveur des prestataires personnes physiques.</p>
+<p style="margin-left:25px;font-weight:bold"><u><i>Période </i></u></p>
+<p>
+La période de (30) jours ouvrés sépare un Ordre de Prélèvement Irrévocable à l’autre, à compter du premier qui, lui, peut être instantané. 
+</p>
+<p style="margin-left:25px;font-weight:bold"><strong><u><i>Modalités d’utilisation des OPI </i></u></strong></p>
+<p>Pour rendre liquide les OPI aux mains des bénéficiaires, ceux-ci ont le choix entre les quatre (04) modes d’utilisation ci-après : </p>
+
+<p>
+<ul>
+<li>Attendre les échéances pour obtenir le virement sur son compte bancaire ouvert nécessairement dans les livres des banques, des micros finances ou sur les plateformes des systèmes de payement partenaires de la plateforme ESMC ; </li>
+<li>Choisir de se désendetter (payer ses dettes) au moyen de ses OPI auprès des banques ou auprès de tout créancier ; </li>
+<li>S’approvisionner par commande de Biens, Produits et Services de consommation finale sur la plateforme ESMC ;</li>
+<li>S’approvisionner par commande de Biens, Produits et Services de production sur la plateforme ESMC.  </li>
+</ul>
+
+<p style="margin-left:25px;"><strong><u><i>Aspect cumulable</i></u></strong></p>
+<p>Les OPI sont cumulables tant qu’ils ne sont pas exprimés suivant les quatre (04) modes d’utilisation sus évoqués. </p>
+<p><strong><u><i>Aspect non redevable en monnaie bancaire</i></u></strong></p>
+<p>Les OPI arrivés à maturité en cours d’activité sont payés en monnaie bancaire. Dans le cas contraire, ils sont affectés aux Bons d’Achat neutres ou aux Bons d’Achat internes.
+Comme décrit plus haut, les acteurs des activités souscription pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation et des activités Acheteurs-Revendeurs en Ligne contre OPI ne disposent pas au départ de Biens, Produits et Services. Pour cela, ils doivent les acheter d’abord sur la plateforme avant de les y revendre. Le prix qu’ils payent est considéré comme un fonds de roulement de leurs activités d’achat et de vente sur la plateforme et soumis à un Engagement de Livraison Irrévocable.   
+Par conséquent, même le premier mode d’utilisation des OPI s’achève par l’observation de la règle achats-ventes réciproques.
+</p>
+<p><strong><u>5.2.7 : Engagement de Livraison Irrévocable (ELI)</u></strong></p>
+<p style="margin-left:25px"><strong><u><i>Types d’ELI</i></u></strong></p>
+<p>Il existe deux types d’ELI : 
+<ul>
+<li>Le premier consiste à fournir sans rupture ses Biens, Produits et Service à ESMC</li>
+<li>Le second consiste à livrer à ESMC, la totalité de la quantité convenue de Biens, Produits et Service pour laquelle elle lui avait servi par avance des OPI, BAi ou des BAn.</li>
+</ul>
+</p>
+<p style="margin-left:25px"><strong><u><i>Signature du Contrat d’Engagement de Livraison Irrévocable</i></u></strong></p>
+<p>Avant d’exercer sur la plateforme, le Fournisseur doit s’assurer qu’il a préalablement signé le Contrat d’Engagement de Livraison Irrévocable avec l’EXPLOITANT.
+Par rapport au second type d’ELI, le fournisseur doit s’assurer qu’en plus de la signature du contrat d’ELI, l’EXPLOITANT lui a également servi des OPI, BAi ou des BAn par avance. 
+</p>
+<p><strong><u>Article 6 : Montant de Souscriptions (MS)</u></strong></p>
+<p  style="margin-left:25px"><strong><u>6.1 : Montant de Souscriptions aux Comptes Marchands (MSCM) pour soi et pour   
+                       tiers
+</u></strong></p>
+<p>Les  Montants de Souscriptions aux Comptes Marchands sont fonction du pouvoir d’achat de la monnaie en cours dans chaque pays. </p>
+
+<p style="margin-left:25px"><strong><u>  6.2 : Montant de souscriptions aux Bons de Consommation pour soi et pour tiers 
+           (MSBC)
+</u></strong></p>
+
+<p>Les  Montants de Souscriptions aux Bons de Consommation sont fonction du pouvoir d’achat de la monnaie en cours dans chaque pays. Ils sont également fonction des deux modalités de souscriptions : pour soi et pour tiers marchands et non marchands.
+</p>
+<p style="margin-left:25px"><strong><u><i>Consommation récurrente</i></u></strong></p>
+<p> Le Montant de Souscriptions aux Bons de Consommation récurrente se calcule en fonction des paramètres suivants :</p>
+<ul>
+<li>Le Montant du bon périodique que multiplie la PCMSBC (Période de Constitution du Montant de Souscriptions aux Bons de Consommation) ;</li>
+<li>La PCMSBC, le multiplicateur, est fonction du pouvoir d’achat de la monnaie en cours dans chaque pays.</li>
+</ul>
+<p style="margin-left:25px"><strong><u><i>Consommation non récurrente</i></u></strong></p>
+<p>Le Montant de Souscriptions aux Bons de Consommation non récurrente se calcule en fonction des paramètres suivants intégrés à la table des calculs mis en ligne sur la plateforme ESMC.</p>
+<p><strong><u>6.3 : Retombées de la souscription pour tiers </u></strong></p>
+<p><strong><u>6.3.1 : Les retombées de la souscription aux Comptes Marchands pour tiers</u></strong></p>
+
+<p>Le montant de souscriptions aux comptes marchands pour tiers bénéficie du</p>
+<p style="margin-left:35px">-	payement par OPI égal à 2.565 fois le montant du Bon d’Achat neutre, morcelé en 22,4 périodes de trente jours ouvrés indexé au compte bancaire des souscripteurs (cas des souscripteurs personnes physiques) et</p>
+<p style="margin-left:35px">-	1.42 fois le montant du Bon d’Achat neutre, morcelé en 22,4 périodes de trente jours ouvrés par voie d’OPI indexé au compte bancaire des souscripteurs (cas des souscripteurs personnes morales).</p>
+<p><strong><u>6.3.2 : Les retombées de la souscription aux Bons de Consommation pour tiers  </u></strong></p>
+<p>Le montant de souscriptions aux Bons de Consommation pour tiers bénéficie du</p>
+<p style="margin-left:35px">-	payement par OPI égal à 2.565 fois le montant du Bon d’Achat neutre, morcelé en 22,4 périodes de trente jours ouvrés indexé au compte bancaire des souscripteurs (cas des souscripteurs personnes physiques) et</p>
+<p style="margin-left:35px">-	1.42 fois le montant du Bon d’Achat neutre, morcelé en 22,4 périodes de trente jours ouvrés par voie d’OPI indexé au compte bancaire des souscripteurs (cas des souscripteurs personnes morales).</p>
+<p><strong><u>Article 7 : Obligations des Parties</u></strong></p>
+<p style="margin-left:25px"><strong><u>7.1 : Obligations de l’EXPLOITANT</u></strong></p>
+<p  style="margin-left:35px"><strong><u>  7.1.1 : Obligations générales de l’ESMC</u></strong></p>
+<p>L’EXPLOITANT ESMC se met d’accord avec les Utilisateurs, les FOURNISSEURS SPECIFIQUES et EXTERNES, pour consommer continuellement sur sa plateforme leurs  </p>
+
+<div class="span4" style="margin-left:-13px">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">Biens : </span>
+                  <input type="checkbox" style="margin-top:7px" name="biens_contractant" id="bien_contractant" value="Biens">
+
+      </label>
+</div>
+<div class="span4">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">Produits :</span>
+                  <input type="checkbox" style="margin-top:7px" name="produit_contractant" id="produit_contractant" value="Produits">
+
+      </label>
+</div>
+<div class="span4">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">Service :</span>
+                  <input type="checkbox" style="margin-top:7px" name="service_contractant" id="service_contractant" value="Service">
+
+      </label>
+</div>
+<small>(Cocher la case correspondante).</small>
+<p>L’EXPLOITANT ESMC s’engage à mettre à la disposition des Utilisateurs, des Fournisseurs spécifiques et externes, les Biens, Produits et Services de consommation Entreprise et Industrie à travers la Centrale d’Achat Commune par le biais de leur type de Comptes Marchands  qui doit être ouvert sur la plateforme ESMC.</p>
+<p>L’EXPLOITANT ESMC s’engage à mettre à la disposition des Utilisateurs, des Fournisseurs spécifiques et externes, les deux types de souscriptions (pour soi et pour tiers) aux Bons de Consommation dans les modalités de consommation : la consommation en mode récurrent destinée à la pérennité de leur consommation et la consommation en mode non récurrent, destinée à la diminution de leurs coûts de production dans le but de leur assurer la compétitivité requise pour le développement durable de leurs activités sur le marché global, de même que les avantages de vente en mode non récurrent. </p>
+<p>Par ailleurs, l’EXPLOITANT ESMC s’engage à fournir aux Utilisateurs, aux Fournisseurs Spécifiques et Externes en temps utile, tout élément d’information nécessaire au bon déroulement des présentes, afin que les échanges en Centrale d’Achat et de Vente se déroulent dans des conditions optimales.</p>
+<p>Enfin, l’EXPLOITANT ESMC s’engage à fournir aux Utilisateurs, aux Fournisseurs spécifiques et externes, tous conseils appropriés au déroulement des échanges dans les Centrales.</p>
+<p style="margin-left:35px"><strong><u>7.1.2 : Obligations spécifiques de l’EXPLOITANT ESMC </u></strong></p>
+<p>L’EXPLOITANT s’engage : à ouvrir des comptes auprès des banques, des institutions de microfinances, des services de transfert d’argent et des services de payement pour le payement en temps normal, des OPI arrivés à maturité. </p>
+<p><strong style="margin-left:35px"><u>7.1.3 : Obligations logistiques de l’EXPLOITANT vis-à-vis des détenteurs de Comptes
+             Marchands
+</u></strong></p>
+<p>Au titre de la présente Convention, les prestations offertes par l’EXPLOITANT ESMC à tout détenteur de Compte Marchand comprennent :</p>
+<ul>
+<li>L’accès au MCNP pour toutes ses transactions marchandes disponibles répondant à son type de Compte Marchand (Personne Physique ou Morale, Opératrice Economique ou Non Opératrice Economique) ;</li>
+<li>Les dénouements des difficultés des transactions liées aux dysfonctionnements éventuels du MCNP ;</li>
+<li>L’EXPLOITANT ESMC s’engage à renouveler les supports marchands physiques, la carte ou code, les périphériques par lui fournis aux détenteurs de Comptes Marchands, en cas de vol, de perte ou défectuosité, aux frais du bénéficiaire;</li>
+<li>L’EXPLOITANT ESMC met à la disposition de ses Utilisateurs et non Utilisateurs, un service d’assistance pour le bon fonctionnement de leur interface utilisée.</li>
+<li>•	L’EXPLOITANT s’engage à gérer les réclamations, les recouvrements et les règlements dans la mesure où les opérations concernées sont lisibles sur la plateforme ESMC. </li>
+</ul>
+<p style="margin-left:35px"><strong><u>7.1.4: Obligations de l’EXPLOITANT vis-à-vis des Guichets Uniques d’Intégration  
+Universelle (GUIU)
+</u></strong></p>
+<p>Les GUIU sont des marques de l’ESMC destinées à jouer le rôle anciennement dévolu aux intégrateurs fixes et ambulants. </p>
+<p>Toute personne désireuse d’utiliser ces marques est tenue de signer un contrat de franchise avec l’EXPLOITANT.  </p>
+<p>L’EXPLOITANT s’engage à payer aux prestataires des GUIU signataire d’un contrat de franchise, les commissions ci-après :</p>
+<ul>
+<li>une commission de 200 FCFA par activation de Compte Marchand personne physique comme personne morale à travers son espace personnel d’intégrateur ; </li>
+<li>une commission de 5% sur les Bons d’Achat neutres prépayés servant à l’approvisionnement des souscripteurs  aux Activités de ESMC dans leur guichet ; </li>
+</ul>
+</section>
+<section>
+<p>Les paiements sont faits par OPI étalés sur douze (12) périodes de trente (30) jours ouvrés, à l’instar de tout prestataire et fournisseur sur la plateforme ESMC. </p>
+<p style="margin-left:25px"><strong><u>7.2. Obligations spécifiques aux prestataires des GUIU</u></strong></p>
+
+<p>La mission des prestataires des GUIU se limite à l’activation et à la souscription aux quatre (04) activités disponibles sur la plateforme ESMC.</p>
+<p>En aucun cas, l’appellation prestataires de GUIU ne peut être utilisée comme titre professionnel pour solliciter, contracter ou obtenir quelques avantages que ce soient. Le cas échéant, l’acte de tout prestataire des guichets uniques d’intégration  n’engagera aucunement l’ESMC vis-à-vis de ceux qui en seraient éventuellement victimes. </p>
+<p>Sans préjudice à l’action judiciaire des éventuelles victimes, l’ESMC se réserve le droit de rayer le prestataire des guichets uniques d’intégration  fautif de la liste des prestataires et/ou d’exercer une action judiciaire contre lui.</p>
+<p>Les prestataires des guichets uniques d’intégration  sont responsables des ressources humaines, matérielles et techniques qu’ils utilisent.</p>
+<p style="margin-left:25px"><strong><u>7.3 : Obligations des détenteurs de Comptes Marchands</u></strong></p>
+<p>Dès la réception de sa carte, son code, ses supports et périphériques d’accès à son interface MCNP, le détenteur est entièrement responsable de son utilisation qu’elle soit par lui-même ou par un tiers, sur son terminal ou non ;</p>
+<p>En cas de désagrément, de perte ou de vol, le détenteur s’engage à avertir immédiatement l’EXPLOITANT ESMC ;</p>
+<p>Le détenteur prend toutes les mesures propres à assurer la sécurité de sa carte, son code, ses supports et périphériques d’accès à son interface MCNP ;</p>
+<p>Le détenteur s’engage à utiliser le Compte Marchand et est tenu de se conformer aux règles de confidentialité et de bon usage en général sur la plateforme ESMC.</p>
+<p>Pour participer aux activités qui débouchent sur le payement par OPI, chaque utilisateur de Compte Marchand doit disposer d’un compte bancaire ou d’un compte auprès des structures de micro finances ou des systèmes de transferts d’argent et de payement aux partenaires de ESMC. </p>
+<p style="margin-left:25px"><strong><u>7.4 : Obligations des FOURNISSEURS</u></strong></p>
+<p>Pour vendre leurs Biens, Produits et Services sur la plateforme ESMC, les FOURNISSEURS disposent d’un Compte Marchand qui à la fois leur permet d’y faire tous leurs achats, consommations usuelles d’entreprises : charges, biens, produits et services de production, d’achat de matières premières, d’investissements additionnels, de réapprovisionnement de leurs marchandises pour la distribution. </p>
+<p>En contrepartie des prestations de la plateforme ESMC faites aux FOURNISSEURS et conformément à l’article 2 de la présente, ceux-ci collaborent étroitement avec l’ESMC dans le cadre de l’observation des règles indispensables au fonctionnement de son système et modèle qui sont engagés dans l’alternative à l’économie classique, souscrivant aux 17 Objectifs de Développement Durable pour lesquels la plateforme se propose d’être l’outil intégrateur de chaque être humain sans laissés-pour-compte dans le marché. </p>
+<p>Les FOURNISSEURS s’engagent à payer les frais de prestation de service à l’Exploitant d’un montant supérieur ou égal au montant de bénéfice accordé à la vente en mode non récurrent contre OPI et aux avantages accordés aux consommateurs en aval, en contrepartie de l’économie d’échelle, de la solvabilité et de la clientèle garantie  dont ils bénéficient. Ces frais de prestation ou frais de transaction sont prélevés de façon égalitaire par émission automatique de Bons de Livraison aux fins de Production Commune sans toucher directement  aux ressources des Utilisateurs.</p>
+<p>Les Fournisseurs s’engagent à assurer la disponibilité de leur production selon les normes et qualités requises. </p>
+<p>En cas de difficultés à remplir ce dernier engagement de façon autonome, les FOURNISSEURS peuvent souscrire à l’activité de Prestataires de la Production Commune sur la plateforme ESMC.</p>
+<p style="margin-left:25px"><strong><u>7.5. Obligations spécifiques aux BANQUES et aux MICROFINANCES </u></strong></p>
+<p>Pour pouvoir assurer les services d’encaissement des montants de souscriptions aux produits de la plateforme et de décaissement pour le payement des OPI à ses fournisseurs, les institutions financières s’engagent à tenir l’interface de l’ESMC. Cette interface évite toutes lourdeurs dans les  traitements et les supports physiques (papiers). </p>
+<p>Elle est appelée Partenaires Bancaires et Financiers (PBF) et assure l’instantanéité des opérations de souscriptions aux Bons d’Achat neutres par voie de monnaie bancaire de même que les payements des OPI émis en faveur des fournisseurs par ESMC, libellés au nom de l’institution détentrice de l’interface sur la plateforme ESMC.  </p>
+<p>L’EXPLOITANT, pourra conclure avec les partenaires bancaires et financiers des contrats de prépaiement dans le cadre de ses services dénommés « Approvisionnement BAn ». </p>
+<p>Chacune de ces institutions conclura avec L’EXPLOITANT, leurs contrats d’entreprise contenant leurs clauses d’encaissement, de décaissement, de caution, de crédits documentaires et éventuellement de fourniture d’autres services. </p>
+<p>Chacune de ces institutions pourra également,  conclure des contrats de crédits liés aux Supports Marchands avec les fournisseurs sur la plateforme de l’EXPLOITANT dans le cadre de ses services dénommés : « Approvisionnement BAn »,  « crédits contre OPI »… </p>
+<p>Article 8 : Mode de règlement</p>
+<p>Les fournitures seront réglées, selon le type d’acteurs :</p>
+<ul>
+<li>-	FOURNISSEURS SPECIFIQUES : Ordres de virement,… tirés sur les comptes de l’ESMC. </li>
+<li>-	FOURNISSEURS EXTERNES : Ordres de Prélèvement Irrévocable (OPI) tirés sur les comptes de l’ESMC. </li>
+<li>-	FOURNISSEURS UTILISATEURS : Bons de livraison. </li>
+</ul>
+<p><strong><u>Article 9 : Règlement litigieux de créance </u></strong></p>
+<p>Conformément à l’esprit de collaboration qui régit le fonctionnement de la plateforme ESMC, le règlement des créances en difficulté aux Utilisateurs, aux Fournisseurs Spécifiques et Externes doit se faire par équivalent de Biens, Produits et Services disponibles ou à rendre disponibles sur la plateforme suivant la règle de la solvabilité absolue requise pour le bon fonctionnement durable de l’ESMC.   </p>
+<p>En cas de litige, l’exigence de paiement exclusivement en monnaie de banque, par le FOURNISSEUR, qu’il soit Utilisateur, Fournisseur spécifique ou Externe, serait un refus du respect de cette règle objet de la présente convention.  </p>
+<p>En cas de cessation des activités ou en cas de crise grave, la reprise des activités est et reste, le seul gage de solvabilité, étant entendu que, la solvabilité n’est réelle qu’en nature, c'est-à-dire en Biens, Produits et Services présents ou futurs. </p>
+</section>
+<section>
+<p>L’exigence de paiement des créances en monnaie de banque exclusivement sur la plateforme ESMC en cas de litige, serait une cause principale de l’endettement généralisé qui paralyserait le développement durable des activités du marché et des Utilisateurs.   </p>
+
+<p><strong><u>Article 10 : Durée de la convention</u></strong></p>
+<p>La présente convention est établie sur une période d’un (01) an renouvelable par tacite reconduction. 
+La partie qui n’entend pas renouveler la convention doit le signifier à l’autre par Acte d’Huissier ou par tout moyen permettant d’établir la réception effective par le destinataire au moins un (01) mois à l’avance.  
+</p>
+<p><strong><u>Article 11 : Lieu d’exécution de la convention</u></strong></p>
+<p>Les ventes et achats de Biens, Produits et Services en Centrale d’Achat et de Vente entre les parties se feront sur l’ensemble du Territoire National. </p>
+<p><strong><u>Article 12 : Confidentialité </u></strong></p>
+<p>Les parties s’interdisent notamment d’utiliser ou de divulguer, directement ou indirectement à quelque tiers que ce soit, les informations échangées à l’occasion de la négociation, de la conclusion, de l’exécution et/ou après la cessation des présentes.</p>
+<p>Sont considérées comme confidentielles toutes les informations commerciales, financières ou techniques qui ne seraient pas dans le domaine public.</p>
+
+<p>Ne seront cependant pas considérées comme confidentielles, les informations connues du public ou qui seraient, postérieurement à la présente convention, connues du public de façon licite ou dont la divulgation aura expressément été autorisée par les parties.
+</p>
+<p><strong><u>Article 13 : Résiliation</u></strong></p>
+<p>En cas d’inexécution ou de violation par l’une des Parties de l’une quelconque des dispositions de la convention, celle-ci pourra être résiliée unilatéralement et de plein droit par l’autre partie 30 jours après l’envoi d’une mise en demeure par lettre recommandée avec accusé de réception, restée sans effet. 
+La présente convention sera résiliée automatiquement et de plein droit dans l’hypothèse où, par suite d’une modification législative ou règlementaire concernant ses activités, l’une ou l’autre partie se trouverait dans l’impossibilité de poursuivre la convention.
+</p>
+<p><strong><u>Article 14 : Révision</u></strong></p>
+<p>Dans l’intérêt des parties, la présente convention pourra être révisée à tout moment et ceci à la demande de l’une des parties.
+Toute révision devra donner lieu à un avenant signé par chacune des parties.
+</p>
+<p><strong><u>Article 15 : Force majeure</u></strong></p>
+<p>La force majeure s’entend d’un événement imprévisible, irrésistible et indépendant des parties (guerre déclarée ou non, épidémies ou mesures de quarantaine, tremblement de terre…) qui les met dans l’impossibilité de poursuivre le cours normal de l’exécution de la convention. La preuve de la force majeure appartient à celui qui l’invoque.</p>
+<p>Aucune des parties ne sera tenue pour responsable vis-à-vis de l’autre, de l’inexécution ou des retards dans l’exécution de leurs obligations prévues à la présente convention, et qui seraient dus à la survenance d’un cas de force majeure.</p>
+</section>
+<section>
+<p><strong><u>Article 16 : Arbitrage de litiges</u></strong></p>
+<p>L’EXPLOITANT ESMC s’engage à se rendre disponible en vue du dénouement heureux des difficultés éventuelles de transactions liées au dysfonctionnement du système.</p>
+<p>
+Sous réserve de l’existence en la matière de dispositions légales d’ordre public, toute contestation, tout litige ou quelque différend que ce soit sur l’interprétation ou l’exécution de la présente convention sera réglé à l’amiable. 
+</p>
+<p>En cas d’échec du règlement à l’amiable, le différend sera soumis à la Cour d’Arbitrage du Togo (CATO).</p>
+<p><strong><u>Article 17 : Election de domiciles</u></strong></p>
+<p>Les parties font élection de leur domicile à leurs adresses respectives indiquées dans la présente convention.</p>
+<p><strong><u>Article 18 : Documents annexés à la convention </u></strong></p>
+<p>
+
+<div class="span4" style="margin-left:-13px">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">L’UTILISATEUR </span>
+                  <input type="checkbox" style="margin-top:7px" name="check_contractant" id="bien_contractant" value="L’UTILISATEUR">
+
+      </label>
+</div>
+<div class="span4">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">le FOURNISSEUR SPECIFIQUE</span>
+                  <input type="checkbox" style="margin-top:7px" name="check_contractant" id="produit_contractant" value="FOURNISSEUR SPECIFIQUE">
+
+      </label>
+</div>
+<div class="span4">
+      <label class="checkbox">
+                  <span style="inline-block;font-size:1.2em;float:left">le  FOURNISSEUR EXTERNE        </span>
+                  <input type="checkbox" style="margin-top:7px" name="check_contractant" id="service_contractant" value="FOURNISSEUR EXTERNE">
+
+      </label>
+</div>
+<small>(Cocher la case correspondante)</small>
+</p>
+<p>déclare avoir pris entièrement connaissance des informations, de même que  la table de calcul automatique mis sur le site internet de l’ESMC.</p>
+<p><strong><u>Article 19 : Entrée en vigueur</u></strong></p>
+<p>La présente convention entre en vigueur à la date de sa validation sur le site internet de L’EXPLOITANT, et tient lieu de loi aux parties qui doivent l’exécuter de bonne foi conformément à l’article 1104 du Code Civil français. </p>
+<p><strong><u>Article 20 : Réactualisation</u></strong></p>
+<p>L’utilisateur est tenu de valider la présente convention à chaque fois qu’elle est réactualisée.   </p>
+<p>La présente convention est réactualisée ce <strong><?php echo $true_date ;?></strong></p>
+</section>
+</article>
+<button type="submit" id="valid_convention_btn" class="btn btn-primary">J'ai lu et approuvé cette convention</button>
+
+
+</form>

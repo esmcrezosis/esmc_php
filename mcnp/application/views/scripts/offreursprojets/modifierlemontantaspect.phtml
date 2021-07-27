@@ -1,0 +1,57 @@
+<div class="span12">
+
+<blockquote>
+
+    <strong>INTERFACE DE MODIFICATION DU MONTANT DE VENTE DES ASPECTS</strong>
+
+</blockquote>
+
+<form action="#"  method="post" class="form-horizontal" >
+
+    	<div class="control-group">
+
+	      <label class="control-label" for="libelle_projet" style="font-weight:bold">
+
+              Montant du projet*:
+
+	      </label>
+
+
+	      <div class="controls">
+
+                 <?php if ($this->typeaspect == "espace"):?>
+
+        		     <input type="number" name="op_montant_projet" class="input-block-level op_montant_projet" value="<?php echo $this->montantespace[0]->montant_op_espace ?>" required="required"/>
+
+                
+                <?php elseif($this->typeaspect == "materiels"): ?>
+
+                    <input type="number" name="op_montant_projet" class="input-block-level op_montant_projet" value="<?php echo $this->montantdetailmateriel[0]->prix_materiel_disponible ?>" required="required"/>
+
+                <?php elseif($this->typeaspect == "outils"): ?>
+
+                    <input type="number" name="op_montant_projet" class="input-block-level op_montant_projet" value="<?php echo $this->montantoutils[0]->montant_op_outils ?>" required="required"/>
+
+
+                <?php elseif($this->typeaspect == "rh"): ?>
+
+                    <input type="number" name="op_montant_projet" class="input-block-level op_montant_projet" value="<?php echo $this->montantrh[0]->salaire_op_details_rh ?>" required="required"/>
+
+                <?php endif ?>
+
+          </div>
+
+	   </div>
+
+       <div class="control-group" >
+
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+
+             Valider le formulaire
+
+          </button>
+          
+      </div>
+
+</form>
+</div>

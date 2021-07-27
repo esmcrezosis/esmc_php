@@ -1,0 +1,501 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/integrateur.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script type="text/javascript">
+   
+   function calculmontant(nombre) {
+     document.getElementById('integrateur_montant').value = document.getElementById('integrateur_nombre').value * 2187.5;
+	 document.getElementById('integrateur_montant').readOnly = true;
+   }
+
+
+
+   function nbremontantcmfh(type) {
+	if((type > 0 && type <= 5) || (type > 0 && type > 9 && type < 12)) {
+	    document.getElementById('integrateur_nombre').value = 500;
+		document.getElementById('integrateur_montant').value = 500 * 2187.5;
+		document.getElementById('integrateur_nombre').readOnly = false;
+		document.getElementById('integrateur_montant').readOnly = true;	
+	} else if((type > 5 && type <= 7) || (type >= 12  && type <= 13 )) {
+	    document.getElementById('integrateur_nombre').value = 100;
+		document.getElementById('integrateur_montant').value = 100 * 2187.5;
+		document.getElementById('integrateur_nombre').readOnly = false;
+		document.getElementById('integrateur_montant').readOnly = true;	
+	} else if(type == 9) {
+	    document.getElementById('integrateur_nombre').value = 10;
+		document.getElementById('integrateur_montant').value = 10 * 2187.5;
+		document.getElementById('integrateur_nombre').readOnly = false;
+		document.getElementById('integrateur_montant').readOnly = true;		
+	} else if(type == 8) {
+	    document.getElementById('integrateur_nombre').value = 10;
+		document.getElementById('integrateur_montant').value = 10 * 2187.5;
+		document.getElementById('integrateur_nombre').readOnly = false;
+		document.getElementById('integrateur_montant').readOnly = false;		
+	}
+	}
+   
+   
+   
+  
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+<?php 
+     $typeintegrateur = new Application_Model_EuTypeIntegrateur();
+     $typeintegrateurM = new Application_Model_EuTypeIntegrateurMapper();
+     $typeintegrateurM->find($this->param, $typeintegrateur);
+?>
+
+  <blockquote><p><?php echo $typeintegrateur->libelle_type_integrateur." - Phase Pré-Souscription"; ?> </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addintegrateur">
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+  </div>
+  <?php } ?>
+  
+<fieldset>
+
+<legend>Code BAn</legend>
+  <div class="control-group">
+  <label class="control-label" for="code_BAn">Code BAn *</label>
+  <div class="controls">
+  <input name="code_BAn" type="text" id="code_BAn" placeholder="Entrer le Code BAn" required="required" />
+	<span id="nivban"><button type="button" class="btn btn-info" onclick="ouvre_bonachatneutres(document.getElementById('code_BAn').value, 'nivban');">Vérifier</button></span>
+    <span class="help-block"><p class="text-error"> Veuillez saisir le Code BAn affiché lors de la souscription BAn </p></span>
+  </div>
+</div>
+
+
+<legend>Remplir les informations sur l'intégrateur</legend>
+
+<!-- <div align="right"><a href="<?php echo $this->baseUrl();?>/index/addintegrateurcomplement">Formulaire d'ajout de quittances</a> </div>
+<br/>
+<div align="right"><a href="<?php echo $this->baseUrl();?>/index/addquittanceinvalid/param/<?php echo $this->param ?>">Formulaire des quittances invalides</a></div>
+<br/> -->
+
+<div class="control-group">
+<label class="control-label" for="integrateur_souscription_ordre">Code membre * </label>
+<div class="controls">
+    <input type="text" name="integrateur_membre" id="integrateur_membre" placeholder="Code Membre CMFH"  value="<?php echo $this->code_membre; ?>"  class="input-block-level"  required="required" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="souscription_type_candidat">Type CMFH *</label>
+<div class="controls">
+<select name="integrateur_type_candidat" id="integrateur_type_candidat"  class="input-block-level"  onchange="nbremontantcmfh(this.value);" required="required">
+    <?php $ttype_candidat = new Application_Model_EuTypeCandidatMapper();
+	      if(($this->param == 21) || ($this->param == 24)) {
+		     $results = $ttype_candidat->fetchAllIntegrateurose();
+		  } else if(($this->param == 15) ) {
+		     $results = $ttype_candidat->fetchByIntegrateur2();
+		  } else if(($this->param == 16) ) {
+		     $results = $ttype_candidat->fetchByIntegrateur3();
+		  } else if(($this->param == 17) ) {
+		     $results = $ttype_candidat->fetchByIntegrateur4();
+		  } else if(($this->param == 18) ) {
+		     $results = $ttype_candidat->fetchByIntegrateur5();
+		  } else if(($this->param == 22) ) {
+		     $results = $ttype_candidat->fetchByIntegrateur1();
+		  } 
+		  else if(($this->param == 29) ) {
+		     $results = $ttype_candidat->fetchByIntegrateur10();
+		  } else if(($this->param == 30) ) {
+		     $results = $ttype_candidat->fetchByIntegrateur11();
+		  } else if(($this->param == 1) || ($this->param == 2) || ($this->param == 3) 
+		         || ($this->param == 4) || ($this->param == 5) || ($this->param == 6)
+				 || ($this->param == 7) || ($this->param == 8) || ($this->param == 25)
+				 || ($this->param == 26) || ($this->param == 27) || ($this->param == 28)) {
+				 
+		     $results = $ttype_candidat->fetchByIntegrateur8();
+		  }
+		  else if(($this->param == 19) || ($this->param == 20)) {	 
+		     $results = $ttype_candidat->fetchByIntegrateur9();
+		  }
+		  else  {
+            $results = $ttype_candidat->fetchAllIntegrateur();
+		  }
+          //$results = $ttype_candidat->fetchAll();
+		  
+    ?>
+    <option value="">Choisir le type</option>
+    <?php foreach ($results as $type_candidat): ?>
+    <option value="<?php echo $type_candidat->id_type_candidat; ?>"><?php echo ($type_candidat->libelle_type_candidat); ?> </option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="integrateur_login">Login intégrateur  </label>
+<div class="controls">
+  <input type="text" name="integrateur_login" id="integrateur_login" placeholder="Login intégrateur" class="input-block-level" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="souscription_passe">Mot de passe intégrateur  </label>
+<div class="controls">
+  <input type="password" name="integrateur_passe" id="integrateur_passe" placeholder="Mot de passe intégrateur" class="input-block-level" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="confirme">Confirmer Mot de passe intégrateur  </label>
+<div class="controls">
+  <input type="password" name="confirme" id="confirme" placeholder="Confirmer Mot de passe intégrateur" class="input-block-level" />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="souscription_montant">Nombre de comptes marchands souscrits * </label>
+<div class="controls">
+  <input type="text" name="integrateur_nombre" id="integrateur_nombre" placeholder="Nombre de comptes marchands souscrits"  value="<?php echo $this->integrateur_nombre; ?>"  onblur="calculmontant(this.value);"   class="input-block-level"  required="required" />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="souscription_montant">Montant de la souscription * </label>
+<div class="controls">
+  <input type="text" name="integrateur_montant" id="integrateur_montant" placeholder="Montant de la souscription aux comptes marchands pour tiers"  value="<?php echo $this->integrateur_montant; ?>"    class="input-block-level"  required="required" />
+</div>
+</div>
+
+
+
+<?php /* $a = 1;?> 
+<div  id="nivquittance<?php echo $a;?>">
+      <label class="control-label" for="integrateur_souscription_ordre">Numéro de quittance *  </label>
+      <div class="controls">
+      <input type="text" name="integrateur_souscription_ordre[]" id="integrateur_souscription_ordre<?php echo $a;?>"   placeholder="Numéro de quittance " class="input-large" required />
+      <!--<a class="btn btn-mini" onclick="document.getElementById('nivquittance<?php echo $a;?>').style.display='none';"><i class="icon-minus"></i></a>-->
+      <a class="btn btn-mini" onclick="ouvre_quittance('<?php echo $a + 1;?>','nivquittance<?php echo $a + 1;?>');"><i class="icon-plus"></i></a><br/>
+      &nbsp;
+      </div>
+</div>
+<div id="nivquittance<?php echo $a + 1; */?>
+<!--</div>-->
+
+<!--<div>
+     <label class="control-label" for="integrateur_souscription_ordre">Numéro de quittance *  </label>
+	 <div class="controls">
+	      <table id="tab_quittance">
+		      <tr>
+			      <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+                  <td><input id="integrateur_souscription_ordre0" type="text" name="integrateur_souscription_ordre0" placeholder="Numéro de quittance " class="input-large" required/> </td>
+	              <td>
+				      <input class="btn btn-mini"  id="add"      type="button"      value="+"      onclick ="addRow('tab_quittance');" /> 
+					  <input class="btn btn-mini"  id="remove"   type="button"      value="-"  onclick="deleteRow('tab_quittance');" /> 
+				  </td>
+		      </tr>
+	     </table>
+     </div>
+</div>-->
+
+<div class="control-group">
+<label class="control-label" for="souscription_email">E-mail Integrateur * </label>
+<div class="controls">
+<div class="input-prepend">
+    <span class="add-on"><i class="icon-envelope"></i></span>
+       <input type="email" name="integrateur_email" id="integrateur_email" placeholder="E-mail Intégrateur" class="input-block-level"   value="<?php echo $this->integrateur_email;?>"  required="required" />
+    </div>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_adresse">Adresse Intégrateur</label>
+<div class="controls">
+<input type="text" name="integrateur_adresse" id="integrateur_adresse" placeholder="Indiquez le numéro et la rue du lieu" value="<?php echo $this->integrateur_adresse;?>"   class="input-block-level"  required="required" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_zone">Zone Monétaire *</label>
+<div class="controls">
+<select name="code_zone" id="code_zone" class="input-block-level" required>
+   <option value="">Choisir une zone monétaire</option>
+   <?php foreach ($this->zones as $value) { ?>
+   <option
+      value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?>
+   </option>
+   <?php } ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="id_pays">Pays *</label>
+<div class="controls">
+<select name="id_pays" id="id_pays" class="input-block-level" required>
+   <option value="">Choisir un pays</option>
+   <?php foreach ($this->pays as $value) { ?>
+      <option value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>
+   <?php } ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_region">Régions *</label>
+<div class="controls">
+<select name="id_region" id="id_region" class="input-block-level" required>
+   <option value="">Choisir une région</option>
+   <?php foreach ($this->regions as $value) { ?>
+      <option value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>
+   <?php } ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="id_prefecture">Préfectures *</label>
+<div class="controls">
+<select name="id_prefecture" id="id_prefecture" class="input-block-level" required>
+   <option value="">Choisir une préfecture</option>
+   <?php foreach ($this->prefectures as $value) { ?>
+      <option value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>
+   <?php } ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="id_canton">Canton Intégrateur *</label>
+<div class="controls">
+<select name="id_canton" id="id_canton" class="input-block-level" required="required" >
+   <option value="">Choisir un canton</option>
+   <?php foreach ($this->cantons as $c) { ?>
+      <option value="<?php echo $c->id_canton; ?>" <?php if($c->id_canton == $this->id_canton) {echo'selected="selected"';} ?>> <?php echo $c->nom_canton; ?></option>
+   <?php } ?>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="integrateur_ville">Ville Intégrateur *</label>
+<div class="controls">
+<select name="integrateur_ville" id="integrateur_ville" class="input-block-level" required="required">
+    <option value="">Choisir une ville</option>
+    <?php foreach ($this->villes as $value) { ?>
+       <option value="<?php echo $value->id_ville; ?>" <?php if($value->id_ville == $this->id_ville) {echo'selected="selected"';} ?>> <?php echo $value->lib_ville; ?> </option>
+    <?php } ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_quartier">Quartier Intégrateur *</label>
+<div class="controls">
+<input type="text" name="integrateur_quartier" id="integrateur_quartier" placeholder="Quartier intégrateur "  value="<?php echo $this->integrateur_quartier;?>"  class="input-block-level"  required="required"/>
+</div>
+</div>
+ 
+ 
+<div class="control-group">
+  <label class="control-label" for="integrateur_type">Type de postulat *</label>
+  <div class="controls">
+  <select  class="input-block-level" name="integrateur_type" id="integrateur_type" required="required">
+        <?php  $typeintegrateur2 = new Application_Model_EuTypeIntegrateurMapper();
+		$selecttypeintegrateur2 = $typeintegrateur2->fetchAllByType($typeintegrateur->id_type_integrateur);?>
+        <option value="">Choisir un type</option>
+        <?php foreach ($selecttypeintegrateur2 as $selecttypeintegrateur): ?>
+        <option value="<?php echo $selecttypeintegrateur->id_type_integrateur; ?>" <?php if($selecttypeintegrateur->id_type_integrateur == $typeintegrateur->id_type_integrateur){echo ' selected="selected"';}?>><?php echo ($selecttypeintegrateur->libelle_type_integrateur); ?></option>
+        <?php endforeach; ?>
+    </select>
+  </div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_activite">Domaine d'activité *</label>
+<div class="controls">
+<select name="code_activite" id="code_activite" required onchange="ouvre_competences2(this.value);" class="input-block-level" required="required">
+        <?php $tactivite = new Application_Model_DbTable_EuActivite();
+        $results = $tactivite->fetchAll();?>
+  <option value="">Choisir le domaine </option>
+    <?php foreach ($results as $activite): ?>
+               <option value="<?php echo $activite->code_activite; ?>"  <?php if($activite->code_activite == $this->code_activite) {echo'selected="selected"';} ?> ><?php echo ($activite->nom_activite); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div id="niv2">
+
+<div class="control-group">
+<label class="control-label" for="id_metier">Métiers </label>
+<div class="controls">
+<select name="id_metier" id="id_metier" class="input-block-level">
+  <option value="">Choisir le métier</option>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="id_competence">Compétence </label>
+<div class="controls">
+<select name="id_competence" id="id_competence" class="input-block-level">
+  <option value="">Choisir la compétence</option>
+</select>
+</div>
+</div>
+
+</div>
+
+
+<?php if($this->param == 1 || $this->param == 2 || $this->param == 3 || $this->param == 4 || $this->param == 5 || $this->param == 6 
+        || $this->param == 7 || $this->param == 8 || $this->param == 25 || $this->param == 26 || $this->param == 27 || $this->param == 28) { ?>
+<div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox" name="integrateur_critere1" id="integrateur_critere1" value="1"> Je dispose d'un ordinateur ou d'une tablette
+      </label>
+    </div>
+  </div>
+  
+<div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox" name="integrateur_critere2" id="integrateur_critere2" value="1"> Je dispose d'une moto
+      </label>
+    </div>
+  </div>
+    
+<div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox" name="integrateur_critere3" id="integrateur_critere3" value="1"> J'ai un permis de conduire
+      </label>
+    </div>
+  </div>
+<?php } ?>  
+    
+<?php if($this->param == 15 || $this->param == 16 || $this->param == 17 || $this->param == 18 || $this->param == 19 || $this->param == 20 || $this->param == 22 || $this->param == 29 || $this->param == 30) { ?>
+<?php if($this->param == 15 || $this->param == 16 || $this->param == 17 || $this->param == 18 || $this->param == 22 || $this->param == 29 || $this->param == 30) { ?>
+<div class="control-group">
+<label class="control-label" for="integrateur_poste">Poste occupé </label>
+<div class="controls">
+<input type="text" name="integrateur_poste" id="integrateur_poste" placeholder="Poste occupé" class="input-block-level"  />
+</div>
+</div>
+<?php } ?>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_education">Education / Formation / Cursus  </label>
+<div class="controls">
+  <textarea name="integrateur_education" class="input-block-level" id="integrateur_education" placeholder="Education/Formation/Cursus" ></textarea>
+  <span class="help-block">Indiquer les études universitaires et autres études spécialisées ainsi que les noms des institutions fréquentées, les diplômes obtenus et les dates auxquelles ils l’ont été</span>
+</div>
+</div>
+
+<?php if($this->param == 15 || $this->param == 16 || $this->param == 17 || $this->param == 18 || $this->param == 22 || $this->param == 29 || $this->param == 30) { ?>
+<div class="control-group">
+<label class="control-label" for="integrateur_affiliation">Affiliation à des associations/groupements professionnels   </label>
+<div class="controls">
+  <textarea name="integrateur_affiliation" class="input-block-level" id="integrateur_affiliation" placeholder="Affiliation à des associations/groupements professionnels"></textarea>
+</div>
+</div>
+<?php } ?>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_formation">Autres formations   </label>
+<div class="controls">
+  <textarea name="integrateur_formation" class="input-block-level" id="integrateur_formation" placeholder="Autres formations"></textarea>
+  <span class="help-block">Indiquer toute autre formation reçue</span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_langue">Langues   </label>
+<div class="controls">
+  <textarea name="integrateur_langue" class="input-block-level" id="integrateur_langue" placeholder="Langues" ></textarea>
+  <span class="help-block">Indiquer pour chacune le degré de connaissance : bon, moyen, médiocre pour ce qui est de la langue parlée, lue et écrite</span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_experience">Expérience professionnelle    </label>
+<div class="controls">
+  <textarea name="integrateur_experience" class="input-block-level" id="integrateur_experience" placeholder="Expérience professionnelle"></textarea>
+  <span class="help-block">En commençant par son poste actuel, donner la liste par ordre chronologique inverse de tous les emplois exercés  depuis la fin des études. Pour chaque emploi, donner les dates, le nom, le poste occupé et le nom, titre et téléphone de la personne de référence.</span>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="integrateur_diplome">Dernier diplôme  </label>
+<div class="controls">
+  <input type="file" name="integrateur_diplome" id="integrateur_diplome" class="input-block-level" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="integrateur_document">Curriculum Vitae  </label>
+<div class="controls">
+  <input type="file" name="integrateur_document" id="integrateur_document" class="input-block-level" />
+</div>
+</div>
+<?php } ?>  
+
+
+
+
+<div class="control-group">
+<label class="control-label" for="integrateur_attestation">Attestation  *  </label>
+<div class="controls">
+<label class="checkbox">
+<input name="integrateur_attestation" type="checkbox" id="integrateur_attestation" value="1" required /> Je, soussigné, certifie, en toute conscience, que les renseignements ci-dessus rendent fidèlement compte de ma situation, de mes qualifications et de mon expérience. J’accepte que toute fausse déclaration volontaire puisse entraîner ma disqualification de la présente procédure.
+</label>
+</div>
+</div>
+
+</fieldset> 
+   
+    
+    
+
+<div class="form-actions">
+<input name="publier" type="hidden" id="publier" value="0" />
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

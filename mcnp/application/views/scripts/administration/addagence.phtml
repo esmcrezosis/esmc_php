@@ -1,0 +1,162 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+            
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques2.js"></script>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/fondateurs.js"></script><?php */?>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capasenrolement.js"></script><?php */?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banquespays.js"></script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml");?>
+
+
+<blockquote><p> Ajout d'une agence </p></blockquote>
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; ?>
+  </div>
+  <?php } ?>
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+
+              
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription1" name="addagence">
+<fieldset>
+<legend> Remplir le formulaire </legend>
+
+  
+<div class="control-group">
+<label class="control-label" for=""> Nom agence * </label>
+<div class="controls">
+     <input type="text" name="nom_agence" id="nom_agence" placeholder="Nom de l'Agence" class="input-xlarge" required=true />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="">Secteur *</label>
+<div class="controls">
+     <select class="input-xlarge" id="code_secteur" name="code_secteur" required=true>
+     <option value="">Choisir un secteur</option>
+     <?php foreach($this->secteurs as $value) { ?>
+     <option value="<?php echo $value->code_secteur;?>">
+	 <?php echo $value->nom_secteur; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="">Zone *</label>
+<div class="controls">
+     <select class="input-xlarge" id="code_zone" name="code_zone" required=true>
+     <option value="">Choisir une zone</option>
+     <?php foreach($this->zones as $value) { ?>
+     <option value="<?php echo $value->code_zone;?>">
+	 <?php echo $value->nom_zone; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="">Pays *</label>
+<div class="controls">
+     <select class="input-xlarge" id="id_pays" name="id_pays" required=true>
+     <option value=""> Choisir un pays </option>
+     <?php foreach($this->pays as $value) { ?>
+     <option value="<?php echo $value->id_pays;?>">
+	 <?php echo $value->libelle_pays; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="">Region *</label>
+<div class="controls">
+     <select class="input-xlarge" id="id_region" name="id_region" required=true>
+     <option value="">Choisir une region</option>
+     <?php foreach($this->regions as $value) { ?>
+     <option value="<?php echo $value->id_region;?>">
+	 <?php echo $value->nom_region; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="">Prefecture *</label>
+<div class="controls">
+     <select class="input-xlarge" id="id_prefecture" name="id_prefecture" required=true>
+     <option value="">Choisir une prefecture</option>
+     <?php foreach($this->prefectures as $value) { ?>
+     <option value="<?php echo $value->id_prefecture;?>">
+	 <?php echo $value->nom_prefecture; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="">Canton *</label>
+<div class="controls">
+     <select class="input-xlarge" id="id_canton" name="id_canton" required=true>
+     <option value="">Choisir un canton</option>
+     <?php foreach($this->cantons as $value) { ?>
+     <option value="<?php echo $value->id_canton;?>">
+	 <?php echo $value->nom_canton; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+</fieldset>
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter une agence</button>
+</div> 
+</form>
+
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+

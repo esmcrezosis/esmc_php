@@ -1,0 +1,14 @@
+<br /><br />
+<div id="view-content">
+	<div id="view-content">
+    <div id="formdiv">
+        <h1>Supprimer un produit</h1>
+        <p>Utilisez ce formulaire pour supprimer un produit.</p>
+
+        <?php
+        $this->form->setAction($this->url());
+        $this->form->getElement("submit")->setLabel("Supprimer");
+        echo $this->form;
+        ?>
+    </div>
+</div>

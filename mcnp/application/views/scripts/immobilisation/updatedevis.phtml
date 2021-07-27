@@ -1,0 +1,129 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8">	
+/*	
+  $(document).ready(function() {
+    $('#example').dataTable( {
+    "sPaginationType": "full_numbers",
+    "aaSorting": []
+  });
+  });
+*/
+</script>
+        
+<script type="text/javascript">
+function checkAllInput(form, action) {
+   var i = document.forms[form].getElementsByTagName("input"); 
+    for( var cpt = 0; cpt < i.length; cpt++) 
+        i[cpt].checked = (action)? true : false ;
+}
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p> Modification du devis établi </p></blockquote>
+  
+<?php 
+
+if(count($this->entries) > 0) { 
+   $x = 1;
+   $compteur = 0;
+?>
+
+<form method="post" enctype="multipart/form-data" role="form" name="devis" id="devis" action=""> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+   <thead>
+	   <tr>
+		   <th colspan="4"> DETAILS : <?php echo "INTITULE DEVIS : ".$this->devis->libelle_devis_prestation; ?></th> 
+	   </tr>
+	   <tr>
+		   <th >Données</th>
+		   <th>Actions</th>			 
+	   </tr>
+   </thead>
+<tbody>
+<?php
+ 
+foreach($this->entries as $entry) : 
+
+
+	
+?>
+<tr>
+    <?php if(($entry->designation_article != NULL) ||  ($entry->designation_article != "")) { ?>
+    <td> 
+	   <?php echo($entry->designation_article); ?> 
+	   <input type="text" class="input-mini" name="<?php echo "quantite".$x ?>" id="<?php echo "quantite".$x ?>" value="<?php echo($entry->quantite);?>"/>
+	   <input type="text" class="input-mini" name="<?php echo "prix".$x ?>" id="<?php echo "prix".$x ?>" value="<?php echo($entry->prix_unitaire);?>"/>
+	</td>
+	
+	<td>
+	   <div align="center">		
+	        <input  type="checkbox" <?php if($entry->approuver == 1) {echo "checked=checked";} ?>   name="<?php echo "confirmer".$x; ?>" id="<?php echo "confirmer".$x; ?>" value="1" onclick="if(document.getElementById('<?php echo "confirmer".$x; ?>').checked) { document.getElementById('<?php echo "rejeter".$x; ?>').disabled = true;} else {document.getElementById('<?php echo "rejeter".$x; ?>').disabled = false;}" /> CONFIRMER 
+	        <input  type="hidden"    name="<?php  echo "devis".$x; ?>" id="<?php echo "devis".$x; ?>" value="<?php echo $entry->id_detail_devis_prestation;?>" />
+	   </div>
+	   
+	   <div align="center">		
+	        <input  type="checkbox" <?php if($entry->approuver == 0) { echo "checked=checked";} ?> name="<?php echo "rejeter".$x ?>" id="<?php echo "rejeter".$x ?>" value="0" onclick="if(document.getElementById('<?php echo "rejeter".$x; ?>').checked)  {document.getElementById('<?php echo "confirmer".$x; ?>').disabled = true;} else {document.getElementById('<?php echo "confirmer".$x; ?>').disabled = false;}" /> REJETER 
+	   </div>
+	</td>
+	<?php } else { ?>
+	
+	<td> 
+	   <?php echo ($entry->designation_prestation); ?> 
+	   <input type="text" class="input-mini" name="<?php echo "montant_prestation".$x ?>" id="<?php echo "montant_prestation".$x ?>" value="<?php echo($entry->montant_total);?>"/>
+	</td>
+	
+	<td>
+	   <div align="center">		
+	        <input  type="checkbox" <?php if($entry->approuver == 1) { echo "checked=checked";} ?>   name="<?php echo "confirmer".$x; ?>" id="<?php echo "confirmer".$x; ?>" value="1" onclick="if(document.getElementById('<?php echo "confirmer".$x; ?>').checked) { document.getElementById('<?php echo "rejeter".$x; ?>').disabled = true;} else {document.getElementById('<?php echo "rejeter".$x; ?>').disabled = false;}" /> CONFIRMER 
+	        <input  type="hidden"    name="<?php  echo "devis".$x; ?>" id="<?php echo "devis".$x; ?>" value="<?php echo $entry->id_detail_devis_prestation;?>" />
+	   </div>
+	   
+	   <div align="center">		
+	        <input  type="checkbox" <?php if($entry->approuver == 0) { echo "checked=checked";} ?> name="<?php echo "rejeter".$x ?>" id="<?php echo "rejeter".$x ?>" value="0" onclick="if(document.getElementById('<?php echo "rejeter".$x; ?>').checked)  {document.getElementById('<?php echo "confirmer".$x; ?>').disabled = true;} else {document.getElementById('<?php echo "confirmer".$x; ?>').disabled = false;}" /> REJETER 
+	   </div>
+	</td>
+	
+	<?php } ?>
+</tr>
+<?php
+$x++;
+$compteur++; 
+endforeach; 
+?>
+
+</tbody>
+</table>
+<input type="hidden" name="id_devis_prestation" id="id_devis_prestation"  value="<?php echo $this->devis->id_devis_prestation; ?>"/>
+<input type="hidden" name="compteur" value="<?php echo $compteur ?>"/>
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="submit" class="btn btn-primary" style="float:right;">Modifier</button>
+</form>
+
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucune devis détail
+</div>
+<?php } ?>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

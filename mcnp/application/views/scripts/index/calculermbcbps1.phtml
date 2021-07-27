@@ -1,0 +1,90 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+
+<script type="text/javascript">
+
+    function calculmontant() {
+		var msbcm = Math.floor((document.getElementById('mont_bc').value * document.getElementById('bnpmpsfs').value));
+		var mont_msbcm = Math.floor(document.getElementById('mont_msbcm').value);
+		var nbre = Math.floor(mont_msbcm / msbcm);
+		document.getElementById('nbre').value = nbre;
+	}
+	
+	function annuler() {
+	  document.getElementById('mont_bc').value = "";
+	  document.getElementById('nbre').value = "";
+	}
+	
+	function annuler1() {
+	    document.getElementById('nbre').value = "";
+	}
+	
+	       
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p>Calcul du nombre de bénéficiaires de la Souscription Pour Tiers contre BPS (Bien,Produit ou Service)</p></blockquote>
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+  
+<blockquote></blockquote>
+<form  action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="" name="">
+<fieldset>
+<legend> Nombre de bénéficiaires de la Souscription Pour Tiers contre BPS </legend>
+
+
+<div class="control-group">
+<label class="control-label" for="mont_bc">Montant de Souscription *</label>
+<div class="controls">
+<input type="text" name="mont_msbcm" id="mont_msbcm" placeholder="Montant de Souscription au Bon de Consommation " class="input-xxlarge" onblur="annuler();"  required="required" />
+</div>
+</div>
+<br/><br/>
+
+
+<div class="control-group">
+<label class="control-label" for="mont_msbcr">Montant Minimum du Bon de Consommation par Bénéficiaire *</label>
+<div class="controls">
+<input  type="text"    name="mont_bc"   id="mont_bc"   placeholder="Montant Minimum du Bon de Consommation par Bénéficiaire" class="input-xxlarge"  />
+<input  type="hidden"  name="bnpmpsfs"  id="bnpmpsfs"  placeholder="bnpmpsfs"  readonly="true"  value="<?php echo $this->bnpmpsfs; ?>" />
+</div>
+</div>
+<br/><br/>
+
+<div class="control-group">
+<label class="control-label" for="nbre">Nombre de bénéficiaires de la souscription *</label>
+<div class="controls">
+<input type="text" name="nbre" id="nbre" placeholder="Nombre de bénéficiaires de la souscription" class="input-xxlarge" readonly="true"   required="required" />
+</div>
+</div>
+</fieldset>
+
+<div class="form-actions">
+<button type="reset" class="btn">Annuler</button>
+<button type="button" class="btn btn-primary" onclick="calculmontant();">Calculer</button>
+</div>
+  
+</form>
+</div>
+
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php /*?><?php */?>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+

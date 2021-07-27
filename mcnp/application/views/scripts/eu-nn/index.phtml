@@ -1,0 +1,103 @@
+<div id="view-content">
+    <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:12px">
+        <div style="margin-bottom: 3px; width: 800px">
+            <fieldset>
+                <legend style=" font-weight:bold">Recherche</legend>
+                <table align="center">
+                    <tr>
+                        <td width="100">Date début</td><td width="150"><input type="text" id="date_debut" name="date_debut" size="12"/></td>
+                        <td width="80">Date fin</td><td width="140"><input type="text" id="date_fin" name="date_fin" size="12"/></td>
+<!--                        <td width="80">Type NN</td><td width="140"><input type="text" id="type_nn" name="type_nn" size="12"/></td>-->
+                        <td><input id="ok" type="button" value="OK" /></td>
+                    </tr>
+                </table>
+            </fieldset>
+<!--            <input id="editer" type="button" value="Editer" class="ui-widget button"/>-->
+        </div>
+        <table id="tbl-nn"></table>
+        <div id="pg-nn"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-nn").jqGrid({
+        url: '/eu-nn/data?date_deb=' + '' + '&date_fin=' + '',
+        editurl: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Id', 'Emmeteur', 'Date emission', 'Type NN', 'Montant émis', 'Montant reçu', 'Solde'],
+        height: 450, width: 820,
+        colModel: [
+            {name: 'id_nn', index: 'id_nn', width: 14, editable: false, align: "left", hidden: true},
+            {name: 'emetteur_nn', index: 'emetteur_nn', width: 140, editable: false, align: "left"},
+            {name: 'date_emission', index: 'date_emission', width: 110, editable: false, align: "left"},
+            {name: 'type_nn', index: 'type_nn', width: 90, align: "left", editable: false},
+            {name: 'montant_emis', index: 'montant_emis', width: 110, align: "right", sorttype: 'number', formatter: 'number', summaryType: 'sum'},
+            {name: 'montant_remb', index: 'montant_remb', width: 110, align: "right", sorttype: 'number', formatter: 'number', summaryType: 'sum'},
+            {name: 'solde', index: 'solde', width: 110, align: "right", sorttype: 'number', formatter: 'number', summaryType: 'sum'},
+        ],
+        rowNum: 100,
+        rowList: [100, 500, 3000],
+        rownumbers: true,
+        pager: '#pg-nn',
+        sortname: "date_emission",
+        viewrecords: true,
+        multiselect:false,
+        sortorder: "asc",
+        caption: "Liste des ressources créées par la source",
+        grouping:true,
+        groupingView : {
+            groupField : ['type_nn'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [true],
+            groupDataSorted : true
+        },       
+        footerrow: true,
+        userDataOnFooter: true
+    });
+    $("#tbl-nn").jqGrid('navGrid', '#pg-nn', {edit: false, add: false, del: false, search: true});
+
+    $(document).ready(function()
+    {
+        $(function() {
+            var pickerOpts = {
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+            $("#date_debut").datepicker(pickerOpts);
+            $("#date_fin").datepicker(pickerOpts);
+        });
+		
+		$(function() {
+          $('#view-content').puipanel();
+          $('fieldset').puifieldset();
+        });
+		
+        $('#ok').button();
+        $('#ok').click(function() {
+            jQuery("#tbl-nn").jqGrid('setGridParam', {url: "/eu-nn/data?date_deb=" + $('#date_debut').val() + "&date_fin=" + $('#date_fin').val()}).trigger('reloadGrid');
+        });
+        $('#editer').click(function()
+        {
+            var rowsel;
+            rowsel = jQuery("#tbl-nn").jqGrid('getGridParam', 'selrow');
+            if (rowsel)
+            {
+                $.get('/eu-nn/edit', {
+                    id_nn: rowsel
+                }, function success(data) {
+                    $("#content").html(data);
+                });
+            } else {
+                alert('Aucune ligne sélectionnée');
+            }
+        });
+    })
+
+</script>

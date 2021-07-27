@@ -1,0 +1,93 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/detailpropositions.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/membrepropositions.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<script type="text/javascript">
+function montant_proposition(prix_unitaire, quantite){
+		total = prix_unitaire * quantite;
+		document.getElementById('montant_proposition').value = document.getElementById('montant_proposition').value + total;
+	}
+</script>
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote>
+    <p>Ajout d'un membre à ma proposition</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addproposition">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+  
+<?php if(count($this->proposition)>0){?> 
+
+<label><strong>Appel d'offre :</strong> <?php 
+$appeloffreM = new Application_Model_EuAppelOffreMapper();
+$appeloffre = new Application_Model_EuAppelOffre();
+$appeloffreM->find($this->proposition->id_appel_offre, $appeloffre);
+?>
+<?php echo htmlentities($appeloffre->numero_offre); ?> (<?php echo htmlentities($appeloffre->nom_appel_offre); ?>)</label>
+
+<label><strong>Montant de la proposition :</strong> <?php echo number_format($this->proposition->montant_proposition, 0, ',', ' '); ?></label>
+
+<label><strong>Montant de la salaire :</strong> <?php echo number_format($this->proposition->montant_salaire, 0, ',', ' '); ?></label>
+
+<label><strong>Autres budgets :</strong> <?php echo number_format($this->proposition->autre_budget, 0, ',', ' '); ?></label>
+
+
+
+
+<label>Salariés de la proposition </label>
+<?php $b = 1;?>
+<div id="nivmembre<?php echo $b;?>">
+<input class="input-large" type="text" name="code_membre[]" id="code_membre<?php echo $b;?>" placeholder="Code Membre du salarié" required>
+<?php /*?><input class="input-large" type="text" name="salaire[]" id="salaire<?php echo $b;?>" placeholder="Salaire" required><?php */?>
+<a class="btn btn-mini" onclick="document.getElementById('nivmembre<?php echo $b;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_membrepropositions('<?php echo $b + 1;?>','nivmembre<?php echo $b + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+<div id="nivmembre<?php echo $b + 1;?>"></div>
+
+
+
+
+
+
+<div class="form-actions">
+<input name="code_membre_morale" type="hidden" id="code_membre_morale" value="<?php echo $sessionmembre->code_membre; ?>" />  
+<input name="id_proposition" type="hidden" id="id_proposition" value="<?php echo $this->proposition->id_proposition; ?>" />  
+<input name="disponible" type="hidden" id="disponible" value="0" />  
+<input name="choix_proposition" type="hidden" id="choix_proposition" value="0" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter à ma proposition</button>
+</div>
+ 
+ <?php }?>                           
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

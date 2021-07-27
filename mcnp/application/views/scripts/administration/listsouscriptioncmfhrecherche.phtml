@@ -1,0 +1,119 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Formulaire de tri des souscrptions CAPS</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal form-inline" id="addsouscription">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+Nombre de compte marchant souscris 
+<input type="number" name="debut" id="debut" class="input-medium" placeholder="Entre *" required />
+
+<input type="number" name="fin" id="fin" class="input-medium" placeholder="à *" required />
+    
+<input name="type" type="hidden" id="type" value="<?php echo $this->type; ?>" />
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="submit" class="btn btn-primary">Trier</button>
+  
+</form>
+
+  <blockquote><p>Liste des souscriptions CAPS</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+						  <thead>
+							  <tr>
+								  <th>Date</th>
+								  <th>Nom & prénom(s) / Raison sociale</th>
+								  <th>Cellulaire</th>
+								  <th>E-mail</th>
+								  <th>Programme</th>
+								  <th>Nombre</th>
+								  <th>Montant</th>
+								  <th>Domaine</th>
+								  <th>Métier</th>
+								  <th>Compétence</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php echo ($entry->souscription_date); ?></td>
+      <td><?php if($entry->souscription_personne == "PP"){?><?php echo ($entry->souscription_nom); ?> <?php echo ($entry->souscription_prenom); ?><?php }else{?><?php echo ($entry->souscription_raison); ?><?php }?></td>
+      <td><?php echo ($entry->souscription_mobile); ?></td>
+      <td><?php echo ($entry->souscription_email); ?></td>
+      <td><?php echo ($entry->souscription_programme); ?></td>
+      <td><?php echo ($entry->souscription_nombre); ?></td>
+      <td><?php echo ($entry->souscription_montant); ?></td>
+      <td><?php if($entry->code_activite > 0){
+        $activiteM = new Application_Model_DbTable_EuActivite();
+        $activite = $activiteM->find($entry->code_activite);
+		$row = $activite->current();
+echo $row->nom_activite;} ?></td>
+      <td><?php if($entry->id_metier > 0){
+        $metierM = new Application_Model_DbTable_EuMetier();
+        $metier = $metierM->find($entry->id_metier);
+		$row = $metier->current();
+echo $row->libelle_metier;} ?></td>
+      <td><?php if($entry->id_competence > 0){
+        $competenceM = new Application_Model_DbTable_EuCompetence();
+        $competence = $competenceM->find($entry->id_competence);
+		$row = $competence->current();
+echo $row->libelle_competence;} ?></td>
+      <td><div align="center">
+      </div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune souscription enrégistrée 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

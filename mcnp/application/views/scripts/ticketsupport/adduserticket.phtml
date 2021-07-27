@@ -1,0 +1,65 @@
+<?php $sessionmembre = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Cr&eacute;ation des utlisateurs de Ticket de Support</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="adduser">
+
+<div class="control-group">
+<label class="control-label" for="nom">Nom utilisateur *</label>
+<div class="controls">
+<input type="text" name="nom" id="nom" placeholder="Nom utilisateur" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="prenom">Pr&eacute;nom utilisateur *</label>
+<div class="controls">
+<input type="text" name="prenom" id="prenom" placeholder="Prenom utilisateur"/>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="login">Login utilisateur *</label>
+<div class="controls">
+<input type="text" name="login" id="login" placeholder="Login utilisateur" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="pwd">Mot de passe *</label>
+<div class="controls">
+<input type="password" name="pwd" id="pwd" placeholder="Mot de passe" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="pwd">Confirmer Mot de passe *</label>
+<div class="controls">
+<input type="password" name="pwd1" id="pwd1" placeholder="Confirmer le mot de passe" required />
+</div>
+</div>
+<div class="control-group">
+<label class="control-label">Groupe d'utilisateur *</label>
+<div class="controls">
+     <select  id="code_group" name="code_group" required>
+     <option value="">Choisir un groupe</option>
+     <?php foreach ($this->code_group as $value) { ?>
+     <option value="<?php echo $value->code_groupe; ?>"><?php echo $value->libelle_groupe; ?></option>
+     <?php } ?>
+     </select>
+  </div>
+</div>
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-success">Enregistrer</button>
+</div>
+
+
+</form>
+
+</div>

@@ -1,0 +1,126 @@
+<?php
+
+$month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+$true_month = "";
+$true_month_livraison = "";
+$true_paiement= "";
+
+
+$ex_proforma = explode('-',$this->proforma[0]->date_proforma);
+$ex_livraison = explode('-',$this->proforma[0]->date_livraison);
+$ex_paiement = explode('-',$this->proforma[0]->date_paie);
+
+foreach ($month as $key => $value) {
+  if($ex_proforma[1] == $key){
+    $true_month = $value;
+  }
+
+  if($ex_livraison[1] == $key){
+    $true_month_livraison = $value;
+  }
+
+  if($ex_paiement[1] == $key){
+    $true_month_paiement = $value;
+  }
+}
+$next_ex_proforma = explode(' ', $ex_proforma[2]);
+$true_date = $next_ex_proforma[0]." ".$true_month." ".$ex_proforma[0];
+
+$next_ex_livraison = explode(' ', $ex_livraison[2]);
+$true_date_livraison = $next_ex_proforma[0]." ".$true_month_livraison." ".$ex_livraison[0];
+
+$next_ex_paiement = explode(' ', $ex_paiement[2]);
+$true_date_paiement = $next_ex_proforma[0]." ".$true_month_paiement." ".$ex_paiement[0];
+
+?>
+
+<h3>FACTURE PROFORMA N° <?php echo $this->proforma[0]->numero_proforma ;?></h3>
+
+<p style="text-align: right;font-weight: bold;">Date d'établissement du proforma:<?php echo $true_date ;?></p>
+
+  <div class="control-group">
+	  <label class="control-label" for="code_membre_fournisseur" style="font-weight:bold;display:inline-block">
+	        Code membre du fournisseur:
+	  </label>
+	  <div class="controls" style="display:inline-block">
+    <?php echo $this->proforma[0]->code_membre_fournisseur ;?>
+		 </div>
+	</div>
+
+  <div class="control-group">
+	  <label class="control-label" for="code_membre_fournisseur" style="font-weight:bold;display:inline-block">
+	        Date de livraison:
+	  </label>
+	  <div class="controls" style="display:inline-block">
+    <?php echo $true_date_livraison ;?>
+    
+    </div>
+	</div>
+    <div class="control-group">
+	  <label class="control-label" for="code_membre_fournisseur" style="font-weight:bold;display:inline-block">
+	        Date du paiement de la facture:
+	  </label>
+	  <div class="controls" style="display:inline-block">
+    <?php echo $true_date_paiement ;?>
+    
+    </div>
+	</div>
+    <blockquote>Les Détails de la facture proforma</blockquote>
+    <hr>
+<table class="table table-stripped">
+    <thead>
+        <tr>
+			<th>Références</th>
+			<th>Désignation des Articles </th>
+			<th>Quantité </th>
+			<th>Prix Unitaire</th>
+			<th>TOTAL</th>
+		</tr> 
+    </thead>
+    <tbody>
+     <?php foreach ($this->detailsproforma as $key => $value): ?>
+     <?php
+       $quantite = $value->quantite_disponible_produit;
+       $prix_unitaire = $value->prix_unitaire_fournisseur;
+       $total = $quantite * $prix_unitaire;
+      ?>
+      <tr>
+        
+        <td><?php echo $value->reference_article ;?></td>
+        <td><?php echo $value->designation_article ;?></td>
+        <td><?php echo $value->quantite_disponible_produit;?></td>
+        <td><?php echo $value->prix_unitaire_fournisseur;?></td>
+        <td><?php echo $total;?></td>
+      </tr>
+ 	<?php endforeach ?>
+     <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><label for="">Montant Hors taxe du proforma</label></td>
+	    <td><?php echo $this->proforma[0]->montant_ht;?><</td>			                     
+	 </tr>
+     <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><label for="">Montant toute taxe comprise du proforma</label></td>
+	     	<td><?php echo $this->proforma[0]->montant_ttc;?><</td>			                     
+	 </tr>
+
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><label for="">Addresse de la livraison</label></td>
+	     	<td><?php echo $this->proforma[0]->addresse_livraison;?><</td>			                     
+	 </tr>
+     <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><label for="">Mode de paiement</label></td>
+	     	<td><?php echo $this->proforma[0]->modalite_paiement;?><</td>			                     
+	 </tr>
+    </tbody>
+</table>

@@ -1,0 +1,73 @@
+
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+    <script type="text/javascript" charset="utf-8">
+      /*$(document).ready(function() {
+        $('#example').dataTable();
+      } );*/
+      $(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+    "aaSorting": []
+    } );
+} );
+    </script>
+    <style>
+    #test{
+       animation: Test 1s infinite;
+    }
+    @keyframes Test{
+       0%{opacity: 1;}
+       50%{opacity: 0;}
+       100%{opacity: 1;}
+    }
+    </style>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+<h1>Communiqué : Prorogation des pré-souscriptions aux Comptes Marchands <span style="color:#FF0000">MCNP</span></h1>
+
+<span id="test">Communiqué : Prorogation des pré-souscriptions aux Comptes Marchands <span style="color:#FF0000">MCNP</span></span>
+
+<p>La plateforme <strong><span style="color:#974578">ESMC</span></strong>,</p>
+
+<div style="margin-left: 30px;">
+<p>-  <span style="margin-left: 6px;">Vu le caractère social que revêt la promotion dite <strong>pré souscriptions aux Comptes Marchands <span style="color:#FF0000">MCNP</span></strong> faite dans le cadre des 17 ODD,</span> </p>
+<p>-  <span style="margin-left: 6px;">Vu les difficultés constatées devant les guichets bancaires au cours du mois de décembre </span></p>
+<p>-  <span style="margin-left: 6px;">Vu les difficultés d’accès à internet dues aux perturbations au cours de cette même période et,</span></p>
+<p>-  <span style="margin-left: 6px;">Vu que le public dans sa majorité a été empêché par ces circonstances dans son adhésion manifeste au programme jusqu’à sa date butoir le 31 décembre 2017,</span></p>
+
+</div>
+
+<p>Il a été décidé la prorogation des pré-souscriptions jusqu’au <strong>31 janvier 2018</strong> afin de donner la possibilité à tous de figurer dans la première vague du lancement de la Production Commune sur la plateforme <strong><span style="color:#974578">ESMC</span></strong>  répondant au programme ODD n°1. </p>
+
+
+<p>Ainsi les frais de souscription demeurent comme suit :</p>
+<div style="margin-left:29px">
+
+<p><span style="margin-left: 6px;"><strong>•  Compte Marchand pour soi à 5.000 FCFA,</strong></span></p>
+<p><span style="margin-left: 6px;"><strong>•  10 Comptes Marchands pour tiers à 21.875 FCFA, </strong></span></p>
+<p><span style="margin-left: 6px;"><strong>•  100 Comptes Marchands pour tiers à 218.750 FCFA, et </strong></span></p>
+<p><span style="margin-left: 6px;"> <strong>•  500 Comptes Marchands pour tiers à 1.093.750 FCFA. </strong></span></p>
+</div>
+
+
+
+<p>Passée cette période du <strong>31 janvier 2018</strong>, les frais de souscriptions aux Comptes Marchands passent à <strong>70.000 FCFA</strong>.</p>
+
+<strong>Pour notre développement durable, objectif communément adopté, prenons la résolution ferme pour le respect des fondamentaux de notre système.</strong>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>

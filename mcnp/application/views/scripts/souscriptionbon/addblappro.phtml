@@ -1,0 +1,242 @@
+﻿<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+     $('#code_benef').blur(function(e) {      
+        $.get('/souscriptionbon/codetegc',{
+          code_membre : $(this).val()
+        },
+        function success(data)  {
+           var options = '';
+           for (var i = 0; i < data.length; i++) {
+               options += '<option value="' + data[i][0] + '" selected>' + data[i][1] + ' </option>';
+           }       
+           $('select#code_tegcbenef').html(options);               
+        });
+        e.preventDefault();		 
+     });
+})
+
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+<blockquote><p>Approvisionnement du Bon de Livraison (BL) </p></blockquote>
+<?php if(isset($sessionmembre->error) && $sessionmembre->error != "") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $sessionmembre->error; $sessionmembre->error = ""; ?>
+</div>
+<?php } ?>
+
+<?php if(isset($this->error) && $this->error != "") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $this->error; $this->error = ""; ?>
+</div>
+<?php } ?>
+
+<?php if(isset($sessionmembre->confirmation_envoi) && $sessionmembre->confirmation_envoi != "") { ?>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addblappro1" name="addblappro1">
+<fieldset>
+<legend>Remplir le formulaire </legend>
+
+<div class="alert alert-success">
+<blockquote>
+  Vous essayez de faire un approvisionnement du Bon de Livraison (BL). Pour terminer l'opération, veuillez envoyer par SMS le code que voici : <strong style="font-size: 20px;"><?php echo Util_Utils::getParamEsmc(12); ?>-<?php echo $sessionmembre->confirmation_envoi; ?></strong> au numéro court : <br /><br />
+  <strong>TOGOCEL :</strong> <strong style="font-size: 20px;">3162</strong>. <br /><br />
+  <?php /* ?><strong>MOOV :</strong> <strong style="font-size: 20px;">4555</strong>. <br /><br /><?php */ ?>
+  Ensuite vous recevrez un autre code sur votre téléphone. Veuillez le saisir dans le fomulaire <strong>Code SMS Reçu</strong>. Merci
+</blockquote>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="code_benef"> Code Membre du bénéficiaire  </label>
+<div class="controls">
+  <input type="text" name="code_benef" id="code_benef" placeholder="Code Membre du bénéficiaire" class="input-xxlarge" value="<?php echo $sessionmembre->beneficiaire; ?>" readonly required />
+  <input type="hidden" name="code_tegcbenef" id="code_tegcbenef" class="input-xxlarge" value="<?php echo $sessionmembre->tegcbeneficiaire; ?>" />
+  <input type="hidden" name="code_tegc" id="code_tegc" class="input-xxlarge" value="<?php echo $sessionmembre->tegc; ?>" />
+  <input type="hidden" name="montant_bl" id="montant_bl" class="input-xxlarge" value="<?php echo $sessionmembre->montant; ?>" />
+  <input type="hidden" name="id_canton" id="id_canton" class="input-xxlarge" value="<?php echo $sessionmembre->canton; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="code_recu">Code SMS Reçu  </label>
+<div class="controls">
+  <input type="text" name="code_recu" id="code_recu" placeholder="Code SMS Reçu" class="input-medium" required />
+</div>
+</div>
+
+</fieldset>
+
+<div class="form-actions">
+    <input name="ok" type="hidden" id="ok" value="ok" />
+	<input name="confirmation" type="hidden" id="confirmation" value="2" />
+    <button type="reset" class="btn">Annuler</button>
+    <button type="submit" class="btn btn-primary">Enregistrer l'approvisionnement du Bon de Livraison (BL)</button>
+</div>
+
+</form>
+
+<?php } else { ?>
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addblappro" name="addblappro">
+<fieldset>
+<legend>Remplir le formulaire </legend>
+
+
+<div class="control-group">
+<label class="control-label" for="code_benef">Code Membre du bénéficiaire *</label>
+<div class="controls">
+  <input type="text" name="code_benef" id="code_benef" value="<?php if(isset($this->code_benef)) echo $this->code_benef; ?>" placeholder="Code Membre du bénéficiaire" class="input-xxlarge" required="required" />
+  <span class="help-block"><p class="text-error">Veuillez saisir le <strong>Code Membre</strong> du bénéficiaire </p></span>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_tegcbenef">TE bénéficiaire *</label>
+<div class="controls">
+    <select  id="code_tegcbenef" name="code_tegcbenef" required class="input-xxlarge">
+	    <option value=""> Choisir un terminal du membre bénéficiaire</option>
+	</select>
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="code_benef">TE Apporteur *</label>
+<div class="controls">
+    <select  id="code_tegc" name="code_tegc" required class="input-xxlarge">
+        <option value=""> Choisir un terminal du membre apporteur</option>
+                <?php foreach ($this->tes as $value) { ?>
+        <option
+                value="<?php echo $value->code_tegc; ?>"><?php echo $value->nom_tegc; ?>
+	    </option>                         
+                <?php } ?>
+    </select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_appro_montant">Montant à affecter * </label>
+<div class="controls">
+<input type="text" name="montant_bl" id="montant_bl" value="<?php if(isset($this->montant_bl)) echo $this->montant_bl; ?>"  placeholder="Montant à affecter" class="input-xxlarge"  required="required" />
+<span class="help-block"><p class="text-error">Veuillez saisir le <strong>montant</strong> à affecter</p></span>
+</div>
+</div>
+
+<legend> Localités </legend>
+<div class="row-fluid">
+    <div class="span4">
+        <div class="control-group">
+            <label class="control-label span4">Zone *</label>
+            <div class="controls span8">
+                <select class="input-block-level" id="code_zone" name="code_zone" required="required">
+                <option value="">Choisir une zone monétaire</option>
+                       <?php foreach ($this->zones as $value) { ?>
+                             <option
+                                    value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?>
+							 </option>                         
+                        <?php } ?>
+                </select>
+                </div>
+        </div>
+    </div>
+	   
+        <div class="span4">
+            <div class="control-group">
+                 <label class="control-label span4">Pays *</label>
+                 <div class="controls span8">
+                 <select class="input-block-level" id="id_pays" name="id_pays" required="required">
+                         <option value="">Choisir un pays</option>
+                         <?php foreach ($this->pays as $value) { ?>
+                         <option
+                               value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?>
+                         </option>                         
+                         <?php } ?>
+                  </select>
+                  </div>
+              </div>
+         </div>							
+</div>
+
+<div class="row-fluid">
+     <div class="span4">
+     <div class="control-group">
+          <label class="control-label span4">Régions *</label>
+          <div class="controls span8">
+               <select class="input-block-level" id="id_region" name="id_region" required="required">
+               <option value="">Choisir une région</option>
+               <?php foreach ($this->regions as $value) { ?>
+               <option
+                     value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?>
+			   </option>                         
+               <?php } ?>
+               </select>
+          </div>
+      </div>
+      </div>
+	  
+	  <div class="span4">
+      <div class="control-group">
+           <label class="control-label span4">Préfectures *</label>
+           <div class="controls span8">
+                <select class="input-block-level" id="id_prefecture" name="id_prefecture">
+                <option value="">Choisir une préfecture</option>
+                <?php foreach ($this->prefectures as $value) { ?>
+                <option
+                      value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?>
+			    </option>                         
+                <?php } ?>
+                </select>
+           </div>
+      </div>
+      </div>
+	  
+	    <div class="span4">
+           <div class="control-group">
+           <label class="control-label span4">Cantons *</label>
+           <div class="controls span8">
+           <select class="input-block-level" id="id_canton" name="id_canton" required="required">
+           <option value="">Choisir un canton</option>
+           <?php foreach ($this->cantons as $value) { ?>
+            <option
+                value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?>
+		    </option>                         
+            <?php } ?>
+            </select>
+            </div>
+            </div>
+        </div>
+</div>
+</fieldset>
+
+
+<div class="form-actions">
+    <input name="ok" type="hidden" id="ok" value="ok" />
+	<input name="confirmation" type="hidden" id="confirmation" value="1" />
+    <button type="reset" class="btn">Annuler</button>
+    <button type="submit" class="btn btn-primary">Envoi du code de confirmation de l'approvisionnement</button>
+</div>
+</form>
+
+<?php } ?>
+
+
+
+
+</div>
+
+<div class="span3">
+     <?php include("../application/layouts/scripts/droite.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>

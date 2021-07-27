@@ -1,0 +1,273 @@
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/fondateurs.js"></script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+  <blockquote><p class="text-info">Enrôlement personne morale</p></blockquote>
+
+<div class="">
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="enrolement">
+  <?php if(isset($this->message) && $this->message!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->message; ?>
+    </div>
+  <?php }?>
+  
+  <legend>Informations membres morales</legend>
+<div class="">
+  
+<div class="span6">
+  
+  <div class="control-group">
+  <label class="control-label" for="type_acteur">Type Membre morale *</label>
+  <div class="controls">
+  <select name="type_acteur" id="type_acteur" required>
+  <option value="">Choisir le type</option>
+    <option value="EI" <?php if($this->type_acteur == 'EI'){echo ' selected="selected"';}?>>EI</option>
+    <option value="OSE" <?php if($this->type_acteur == 'OSE'){echo ' selected="selected"';}?>>OSE</option>
+    <option value="PEI" <?php if($this->type_acteur == 'PEI'){echo ' selected="selected"';}?>>PEI</option>
+    <option value="POSE" <?php if($this->type_acteur == 'POSE'){echo ' selected="selected"';}?>>POSE</option>
+</select>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="raison_sociale">Raison sociale *</label>
+  <div class="controls">
+<input type="text" name="raison_sociale" id="raison_sociale" value="<?php echo $this->raison; ?>" placeholder="Raison sociale" required>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="num_registre">N° RCCM *</label>
+  <div class="controls">
+  <input type="text" name="num_registre" id="num_registre" value="<?php echo $this->registre; ?>" placeholder="N° RCCM" required>
+  </div>
+  </div>  
+  
+</div>
+  <div class="span6">
+    
+  <div class="control-group">
+  <label class="control-label" for="statut_juridique">Statut juridique *</label>
+  <div class="controls">
+  <select class="input-large" name="statut_juridique" id="statut_juridique" required>
+       <?php  $statutjuridique = new Application_Model_EuStatutJuridiqueMapper();
+		$selectstatutjuridique = $statutjuridique->fetchAll();?>
+               <option value="">Choisir un statut juridique</option>
+    <?php foreach ($selectstatutjuridique as $selectstatutjuridique): ?>
+               <option value="<?php echo $selectstatutjuridique->code_statut; ?>"><?php echo htmlentities($selectstatutjuridique->libelle_statut); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="domaine_activite">Domaine d'activité </label>
+  <div class="controls">
+  <input type="text" name="domaine_activite" id="domaine_activite" value="<?php echo $this->domaine_activite; ?>" placeholder="Domaine d'activité">
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="site_web">Site web</label>
+  <div class="controls">
+  <input type="text" name="site_web" id="site_web" value="<?php echo $this->site_web; ?>" placeholder="Site web">
+  </div>
+  </div>
+        
+  </div>
+
+  </div>
+
+
+  <legend>Représentant</legend>
+
+<div class="">
+  
+<div class="span6">
+  
+  <div class="control-group">
+  <label class="control-label" for="code_rep">Code membre *</label>
+  <div class="controls">
+<input type="text" name="code_rep" id="code_rep" value="<?php echo $this->code_membre; ?>" placeholder="Code membre représentant" required>
+  </div>
+  </div>
+    
+</div>
+  <div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="nom_rep">Nom & Prénom </label>
+  <div class="controls">
+  <input type="text" name="nom_rep" id="nom_rep" value="<?php echo $this->nom_membre; ?>" placeholder="Nom & Prénom">
+  </div>
+  </div>
+        
+  </div>
+
+  </div>
+
+
+  <legend>Fondateurs</legend>
+<?php $b = 1;?>
+<div id="nivfondateur<?php echo $b;?>">
+<input class="input-large" type="text" name="code_fond[]" id="code_fond<?php echo $b;?>" placeholder="Code Membre Fondateur" required>
+<input class="input-large" type="text" name="titre[]" id="titre<?php echo $b;?>" placeholder="Titre Fondateur" required>
+
+<a class="btn btn-mini" onclick="document.getElementById('nivfondateur<?php echo $b;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_fondateurs('<?php echo $b + 1;?>','nivfondateur<?php echo $b + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+<div id="nivfondateur<?php echo $b + 1;?>"></div>
+
+
+
+
+
+  
+
+  <legend>Adresse</legend>
+
+
+<div class="">
+
+  <div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="bp_membre">BP</label>
+  <div class="controls">
+  <input type="text" name="bp_membre" id="bp_membre" value="<?php echo $this->bp; ?>" placeholder="BP">
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="quartier_membre">Quartier *</label>
+  <div class="controls">
+  <input type="text" name="quartier_membre" id="quartier_membre" value="<?php echo $this->quartier_membre; ?>" placeholder="Quartier" required>
+  </div>
+  </div>
+
+
+  <div class="control-group">
+  <label class="control-label" for="ville_membre">Ville *</label>
+  <div class="controls">
+  <input type="text" name="ville_membre" id="ville_membre" value="<?php echo $this->ville_membre; ?>" placeholder="Ville" required>
+  </div>
+  </div>
+
+<div class="control-group">
+  <label class="control-label" for="id_pays">Pays *</label>
+  <div class="controls">
+  <select name="id_pays" id="id_pays" required>
+       <?php  $pays = new Application_Model_EuPaysMapper();
+		$selectpays = $pays->fetchAll();?>
+               <option value="">Choisir un pays</option>
+    <?php foreach ($selectpays as $selectpays): ?>
+               <option value="<?php echo $selectpays->id_pays; ?>" <?php if($this->pays == $selectpays->id_pays){echo ' selected="selected"';}?>><?php echo htmlentities($selectpays->libelle_pays); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+  
+    </div>
+<div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="email_membre">Email</label>
+  <div class="controls">
+  <input type="text" name="email_membre" id="email_membre" value="<?php echo $this->email; ?>" placeholder="Email">
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="portable_membre">Cellulaire *</label>
+  <div class="controls">
+  <input type="text" name="portable_membre" id="portable_membre" value="<?php echo $this->portable; ?>" placeholder="Cellulaire" required>
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="tel_membre">Téléphone</label>
+  <div class="controls">
+  <input type="text" name="tel_membre" id="tel_membre" value="<?php echo $this->tel; ?>" placeholder="Téléphone">
+  </div>
+  </div>
+    
+  </div>
+  
+  </div>  
+  
+
+
+  <legend>Comptes bancaires</legend>
+
+<?php $a = 1;?>
+<div id="nivbanque<?php echo $a;?>">
+<select name="code_banque[]" id="code_banque<?php echo $a;?>">
+        <?php $tbanque = new Application_Model_DbTable_EuBanque();
+        $results = $tbanque->fetchAll();?>
+  <option value="">Choisir une banque</option>
+    <?php foreach ($results as $banque): ?>
+               <option value="<?php echo $banque->code_banque; ?>"><?php echo htmlentities($banque->libelle_banque); ?></option>
+    <?php endforeach; ?>
+</select>
+<input class="input-large" type="text" name="num_compte[]" id="num_compte<?php echo $a;?>" placeholder="Numéro de compte">
+
+<a class="btn btn-mini" onclick="document.getElementById('nivbanque<?php echo $a;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_banques('<?php echo $a + 1;?>','nivbanque<?php echo $a + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+<div id="nivbanque<?php echo $a + 1;?>"></div>
+
+  <legend>Mode de paiement</legend>
+
+
+<div class="">
+
+  <div class="span6">
+  <label for="paiement1"><img src="<?php echo $this->baseUrl();?>/images/flooz.jpg" class="img-polaroid"></label>
+  <input type="radio" name="paiement" id="paiement1" value="flooz" required>
+  </div>
+<div class="span6">
+  <label for="paiement2"><img src="<?php echo $this->baseUrl();?>/images/visa.jpg" class="img-polaroid"></label>
+  <input type="radio" name="paiement" id="paiement2" value="visa" required>
+  </div>  
+
+  </div>
+  
+  <legend></legend>
+  
+
+<div class="form-actions">
+<input name="frais_identification" type="hidden" id="frais_identification" value="<?php echo $this->fs; ?>" />
+<input name="reglement_membre" type="hidden" id="reglement_membre" value="N" />
+<input name="code_sms" type="hidden" id="code_sms" value="" />
+<input name="membre_reg" type="hidden" id="membre_reg" value="" />
+<input name="code_caps" type="hidden" id="code_caps" value="<?php echo $this->code; ?>" />
+<input name="cpteur" type="hidden" id="cpteur" value="1" />
+
+<input name="codesecret" type="hidden" id="codesecret" value="<?php echo $this->codesecret; ?>" />
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enrôlement Membre Morale</button>
+</div>
+
+
+</form>
+</div>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+

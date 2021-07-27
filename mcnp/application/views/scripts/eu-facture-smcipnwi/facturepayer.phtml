@@ -1,0 +1,123 @@
+<div id="view-content">
+   <div  class="cntError">
+        <?php
+        echo $this->message;
+        ?>
+   </div>
+   <div style="margin-bottom: 3px; font-size:13px">
+        <input id="detail" type="button" value="Détails" class="ui-widget button"/>
+   </div> 
+   <table id="tbl-investissement"></table>
+   <div id="pg-investissement"></div>     
+   <br>
+    <div id="cptedialog" style="font-size:11px">
+        <form>
+            <table>
+                <tbody>
+                    <tr>
+                        <td colspan="2">
+                            <table id="tbl-dfacture"></table>
+                            <div id="pg-dfacture"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+    $("#tbl-investissement").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'facturepayerlist')); ?>',
+        editurl:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code facture','Appel d\'offre','Code membre','Type','Date','Montant facture'],
+        height:450, width:827,
+        colModel:[           
+                 {name:'code_facture',index:'code_facture', width:100, sorttype:"int", editable: true,align:"left", summaryType: 'count', summaryTpl: 'Total ({0})'},
+                 {name:'offre',index:'offre', width: 200, editable: true,align:"left"},
+                 {name:'code_membre',index:'code_membre', width: 150, align:"left", editable: true},                         
+                 {name:'type_facture',index:'type_facture', width: 90, editable: true,align:"left"},
+                 {name:'date_facture',index:'date_facture', width: 100, editable: true,align:"left"},
+                 {name:'mont_facture',index:'mont_facture', width: 100, align:"right", editable: true,formatter:'number', summaryType: 'sum'},
+        ],
+        rowNum:100000,
+        rowList:[100000,200000,300000],
+        rownumbers:true,
+        pager: '#pg-investissement',
+        sortname:"date_facture",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des factures payées par le gestionnaire de la SMCIPN",
+        grouping: true,
+        groupingView: {
+            groupField: ['code_membre'],
+            groupColumnShow: [true],
+            groupText: ['<b>{0}</b>'],
+            groupCollapse: false,
+            groupOrder: ['asc'],
+            groupSummary: [true],
+            groupDataSorted: true
+        },
+        footerrow: true,
+        userDataOnFooter: true,
+    });
+    $("#tbl-investissement").jqGrid('navGrid','#pg-investissement',{edit:false,add:false,del:false,search:false});
+    
+    $("#tbl-dfacture").jqGrid({
+        url: '/eu-facture-smcipnwi/detailfacture?code_facture=0&type_facture=',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Id','Code membre', 'Nom / Raison social', 'Investissement / Salaire'],
+        height: '100%', width: 635,
+        colModel: [
+            {name: 'id_detail', index: 'id_detail', width: 10, editable: false, align: "left", hidden: true},
+            {name: 'code_membre', index: 'code_membre', width: 100, editable: false, align: "left"},
+            {name: 'nom', index: 'nom', width: 110, align: "left", editable: false},
+            {name: 'montant', index: 'montant', width: 100, align: "right", editable: false, formatter: 'number'},
+        ],
+        rowNum: 30,
+        rowList: [30, 50, 100],
+        rownumbers: true,
+        pager: '#pg-dfacture',
+        sortname: "datefin",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Détail facture"
+    });
+    $("#tbl-dfacture").jqGrid('navGrid', '#pg-credit', {edit: false, add: false, del: false, search: true});
+    
+    $("#detail").button().click(function() {
+        var sel;
+        sel = jQuery("#tbl-investissement").jqGrid('getGridParam', 'selrow');
+        data = jQuery("#tbl-investissement").jqGrid('getRowData', sel);
+        if (sel) {
+            jQuery("#tbl-dfacture").jqGrid('setGridParam', {url: "/eu-facture-smcipnwi/detailfacture?code_facture=" + data.code_facture+"&type_facture="+ data.type_facture}).trigger('reloadGrid');
+            $("#cptedialog").dialog("open");
+        } else {
+            alert('Il faut sélectionner une ligne');
+        }
+    });
+
+    $(function() {
+        $("#cptedialog").dialog({
+            autoOpen: false,
+            height: 450,
+            title: 'Détail de la facture',
+            width: 655,
+            modal: true,
+            buttons: {
+                "Fermer": function() {
+                    $(this).dialog("close");
+                }
+            },
+            close: function() {
+            }
+        }
+        );
+    });
+    
+    $('#detail').button();
+</script>    

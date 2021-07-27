@@ -1,0 +1,173 @@
+
+<blockquote> <strong> INTERFACE DE RECHERCHE DE FRANCHISE DE SA LOCALITE </strong></blockquote>
+
+
+<div class="control-group">
+
+<form action="" method="POST">
+
+<div class="row" style="margin-bottom:20px">
+
+<div class="span12">
+
+     <div class="control-group">
+
+        <label class="control-label" for="Libellé de la franchise" style="font-weight:bold">
+
+             Libellé de la franchise *:
+
+        </label>
+
+        <div class="controls">
+
+            <input type="text" name="libelle_franchises" class="input-block-level libelle_franchises" placeholder="Recherecher à partir du nom franchise"/>
+
+         </div>
+
+     </div>
+
+</div>
+
+<div class="span4">
+    
+    <div class="control-group">
+                                
+        <label class="control-label span4"> <strong>Zone M.</strong> </label>
+
+        <div class="controls span8">
+
+            <select class="input-block-level" id="code_zone" name="code_zone">
+
+                <option value="">Choisir une zone monétaire</option>
+
+                <?php foreach ($this->zones as $value) { ?>
+
+                     <option value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option> 
+
+                <?php } ?>
+
+            </select>
+
+        </div>
+    
+    </div>
+
+</div>
+
+<div class="span4">
+                        
+    <div class="control-group">
+                                
+        <label class="control-label span4"> <strong>Pays *</strong> </label>
+
+        <div class="controls span8">
+
+            <select class="input-block-level" id="id_pays" name="id_pays" onchange="ouvre_paystelephones2(this.value);">
+
+                <option value="">Choisir un pays</option>
+
+                <?php foreach ($this->pays as $value) { ?>
+
+                     <option value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>  
+
+                <?php } ?>
+
+            </select>
+                                
+        </div>
+                            
+    </div>
+
+</div>
+
+<div class="span4">
+                            
+    <div class="control-group">
+
+        <label class="control-label span4"> <strong>Régions </strong> </label>
+
+        <div class="controls span8">
+
+            <select class="input-block-level" id="id_region" name="id_region">
+
+                <option value="">Choisir une région</option>
+
+                <?php foreach ($this->regions as $value) { ?>
+
+                    <option value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option> 
+
+                <?php } ?>
+                                    
+            </select>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="span4" style="margin-top:20px">
+
+     <div class="control-group">
+
+        <label class="control-label span4"> <strong>Préfectures</strong> </label>
+
+        <div class="controls span8">
+
+            <select class="input-block-level" id="id_prefecture" name="id_prefecture">
+
+                <option value="">Choisir une préfecture</option>
+
+                <?php foreach ($this->prefectures as $value) { ?>
+
+                     <option value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+                                        
+                <?php } ?>
+                    
+            </select>
+            
+        </div>
+
+    </div>
+
+</div>
+
+<div class="span4" style="margin-top:20px">
+
+     <div class="control-group">
+
+        <label class="control-label span4"> <strong>Cantons *</strong> </label>
+
+        <div class="controls span8">
+
+            <select class="input-block-level" id="id_canton" name="id_canton">
+
+                <option value="">Choisir un canton</option>
+
+                <?php foreach ($this->cantons as $value) { ?>
+
+                     <option value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>  
+
+                <?php } ?>
+                     
+            </select>
+
+        </div>
+        
+    </div>
+
+</div>
+
+</div>
+
+<div class="control-group" >
+
+<button type="submit" class="btn btn-large btn-primary" id ="validguichet" style="position:relative">
+
+    Valider le formulaire
+
+</button>
+
+</div>
+
+</form>

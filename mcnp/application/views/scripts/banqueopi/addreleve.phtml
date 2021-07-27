@@ -1,0 +1,78 @@
+<?php $sessionbanqueopi = new Zend_Session_Namespace('banqueopi');?>
+
+<div class="well3">
+	<div class="row-fluid">
+		<div class="span12" style="text-align: left">
+
+<?php include("../application/layouts/scripts/menubanqueopi.phtml"); ?>
+
+			<blockquote>
+				<p>Enregistrer un depôt</p>
+			</blockquote>
+
+			<form method="post" id="connexion" class="well form-horizontal"
+				action="<?php echo $this->baseUrl();?>/banqueopi/addreleve">
+    <?php if(isset($sessionbanqueopi->message) && $sessionbanqueopi->message != ""){?>
+    <div class="alert alert-error">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionbanqueopi->message; $sessionbanqueopi->message = ""; ?>
+	</div>
+	<?php }?>
+				<div class="control-group">
+					<label class="control-label">Date Dépôt</label>
+					<div class="controls">
+						<div class="input-append date">
+							<input type="text" id="date_releve" name="date_releve" type="text"
+								class="datepicker"
+								value="<?php echo $this->date_releve; ?>">
+							<div class="add-on">
+								<span class="icon-calendar"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Libellé</label>
+					<div class="controls">
+						<input id="libelle" name="libelle" type="text"
+							class="input-xxlarge" value="<?php echo $this->libelle; ?>">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Numéro</label>
+					<div class="controls">
+						<input id="numero" name="numero" type="text" class="input-xxlarge"
+							value="<?php echo $this->numero; ?>">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Montant</label>
+					<div class="controls">
+						<input id="montant" name="montant"
+							value="<?php echo $this->montant?>" type="text"
+							class="input-xxlarge">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Date de Valeur</label>
+					<div class="controls">
+						<div class="input-append date">
+							<input id="dateValeur" name="date_valeur" type="text"
+								class="datepicker"
+								value="<?php echo $this->date_valeur; ?>">
+							<div class="add-on">
+								<span class="icon-calendar"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="controls">
+					<input name="ok" type="hidden" id="ok" value="ok" />
+					<button type="submit" class="btn btn-primary">Ajouter</button>
+					<button type="reset" class="btn">Annuler</button>
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div>

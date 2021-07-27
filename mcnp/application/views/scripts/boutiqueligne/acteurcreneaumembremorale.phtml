@@ -1,0 +1,103 @@
+<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+  
+    <script language="javascript1.3" src="<?php echo $this->baseUrl();?>/paniers.js"></script>
+
+<div class="card3">
+<div class="row">
+<div class="col-xl-12" style="text-align:left">
+
+<?php if(count($this->membremorale) > 0){ ?>
+<!-- <blockquote class="blockquote">Détails Fournisseur</blockquote> -->
+<blockquote class="blockquote">
+<small>
+<address>
+
+  <i class="icon-home"></i> <strong><?php echo htmlentities($this->membremorale->raison_sociale); ?></strong><br />
+<span class="label label-info"><?php echo $this->membremorale->code_membre_morale; ?></span><br />
+  <?php echo htmlentities($this->membremorale->domaine_activite); ?><br />
+
+
+  <?php echo htmlentities($this->membremorale->quartier_membre); ?> - <?php echo htmlentities($this->membremorale->ville_membre); ?> - <abbr title="Boite Postale">BP:</abbr> <?php echo $this->membremorale->bp_membre; ?><br />
+
+  <!--  <br /><abbr title="Téléphone">Tel:</abbr> <?php echo $this->membremorale->tel_membre; ?><br />-->
+  <abbr title="Portable">Cel:</abbr> <?php echo $this->membremorale->portable_membre; ?><br />
+  <abbr title="E-mail">E-mail:</abbr> <a href="mailto:<?php echo $this->membremorale->email_membre; ?>"><?php echo $this->membremorale->email_membre; ?></a>
+</address>
+</small>
+</blockquote>
+
+<?php } ?>
+
+
+
+
+
+
+
+
+<blockquote class="blockquote">Produits</blockquote>
+
+<?php if(count($this->entries) > 0){ ?>
+  <table class="table table-striped table-hover table-sm"> <!-- table-responsive -->
+  <thead>
+    <tr>
+      <th>Réference</th>
+                  <th>Désignation</th>
+                  <th>Prix</th>
+                  <th>Catégorie</th>
+                  
+                 <th>Actions</th>
+                   
+    </tr>
+  </thead>
+  <tbody>
+
+<?php foreach ($this->entries as $entry) {?>
+    <tr>
+      <td scope="row"><?php echo $entry->reference; ?></td>
+      <td><?php echo $entry->designation; ?></td>
+      <td><?php echo $entry->prix; ?></td>
+      <td><?php $categorieM = new Application_Model_EuTypeCreditMapper();
+$categorie = new Application_Model_EuTypeCredit();
+$categorieM->find($entry->categorie, $categorie);?>
+<?php echo ($categorie->lib_type_credit);?>
+</td>
+      
+      <td><a style="cursor: pointer;" onclick="ouvre_paniers('<?php echo $entry->code_barre."_".$entry->reference."_".$entry->designation."_".$entry->prix."_".$entry->code_membre_morale."_".$entry->type."_".$entry->categorie."_".$entry->remise."_".$entry->id_article_stockes; ?>');" ><i class="fa fa-shopping-cart"></i></a></td>
+    </tr>
+        <?php } ?>
+  </tbody>
+</table>
+  <?php }else{ ?>
+<div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    Aucun produit enregistré
+    </div>
+  <?php } ?>
+  
+
+
+
+
+
+
+
+
+
+
+<?php /*?></div>
+
+<div class="col-xl-3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php */?>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+

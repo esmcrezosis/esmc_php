@@ -1,0 +1,128 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8">		
+  $(document).ready(function() {
+    $('#example').dataTable( {
+    "sPaginationType": "full_numbers",
+    "aaSorting": []
+  });
+  });
+</script>
+        
+<script type="text/javascript">
+
+function checkAllInput(form,action) {
+   var i = document.forms[form].getElementsByTagName("input"); 
+   for( var cpt = 0; cpt < i.length; cpt++) 
+        i[cpt].checked = (action)? true : false ;
+}
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p> Liste des Engagements de Livraison Irrévocables en cours de validation </p></blockquote>
+  
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!="") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+<?php 
+
+if(count($this->entries) > 0) { 
+      $x = 1;
+      $compteur = 0;
+?> 
+<form method="post" enctype="multipart/form-data" role="form" name="eli" id="eli" action="<?php echo $this->baseUrl();?>/administration/validereli">
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+	   <thead>
+			  <tr>
+				  <th>Date</th>
+				  <th>Référence</th>
+				  <th>Désignation</th>
+				  <th>Montant BAi</th>
+				  <th>Montant BAn</th>
+				  <th>Montant OPI</th>
+				  <th>Montant ELI</th>
+				  <th>Montant VENTE</th>
+				  <th>Code Membre</th>
+				  <th>Fournisseur</th>
+				  <th>Actions</th>			 
+			  </tr>
+	   </thead>
+<tbody>
+<?php foreach($this->entries as $entry) : 
+$membremoral = new Application_Model_EuMembreMorale();
+$m_mapmoral = new Application_Model_EuMembreMoraleMapper();
+$findmembre = $m_mapmoral->find($entry->code_membre,$membremoral);
+?>
+
+<tr>
+    <td><?php echo datejourfr($entry->date_eli); ?></td>
+    <td><?php echo($entry->numero_eli); ?></td>
+    <td><?php echo($entry->libelle_eli); ?></td>
+	<td><?php echo($entry->montant_bai); ?></td>
+	<td><?php echo($entry->montant_ban); ?></td>
+	<td><?php echo($entry->montant_opi); ?></td>
+	<td><?php echo($entry->montant_eli); ?></td>
+	<td><?php echo($entry->montant_vente); ?></td>
+    <td><?php echo($entry->code_membre);?> </td>
+	<td><?php echo($membremoral->raison_sociale);?> </td>
+    <td>
+	    
+        <div align="center">
+		     <a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/editeli/id/<?php echo $entry->id_eli; ?>"><i class="icon-info-sign icon-white"></i>Modifier</a>
+		</div>
+		
+        <div align="center">
+		     <a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/detaileli/id/<?php echo $entry->id_eli; ?>"><i class="icon-info-sign icon-white"></i>Détail</a>
+		</div>		
+	    <div align="center">		
+	         <input  type="checkbox"  name="<?php echo "valider".$x ?>" id="<?php echo "valider".$x ?>" value="1" onclick="if(document.getElementById('<?php echo "valider".$x; ?>').checked) { document.getElementById('<?php echo "rejeter".$x; ?>').disabled = true;} else {document.getElementById('<?php echo "rejeter".$x; ?>').disabled = false;}" /> VALIDER 
+			 <input  type="hidden"    name="<?php  echo "demande".$x ?>" id="<?php echo "demande".$x ?>" value="<?php echo $entry->id_eli;?>"/>
+		</div>
+		<div align="center">		
+	         <input  type="checkbox" name="<?php echo "rejeter".$x ?>" id="<?php echo "rejeter".$x ?>" value="1" onclick="if(document.getElementById('<?php echo "rejeter".$x; ?>').checked)  {document.getElementById('<?php echo "valider".$x; ?>').disabled = true;} else {document.getElementById('<?php echo "valider".$x; ?>').disabled = false;}" /> REJETER 
+		</div>
+	</td>
+</tr>
+<?php 
+$x++;
+$compteur++;
+endforeach; 
+?>
+</tbody>
+</table>
+<input type="hidden" name="compteur" value="<?php echo $compteur ?>"/>
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="submit" class="btn btn-primary" style="float:right;">Valider</button>
+</form>
+
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun Engagement de Livraison Irrévocable enregistré 
+</div>
+<?php } ?>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

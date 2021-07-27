@@ -1,0 +1,123 @@
+<div id="view-content">
+    <div class="ui-widget-content ui-corner-all" style="margin-bottom: 3px; width: 800px;font-size:12px">
+        <fieldset>
+        <legend style=" font-weight:bold">Recherche</legend>    
+        <form action="/eu-proforma/index" method="POST">
+            <h5>
+                Libellé du besoin<input type="text" id="besoin" name="besoin"/>
+                Date proforma<input type="text" id="date_proforma" name="date_proforma"/>
+                Type proforma<select id="type_pro"  name="type_pro"><option value=""></option>
+                    <option value="circulant">Circulant</option>
+                    <option value="fixe">Fixe</option></select>
+                <input id="ok" type="submit" value="Ok" />
+            </h5> 
+        </form>
+        </fieldset>     
+   </div>
+   <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div> 
+    <table id="tbl-proforma"></table>
+    <div id="pg-proforma"></div>
+    <br>
+    <table id="tbl-objet"></table>
+    <div id="pg-objet"></div>
+</div>
+               
+<script type="text/javascript">
+    jQuery("#tbl-proforma").jqGrid( { 
+        url:'/eu-proforma/data?besoin=<?php echo $this->besoin?>& date_proforma=<?php echo $this->date_proforma ?>&type_pro=<?php echo $this->type_pro?>', 
+        datatype: "json", 
+        colNames:['Numero','Demande','Date Facture','Date livraison','Date payement','Montant httva','Montant net','Type'], 
+        height:220, width:828,
+        colModel:[
+               {name:'code_proforma',index:'code_proforma', width: 170, editable: true,align:"left"},
+               {name:'objet_besoin',index:'objet_besoin', width: 360, editable: true,align:"left"},
+               {name:'date_proforma',index:'date_proforma', width: 130, align:"left", editable: true},
+			   {name:'date_livre',index:'date_livre', width: 130, align:"left", editable: true},
+			   {name:'date_paie',index:'date_paie', width: 130, align:"left", editable: true},
+               {name:'montant_ht',index:'montant_ht', width: 185, align:"left", editable: true,sorttype:'number',formatter:'number',summaryType:'sum'},
+               {name:'total_net',index:'total_net', width: 185, align:"left", editable: true,sorttype:'number',formatter:'number',summaryType:'sum'},
+               {name:'type_proforma',index:'type_proforma', width: 80, align:"left", editable: true},
+        ], 
+        rowNum:100000,
+        rowList:[100000,200000,300000],
+        pager: '#pg-proforma',
+        sortname:"code_proforma",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste de mes factures proforma",
+        onSelectRow: function(code_proforma){ 
+          jQuery("#tbl-objet").jqGrid('setGridParam',{url:"/eu-proforma/mdetail?code_proforma="+code_proforma,page:1}); 
+          jQuery("#tbl-objet").jqGrid('setCaption',"Detail des produits sur la Facture Proforma N°: "+code_proforma+"").trigger('reloadGrid');       
+        }
+    });
+    $("#tbl-proforma").jqGrid('navGrid','#pg-proforma',{edit:false,add:false,del:false,search:false});
+    
+    $("#tbl-objet").jqGrid({
+        url:'/eu-proforma/mdetail?code_proforma=0',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['unité','Désignation','Quantité','Prix unitaire','Remise','Mdv(périodes de 30jours)'],
+        height:'100%', width:827,
+        colModel:[
+		    {name:'unite',index:'unite', width:100, align:"left", editable: true},
+            {name:'design_objet',index:'design_objet', width:260, align:"left", editable: true},
+            {name:'qte_objet',index:'qte_objet', width:100, align:"left", editable: true},
+            {name:'pu_objet',index:'pu_objet', width:90, align:"left", editable: true,sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'remise',index:'remise', width:70, align:"left", editable: true},
+            {name:'mdv',index:'mdv',width:160, align:"left", editable: true},
+        ],
+        rowNum:200,
+        rowList:[200,300,400],
+        pager: '#pg-objet',
+        sortname:"design_objet",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Detail des produits sur la Facture Proforma"
+    });
+    $("#tbl-objet").jqGrid('navGrid','#pg-objet',{edit:false,add:false,del:false,search:true});
+    var rowsel;
+    $('#tbl-proforma').click(function()
+    {   
+        rowsel = jQuery("#tbl-proforma").jqGrid('getGridParam','selrow');    
+    });
+    $('#ok').button();
+    $(function(){
+                var pickerOpts = {
+                    dateFormat: "dd/mm/yy",
+                    changeMonth:true,
+                    changeYear:true,
+                    showOtherMonths: true
+                };
+                $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+                $("#date_proforma").datepicker(pickerOpts);
+            });  
+      $(document).ready(function ()
+    {
+      $.get( "/eu-proforma/found",
+              function success(data){
+                $("input#besoin").autocomplete({"source":data});
+              }
+       );  
+       $('#editer').button();
+       $('#editer').click(function()
+ {
+        var rowsel;
+        rowsel = jQuery("#tbl-proforma").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-proforma/edit',{
+                code_proforma:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }
+        else
+        {
+          alert('Aucune ligne sélectionnée');
+        }
+  });
+    })      
+    
+</script>    

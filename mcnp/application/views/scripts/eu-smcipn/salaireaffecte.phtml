@@ -1,0 +1,44 @@
+<div id="view-content" style="font-size:11px">
+    <table id="tbl-ressource"></table>
+    <div id="pg-ressource"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-ressource").jqGrid({
+        url:'/eu-smcipn/salaireafflist',
+        editurl:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code employé','Nom','Ressource','Montant','Date','Heure'],
+        height:450, width:827,       
+        colModel:[
+            {name:'num_membre',index:'num_membre', width:110, sorttype:"int", editable: true,align:"left"},
+            {name:'nom',index:'nom', width: 180, editable: true,align:"left"},
+            {name:'ressource',index:'ressource', width: 60, editable: true,align:"left"},
+            {name:'montant',index:'montant', width: 100, editable: true,align:"right",formatter:'number'},
+            {name:'date_op',index:'date_op', width: 60, editable: true,align:"left"},
+            {name:'heure_op',index:'heure_op', width: 40, editable: true,align:"left"},
+        ],
+        rowNum:10000,
+        rowList:[10000,20000,30000,100000],
+        pager: '#pg-ressource',
+        sortname:"date_op",
+        rownumbers:true,
+        viewrecords: true,
+        sortorder: "desc",
+        caption:"Liste des affectations de salaires",
+        grouping: true,
+        groupingView : {
+            groupField : ['nom'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [false],
+            groupDataSorted : true
+        }
+    });
+    $("#tbl-ressource").jqGrid('navGrid','#pg-ressource',{edit:false,add:false,del:false,search:true});
+   
+        
+</script>

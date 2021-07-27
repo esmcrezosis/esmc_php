@@ -1,0 +1,123 @@
+<?php
+$this->form->setAction($this->url());
+$this->form->getElement("submit")->setLabel("Modifier");
+?>
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 10px; padding-left: 7px;">
+        <h3>Modification d'un acteur d'un créneau d'activités</h3>
+    </div>
+    <div class="ui-widget-content ui-corner-bottom" style="height: 470px;">
+        <form action="<?php echo $this->url(); ?>" method="<?php echo $this->form->getMethod(); ?>" enctype="<?php echo $this->form->getEnctype(); ?>" >
+            <div style="margin: 3px;">
+                <table>
+                    <tr><td>Nom *</td><td><?php echo $this->form->getElement("nom_acteur"); ?></td></tr>
+                    <tr><td>Type acteur *</td><td><?php echo $this->form->getElement("id_type_acteur"); ?></td></tr>
+                    <tr><td>Numéro membre *</td><td><?php echo $this->form->getElement("code_membre"); ?></td></tr>
+                    <tr><td>Filière d'activité *</td><td><?php
+echo $this->form->getElement("id_filiere");
+echo $this->form->getElement("add");
+?></td></tr>
+                    <tr><td>Numéro gestionnaire *</td><td><?php echo $this->form->getElement("code_membre_gestionnaire"); ?></td></tr>
+                    <tr><td>Nom gestionnaire</td><td><?php echo $this->form->getElement("nom_gestion"); ?></td></tr>
+                    <tr><td>Prénoms gestionnaire</td><td><?php echo $this->form->getElement("prenom_gestion"); ?></td></tr>
+                    <tr><td>Téléphone gestionnaire</td><td><?php echo $this->form->getElement("tel_gestion"); ?></td></tr>
+                    <tr><td><?php echo $this->form->getElement("code_acteur"); ?></td></tr>
+                </table>
+                <?php
+                echo $this->form->getElement("submit");
+                echo $this->form->getElement("cancel");
+                ?>
+            </div>
+        </form>
+    </div>
+    <div id="cptedialog">
+        <form>
+            <table>
+                <tbody>
+                    <tr>
+                        <td><label>Libellé du domaine d'activité</label></td>
+                        <td><input type="text" id="lib_domaine" name="lib_domaine"  size="35"/></td>
+                    </tr>
+                    <tr>
+                        <td><label>Description du domaine d'activité</label></td>
+                        <td><textarea id="desc_domaine" name="desc_domaine"></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(function() {
+        $("#accordeon").accordion();
+        $("#submit").button();
+        $("#cancel").button();
+    });
+    $(document).ready(function ()
+    {
+        $('#code_membre_gestionnaire').blur(function()
+        {
+            if($(this).val() != '')
+            {
+                $.get(
+                '/eu-acteur-creneau/gestionchange',
+                {
+                    gestion: $(this).val()
+                },
+                function success(data)
+                {
+                    $('#nom_gestion').val(data[0]);
+                    $('#prenom_gestion').val(data[1]);
+                    $('#tel_gestion').val(data[2]);
+                });
+            }
+        });
+        
+        $("#add").button().click(function() {
+            $('#lib_domaine').val('');
+            $('#desc_domaine').val('');
+            $( "#cptedialog" ).dialog( "open" );
+        });
+        
+        $(function() {
+            $( "#cptedialog" ).dialog({
+                autoOpen: false,
+                height: 220,
+                title : 'Ajout d\'une nouvelle filière d\'activité',
+                width: 550,
+                modal: true,
+                buttons: {
+                    "Valider": function() {
+                        $.get('/eu-acteur-creneau/newdomaine?lib_domaine='+$('#lib_domaine').val()+'&desc_domaine='+$('#desc_domaine').val(),{
+                        },
+                        function success(data){
+                            if(data == 'good'){
+                                alert('Enregistrement effectué avec succès');
+                                $.get('/eu-acteur-creneau/domaines',function success(data)
+                                {
+                                    var options = '<option value=""></option>';
+                                    for( var i = 0; i < data.length; i++) {
+                                        options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+                                    }
+                                    $('select#id_domaine').html(options);
+                                });
+                            }
+                            else if(data == 'bad'){
+                                alert("Echec de l'opération");
+                            }
+                        });
+                        $( this ).dialog( "close" );
+                    },
+                    "Fermer": function() {
+                        $( this ).dialog( "close" );
+                    }
+                },
+                close: function() {
+                    
+                }
+            }
+        );
+        });
+    });
+</script>

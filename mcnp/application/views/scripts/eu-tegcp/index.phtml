@@ -1,0 +1,337 @@
+<div id="view-content">
+    <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:11px">
+        <div style="margin-bottom: 3px; width: 820px">
+            <fieldset>
+                <legend style=" font-weight:bold">Recherche</legend>
+                <table align="center">
+                    <tr>
+                        <!--<td width="150">Date début domiciliation</td><td width="100"><input type="text" id="date_debut" name="date_debut" size="12"/></td>
+                        <td width="130">Date fin domiciliation</td><td width="100"><input type="text" id="date_fin" name="date_fin" size="12"/></td>
+                        <td width="100">Etat domiciliation</td>-->
+                        <td>
+                            <select id="etat_domi" name="etat_domi" class="validate[required]" value="">
+                                <option value=""></option>
+                                <option value="N">En cours</option>
+                                <option value="O">Terminé</option>
+                            </select>
+                        </td>
+                        <td><input id="ok" type="button" value="OK" /></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div style="margin-bottom: 3px;">
+            <button id="bt_domi_detail">Détail</button>
+            <!--<input id="accorder" type="button" value="Transfert GCP" class="ui-widget button"/>
+            <td>Montant du transfert </td><td><input name="mt_transfert" id="mt_transfert" class="" value="" disabled="disabled"/></td>-->
+        </div>
+        <table id="tbl-domicilie"></table>
+        <div id="pg-domicilie"></div>
+        <br>
+        <div id="cptedialog">
+            <form>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><label>Numéro bénéficiaire :</label></td>
+                                            <td><input type="text" id="num_benef" name="num_benef"  size="25" readonly="readonly"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Montant à domicilier :</label></td>
+                                            <td><input type="text" id="mt_subvent" name="mt_subvent" style="text-align: right" readonly="readonly"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Date Domiciliation :</label></td>
+                                            <td><input type="text" id="date_domici" name="date_domici" readonly="readonly"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Etat domiciliation :</label></td>
+                                            <td><input type="text" id="domicilier" name="domicilier" readonly="readonly"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Nouveau bénéficiaire :</label></td>
+                                            <td><input type="text" id="new_benef" name="new_benef"  size="25"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><label>Catégorie ressource :</label></td>
+                                            <td><input type="text" id="cat_ressource" name="cat_ressource" readonly="readonly"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Montant domicilié :</label></td>
+                                            <td><input type="text" id="mt_domici" name="mt_domici" style="text-align: right" readonly="readonly"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Date fin :</label></td>
+                                            <td><input type="text" id="date_fin" name="date_fin" readonly="readonly"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Type domiciliation :</label></td>
+                                            <td><input type="text" id="type_domici" name="type_domici" readonly="readonly"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Nom nouveau bénéficiaire :</label></td>
+                                            <td><input type="text" id="new_benef_nom" name="new_benef_nom"  size="30"/><input type="text" id="code_domici" name="code_domici"  hidden="hidden"/></td></td>
+                                        </tr>
+                                    </tbody>
+                                </table> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table id="tbl-credit"></table>
+                                <div id="pg-credit"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-domicilie").jqGrid({
+        url:'/eu-tegcp/data?date_deb='+''+'&date_fin='+''+'&etat_domi='+'',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Bénéficiaire','Cat ressource','Mt Crédit','Mt domicilié','Date domiciliation','Date fin','Etat','Ress','Type'],
+        height:450, width:820,
+        colModel:[
+            {name:'code_domici',index:'code_domici', width: 160, align:"left", hidden:true},
+            {name:'num_benef',index:'num_benef', width: 170, editable: false,align:"left"},
+            {name:'cat_ressource',index:'cat_ressource', width: 110, editable: false,align:"left"},
+            {name:'mt_subvent',index:'mt_subvent', width: 130, align:"right", editable: false,formatter:'number'},
+            {name:'mt_domici',index:'mt_domici', width: 130, editable: false,align:"right",formatter:'number'},
+            {name:'date_domici',index:'date_domici', width: 115, align:"left", editable: false},
+            {name:'date_fin',index:'date_fin', width: 90, align:"left", editable: false, hidden:true},
+            {name:'domicilier',index:'domicilier', width:70, editable: false,align:"left"},
+            {name:'ress',index:'ress', width: 60, align:"left", hidden:true},
+            {name:'type_domici',index:'type_domici', width: 60, align:"right", hidden:true},
+        ],
+        rowNum:1000,
+        rowList:[1000,20000,30000],
+        pager: '#pg-domicilie',
+        sortname:"code_domici",
+        viewrecords: true,
+        multiselect:true,
+        sortorder: "desc",
+        caption:"Liste des domiciliations de paiements",
+        onSelectRow: function(id,status){
+            var montant = $('#mt_transfert').val();
+            if(id != 0 || id != null){
+                var data = jQuery('#tbl-domicilie').jqGrid('getRowData',id);
+                var value = 0;
+                var mt_domici = data.mt_domici;
+                if(montant == ''){
+                    montant = 0;
+                }else{
+                    montant = parseInt(montant,10);
+                }
+                if(status == true){
+                    value = parseInt(montant) + parseInt(mt_domici);
+                    $('#mt_transfert').val(value);
+                }else{
+                    value = montant - parseInt(mt_domici);
+                    $('#mt_transfert').val(value);
+                }
+                lastsel=id; 
+            }
+        },
+        onSelectAll: function(ids,status){
+            var montant = $('#mt_transfert').val();
+            if(status == true){
+                montant = 0;
+                if(montant == ''){
+                    montant = 0;
+                }else{
+                    montant = parseInt(montant,10);
+                }
+                for(var i = 0;i < ids.length;i++){
+                    var id = ids[i];
+                    var data = jQuery('#tbl-domicilie').jqGrid('getRowData',id);
+                    var mt_domici = data.mt_domici;
+                    montant += parseInt(mt_domici);
+                }
+                $('#mt_transfert').val(montant);
+            }else{
+                $('#mt_transfert').val(0); 
+            }
+        },
+        footerrow: true,
+        userDataOnFooter: true
+    });
+    $("#tbl-domicilie").jqGrid('navGrid','#pg-domicilie',{edit:false,add:false,del:false,search:true});
+    
+    $("#tbl-credit").jqGrid({
+        url:'/eu-tegcp/listcredits?code_domicil=0',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Membre','Ressource','Mt placé','Mt crédit','Mt domicilié','Date dépôt'],
+        height:'100%', width:720,
+        colModel:[
+            {name:'code_membre',index:'code_membre', width: 190, editable: false,align:"left"},
+            {name:'produit',index:'produit', width: 110, align:"left", editable: false},
+            {name:'mt_place',index:'mt_place', width: 130, align:"right", editable: false,formatter:'number'},
+            {name:'mt_credit',index:'mt_credit', width: 130, align:"right", editable: false,formatter:'number'},
+            {name:'mt_domici',index:'mt_domici', width: 130, align:"right", editable: false,formatter:'number'},
+            {name:'date_depot',index:'date_depot', width: 115, align:"left", editable: false}
+        ],
+        rowNum:30,
+        rowList:[30,50,100],
+        rownumbers:true,
+        pager: '#pg-credit',
+        sortname:"datefin",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Comptes des crédits de la domiciliation"
+    });
+    $("#tbl-credit").jqGrid('navGrid','#pg-credit',{edit:false,add:false,del:false,search:true});
+    
+    $(document).ready(function ()
+    { 
+        $(function(){
+            var pickerOpts = {
+                dateFormat: "dd/mm/yy",
+                changeMonth:true,
+                changeYear:true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+            $("#date_debut").datepicker(pickerOpts);
+            $("#date_fin").datepicker(pickerOpts);
+        });
+        $('#ok').click(function(){
+            $('#mt_transfert').val(0);
+            jQuery("#tbl-domicilie").jqGrid('setGridParam',{url:"/eu-tegcp/data?date_deb="+$('#date_debut').val()+"&date_fin="+$('#date_fin').val()+"&etat_domi="+$('#etat_domi').val()}).trigger('reloadGrid');
+        });
+        
+        $('#accorder').button();
+        $('#bt_domi_detail').button();
+    
+        $("#bt_domi_detail").button().click(function() {
+            var sel;
+            sel = jQuery("#tbl-domicilie").jqGrid('getGridParam','selrow');
+            data = jQuery("#tbl-domicilie").jqGrid('getRowData',sel);
+            if (sel) {
+                $('#num_benef').val(data.num_benef);
+                $('#cat_ressource').val(data.cat_ressource);
+                $('#mt_subvent').val(data.mt_subvent);
+                $('#mt_domici').val(data.mt_domici);
+                $('#date_domici').val(data.date_domici);
+                $('#date_fin').val(data.date_fin);
+                $('#domicilier').val(data.domicilier);
+                $('#type_domici').val(data.type_domici);
+                $('#new_benef').val("");
+                $('#new_benef_nom').val("");
+                $('#code_domici').val(data.code_domici);
+                jQuery("#tbl-credit").jqGrid('setGridParam',{url:"/eu-tegcp/listcredits?code_domicil=" + data.code_domici}).trigger('reloadGrid');
+                $( "#cptedialog" ).dialog( "open" );
+            }else{
+                alert('Il faut sélectionner une ligne');
+            }
+        });
+    
+        $(function() {
+            $( "#cptedialog" ).dialog({
+                autoOpen: false,
+                height: 450,
+                title : 'Détail de la domiciliation',
+                width: 745,
+                modal: true,
+                buttons: {
+                    "Modifier": function() {
+                        $.get('/eu-tegcp/modifbenef?new_benef='+$('#new_benef').val()+'&code_domici='+$('#code_domici').val()+'&mt_domi='+$('#mt_subvent').val(),{
+                        },
+                        function success(data){
+                            if(data == 'good'){
+                                jQuery("#tbl-domicilie").jqGrid('setGridParam',{url:"/eu-tegcp/data"}).trigger('reloadGrid');
+                                alert('Opération effectuée avec succes');
+                            }
+                            else if(data == 'bad'){
+                                alert("Echec de l'opération");
+                            }
+                        });
+                        $( this ).dialog( "close" );
+                    },
+                    "Fermer": function() {
+                        $( this ).dialog( "close" );
+                    }
+                    
+                },
+                close: function() {
+                    //allFields.val( "" ).removeClass( "ui-state-error" );
+                }
+            }
+        );
+        });
+        
+        $.get( "/eu-tegcp/changemoral",
+        function success(data)
+        {
+            $("input#new_benef").autocomplete({"source":data});
+        });
+        
+        $('#new_benef').blur(function(e)
+        {
+            if($(this).val() != '')
+            {
+                $.get(
+                '/eu-tegcp/recupnom',
+                {
+                    num_membre: $(this).val()
+                },
+                function success(data)
+                {
+                    $("#new_benef_nom").val(data);
+                });
+            }
+            e.preventDefault();
+        });
+    
+        $('#accorder').click(function() {
+            var sel;
+            sel = jQuery("#tbl-domicilie").jqGrid('getGridParam','selarrrow');
+            var tab=new Array();  
+            var rowsel;
+            rowsel = jQuery("#tbl-domicilie").jqGrid('getGridParam','selrow');
+            for(var i=0; i<sel.length; i++) {
+                tab[i]=jQuery("#tbl-domicilie").jqGrid('getRowData',sel[i]);   
+            };
+            if($('#mt_transfert').val()=='' || $('#mt_transfert').val()==0){
+                alert('Pas de montant à transférer sur votre GCP');
+            }else{
+                if(rowsel)
+                {
+                    data=jQuery("#tbl-domicilie").jqGrid('getRowData',rowsel);
+                    $.get('/eu-tegcp/accorder?mt_transfert='+$('#mt_transfert').val(),{
+                        lignes:tab
+                    },function success(data){
+                        if(data == 'good'){
+                            alert('Transfert du montant domicilié sur votre compte GCP avec succès');
+                            $(location).attr("href", "/eu-tegcp/index");
+                        }else if(data == 'erreur_te'){
+                            alert("Votre TE est mal configuré. Adressez-vous à l'administrateur du système");
+                        }else if(data == 'erreur'){
+                            alert("Echec de l'opération");
+                        }else if(data == 'no_code'){
+                            alert("Le code de domiciliation n'existe pas. Adressez-vous à l'administrateur du système.");
+                        }
+                    });             
+                }else{
+                    alert('Aucune ligne de domiciliation sélectionnée');
+                }    
+            }
+        });
+    })
+</script>

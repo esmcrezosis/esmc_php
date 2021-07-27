@@ -1,0 +1,62 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+  <blockquote><p class="text-info">Recherche Membre Physique <strong><span style="color:#F00;">R</span><span style="color:#09F;">e</span><span style="color:#F00;">D</span><span style="color:#09F;">é</span><span style="color:#F00;">M</span><span style="color:#09F;">a</span><span style="color:#F00;">R</span><span style="color:#09F;">e</span></strong> par votre Code Membre</p></blockquote>
+
+<div class="">
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="ancienpp">
+  <?php if(isset($sessionmembreasso->errorlogin) && $sessionmembreasso->errorlogin!=""){?>
+  <div class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->errorlogin; $sessionmembreasso->errorlogin = ""; ?>
+    </div>
+  <?php }?>
+  <?php if(isset($this->message) && $this->message!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->message; ?>
+    </div>
+  <?php }?>
+  
+  <legend>Recherche par Ancien Code Membre</legend>
+  
+  
+  <div class="control-group">
+  <label class="control-label" for="code_membre">Code Membre *</label>
+  <div class="controls">
+  <input type="text" name="code_membre" id="code_membre" placeholder="Code Membre" value="<?php echo $this->code_membre; ?>" required>
+  </div>
+  </div>
+  
+  
+  <legend></legend>
+  
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Rechercher Personne Physique</button>
+</div>
+
+
+</form>
+</div>
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

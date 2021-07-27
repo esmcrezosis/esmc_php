@@ -1,0 +1,98 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+<blockquote><p>Formulaire des mouvements bancaires type Approvisionnement de Caisse</p></blockquote>
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addreglement">
+<?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!="") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; ?>
+</div>
+<?php } ?>
+
+<?php if(isset($this->error) && $this->error!="") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $this->error; ?>
+</div>
+<?php } ?>
+  
+   
+<fieldset>
+<legend> Ajouter un mouvement bancaire de type Approvisionnement de Caisse </legend>
+
+<div class="control-group">
+<label class="control-label" for="montant_mouvement"> Montant  *</label>
+<div class="controls">
+<input type="text" name="montant_mouvement" id="montant_mouvement" placeholder="Montant" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="type_mouvement">Type mouvement *</label>
+  <div class="controls">
+       <select name="type_mouvement" id="type_mouvement" class="input-xxlarge"  required >
+            <option value="">Choisir un type de mouvement</option>
+	        <option value="CAISSE">Approvisionnement de la Caisse</option>
+       </select>
+  </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="type_balance">Date Emission *</label>
+    <div class="controls">
+        <input type="text" name="date_emission" id="date_emission"  class="input-xxlarge datepicker" data-provide="datepicker"  placeholder="Date Emission" required />
+    </div>
+</div> 
+
+<div class="control-group">
+    <label class="control-label" for="code_banque">Banque *</label>
+	<div class="controls">
+        <select  id="code_banque" name="code_banque" class="input-xxlarge" required>
+            <option value=""> Choisir une banque</option>
+            <?php foreach($this->banques as $value) { ?>
+                    <option
+                        value="<?php echo $value->code_banque; ?>">
+	                    <?php echo $value->libelle_banque; ?>
+	                </option>                         
+            <?php } ?>
+        </select>        
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="type_compte">Type de compte *</label>
+    <div class="controls">
+        <select name="type_compte" id="type_compte" class="input-xxlarge"  required >
+            <option value="">Choisir un type de compte bancaire</option>
+            <option value="COURANT">Compte courant</option>
+			<option value="DAT">Compte de Dépôt A Terme</option>
+        </select>
+    </div>
+</div>
+
+</fieldset>
+
+<div class="form-actions">
+    <input name="ok" type="hidden" id="ok" value="ok" />
+    <button type="reset" class="btn">Annuler</button>
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+  
+</form>  
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

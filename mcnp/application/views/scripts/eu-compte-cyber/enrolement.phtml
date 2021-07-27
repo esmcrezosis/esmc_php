@@ -1,0 +1,81 @@
+<div id="view-content" >
+    
+     <div id="formdiv" class="ui-widget-content ui-corner-all">
+          <fieldset><legend>Recherche</legend>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Date</td>
+                        <td>
+                            <input type="text" id="date_enro" name="date_enro"/>
+                        </td>
+                        
+                        <td style="text-align: right;">Agences</td>
+                        <td>
+                            <select id="code_agence" name="code_agence" ></select>
+                        </td>
+                        <td><button id="bt_show">Afficher</button></td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </fieldset> 
+        <table id="tbl-enrolement"></table>
+        <div id="pg-enrolement"></div> 
+     </div>      
+</div>
+
+<script type="text/javascript">
+        $("#tbl-enrolement").jqGrid({
+        url: '/eu-compte-cyber/dataenro',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['','Code membre','Raison sociale','Nom','Prenom','Profession'],
+        height: 320, width: 815,
+        colModel: [
+         {name: 'code_agence', index: 'code_agence', width:100, editable: false, align: "left",hidden:true},   
+         {name: 'code_membre', index: 'code_membre', width: 180, editable: false, align: "left"},
+         {name: 'raison_sociale', index: 'raison_sociale', width: 100, editable: false, align: "left"},
+         {name: 'nom_membre', index: 'nom_membre', width: 180, editable: false, align: "left"},
+         {name: 'prenom_membre', index: 'prenom_membre', width: 120, align: "left", editable: false},
+         {name: 'profession_membre', index: 'profession_membre', width: 150, align: "left", editable: false}
+        ],
+        rowNum: 10000,
+        rowList: [10000, 20000, 30000],
+        pager: '#pg-enrolement',
+        sortname: "code_membre",
+        grouping:true, 
+        groupingView : { groupField : ['code_agence'], groupSummary : [true,true], groupColumnShow : [false,false], groupText : ['<b>{0}</b>'], groupCollapse : false, groupOrder: ['asc','asc'] },
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste d'enrôlement des membres"
+    });
+    $("#tbl-enrolement").jqGrid('navGrid', '#pg-enrolement', {edit: false, add: false, del: false, search: true});
+        
+        var pickerOpts = {
+        dateFormat: "dd/mm/yy",
+        changeMonth: true,
+        changeYear: true,
+        showOtherMonths: true
+        };
+        $(function() {
+         $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+         $("#date_enro").datepicker(pickerOpts);
+        });
+
+        $.get('/eu-compte-cyber/agence',
+        function success(data)
+        {
+          var options = '<option></option>';
+          for (var i = 0; i < data.length; i++) {
+          options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+        }
+        $('select#code_agence').html(options);
+        });
+          
+      $('#bt_show').button().click(function(e) {
+       e.preventDefault();
+       jQuery("#tbl-enrolement").jqGrid('setGridParam', {url: "/eu-compte-cyber/dataenro?agence="+$('#code_agence').val()+"&date="+$('#date_enro').val()}).trigger('reloadGrid');
+     });
+     
+</script>    

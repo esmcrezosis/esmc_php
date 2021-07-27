@@ -1,0 +1,117 @@
+﻿<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+
+<script type="text/javascript" charset="utf-8">		
+$(document).ready(function() {
+  $('#example').dataTable( {
+   "sPaginationType": "full_numbers",
+   "aaSorting": []
+  });
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+<blockquote><p>Ligne de relevé CNP </p></blockquote>
+
+<?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error !="") { ?>
+  <div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+  </div>
+  <?php } ?>
+
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+  
+    <div>
+	    <form method="post" id="frm_releve_salaire" action="" class="form-horizontal">
+	        <div class="well">
+				    <div class="row-fluid">
+                        <div class="span8">
+                            <div class="control-group">
+                                <label class="control-label span4">Ancien Code Membre *</label>
+                                <div class="controls span8">
+                                <input type="text" name="old_code_membre" id="old_code_membre"  class="input-xxlarge"   placeholder="Ancien Code Membre" required />    
+                                </div>
+                            </div>
+                        </div>
+							
+						<div class="controls">
+                            <button id="btn_valider"   class="btn btn-primary"> Valider </button>
+                            <button type="reset" class="btn">Annuler</button>
+                        </div>
+                    </div>   
+				</div>
+	    </form>
+	</div>
+  
+
+<?php if(count($this->entries) > 0) { ?>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+       <thead>
+			<tr>
+				<th>Ancien Code Membre</th>
+				<th>Membre</th>
+				<th>Type Releve </th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+            <?php foreach ($this->entries as $entry) : 
+			    $membre = new Application_Model_EuAncienMembre();
+	            $m_map  = new Application_Model_EuAncienMembreMapper();
+		        $nom = "";
+			    if(substr($entry->releve_membre,19,1) == 'P')  {
+				    $findmembre = $m_map->find($entry->releve_membre,$membre);
+				    $nom = $membre->nom_membre." ".$membre->prenom_membre;
+			    } else {
+				    $findmembre = $m_map->find($entry->releve_membre,$membre);
+				    $nom = $membre->raison_sociale;
+			    }
+			?>
+            <tr>
+			    <td><?php echo $entry->releve_membre; ?></td>
+                <td><?php echo $nom; ?></td>
+                <td><?php echo $entry->releve_type; ?></td>
+				<td>
+					<div align="center">
+	                    <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/integrateur/updaterelevecredit/id/<?php echo $entry->releve_id; ?>"><i class="icon-edit icon-white"></i>Modifier</a>&nbsp;	   
+                    </div>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+        </tbody>
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun enrégistrement 
+</div>
+<?php } ?>
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>

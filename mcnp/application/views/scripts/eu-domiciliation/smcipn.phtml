@@ -1,0 +1,85 @@
+<div id="view-content" style="font-size:11px" class="ui-widget-content ui-corner-all">
+    <div style="margin-bottom: 3px; margin-top: 3px;font-size:13px">
+        <input id="verifier" type="button" value="Détail" class="ui-widget button"/>
+        <td>Code membre&nbsp;</td><td><input type="text" id="code_membre" name="code_membre" size="24"/></td>
+        <td>Nom membre&nbsp;<td><input type="text" id="nom_membre" name="nom_membre" size="30"/></td>
+        <td><input id="valider" type="button" value="Valider" /></td>
+    </div>
+    <table id="tbl-smcipn"></table>
+    <div id="pg-smcipn"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-smcipn").jqGrid({
+        url:'<?php echo $this->url(array('action' =>'smcipnlist')); ?>?code_membre=',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Code membre','Durée projet','Salaire','Investissement','Date','Heure'],
+        height:450, width:827,
+        colModel:[
+            {name:'code_demand',index:'code_demand', width:85, sorttype:"int",align:"left",summaryType:'count', summaryTpl : 'Total ({0})', hidden:true},
+            {name:'lib_demand',index:'lib_demand', width: 300, align:"left", editable: true},
+            {name:'num_membre',index:'num_membre', width: 185, editable: true,align:"left"},
+            {name:'dvm_demand',index:'dvm_demand', width: 115, editable: true,align:"left"},
+            {name:'mt_salaire',index:'mt_salaire', width: 120, align:"right",sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'mt_investis',index:'mt_investis', width: 140, align:"right",sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'date_demand',index:'date_demand', width: 110, editable: true,align:"left"},
+            {name:'heure_demand',index:'heure_demand', width: 90, align:"left", editable: false, hidden:true},
+        ],
+        rowNum:1000,
+        rowList:[1000,2000,30000],
+        rownumbers:true,
+        pager: '#pg-smcipn',
+        sortname:"date_demand",
+        viewrecords: true,
+        multiselect:false,
+        sortorder: "desc",
+        caption:"Liste des demandes de subventions en attentes",
+        footerrow: true,
+        userDataOnFooter: true     
+    });
+    $("#tbl-smcipn").jqGrid('navGrid','#pg-smcipn',{edit:false,add:false,del:false,search:true});
+    
+    $('#verifier').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-smcipn").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-smcipn/detailsmcipn',{
+                code_demand:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $.get( "/eu-domiciliation/changemoral",
+    function success(data)
+    {
+        $("input#code_membre").autocomplete({"source":data});
+    });
+    $('#code_membre').blur(function(e)
+    {
+        if($(this).val() != '')
+        {
+            $.get(
+            '/eu-domiciliation/recupmorale',
+            {
+                num_membre: $(this).val()
+            },
+            function success(data)
+            {
+                $("#nom_membre").val(data);
+            });
+        }
+        e.preventDefault();
+    });
+    $('#verifier').button();
+    $('#valider').button();
+    $('#valider').click(function(){
+        jQuery("#tbl-smcipn").jqGrid('setGridParam',{url:"/eu-domiciliation/smcipnlist?code_membre="+$('#code_membre').val()}).trigger('reloadGrid');
+    });  
+        
+</script>

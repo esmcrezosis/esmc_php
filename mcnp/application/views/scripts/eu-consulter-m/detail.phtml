@@ -1,0 +1,152 @@
+<div id="view-content" title="Vue des enrôlements effectués sur le système" style="font-size:11px">
+     <div id="tab_enro" style="padding: 1px;">
+          <ul>
+            <li><a href="#tab_enro_detail">Détail Enrôlements</a></li>
+          </ul>
+          <div id="tab_enro_detail" style="padding: 1px;">
+               <div id="tab_detail" style="padding: 1px;">
+                    <ul>
+                       <li><a href="#detail_enro">Enrôlements</a></li>
+                    </ul>
+                    <div id="detail_enro" style="padding: 2px;">
+                    <form id="enro_form" method="POST" action="/eu-consulter-m/consult">
+                        <table style="margin-left: 10px;">
+                               <thead/>
+                                <tbody>
+                                     <tr>
+                                        <td><label style="text-align: right"> Agences</label></td>
+                                        <td><select type="text" id="agence" name="agence" value=""></select></td>
+										<td><label style="text-align: right">Date</label></td>
+                                        <td><input type="text" id="date_enro" name="date_enro"/></td>
+                                     </tr>
+                                     <tr colspan="4" height="5"></tr>
+                                     <tr align="center"> 
+                                         <td colspan="4">
+                                            <input type="submit" id="val_enro" value="valider"/>
+                                            <input type="reset" id="reset_enro" value="Annuler"/>
+                                         </td>
+                                     </tr>
+                                </tbody>
+                        </table>
+                    </form>
+					<?php
+					    $auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin')); 
+                        $user = $auth->getIdentity();
+				        $group = $user->code_groupe;
+				        if($group == 'enrolement') { 
+					?>
+                        <table id="tbl-enro"></table>
+                        <div id="pg-enro"></div>
+					    <?php
+					} elseif($group == 'mise_chaine') {   
+					?>
+					  <table id="tbl-chaine"></table>
+                      <div id="pg-chaine"></div>
+					<?php
+					   }
+					?>
+                 </div>
+               </div>
+          </div>   
+     </div>      
+</div> 
+<script type="text/javascript">
+        $("#tbl-enro").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['','Code membre','Nom','Prenom','Date création'],
+        height: 220, width: 815,
+        colModel: [   
+         {name: 'code_agence', index: 'code_agence', width:100, editable: false, align: "left",hidden:true},
+         {name: 'code_membre', index: 'code_membre', width: 250, editable: false, align: "left"},
+         //{name: 'raison_sociale', index: 'raison_sociale', width: 150, editable: false, align: "left"},
+         {name: 'nom_membre', index: 'nom_membre', width: 180, editable: false, align: "left"},
+         {name: 'prenom_membre', index: 'prenom_membre', width: 120, align: "left", editable: false},
+         //{name: 'profession_membre', index: 'profession_membre', width: 150, align: "left", editable: false},
+         {name: 'date_identification', index: 'date_identification', width: 150, align: "left", editable: false}
+        ],
+        rowNum: 100000,
+        rowList: [100000, 200000, 300000],
+        pager: '#pg-enro',
+        sortname: "code_membre",
+        grouping:true, 
+        groupingView : { groupField : ['code_agence'], groupSummary : [true,true], groupColumnShow : [false,false], groupText : ['<b>{0}</b>'], groupCollapse : false, groupOrder: ['asc','asc'] },
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste d'enrôlement des membres personnes physiques"
+    });
+    $("#tbl-enro").jqGrid('navGrid', '#pg-enro', {edit: false, add: false, del: false, search: true});
+    
+	
+	$("#tbl-chaine").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['','Code membre','Raison sociale','Date création'],
+        height: 220, width: 815,
+        colModel: [   
+         {name: 'code_agence', index: 'code_agence', width:100, editable: false, align: "left",hidden:true},
+         {name: 'code_membre', index: 'code_membre', width: 250, editable: false, align: "left"},
+         {name: 'raison_sociale', index: 'raison_sociale', width: 150, editable: false, align: "left"},
+         {name: 'date_identification', index: 'date_identification', width: 150, align: "left", editable: false}
+        ],
+        rowNum: 100000,
+        rowList: [100000, 200000, 300000],
+        pager: '#pg-chaine',
+        sortname: "code_membre",
+        grouping:true, 
+        groupingView : { groupField : ['code_agence'], groupSummary : [true,true], groupColumnShow : [false,false], groupText : ['<b>{0}</b>'], groupCollapse : false, groupOrder: ['asc','asc'] },
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste d'enrôlement des membres personnes morales"
+    });
+    $("#tbl-chaine").jqGrid('navGrid','#pg-chaine', {edit: false, add: false, del: false, search: true});
+	
+	
+	
+	
+	
+	
+    $(document).ready(function() {
+       var pickerOpts = {
+       dateFormat: "dd/mm/yy",
+       changeMonth: true,
+       changeYear: true,
+       showOtherMonths: true
+       };
+       $(function() {
+        $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+        $("#date_enro").datepicker(pickerOpts);
+       }); 
+            
+        $.get('/eu-consulter-m/gacregion',
+        function success(data)
+        {
+          var options = '<option></option>';
+          for (var i = 0; i < data.length; i++) {
+              options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+          }
+          $('select#gac_region').html(options);
+        });
+           
+        $.get('/eu-consulter-m/agence',
+        function success(data) {
+          var options = '<option></option>';
+          for (var i = 0; i < data.length; i++) {
+              options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+          }
+          $('select#agence').html(options);
+        });
+        
+        $('#val_enro').button().click(function(e) {
+             e.preventDefault();
+             jQuery("#tbl-enro").jqGrid('setGridParam', {url: "/eu-consulter-m/dataenro?agence="+$('#agence').val()+"&date="+$('#date_enro').val()}).trigger('reloadGrid');
+			 jQuery("#tbl-chaine").jqGrid('setGridParam', {url: "/eu-consulter-m/datamise?agence="+$('#agence').val()+"&date="+$('#date_enro').val()}).trigger('reloadGrid');
+        });
+         
+        $("#tab_enro").tabs();
+        $("#tab_detail").tabs();
+        
+     })       
+</script>

@@ -1,0 +1,52 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<br />
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+  <blockquote><p class="text-info">Actualités</p></blockquote>
+
+          <?php if(count($this->entries)>0){?>  
+<div class="accordion" id="accordion2">
+
+<?php foreach ($this->entries as $entry): ?>
+<div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $entry->actualite_id; ?>"><i class="icon-chevron-right"></i> <?php echo ($entry->actualite_date); ?> - <?php echo ($entry->actualite_libelle); ?>
+      </a>
+    </div>
+    <div id="collapse<?php echo $entry->actualite_id; ?>" class="accordion-body collapse" align="left">
+      <div class="accordion-inner">
+
+<div align="justify">
+        <div class="span1"><?php if($entry->actualite_vignette != ""){?><img class="img-polaroid" src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/<?php echo ($entry->actualite_vignette); ?>&w=100&h=100&zc=1" /><?php }?></div>
+        <div class="span11"><?php echo ($entry->actualite_date); ?> - <?php echo ($entry->actualite_libelle); ?><br />
+        <span class="muted"><?php echo ($entry->actualite_resume); ?></span> <a class="link" href="<?php echo $this->baseUrl();?>/index/actualiteesmc/id/<?php echo $entry->actualite_id; ?>">Voir plus &raquo;</a></div>
+      </div>
+
+      </div>
+    </div>
+    </div>
+<?php endforeach; ?>
+  
+    </div>
+	<?php }?>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,87 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout du SMS</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addmenu">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<div class="row">
+    
+<div class="span6">
+
+
+<div class="control-group">
+<label class="control-label" for="sms_nbre_montant">Montant SMS à charger *</label>
+<div class="controls">
+<input type="number" name="sms_nbre_montant" id="sms_nbre_montant" placeholder="Montant SMS à charger" class="input-large" required>
+<a class="btn" onclick="document.getElementById('sms_nbre_nbre').value = Math.floor(document.getElementById('sms_nbre_montant').value / 50);">Calculer le nombre</a>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="sms_nbre_nbre">Nombre approximatif de SMS à charger *</label>
+<div class="controls">
+<input type="number" name="sms_nbre_nbre" id="sms_nbre_nbre" placeholder="Nombre approximatif de SMS à charger" class="input-large" required>
+</div>
+</div>
+
+    
+ 
+</div>
+
+
+
+<div class="span6">
+<?php 
+        $smsnbre = new Application_Model_EuSmsNbre();
+        $smsnbreM = new Application_Model_EuSmsNbreMapper();
+        $smsnbreM->find(1, $smsnbre);
+
+?>
+<div class="control-group">
+<label>Date de la dernière recharge de crédit : <strong><?php echo $smsnbre->sms_nbre_date; ?></strong></label>
+</div>
+
+<div class="control-group">
+<label>Nombre approximatif de SMS restant : <strong><?php echo $smsnbre->sms_nbre_nbre; ?> SMS</strong></label>
+</div>
+
+</div>
+                            
+</div>
+    
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter le montant</button>
+</div>
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,100 @@
+<div id="view-content" style="font-size:11px" class="ui-widget-content ui-corner-all" title="Liste des propositions financières en attentes">
+    <div style="margin-bottom: 3px; margin-top: 3px;font-size:13px">
+        <fieldset>
+            <legend>Recherche</legend>
+            <table align='center'>
+                <tr>
+<!--                    <td><input id="verifier" type="button" value="Détail" class="ui-widget button"/></td>-->
+                    <td>&nbsp;&nbsp;Appel d'offre&nbsp;</td><td><select id="id_proposition" name="id_proposition" class="validate[required]"></select></td>
+                    <td>&nbsp;&nbsp;Date proposition&nbsp;<td><input type="text" id="date_creation" name="date_creation" size="12"/></td>
+                    <td><input id="valider" type="button" value="Valider" /></td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+    <div style="margin-bottom: 3px; margin-top: 3px;font-size:13px">
+        <table id="tbl-offre"></table></div>
+    <div id="pg-offre"></div>
+</div>
+
+<script type="text/javascript">
+
+    $(function() {
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+    });
+
+    $(function() {
+        var pickerOpts = {
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true
+        };
+        $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+        $("#date_creation").inputmask("d/m/y").datepicker(pickerOpts);
+    });
+
+    $("#tbl-offre").jqGrid({
+        url: "<?php echo $this->url(array('action' => 'offrelist')); ?>/eu-domiciliation/offrelist?id_proposition="+"&date=",
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['id', 'Id offre', 'Libellé appel d\'offre', 'Code membre', 'Salaire', 'Investissement', 'Autre', 'Date'],
+        height: 450, width: 815,
+        colModel: [
+            {name: 'id_proposition', index: 'id_proposition', width: 85, sorttype: "int", align: "left", summaryType: 'count', summaryTpl: 'Total ({0})', hidden: true},
+            {name: 'id_offre', index: 'id_offre', width: 100, align: "left", editable: true, hidden: true},
+            {name: 'nom_appel_offre', index: 'nom_appel_offre', width: 220, align: "left", editable: true},
+            {name: 'code_membre', index: 'code_membre', width: 190, editable: true, align: "left"},
+            {name: 'salaire', index: 'salaire', width: 120, align: "right", sorttype: 'number', formatter: 'number', summaryType: 'sum'},
+            {name: 'investis', index: 'investis', width: 140, align: "right", sorttype: 'number', formatter: 'number', summaryType: 'sum'},
+            {name: 'autre', index: 'autre', width: 100, align: "right", sorttype: 'number', formatter: 'number', summaryType: 'sum'},
+            {name: 'date_creation', index: 'date_creation', width: 100, align: "left", editable: false},
+        ],
+        rowNum: 1000,
+        rowList: [1000, 2000, 30000],
+        rownumbers: true,
+        pager: '#pg-smcipn',
+        sortname: "date_creation",
+        viewrecords: true,
+        multiselect: false,
+        sortorder: "desc",
+        //caption: "Liste des propositions financières en attentes",
+        footerrow: true,
+        userDataOnFooter: true
+    });
+    $("#tbl-offre").jqGrid('navGrid', '#pg-offre', {edit: false, add: false, del: false, search: true});
+
+    $('#verifier').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-offre").jqGrid('getGridParam', 'selrow');
+        if (rowsel)
+        {
+            $.get('/eu-smcipn/detailsmcipn', {
+                code_demand: rowsel
+            }, function success(data) {
+                $("#content").html(data);
+            });
+        } else {
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+
+    $.get('/eu-domiciliation/offrechange',
+            function success(data)
+            {
+                var options = '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i][1] + '">' + data[i][2] + ' </option>';
+                }
+                $('select#id_proposition').html(options);
+            });
+
+    $('#verifier').button();
+    $('#valider').button();
+    $('#valider').click(function() {
+        jQuery("#tbl-offre").jqGrid('setGridParam', {url: "/eu-domiciliation/offrelist?id_proposition="+ $('#id_proposition').val()+"&date="+$('#date_creation').val()}).trigger('reloadGrid');
+    });
+
+</script>

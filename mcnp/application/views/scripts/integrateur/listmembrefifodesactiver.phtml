@@ -1,0 +1,109 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script><!-- -->
+
+<!--<link href="<?php echo $this->baseUrl();?>/bootstrap/css/bootstrap.css" rel="stylesheet"> -->
+
+<script type="text/javascript" charset="utf-8">			
+$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+</script>      
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+<blockquote><p> Liste des Offres d'Intégration Désactivés </p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+<thead>
+	  <tr>
+			<th>Date</th>
+			<th>Code Membre</th>
+			<th>Nom & prénom(s)</th>
+			<th>Cellulaire</th>
+			<th>Date et lieu de naissance</th>
+			<th>Canton</th>
+			<th>Ville/Quartier</th>
+			<th>Actions</th>
+	  </tr>
+</thead>
+						  
+<tbody>
+<?php foreach ($this->entries as $entry) :
+
+$membre = new Application_Model_EuMembre();
+$m_membre = new Application_Model_EuMembreMapper();
+$findmembre  = $m_membre->find($entry->code_membre_benef,$membre); 
+
+
+?>
+    <tr>
+      <td><?php echo ($membre->date_identification); ?> <?php echo ($membre->heure_identification); ?></td>
+      <td><?php echo ($membre->code_membre); ?></td>
+      <td><?php echo ($membre->nom_membre); ?> <?php echo ($membre->prenom_membre); ?></td>
+      <td><?php echo ($membre->portable_membre); ?></td>
+      <td><?php echo ($membre->date_nais_membre); ?> <?php echo ($membre->lieu_nais_membre); ?></td>
+      <td>
+	  <?php 
+	   if($membre->id_canton > 0) {
+           $canton = new Application_Model_EuCanton();
+           $cantonM = new Application_Model_EuCantonMapper();
+           $cantonM->find($entry->id_canton, $canton);
+           echo $canton->nom_canton;
+       } ?>
+	  </td>
+	  <td>
+	      <?php
+          $reponsetraiter = str_replace("&eacute;","e",strtoupper($membre->ville_membre));		  
+		  $reponsetraiter = str_replace("&EACUTE;","E",$reponsetraiter);
+		  $reponsetraiter = str_replace("A©","E",$reponsetraiter);
+		  echo ucfirst(htmlentities($reponsetraiter));
+		  
+		  ?> / 
+		  
+		  <?php echo ucfirst(htmlentities($membre->quartier_membre));?> 
+	  </td>
+      <td>
+	  <div align="center">
+            <a class="btn btn-mini btn-success"><i class="icon-ok icon-white"></i> Désactivé </a>&nbsp; 
+	   </div>
+	   </td> 
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucun membre trouvé 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

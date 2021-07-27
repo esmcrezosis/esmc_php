@@ -1,0 +1,59 @@
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+<blockquote>
+
+   INTERFACE D'AJOUT DE TYPE DE GUICHETS
+   
+</blockquote>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+<div class="alert alert-danger">
+
+    <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+</div>
+
+<?php unset($_SESSION['validationerrors']); endif ?>
+
+<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+    <div class="alert alert-success">
+
+        <li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+
+    </div>
+    
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+<form action="#" method= "POST" id="ajouteruntypesdeguichet">
+
+
+<div class="control-group">
+
+<label class="control-label" for="Code membre du responsable du guichet" style="font-weight:bold">
+
+  Libellé du type de franchise *:
+
+</label>
+
+<div class="controls">
+
+   <input type="text" name="libelle_franchises" class="input-block-level libelle_franchises" placeholder="Renseignez le type de franchise" required/>
+
+</div>
+
+</div>
+
+<div class="control-group" >
+
+<button type="submit" class="btn btn-large btn-primary" id ="validtypefranchise" style="position:relative">
+
+    Valider le formulaire
+
+</button>
+
+</div>
+
+</form>

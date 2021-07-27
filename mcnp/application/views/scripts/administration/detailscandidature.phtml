@@ -1,0 +1,57 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Detail d'une candidat</p></blockquote>
+  
+    
+<div class="control-group">
+<label class="control-label" for="candidat_document">Document </label>
+<div class="controls">
+<?php 
+$documentM = new Application_Model_EuDocumentMapper();
+$document = new Application_Model_EuDocument();
+$documentM->find($this->candidat->candidat_document, $document);
+?><?php echo htmlentities($document->nom_document); ?></div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_nom">Nom </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_nom; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_poste">Poste </label>
+<div class="controls">
+<?php echo $this->candidat->candidat_poste; ?>
+</div>
+</div>
+    
+
+
+
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

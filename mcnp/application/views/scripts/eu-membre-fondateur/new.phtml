@@ -1,0 +1,324 @@
+<div id="view-content" title="" style="font-size: 12px;min-height: 520px;">
+     <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+          <h3> Apport sur un compte membre fondateur </h3>
+     </div>
+	 
+     <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+          <form action="/eu-membre-fondateur/donew" name="fm_membre_fondateur" method="POST" id="fm_membre_fondateur">
+					<table style="width: 600px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+					  <tr>
+                          <td colspan="2">
+                          <div id="caps_table" style="display: block;">
+                          <fieldset>
+                                <table>
+                                    <tbody>
+								          <tr>
+                                              <td>Type membre :</td>
+                                              <td>
+                                                  <select id="type_membre" class="validate[required]" name="type_membre">
+											          <option value=""></option>
+                                                      <option value="P">Physique</option>
+                                                      <option value="M">Morale</option>
+                                                  </select>
+                                              </td>
+                                          </tr>
+										  <tr>
+									          <td height="5"></td>
+									      </tr>
+                                          <tr>
+                                              <td>Code Membre Apporteur *:</td>
+										      <td>
+											      <input id="code_membre" type="text" name="code_membre"  size="30"/>
+										      </td>
+                                          </tr>
+                                    </tbody>
+                                </table>
+                        </fieldset>
+                        </div>
+                        </td>
+                    </tr>
+			        <tr>
+                    <td colspan="2">
+                       <div id="raison_table" style="display: none;">
+                            <fieldset>
+                                 <table>
+                                       <tbody>
+                                              <tr>
+                                                 <td>Raison sociale *:</td>
+                                                 <td><input id="raison_sociale" name="raison_sociale" readonly="readonly" class="validate[required]" size="30"/></td>
+                                              </tr>
+                                       </tbody>
+                                 </table>
+                            </fieldset>
+                    </div>
+                </td>
+			</tr>
+			<tr>
+                    <td colspan="2">
+                       <div id="nom_table" style="display: none;">
+                            <fieldset>
+                                 <table>
+                                       <tbody>
+                                             <tr>
+                                                <td>Nom et Prenoms *:</td>
+                                                <td><input id="nom_membre" name="nom_membre" readonly="readonly"  class="validate[required]"  size="30"/></td>
+                                             </tr>
+                                       </tbody>
+                                 </table>
+                             </fieldset>
+                        </div>
+                    </td>
+			</tr>
+			<tr>
+                    <td colspan="2">
+                        <div id="raison_table">
+                            <fieldset>
+                                 <table>
+                                       <tbody>
+                                             <tr>
+                                                <td>Type MF *:</td>
+												<td><select id="type_mf" name="type_mf" required="true"/></td>
+                                             </tr>
+                                       </tbody>
+                                 </table>
+                             </fieldset>
+                        </div>
+                    </td>
+			</tr>
+			<tr>
+                <td colspan="2">
+                    <div id="sms_table">
+                        <fieldset>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Code SMS *:</td>
+                                        <td><input id="code_sms" name="code_sms"  required="true" /></td>
+                                        <td><div id="id_message" style="width: 150px; color:red;"></div></td>
+                                    </tr>
+									<tr>
+									    <td height="5"></td>
+									</tr>
+									<tr>
+                                        <td>Montant SMS *:</td>
+                                        <td>
+										    <input id="mont_sms" name="mont_sms" readonly="readonly"  class="validate[required]"/>
+										<td>
+										    <select class="validate[required]" type="text" id="dev_apport" name="dev_apport" ></select>
+										</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </div>
+                </td>
+            </tr>
+			<tr>
+                    <td colspan="2">
+                        <div id="raison_table">
+                            <fieldset>
+                                 <table>
+                                       <tbody>
+                                             <tr>
+                                                <td>Unite indexe *:</td>
+												<td><select id="unite" name="unite[]" multiple="multiple" required="true"/></td>
+                                             </tr>
+                                       </tbody>
+                                 </table>
+                             </fieldset>
+                        </div>
+                    </td>
+			</tr>
+			<tr>
+                <td align="center">
+                    <input type="submit" id="val" value="Valider"/>	<input type="reset" id="reset" value="Annuler"/>
+				</td>
+            </tr>
+            </table>					
+	      </form>
+     </div>	 
+</div>
+<script type="text/javascript">
+
+        $(document).ready(function() {
+		  $('#view-content').puipanel();
+          $('fieldset').puifieldset();
+		  $("#fm_membre_fondateur").validationEngine();
+			
+		  $.get("/eu-membre-fondateur/typemf",
+                 function success(data) {
+                 var options = '<option/>';
+									
+                 for (var i = 0; i < data.length; i++) {
+                  options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                 }		
+                $('select#type_mf').html(options);
+          });
+			
+			
+		  $("#unite").multiselect({
+              header: "",
+              noneSelectedText: "",
+              selectedList:4
+          });	
+			
+			
+		  $.get("/eu-membre-fondateur/unite",
+                 function success(data) {
+                 var options = '';					
+                 for (var i = 0; i < data.length; i++) {
+                     options += '<option value="' + data[i][0] + '" selected disabled>' + data[i][0] + ' </option>';
+                 }		
+                 $('select#unite').html(options);
+				 $("#unite").multiselect('refresh');
+            });
+			
+			
+			$.get(
+            '/eu-membre-fondateur/devise',
+            function success(data) {
+            var options = '';
+            for( var i = 0; i < data.length; i++) {
+                if(data[i] == 'XOF'){
+                    options += '<option value="' + data[i] + '" selected>' + data[i] +' </option>'; 
+                }
+                else{
+                    options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+                }   
+            }
+                $('select#dev_apport').html(options);
+            });
+			
+			
+			$('form#fm_membre_fondateur').submit(function(e) {
+                $.ajax({
+                  url: $('form').attr("action"),
+                  data: $('form').serialize(),
+                  type: 'post',
+                  success: processServerResponse
+            });
+                  e.preventDefault();
+            });
+			
+			
+            function processServerResponse(data) {
+             if (data === true) {
+                alert('Enrégistrement effectué avec succès');
+                $(location).attr("href", "/eu-membre-fondateur/index");
+            }
+            else {
+                alert(data);
+            }
+            };
+		  
+		  
+		  $('#code_sms').blur(function(e) {
+             if($(this).val() != '') {
+                $.get(
+                '/eu-membre-fondateur/codesms',
+                {
+                    code: $(this).val()
+                },
+                function success(data)
+                {
+                 if(data != 0){
+                    $('#mont_sms').val(data);
+                    $('#mont_sms').attr('readonly', true);
+                 }
+                 else {
+                       $('#mont_sms').attr('readonly',true);
+                       $('#mont_sms').val('');
+                       $("#id_message").html("<label>Ce code est invalide</label>");
+                 } 
+                });
+         }
+         else {
+            $('#mont_sms').attr('readonly',true);
+            $('#mont_sms').val('');
+         }
+            e.preventDefault();
+        });
+		
+		var  dev = 'XOF';
+         $('#dev_apport').change(function() {
+            var  dev1 = $('#dev_apport').val();
+            if(dev != dev1){
+                if($('#mont_sms').val() != '' && parseInt($('#mont_sms').val()) > 0){
+                    $.get(
+                    '/eu-membre-fondateur/convertir',
+                    {
+                        montant: $('#mont_sms').val(),dev:dev,dev1 : dev1
+                    },
+                    function success(data)
+                    {
+                        if(data != false){
+                            $('#mont_sms').val(data);
+                            dev = dev1;
+                        }else{
+                            alert('Ce cours n\'est pas défini: '+ dev+'-'+dev1);
+                            $('#dev_apport').val(dev);
+                        }
+                    });
+                }
+            }
+        });
+		 
+		 
+		$('#code_membre').attr('readonly',true);  
+		$("#type_membre").change(function(e) {
+           e.preventDefault();
+		   $('#code_membre').val('');
+           if ($(this).val() != '') {
+		        
+			   if ($(this).val() === 'P') {
+                  $('#nom_table').css('display', 'block');
+                  $('#raison_table').css('display', 'none');
+              }else {
+                  $('#nom_table').css('display','none');
+                  $('#raison_table').css('display','block'); 
+              }			  
+		      $('#code_membre').attr('readonly',false);
+			  $.get("/eu-membre-fondateur/membreapporteur", {
+                    type_membre : $('#type_membre').val()
+              },
+              function success(data) {
+               $("#code_membre").autocomplete({minLength:3, "source": data,
+                 change: displayItem});
+              });	  
+		  }
+		  else {
+			   $('#code_membre').attr('readonly',true);
+               $('#nom_table').css('display', 'none');
+               $('#raison_table').css('display', 'none');			   
+		  }
+        });
+
+
+        function displayItem() {
+		
+                if (($(this).val() !== '') && ($('#type_membre').val() == 'P')) {
+                     $.get(
+                     '/eu-membre-fondateur/recupnom',{
+                        num_membre: $(this).val()
+                     },
+                     function success(data) {
+                       $("#nom_membre").val(data[1]);
+                    });
+                }
+				else if(($(this).val() !== '') && ($('#type_membre').val() == 'M')) {
+				
+				  $.get(
+                     '/eu-membre-fondateur/recupraison',{
+                        num_membre: $(this).val()
+                  },
+                  function success(data) {
+                    $("#raison_sociale").val(data[1]);
+                  });
+				
+				}
+        }
+
+
+		
+})
+</script>

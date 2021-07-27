@@ -1,0 +1,75 @@
+<?php $sessionsouscription = new Zend_Session_Namespace('souscription');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menutiers.phtml"); ?>
+
+  <blockquote><p>Modification du caracteristique</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addcaracteristique">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+
+
+<div class="control-group">
+<label class="control-label" for="caracteristique_libelle">Libellé de la caractéristique *</label>
+<div class="controls">
+<input type="text" name="caracteristique_libelle" id="caracteristique_libelle" placeholder="Libellé de la caractéristique" class="input-xxlarge" value="<?php echo $this->caracteristique->caracteristique_libelle; ?>" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="caracteristique_description">Description de la caractéristique *</label>
+<div class="controls">
+  <textarea name="caracteristique_description" class="input-xxlarge" id="caracteristique_description" placeholder="Description de la caractéristique" required><?php echo $this->caracteristique->caracteristique_description; ?></textarea>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="caracteristique_fichier">Le fichier de la caractéristique </label>
+<div class="controls">
+<input name="caracteristique_fichier" type="file" id="caracteristique_fichier" class="input-xxlarge" />  
+</div>
+</div>
+    
+   
+    
+
+
+<div class="form-actions">
+<input name="caracteristique_id" type="hidden" id="caracteristique_id" value="<?php echo $this->caracteristique->caracteristique_id; ?>" />  
+<input name="caracteristique_fichier_old" type="hidden" id="caracteristique_fichier_old" value="<?php echo $this->caracteristique->caracteristique_fichier; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier une caractéristique</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

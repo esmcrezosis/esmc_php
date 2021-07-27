@@ -1,0 +1,149 @@
+<div id="view-content" title="Echange GCP" style="font-size: 12px;min-height: 520px;">
+    <form id="new_gcp_form" action="<?php echo $this->url(); ?>" method="<?php echo $this->form->getMethod(); ?>" enctype="<?php echo $this->form->getEnctype(); ?>" >
+        <fieldset>
+            <legend>Source</legend>
+            <table>
+                <thead></thead>
+                <tbody>
+                    <tr>
+                        <td><label>Compte à échanger</label></td>
+                        <td><?php echo $this->form->getElement("categorie"); ?></td>
+                    </tr>
+                    <tr>
+                        <td><label>Code Membre</label></td>
+                        <td><?php echo $this->form->getElement("membre"); ?></td>
+                        <td><label>Raison sociale</label></td>
+                        <td><?php echo $this->form->getElement("raison_sociale"); ?></td>
+                    </tr>
+                    <tr>
+                        <td><label>Nom Membre</label></td>
+                        <td><?php echo $this->form->getElement("nom_membrem"); ?></td>
+                        <td><label>Prenoms</label></td>
+                        <td><?php echo $this->form->getElement("prenom_membrem"); ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+        <fieldset style="margin-top: 2px;margin-bottom: 2px;">
+            <legend>Destination</legend>
+            <table>
+                <thead></thead>
+                <tbody>
+                    <tr>
+                        <td><label>Compte</label></td>
+                        <td><?php echo $this->form->getElement("compte"); ?></td>
+                    </tr>
+                    <tr>
+                        <td><label>Code Membre Beneficiaire</label></td>
+                        <td><?php echo $this->form->getElement("membrep"); ?></td>
+                    </tr>
+                    <tr>
+                        <td><label>Nom Membre</label></td>
+                        <td><?php echo $this->form->getElement("nom_membre"); ?></td>
+                        <td><label>Prenoms</label></td>
+                        <td><?php echo $this->form->getElement("prenom_membre"); ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+        <fieldset>
+            <table>
+                <thead></thead>
+                <tbody>
+                    <tr>
+                        <td><label>Solde du Compte</label></td>
+                        <td><?php echo $this->form->getElement("solde"); ?></td>
+                    </tr>
+                    <tr>
+                        <td><label>Montant à échanger</label></td>
+                        <td><?php echo $this->form->getElement("montant"); ?></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </fieldset>
+        <table>
+            <tbody>
+                <tr><td><?php echo $this->form->getElement("valider"); ?></td>
+                    <td><?php echo $this->form->getElement("annuler"); ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function() {
+        $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+        });
+        $('#valider').button();
+        $('#annuler').button();
+        $('#membrep').change(function(e)
+        {
+            e.preventDefault();
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-echange/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    $("#nom_membre").val(data[0]);
+                    $("#prenom_membre").val(data[1]);
+                });
+            }
+        });
+
+        $('#membre').change(function(e)
+        {
+            e.preventDefault();
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-echange/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    $("#nom_membrem").val(data[0]);
+                    $("#prenom_membrem").val(data[1]);
+                    $("#raison_sociale").val(data[2]);
+                });
+                $.get(
+                        '/eu-echange/solde',
+                        {
+                            code_membre: $(this).val(), type_compte: $('#categorie').val()
+                        },
+                function success(data)
+                {
+                    $("#solde").val(data);
+                });
+            }
+        });
+        
+        $('form#new_gcp_form').submit(function(event) {
+            event.preventDefault();
+            $.post('/eu-echange/donewgcp',
+                    {
+                        compte: $('#compte').val(),
+                        membre: $('#membre').val(),
+                        membrep: $('#membrep').val(),
+                        montant: $('#montant').val(),
+                        categorie: $('#categorie').val()
+                    }
+            , function success(data) {
+                if (data === true) {
+                    alert('Opération effectuée avec succes');
+                    $(location).attr("href", "/eu-echange/index");
+                } else {
+                    alert(data);
+                }
+            });
+        });
+
+    });
+</script>

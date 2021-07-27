@@ -1,0 +1,398 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+       
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Tableau de bord des souscriptions </p></blockquote>
+
+<div class="accordion" id="accordion2">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+        Formulaire de trie par critères
+      </a>
+    </div>
+    <div id="collapseOne" class="accordion-body collapse <?php if (!isset($_POST['ok'])) {?> in <?php }?>">
+      <div class="accordion-inner">
+<form method="post" enctype="multipart/form-data" role="form" name="souscription" id="souscription" action="" class="">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+   
+<div class="">
+  <div class="span4">
+    <div class="control-group">
+      <label class="control-label" for="souscription_personne">Type du souscripteur </label>
+    <div class="controls">
+      <select name="souscription_personne" id="souscription_personne" onchange="if(this.value == 'PM'){document.getElementById('pm').style.display='block';}else{document.getElementById('pm').style.display='none';}">
+        <option value="">Choisir le type de personne</option>
+        <option value="PP">Personne Physique</option>
+        <option value="PM">Personne Morale</option>
+        </select>
+  </div>
+  </div>
+  
+    
+    
+    
+  <div id="pm" style="display:none;">
+  <div class="control-group">
+    <label class="control-label" for="type_acteur">Type Acteur </label>
+    <div class="controls">
+      <select name="type_acteur" id="type_acteur" >
+        <option value="">Choisir le type</option>
+        <option value="EI">Entreprise Industrie</option>
+        <option value="OE">Opérateur Economique</option>
+        <option value="OSE">Opérateur Socio-Economique</option>
+        <option value="PEI">Partenaire Entreprise Industrie</option>
+        <option value="POE">Partenaire Opérateur Economique</option>
+        <option value="POSE">Partenaire Opérateur Socio-Economique</option>
+        </select>
+  </div>
+  </div>
+    
+  <div class="control-group">
+    <label class="control-label" for="statut_juridique">Statut juridique </label>
+    <div class="controls">
+      <select name="statut_juridique" id="statut_juridique" >
+        <?php  $statutjuridique = new Application_Model_EuStatutJuridiqueMapper();
+		$selectstatutjuridique = $statutjuridique->fetchAll();?>
+        <option value="">Choisir un statut juridique</option>
+        <?php foreach ($selectstatutjuridique as $selectstatutjuridique): ?>
+        <option value="<?php echo $selectstatutjuridique->code_statut; ?>"><?php echo htmlentities($selectstatutjuridique->libelle_statut); ?></option>
+        <?php endforeach; ?>
+        </select>
+      </div>
+    </div>
+    
+  </div>
+    
+  
+    
+  <div class="control-group">
+    <label class="control-label" for="souscription_programme">Type de programme </label>
+    <div class="controls">
+      <select name="souscription_programme" id="souscription_programme" onchange="if(this.value == 'CMFH'){document.getElementById('cmfh').style.display='block';}else{document.getElementById('cmfh').style.display='none';}">
+        <option value="">Choisir le type de programme</option>
+        <option value="KACM">Souscription pour soi (KACM)</option>
+        <option value="CMFH">Souscription pour tiers (CMFH)</option>
+        </select>
+  </div>
+    </div>
+    
+  
+    
+  <div id="cmfh" style="display:none;">
+  <div class="control-group">
+  <label class="control-label" for="souscription_type_candidat">Type CMFH </label>
+  <div class="controls">
+  <select name="souscription_type_candidat" id="souscription_type_candidat"  >
+    <?php $ttype_candidat = new Application_Model_EuTypeCandidatMapper();
+    $results = $ttype_candidat->fetchAll();
+?>
+    <option value="">Choisir le type de CMFH</option>
+    <?php foreach ($results as $type_candidat): ?>
+    <option value="<?php echo $type_candidat->id_type_candidat; ?>"><?php echo ($type_candidat->libelle_type_candidat); ?> (<?php if($type_candidat->id_type_candidat == 8){?>à partir de <?php }?><?php echo ($type_candidat->option_type_candidat); ?> Comptes Marchands)</option>
+    <?php endforeach; ?>
+  </select>
+  </div>
+  </div>
+    
+  </div>
+    
+    
+
+<!--
+    <div class="control-group">
+  <label class="control-label" for="souscription_ancien_membre">Ancien membre ReDeMaRe ou MCNP  </label>
+  <div class="controls">
+    <select name="souscription_ancien_membre" id="souscription_ancien_membre">
+        <option value="">Choisir le type d'ancien membre</option>
+        <option value="MCNP">MCNP</option>
+        <option value="MCNP_PP">MCNP PP</option>
+        <option value="MCNP_PM">MCNP PM</option>
+        <option value="RED">RED</option>
+        <option value="RED_PP">RED PP</option>
+        <option value="RED_PM">RED PM</option>
+        </select>
+  </div>
+  </div>
+  -->
+     
+    
+    </div>
+  
+  <div class="span4">
+    
+  <div class="control-group">
+    <label class="control-label" for="souscription_type">Type de payement </label>
+    <div class="controls">
+      <select name="souscription_type" id="souscription_type" onchange="if(this.value == 'Banque'){document.getElementById('banque').style.display='block';}else{document.getElementById('banque').style.display='none';}">
+        <option value="">Choisir le type de payement</option>
+        <option value="Banque">Banque</option>
+        <option value="Flooz">Flooz</option>
+        </select>
+  </div>
+    </div>
+    
+    <div id="banque" style="display:none;">
+  <div class="control-group">
+  <label class="control-label" for="souscription_banque">Banque </label>
+  <div class="controls">
+  <select name="souscription_banque" id="souscription_banque" >
+    <?php $tbanque = new Application_Model_DbTable_EuBanque();
+        $results = $tbanque->fetchAll();?>
+    <option value="">Choisir la banque</option>
+    <?php foreach ($results as $banque): ?>
+    <option value="<?php echo $banque->code_banque; ?>"><?php echo ($banque->libelle_banque); ?></option>
+    <?php endforeach; ?>
+  </select>
+  </div>
+  </div>
+  </div>
+    
+    <div class="control-group">
+  <label class="control-label" for="souscription_nombre">Nombre de compte marchand souscris  </label>
+  <div class="controls">
+    <input type="text" name="souscription_nombre" id="souscription_nombre" placeholder="Nombre de compte marchand souscris" class="input-medium" />
+  </div>
+  </div>
+  
+    
+  <div class="control-group">
+  <label class="control-label" for="code_activite">Domaine d'activité </label>
+  <div class="controls">
+  <select name="code_activite" id="code_activite" onchange="ouvre_competences(this.value);">
+    <?php $tactivite = new Application_Model_DbTable_EuActivite();
+        $results = $tactivite->fetchAll();?>
+    <option value="">Choisir le domaine </option>
+    <?php foreach ($results as $activite): ?>
+    <option value="<?php echo $activite->code_activite; ?>"><?php echo ($activite->nom_activite); ?></option>
+    <?php endforeach; ?>
+  </select>
+  </div>
+  </div>
+    
+  <div id="niv2">
+    
+  <div class="control-group">
+  <label class="control-label" for="id_metier">Métiers </label>
+  <div class="controls">
+  <select name="id_metier" id="id_metier" >
+    <option value="">Choisir le métier</option>
+  </select>
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="id_competence">Compétences </label>
+  <div class="controls">
+  <select name="id_competence" id="id_competence" >
+    <option value="">Choisir la compétence</option>
+  </select>
+  </div>
+  </div>
+    
+  </div>
+    
+    </div>
+  
+  <div class="span4">
+  
+    <div class="control-group">
+  <label class="control-label" for="id_region">R&eacute;gion du souscripteur  </label>
+  <div class="controls">
+  <select name ="id_region" id="id_region" onchange="ouvre_decoupage(this.value);">
+    <?php  $region_mapper = new Application_Model_EuRegionMapper();
+		    $selectregions = $region_mapper->fetchAll();?>
+    <option value="">Choisir la région </option>
+    <?php foreach ($selectregions as $selectregion): ?>
+    <option value="<?php echo $selectregion->id_region; ?>"><?php echo $selectregion->nom_region; ?></option>
+    <?php endforeach; ?>
+  </select>
+  </div>
+  </div>
+    
+  <div id="nivpref">
+  <div class="control-group">
+  <label class="control-label" for="id_prefecture">Pr&eacute;fecture du souscripteur </label>
+  <div class="controls">
+  <select name="id_prefecture" id="id_prefecture" >
+    <option value="">Choisir la Pr&eacute;fecture</option>
+  </select>
+  </div>
+  </div>
+  </div>
+    
+    
+  <div id="nivcant">
+  <div class="control-group">
+  <label class="control-label" for="id_canton">Canton du Souscripteur </label>
+  <div class="controls">
+  <select name="id_canton" id="id_canton" >
+    <option value="">Choisir le canton </option>
+  </select>
+  </div>
+  </div>
+  </div>
+    
+  
+ 
+    </div>
+    </div>
+    
+ <div class="">
+  <div class="span12">
+   
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<!--<button type="reset" class="btn">Annuler</button>-->
+<button type="submit" class="btn btn-primary">Rechercher</button>
+</div>    
+
+    </div>
+    </div>
+
+</form>
+
+
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+
+
+<?php if(count($this->entries)>0){?> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+						  <thead>
+							  <tr>
+								  <th>OSE/OE</th>
+								  <th>Date</th>
+								  <th>Nom & prénom(s) / Raison sociale</th>
+								  <th>Cellulaire</th>
+								  <th>Type</th>
+								  <th>Numero</th>
+								  <th>Date Numero</th>
+								  <th>Programme</th>
+								  <th>Nombre</th>
+								  <th>Montant</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr <?php if($entry->souscription_ancien_membre != ""){?> class="info"<?php }?>>
+      <td><?php 
+        $membreasso = new Application_Model_EuMembreasso();
+        $membreassoM = new Application_Model_EuMembreassoMapper();
+        $membreassoM->find($entry->souscription_membreasso, $membreasso);
+	  
+        $association = new Application_Model_EuAssociation();
+        $associationM = new Application_Model_EuAssociationMapper();
+        $associationM->find($membreasso->membreasso_association, $association);
+	  echo $association->association_nom;?></td>
+      <td><?php echo datejourfr($entry->souscription_date); ?></td>
+      <td><?php if($entry->souscription_personne == "PP"){?><?php echo ($entry->souscription_nom); ?> <?php echo ($entry->souscription_prenom); ?><?php }else{?><?php echo ($entry->souscription_raison); ?><?php }?></td>
+      <td><?php echo ($entry->souscription_mobile); ?></td>
+      <td><?php echo ($entry->souscription_type); ?></td>
+      <td><?php echo ($entry->souscription_numero); ?></td>
+      <td><?php echo ($entry->souscription_date_numero); ?></td>
+      <td><?php echo ($entry->souscription_programme); ?></td>
+      <td><?php echo ($entry->souscription_nombre); ?></td>
+      <td><?php echo ($entry->souscription_montant); ?></td>
+      <td><div align="center">&nbsp;</div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+<tfoot>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      
+    </tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><strong>Nombre</strong> :</td>
+      <td><strong><?php echo count($this->entries); ?></strong></td>
+      <td>&nbsp;</td>
+      <td><strong>Total</strong> : </td>
+      <td><strong><?php echo ($this->entriestotal); ?></strong></td>
+      <td><div align="center">&nbsp;</div></td>
+      
+    </tr>
+</tfoot>
+					  </table>
+                      <br />
+
+
+<br />
+<br />
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun membre enrégistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

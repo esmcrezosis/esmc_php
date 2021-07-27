@@ -1,0 +1,126 @@
+﻿<div id="view-content" class="ui-widget" style="font-size:12px">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px; padding-bottom: 7px; padding-left: 7px;">
+        <h3>Ajout des frais de surveillance au projet</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form action="/eu-smcipn/validerfrais" name="fm_frais" method="POST" id="fm_frais">
+            <fieldset>
+                <legend>Informations sur l'offre financière</legend>
+                <table>
+                    <tr>
+                        <td>Code membre technopole *</td><td><input id="code_membre" name="code_membre" class="validate[required]" size="27"></td>
+                        <td>Nom & Prenom</td><td><input name="nom_membre" id="nom_membre" class="" readonly="readonly" size=40/></td>
+                    </tr>
+                    <tr>
+                        <td>Appel d'offre *</td><td><select id="id_proposition" name="id_proposition" class="validate[required]"></select></td>  
+                        <td>Montant projet</td><td><input name="mt_projet" id="mt_projet" class="validate[required,custom[onlyNumberSp]]" readonly="readonly" size=15 style="text-align: right"/></td>
+                    </tr>
+                    <tr>
+                        <td>Marge de surveillance *</td><td><input name="taux_frais" id="taux_frais" class="validate[required,custom[onlyNumberSp]]" size=5/>&nbsp;<input disabled="true" value="%" size="1"></td>
+                    </tr>
+                </table>
+            </fieldset>
+            <div style="margin-left: 105px; margin-top: 5px">
+                <input type="submit" value="Valider" name="valider" id="valider"/>
+                <input type="reset" value="Rafraichir" name="refresh" id="refresh"/>
+                <input id="t_annuler" type="button" value="Annuler"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+        $('#refresh').button();
+        $('#valider').button();
+        $('#t_annuler').button();
+        $('#t_annuler').click(function()
+        {
+            window.location = "/eu-smcipn/frais";
+        });
+        $.get("/eu-smcipn/change",
+                function success(data)
+                {
+                    $("input#code_membre").autocomplete({"source": data});
+                });
+        $('#code_membre').blur(function()
+        {
+            if ($(this).val() != '')
+            {
+                $.get('/eu-smcipn/recupnom',
+                        {
+                            num_membre: $(this).val(), type_membre: 'P'
+                        },
+                function success(data) {
+                    if (data !== '') {
+                        $('#nom_membre').val(data);
+                    } else {
+                        alert('Ce membre n\existe pas!!!');
+                    }
+                });
+                $.get("/eu-smcipn/offrechange",
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data) {
+                    var options = '<option/>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][1] + '">' + data[i][2] + ' </option>';
+                    }
+                    $('select#id_proposition').html(options);
+                });
+            } else {
+                $('#raison_sociale').val(' ');
+            }
+        });
+        
+        $('#id_proposition').change(function()
+        {
+            if ($(this).val() != '')
+            {
+                $.get(
+                        '/eu-smcipn/montantprojet',
+                        {
+                            id_proposition: $(this).val()
+                        },
+                function success(data)
+                {
+                    $('#mt_projet').val(data);
+                });
+            } else {
+                $('#mt_projet').val('');
+            }
+        });
+        $('#valider').click(function(e) {
+            e.preventDefault();
+            if ($('#id_proposition').val() == '') {
+                alert('Sélectionnez un appel d\'offre');
+            } else {
+                $.ajax({
+                    url: $('form').attr("action"),
+                    data: $('form').serialize(),
+                    type: 'post',
+                    success: processServerResponse
+                })
+            }
+        });
+    });
+    
+    function processServerResponse(data) {
+        if (data == 'no_frais') {
+            alert('Les frais de surveillance existent déjà pour ce projet');
+        }else if (data == 'bad') {
+            alert('Echec de l\'opération, vérifier votre saisie');
+        }else if (data == 'good') {
+            alert('Opération effectuée avec succes');
+            $(location).attr("href", "/eu-smcipn/frais");
+        }
+        else {
+            $('#message').html(data);
+        }
+    };
+    
+</script>

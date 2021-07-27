@@ -1,0 +1,50 @@
+<div id="view-content">
+<div style="margin-bottom: 3px;">
+         <form action="/eu-pdf-reglt/mf" name="" method="POST" target="_blank">
+               <input id="apercu" type="submit" value="Aperçu" class="ui-widget button"/> 
+               <input type="hidden" id="id_reglt" name="id_reglt"/>
+               <input type="hidden" id="code_membre" name="code_membre"/>
+         </form>
+</div>
+    
+<table id="tbl-reglement"></table>
+<div id="pg-reglement"></div>
+
+<script type="text/javascript">
+    
+        $("#tbl-reglement").jqGrid({
+        url: "/eu-membre-fondateur107/listingreglt",
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Numero', 'Montant règlement', 'Date règlement', 'Bénéficiaire'],
+        height: 410, width: 827,
+        colModel: [
+             {name: 'id_reglt_mf', index: 'numero', width:100, sorttype: "int", editable: true, align: "left"},
+             {name: 'mont_reglt_mf', index: 'mont_reglt_mf', width:220, align: "left",editable: false,formatter:'number'},
+             {name: 'date_reglt_mf', index: 'date_reglt_mf', width: 200, align: "left", editable: true},
+             {name: 'code_membre', index: 'code_membre', width:300, editable: true, align: "left"},  
+        ],
+        rowNum: 200000,
+        rowList: [200000, 400000, 600000],
+        pager: '#pg-reglement',
+        sortname: "id_reglt_mf",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste des règlements" 
+      });
+      $("#tbl-reglement").jqGrid('navGrid','#pg-reglement', {edit: false, add: false, del: false, search: true});
+      
+      
+      $("#apercu").click(function() {
+        var sel;
+        sel = jQuery("#tbl-reglement").jqGrid('getGridParam','selrow');
+        
+              data = jQuery("#tbl-reglement").jqGrid('getRowData',sel);
+              $('#id_reglt').val(data.id_reglt_mf);
+              $('#code_membre').val(data.code_membre);
+      });
+      $("#apercu").button();
+    
+      
+</script> 
+</div>

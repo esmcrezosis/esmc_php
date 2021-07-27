@@ -1,0 +1,537 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+
+<script type="text/javascript">
+
+    function calculmontant() {
+		
+		if(document.getElementById('type_fs1').checked)  {
+		     var mont_msbcnm = 0;
+             if(document.getElementById('vbc').checked &&  document.getElementById('vmat').checked && document.getElementById('vci').checked && document.getElementById('vass').checked && document.getElementById('vcb').checked) {
+			     mont_msbcnm =  
+                   Math.floor(document.getElementById('nbre').value) *				
+			       (Math.floor((
+				    document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				    + Math.floor(document.getElementById('mmat').value) 
+				    + Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value)
+				    + Math.floor(document.getElementById('mass').value)
+				    + Math.floor(document.getElementById('mcb').value));
+             } else if(document.getElementById('vbc').checked && document.getElementById('vmat').checked && document.getElementById('vci').checked && document.getElementById('vass').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mmat').value) 
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value)
+				+ Math.floor(document.getElementById('mass').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vmat').checked && document.getElementById('vci').checked && document.getElementById('vcb').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mmat').value) 
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value)
+				+ Math.floor(document.getElementById('mcb').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vmat').checked && document.getElementById('vass').checked && document.getElementById('vcb').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mmat').value) 
+				+ Math.floor(document.getElementById('mass').value)
+				+ Math.floor(document.getElementById('mcb').value));
+				
+	        } else if(document.getElementById('vbc').checked && document.getElementById('vci').checked && document.getElementById('vass').checked && document.getElementById('vcb').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value) 
+				+ Math.floor(document.getElementById('mass').value)
+				+ Math.floor(document.getElementById('mcb').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vmat').checked && document.getElementById('vci').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mmat').value) 
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vmat').checked && document.getElementById('vcb').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+				(Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mmat').value) 
+				+ Math.floor(document.getElementById('mcb').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vmat').checked && document.getElementById('vass').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+				(Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mmat').value) 
+				+ Math.floor(document.getElementById('mass').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vci').checked && document.getElementById('vcb').checked) {
+				mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))   
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value)
+				+ Math.floor(document.getElementById('mcb').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vci').checked && document.getElementById('vass').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))   
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value)
+				+ Math.floor(document.getElementById('mass').value)); 
+			
+			} else if(document.getElementById('vbc').checked && document.getElementById('vass').checked && document.getElementById('vcb').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mass').value) 
+				+ Math.floor(document.getElementById('mcb').value));
+			 
+	        } else if(document.getElementById('vbc').checked && document.getElementById('vmat').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))   
+				+ Math.floor(document.getElementById('mmat').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vci').checked) {
+				mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))   
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vass').checked) {
+				mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))   
+				+ Math.floor(document.getElementById('mass').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vcb').checked) {
+				mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))   
+				+ Math.floor(document.getElementById('mcb').value));
+				
+			} else if(document.getElementById('vbc').checked) {
+				mont_msbcnm = 
+			    Math.floor((document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value * document.getElementById('nbre').value));
+			}
+			
+			var mont_gopi = Math.floor(mont_msbcnm);
+            var mont_opi  = Math.floor(mont_gopi / 23);
+            document.getElementById('mont_msbcnm').value = mont_msbcnm;
+            document.getElementById('mont_gopi').value = mont_gopi;
+            document.getElementById('mont_opi').value = mont_opi;
+		
+		} else if(document.getElementById('type_fs2').checked)  {
+			
+			var mont_msbcnm = 0;
+			if(document.getElementById('vbc').checked && document.getElementById('vmat').checked && document.getElementById('vci').checked && document.getElementById('vass').checked && document.getElementById('vcb').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mmat').value) 
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value)
+				+ Math.floor(document.getElementById('mass').value)
+				+ Math.floor(document.getElementById('mcb').value)
+				+ Math.floor(document.getElementById('mcm').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vmat').checked && document.getElementById('vci').checked && document.getElementById('vass').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mmat').value) 
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value)
+				+ Math.floor(document.getElementById('mass').value)
+				+ Math.floor(document.getElementById('mcm').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vmat').checked && document.getElementById('vci').checked && document.getElementById('vcb').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mmat').value) 
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value)
+				+ Math.floor(document.getElementById('mcb').value)
+				+ Math.floor(document.getElementById('mcm').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vmat').checked && document.getElementById('vass').checked && document.getElementById('vcb').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mmat').value) 
+				+ Math.floor(document.getElementById('mass').value)
+				+ Math.floor(document.getElementById('mcb').value)
+				+ Math.floor(document.getElementById('mcm').value));
+				
+	        } else if(document.getElementById('vbc').checked && document.getElementById('vci').checked && document.getElementById('vass').checked && document.getElementById('vcb').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value) 
+				+ Math.floor(document.getElementById('mass').value)
+				+ Math.floor(document.getElementById('mcb').value)
+				+ Math.floor(document.getElementById('mcm').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vmat').checked && document.getElementById('vci').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mmat').value) 
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value)
+				+ Math.floor(document.getElementById('mcm').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vmat').checked && document.getElementById('vcb').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+				(Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mmat').value) 
+				+ Math.floor(document.getElementById('mcb').value)
+				+ Math.floor(document.getElementById('mcm').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vmat').checked && document.getElementById('vass').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+				(Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mmat').value) 
+				+ Math.floor(document.getElementById('mass').value)
+				+ Math.floor(document.getElementById('mcm').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vci').checked && document.getElementById('vcb').checked) {
+				mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((
+				document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))   
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value)
+				+ Math.floor(document.getElementById('mcb').value)
+				+ Math.floor(document.getElementById('mcm').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vci').checked && document.getElementById('vass').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))   
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value)
+				+ Math.floor(document.getElementById('mass').value)
+				+ Math.floor(document.getElementById('mcm').value)); 
+			
+			} else if(document.getElementById('vbc').checked && document.getElementById('vass').checked && document.getElementById('vcb').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))  
+				+ Math.floor(document.getElementById('mass').value) 
+				+ Math.floor(document.getElementById('mcb').value)
+				+ Math.floor(document.getElementById('mcm').value));
+			 
+	        } else if(document.getElementById('vbc').checked && document.getElementById('vmat').checked) {
+			    mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))   
+				+ Math.floor(document.getElementById('mmat').value)
+				+ Math.floor(document.getElementById('mcm').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vci').checked) {
+				mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))   
+				+ Math.floor(document.getElementById('mci').value * document.getElementById('msbcrips').value)
+				+ Math.floor(document.getElementById('mcm').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vass').checked) {
+				mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))   
+				+ Math.floor(document.getElementById('mass').value)
+				+ Math.floor(document.getElementById('mcm').value));
+				
+			} else if(document.getElementById('vbc').checked && document.getElementById('vcb').checked) {
+				mont_msbcnm =
+                Math.floor(document.getElementById('nbre').value) *				
+			    (Math.floor((document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))   
+				+ Math.floor(document.getElementById('mcb').value)
+				+ Math.floor(document.getElementById('mcm').value));
+				
+			} else if(document.getElementById('vbc').checked) {
+				mont_msbcnm =
+                  Math.floor(document.getElementById('nbre').value) *				
+			      (Math.floor((document.getElementById('mbc').value * document.getElementById('bnpnmpsfs').value))
+				  + Math.floor(document.getElementById('mcm').value));
+			}
+			
+			var mont_gopi = Math.floor(mont_msbcnm);
+            var mont_opi  = Math.floor(mont_gopi / 23);
+            document.getElementById('mont_msbcnm').value = mont_msbcnm;
+            document.getElementById('mont_gopi').value = mont_gopi;
+            document.getElementById('mont_opi').value = mont_opi;
+			
+		}
+		
+	}
+
+	
+    function  vider()  {
+        document.getElementById('vmat').checked = false;
+		document.getElementById('mmat').value = "";
+	    $('#div_peripherique').css('display','none');
+		
+		document.getElementById('vci').checked = false;
+		document.getElementById('mci').value = "";
+	    $('#div_connectivite').css('display','none');
+		
+		document.getElementById('vass').checked = false;
+		document.getElementById('mass').value = "";
+	    $('#div_assurance').css('display','none');
+		
+		document.getElementById('vcb').checked = false;
+		document.getElementById('mcb').value = "";
+	    $('#div_compte').css('display','none');
+		
+        document.getElementById('mont_msbcnm').value = "";
+        document.getElementById('nbre').value = "";
+        document.getElementById('mont_gopi').value = "";
+        document.getElementById('mont_opi').value = ""; 
+    }
+	
+	function  vider1()  {
+        document.getElementById('vmat').checked = false;
+		document.getElementById('mmat').value = "";
+	    $('#div_peripherique').css('display','none');
+		
+		document.getElementById('vci').checked = false;
+		document.getElementById('mci').value = "";
+	    $('#div_connectivite').css('display','none');
+		
+		document.getElementById('vass').checked = false;
+		document.getElementById('mass').value = "";
+	    $('#div_assurance').css('display','none');
+		
+		document.getElementById('vcb').checked = false;
+		document.getElementById('mcb').value = "";
+	    $('#div_compte').css('display','none');
+		
+        document.getElementById('mont_msbcnm').value = "";
+        document.getElementById('nbre').value = "";
+        document.getElementById('mont_gopi').value = "";
+        document.getElementById('mont_opi').value = "";
+    }
+	
+	
+	function annuler()  {
+		document.getElementById('mont_msbcnm').value = "";
+        document.getElementById('nbre').value = "";
+        document.getElementById('mont_gopi').value = "";
+        document.getElementById('mont_opi').value = "";
+	}
+	
+	
+	
+   function ouvreperipherique()  {
+		if(document.getElementById('vmat').checked) {
+			$('#div_peripherique').css('display','block');
+            $('#mmat').attr("required",true);			
+		} else {
+			$('#div_peripherique').css('display','none');
+			$('#mmat').attr("required",false);
+		}
+		
+		document.getElementById('mont_msbcnm').value = "";
+        document.getElementById('nbre').value = "";
+        document.getElementById('mont_gopi').value = "";
+        document.getElementById('mont_opi').value = "";
+	}
+	
+	function ouvreconnectivite()  {
+		if(document.getElementById('vci').checked) {
+			$('#div_connectivite').css('display','block');
+            $('#mci').attr("required",true);			
+		} else {
+			$('#div_connectivite').css('display','none');
+			$('#mci').attr("required",false);
+		}
+		
+		document.getElementById('mont_msbcnm').value = "";
+        document.getElementById('nbre').value = "";
+        document.getElementById('mont_gopi').value = "";
+        document.getElementById('mont_opi').value = "";
+	}
+	
+	function ouvreassurance()  {
+		if(document.getElementById('vass').checked) {
+			$('#div_assurance').css('display','block');
+            $('#mass').attr("required",true);			
+		} else {
+			$('#div_assurance').css('display','none');
+			$('#mass').attr("required",false);
+		}
+		
+		document.getElementById('mont_msbcnm').value = "";
+        document.getElementById('nbre').value = "";
+        document.getElementById('mont_gopi').value = "";
+        document.getElementById('mont_opi').value = "";
+	}
+	
+	function ouvrecompte()  {
+		if(document.getElementById('vcb').checked) {
+			$('#div_compte').css('display','block');
+			$('#mcb').attr("required",true);	   
+		} else {
+			$('#div_compte').css('display','none');
+			$('#mcb').attr("required",false);
+		}
+		
+		document.getElementById('mont_msbcnm').value = "";
+        document.getElementById('nbre').value = "";
+        document.getElementById('mont_gopi').value = "";
+        document.getElementById('mont_opi').value = "";
+	}
+    
+   
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p> Calcul du Montant de Souscription au Bon de Consommation (BC) pour Tiers (Non Marchand) </p></blockquote>
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+<blockquote></blockquote>
+<form  action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="calculermsbcr" name="calculermsbcm">
+
+<fieldset>
+<legend> Montant de Souscription au Bon de Consommation (BC) pour Tiers (Non Marchand) </legend>
+
+<div class="control-group">
+	 <label class="control-label" for="type">Frais de Solvabilité (FS) *</label>
+	 <div class="controls">
+		  <input type="radio"  checked="checked"  name="type_fs" id="type_fs1" value="SansFs" onclick="vider()" />
+          Sans FS &nbsp;&nbsp;&nbsp;&nbsp;
+		  <input type="radio"  name="type_fs" id="type_fs2" value="AvecFs"  onclick="vider1()" />
+	      Avec FS
+	 </div>
+</div>
+<br/>
+
+<div class="control-group">
+<label class="control-label" for="kit">Eléments Incorporés au KIT *</label>
+<div class="controls">
+	  <input name="vbc" onclick="annuler()" type="checkbox" checked="checked" id="vbc" value="1" /> Bon de Consommation (BC)
+	  <div class="control-group" id="div_bc">
+	  <label class="control-label" for="div_bc">Montant Minimum du Bon de consommation (BC) * </label>
+      <div class="controls">
+          <input required type="number" name="mbc" id="mbc" value="<?php echo $this->mbc; ?>" placeholder="Montant du Bon de Consommation (BC)" class="input-block-level" />
+      </div>
+	  </div>
+	
+	  <input name="vmat" onclick="ouvreperipherique()" type="checkbox"  id="vmat" value="1" /> Périphérique
+	  <div class="control-group" id="div_peripherique" style="display:none;">
+	  <div class="controls">
+	  <label class="control-label" for="dist_peripherique"> Montant Périphérique * </label>
+      <div class="controls">
+           <input type="number" name="mmat" id="mmat" value="<?php echo $this->mmat; ?>"  placeholder="Montant Périphérique"  class="input-block-level" />
+      </div>
+	  </div>
+	  </div>
+	
+	  <input name="vci" onclick="ouvreconnectivite()" type="checkbox" id="vci" value="1" /> Connectivité
+	  <div class="control-group" id="div_connectivite" style="display:none;">
+	  <div class="controls">
+	  <label class="control-label" for="dist_connectivite"> Montant Connexion par période * </label>
+      <div class="controls">
+           <input type="number" name="mci" id="mci" value="<?php echo $this->mci; ?>"  placeholder="Montant Connexion Internet par période"  class="input-block-level" />
+      </div>
+	  </div>
+	  </div>
+					
+	  <input name="vass" onclick="ouvreassurance()" type="checkbox" id="vass" value="1" /> Assurance
+	  <div class="control-group" id="div_assurance" style="display:none;">
+	  <div class="controls">
+	  <label class="control-label" for="dist_assurance"> Montant assurance * </label>
+      <div class="controls">
+           <input type="number" name="mass" id="mass" value="<?php echo $this->mass; ?>"  placeholder="Montant Assurance"  class="input-block-level" />
+      </div>
+	  </div>
+	  </div>
+	  
+	
+	  <input name="vcb" onclick="ouvrecompte()" type="checkbox" id="vcb" value="1" /> Compte Bancaire
+	  <div class="control-group" id="div_compte" style="display:none;">
+	  <div class="controls">
+	  <label class="control-label" for="dist_compte"> Montant Compte Bancaire * </label>
+      <div class="controls">
+           <input type="number" name="mcb" id="mcb" value="<?php echo $this->mcb; ?>"  placeholder="Montant Compte Bancaire"  class="input-block-level" />
+      </div>
+	  </div>
+	  </div>
+</div>
+</div>
+<br/>
+
+<div class="control-group">
+<label class="control-label" for="nbre">Nombre de bénéficiaires de la souscription *</label>
+<div class="controls">
+<input type="text" name="nbre" id="nbre" placeholder="Nombre de bénéficiaires de la souscription" class="input-xxlarge" onblur="annuler1();"  required="required" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="mont_msbcnm">Montant à Souscrire *</label>
+<div class="controls">
+    <input  type="text"    name="mont_msbcnm" id="mont_msbcnm" placeholder="Montant A Souscrire" class="input-xxlarge" readonly="true" /> 
+    <input  type="hidden"  name="bnpnmpsfs"   id="bnpnmpsfs"   placeholder="bnpnmpsfs"  readonly="true"  value="<?php echo $this->bnpnmpsfs; ?>" />
+    <input  type="hidden"  name="pck"         id="pck"         placeholder="pck"        readonly="true"  value="<?php echo $this->pck; ?>" />
+	<input  type="hidden"  name="msbcrips"    id="msbcrips"    placeholder="msbcrips"   readonly="true"  value="<?php echo $this->msbcrips; ?>" />
+	<input  type="hidden"  name="mcm"         id="mcm"         placeholder="mcm"        readonly="true"  value="<?php echo $this->caps; ?>"  />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="mont_gopi"> Montant Global des OPI à Obtenir *</label>
+<div class="controls">
+<input type="text" name="mont_gopi" id="mont_gopi" placeholder="Montant Global des OPI à Obtenir" class="input-xxlarge" readonly="true" />	 
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="mont_opi">Montant d'OPI / période *</label>
+<div class="controls">
+<input type="text" name="mont_opi" id="mont_opi" placeholder="Montant d'OPI par période" class="input-xxlarge" readonly="true" />	 
+</div>
+</div>
+
+</fieldset>
+<div class="form-actions">
+<button type="reset" class="btn">Annuler</button>
+<button type="button" class="btn btn-primary" onclick="calculmontant();">Calculer</button>
+</div>  
+</form>
+</div>
+
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php /*?><?php */?>
+</div>
+
+</div>
+</div>
+

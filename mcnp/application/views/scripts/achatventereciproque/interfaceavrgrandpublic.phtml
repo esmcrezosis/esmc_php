@@ -1,0 +1,292 @@
+
+<?php
+$sessionmembre = new Zend_Session_Namespace('membre');
+$code_membre = $sessionmembre->code_membre;
+?>
+
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        $('#example').dataTable({
+          "sPaginationType": "full_numbers",
+          "aaSorting": []
+        });
+      });
+    </script>
+
+<style>
+#btn-avr-achat-grand-public-error{
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  
+  color:#FFF;
+  background-color: #c0392b;
+  font-weight:bold;
+  border-radius:5px;
+  margin-left:10px;
+}
+
+#btn-avr-achat-grand-public-success{
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  
+  color:#FFF;
+  background-color: #27ae60;
+  font-weight:bold;
+  border-radius:5px;
+  margin-left:10px;
+}
+
+#avr-btn-container{
+  float:left;
+  position:absolute;
+  right:0;
+  margin-top:-38px
+}
+
+#session_disponible_panier_button_container{
+  position: relative;
+  top: -67px;
+}
+#session_disponible_panier_button_count{
+  position:absolute;
+  width:30px;
+  height: 30px;
+  border-radius:100%;
+  -webkit-border-radius:100%;
+  -moz-border-radius:100%;
+  background-color:#ef230d;
+  color:#FFF;
+  font-weight:bold;
+  right: 239px;
+  text-align: center;
+  line-height: 30px;
+  box-shadow: 0px 2px 11px #ff0000;
+  
+}
+
+hr{
+  clear:both;
+  margin-top: -8px;
+}
+
+  .mcnp_loader{
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  margin-left: 25px;
+}
+.mcnp_loader_quart{
+
+    border-radius: 30px;
+    border:6px solid #e29090;
+}
+
+.mcnp_loader_quart::after{
+     content: "";
+     position: absolute;
+     top: -6px;
+     left: -6px;
+     bottom: -6px;
+     right: -6px;
+     border-radius: 30px;
+     border: 6px solid transparent;
+
+     border-top-color: #000;
+     -webit-animation : spin 1s linear infinite;
+     -moz-animation : spin 1s linear infinite;
+     -o-animation : spin 1s linear infinite;
+
+     animation : spin 1s linear infinite;
+}
+@-webkit-keyframes spin{
+  0%{ -webkit-transform:rotate(0deg); -moz-transform:rotate(0deg); -o-transform:rotate(0deg);transform:rotate(0deg); }
+  100%{ -webkit-transform:rotate(360deg); -moz-transform:rotate(360deg); -o-transform:rotate(360deg); -ms-transform:rotate(360deg); transform:rotate(360deg); }
+}
+
+@-moz-keyframes spin{
+  0%{ -webkit-transform:rotate(0deg); -moz-transform:rotate(0deg); -o-transform:rotate(0deg);transform:rotate(0deg); }
+  100%{ -webkit-transform:rotate(360deg); -moz-transform:rotate(360deg); -o-transform:rotate(360deg); -ms-transform:rotate(360deg); transform:rotate(360deg); }
+}
+@-o-keyframes spin{
+  0%{ -webkit-transform:rotate(0deg); -moz-transform:rotate(0deg); -o-transform:rotate(0deg);transform:rotate(0deg); }
+  100%{ -webkit-transform:rotate(360deg); -moz-transform:rotate(360deg); -o-transform:rotate(360deg); -ms-transform:rotate(360deg); transform:rotate(360deg); }
+}
+
+@keyframes spin{
+  0%{ -webkit-transform:rotate(0deg); -moz-transform:rotate(0deg); -o-transform:rotate(0deg);transform:rotate(0deg); }
+  100%{ -webkit-transform:rotate(360deg); -moz-transform:rotate(360deg); -o-transform:rotate(360deg); -ms-transform:rotate(360deg); transform:rotate(360deg); }
+}
+
+#ar-vr-container{
+    width: 1001px;
+    margin-bottom: 10px;
+    margin: 0 auto;
+    margin-bottom: 0px;
+    margin-bottom: 0px;
+    margin-bottom: 10px;
+    position: relative;
+    border: 2px solid #e74c3c;
+}
+
+#ar-content {
+  float: left;
+  width: 500px;
+  display: inline-block;
+  border-right: 2px solid #e74c3c;
+  background-color: #f58e83;
+  padding-left: 10px;
+}
+
+#ar-content-header{
+  font-size: 4.8em;
+  text-shadow: 1px 1px 0px #8c150a, 2px 2px 0px #8c150a, 3px 3px 0px #8c150a;
+  color: #b31808;
+  text-align: center;
+}
+
+#ar-content-body ul li{
+
+}
+
+#vr-content {
+  position: relative;
+  width: 497px;
+  float: left;
+  background-color: #5cde93;
+}
+#vr-content-header {
+  font-size: 4.8em;
+  text-align: center;
+  color: #017130;
+  text-shadow: 0px 1px 0px aliceblue;
+}
+</style>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left;position:relative">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+<?php if (substr($code_membre,-1) == "P"): ?>
+<blockquote>Achat Vente Reciproque- Grand public</blockquote>
+<?php endif;?>
+
+<?php if (substr($code_membre,-1) == "M"): ?>
+<blockquote>Achat Vente Reciproque- Réapprovisionnement</blockquote>
+<?php endif;?>
+
+   
+   <div id="session_disponible_panier_button_container">
+    <?php if (isset($_SESSION['panier_produit_avr'])):?>
+      <?php if (count($_SESSION['panier_produit_avr']) > 0 ):?>
+        <a href="/achatventereciproque/interfacevalidationpanier" class="btn btn-primary" id="session_disponible_panier_button" style="position: absolute;top: 13px;right: 21px;" target="_blank">Consulter le contenu du panier</a>
+         <span id="session_disponible_panier_button_count"><?php echo $this->count ;?></span>
+      <?php endif;?>
+    <?php endif;?>
+    <?php if (!isset($_SESSION['panier_produit_avr'])):?>
+      <a href="/achatventereciproque/interfacevalidationpanier" class="btn btn-primary" id="ajax_session_disponible_panier_button" style="position: absolute;display:none;top: 13px;right: 21px;" target="_blank">Consulter le contenu du panier</a>
+      <span id="session_disponible_panier_button_count" style="display:none"></span>
+    <?php endif;?>
+   </div>    
+
+
+    <?php if (count($this->lalistedetouslesfournisseursaveclesdetailsdeleurproduits) > 0 ):?>
+
+<?php foreach ($this->lalistedetouslesfournisseursaveclesdetailsdeleurproduits as $key => $value): ?>
+    
+    <div id="avr-global-parent">
+    
+          <div class="control-group">
+					  <label class="radio">
+						 <input type="radio" name="fournisseur_avr_name" id="fournisseur_avr_name" value="<?php echo $value['list']['entreprise']->code_membre_morale ;?> ">
+						 <span style="inline-block;font-size:1.2em;font-weight:bold;"><?php echo $value['list']['entreprise']->raison_sociale ;?></span>
+					  </label>
+
+          <?php foreach ($value['list']['articles'] as $keyprod => $valprod): ?>
+          <div id="avr_produits_parent" style="display:none">
+          
+          <div class="control-group" style="margin-left:25px;margin-top:10px;margin-bottom:10px">
+				    <label class="radio">
+					    <input type="radio" name="fournisseur_avr_produits" id="fournisseur_avr_produits" value="<?php echo $valprod->designation ;?> ">
+					      <span style="inline-block;font-size:1em;font-weight:lighter"><?php echo $valprod->designation ;?></span>
+					  </label>
+            </div>
+            <div id="avr-btn-container">
+
+                  <?php if ( $valprod->qte_solde == NULL ):?>
+                   <a href="#" id="btn-avr-achat-grand-public-error">Se Plaindre</a>
+                   <?php else :?>
+                    <span id="chargement_valid_revendeur" style="display:none;margin-top: -12px;position: relative;left: 141px;">
+                      <div class="mcnp_loader mcnp_loader_quart" style="margin-top:-5px"></div>
+                      <span style="display: inline-block;font-size: 1.6em;margin-top: -11px;">Chargement...</span>
+                    </span>
+               <a href="#" id="btn-avr-achat-grand-public-success" class="btn btn-success">Ajouter au panier</a>
+                  
+                  <?php endif ?>
+               
+               
+            </div>
+                    
+                   <hr>
+                   <div style="margin-left:50px">
+				            <label class="radio">
+                      <?php if ( $valprod->qte_solde == NULL ):?>
+                      Quantité disponible:<strong>Non attribué</strong>                  
+                      
+                      <?php else :?>
+                      Quantité disponible:<strong><?php echo $valprod->qte_solde?></strong>                  
+
+                      <?php endif ?>
+                      
+
+					          </label>
+                    <label class="radio">
+                       Prix de vente unitaire :<strong><?php echo $valprod->prix?></strong>
+					          </label>
+                   </div>
+                   <hr>
+                   <input type="hidden" id="avr-achat-produit-categorie" value="<?php echo $valprod->categorie ;?>"/>
+                   <input type="hidden" id="avr-achat-produit-quantite" value="<?php echo $valprod->qte_solde ;?>"/>
+                   <input type="hidden" id="avr-achat-produit-prix" value="<?php echo $valprod->prix ;?>"/>
+                   <input type="hidden" id="avr-achat-produit-reference" value="<?php echo $valprod->reference ;?>"/>
+                   <input type="hidden" id="avr-achat-produit-type" value="<?php echo $valprod->type ;?>"/>
+                   <input type="hidden" id="avr-achat-produit-code-membre_acheteur" value="<?php echo $code_membre ;?>"/>
+                   
+                   
+          </div>
+                   
+              
+      <?php endforeach ?>
+               
+					
+            </div>
+            </div>
+            
+      
+      <?php endforeach ?>
+        <a href="/achatventereciproque/interfaceavrautresproduits" class="btn btn-danger" style="position: relative;left: 590px;margin-bottom: 18px" target="_blank">Ajout d'autres produits non existant dans la liste</a>
+      
+    </div>
+      
+
+    <?php else :?>
+    <div class="alert alert-info">Aucun fournisseurs n'est encore disponible sur la plateforme</div>
+
+    <?php endif ?>
+
+
+</div>
+</div>
+</div>

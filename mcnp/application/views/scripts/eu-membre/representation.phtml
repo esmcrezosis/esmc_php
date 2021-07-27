@@ -1,0 +1,229 @@
+<div id="view-content" title="Gestion des représentations" style="min-height: 520px;padding: 1px;margin: 1px;font-size: 12px;">
+    <div id="sal_tabview" style="padding: 1px;">
+        <ul>
+            <li><a href="#tab_employes">Représentations</a></li>
+        </ul>
+        <div style="padding: 1px;margin: 1px;">
+            <div id="tab_employes" style="padding: 1px;">
+                <fieldset id="rech_emp_field" style="margin-bottom: 2px;">
+                    <legend>Recherche</legend>
+                    <table>
+                        <tr>
+                            <td>
+                                <label>Code Membre morale : </label><input size="30" type="text" id="code_memb_emp" name="code_memb_emp" value=""/>
+                            </td>
+							
+                        </tr>
+						<tr>
+                            <td>
+                                <label>Code Membre Personne Physique : </label><input size="30" type="text" id="code_memb" name="code_memb" value=""/>
+                                <input id="bt_afficher_emp" type="button" value="Afficher"/>
+                            </td>
+							
+                        </tr>
+						
+						
+                    </table>
+                </fieldset>
+				<div style="margin-bottom: 3px;">
+                     <form action="" method="post">
+                           <input id="input" type="button" value="Input" class="ui-widget button"/>
+                           <input id="output" type="button" value="Output" class="ui-widget button"/>
+					 </form>
+				</div>	 	   
+                <table id="tbl-employe"></table>
+                <div id="pg-employe"></div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-employe").jqGrid({
+        url: '<?php echo $this->url(array('action' => 'datarep')); ?>',
+        editurl: '<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['','','Code Membre', 'Nom', 'Prenom','Date creation','Titre','Etat'],
+        height: '100%', width: 800,
+        colModel: [
+		    {name: 'physique_morale', index: 'physique_morale', width:100, editable: false, align: "left",hidden:true},
+		    {name: 'code_membre_morale', index: 'code_membre_morale', width:100, editable: false, align: "left",hidden:true},
+            {name: 'code_membre', index: 'code_membre', width: 120, editable: true, align: "left"},
+            {name: 'nom', index: 'nom', width: 80, editable: true, align: "left"},
+            {name: 'prenom', index: 'prenom', width: 100, editable: true, align: "left"},
+            {name: 'date_declaration', index: 'date_declaration',width:75, align: "left", editable: false},
+			{name: 'titre', index: 'titre', width:80, editable: true, align: "left"},
+			{name: 'etat', index: 'etat', width:80, editable: true, align: "left"}
+        ],
+        rowNum: 200000,
+        rowList: [200000, 400000, 600000],
+        rownumbers: true,
+        pager: '#pg-employe',
+        sortname: "code_membre",
+		multiselect:true,
+		grouping:true, 
+        groupingView : { groupField : ['code_membre_morale'], groupSummary : [false,false],groupColumnShow :[false,false],groupText : ['<b>{0}</b>'],groupCollapse : false, groupOrder: ['false','false'] },
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste des représentations"
+    });
+
+    $("#tbl-employe").jqGrid('navGrid', '#pg-employe', {edit: true, add: false, del: false, search: true});
+
+    
+
+   
+
+    $(document).ready(function() {
+        $(function(){
+            $('#view-content').puipanel();
+            $('#field_employeur').puifieldset();
+            $('#rech_affecter_field').puifieldset();
+            $('#rech_emp_field').puifieldset();
+            $('#sal_tabview').puitabview();
+            
+        });
+        
+		$.get( "/eu-membre/changem",
+        function success(data)
+        {
+            $("#code_memb_emp").autocomplete({"source":data});
+        });
+		
+		
+        $.get( "/eu-membre/membrephys",
+          function success(data) {
+          $("#code_memb").autocomplete({"source":data});
+        });
+        
+		
+		$('#input').button().click(function(e) {
+          e.preventDefault();
+          var sel;
+          var rowsel;
+          var tab=[];
+          sel = jQuery("#tbl-employe").jqGrid('getGridParam','selarrrow');
+          rowsel = jQuery("#tbl-employe").jqGrid('getGridParam','selrow');
+          for (var i=0;i<sel.length;i++) {
+                tab[i]=jQuery("#tbl-employe").jqGrid('getRowData',sel[i]);   
+          };
+          if(rowsel){
+              $.get('/eu-membre/input',{
+                   lignes:tab
+              },
+              function success(data) {
+                 if(data == 'good') {
+                   jQuery("#tbl-employe").jqGrid('setGridParam',{url:"/eu-membre/datarep"}).trigger('reloadGrid');
+                   alert('Réinsertion du membre personne physique effectuée avec succes');
+              } else if(data == 'bad') {
+                   jQuery("#tbl-employe").jqGrid('setGridParam',{url:"/eu-membre/datarep"}).trigger('reloadGrid');
+                   alert('Ce membre personne morale a déjà une représentation');
+              }
+              else {
+                    jQuery("#tbl-user").jqGrid('setGridParam',{url:"/eu-membre/datarep"}).trigger('reloadGrid');
+                    alert('Echec de l\'opération');
+              }
+           });
+        }
+        else {
+          alert('Aucune ligne sélectionnée');
+        }   
+      });
+      
+	  $('#octroi').button().click(function(e) {
+	   e.preventDefault();
+       var sel;
+       var rowsel;
+       var tab=[];
+	   rowsel = jQuery("#tbl-employe").jqGrid('getGridParam','selrow');
+	   sel = jQuery("#tbl-employe").jqGrid('getGridParam','selarrrow');
+	   if(sel.length > 1) {
+		 alert('Le titre de représentant est destiné à une seule personne physique');
+	   }
+	   else if(rowsel) {
+	        
+			for (var i=0;i<sel.length;i++) {
+                tab[i]=jQuery("#tbl-employe").jqGrid('getRowData',sel[i]);   
+            };
+			
+			$.get('/eu-membre/octroi',{
+                   lignes:tab
+            },
+            function success(data) {
+                if(data == 'good') {
+                  jQuery("#tbl-employe").jqGrid('setGridParam',{url:"/eu-membre/datarep"}).trigger('reloadGrid'); 
+                  alert('Opération effectuée avec succes');      
+                }
+                else {
+                   alert('Echec de l\'opération');
+                   jQuery("#tbl-employe").jqGrid('setGridParam',{url:"/eu-membre/datarep"}).trigger('reloadGrid');    
+                }
+           });	  
+	    }
+        else {
+          alert('Aucune ligne sélectionnée');
+        }   
+    });
+	  
+	  
+	  
+	  
+      $('#output').button().click(function(e) {
+          e.preventDefault();
+          var sel;
+          var rowsel;
+          var tab=[];
+          sel = jQuery("#tbl-employe").jqGrid('getGridParam','selarrrow');
+          rowsel = jQuery("#tbl-employe").jqGrid('getGridParam','selrow');
+          for (var i=0;i<sel.length;i++) {
+             tab[i]=jQuery("#tbl-employe").jqGrid('getRowData',sel[i]);   
+          };
+          if(rowsel)
+             {
+              $.get('/eu-membre/output',{
+                   lignes:tab
+              },
+              function success(data) {
+                if(data == 'good') {
+                  jQuery("#tbl-employe").jqGrid('setGridParam',{url:"/eu-membre/datarep"}).trigger('reloadGrid'); 
+                  alert('Retrait du membre personne physique effectué avec succes');      
+                }
+                else {
+                   alert('Echec de l\'opération');
+                   jQuery("#tbl-employe").jqGrid('setGridParam',{url:"/eu-membre/datarep"}).trigger('reloadGrid');    
+                }
+           });
+        }
+        else {
+             alert('Aucune ligne sélectionnée');
+        }   
+      });
+		
+		
+		
+		
+		
+		
+		
+        $('#bt_afficher_emp').click(function(e){
+            e.preventDefault();
+            jQuery("#tbl-employe").jqGrid('setGridParam', {url: "/eu-membre/datarep?membre=" + $('#code_memb_emp').val()
+			+"&code_membre="+$('#code_memb').val()}).trigger('reloadGrid');
+        });
+        
+        $('#bt_afficher_sal').click(function(e){
+            e.preventDefault();
+            $.get("/eu-affectation/salaire", {membre:$('#code_membre_sal').val()}, function success(data){
+                $('#raison_soc_emp').val(data[0]);
+                $('#nom_employeur').val(data[1]);
+                $('#prenom_employeur').val(data[2]);
+                $('#solde_sal').html(data[3]);
+            })
+            $("#tbl_sal_credit").jqGrid('setGridParam', {url: "/eu-affectation/csalaire?membre=" + $('#code_membre_sal').val()}).trigger('reloadGrid');
+        });
+        
+        
+		
+});
+</script>

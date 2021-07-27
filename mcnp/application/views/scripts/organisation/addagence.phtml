@@ -1,0 +1,257 @@
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<div class="role-fluid">
+
+     <legend>Formulaire de création d'une agence</legend>
+
+	 <?php if (isset($_SESSION["validationerrors"])): ?>
+
+		 <div class="alert alert-danger">
+
+			 <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+		 </div>
+
+	 <?php unset($_SESSION['validationerrors']); endif ?>
+
+	 <?php if (isset($_SESSION["validationpertesuccess"])): ?>
+
+		 <div class="alert alert-success">
+
+			 <li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+
+		 </div>
+
+	 <?php unset($_SESSION['validationpertesuccess']); endif ?>
+
+     <form action="#" method="post" class="form-horizontal" id="ajouteruneagence">
+
+	    <div class="control-group">
+
+	         <label class="control-label" for="Code membre" style="font-weight:bold">
+
+	             Code membre du responsable *:
+
+	         </label>
+
+	         <div class="controls">
+
+		         <input type="text" name="responsable_code_membre_agence" class="input-block-level responsable_code_membre_agence" id="code_membre_qr_auth" placeholder="Mettre ici votre code membre" required="required" readonly/>
+	         
+			 </div>
+
+	     </div>
+
+         <div class="control-group">
+
+	        <label class="control-label" for="organisation_agence_libelle" style="font-weight:bold">
+
+	            Nom de l'agence *:
+
+	        </label>
+
+	        <div class="controls">
+
+		        <input type="text" name="organisation_agence_libelle" class="input-block-level organisation_agence_libelle" placeholder="Mettre ici le nom de l'agence" required="required"/>
+	        
+			</div>
+
+	    </div>
+
+		<div class="control-group">
+
+	                <label class="control-label" for="organisation_agence_phone" style="font-weight:bold">
+
+	                    Numéro de téléphone de l'agence *:
+
+	                </label>
+
+	              <div class="controls">
+
+		             <input type="text" name="organisation_agence_phone" class="input-block-level organisation_agence_phone" placeholder="Mettre ici le numéro de téléphone de l'agence" required="required"/>
+	              
+				  </div>
+
+	    </div>
+
+		<div class="control-group">
+
+	                <label class="control-label" for="organisateur_agence_bp" style="font-weight:bold">
+
+	                    Boîte postale de l'agence *:
+
+	                </label>
+
+	              <div class="controls">
+
+		             <input type="text" name="organisation_agence_bp" class="input-block-level organisation_agence_bp" placeholder="Mettre ici la boîte postale de l'agence" required="required"/>
+	              
+				  </div>
+
+	    </div>
+
+		<div class="control-group">
+
+	                <label class="control-label" for="organisation_agence_address" style="font-weight:bold">
+
+	                    Addresse de l'agence *:
+
+	                </label>
+
+	              <div class="controls">
+
+                     <Textarea name="organisation_agence_address" class="input-block-level organisation_agence_address" placeholder="Mettre ici l'adresse du centre" required="required"></Textarea>
+		          
+				  </div>
+
+	    </div>
+
+        <div class="control-group"> 
+
+				<label for="organisation_agence_odd" style="font-weight:bold;float:left">
+
+					Liste des odd*: 
+					
+				</label>
+
+				<select class="input-block-level" name="organisation_agence_odd" id="input_organisation_agence_odd">
+ 					
+					 <option value>Selectionner un ODD</option>
+
+ 					 <?php foreach ($this->listedesodd as $key => $value): ?>
+
+ 					 <option value="<?php echo $value->id_odd ?>" data-idroles="<?php echo $value->code_odd ?>"><?php echo "ODD N°".$value->id_odd." : ".$value->titre ?></option>
+ 						
+					 <?php endforeach; ?>
+
+ 				</select>
+
+		</div>
+
+		<blockquote style="font-weight:bold"> RESPONSABILITE DE L'AGENCE </blockquote>
+
+         <div class="control-group">
+
+	         <label class="control-label" for="login de l'utilisateur responsable de l'agence" style="font-weight:bold">
+	             
+				 Login du responsable*:
+
+	         </label>
+
+	         <div class="controls">
+
+		         <input type="text" name="responsable_membre_login_agence" class="input-block-level responsable_membre_login_agence" placeholder="Veuillez saisir le login du responsable" required="required"/>
+	         
+			 </div>
+
+	     </div>
+
+         <div class="control-group">
+
+	        <label class="control-label" for="Mot de passe de l'utilisateur" style="font-weight:bold">
+
+	            Mot de passe du responsable *:
+
+	        </label>
+
+	        <div class="controls">
+
+		       <input type="text" name="responsable_membre_password_agence" class="input-block-level affectation_membre_password_agence" placeholder="Veuillez saisir le mot de passe du responsable" required="required"/>
+	        
+			</div>
+
+	     </div>
+
+            <div class="control-group">
+
+	           <label class="control-label" for="Confirmation du mot de passe de utilisateur" style="font-weight:bold">
+	                
+					Confirmation du Mot de passe du responsable*:
+
+	           </label>
+
+	           <div class="controls">
+
+		         <input type="text" name="responsable_membre_confirmpassword_agence" class="input-block-level responsable_membre_confirmpassword_agence" placeholder="Veuillez confirmer le mot de passe saisi" required="required"/>
+	            
+				</div>
+
+	        </div>
+
+            <div class="span4">
+
+                <div class="control-group">
+
+                    <label class="control-label span4">Secteur *</label>
+
+                    <div class="controls span8">
+
+                        <select class="input-block-level" id="code_secteur" name="code_secteur" required="required">
+
+                            <option value="">Choisir un secteur</option>
+
+                            <?php foreach ($this->secteur as $value) { ?>
+
+                                    <option value="<?php echo $value->code_secteur; ?>"><?php echo $value->nom_secteur; ?></option>     
+
+                            <?php } ?>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+             </div>
+
+
+            <div class="span4">
+
+                <div class="control-group">
+
+                    <label class="control-label span4">Cantons *</label>
+
+                    <div class="controls span8">
+
+                        <select class="input-block-level" id="id_canton" name="id_canton" required="required">
+
+                            <option value="">Choisir un canton</option>
+
+                            <?php foreach ($this->cantons as $value) { ?>
+
+                                    <option value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>     
+
+                            <?php } ?>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+             </div>
+
+			<div class="control-group" >
+
+                  <button type="submit" class="btn btn-large btn-primary" id="agence_valid" style="position:relative">
+                    
+					Valider le formulaire
+
+                  </button>
+
+        </div>
+
+     </form>
+
+	 <script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+
+    <script src="/outil-qr.js"></script>
+
+    <script type="text/javascript">
+
+         //outilqr('addeli');
+		 
+       outilqrformobligatoire("ajouteruneagence","agence_valid");
+
+    </script>
+</div>

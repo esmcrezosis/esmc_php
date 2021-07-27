@@ -1,0 +1,66 @@
+<div id="view-content">
+    <div  class="cntError">
+        <?php
+        echo $this->message;
+        ?>
+    </div>
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>&nbsp;
+    </div>
+    <table id="tbl-alerte"></table>
+    <div id="pg-alerte"></div>
+</div>
+
+<script type="text/javascript">
+     
+    $("#tbl-alerte").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Id','Client','Assureur','Exécutant','Libellé','Code SMCIPN','Date','Heure'],
+        height:450, width:827,
+        colModel:[
+            {name:'id_alerte',index:'id_alerte', width: 2, align:"left", hidden:true},
+            {name:'num_client',index:'num_client', width:130, sorttype:"int", editable: false,align:"left"},
+            {name:'num_assureur',index:'num_assureur', width: 130, align:"left", editable: false},
+            {name:'num_acteur',index:'num_acteur', width: 130, editable: false,align:"left"},
+            {name:'lib_alerte',index:'lib_alerte', width: 300, editable: false,align:"left"},
+            {name:'code_smcipn',index:'code_smcipn', width: 110, align:"left", editable: false},
+            {name:'date_alerte',index:'date_alerte', width: 90, editable: false,align:"left"},
+            {name:'heure_alerte',index:'heure_alerte', width: 50, align:"left", editable: false},
+        ],
+        rowNum:50,
+        rowList:[50,100,300],
+        rownumbers:true,
+        pager: '#pg-alerte',
+        sortname:"date_alerte",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Liste des alertes"
+    });
+    
+    $("#tbl-alerte").jqGrid('navGrid','#pg-alerte',{edit:false,add:false,del:false,search:true});
+    
+    $(document).ready(function ()
+    {   
+        $('#editer').click(function()
+        {
+            var rowsel;
+            rowsel = jQuery("#tbl-alerte").jqGrid('getGridParam','selrow');
+            if(rowsel)
+            {
+                data=jQuery("#tbl-alerte").jqGrid('getRowData',rowsel);
+                $.get('/eu-alerte/edit',{
+                    id:data.id_alerte
+                },function success(data){
+                    $("#content").html(data);
+                });             
+            }else{
+                alert('Aucune ligne sélectionnée');
+            }
+        }); 
+    
+        $('#editer').button();
+    }) 
+</script>

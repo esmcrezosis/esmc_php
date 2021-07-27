@@ -1,0 +1,96 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modifier  une fiche d'expression de besoin</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="editeli">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = "";?>
+    </div>
+  <?php }?>
+  
+    
+  
+
+
+<div class="control-group">
+<label class="control-label" for="designation_article">Designation article *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="designation_article" id="designation_article" placeholder="Designation article" value="<?php echo $this->fiche_expression_besoin->designation_article;?>" required>
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="description_bien">Description bien *</label>
+<div class="controls">
+<textarea class="input-xlarge" name="description_bien" id="description_bien" placeholder="Description bien" required ><?php echo $this->fiche_expression_besoin->description_bien;?></textarea>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="quantite_article">Quantite article *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="quantite_article" id="quantite_article" placeholder="Quantite article" value="<?php echo $this->fiche_expression_besoin->quantite_article;?>" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="prix_unitaire">Prix unitaire *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="prix_unitaire" id="prix_unitaire" placeholder="Prix unitaire" value="<?php echo $this->fiche_expression_besoin->prix_unitaire;?>" required>
+</div>
+</div>    
+
+<div class="control-group">
+<label class="control-label" for="appreciation">Appreciation  </label>
+<div class="controls">
+<textarea class="input-xlarge" name="appreciation" id="appreciation" placeholder="Appreciation" ><?php echo $this->fiche_expression_besoin->appreciation;?></textarea>
+</div>
+</div>
+
+   
+
+
+
+
+
+
+
+<div class="form-actions">
+<input name="id_fiche_expression_besoin" type="hidden" id="id_fiche_expression_besoin" value="<?php echo $this->fiche_expression_besoin->id_fiche_expression_besoin; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier  la fiche d'expression de besoin</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

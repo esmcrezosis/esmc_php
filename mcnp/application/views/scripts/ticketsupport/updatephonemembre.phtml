@@ -1,0 +1,119 @@
+<div class="row-fluid">
+	<div class="span9" style="text-align:left">
+		<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+		<?php   
+		  $colors = array(
+			"#FF0000"=>"#FF0000",
+			"#000"=>"#000",
+			"#F0F0"=>"#F0F0",
+			"#3c3838"=>"#3c3838",
+			"#b56161"=>"#b56161",
+			"#ea7979"=>"#ea7979",
+			"#e23a3a"=>"#e23a3a",
+			"#d01515"=>"#d01515",
+			"#7b0c0c"=>"#7b0c0c",
+			"#bd0606"=>"#bd0606",
+			"#c3331c"=>"#c3331c",
+			"#dc290c"=>"#dc290c",
+			"#ea614b"=>"#ea614b",
+			"#e45b26"=>"#e45b26",
+			"#bb3f0f"=>"#bb3f0f",
+			"#8c300d"=>"#8c300d",
+			"#d68b1b"=>"#d68b1b",
+			"#d6c81b"=>"#d6c81b",
+			"#736d1b"=>"#736d1b",
+			"#6fb512"=>"#6fb512",
+			"#33b512"=>"#33b512",
+			"#6ac752"=>"#6ac752",
+			"#23790d"=>"#23790d",
+			"#427934"=>"#427934",
+			"#1cce63"=>"#1cce63",
+			"#0f883f"=>"#0f883f",
+			"#5eab7d"=>"#5eab7d",
+			"#2e804f"=>"#2e804f",
+			"#578469"=>"#578469",
+			"#b6e2cc"=>"#b6e2cc",
+			"#b6e2de"=>"#b6e2de",
+			"#69c5bd"=>"#69c5bd",
+			"#2eccbe"=>"#2eccbe",
+			"#0aa597"=>"#0aa597",
+			"#0a81a5"=>"#0a81a5",
+			"#38b7de"=>"#38b7de",
+			"#5eacc3"=>"#5eacc3",
+			"#0a6986"=>"#0a6986",
+			"#4a689e"=>"#4a8b9e",
+			"#2260d0"=>"#2260d0",
+			"#77569a"=>"#77569a",
+			"#7b35c5"=>"#7b35c5", 
+			"#730fdc"=>"#730fdc",
+			"#8c74a5"=>"#8c74a5",
+			"#644584"=>"#644584",
+			"#521d8a"=>"#521d8a",
+			"#791d8a"=>"#791d8a",
+			"#ca55e0"=>"#ca55e0",
+			"#79168c"=>"#79168c",
+			"#74417d"=>"#74417d",
+			"#471250"=>"#471250",
+			"#c71e4d"=>"#c71e4d");
+		  shuffle($colors);
+		  $firstnamelastname = array(
+			"york"=>"looky",
+			"BABA"=>"Rodrigue"
+		  );
+		   $firstname = "york";
+		   $lastname = "looky";
+		   $subfirstname = substr($firstname, 0,1);
+		   $sublastname = substr($lastname, 0,1);
+		   
+		   $majsubfirstname = strtoupper($subfirstname);
+		   $majsublastname = strtolower($sublastname);
+		   $tr = "#FFFFF";
+
+		  foreach ($colors as $key => $value) {
+			  $tr = $value;
+		  }
+
+		  ?>
+		<div style="width: 60px;height: 60px;color:#FFF;line-height: 60px;font-size: 1.8em;border-radius: 100%;text-align: center;background-color:<?php echo $tr ?>"><?php echo $majsubfirstname."".$majsublastname ?></div>
+      <legend>Formulaire de mise à jour des numéros de telephone </legend>
+      <?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+				</div>
+			<?php unset($_SESSION['validationpertesuccess']); endif ?>
+
+	  <form action="#" enctype="multipart/form-data" method="post" class="form-horizontal">
+	   <div class="control-group">
+	      <label class="control-label" for="integrateur_demandeur_ticket_support" style="font-weight:bold">
+	        Code membre :
+	      </label>
+	      <div class="controls">
+		      <input type="text" name="code_membre_phone" class="input-block-level code_membre_phone" placeholder="Mettre ici le nom et prenoms du demandeur" required="required"/>
+	      </div>
+	   </div>
+	   	<div class="control-group">
+	      <label class="control-label" for="phone_membre" style="font-weight:bold">
+	        Numero de telephone  :
+	      </label>
+	      <div class="controls">
+		      <input type="text" name="phone_membre" class="input-block-level phone_membre" placeholder="Mettre ici le numero de telephone" required="required"/>
+	      </div>
+	   </div>
+			<div class="control-group" >
+					<button type="submit" class="btn btn-large btn-primary">
+					Valider le formulaire
+					</button>
+			</div>
+
+</form>
+	</div>
+	<div class="span3">
+		<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+	</div>
+</div>

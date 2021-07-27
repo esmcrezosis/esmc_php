@@ -1,0 +1,78 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/articles.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+  <blockquote><p>Ajouter un additif d'article</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addarticle_stockes_additif">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+
+<div class="control-group">
+<label class="control-label" for="code_membre_morale">Code Membre Morale du fournisseur *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="code_membre_morale" id="code_membre_morale" placeholder="Code Membre Morale du fournisseur" required onblur="ouvre_articles(this.value, 'nivfour');">
+</div>
+</div>
+
+
+<div id="nivfour">
+<div class="control-group">
+<label class="control-label" for="reference">L'article *</label>
+<div class="controls">
+<select id="reference" name="reference" required>
+  <option value="">Choisir l'article</option>
+</select>
+</div>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="nom_article_stockes_additif">Nom de l'additif *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="nom_article_stockes_additif" id="nom_article_stockes_additif" placeholder="Nom de l'additif" required>
+</div>
+</div>
+
+
+
+<div class="form-actions">
+<!--<input name="code_membre_morale" type="hidden" id="code_membre_morale" value="<?php echo $sessionmembre->code_membre; ?>" />-->  
+<input name="etat" type="hidden" id="etat" value="1" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter l'additif de l'article</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

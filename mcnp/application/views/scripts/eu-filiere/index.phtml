@@ -1,0 +1,51 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-filiere"></table>
+    <div id="pg-filiere"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-filiere").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Nom','Description','Date création'],
+        height:440, width:828,
+        colModel:[
+            {name:'id_filiere',index:'id_filiere', width:95, sorttype:"int", editable: true,align:"left", hidden:true},
+            {name:'nom_filiere',index:'nom_filiere', width: 250, editable: true,align:"left"},
+            {name:'descrip_filiere',index:'descrip_filiere', width: 400, align:"left", editable: true,edittype:"textarea"},
+            {name:'date_creation',index:'date_creation', width: 100, align:"left", editable: false},
+        ],
+        rowNum:50,
+        rowList:[50,100,200],
+        rownumbers:true,
+        pager: '#pg-filiere',
+        sortname:"id_filiere",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des divisions"
+    });
+  
+    $("#tbl-filiere").jqGrid('navGrid','#pg-filiere',{edit:true,add:true,del:false,search:true});
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-filiere").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-filiere").jqGrid('getRowData',rowsel);
+            $.get('/eu-filiere/edit',{
+                id_filiere:data.id_filiere
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+</script>

@@ -1,0 +1,52 @@
+<div id="view-content" title="Tableau de bord representant les Frais de Licence" style="font-size: 12px;min-height: 520px;">
+     <fieldset id="carte_field" style="margin-bottom: 2px;"><legend>Recherche</legend>
+        <table>
+               <tbody>
+			          <tr>
+                         <td style="text-align: right;"><label>Credit code</label></td>
+                         <td><input type="text" id="credit_code" name="credit_code"/></td>
+                         <td><button id="bt_show">Afficher</button></td>
+					  </tr>
+			   </tbody>
+                
+        </table>
+    </fieldset> 
+    <table id="tbl-membre"></table>
+    <div id="pg-membre"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-membre").jqGrid({
+        url:'/eu-carte/dataverifierfl',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['ID','Compte Source','Code SMS','Type','Entrée','Sortie','Solde'],
+        height:500, width:827,
+        colModel:[
+            {name:'neng',index:'neng', width: 100, align:"left", editable: true,visible:false},
+            {name:'code_compte',index:'code_compte', width:280, align:"left", editable: true},
+            {name:'creditcode',index:'creditcode', width:100, align:"left", editable: true},
+            {name:'motif',index:'motif', width: 100, editable: true,align:"left"},
+            {name:'montant_entrer',index:'montant_entrer', width: 120, editable: true,align:"left"},
+			{name:'montant_sortie',index:'montant_sortie', width: 120, editable: true,align:"left"},
+			{name:'solde',index:'solde', width: 120, editable: true,align:"left"},
+            
+        ],
+        rowNum:200000,
+        rowList:[200000,300000,400000],
+        pager: '#pg-membre',
+        sortname:"id_operation",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"BILAN DES FL"
+    });
+    $("#tbl-membre").jqGrid('navGrid','#pg-membre',{edit:false,add:false,del:false,search:true});
+	$(function() {
+	   $('#view-content').puipanel();
+	})
+	
+	$('#bt_show').button().click(function(e){
+            e.preventDefault();
+            jQuery("#tbl-membre").jqGrid('setGridParam', {url: "/eu-carte/dataverifierfl?code="+$('#credit_code').val()}).trigger('reloadGrid');
+    });
+    
+</script>

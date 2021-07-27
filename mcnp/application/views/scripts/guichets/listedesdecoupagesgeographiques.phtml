@@ -1,0 +1,191 @@
+<?php if ($this->countallfranchise == 0): ?>
+
+<div class="alert alert-info">Aucun <span style="color: #FFF;background-color: #bb025b;padding: 5px;border-radius: 3px;font-weight: bold;"><?php echo $this->libelle_franchise ?></span> n'est encore enrégistré</div>
+
+<?php elseif($this->countallfranchise == 1):?>
+
+  <div class="alert alert-info"><span style="color: #FFF;background-color: #bb025b;padding: 5px;border-radius: 3px;font-weight: bold;"><?php echo $this->libelle_franchise ?></span> en cours de création...</div>
+
+<?php else: ?>
+
+
+<h3>Découpages géographiques</h3>
+
+<p class="lead">Liste des découpages géographiques</p>
+
+
+<div class="row">
+
+    <div class="col-xl-12" style="margin-bottom:20px">
+  
+         <div class="col-xl-2" style="display:inline-block">
+
+         <span style="display: inline-block;background-color: #aa325f;color: #FFF;width: 102px;height: 61px;text-align: center;line-height: 57px;">
+    
+             <span style="font-size: 3rem;font-weight:block">C</span>  
+    
+         </span>
+  
+     </div>
+
+     <div class="col-xl-9" style="display:inline-block">
+
+        <a href="/guichets/listedesfranchisescontinent/searchkeyfranchises/<?php echo $this->keyfranchise ?>">
+
+            <span style="display:block;font-size:1.5rem;color:#aa325f">Continents</span>
+
+        </a>
+        
+        
+
+     </div>
+
+  </div>
+ 
+  <div class="col-xl-12" style="margin-bottom:20px">
+  
+    <div class="col-xl-2" style="display:inline-block">
+
+      <span style="display: inline-block;background-color: #aa325f;color: #FFF;width: 102px;height: 61px;text-align: center;line-height: 57px;">
+      
+         <span style="font-size: 3rem;font-weight:block">Z</span> <span style="font-size:1.4rem">m</span>  
+      
+      </span>
+    
+    </div>
+
+    <div class="col-xl-9" style="display:inline-block">
+     
+       <a href="/guichets/listedesfranchiseszonesmonetaires/searchkeyfranchises/<?php echo $this->keyfranchise ?>">
+       
+             <span style="display:block;font-size:1.5rem;color:#aa325f">Zones monétaires</span>
+
+        </a>
+
+    </div>
+  
+  </div>
+
+  
+
+  <div class="col-xl-12" style="margin-bottom:20px">
+  
+         <div class="col-xl-2" style="display:inline-block">
+
+         <span style="display: inline-block;background-color: #aa325f;color: #FFF;width: 102px;height: 61px;text-align: center;line-height: 57px;">
+    
+             <span style="font-size: 3rem;font-weight:block">P</span>  <span style="font-size:1.4rem">a</span> 
+    
+         </span>
+  
+  </div>
+
+  <div class="col-xl-9" style="display:inline-block">
+
+     <a href="/guichets/listedesfranchisespays/searchkeyfranchises/<?php echo $this->keyfranchise ?>">
+     
+         <span style="display:block;font-size:1.5rem;color:#aa325f">Pays</span>
+
+     </a>
+        
+
+  </div>
+
+</div>
+
+  <div class="col-xl-12" style="margin-bottom:20px">
+  
+         <div class="col-xl-2" style="display:inline-block">
+
+         <span style="display: inline-block;background-color: #aa325f;color: #FFF;width: 102px;height: 61px;text-align: center;line-height: 57px;">
+    
+             <span style="font-size: 3rem;font-weight:block">R</span>  
+    
+         </span>
+  
+  </div>
+
+  <div class="col-xl-9" style="display:inline-block">
+
+         <a href="/guichets/listedesfranchisesregionouequivalent/searchkeyfranchises/<?php echo $this->keyfranchise ?>">
+     
+             <span style="display:block;font-size:1.5rem;color:#aa325f">Régions</span>
+
+         </a>
+        
+
+  </div>
+
+</div>
+
+  <div class="col-xl-12" style="margin-bottom:20px">
+  
+         <div class="col-xl-2" style="display:inline-block">
+
+         <span style="display: inline-block;background-color: #aa325f;color: #FFF;width: 102px;height: 61px;text-align: center;line-height: 57px;">
+    
+             <span style="font-size: 3rem;font-weight:block">P</span>  <span style="font-size:1.4rem">r</span>  
+    
+         </span>
+  
+  </div>
+
+  <div class="col-xl-9" style="display:inline-block">
+
+     <a href="/guichets/listedesfranchisesprefecturesouequivalent/searchkeyfranchises/<?php echo $this->keyfranchise ?>">
+     
+         <span style="display:block;font-size:1.5rem;color:#aa325f">Préfectures</span>
+
+     </a>
+    
+  </div>
+
+</div>
+
+  <div class="col-xl-12" style="margin-bottom:20px">
+  
+         <div class="col-xl-2" style="display:inline-block">
+
+         <span style="display: inline-block;background-color: #aa325f;color: #FFF;width: 102px;height: 61px;text-align: center;line-height: 57px;">
+    
+             <span style="font-size: 3rem;font-weight:block">C</span>  <span style="font-size:1.4rem">o</span>  
+    
+         </span>
+  
+  </div>
+
+  <div class="col-xl-9" style="display:inline-block">
+  
+     <a href="/guichets/listedesfranchisescommunesouequivalent/searchkeyfranchises/<?php echo $this->keyfranchise ?>">
+     
+          <span style="display:block;font-size:1.5rem;color:#aa325f">Communes</span>
+    
+     </a>
+
+  </div>
+
+</div>
+
+  <div class="col-xl-12" style="margin-bottom:20px">
+  
+         <div class="col-xl-2" style="display:inline-block">
+
+         <span style="display: inline-block;background-color: #aa325f;color: #FFF;width: 102px;height: 61px;text-align: center;line-height: 57px;">
+    
+             <span style="font-size: 3rem;font-weight:block">C</span> <span style="font-size:1.4rem">a</span>  
+    
+         </span>
+  
+  </div>
+
+  <div class="col-xl-9" style="display:inline-block">
+  
+     <a href="/guichets/listedesfranchisescantonsouequivalent/searchkeyfranchises/<?php echo $this->keyfranchise ?>"><span style="display:block;font-size:1.5rem;color:#aa325f">Cantons</span></a>
+
+  </div>
+
+</div>
+
+</div>
+
+<?php endif ?>

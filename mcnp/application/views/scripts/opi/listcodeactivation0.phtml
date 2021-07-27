@@ -1,0 +1,105 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Liste de mes activations non utilisés</p></blockquote>
+  <?php if(isset($sessionmembre->error) && $sessionmembre->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->error; $sessionmembre->error = ""; ?>
+    </div>
+  <?php }?>
+  
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Quittance</th>
+								  <?php /*?><th>Code d'activation</th><?php */?>
+								  <th>Code Membre</th>
+								  <th>Nom et prénom(s)</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+		<td><?php 
+			$souscriptionM = new Application_Model_EuSouscriptionMapper();
+			$souscription = new Application_Model_EuSouscription();
+			$souscriptionM->find($entry->membretierscode_souscription, $souscription);
+			?><?php echo ($souscription->souscription_ordre); ?></td>
+		<?php /*?><td><?php echo ($entry->membretierscode_code); ?></td><?php */?>
+		<td><?php echo ($entry->code_membre); ?></td>
+      	<td>
+      		<?php if(substr($entry->code_membre, -1) == "P"){?>
+			<?php 
+			$membreM = new Application_Model_EuMembreMapper();
+			$membre = new Application_Model_EuMembre();
+			$membreM->find($entry->code_membre, $membre);
+			?><?php echo ($membre->nom_membre); ?> <?php echo ($membre->prenom_membre); ?>
+
+      		<?php /*}else if(isset($entry->code_membre) && substr($entry->code_membre, -1) == "M"){?>
+      		<?php 
+			$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+			$membremorale = new Application_Model_EuMembreMorale();
+			$membremoraleM->find($entry->code_membre, $membremorale);
+			?><?php echo ($membremorale->raison_sociale); */?>
+      		<?php }?>
+      	</td>
+      	<td><div align="center">
+	  		<?php if($entry->publier == 1){?>
+			<span class="label label-success"><i class="icon-ok icon-white"></i>  Utilisé</span>&nbsp;
+			<?php }else{?>
+			<span class="label label-warning"><i class="icon-off icon-white"></i>  Non Utilisé</span>&nbsp;
+			<?php }?>
+		</td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun code trouvé 
+</div>
+<?php }?>
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

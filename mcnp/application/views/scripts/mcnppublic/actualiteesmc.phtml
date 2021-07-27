@@ -1,0 +1,100 @@
+<style> 
+
+    /* MARKETING CONTENT
+    -------------------------------------------------- */
+
+    /* Center align the text within the three columns below the carousel */
+    .marketing .span4 {
+      text-align: center;
+    }
+    .marketing h2 {
+      font-weight: normal;
+    }
+    .marketing .span4 p {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+
+    /* Featurettes
+    ------------------------- */
+
+    .featurette-divider {
+      margin: 40px 0; /* Space out the Bootstrap <hr> more */
+    }
+    .featurette {
+      padding-top: 30px; /* Vertically center images part 1: add padding above and below text. */
+      overflow: hidden; /* Vertically center images part 2: clear their floats. */
+    }
+    .featurette-image {
+      margin-top: -10px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
+    }
+
+    /* Give some space on the sides of the floated elements so text doesn't run right into it. */
+    .featurette-image.pull-left {
+      margin-right: 30px;
+    }
+    .featurette-image.pull-right {
+      margin-left: 30px;
+    }
+
+    /* Thin out the marketing headings */
+    .featurette-heading {
+      /*font-size: 30px;*/
+      font-weight: 200;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+
+
+
+</style>
+<br />
+<div class="row-fluid">
+        <div class="span9" style="text-align:left"> 
+
+  <blockquote><p class="text-info">Actualités</p></blockquote>
+
+             
+<?php if(count($this->actualite) > 0){?>
+<div class="featurette" align="justify">
+        <?php if($this->actualite->actualite_vignette != ""){?><img class="featurette-image pull-left img-polaroid" src="<?php echo $this->baseUrl();?>/<?php echo ($this->actualite->actualite_vignette); ?>" <?php list($width, $height, $type, $attr) = getimagesize($this->actualite->actualite_vignette);echo $attr; ?>  /><?php }?>
+        <h2 class="featurette-heading" align="left"><?php echo ($this->actualite->actualite_date); ?> - <?php echo ($this->actualite->actualite_libelle); ?></h2>
+        <h3 class="featurette-heading" align="left"><span class="muted"><?php echo ($this->actualite->actualite_resume); ?></span></h3>
+        <p align="justify"><br />
+<?php echo ($this->actualite->actualite_description); ?></p>
+      </div>
+      
+      <div class="span12">
+      <hr />
+      </div>
+<?php }?>
+
+        <?php 
+        $actualite = new Application_Model_EuActualiteMapper();
+        $entriesactualite = $actualite->fetchAll4($this->actualite->actualite_id);
+	?>
+<?php if(count($entriesactualite)>0){?> 
+      <!-- Example row of columns -->
+<!-- Three columns of text below the carousel -->
+      <div class="span9">
+  <?php foreach ($entriesactualite as $entryactualite): ?>
+        <p align="left"><a class="link" href="<?php echo $this->baseUrl();?>/index/actualiteesmc/id/<?php echo $entryactualite->actualite_id; ?>"><i class="icon-chevron-right"></i> <?php echo ($entryactualite->actualite_date); ?> - <?php echo ($entryactualite->actualite_libelle); ?></a></p>
+  <?php endforeach; ?>
+  <!-- /.span4 -->
+      </div><!-- /.row -->
+      <!-- START THE FEATURETTES -->
+      <!-- /END THE FEATURETTES -->
+		<?php }?>
+</div>
+
+<div class="span3">
+	<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+</div>
+
+</div>
+      <hr class="featurette-divider" />
+
+
+
+</div>

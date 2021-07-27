@@ -1,0 +1,222 @@
+﻿<div id="view-content" title="Consultation des anciens bon de consommations" style="font-size: 12px;min-height: 520px;">
+    <form id="rech_bnp" method="POST" target="_blank" action="/consultation/pdfconsult">
+        <fieldset style="margin-bottom: 3px;">
+            <table>
+                <tbody>
+                      <tr>
+                        <td><label>Produit :</label></td><td>
+                        <select id="code_produit" name="code_produit">
+			            <option value=""></option>
+			            <option value="RPGr">RPGr</option>
+			            <option value="RPGnr">RPGnr</option>
+                        <option value="Ir">Ir</option>
+			            <option value="Inr">Inr</option>
+			            </select></td>
+                        </td>
+                        <td>
+						    <label>Origine ressoure :</label>
+							<td>
+                                <select id="origine_ressource" name="origine_ressource">
+			                      <option value=""></option>
+			                      <option value="CAPA">KAPA Espèce</option>
+			                      <option value="NN-TPAGCP">KAPA GCP</option>
+			                      <option value="NN-TCNCS">KAPA CNCS</option>
+								  <option value="NR">Echange Salaire</option>
+								  <option value="NB">Echange GCP</option>
+			                    </select>
+							</td>
+                            </td>
+						</td>
+                      </tr>  
+                    <tr>
+                        <td><label>Ancien Numéro membre</label></td><td><input id="rech_membre" size="30" type="text" name="rech_membre" /></td>
+                        <td><label>Designation membre</label></td><td><input type="text" id="design_membre_rech" name="design_membre_rech" value="" size="30"/></td>
+                        <td></td><td><input id="bt_rech_credit" type="button" value="OK"/>
+                    </tr>                      
+
+                </tbody>
+            </table>
+        </fieldset>
+		    <input id="bt_credit_detail" type="button" value="Détail" class="ui-widget button"/>
+		    <input id="apercu" type="submit" value="Aperçu" class="ui-widget button"/>
+    </form>
+    
+    <table id="tbl-credits"></table>
+    <div id="pg-credits"></div>
+    <div id="credit_dialog" style="font-size: 12px;">
+         <form>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td><label>N° Membre :</label></td>
+                                        <td><input type="text" id="membre_credit" name="membre_credit" size="30"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Compte :</label></td>
+                                        <td><input type="text" id="produit_credit" name="produit_credit"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Date Début :</label></td>
+                                        <td><input type="text" id="date_deb_credit" name="date_deb_credit" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Date Fin :</label></td>
+                                        <td><input type="text" id="date_fin_credit" name="date_fin_credit" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Date Octroi :</label></td>
+                                        <td><input type="text" id="date_octroi_credit" name="date_octroi_credit" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Compte Source :</label></td>
+                                        <td><input type="text" id="compte_source" name="compte_source" size="40"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td><label>Montant CAPA :</label></td>
+                                        <td><input type="text" id="mont_place_credit" name="mont_place_credit" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Solde :</label></td>
+                                        <td><input type="text" id="solde_credit" name="solde_credit" /></td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-credits").jqGrid({
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code', 'Code Membre', 'Produit', 'Montant Capa', 'Montant Revenu', 'Date Début', 'Date Fin', 'Source', 'Date octroi', 'Compte source', 'Reconstituer', 'Domicilier', 'BNP', 'Operation'],
+        height: 300, width: 807,
+        colModel: [
+            {name: 'id_credit', index: 'id_credit', width: 80, sorttype: "int", editable: false, align: "left" , hidden: true},
+            {name: 'code_membre', index: 'code_membre', width: 150, sorttype: "int", editable: false, align: "left"},
+            {name: 'code_produit', index: 'code_produit', width: 60, editable: false, align: "left"},
+            {name: 'montant_place', index: 'montant_place', width: 100, editable: false, align: "left", formatter:"number", summaryType:'sum'},
+            {name: 'montant_credit', index: 'montant_credit', width: 100, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+            {name: 'datedeb', index: 'datedeb', width: 70, editable: false, align: "left"},
+            {name: 'datefin', index: 'datefin', width: 70, align: "left", editable:false},
+            {name: 'source', index: 'source', width: 80, align: "left", editable: false, hidden: true},
+            {name: 'date_octroi', index: 'date_octroi', width: 70, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'compte_source', index: 'compte_source', width: 220, editable: false, align: "left", hidden: true},
+            {name: 'krr', index: 'debit', width: 75, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'domicilier', index: 'domicilier', width: 50, editable: false, align: "left", hidden: true},
+            {name: 'bnp', index: 'bnp', width: 50, align: "left", editable: false, hidden: true},
+            {name: 'id_operation', index: 'id_operation', width: 75, sorttype: "int", editable: false, align: "left", hidden: true}
+        ],
+        rowNum: 500000,
+        rowList: [500000],
+        pager: '#pg-credits',
+        sortname: "id_credit",
+        viewrecords: true,
+        sortorder: "ASC",
+		footerrow: true, userDataOnFooter: true,
+        caption: "Compte RPG et I"
+    });
+
+    $("#tbl-credits").jqGrid('navGrid', '#pg-credits', {edit: false, add: false, del: false, search: true});
+
+    $('#bt_rech_credit').button().click(function(e) {
+     jQuery("#tbl-credits").jqGrid('setGridParam',{url:"/consultation/datacredit?produit="+$('#code_produit').val() +"&membre="+$('#rech_membre').val()
+	 +"&origine="+$('#origine_ressource').val()}).trigger('reloadGrid');
+     e.preventDefault();
+    });
+
+    $("#bt_credit_detail").button().click(function() {
+        var sel;
+        sel = jQuery("#tbl-credits").jqGrid('getGridParam', 'selrow');
+        data = jQuery("#tbl-credits").jqGrid('getRowData', sel);
+        if (sel !== '' || sel !== null)  {
+            $('#numero_credit').val(data.id_credit);
+            $('#membre_credit').val(data.code_membre);
+            $('#produit_credit').val(data.code_produit);
+            $('#mont_place_credit').val(data.montant_place);
+            $('#date_deb_credit').val(data.datedeb);
+            $('#date_fin_credit').val(data.datefin);
+            $('#capa_credit').val(data.code_capa);
+            $('#compte_source').val(data.compte_source);
+            $('#solde_credit').val(data.montant_credit);
+            $('#date_octroi_credit').val(data.date_octroi);
+            $('#operation_credit').val(data.id_operation);
+            $('#compte_credit').val(data.code_compte);
+            $('#dom_credit').val(data.domicilier);
+            $('#bnp_credit').val(data.bnp);
+            $('#reconst_credit').val(data.reconstituer);
+            $("#credit_dialog").dialog("open");
+        } else {
+            alert('Il faut sélectionner une ligne');
+        }
+
+    });
+
+    $(function() {
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+        $("#credit_dialog").dialog({
+            autoOpen: false,
+            height: 350,
+            title: 'Détail du crédit',
+            width: 820,
+            modal: true,
+            buttons: {
+                "Fermer": function() {
+                    $(this).dialog("close");
+                }
+            },
+            close: function() {
+                //allFields.val( "" ).removeClass( "ui-state-error" );
+            }
+        }
+        );
+    });
+    $('#reset_credit').button();
+
+    $.get("/consultation/membre",
+      function success(data) {
+         $('#rech_membre').autocomplete({"source": data, change: displayItem});
+    });
+
+    function displayItem()
+    {
+        if ($(this).val() !== '')
+        {
+            $.get(
+                    '/consultation/recupnom',
+                    {
+                        num_membre: $(this).val()
+                    },
+            function success(data) {
+                //$("#nom_membre_rech").val(data[0]);
+                //$("#prenom_membre_rech").val(data[1]);
+                $("#design_membre_rech").val(data[0]);
+            });
+        }
+    }
+
+    $.get(
+            '/consultation/cat',
+            function success(data)
+            {
+                var options = '<option></option>';
+                for (var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                }
+                $('select#rech_num_credit').html(options);
+            });
+</script>

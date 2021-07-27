@@ -1,0 +1,136 @@
+<div id="view-content" class="ui-widget">
+     <div id="formdiv" class="ui-widget-content ui-corner-all">
+          <form id="contrat" method="Post" action="">
+                <fieldset><legend>Recherche</legend>
+                <table>
+                    <tbody>
+                           <tr>
+                               <td><label>Code membre</label></td>
+                               <td><input id="code_membre" type="text" name="code_membre" size="30"/></td>
+                               <td><label>Raison sociale</label></td>
+                               <td><input id="raison_sociale" type="text" name="raison_sociale" size="30"></td>
+                           </tr>
+                           <tr>
+                              <td><label>Nom</label></td>
+                              <td><input id="nom" type="text" name="nom" size="30"/></td>
+                              <td><label>Pr&eacute;nom</label></td>
+                              <td><input id="prenom" type="text" name="prenom" size="30"></td>
+                           </tr>
+						   <tr>
+                                 <td><label>Date début</label></td>
+                                 <td><input type="text" name="date_deb" id="date_deb" size="30"/></td>
+                                 <td><label>Date fin</label></td>
+                                 <td><input type="text" name="date_fin" id="date_fin"  size="30"></td>
+                           </tr>
+						   <tr>
+						   <td><label>Utilisateur</label></td>
+                           <td colspan="3"><select name="id_utilisateur" id="id_utilisateur"></select></td>
+						   </tr>
+                    </tbody>
+                </table>
+                <table style="margin-left:230px">
+                        <tr><td height="10px"></td></tr>
+                        <tr>
+                            <td>
+                                <input id="valider" type="button" value="Valider"/> 
+                                <input id="annuler" type="reset" value="Annuler"/>
+                            </td>
+                        </tr>
+                </table>      
+                </fieldset>
+         </form>
+         <div style="margin-bottom: 3px;">
+              <form action="/eu-html2-pdf-contrat/list" name="" method="POST" target="_blank"> 
+                    <input id="apercu" type="submit" value="Aperçu" class="ui-widget button"/> 
+                    <input type="hidden" id="id_contrat" name="id_contrat"/>
+                    <input type="hidden" id="type_membre" name="type_membre"/>
+                    <input type="hidden" id="membre" name="membre"/>
+              </form>      
+         </div>
+         
+         <table id="tbl-contrat"> </table>
+         <div id="pg-contrat"></div>
+     </div>
+     
+<script type="text/javascript">
+       $("#tbl-contrat").jqGrid({
+        url:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Numero','Membre','Date contrat','Nature contrat','Type membre'],
+        height:300, width:827,
+        colModel:[
+                 {name:'id_contrat',index:'id_contrat', width:150, sorttype:"int", editable: true,align:"left"},
+                 {name:'membre',index:'membre', width: 300, editable: true,align:"left"},
+                 {name:'datecontrat',index:'datecontrat', width: 100, align:"left", editable: true},
+                 {name:'natcontrat',index:'natcontrat', width: 100, align:"left", editable: true},
+                 {name:'type_membre',index:'type_membre', width: 80, align:"left", editable: true},
+        ],
+        rowNum:200000,
+        rowList:[200000,400000,600000],
+        pager: '#pg-contrat',
+        sortname:"id_contrat",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Contrats"
+    });
+    $("#tbl-contrat").jqGrid('navGrid','#pg-contrat',{edit:false,add:false,del:false,search:true});
+    
+	
+	$(document).ready(function(){ 
+    var pickerOpts = {
+            dateFormat:"dd/mm/yy",
+            changeMonth:true,
+            changeYear:true,
+            selectOtherMonths: true,
+            showButtonPanel: true
+        };
+        $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+        $("#date_deb").datepicker(pickerOpts);
+        $("#date_fin").datepicker(pickerOpts);
+	
+	$.get(
+         '/eu-consulter-contrat/nlogin',
+         function success(data)
+         {
+             var options = '<option value=""></option>';
+             for( var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+             }
+             $('select#id_utilisateur').html(options); 
+			 
+         });
+	
+	
+    $('#valider').button().click(function(e)
+    {
+        jQuery("#tbl-contrat").jqGrid('setGridParam',{url:"/eu-consulter-contrat/data?code_membre="+$('#code_membre').val()+"&raison_sociale="
+                +$('#raison_sociale').val()+"&nom="+$('#nom').val()+"&prenom="+$('#prenom').val()+"&date_deb="+$('#date_deb').val()+"&date_fin="+$('#date_fin').val()+"&id_utilisateur="+$('#id_utilisateur').val()}).trigger('reloadGrid');
+        e.preventDefault();
+    });
+    
+    
+    
+    
+    $("#apercu").click(function() {
+        var sel;
+        sel = jQuery("#tbl-contrat").jqGrid('getGridParam','selrow');
+        
+              data = jQuery("#tbl-contrat").jqGrid('getRowData',sel);
+              $('#id_contrat').val(data.id_contrat);
+              $('#type_membre').val(data.type_membre);
+              $('#membre').val(data.membre);
+              
+             
+    });
+    
+    
+    $("#apercu").button();
+    $("#valider").button();
+    $("#annuler").button();
+    
+   }) 
+    
+</script>
+</div>
+    

@@ -1,0 +1,42 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="mlister" type="button" value="Liste" />
+    </div>
+    <div id="maccordeon">
+        <h2><a href="#">Statut juridique</a></h2>
+        <div id="">
+            <table>
+                  <tr><td>Type</td><td><input id="type_membre" value="<?php echo $this->membre->code_type_acteur; ?>" readonly="true"/></td> <td>Statut</td><td><input name="statut_juridique" id="statut_juridique" value="<?php echo $this->membre->code_statut; ?>" readonly="true"/></td></tr>
+                  <tr><td>Numéro régistre</td><td><input id="num_registre" value="<?php echo $this->membre->num_registre_membre; ?>" readonly="true"/></td>
+				  <td>Raison sociale</td><td><input id="raison_sociale" value="<?php echo $this->membre->raison_sociale; ?>" readonly="true"/></td></tr>
+            </table>
+        </div>
+        <h2><a href="#">Coordonnées</a></h2>
+        <div id="coordonnees">
+            <table>
+                <tr><td>Quartier</td><td><input name="quartier_membre" value="<?php echo $this->membre->quartier_membre; ?>" readonly="true"/></td></tr>
+                <tr><td>Ville</td><td><input name="ville_membre" id="ville_membre" value="<?php echo $this->membre->ville_membre; ?>" readonly="true" /></td></tr>
+                <tr><td>BP</td><td><input name="bp_membre" value="<?php echo $this->membre->bp_membre; ?>" readonly="true"/></td></tr>
+                <tr><td>Téléphone</td><td><input name="tel_membre" value="<?php echo $this->membre->tel_membre; ?>" readonly="true"/></td> <td>Cellulaire</td><td><input name="portable_membre" id="portable_membre" value="<?php echo $this->membre->portable_membre; ?>" readonly="true"/></td></tr>
+                <tr><td>Adresse email</td><td><input name="email_membre" value="<?php echo $this->membre->email_membre; ?>" readonly="true"/></td><tr><td>Site web</td><td><input name="site_web" value="<?php echo $this->membre->site_web; ?>" readonly="true"/></td></tr>
+            </table>
+        </div>
+        <h2><a href="#">Autres informations</a></h2>
+        <div id="autres">
+           <table>
+                  <tr> <td>Domaine d'activité</td><td><input name="domaine_activite" value="<?php echo $this->membre->domaine_activite; ?>" readonly="true"/></td></tr>
+           </table>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function() {
+            $("#maccordeon").accordion();
+        });
+        $('#mlister').button().click(function() {
+		 retour:'retour'
+		 $.get('/eu-membre/morale',function(data) {
+         $("#view-content").html(data);
+        });
+        });
+    </script>
+</div>

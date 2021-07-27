@@ -1,0 +1,125 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr8.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Activer guichet </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addappeloffres">
+  <div id="myModal" class="qrmodal overlayDiv"><div id="qrmodal-content" class="qrmodal-content"><span id="close-qrmodal">&times;</span><br/> <br/><p>Veuillez mettre le code QR du membre en façe de votre Caméra afin de l\'authentifier.</p><video class="cam_video" autoplay></video><br/></div></div>
+      
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<fieldset>
+<legend>Formulaire de modification de l'option guichet </legend>
+
+<div class="control-group">
+<label class="control-label" for="nom_guichet">Raison sociale * </label>
+<div class="controls">
+<input type="text" name="nom_guichet" id="nom_guichet" placeholder="Raison Sociale" class="input-xxlarge" required value="<?php echo ($this->association->association_nom); ?>" />
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="code_agence">Agence *</label>
+<div class="controls">
+<select name="code_agence" id="code_agence" required>
+        <?php $tagence = new Application_Model_DbTable_EuAgence();
+        $results = $tagence->fetchAll();?>
+  <option value="">Choisir l'agence</option>
+    <?php foreach ($results as $agence): ?>
+               <option value="<?php echo $agence->code_agence; ?>" <?php if($this->association->code_agence == $agence->code_agence){echo ' selected="selected"';}?>><?php echo ($agence->libelle_agence); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="code_membre">Code Membre  *</label>
+<div class="input-group mb-3">
+<input type="text" name="code_membre" id="code_membre_mandataire" placeholder="Code Membre " class="input-xxlarge" required value="<?php echo ($this->association->code_membre); ?>" />
+<span class="help-block"><p class="text-error">
+<?php
+/* 
+if($this->association->code_membre != "") {
+$membremorale = new Application_Model_EuMembreMorale();
+$membremorale_mapper = new Application_Model_EuMembreMoraleMapper();
+$membremorale_mapper->find($this->association->code_membre, $membremorale);
+echo $membremorale->raison_sociale;
+}
+*/
+?>
+</p>
+</span>
+<div class="input-group-append">
+<button class="btn btn-outline-secondary button_qr_code" type="button" id="button_qr_code_mandataire"> QR Code </button>
+</div>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="guichet">Guichet ? *</label>
+<div class="controls">
+<select name="guichet" id="guichet" class="input-xxlarge" required>
+<option value="0" <?php if($this->association->guichet == 0) {echo 'selected="selected"';}?>>Non</option>
+<option value="1" <?php if($this->association->guichet == 1) {echo 'selected="selected"';}?>>Oui</option>
+</select>
+</div>
+</div>
+  
+
+</fieldset> 
+   
+    
+    
+
+<div class="form-actions">
+<input type="hidden" name="association_id" id="association_id" value="<?php echo $this->association->association_id; ?>" />
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+<style>
+.button_qr_code
+{
+    background: #aa325f;
+}
+</style>
+<script type="text/javascript">
+    outilqr_champ_personnalise("button_qr_code_mandataire", "code_membre_mandataire", "designation_mandataire");
+</script>
+
+
+
+
+
+
+
+

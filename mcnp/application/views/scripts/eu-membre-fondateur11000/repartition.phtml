@@ -1,0 +1,179 @@
+<div id="view-content">
+    <div style="margin-bottom:3px;">
+        <!--        <input id="accorder" type="button" value="Paiement MF11000" class="ui-widget button"/>-->
+        <input id="payer" type="button" value="Paiement anticipé" class="ui-widget button"/>
+        <td>Total</td><td><input name="mt_transfert" id="mt_transfert" class="" value="0" disabled="disabled" align="right"/></td>
+        <td>Tranche répartition </td><td><input name="tranche" id="tranche" size="6" value="<?php echo $this->data; ?>"/></td>
+        <input id="ok" type="button" value="OK" class="ui-widget button"/>
+    </div>
+    <table id="tbl-repartition"></table>
+    <div id="pg-repartition"></div>
+</div>     
+<script type="text/javascript">
+    $("#tbl-repartition").jqGrid({
+        url:'',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Numéro bon','Code membre','Nom','Prénoms','Répartitions','Montant du compte','Cel'],
+        height:450, width:820,
+        colModel:[
+            {name:'num_bon',index:'num_bon', width: 110, align:"left"},
+            {name:'code_membre',index:'code_membre', width:180, align:"left"},
+            {name:'nom',index:'prenom', width: 180, editable: false,align:"left"},
+            {name:'prenom',index:'prenom', width: 200, editable: false,align:"left"},
+            {name:'nb_repartition',index:'nb_repartition', width: 100, editable: false,align:"left"},
+            {name:'solde',index:'solde', width: 150, align:"right", editable: false,formatter:'number'},
+            {name:'cel',index:'cel', width: 20, editable: false,align:"left",hidden:true},
+        ],
+        rowNum:30,
+        rowList:[30,100,1000,20000],
+        pager: '#pg-repartition',
+        sortname:"code_membre",
+        viewrecords: true,
+        multiselect:true,
+        sortorder: "desc",
+        caption:"Liste des membres fondateurs 11000",
+        onSelectRow: function(id,status){
+            var montant = $('#mt_transfert').val();
+            if(id != 0 || id != null){
+                var data = jQuery('#tbl-repartition').jqGrid('getRowData',id);
+                var value = 0;
+                var solde = data.solde;
+                if(montant == ''){
+                    montant = 0;
+                }else{
+                    montant = parseInt(montant,10);
+                }
+                if(status == true){
+                    value = parseInt(montant) + parseInt(solde);
+                    $('#mt_transfert').val(value);
+                }else{
+                    value = montant - parseInt(solde);
+                    $('#mt_transfert').val(value);
+                }
+                lastsel=id; 
+            }
+        },
+		
+        onSelectAll: function(ids,status){
+            var montant = $('#mt_transfert').val();
+            if(status == true){
+                if(montant == ''){
+                    montant = 0;
+                }else{
+                    montant = 0;
+                }
+                for(var i = 0;i < ids.length;i++){
+                    var id = ids[i];
+                    var data = jQuery('#tbl-repartition').jqGrid('getRowData',id);
+                    var solde = data.solde;
+                    montant += parseInt(solde);
+                }
+                $('#mt_transfert').val(montant);
+            }else{
+                $('#mt_transfert').val(0); 
+            }
+        }
+    }); 
+    $("#tbl-repartition").jqGrid('navGrid','#pg-repartition',{edit:false,add:false,del:false,search:true});
+    
+    
+    $(document).ready(function ()
+    {
+        $('#accorder').button();
+        $('#payer').button();
+        $('#ok').button();
+   
+        $('#ok').click(function()
+        {
+            tranche = $('#tranche').val();
+            if(tranche <= 6) {
+                jQuery("#tbl-repartition").jqGrid('setGridParam', {url: "/eu-membre-fondateur11000/datarepartition?tranche=" +tranche}).trigger('reloadGrid');
+            }
+            else
+            {
+                alert("Le nombre de tranches de répartition est limité à 6");
+            }    
+        })
+  
+        $('#accorder').click(function()
+        {
+            var sel;
+            sel = jQuery("#tbl-repartition").jqGrid('getGridParam','selarrrow');
+            var tab=new Array();  
+            var rowsel;
+            rowsel = jQuery("#tbl-repartition").jqGrid('getGridParam','selrow');
+            for(var i=0; i<sel.length; i++) {
+                tab[i]=jQuery("#tbl-repartition").jqGrid('getRowData',sel[i]);   
+            };
+            if($('#mt_transfert').val()=='' || $('#mt_transfert').val()==0){
+                alert('Aucun compte MF11000 sélectionné');
+            }
+            else{
+                if(rowsel)
+                {
+                    data=jQuery("#tbl-repartition").jqGrid('getRowData',rowsel);
+                    $.get('/eu-membre-fondateur11000/accorder?mt_transfert='+$('#mt_transfert').val(),{
+                        lignes:tab
+                    },function success(data){
+                        if(data == 'good'){
+                            tranche = $('#tranche').val();
+                            alert('Transfert des montants sur les comptes MF11000 effectué avec succès');
+                            jQuery("#tbl-repartition").jqGrid('setGridParam',{url: "/eu-membre-fondateur11000/datarepartition?tranche=" +tranche}).trigger('reloadGrid');
+                            $('#mt_transfert').val(0); 
+                            //$(location).attr("href", "/eu-membre-fondateur11000/detailrep");
+                        }
+                        else if(data == 'soldevide') {
+                            alert("Le montant du compte dédié pour faire ce transfert est insuffisant");
+                        }
+                        else if(data == 'erreur') {
+                            alert("Echec de l'opération");
+                        }
+                    });             
+                }else{
+                    alert('Aucune ligne sélectionnée');
+                }    
+            }
+        }); 
+        
+        $('#payer').click(function()
+        {
+            var sel;
+            sel = jQuery("#tbl-repartition").jqGrid('getGridParam','selarrrow');
+            var tab=new Array();  
+            var rowsel;
+            rowsel = jQuery("#tbl-repartition").jqGrid('getGridParam','selrow');
+            for(var i=0; i<sel.length; i++) {
+                tab[i]=jQuery("#tbl-repartition").jqGrid('getRowData',sel[i]);   
+            };
+            if($('#mt_transfert').val()=='' || $('#mt_transfert').val()==0){
+                alert('Aucun compte MF11000 sélectionné');
+            }
+            else{
+                if(rowsel)
+                {
+                    data=jQuery("#tbl-repartition").jqGrid('getRowData',rowsel);
+                    $.get('/eu-membre-fondateur11000/payer?mt_transfert='+$('#mt_transfert').val(),{
+                        lignes:tab
+                    },function success(data){
+                        if(data == 'good'){
+                            tranche = $('#tranche').val();
+                            alert('Transfert des montants sur les comptes MF11000 effectué avec succès');
+                            jQuery("#tbl-repartition").jqGrid('setGridParam',{url: "/eu-membre-fondateur11000/datarepartition?tranche=" +tranche}).trigger('reloadGrid');
+                            $('#mt_transfert').val(0); 
+                        }
+                        else if(data == 'soldevide') {
+                            alert("Le montant du compte dédié pour faire ce transfert est insuffisant");
+                        }
+                        else if(data == 'erreur') {
+                            alert("Echec de l'opération");
+                        }
+                    });             
+                }else{
+                    alert('Aucune ligne sélectionnée');
+                }    
+            }
+        });
+    })
+</script>      

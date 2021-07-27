@@ -1,0 +1,136 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8">		
+  $(document).ready(function() {
+    $('#example').dataTable( {
+    "sPaginationType": "full_numbers",
+    "aaSorting": []
+  });
+  });
+</script>
+        
+<script type="text/javascript">
+function checkAllInput(form, action) {
+   var i = document.forms[form].getElementsByTagName("input"); 
+    for( var cpt = 0; cpt < i.length; cpt++) 
+        i[cpt].checked = (action)? true : false ;
+}
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p> Vérification du détail des produits enrégistrés sur l'ELI </p></blockquote>
+  
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!="") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+  <?php if(isset($this->error) && $this->error!="") { ?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; $this->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+  
+<?php 
+if(count($this->entries) > 0) { 
+    $x = 1;
+    $compteur = 0;
+    $montant_eli = 0;
+    $montant_vente = 0;
+?>
+
+<form method="post" enctype="multipart/form-data" role="form" name="editeli" id="editeli" action=""> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="exampleeli" style="font-size:12px;">
+	   <thead>
+	          <tr>
+			      <th colspan="5"> DETAILS : <?php echo "ENGAGEMENT DE LIVRAISON IRREVOCABLE N° ".$this->eli->numero_eli." du ".datejourfr($this->eli->date_eli); ?></th> 
+			  </tr>
+			  <tr>
+				  <th>Désignation des Produits</th>
+				  <th>Qte ELI</th>
+				  <th>Prix ELI</th>
+				  <th>Qte  VENTE</th>
+				  <th>Prix VENTE</th>
+				  <th>Actions</th>			 
+			  </tr>
+	   </thead>
+<tbody>
+<?php foreach($this->entries as $entry) : ?>
+<tr>
+    <td> <?php echo($entry->libelle_produit); ?> </td>
+	
+    <td>
+       <input  type="text" class="input-mini" name="<?php echo "quantite".$x; ?>" id="<?php echo "quantite".$x ;?>" value="<?php echo($entry->quantite);?>"/>
+	</td>
+	
+    <td>  
+	    <input type="text" class="input-mini" name="<?php echo "prix".$x; ?>" id="<?php echo "prix".$x; ?>" value="<?php echo($entry->prix_unitaire);?>"/> 
+	</td>
+	
+	
+	<td>
+       <input  type="text" class="input-mini" name="<?php echo "qte".$x; ?>" id="<?php echo "qte".$x ;?>" value="<?php echo($entry->qte_vente);?>"/>
+	</td>
+	
+	
+    <td>  
+	    <input type="text" class="input-mini" name="<?php echo "prix_vente".$x; ?>" id="<?php echo "prix_vente".$x; ?>" value="<?php echo($entry->prix_vente);?>"/> 
+	</td>
+	
+	
+	<td>
+	   <div align="center">		
+	        <input  type="checkbox"  <?php if($entry->statut == 1) { ?>  <?php echo "checked";  } ?>   name="<?php echo "confirmer".$x; ?>" id="<?php echo "confirmer".$x ;?>" value="1" onclick="if(document.getElementById('<?php echo "confirmer".$x; ?>').checked) { document.getElementById('<?php echo "rejeter".$x; ?>').disabled = true;} else {document.getElementById('<?php echo "rejeter".$x; ?>').disabled = false;}" /> CONFIRMER 
+	        <input  type="hidden"    name="<?php  echo "demande".$x; ?>" id="<?php echo "demande".$x; ?>" value="<?php echo $entry->id_detail_eli;?>"/>
+	   </div>
+	   
+	   <div align="center">		
+	        <input  type="checkbox" <?php if($entry->statut == 1) { ?>  <?php echo "disabled"; } ?>   name="<?php echo "rejeter".$x ;?>" id="<?php echo "rejeter".$x; ?>" value="0" onclick="if(document.getElementById('<?php echo "rejeter".$x; ?>').checked)  {document.getElementById('<?php echo "confirmer".$x; ?>').disabled = true;} else {document.getElementById('<?php echo "confirmer".$x; ?>').disabled = false;}" /> REJETER 
+		</div>
+	</td>
+</tr>
+<?php
+$x++;
+$compteur++; 
+endforeach; 
+?>
+
+</tbody>
+</table>
+<input type="hidden" name="id_eli" id="id_eli" value="<?php echo $this->eli->id_eli;?>"/>
+<input type="hidden" name="compteur" value="<?php echo $compteur ?>"/>
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="submit" class="btn btn-primary" style="float:right;">Valider</button>
+</form>
+
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun détail enrégistré
+</div>
+<?php } ?>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

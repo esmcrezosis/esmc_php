@@ -1,0 +1,37 @@
+<div id="view-content" class="ui-widget">
+    
+    <div  class="cntError">
+        <?php
+           echo $this->message;
+        ?>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom:15px; padding-left: 5px;">
+        <h3>Impression de la facture</h3>
+    </div>
+    <div id="accordeon">
+        <h2><a href="#">Reçu de facturation</a></h2>
+        <div>
+            <form action="/eu-pdf-reglt/list" name="fm_pforma" method="POST" id="fm_reglt" target="_blank">
+            <table>
+                <tr>
+                    <td>Numero du reçu:</td><td><input value="<?php echo $this->data[0][1]; ?>" readonly="true" name="id_reglt"/></td>
+                    <td>Numero de la facture</td><td><input  value="<?php echo $this->data[0][2]; ?>" disabled="true"/></td>
+                </tr>
+                <tr>
+                    <td>Montant à payer</td><td><input  value="<?php echo $this->data[0][3]; ?>" disabled="true"/></td>
+                    <td>Date de la facture</td><td><input value="<?php echo $this->data[0][4]; ?>" disabled="true"/></td>
+                </tr>    
+            </table>
+            <br>
+            <table style="margin-left: 310px">
+                   <tr><td><input type="submit" id="valide" value="Imprimer"></td></tr>
+            </table>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function() {
+            $("#accordeon").accordion();
+        });
+    </script>
+</div>   

@@ -1,0 +1,147 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+
+<script type="text/javascript">
+    function calculmontant() {
+
+     if((document.getElementById('type_activation1').checked) && (document.getElementById('produit').value == "PO"))  {
+         document.getElementById('mont_bc').value = Math.floor((document.getElementById('mont_msbcm').value / document.getElementById('bnpmpo').value));
+         document.getElementById('conus').style.display = 'block';
+	 if(document.getElementById('mont_bc').value > 3125) {
+	   document.getElementById('mont_conus').value = document.getElementById('mont_bc').value - 3125;
+	 } else {
+            document.getElementById('mont_conus').value = 0;
+	   //document.getElementById('mont_bc').value = 0;
+         }
+
+     } else if((document.getElementById('type_activation2').checked) && (document.getElementById('produit').value == "PO")) {
+         document.getElementById('mont_bc').value = Math.floor((document.getElementById('mont_msbcm').value / document.getElementById('bnpmpo').value));
+         	 
+     } else if((document.getElementById('type_activation1').checked) && (document.getElementById('produit').value == "PS")) {
+         document.getElementById('mont_bc').value = Math.floor((document.getElementById('mont_msbcm').value / document.getElementById('bnpmpsfs').value));
+         document.getElementById('conus').style.display = 'block';
+	 if(document.getElementById('mont_bc').value > 3125) {
+           document.getElementById('mont_conus').value = document.getElementById('mont_bc').value - 3125;
+	 } else {
+           document.getElementById('mont_conus').value = 0;
+	   //document.getElementById('mont_bc').value = 0;
+         }
+     }
+     else if((document.getElementById('type_activation2').checked) && (document.getElementById('produit').value == "PS")) {
+         document.getElementById('mont_bc').value = Math.floor((document.getElementById('mont_msbcm').value / document.getElementById('bnpmps').value));
+         
+      }
+	
+     }
+	
+    function annuler() {
+       document.getElementById('produit').value = "";
+       document.getElementById('mont_bc').value = "";
+       document.getElementById('type_activation1').checked = true;
+       document.getElementById('conus').style.display = 'none';
+    }
+
+    function annulation1() {
+       document.getElementById('produit').value = "";
+       document.getElementById('mont_bc').value = "";
+    }
+
+    function annulation2() {
+       document.getElementById('produit').value = "";
+       document.getElementById('mont_bc').value = "";
+       document.getElementById('conus').style.display = 'none';	  
+    }   
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p>Calcul du Montant du Bon de Consommation (BC) de la Souscription Marchande au Bon de Consommation (BC) pour Tiers</p></blockquote>
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+  
+<blockquote></blockquote>
+<form  action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="" name="">
+<fieldset>
+<legend>Montant du Bon de Consommation (BC) de la Souscription Marchande au Bon de Consommation (BC) pour Tiers</legend>
+
+<div class="control-group">
+<label class="control-label" for="mont_bc">Montant de Souscription *</label>
+<div class="controls">
+<input type="text" name="mont_msbcm" id="mont_msbcm" placeholder="Montant de Souscription au Bon de Consommation " class="input-xxlarge" onblur="annuler();"  required="required" />
+</div>
+</div>
+<br/><br/>
+<div class="control-group" id="type">
+     <label class="control-label"></label>
+	 <div class="controls">
+         <input type="radio" checked="checked"  name="type_activation" id="type_activation1" value="avecfs"  onclick="annulation1()" />
+	 AVEC FS &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+	 <input type="radio"  name="type_activation" id="type_activation2" value="sansfs" onclick="annulation2()" />
+         SANS FS			 
+		   
+		  
+     </div>
+</div>
+<br/><br/>
+
+<div class="control-group">
+<label class="control-label" for="id_prk">Produit à souscrire * </label>
+<div class="controls">
+     <select name="produit" id="produit" class="input-xxlarge" required="required" onchange="calculmontant();">
+     <option value="">Choisir un produit </option>
+     <?php foreach ($this->produits as $produit) { ?>
+           <option value="<?php echo $produit->type_produit; ?>"> <?php echo $produit->lib_type_credit;?> </option>
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+<br/><br/>
+
+<div class="control-group">
+<label class="control-label" for="mont_msbcr">Montant du Bon de Consommation *</label>
+<div class="controls">
+<input  type="text" name="mont_bc" id="mont_bc" placeholder="Montant du Bon de Consommation" class="input-xxlarge" readonly="true" />
+<input  type="hidden"  name="bnpmpo"  id="bnpmpo"  placeholder="bnpmpo"  readonly="true"  value="<?php echo $this->bnpmpo; ?>"   /> 
+<input  type="hidden"  name="bnpmps"  id="bnpmps"  placeholder="bnpmps"  readonly="true"  value="<?php echo $this->bnpmps; ?>"   />
+<input  type="hidden"  name="bnpmpsfs"  id="bnpmpsfs"  placeholder="bnpmpsfs"  readonly="true"  value="<?php echo $this->bnpmpsfs; ?>" />
+</div>
+</div>
+
+<div class="control-group" id="conus" style="display:none">
+<label class="control-label" for="mont_msbcr">Montant du Bon de Consommation Second *</label>
+<div class="controls">
+<input  type="text" name="mont_conus" id="mont_conus" placeholder="Montant du Bon de Consommation Second" class="input-xxlarge" readonly="true" />
+<span class="help-block"><p class="text-error">Montant du Bon de Consommation du Bénéficiaire sur 22.4 périodes après déduction des frais de solvabilité</p></span>
+</div>
+</div>
+</fieldset>
+
+<div class="form-actions">
+<button type="reset" class="btn">Annuler</button>
+</div>
+  
+</form>
+</div>
+
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php /*?><?php */?>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+

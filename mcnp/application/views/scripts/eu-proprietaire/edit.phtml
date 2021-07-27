@@ -1,0 +1,93 @@
+<div id="view-content" style="font-size: 12px;min-height: 520px;" title="">
+     <div class="ui-widget-header ui-corner-top" style="height: 30px;padding-bottom: 5px; padding-left: 10px;">
+         <h3>Modifier les informations du propri&eacute;taire d'immeubles</h3>
+    </div>
+     <div class="ui-widget-content ui-corner-bottom" style="height: 500px;">
+        <form id="fm_proprio" method="Post" action="/eu-proprietaire/modifier">
+            <table style="margin-left:auto;margin-right: auto;margin-top: 40px;" id="tab_proprietaire">
+                <tbody>
+                    <tr><td>Code Membre        : </td>  
+                        <td>
+                            <input type="hidden" name="id_proprio" value="<?php echo $this->id_proprio ; ?>">
+                            <input id="code_membre" type="text" name="code_membre" value="<?php echo $this->code_membre; ?>" required="true" style="width: 170px;"/>
+                        
+                        </td></tr>
+                    
+                    <tr><td heigth="10"></td></tr>
+                    
+                    <tr><td>Nom et Prénoms     : </td><td><input id="nom_membre" type="text" name="nom_membre" value="<?php echo $this->nom_membre; ?>" style="width: 200px;" readonly="readonly"/></td></tr>
+                    <tr><td heigth="10"></td></tr>
+                    <tr>
+                        <td>Nombre d'immeubles :</td><td><input id="nbre" type="text" name="nbre" value="<?php echo $this->nbre; ?>" style="width: 120px; text-align:right;" class="validate[required,custom[onlyNumberSp]]"/></td>
+                    </tr>
+                    
+                    <tr><td heigth="10"></td></tr>
+                    
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" id="val" value="Modifier" />
+                            <input type="reset" id="reset" value="Annuler" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+     </div>
+</div>
+<script>
+  $(document).ready(function () {
+      
+      $('#val').button();
+      $('#reset').button();
+      
+      $.get( "/eu-proprietaire/membre",
+      function success(data)
+      {
+        $("#code_membre").autocomplete({"source":data});
+      }); 
+        
+      $('#code_membre').blur(function(e)
+      {
+           if($(this).val() !== '')
+           {
+             $.get(
+                  '/eu-proprietaire/recupnom',
+             {
+                        num_membre: $(this).val()
+             },
+             function success(data)
+             {
+               $("#nom_membre").val(data);
+             });
+           }
+               e.preventDefault();
+      });
+   
+   $('form#fm_proprio').submit(function(e){
+            $.ajax({
+                url: $('form').attr("action"),
+                data: $('form').serialize(),
+                type: 'post',
+                success: processServerResponse
+            });
+            e.preventDefault();
+        });
+        function processServerResponse(data) {
+            if(data === true) {
+                alert('La modification a été effectuée avec succès ');
+                $(location).attr("href", "/eu-proprietaire/index");
+            }
+            else {
+                $('#message').html(data);
+            }
+        };
+        $("#fm_proprio").validationEngine();
+   
+   
+        $(function() {
+         $('#view-content').puipanel();
+        });
+           
+   })
+</script>    

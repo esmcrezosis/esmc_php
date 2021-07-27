@@ -1,0 +1,98 @@
+<div id="view-content" title="Vue détaillée du FGFN et GCP PBF" style="font-size: 12px;min-height: 520px;">
+    <form id="gcp_form" method="POST" action="/eu-consommation/consult">
+        <table style="margin-left: 80px;">
+            <thead/>
+            <tbody>
+                <tr>
+                    <td><label style="text-align: right">Date</label></td>
+                    <td><input id="date_fg" name="date_fg" type="text" /></td>
+                </tr>
+                <tr>
+                    <td><label style="text-align: right">Membre</label></td>
+                    <td><input type="text" id="membre_fg" name="membre_fg" value="" size="30"/></td>
+                </tr>
+                <tr>
+                    <td><label style="text-align: right" for="raison_soc">Raison sociale :</label></td><td><input size="30" type="text" id="raison_soc" name="raison_soc" value="<?php echo $this->raison_soc ?>" readonly="true"/></td>
+                </tr>
+                <tr>
+                    <td><label style="text-align: right" for="e_membre">Nom Représentant :</label></td>
+                    <td><input size="30" type="text" id="nom_rep" name="nom_rep" value="<?php echo $this->nom_rep ?>" readonly="true"/>
+                        <input size="30" type="text" id="prenom_rep" name="prenom_rep" value="<?php echo $this->prenom_rep ?>" readonly="true"/></td>
+                </tr>
+                <tr>
+                    <td></td><td><input type="submit" id="val_fg" value="valider"/><input type="reset" id="reset_gcp" value="Annuler"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <table id="tbl_fg"></table>
+</div>
+<script type="text/javascript">
+    $("#tbl_fg").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Membre PBF', 'Code CAPA', 'Membre', 'Compte', 'CAPA', 'Code', 'Date', 'Montant', 'Montant prelevé', 'Reste'],
+        height: 310, width: 815,
+        colModel: [
+            {name: 'code_membre_pbf', index: 'code_membre_pbf', width: 150, align: "left", editable: false, hidden: true},
+            {name: 'code_capa', index: 'code_capa', width: 100, editable: false, align: "left", hidden: true},
+            {name: 'code_membre', index: 'code_membre', width: 180, align: "left", editable: false},
+            {name: 'code_produit', index: 'code_produit', width: 80, align: "left", editable: false},
+            {name: 'montant_capa', index: 'montant_capa', width: 120, align: "left", editable: false},
+            {name: 'id_fgfn', index: 'id_fgfn', width: 150, editable: false, align: "left", hidden: true},
+            {name: 'date', index: 'date', sorttype: 'date', formatter: 'date', formatoptions: {newformat: 'd-M-Y'}, datefmt: 'd-M-Y', width: 90, editable: false, align: "left"},
+            {name: 'mont_fgfn', index: 'mont_fgfn', width: 120, editable: false, align:"right", sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'mont_preleve', index: 'mont_preleve', width: 120, editable: false, align:"right", sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'solde_fgfn', index: 'solde_fgfn', width: 120, editable: false, align:"right", sorttype: "float", formatter: "number", summaryType: 'sum'}
+        ],
+        rowNum: 50000,
+        rownumbers: true,
+        sortname: "date",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Vue du FGFN par Banque",
+        grouping: true, groupingView: {groupField: ['code_membre_pbf'], groupColumnShow: [false], groupCollapse: false, groupOrder: ['asc', 'asc'], groupSummary: [true, true]}
+    });
+    jQuery("#tbl_fg").jqGrid('setGroupHeaders', {useColSpanStyle: false, groupHeaders: [{startColumnName: 'code_capa', numberOfColumns: 4, titleText: 'CAPA'}, {startColumnName: 'id_fgfn', numberOfColumns: 5, titleText: 'FGFN'}]});
+    $(document).ready(function() {
+        $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+            var pickerOpts = {
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                selectOtherMonths: true,
+                showButtonPanel: true
+            };
+            $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+            $("#date_fg").datepicker(pickerOpts);
+        });
+        $('#val_fg').click(function(e)
+        {
+            jQuery("#tbl_fg").jqGrid('setGridParam', {url: "/eu-source/datafgfn?date=" + $('#date_fg').val() + "&membre=" + $('#membre_fg').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+        $.get("/eu-source/membre", {type: 'M'},
+        function success(data)
+        {
+            $('#membre_fg').autocomplete({"source": data});
+        });
+        $('#membre_fg').blur(function(e) {
+            $.get("/eu-source/recupnom",
+                    {num_membre: $(this).val()},
+            function success(data)
+            {
+                if (data !== false) {
+                    $("#nom_rep").val(data[0]);
+                    $("#prenom_rep").val(data[1]);
+                    $("#raison_soc").val(data[2]);
+                } else {
+                    $("#id_message").html('Ce membre n\'existe pas !!!');
+                }
+            });
+            e.preventDefault();
+        });
+    });
+</script>

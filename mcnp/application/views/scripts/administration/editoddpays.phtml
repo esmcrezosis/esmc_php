@@ -1,0 +1,96 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?> 
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification du pays ODD</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addpublicite">
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php } ?>
+  
+
+<div class="control-group">
+<label class="control-label" for="titre">Titre *</label>
+<div class="controls">
+<input type="text" name="titre" class="input-xxlarge" id="titre" placeholder="Titre"  value="<?php echo $this->oddpays->titre; ?>"  required />
+</div>
+</div>        
+
+<div class="control-group">
+<label class="control-label" for="resume">Résumé *</label>
+<div class="controls">
+  <textarea name="resume" class="input-xxlarge" id="resume" placeholder="Résumé" required><?php echo $this->oddpays->resume; ?></textarea>
+</div>
+</div>
+    
+    
+<div class="control-group">
+<label class="control-label" for="vignette"> Vignette </label>
+<div class="controls">
+<input name="vignette" type="file" id="vignette" class="input-xxlarge" />  
+</div>
+</div>
+   
+<div class="control-group">
+<label class="control-label" for="lien_publicite"> Url du pays ODD </label>
+<div class="controls">
+<div class="input-prepend">
+  <span class="add-on">http://</span>
+<input type="text" name="lien_oddpays" id="lien_oddpays" placeholder="Url du pays ODD" class="input-xxlarge" value="<?php echo $this->oddpays->liendirect; ?>" >
+</div>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="description">Description </label>
+<div class="controls">
+<textarea name="description" id="description" placeholder="Description" class="ckeditor"> <?php echo $this->oddpays->description; ?> </textarea>
+</div>
+</div>
+   
+<div class="control-group">
+<label class="control-label" for="id_pays">Pays </label>
+<div class="controls">
+<?php 
+$pays = new Application_Model_EuPaysMapper();
+$entries = $pays->fetchAll();
+if(count($entries) > 0){?>
+<select id="id_pays" name="id_pays">
+  <option value="0">Choisir le pays</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->id_pays; ?>" <?php if($this->oddpays->id_pays == $value->id_pays){?> selected="selected"<?php }?>><?php echo $value->libelle_pays; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+
+
+<div class="form-actions">
+<input name="id_odd_pays" type="hidden" id="id_odd_pays" value="<?php echo $this->oddpays->id_odd_pays; ?>" />  
+<input name="vignette_old" type="hidden" id="vignette_old" value="<?php echo $this->oddpays->vignette; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier le pays ODD</button>
+</div>                           
+  
+</form>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

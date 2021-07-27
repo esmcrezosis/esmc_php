@@ -1,0 +1,127 @@
+﻿<div id="view-content" style="margin-bottom: 3px; width: 827px;font-size:11px" class="ui-widget-content ui-corner-all">
+     <div style="margin-bottom: 3px; width: 800px">
+          <fieldset>
+              <legend style=" font-weight:bold">Recherche</legend>
+              <h5>
+                  Ancien code membre<input type="text" id="code_membre" name="code_membre" size="25"/>
+                  Nom <input type="text" id="nom" name="nom" />
+                  Prénom <input type="text" id="prenom" name="prenom" />
+                  <input id="ok" type="button" value="Ok" />
+              </h5> 
+              
+          </fieldset>
+     </div>
+     <div style="margin-bottom: 3px;">
+         <input id="ncm" type="button" value="Nouveau CM" class="ui-widget button"/>
+     </div>
+     <table id="tbl-physique"></table>
+     <div id="pg-physique"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-physique").jqGrid({
+        url:"",
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Numero','Nom','Prenom','Sexe','Profession','Telephone','Ville','','','','','','','','','','','','',''],
+        height:410,width:827,
+        colModel:[
+           {name:'ancien_code_membre',index:'ancien_code_membre', width:180, sorttype:"int", editable: true,align:"left"},
+           {name:'nom_membre',index:'nom_membre', width: 220, editable: true,align:"left"},
+           {name:'prenom_membre',index:'prenom_membre', width: 250, align:"left", editable: true},
+           {name:'sexe_membre',index:'sexe_membre', width: 70, editable: true,align:"left"},
+           {name:'profession_membre',index:'profession_membre', width: 170, align:"left", editable: true},
+           {name:'tel_membre',index:'tel_membre', width: 150, align:"left", editable: true},
+           {name:'ville_membre',index:'ville_membre', width: 150, align:"left", editable: true},
+           {name:'pere_membre',index:'pere_membre', width: 150, align:"left", editable: true,hidden:true},
+           {name:'mere_membre',index:'mere_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'quartier_membre',index:'quartier_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'bp_membre',index:'bp_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'nbr_enf_membre',index:'nbr_enf_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'email_membre',index:'email_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'portable_membre',index:'portable_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'formation',index:'formation', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'lieu_nais_membre',index:'lieu_nais_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'date_nais_membre',index:'date_nais_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'sitfam_membre',index:'sitfam_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'id_pays',index:'id_pays', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'id_religion',index:'id_religion', width: 150, align:"left", editable: true,hidden:true}
+                 
+        ],
+        rowNum:100000,
+        rowList:[100000,300000,500000],
+        pager: '#pg-physique',
+        sortname:"ancien_code_membre",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Membres Physiques MCNP"
+    });
+    $("#tbl-physique").jqGrid('navGrid','#pg-physique',{edit:false,add:false,del:false,search:false});
+   
+   
+    $(function() {
+      $('#view-content').puipanel();
+	  $('fieldset').puifieldset();
+    });
+   
+   
+    $.get( "/eu-membre-ancien/changep",
+        function success(data){
+        $("input#code_membre").autocomplete({"source":data}); 
+	}); 
+    
+	$('#ok').click(function() {
+        code_membre=$('#code_membre').val();
+	    nom=$('#nom').val();
+	    prenom=$('#prenom').val();             
+        jQuery("#tbl-physique").jqGrid('setGridParam',{url:"/eu-membre-ancien/datapmcnp?code_membre="+code_membre+"&nom="+nom+"&prenom="+prenom}).trigger('reloadGrid');
+	});
+	
+	 
+    $('#m_detail').click(function(){
+        var rowsel;
+        rowsel = jQuery("#tbl-morale").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-membre-ancien/mdetail',{
+                membre:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }
+        else {
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+	
+    $('#ncm').click(function(){
+        var rowsel;
+        rowsel = jQuery("#tbl-physique").jqGrid('getGridParam','selrow');
+        if(rowsel) { 
+            $.get('/eu-membre-ancien/cmpmcnp',{
+              code:rowsel
+            },function success(data) {
+              if(data == 1) {
+	             alert("Ce membre a déjà son nouveau code de membre"); 
+            }
+            else {
+                 seldata = jQuery("#tbl-physique").jqGrid('getRowData',rowsel);
+                 $.get('/eu-membre-ancien/ncmpmcnp',{            ancien_code_membre:seldata.ancien_code_membre,nom_membre:seldata.nom_membre,prenom_membre:seldata.prenom_membre,sexe_membre:seldata.sexe_membre,datenais:seldata.date_nais_membre,sitfam_membre:seldata.sitfam_membre,
+              profession_membre:seldata.profession_membre,tel_membre:seldata.tel_membre,ville_membre:seldata.ville_membre,pere_membre:seldata.pere_membre,mere_membre:seldata.mere_membre,quartier_membre:seldata.quartier_membre,bp_membre:seldata.bp_membre,nbr_enf_membre:seldata.nbr_enf_membre,email_membre:seldata.email_membre,portable_membre:seldata.portable_membre,formation:seldata.formation,lieu_nais_membre:seldata.lieu_nais_membre ,date_nais_membre:seldata.date_nais_membre,id_pays:seldata.id_pays,id_religion:seldata.id_religion },
+            function success(data) {
+              $("#content").html(data);
+            });
+            };
+          }) 
+        }
+        else {
+            alert('Aucune ligne sélectionnée');
+        }  
+    });
+    
+    $('#ncm').button();
+    $('#ok').button()
+   
+</script>

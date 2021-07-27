@@ -1,0 +1,99 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Modifier un TDR</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="edittdr">
+  <?php if(isset($sessionmembre->error) && $sessionmembre->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->error; $sessionmembre->error = "";?>
+    </div>
+  <?php }?>
+   
+
+<div class="control-group">
+<label class="control-label" for="id_filiere">Filière * </label>
+<div class="controls">
+<?php 
+$filiere_m = new Application_Model_EuFiliereMapper();
+$filiere = $filiere_m->fetchAll();
+if(count($filiere) > 0){?>
+<select name="id_filiere" id="id_filiere" required >
+<option value="">Choisir la filière </option>
+<?php foreach ($filiere as $value) { ?>
+<option value="<?php echo $value->id_filiere; ?>" <?php if($this->tdr->id_filiere == $value->id_filiere){?> selected="selected"<?php }?>><?php echo $value->nom_filiere;?></option>
+<?php } ?>
+</select>
+<?php } ?>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="libelle">Libellé du TDR *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="libelle" id="libelle" placeholder="Libellé du TDR" value="<?php echo $this->tdr->libelle;?>" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="description">Description * </label>
+<div class="controls">
+<textarea name="description" id="description" placeholder="Description" class="ckeditor" required><?php echo $this->tdr->description;?></textarea>
+</div>
+</div>
+   
+<div class="control-group">
+<label class="control-label" for="fichier">Document du TDR *</label>
+<div class="controls">
+<input name="fichier" type="file" id="fichier" class="input-xxlarge"   />
+</div>
+</div>
+
+    
+<?php /*?><div class="control-group">
+<label class="control-label" for="code_membre">Code Membre Fournisseur </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="code_membre" id="code_membre" placeholder="Code Membre Fournisseur">
+</div>
+</div><?php */?>
+
+
+
+
+<div class="form-actions">
+<input name="fichierold" type="hidden" id="fichierold" value="<?php echo $this->tdr->fichier; ?>" />  
+<input name="id_tdr" type="hidden" id="id_tdr" value="<?php echo $this->tdr->id_tdr; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier le TDR</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

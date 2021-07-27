@@ -1,0 +1,132 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+  <div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Details d'un detail d'une fiche de stock</p></blockquote>
+  
+    
+  
+
+<div class="control-group">
+<label class="control-label" for="id_fiche_stock">Fiche Stock * </label>
+<div class="controls">
+<?php if($this->fiche_stock->id_fiche_stock > 0){
+        $fiche_stock = new Application_Model_EuFicheStock();
+        $fiche_stockM = new Application_Model_EuFicheStockMapper();
+        $fiche_stockM->find($this->fiche_stock->id_fiche_stock, $fiche_stock);
+        echo $fiche_stock->nom_article;
+      }
+?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="reference_article_fiche_stock">Reference Article *</label>
+<div class="controls">
+<?php echo $this->fiche_stock->reference_article_fiche_stock; ?>
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="entree_qte_article">Entrée Quantité  </label>
+<div class="controls">
+<?php echo $this->fiche_stock->entree_qte_article; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="entree_prix_unitaire">Entrée Prix Unitaire  </label>
+<div class="controls">
+<?php echo $this->fiche_stock->entree_prix_unitaire; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="entree_valeur">Entrée Valeur </label>
+<div class="controls">
+<?php echo $this->fiche_stock->entree_valeur; ?>
+</div>
+</div>
+  
+
+<div class="control-group">
+<label class="control-label" for="sortie_qte_article">Sortie Quantité  </label>
+<div class="controls">
+<?php echo $this->fiche_stock->sortie_qte_article; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="sortie_prix_unitaire">Sortie Prix Unitaire  </label>
+<div class="controls">
+<?php echo $this->fiche_stock->sortie_prix_unitaire; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="sortie_valeur">Sortie Valeur </label>
+<div class="controls">
+<?php echo $this->fiche_stock->sortie_valeur; ?>
+</div>
+</div>
+  
+
+
+<div class="control-group">
+<label class="control-label" for="stocks_qte_article">Stocks Quantité  </label>
+<div class="controls">
+<?php echo $this->fiche_stock->stocks_qte_article; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="stocks_prix_unitaire">Stocks Prix Unitaire  </label>
+<div class="controls">
+<?php echo $this->fiche_stock->stocks_prix_unitaire; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="stocks_valeur">Stocks Valeur </label>
+<div class="controls">
+<?php echo $this->fiche_stock->stocks_valeur; ?>
+</div>
+</div>
+  
+    
+<div class="control-group">
+<label class="control-label" for="date_article">Date </label>
+<div class="controls">
+<?php echo $this->fiche_stock->date_article; ?>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

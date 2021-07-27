@@ -1,0 +1,90 @@
+<div id="view-content" title="Vue des ventes des titres MF11000 effectu&eacute;es " style="font-size: 12px"> 
+     <div id="tab_gcp" style="padding: 1px;">
+	 <ul>
+             <li><a href="#tab_gcp_detail">D&eacute;tail </a></li>
+             <li><a href="#tab_gcp_solde">Solde</a></li>
+         </ul>
+     <div id="tab_gcp_solde" style="padding: 1px;">
+	  <table border="1" width="450" style="margin-top: 2px;margin-bottom: 2px;margin-right: auto;margin-left: auto ">
+                 <thead>
+                            <th colspan="2"><label style="text-align: center;width: 280px;">Voici la situation de votre compte</label></th>
+                 </thead>
+                 <tbody>
+                        <tr>
+                            <td><label>Solde</label></td>
+                            <td style="text-align: right"><label><?php echo $this->solde; ?></label></td>
+                        </tr>
+                 </tbody>
+          </table>		   
+          <table id="tab_tpagcp"></table>
+     </div>   
+     <div id="tab_gcp_detail" style="padding: 1px;">
+          <div id="tab_detail" style="padding: 1px;">
+	       <ul>
+                  <li><a href="#detail_vente">Les ventes</a></li>
+               </ul>
+	       <div id="detail_vente" style="padding: 2px;">
+                    <form id="gcp_form" method="POST" action="/eu-reglement-mf11000/consult">
+                         <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+                            <tr align="center">
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                         </table>
+                    </form>
+                    <table id="tbl-gcp"></table>
+                    <div id="pg-gcp"></div>
+               </div>	   
+	       </div>
+	       </div>
+ </div>
+ </div>
+<script type="text/javascript">
+	$("#tbl-gcp").jqGrid({
+        url: '/eu-reglement-mf11000/consult',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Date', 'Compte distributeur', 'Montant','Portable', 'Motif'],
+        height: 420, width: 800,
+        colModel: [
+            {name: 'date', index: 'date', width: 180, sorttype:'date',summaryType:'count', summaryTpl : '({0}) total'},
+            {name: 'fromaccount', index: 'fromaccount', width: 230, align: "left", editable: false},
+            {name: 'creditamount', index: 'creditamount', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+            {name: 'sentto', index: 'sentto', width: 120, align: "left", editable: false,},
+            {name: 'motif', index: 'motif', width: 100, align: "right", editable: false}
+        ],
+        rowNum: 1000000,
+        rowList: [1000000, 2000000, 3000000],
+        rownumbers: true,
+        pager: '#pg-gcp',
+        sortname: "NEng",
+        viewrecords: true,
+        sortorder: "ASC",
+        grouping: true, 
+        //groupingView : { groupField : ['date_conso'], groupColumnShow : [true], groupText : ['<b>{0}</b>'], groupCollapse : false, groupOrder: ['asc'], groupSummary : [true], groupDataSorted : true }, footerrow: true, userDataOnFooter: true,
+        caption: "Compte MF11000",
+		footerrow: true,
+        userDataOnFooter: true,
+    });
+    $("#tbl-gcp").jqGrid('navGrid', '#pg-gcp', {edit: false, add: false, del: false, search: true}); 
+	
+    $(document).ready(function()
+    {
+        
+        $("#tab_gcp").tabs();
+        $("#tab_detail").tabs();
+        $('#view-content').puipanel();
+        $('#prelev_field').puifieldset();
+        
+        $('#val_gcp').click(function(e)
+        {
+          jQuery("#tbl-gcp").jqGrid('setGridParam', {url: "/eu-reglement-mf11000/consult"}).trigger('reloadGrid');
+          e.preventDefault();
+        }); 
+    })
+	
+</script>
+     

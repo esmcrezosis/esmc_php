@@ -1,0 +1,102 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+  <div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Details d'un detail d'un bon d'entree de stock</p></blockquote>
+  
+    
+  
+
+
+<div class="control-group">
+<label class="control-label" for="id_bon_entree_stock">Bon d'entree de stock * </label>
+<div class="controls">
+<?php if($this->bon_entree_stock->id_bon_entree_stock > 0){
+        $bon_entree_stock = new Application_Model_EuBonEntreeStock();
+        $bon_entree_stockM = new Application_Model_EuBonEntreeStockMapper();
+        $bon_entree_stockM->find($this->bon_entree_stock->id_bon_entree_stock, $bon_entree_stock);
+        echo $bon_entree_stock->libelle_bon_entree_stock;
+      }
+?>
+</div>
+</div>
+
+
+
+
+<div class="control-group">
+<label class="control-label" for="reference_articles">Reference Article *</label>
+<div class="controls">
+<?php echo $this->bon_entree_stock->reference_articles; ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="designation_articles">Designation Article *</label>
+<div class="controls">
+<?php echo $this->bon_entree_stock->designation_articles; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="unite_comptage">Unite de comptage  </label>
+<div class="controls">
+<?php echo $this->bon_entree_stock->unite_comptage; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="quantite">Quantite  </label>
+<div class="controls">
+<?php echo $this->bon_entree_stock->quantite; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="prix_unitaire">Prix Unitaire  </label>
+<div class="controls">
+<?php echo $this->bon_entree_stock->prix_unitaire; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="montant">Montant </label>
+<div class="controls">
+<?php echo $this->bon_entree_stock->montant; ?>
+</div>
+</div>
+  
+
+<div class="control-group">
+<label class="control-label" for="observations">Observations  </label>
+<div class="controls">
+<?php echo $this->bon_entree_stock->observations; ?>
+</div>
+</div>
+
+  
+
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

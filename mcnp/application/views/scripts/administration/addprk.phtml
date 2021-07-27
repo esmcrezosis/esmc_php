@@ -1,0 +1,69 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p>Ajout de produits au Terminal d'Echange(TE)  <?php echo $this->tegc->nom_tegc; ?> </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="update">
+      <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin!="") { ?>
+      <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+      </div>
+      <?php } ?>
+
+        <?php if(isset($this->error) && $this->error!="") { ?>
+        <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <?php echo $this->error; ?>
+        </div>
+        <?php } ?>	  
+	  	  
+
+		<div class="control-group">
+        <label class="control-label">Produit *</label>
+        <div class="controls">
+	       <select name="id_prk[]" id="id_prk" multiple="multiple"  class="input-xxlarge" required="required">
+              <?php 
+			      foreach ($this->typeprks as $value) { 
+			        //foreach ($this->prks as $prk) {  
+			          //if($prk->code_type_credit != $value->code_type_credit) {
+			  ?>
+              <option value="<?php echo $value->code_type_credit; ?>"> <?php echo utf8_encode($value->lib_type_credit);?> </option>
+               <?php } //}} ?>
+           </select>
+		   <input type="hidden" name="code_tegc" id="code_tegc" value="<?php if(isset($this->tegc)) echo $this->tegc->code_tegc;?>">
+	    </div>
+	    </div>  
+		  
+		<!--
+        <div class="control-group">
+        <label class="control-label">PRK </label>
+        <div class="controls">
+	        <?php //$x = 1;$compteur = 0; ?>
+	        <?php //foreach ($this->typeprks as $value) : 
+			        //foreach ($this->prks as $prk) {
+					    //if($prk->valeur != $value->valeur_prk) {
+			?>
+	        <input type="checkbox" name="<?php //echo "prk".$x ?>" id="<?php //echo "prk".$x ?>" value="<?php //echo $value->valeur_prk; ?>" <?php //if($this->prks != false) {foreach ($this->prks as $prk) { if($prk->valeur == $value->valeur_prk) { echo 'checked="checked"';} }} ?>/>
+		    <?php //echo $value->valeur_prk; ?> &nbsp;&nbsp;
+	        <?php //} } $x++;$compteur++;endforeach; ?>
+			<input type="hidden" name="code_tegc" id="code_tegc" value="<?php //if(isset($this->tegc)) echo $this->tegc->code_tegc;?>">
+        </div>
+        </div>
+		-->
+
+        <div class="form-actions">
+        <input name="ok" type="hidden" id="ok" value="ok" />
+        <!--<input type="hidden" name="compteur" value="<?php //echo $compteur ?>"/>-->
+        <button type="reset" class="btn">Annuler</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>	  
+	  
+</form>
+</div>
+</div>
+</div>

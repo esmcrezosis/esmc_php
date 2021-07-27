@@ -1,0 +1,113 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px; width: 800px">
+            <fieldset>
+                <legend style=" font-weight:bold">Recherche</legend>
+                <h5>
+				    Date inscription <input type="text" id="date_ins" name="date_ins"/>
+                    Nom    <input type="text" id="nom" name="nom" />
+                    Prenom <input type="text" id="prenom" name="prenom"/>
+                           <input id="ok" type="button" value="Ok"/>
+                </h5> 
+              
+            </fieldset>
+    </div>
+    <div style="margin-bottom: 3px;">
+         <input id="ncm" type="button" value="Activer CM" class="ui-widget button"/>
+    </div>
+    <table id="tbl-physique"></table>
+    <div id="pg-physique"></div>
+</div>
+
+<script type="text/javascript">
+	$("#tbl-physique").jqGrid({
+        url: "/eu-preinscription/data",
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Numero','Nom','Prenom','Sexe','Profession','Telephone','Ville','','','','','','','','','','','','','','','',''],
+        height:410,width:827,
+        colModel:[
+           {name:'id_preinscription',index:'id_preinscription', width:180, sorttype:"int", editable: true,align:"left"},
+           {name:'nom_membre',index:'nom_membre', width: 220, editable: true,align:"left"},
+           {name:'prenom_membre',index:'prenom_membre', width: 250, align:"left", editable: true},
+           {name:'sexe_membre',index:'sexe_membre', width: 70, editable: true,align:"left"},
+           {name:'profession_membre',index:'profession_membre', width: 170, align:"left", editable: true},
+           {name:'tel_membre',index:'tel_membre', width: 150, align:"left", editable: true},
+           {name:'ville_membre',index:'ville_membre', width: 150, align:"left", editable: true},
+           {name:'pere_membre',index:'pere_membre', width: 150, align:"left", editable: true,hidden:true},
+           {name:'mere_membre',index:'mere_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'quartier_membre',index:'quartier_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'bp_membre',index:'bp_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'nbr_enf_membre',index:'nbr_enf_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'email_membre',index:'email_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'portable_membre',index:'portable_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'formation',index:'formation', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'lieu_nais_membre',index:'lieu_nais_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'date_nais_membre',index:'date_nais_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'sitfam_membre',index:'sitfam_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'id_pays',index:'id_pays', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'id_religion',index:'id_religion', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'code_fs',index:'code_fs', width:30, editable: true,align:"left",hidden:true},
+		   {name:'code_fl',index:'code_fl', width:30, editable: true,align:"left",hidden:true},
+		   {name:'code_fkps',index:'code_fkps', width:30, editable: true,align:"left",hidden:true}         
+        ],
+        rowNum:100000,
+        rowList:[100000,300000,500000],
+        pager: '#pg-physique',
+        sortname:"id_preinscription",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Membres Physiques Pre-inscrits"
+    });
+    $("#tbl-physique").jqGrid('navGrid','#pg-physique',{edit:false,add:false,del:false,search:false});
+	
+    $(function() {
+     $('#view-content').puipanel();
+	 $('fieldset').puifieldset(); 
+	}); 
+	  
+	$(function() {    
+        var pickerOpts = {
+        dateFormat: "dd/mm/yy",
+        changeMonth:true,
+        changeYear:true,
+        showOtherMonths: true,
+		maxDate: $(this).datepicker('getDate')
+        };
+        $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+        $("#date_ins").datepicker(pickerOpts);
+    });
+		
+	$('#ok').click(function() {
+        date_ins = $('#date_ins').val();
+	    nom = $('#nom').val();
+	    prenom = $('#prenom').val();             
+        jQuery("#tbl-physique").jqGrid('setGridParam',{url:"/eu-preinscription/data?date_ins="+date_ins+"&nom="+nom+"&prenom="+prenom}).trigger('reloadGrid');
+	});
+		
+		$('#ncm').click(function() {
+        var rowsel;
+        rowsel = jQuery("#tbl-physique").jqGrid('getGridParam','selrow');
+        if(rowsel) { 
+            $.get('/eu-preinscription/ncmpp',{
+              code:rowsel
+            },function success(data) {
+              if(data == 1) {
+	            alert("Ce membre a déjà son nouveau code de membre"); 
+            }
+            else {
+            seldata = jQuery("#tbl-physique").jqGrid('getRowData',rowsel);
+            $.get('/eu-preinscription/ncmpp',{id_preinscription:seldata.id_preinscription,nom_membre:seldata.nom_membre,prenom_membre:seldata.prenom_membre,sexe_membre:seldata.sexe_membre,datenais:seldata.date_nais_membre,sitfam_membre:seldata.sitfam_membre,
+            profession_membre:seldata.profession_membre,tel_membre:seldata.tel_membre,ville_membre:seldata.ville_membre,pere_membre:seldata.pere_membre,mere_membre:seldata.mere_membre,quartier_membre:seldata.quartier_membre,bp_membre:seldata.bp_membre,nbr_enf_membre:seldata.nbr_enf_membre,email_membre:seldata.email_membre,portable_membre:seldata.portable_membre,formation:seldata.formation,lieu_nais_membre:seldata.lieu_nais_membre ,date_nais_membre:seldata.date_nais_membre,
+			id_pays:seldata.id_pays,id_religion:seldata.id_religion,code_fs:seldata.code_fs,code_fl:seldata.code_fl,code_fkps:seldata.code_fkps},
+            function success(data) {
+              $("#content").html(data);
+            });
+            };
+        }) 
+        }
+        else {
+            alert('Aucune ligne selectionnee');
+        }  
+        });  
+    	
+</script>

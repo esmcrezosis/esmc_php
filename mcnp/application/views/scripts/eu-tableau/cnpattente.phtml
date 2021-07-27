@@ -1,0 +1,44 @@
+<div id="view-content" title="<font color='blue'>CREANCES NUMERIQUES BLEUES</font>" style="font-size: 12px;min-height: 520px;font-family:Arial Black"">
+     <div id="tab_cnp">
+	      <ul>
+	        <li><a href="#tab_gcnrb" style="font-size:12px;font-family:Arial Black"><font color="blue">CNP</font></a></li>
+                
+	      </ul>
+	      <div style="padding: 1px;margin: 1px;">
+		   <div style="padding: 1px;margin: 1px;">
+		   <div id="tab_gcnrb" style="padding:1px;font-family:Arial Black">
+              <table border="1" width="450" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                         <thead>
+                              <th colspan="2"><label style="text-align: center;width: 280px;font-size:12px;font-family:Arial Black">Voici la situation des <font color="blue">CNP</font> en attentes</label></th>
+                         </thead>
+                         <tbody>
+                         <tr>
+                            <td><label>Solde</label></td>
+                            <td><label><?php echo number_format($this->solde_cnp,0,',',' '); ?></label></td>
+                         </tr>
+                      </tbody>
+              </table>
+              </div>
+		   </div>
+		 
+		   </div>
+	 </div>
+</div>
+<script>
+  $(document).ready(function() {
+      $(function() {
+      $('#view-content').puipanel();
+      $('fieldset').puifieldset();
+      $('#tab_cnp').puitabview();
+      var pickerOpts = {
+        dateFormat: "dd/mm/yy",
+        changeMonth: true,
+        changeYear: true,
+        selectOtherMonths: true,
+        showButtonPanel: true
+      };
+      $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+      $("#date_fg").datepicker(pickerOpts);
+  });		
+});		
+</script>

@@ -1,0 +1,118 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<script src="<?php echo $this->baseUrl();?>/activerproduit.js"></script>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+		
+  $(document).ready(function() {
+    $('#example').dataTable({
+       "sPaginationType": "full_numbers",
+       "aaSorting":[]
+    });
+  });
+  
+</script>
+        
+<script type="text/javascript">
+
+function checkAllInput(form,action) {
+   var i = document.forms[form].getElementsByTagName("input"); 
+   for(var cpt = 0; cpt < i.length; cpt++) { 
+      i[cpt].checked = (action)? true : false ;
+   }
+}
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p> Liste des Produits  </p></blockquote>
+  
+  <?php if(isset($sessionmembre->error) && $sessionmembre->error!="") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->error; $sessionmembre->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+<?php 
+
+if(count($this->entries) > 0)  { 
+?> 
+
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+	   <thead>
+			  <tr>
+				  <th>Date</th>
+				  <th>Libellé Produit</th>
+				  <th>Description</th>
+				  <th>Nom Terminal</th>
+				  <th>Action</th>				  
+			  </tr>
+	   </thead>
+<tbody>
+<?php 
+foreach($this->entries as $entry):
+ 
+//$membremoral = new Application_Model_EuMembreMorale();
+//$m_mapmoral = new Application_Model_EuMembreMoraleMapper();
+//$findmembre = $m_mapmoral->find($entry->code_membre,$membremoral);
+
+$tegc = new Application_Model_EuTegc();
+$m_tegc = new Application_Model_EuTegcMapper();
+$findte = $m_tegc->find($entry->code_tegc,$tegc);
+
+?>
+<tr>
+    <td> <?php echo datejourfr($entry->date_creation); ?> </td>
+    <td> <?php echo($entry->libelle_produit_fournisseur); ?></td>
+    <td> <?php echo($entry->desc_produit_fournisseur); ?></td>
+	<td> <?php echo($tegc->nom_tegc);?></td>
+	
+    <td>
+	    <div align="center">
+		     <a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/contratlivraison/editproduit/id/<?php echo $entry->id_produit_fournisseur; ?>"><i class="icon-info-sign icon-white"></i>MODIFIER</a>
+		</div>
+		
+		<div id="nivo<?php echo $entry->id_produit_fournisseur; ?>"><?php if($entry->activer == 1) { ?>
+             <a class="btn btn-mini btn-success" onclick="ouvre_produit('<?php echo $entry->id_produit_fournisseur; ?>_0', 'nivo<?php echo $entry->id_produit_fournisseur; ?>');"><i class="icon-ok icon-white"></i>Activé</a>&nbsp;
+             <?php  } else { ?>
+             <a class="btn btn-mini btn-warning" onclick="ouvre_produit('<?php echo $entry->id_produit_fournisseur; ?>_1', 'nivo<?php echo $entry->id_produit_fournisseur; ?>');"><i class="icon-off icon-white"></i> Désactivé</a>&nbsp;
+             <?php } ?>
+		</div>
+	</td>
+</tr>
+<?php 
+endforeach; 
+?>
+</tbody>
+</table>
+
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun Produit Enrégistré 
+</div>
+<?php } ?>
+
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+

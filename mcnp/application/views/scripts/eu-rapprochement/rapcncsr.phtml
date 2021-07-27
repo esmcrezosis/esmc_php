@@ -1,0 +1,74 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 10px; padding-left: 5px;">
+        <h3>Vue de la table de rapprochement</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form id="rappro_form" method="POST" action="/eu-rapprochement/datarapcncsr">
+            <table style="margin-left: 60px;">
+                <thead/>
+                <tbody>
+                    <tr>
+                        <td><label style="text-align: right">Source</label></td>
+                        <td style="text-align: left; width: 100px">
+                            <select name="type_gcnr" id="type_gcnr">
+                                <option value=""></option>
+                                <option value="SMC" style="color: red">SMC</option>
+                                <option value="CNP" style="color: blue">CNP</option>
+                            </select>
+                        </td>
+                        <td><label style="text-align: right; width: 100px">Rapprocher</label></td>
+                        <td>
+                            <select name="rappro" id="rapprocher">
+                                <option value=""></option>
+                                <option value="oui">Oui</option>
+                                <option value="non">Non</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td><td colspan="3"><input type="submit" id="val_rappro" value="valider"/><input type="reset" id="reset_rappro" value="Annuler"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <br/>
+        <table id="tbl_rappro"></table>
+        <div id="pg-smc"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#val_rappro').button();
+    $('#reset_rappro').button();
+    $("#tbl_rappro").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'datarapcncsr')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code crédit','Source','Code_ source','GCnr rouge','GCnr bleue','Solde'],
+        height:450, width:817,
+        colModel:[
+            {name:'source_credit',index:'source_credit', width: 200, editable: false,align:"left"},
+            {name:'source',index:'source', width: 50, editable: false,align:"left"},
+            {name:'source_credit',index:'source_credit', width: 50, editable: false,align:"left",hidden:true},
+            {name:'credit_rappro',index:'credit_rappro', width: 100, align:"right", editable: false,formatter:'number'},
+            {name:'debit_rappro',index:'debit_rappro', width: 100, align:"right", editable: false,formatter:'number'},
+            {name:'solde_rappro',index:'solde_rappro', width: 120, align:"right", editable: false,formatter:'number'}
+        ],
+        rowNum:100,
+        rowList:[100,200,500],
+        pager: '#pg-smc',
+        rownumbers:true,
+        sortname:"id_rappro",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des rapprochements CNCSr6/RPGnr"
+    });
+    $("#tbl_rappro").jqGrid('navGrid',{edit:false,add:false,del:false,search:false});
+    
+    $(document).ready(function(){
+        $('#val_rappro').click(function(e)
+        {
+            jQuery("#tbl_rappro").jqGrid('setGridParam',{url:"/eu-rapprochement/datarapcncsr?type_gcnr="+$('#type_gcnr').val()+"&rappro="+$('#rapprocher').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+    })
+</script>

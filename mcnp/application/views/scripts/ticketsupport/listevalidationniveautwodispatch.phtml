@@ -1,0 +1,91 @@
+<?php $sessionmembre = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<?php if(count($this->entries) > 0){?>
+	<blockquote><p>Liste des Tickets de Support à dispatcher</p></blockquote>
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example ticket_manage">
+   <thead>
+ 	<tr>
+ 		<th>Reference</th>
+		<th>Telecharger cette piece jointe</th>
+    <th>Section</th>
+		<th>Date de la Première signature</th>
+    <th>Action</th>
+ 	</tr>
+   </thead>
+   <tbody>
+   	 	<?php foreach ($this->entries as $key => $value): ?>
+        <tr class="success">
+        	<td ><?php echo $value->numero_demandeur; ?></td>
+					<td>
+						<?php if ($value->file_name != "true" && $value->file_name != null): ?>
+						  <a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/pdf_upload/<?php echo $value->file_name; ?>"><i class="icon-cog icon-white"></i> Telecharger la piece jointe de ce ticket</a>
+						<?php elseif($value->file_name == "true"): ?>
+						  <a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/ticketsupport/seealljointefile/id/<?php echo $value->id_ticket; ?>"><i class="icon-cog icon-white"></i> Afficher les pieces jointe</a>
+						<?php elseif($value->renseignement_id > 0): ?>
+						  <a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/ticketsupport/fileedit/id/<?php echo $value->renseignement_id; ?>"><i class="icon-cog icon-white"></i> Telecharger la piece jointe de ce ticket</a>
+						<?php else: ?>
+							<span>Aucune pièce jointe pour ce ticket</span>
+						<?php endif; ?>
+					</td>
+          <td id="comite_ticket_dispatch">
+
+          </td>
+					<?php
+							$month = array('01'=>'Janvier','02'=>'Février','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+							$true_month = "";
+
+							$ex_date = explode('-',$value->date_validation);
+
+							foreach ($month as $ky => $vad) {
+								if($ex_date[1] == $ky){
+									$true_month = $vad;
+								}
+							}
+							$next_ex_date = explode(' ', $ex_date[2]);
+
+							$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0]." à ".$next_ex_date[1];
+					 ?>
+					 <td>
+						 <?php echo $true_date; ?>
+
+					 </td>
+					 <td>
+					   <a class="btn btn-mini btn-primary " href="<?php echo $this->baseUrl(); ?>/ticketsupport/editticketdispatcheur/id/<?php echo $value->id_ticket ?>"><i class="icon-cog icon-white"></i> Lire ce ticket</a>
+					 </td>
+        </tr>
+
+ 	<?php endforeach ?>
+   </tbody>
+
+ </table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucun Ticket de Support n'a été encore enregistré
+</div>
+<?php }?>
+</div>
+</div>
+</div>

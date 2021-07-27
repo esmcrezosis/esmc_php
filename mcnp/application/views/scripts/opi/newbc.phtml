@@ -1,0 +1,132 @@
+﻿<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" charset="utf-8">		
+$(document).ready(function() {
+  $('#example').dataTable({
+     "sPaginationType": "full_numbers",
+     "aaSorting": []
+  });  
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+     <?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+     <blockquote><p class="text-info"> Bons de Commandes (BC) </p></blockquote><br/>
+	 
+	 <table class="table table-striped table-bordered table-hover table-condensed" id="exemple">
+	        <thead>
+			      <tr><th colspan="2"><div align="center"> Voici la situation du montant de vos Bons de Commandes cumulés </div></th></tr>
+	        </thead>
+			<tbody>
+                 <tr>
+				     <td><div align="right"><strong>Solde</strong></div></td>
+                     <td><div align="right"><strong><?php echo $this->solde; ?></strong></div></td>
+				 </tr>
+			</tbody>	 	
+	 </table>
+	 
+	 <!--
+	 <form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="opi">
+	       <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin!="") { ?>
+           <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+           </div>
+           <?php } ?>
+           <?php if(isset($this->message) && $this->message!="") { ?>
+           <div class="alert alert-error">
+                 <button type="button" class="close" data-dismiss="alert">&times;</button>
+                 <?php echo $this->message; ?>
+            </div>
+            <?php } ?>
+			
+			<legend>Bon de Commande (BC)</legend>
+			
+			<?php if($this->type_fournisseur == "utilisateur") {   ?>
+			<div class="control-group">
+			     <label class="control-label" for="mode_reglement"> Mode de payement *</label>
+				 <div class="controls">
+				      <select name="mode_reglement" id="mode_reglement" required>
+					     <option value="">Choisir le mode de payement</option>
+						 <option value="SALAIRE">Salaire</option>
+						 <option value="REAPPRO">Réapprovisionnement</option>
+				      </select>
+				 </div>
+			</div>
+			<?php } ?>
+			
+			
+			<div class="control-group">
+			     <label class="control-label" for="montant_prelever"> Montant à souscrire *</label>
+				 <div class="controls">
+			          <input type="text" name="montant_prelever" id="montant_prelever" placeholder="Montant A Souscrire" value="<?php echo $this->montant_prelever; ?>" required>
+					  <input name="ok" type="hidden" id="ok" value="ok" />
+					  <button type="submit" class="btn btn-primary">Valider</button>
+			     </div>
+			</div>
+	  </form>
+	  <br/>
+	  <blockquote>Détails </blockquote>
+	  <table class="table table-striped table-bordered table-hover table-condensed" id="example">
+	         <thead>
+                <tr>
+                   <th><div align="left">Montant</div></th>
+                   <th><div align="left">Date Debut</div></th>
+                   <th><div align="left">Date Fin</div></th>
+                   <th><div align="left"></div>Tranche</th>
+				   <th><div align="left"></div>Date Fin Tranche</th>
+				   <th><div align="left"></div>Montant Echu</th>
+				   <th><div align="left"></div>Mode Payement</th>
+				   <th><div align="left"></div>Solde</th>
+                </tr>
+             </thead>
+	         
+			 <tbody>
+			       <?php 
+				         $ttmontant = 0; $ttechu  = 0; $ttsolde = 0;
+				   ?>
+				   
+				   <?php foreach ($this->achats as $achat) :  ?>
+				   <tr>
+				       <td><div align="left"> <?php echo number_format($achat->mont_gcp,0,',',' ');?> </div></td>
+					   <?php $date_deb = new Zend_Date($achat->date_deb, Zend_Date::ISO_8601);?>
+					   <?php $date_fin = new Zend_Date($achat->date_fin, Zend_Date::ISO_8601);?>
+					   <?php $date_fin_tranche = new Zend_Date($achat->date_fin_tranche, Zend_Date::ISO_8601);?>
+				       <td><div align="left"> <?php echo $date_deb->toString('dd/MM/yyyy');?> </div></td>
+				       <td><div align="left"> <?php echo $date_fin->toString('dd/MM/yyyy');?> </div></td>
+					   <td><div align="left"> <?php echo number_format($achat->mont_tranche,0,',',' ');?></div></td>
+					   <td><div align="left"> <?php echo $date_fin_tranche->toString('dd/MM/yyyy');?></div></td>
+					   <td><div align="left"> <?php echo number_format($achat->mont_echu,0,',',' ');?></div></td>
+					   <td><div align="left"> <?php echo $achat->mode_reglement ?> </div></td>
+					   <td><div align="left"> <?php echo number_format($achat->solde,0,',',' ');?></div></td>
+				   </tr>
+				   <?php $ttmontant += $achat->mont_gcp;?>
+                   <?php $ttechu    += $achat->mont_echu;?>
+				   <?php $ttsolde   += $achat->solde;?>
+				   
+				   <?php endforeach; ?>
+				   <tr>
+                      <td><div align="left"><strong><?php echo number_format($ttmontant,0,',',' ');?></strong></div></td>
+                      <td><div align="left">&nbsp;</div></td>
+					  <td><div align="left">&nbsp;</div></td>
+					  <td><div align="left">&nbsp;</div></td>
+					  <td><div align="left">&nbsp;</div></td>
+                      <td><div align="left"><strong><?php echo number_format($ttechu,0,',',' ');?></strong></div></td>
+					  <td><div align="left">&nbsp;</div></td>
+                      <td><div align="left"><strong><?php echo number_format($ttsolde,0,',',' ');?></strong></div></td>
+                   </tr>
+			 </tbody>
+      </table>
+	  -->
+</div>  
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml");?>
+</div>
+</div>
+</div>

@@ -1,0 +1,96 @@
+<div class="row-fluid">
+   <?php  
+
+   $link = "";
+   $contentlink = "";
+    
+   ?>
+
+	<div class="span9">
+       <h3>Formulaire de signature de la franchise</h3>
+            <?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationsuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+				</div>
+	    <?php unset($_SESSION['validationsuccess']); endif ?>
+
+      <form action="#" enctype="multipart/form-data" method="post" class="form-horizontal" id="addfranchise">
+      <div class="control-group">
+	      <label class="control-label" for="raison_sociale_membre" style="font-weight:bold">
+	         Raison social du franchisé *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="raisonsocialguiucoeop" id="raison_sociale_membre" value="<?php echo $this->raisonsocialdurepresentant  ;?>" class="input-block-level" placeholder="Mettre ici la raison social du franchisé" required="required"/>
+	      </div>
+	   </div>
+
+        <div class="control-group">
+	      <label class="control-label" for="type_franchise_membre" style="font-weight:bold">
+	         Type de franchise *:
+	      </label>
+	      <div class="controls">
+            <select name="type_franchise_membre" id="">
+            <option value="GUIUC/OE/PPP">Guichet Unique d’Intégration Universelle Interface Communautés
+    Opérateurs Economiques Prestataires Personnes Physiques (GUIUC/OE/PPP)</option>
+            <option value="GUIUC/OE/OP">Guichet Unique d’Intégration Universelle Interface Communautés Opérateurs Economiques Offreurs de projets (GUIUC/OE/OP)</option>
+            <option value="GUIUC/OSE">Guichet Unique d’Intégration Universelle Interface Communautés
+Opérateurs Socio-Economiques (GUIUC/OSE)</option>
+           <option value="GUIUU/BPS/B">Guichet Unique d’Intégration Universelle Interface Utilisateurs Biens
+Produits et Services-Biens (GUIUU/BPS/B)</option>
+           <option value="GUIUU/BPS/P">Guichet Unique d’Intégration Universelle Interface Utilisateurs Biens
+Produits et Services/Produits (GUIUU/BPS/P)</option>
+          <option value="GUIUU/BPS/S">Guichet Unique d’Intégration Universelle Interface Utilisateurs Biens,
+Produits et Services/ Services (GUIUU/BPS/S)</option>
+          <option value="GUIUU/PBF/A-OPI">Guichet Unique d’Intégration Universelle Interface Utilisateurs
+Partenaires Bancaires et Financiers/Assurances Ordres de Prélèvement Irrévocable
+(GUIUU/PBF/A-OPI)</option>
+         <option value="GUIUU/PBF/AP-OPI">Guichet Unique d’Intégration Universelle Interface Utilisateurs
+Partenaires Bancaires et Financiers/ Approvisionnements contre Ordres de
+Prélèvement Irrévocable (GUIUU/PBF/AP-OPI)</option>
+         <option value="GUIUU/PBF/B">Guichet Unique d’Intégration Universelle Interface Utilisateurs
+Partenaires Bancaires et Financiers/ Banques (GUIUU/PBF/B)</option>
+         <option value="GUIUU/PBF/PS-OPI">Guichet Unique d’Intégration Universelle Interface Utilisateurs
+Partenaires Bancaires et Financiers/ Protections Sociales Ordres de Prélèvement
+Irrévocable (GUIUU/PBF/PS-OPI)</option>
+         <option value="GUIUU/PBF/SFD">Guichet Unique d’Intégration Universelle Interface Utilisateurs Partenaires Bancaires et
+Financiers/ Systèmes Financiers Décentralisés (GUIUU/PBF/SFD)</option>
+
+         <option value="GUIUU/PODD/POE/FE">Guichet Unique d’Intégration Universelle Interface Utilisateurs Partenaires Objectifs
+de Développement Durable/Partenaires Opérateurs Economiques Fournisseurs Externes (GUIUU/PODD/POE/FE)</legend>
+         </option>
+         <option value="GUIUU/PODD/POE/FS">Guichet Unique d’Intégration Universelle Interface Utilisateurs Partenaires Objectifs
+de Développement Durable/Partenaires Opérateurs Economiques Fournisseurs
+Spécifiques (GUIUU/PODD/POE/FS)</option>
+         <option value="GUIUU/PODD/POSE">Guichet Unique d’Intégration Universelle Interface Utilisateurs Partenaires Objectifs
+de Développement Durable/Partenaires Opérateurs Socio-Economiques (GUIUU/PODD/POSE)</option>
+         
+          </select>
+		 	      </div>
+	   </div>
+
+       <div class="control-group">
+	      <label class="control-label" for="representantguiucoeop" style="font-weight:bold">
+	         Représentant de la raison sociale*:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="representantguiucoeop" value="<?php echo $this->nomrepresentant  ;?>" id="representantguiucoeop" class="input-block-level" placeholder="Mettre ici le nom & pr&noms du representant de la franchise" required="required"/>
+	      </div>
+	   </div>
+
+       <div class="control-group" >
+          <button type="submit" id="submit" class="btn btn-large btn-primary" style="position:relative">
+          Valider le formulaire
+          </button>
+       </div>
+      </form>
+
+    </div>
+    <div class="span3">
+       <a href="/taches/MCNP-30062018091344-CONTRAT_DE_FRANCHISE_GUIUC_OE_OP_02.pdf" class="btn btn-large btn-danger" target="blank">Telecharger <?php echo $contentlink;?></a>
+    </div>
+</div>

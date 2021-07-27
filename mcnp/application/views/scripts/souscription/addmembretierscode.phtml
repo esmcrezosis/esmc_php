@@ -1,0 +1,65 @@
+<?php $sessionsouscription = new Zend_Session_Namespace('souscription');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menutiers.phtml"); ?>
+
+  <blockquote><p>Envoyer un code à un membre tiers </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addappeloffres">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<fieldset>
+<legend>Formulaire </legend>
+
+
+<div class="control-group">
+<label class="control-label" for="membretiers_mobile">Cellulaire  *</label>
+<div class="controls">
+<input type="number" name="membretiers_mobile" id="membretiers_mobile" placeholder="Cellulaire " class="input-xlarge"  />
+</div>
+</div>
+
+
+
+</fieldset> 
+   
+    
+    
+
+<div class="form-actions">
+<input name="membretiers_souscription" type="hidden" id="membretiers_souscription" value="<?php echo $this->souscription->souscription_id; ?>" />
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

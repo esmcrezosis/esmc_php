@@ -1,0 +1,63 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/menus.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Envoi de SMS en groupe</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addpage">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+    </div>
+  <?php }?>
+  
+
+<div class="control-group">
+<label class="control-label" for="smsbody">Message SMS *</label>
+<div class="controls">
+  <textarea name="smsbody" class="input-xxlarge" id="smsbody" placeholder="Message SMS" required></textarea>
+</div>
+</div>
+    
+    
+<div class="control-group">
+<label class="control-label" for="numero_fichier">Fichier des numéros *</label>
+<div class="controls">
+<input name="numero_fichier" type="file" id="numero_fichier" class="input-xxlarge" required />  
+</div>
+</div>
+
+    
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Envoyer des SMS en groupe</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

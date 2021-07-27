@@ -1,0 +1,285 @@
+<div id="view-content" title="Achat du MF" style="font-size: 12px;min-height: 520px;">
+     <form id="mf_form" method="post" action="/eu-mf/donew">
+        <input type="hidden" id="type" name="type" value="<?php echo $this->type; ?>"/>
+        <table id="tab_capa" style="width: 700px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+               <tr>
+                   <td><label for="code_membre">Code Membre:</label></td>
+                   <td>
+                       <input type="text" id="code_membre" name="code_membre" value="<?php echo $this->code_membre; ?>" readonly size="30"/>
+                   </td>
+               </tr>
+			   <!--<tr>
+			       <td height="5"></td>
+			   </tr>
+			   <tr>
+                    <td><label for="nom_membre">Nom Membre :</label></td>
+                    <td>
+                       <input readonly="true" class="validate[required]" type="text" id="nom_membre" name="nom_membre" value="<?php echo $this->nom_membre; ?>" size="30"/>
+                    </td>
+				</tr>
+				<tr>
+			       <td height="5"></td>
+			   </tr>
+                <tr>				
+                    <td>
+					    <label for="prenom_membre">Prénoms :</label>   
+                    </td>
+					<td>
+					    <input readonly="true" class="validate[required]" type="text" id="prenom_membre" name="prenom_membre" value="<?php echo $this->prenom_membre; ?>" size="30"/>
+					</td>
+                </tr>-->
+				<tr>
+			       <td height="5"></td>
+			   </tr>
+			    <tr>
+                   <td><label for="type_MF">Type Capa MF:</label></td>
+                   <td>
+                       <select class="validate[required]" type="text" id="code_type_mf" name="code_type_mf" value="<?php echo $this->code_type_mf; ?>">
+					   <input type="hidden" id="type_mf" name="type_mf" value="<?php echo $this->type; ?>"/>
+                    </td>
+               </tr>
+			   <tr>
+			       <td height="5"></td>
+			   </tr>
+			   <tr>
+                  <td><label style="color: red;">Code SMS *</label></td>
+                  <td><input id="code_sms" class="validate[required]" name="code_sms" value="" /></td>
+                  <td><div id="id_message" style="width: 150px; color:red;"></div></td>
+               </tr>
+			   <tr>
+			       <td height="5"></td>
+			   </tr>
+               <tr>
+                   <td><label for="mont_capa">Montant:</label></td>
+                   <td>
+                      <input class="validate[required,custom[number]]" type="text" id="mont_capa" name="mont_capa" value="<?php echo $this->mont_capa; ?>" readonly="true" size="30" style="text-align: right;"/>
+                      <!--<select class="validate[required]" type="text" id="dev_capa" name="dev_capa" value=""></select>-->
+					  <input class="validate[required]" type="text"id="dev_capa" name="dev_capa" value="" size="5px" readonly="true">
+				   </td>
+               </tr> 
+               <tr>
+			       <td height="5"></td>
+			   </tr>			   
+        </table>
+		
+        <table style="width: 700px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+               <tr>
+                   <td>
+                       <input type="button" id="val" value="Valider"/>
+                       <input type="reset" id="reset" value="Reinitialiser"/>
+                   </td>
+               </tr>
+        </table>
+    </form>
+    <div id="pdialog">
+        <table>
+            <tbody>
+                <tr>
+                    <td><label>Code Membre :</label></td>
+                    <td><input type="text" id="membre_code" name="membre_code" readonly="true" size="30"/></td>
+                </tr>
+                <!--<tr>
+                    <td><label>Nom et Prénoms :</label></td>
+                    <td><input type="text" size="40" id="membre_nomp" name="membre_nomp" readonly="true"/></td>
+                </tr>-->
+                <tr>
+                    <td><label>Type CAPA :</label></td>
+                    <td>
+					   <input type="text" id="type_capa" name="type_capa" readonly="true"/> 
+					</td>
+                </tr>
+                <tr>
+                    <td><label>Code SMS :</label></td>
+                    <td><input type="text" id="sms_code" name="sms_code" readonly="true"/></td>
+                </tr>
+                <tr>
+                   <td><label>Montant CAPA :</label></td>
+                   <td>
+					    <input type="text" size="30" id="mt_capa" name="mt_capa" readonly="true"/>
+					    <input type="text" size="30" id="capa_dev" name="capa_dev" readonly="true"/>
+					</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>	
+</div>
+<script>
+    $(document).ready(function() {
+	    $('#view-content').puipanel();
+		  
+		$("#pdialog").dialog({
+		      autoOpen: false,
+              height: 380,
+              width: 550,
+              title: 'Confirmez-vous cette opération ?',
+              modal: true,
+			  buttons: {
+		        "OUI": function() {
+				     if ($('#mt_capa').val() !== '' &&  $('#membre_code').val() !== '') {
+					 
+					     $.post('/eu-mf/donew',{
+						       code_membre: $('#membre_code').val(),
+						       type_mf: $('#type_capa').val(),
+							   code_sms: $('#sms_code').val(),
+							   mont_capa: $('#mt_capa').val(),
+							   dev_capa : $('#capa_dev').val()
+						 },
+						 function success(data) {
+                            if (data === true) {
+                               alert('Operation effectuee avec succes');
+                               $(location).attr("href", "/eu-mf/index");
+                            } else {
+                                   //$('#message').html(data);
+							       alert(data);  
+                            }
+                        });
+					    $(this).dialog("close"); 
+					 }else {
+                            alert('Veuillez renseigner le champ code membre ou le champ montant capa !!!');
+					 }  
+				},
+				"NON": function() {
+                        $(this).dialog("close");
+                }  
+		      },
+			  close: function() {
+			  
+              }
+		  });
+		  
+		$("#val").button().click(function(e) {
+            e.preventDefault();
+            $('#membre_code').val($('#code_membre').val());
+            //$('#membre_nomp').val($('#nom_membre').val() + ' ' + $('#prenom_membre').val());
+            $('#type_capa').val($('#code_type_mf').val());
+			$('#sms_code').val($('#code_sms').val());
+            $('#mt_capa').val($('#mont_capa').val());
+			$('#capa_dev').val($('#dev_capa').val());
+            $("#pdialog").dialog("open");
+        });
+		  
+	  
+	/*	
+    $('form#mf_form').submit(function(e) {
+        $.ajax({
+            url: $('form').attr("action"),
+            data: $('form').serialize(),
+            type: 'post',
+            success: processServerResponse
+       });
+               e.preventDefault();
+    });
+	function processServerResponse(data) {
+      if (data === true){
+      alert('Operation effectuee avec succes ');
+      $(location).attr("href", "/eu-mf/index");
+    }
+    else {
+      alert(data);
+    }
+    };
+	*/
+     
+	$(function() {
+      $('#view-content').puipanel();
+    });
+    $("#mf_form").validationEngine();
+    $('#val').button();
+    $('#reset').button();
+    var type = 'P';
+    $.get('/eu-mf/membre',
+    {type: type},
+    function success(data) {
+                $('#code_membre').autocomplete({"source": data,
+                change: displayItem});
+    });
+    function displayItem() {
+       if ($(this).val() !== '') {
+               $.get(
+                '/eu-mf/recupnom',{
+                num_membre: $(this).val()
+               },
+               function success(data) {
+                    $("#nom_membre").val(data[0]);
+                    $("#prenom_membre").val(data[1]);
+               });
+            }
+    }
+    $('#code_sms').blur(function(e) {
+            if ($(this).val() !== '') {
+                $.get(
+                     '/eu-mf/codesms',{
+                            code: $(this).val()
+                        },
+                function success(data)
+                {
+                    if (data !== 0) {
+                        $('#mont_capa').val(data[0]);
+						$('#dev_capa').val(data[1]);
+                        $('#mont_capa').attr('readonly', true);
+                    } else {
+                        //$('#mont_capa').attr('readonly', false);
+                        $("#id_message").html("<label>Ce code est invalide</label>");
+                    }
+
+                });
+            } else {
+                   $('#mont_sms').attr('readonly', false);
+                   $('#mont_sms').val('');
+            }
+            e.preventDefault();
+        });
+
+        $.get(
+             '/eu-mf/devise',
+             function success(data) {
+               var options = '';
+               for (var i = 0; i < data.length; i++) {
+                   if (data[i] === 'XOF') {
+                      options += '<option value="' + data[i] + '" selected>' + data[i] + ' </option>';
+                   } else {
+                      options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                   }
+              }
+              $('select#dev_capa').html(options);
+        });
+		
+		$.get("/eu-mf/typemf",{
+          type_mf : $('#type_mf').val()
+        },
+        function success(data) {
+        var options = '';
+        for (var i = 0; i < data.length; i++) {
+              options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+        }
+        $('select#code_type_mf').html(options);
+    });
+		
+        var  dev = 'XOF';
+        $('#dev_capa').change(function() {
+            var  dev1 = $('#dev_capa').val();
+            if(dev != dev1){
+                if($('#mont_capa').val() != '' && parseInt($('#mont_capa').val()) > 0){
+                    $.get(
+                    '/eu-mf/convertion',
+                    {
+                        montant: $('#mont_capa').val(),dev:dev,dev1 : dev1
+                    },
+                    function success(data) {
+                        if(data != false){
+                            $('#mont_capa').val(data);
+                            dev = dev1;
+                        }else{
+                            alert('Ce cours n\'est pas défini: '+ dev+'-'+dev1);
+                            $('#dev_capa').val(dev);
+                        }
+                    });
+                }
+            }
+        });
+        $('#reset').click(function() {
+            dev = 'XOF';
+        });
+    });
+</script>

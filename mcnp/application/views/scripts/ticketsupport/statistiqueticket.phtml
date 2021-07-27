@@ -1,0 +1,135 @@
+<style media="screen">
+  .triangle-with-shadow{
+    width: 100px;
+  height: 100px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
+  }
+  .triangle-with-shadow:after {
+   content: "";
+   position: absolute;
+   width: 50px;
+   height: 50px;
+   background: #999;
+   transform: rotate(45deg);
+   top: 75px;
+   left: 25px;
+   box-shadow: -1px -1px 10px -2px rgba(0,0,0,0.5);
+}
+.box{
+  width:500px; height:100px;
+  border:solid 5px #000;
+  border-color:#000 transparent transparent transparent;
+  border-radius: 50%/100px 100px 0 0;
+}
+
+#stat_ticket{
+  clear: both;
+    position: relative;
+    font-size: 8em;
+}
+</style>
+
+
+<div class="span12" style="text-align:left">
+
+<?php
+include("../application/layouts/scripts/menuadmin.phtml");
+$days = array(
+ "01"=>"1","02"=>"2","03"=>"3","04"=>"4","05"=>"5","06"=>"6","07"=>"7","08"=>"8","09"=>"9","10"=>"10","11"=>"11","12"=>"12",
+ "13"=>"13","14"=>"14","15"=>"15","16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23","24"=>"24",
+ "25"=>"25","26"=>"26","27"=>"27","28"=>"28","29"=>"29","30"=>"30","31"=>"31");
+$years = array("2016"=>"2016","2017"=>"2017","2018"=>"2018","2019"=>"2019","2020"=>"2020","2021"=>"2021","2022"=>"2022","2023"=>"2023","2024"=>"2024","2025"=>"2025","2026"=>"2026",
+"2027"=>"2027","2028"=>"2028","2029"=>"2029","2030"=>"2030","2031"=>"2031","2032"=>"2032","2033"=>"2033","2034"=>"2034","2035"=>"2035","2036"=>"2036","2037"=>"2037","2038"=>"2038",
+"2039"=>"2039","2040"=>"2040");
+
+$months = array('01'=>'Janvier','02'=>'Février','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre',
+'12'=>'Décembre');
+?>
+<h1>Statistique des tickets de support en ligne</h1>
+
+<h3>Statistique periodique</h3>
+<hr>
+
+<div class="alert alert-success" id="great_parent_statistique" style="display:none">
+   <h5>Total des tickets de support émis: <span id="total_ticket_statistique_emis"></span></h5>
+   <h5>Total des tickets de support traités: <span id="total_ticket_statistique_traites"></span></h5>
+   <h5>Total des tickets de support traités et archivés: <span id="total_ticket_statistique_traites_archive"></span></h5>
+
+</div>
+<div class="row-fluid">
+<div class="span4" id ="first-day-wrapper">
+<blockquote style="text-align:left">
+  <strong>First Day</strong>
+</blockquote>
+<div class="controls" style="position: relative;left: 0;float: left;text-align: left;margin-right: 45px;"><label for="" style="text-align:left;display:inline-block;font-weight:bold">Jours:</label>
+<select id="days-tickets-first" name="">
+	<?php foreach ($days as $kd => $vd): ?>
+		<option value="<?php echo $kd ?>"><?php echo $vd ?></option>
+	<?php endforeach; ?>
+</select>
+</div>
+<div class="controls" style="display: block;position: relative;left: 0;text-align: left;float:left;margin-right:45px">
+<label for="" style="text-align:left;display:inline-block;font-weight:bold">Mois:</label>
+<select id="months-tickets-first" name="">
+	<?php foreach ($months as $km => $vm): ?>
+		<option value="<?php echo $km ?>"><?php echo $vm ?></option>
+	<?php endforeach; ?>
+</select>
+</div>
+<div class="controls" style="display: block;position: relative;left: 0;text-align: left;float:left">
+<label for="" style="text-align:left;display:inline-block;font-weight:bold">Année:</label>
+<select id="years-tickets-first" name="">
+	<?php foreach ($years as $ky => $vy): ?>
+		<option value="<?php echo $ky ?>"><?php echo $vy ?></option>
+	<?php endforeach; ?>
+</select>
+</div>
+</div>
+<div class="span4">
+  <a href="#" class="btn btn-primary" id="btn-statistique-ticket" style="margin-left:88px">Afficher</a>
+  <!---
+  <div class="box"></div>
+  -->
+  <div id="stat_ticket_all" style="display:none;position: relative;bottom: 43px;">
+  <h3 style="margin-top: 40px;font-size: 1.3em;margin-left: -69px;">Pourcentage des tickets traités & archivés</h3>
+  <hr>
+  <p id="stat_ticket" style="display:none">
+     <span id="stat_ticket_text" style="display:inline-block"></span>%
+  </p>
+  </div>
+</div>
+
+<div class="span4" >
+  <div id="last_day_wrapper">
+  <blockquote cite="http://" style="text-align:left;clear:both">
+    <strong>Last Day</strong>
+  </blockquote>
+<div class="controls" style="position: relative;left: 0;float: left;text-align: left;margin-right: 45px;"><label for="" style="text-align:left;display:inline-block;font-weight:bold">Jours:</label>
+<select id="days-tickets-last" name="">
+	<?php foreach ($days as $kd => $vd): ?>
+		<option value="<?php echo $kd ?>"><?php echo $vd ?></option>
+	<?php endforeach; ?>
+</select>
+</div>
+<div class="controls" style="display: block;position: relative;left: 0;text-align: left;float:left;margin-right:45px">
+<label for="" style="text-align:left;display:inline-block;font-weight:bold">Mois:</label>
+<select id="months-tickets-last" name="">
+	<?php foreach ($months as $km => $vm): ?>
+		<option value="<?php echo $km ?>"><?php echo $vm ?></option>
+	<?php endforeach; ?>
+</select>
+</div>
+<div class="controls" style="display: block;possition: relative;left: 0;text-align: left;float:left">
+<label for="" style="text-align:left;display:inline-block;font-weight:bold">Année:</label>
+<select id="years-tickets-last" name="">
+	<?php foreach ($years as $ky => $vy): ?>
+		<option value="<?php echo $ky ?>"><?php echo $vy ?></option>
+	<?php endforeach; ?>
+</select>
+</div>
+</div>
+</div>
+
+</div>

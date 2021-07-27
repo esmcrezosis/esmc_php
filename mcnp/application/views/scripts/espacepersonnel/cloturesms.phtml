@@ -1,0 +1,36 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/codesmsoffredemandes.js"></script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Chargement du Code SMS Echange <small> Saisir votre Code SMS - Vérifier le Code SMS - Charger le Code SMS </small></p></blockquote>
+    <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin != "") { ?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+	</div>
+	<?php } ?>
+    
+<form action="" method="post" class="well form-inline" id="codesmsoffredemande">
+	  Code SMS Echange 
+      <input name="codesms" type="text" id="codesms" placeholder="Entrer le Code SMS Echange reçu" class="input-large">
+      <input name="ok" type="hidden" value="ok" />
+      <span id="niv2"><button type="button" class="btn btn-info" onclick="ouvre_codesmsoffredemandes(document.getElementById('codesms').value);">Vérifier code SMS Echange</button></span>             
+</form>
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,111 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+
+    <div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Ajouter une proposition</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addtdr">
+  <?php if(isset($sessionmembre->error) && $sessionmembre->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->error; $sessionmembre->error = "";?>
+    </div>
+  <?php }?>
+  
+  
+
+<div class="control-group">
+<label class="control-label" for="id_tdr">TDR * </label>
+<div class="controls">
+<?php 
+$tdr_m = new Application_Model_EuTdrMapper();
+$tdr = $tdr_m->fetchAll();
+if(count($tdr) > 0){?>
+<select name="id_tdr" id="id_tdr" required >
+<option value="">Choisir le TDR </option>
+<?php foreach ($tdr as $value) { ?>
+<option value="<?php echo $value->id_tdr; ?>"><?php echo $value->libelle;?></option>
+<?php } ?>
+</select>
+<?php } ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="type_propo">Type de la proposition * </label>
+<div class="controls">
+<?php 
+$typepropo_t = new Application_Model_DbTable_EuTypePropo();
+$select = $typepropo_t->select();
+$type_propo = $typepropo_t->fetchAll($select);
+if(count($type_propo) > 0){?>
+<select name="type_propo" id="type_propo" required >
+<option value="">Choisir le type </option>
+<?php foreach ($type_propo as $value) { ?>
+<option value="<?php echo $value->id_type_propo; ?>"><?php echo $value->libelle_type_propo;?></option>
+<?php } ?>
+</select>
+<?php } ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="libelle">Libellé de la proposition *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="libelle" id="libelle" placeholder="Libellé de la proposition" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="description">Description * </label>
+<div class="controls">
+<textarea name="description" id="description" placeholder="Description" class="ckeditor" required></textarea>
+</div>
+</div>
+   
+<div class="control-group">
+<label class="control-label" for="fichier">Document de la proposition *</label>
+<div class="controls">
+<input name="fichier" type="file" id="fichier" class="input-xxlarge" required  />
+</div>
+</div>
+
+    
+
+
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter la proposition</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

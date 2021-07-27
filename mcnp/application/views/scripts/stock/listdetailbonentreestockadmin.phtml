@@ -1,0 +1,97 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des details de bon d'entree de stock</p></blockquote>
+<?php //echo $sessionutilisateur->id_canton;?> 
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Bon d'entree de stock</th>
+								  <th>Reference</th>
+								  <th>Designation</th>
+                  				  <th>Unite de comptage</th>
+								  <th>Quantite</th>
+								  <th>Prix unitaire</th>
+								  <th>Montant</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+<?php 
+        $bon_entree_stock = new Application_Model_EuBonEntreeStock();
+        $bon_entree_stockM = new Application_Model_EuBonEntreeStockMapper();
+        $bon_entree_stockM->find($entry->id_bon_entree_stock, $bon_entree_stock);
+?>
+      <td><?php echo $bon_entree_stock->libelle_bon_entree_stock; ?></td>
+      <td><?php echo $entry->reference_articles; ?></td>
+      <td><?php echo $entry->designation_articles; ?></td>
+      <td><?php echo $entry->unite_comptage; ?></td>
+      <td><?php echo $entry->quantite; ?></td>
+      <td><?php echo $entry->prix_unitaire; ?></td>
+      <td><?php echo $entry->montant; ?></td>
+      <td><div align="center">
+<?php if($entry->etat == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/stock/etatdetailbonentreestockadmin/id/<?php echo $entry->id_detail_bon_entree_stock; ?>/etat/0"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/stock/etatdetailbonentreestockadmin/id/<?php echo $entry->id_detail_bon_entree_stock; ?>/etat/1"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/stock/detaildetailbonentreestockadmin/id/<?php echo $entry->id_detail_bon_entree_stock; ?>"><i class="icon-edit icon-white"></i>  Details</a>&nbsp;
+
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/stock/editdetailbonentreestockadmin/id/<?php echo $entry->id_detail_bon_entree_stock; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+
+			</div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun detail de bon d'entree de stock  enregistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

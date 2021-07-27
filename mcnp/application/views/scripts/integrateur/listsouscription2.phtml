@@ -1,0 +1,122 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+  <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error != ""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+    </div>
+  <?php }?>
+
+  <blockquote><p>Liste de mes souscriptions </p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Date</th>
+								  <th>Nom & prénom(s) / Raison sociale</th>
+								  <th>Cellulaire</th>
+								  <th>Type</th>
+								  <th>Numero</th>
+								  <th>Date Numero</th>
+								  <th>Programme</th>
+								  <th>Nombre</th>
+								  <th>Montant</th>
+								  <?php /*?><th>Commission</th>
+								  <th>Ma Marge</th><?php */?>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+<?php 
+        $recubancaireM = new Application_Model_EuRecubancaireMapper();
+        $recubancaire = $recubancaireM->fetchAllBySouscriptionOne($entry->souscription_id);
+?>
+<?php         
+		$m_partagem = new Application_Model_EuPartagemMapper();
+		$partagem = $m_partagem->fetchAllByMembreassoSouscription($entry->souscription_membreasso, $entry->souscription_id);
+		if(count($partagem) > 0){
+			$partaget_montant = floor($partagem->partagem_montant * 100 / 25);
+			$partagem_montant = floor($partagem->partagem_montant);
+			}else{
+			$partaget_montant = 0;
+			$partagem_montant = 0;
+				}
+?>
+    <tr>
+      <td><?php echo ($entry->souscription_date); ?></td>
+      <td><?php if($entry->souscription_personne == "PP"){?><?php echo ($entry->souscription_nom); ?> <?php echo ($entry->souscription_prenom); ?><?php }else{?><?php echo ($entry->souscription_raison); ?><?php }?></td>
+      <td><?php echo ($entry->souscription_mobile); ?></td>
+      <td><?php echo ($entry->souscription_type); ?></td>
+      <td><?php echo ($entry->souscription_numero); //if(isset($recubancaire->recubancaire_numero) && $recubancaire->recubancaire_numero != ""){echo ($recubancaire->recubancaire_numero);} ?></td>
+      <td><?php echo ($entry->souscription_date_numero); //if(isset($recubancaire->recubancaire_date_numero) && $recubancaire->recubancaire_date_numero != ""){echo ($recubancaire->recubancaire_date_numero);} ?></td>
+      <td><?php echo ($entry->souscription_programme); ?></td>
+      <td><?php echo ($entry->souscription_nombre); ?></td>
+      <td><?php echo ($entry->souscription_montant);  //if(isset($recubancaire->recubancaire_montant) && $recubancaire->recubancaire_montant > 0){echo ($recubancaire->recubancaire_montant);} ?></td>
+      <?php /*?><td><?php echo ($partaget_montant); ?></td>
+      <td><?php echo ($partagem_montant);?></td><?php */?>
+      <td><div align="center">
+	  <?php if($entry->publier == 3){?>
+			<i class="icon-ok"></i>  Valider&nbsp;
+<?php }else{?>
+			<i class="icon-off"></i>  Pas Valider&nbsp;
+<?php }?>
+	  
+	  <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/integrateur/editsouscription/id/<?php echo $entry->souscription_id; ?>"><i class="icon-edit icon-white"></i>  Corrigé l'erreur</a>&nbsp;
+      
+			<?php /*?><a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/association/detailssouscription/id/<?php echo $entry->souscription_id; ?>"><i class="icon-search icon-white"></i>  Détails</a>&nbsp;
+
+
+			<a class="btn btn-mini btn-danger" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/association/suppsouscription/id/<?php echo $entry->souscription_id; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a><?php */?></div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune souscription enrégistrée 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

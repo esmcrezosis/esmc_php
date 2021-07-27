@@ -1,0 +1,86 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+
+<script type="text/javascript">		
+$(document).ready(function() {
+  $('#example').dataTable( {
+   "sPaginationType": "full_numbers",
+   "aaSorting": []
+  });
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p>Liste des zones</p></blockquote>
+
+<?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error !="") { ?>
+  <div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+  <?php } ?>
+
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+
+
+
+<?php if(count($this->entries) > 0) { 
+
+$devise = new Application_Model_EuDevise();
+$devise_mapper = new Application_Model_EuDeviseMapper();
+
+
+?>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+<thead>
+	  <tr>
+		 <th>Code zone</th>
+		 <th>Nom zone</th>
+		 <th>Devise</th>
+		 <th>Actions</th>
+	  </tr>
+</thead>
+
+<tbody>
+      <?php foreach($this->entries as $entry) : 
+			  if($entry->code_dev != null) {
+				$devise_mapper->find($entry->code_dev,$devise); 
+			  }       
+	  ?>
+	  
+      <tr>
+	      <td><?php echo $entry->code_zone; ?></td>
+          <td><?php echo $entry->nom_zone; ?></td>
+          <td><?php echo $devise->lib_dev; ?></td>
+		  <td>
+			  <div align="center">
+	               <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/editzone/id/<?php echo $entry->code_zone; ?>"><i class="icon-edit icon-white"></i>Modifier</a>&nbsp;	   
+              </div>
+		  </td>
+	  </tr>
+	  <?php endforeach; ?>
+      </tbody>
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun enrégistrement 
+</div>
+<?php } ?>
+
+</div>
+</div>
+</div>

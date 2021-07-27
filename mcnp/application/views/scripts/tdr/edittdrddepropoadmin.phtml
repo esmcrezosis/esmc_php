@@ -1,0 +1,113 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modifier une demande de proposition</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="edittdr">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = "";?>
+    </div>
+  <?php }?>
+  
+    
+
+<div class="control-group">
+<label class="control-label" for="id_tdr">TDR * </label>
+<div class="controls">
+<?php 
+$tdr_m = new Application_Model_EuTdrMapper();
+$tdr = $tdr_m->fetchAll();
+if(count($tdr) > 0){?>
+<select name="id_tdr" id="id_tdr" required >
+<option value="">Choisir le TDR </option>
+<?php foreach ($tdr as $value) { ?>
+<option value="<?php echo $value->id_tdr; ?>" <?php if($this->tdr_dde_propo->id_tdr == $value->id_tdr){?> selected="selected"<?php }?>><?php echo $value->libelle;?></option>
+<?php } ?>
+</select>
+<?php } ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="type_dde_propo">Type de la demande * </label>
+<div class="controls">
+<?php 
+$typeddepropo_t = new Application_Model_DbTable_EuTypeDdePropo();
+$select = $typeddepropo_t->select();
+$tdr_dde_propo = $typeddepropo_t->fetchAll($select);
+if(count($tdr_dde_propo) > 0){?>
+<select name="type_dde_propo" id="type_dde_propo" required >
+<option value="">Choisir le type </option>
+<?php foreach ($tdr_dde_propo as $value) { ?>
+<option value="<?php echo $value->id_type_dde_propo; ?>" <?php if($this->tdr_dde_propo->type_dde_propo == $value->id_type_dde_propo){?> selected="selected"<?php }?>><?php echo $value->libelle_type_dde_propo;?></option>
+<?php } ?>
+</select>
+<?php } ?>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="libelle">Libellé  de la demande *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="libelle" id="libelle" placeholder="Libellé de la demande" value="<?php echo $this->tdr_dde_propo->libelle;?>" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="description">Description * </label>
+<div class="controls">
+<textarea name="description" id="description" placeholder="Description" class="ckeditor" required><?php echo $this->tdr_dde_propo->description;?></textarea>
+</div>
+</div>
+   
+<div class="control-group">
+<label class="control-label" for="fichier">Document  de la demande *</label>
+<div class="controls">
+<input name="fichier" type="file" id="fichier" class="input-xxlarge"   />
+</div>
+</div>
+
+   
+
+
+
+
+<div class="form-actions">
+<input name="fichierold" type="hidden" id="fichierold" value="<?php echo $this->tdr_dde_propo->fichier; ?>" />  
+<input name="id_tdr_dde_propo" type="hidden" id="id_tdr_dde_propo" value="<?php echo $this->tdr_dde_propo->id_tdr_dde_propo; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier  la demande de proposition</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

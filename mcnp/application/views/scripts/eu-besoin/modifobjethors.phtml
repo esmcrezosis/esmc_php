@@ -1,0 +1,51 @@
+<div id="view-content" class="ui-widget">
+    <div  class="cntError">
+        <?php
+        echo $this->message;
+        ?>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Modification des informations sur un nouveau produit</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        
+        <?php
+            $auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin'));
+            $user = $auth->getIdentity();
+            $num_membre = $user->num_membre;
+            if($num_membre!='') {
+            $this->form->setAction($this->url());
+            $this->form->getElement("submit")->setLabel("Modifier");
+            echo $this->form;
+           }   
+        ?>   
+    </div>
+    
+<script type="text/javascript">
+    
+        $(document).ready(function ()
+        {
+                $('#code_rayon').change(function()
+                {
+                   if ($('select#code_rayon').val() != ''){
+                   document.getElementById('code_bout').disabled=true;
+                }
+                else
+                { 
+                   document.getElementById('code_bout').disabled=false; 
+                }
+               }) 
+               $('#code_bout').change(function()
+                {
+                   if ($('select#code_bout').val() != ''){
+                   document.getElementById('code_rayon').disabled=true;
+                }
+                else
+                { 
+                   document.getElementById('code_rayon').disabled=false; 
+                }
+             })
+        });
+</script>    
+    
+</div>

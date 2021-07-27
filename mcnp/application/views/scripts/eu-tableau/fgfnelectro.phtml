@@ -1,0 +1,80 @@
+<div id="view-content" title="Comparaison FGFN Monnaie Electronique" style="font-size: 12px;min-height: 520px;font-family:Arial Black">
+     <div id="tab_fgfn">
+	      <ul>
+	          <li><a href="#tab_fgfn" style="font-size:12px;font-family:Arial Black">FGFN MONNAIE ELECTRONIQUE</a></li>
+                  <li><a href="#tab_pbf" style="font-size:12px;font-family:Arial Black">GCP PBF</a></li>
+                  <li><a href="#tab_rappro" style="font-size:12px;font-family:Arial Black"><font color="red">Rapprochement</font></a></li>
+	      </ul>
+	      <div style="padding: 1px;margin: 1px;">
+		   <div style="padding: 1px;margin: 1px;">
+		   <div id="tab_fgfn" style="padding:1px;font-family:Arial Black">
+              <table border="1" width="450" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                         <thead>
+                              <th colspan="2"><label style="text-align: center;width: 280px; font-size:12px;font-family:Arial Black">Voici la situation du solde</label></th>
+                         </thead>
+                         <tbody>
+                         <tr>
+                            <td><label>Solde <font color="red">( a )</font></label></td>
+                            <td><label><?php echo number_format($this->solde_fgfn,0,',',' '); ?></label></td>
+                         </tr>
+                      </tbody>
+              </table>
+              </div>
+	      </div>
+              <div style="padding: 1px;margin: 1px;">
+		   <div id="tab_fgfn" style="padding: 1px;font-family:Arial Black">
+              <table border="1" width="450" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                         <thead>
+                              <th colspan="2"><label style="text-align: center;width: 280px; font-size:12px;font-family:Arial Black">Voici la situation du solde</label></th>
+                         </thead>
+                         <tbody>
+                         <tr>
+                            <td><label>Solde <font color="red">( b )</font></label></td>
+                            <td><label><?php echo number_format($this->solde_gcp,0,',',' '); ?></label></td>
+                         </tr>
+                      </tbody>
+              </table>
+              </div>
+	      </div>    
+	      <div id="tab_rappro" style="padding:1px;font-family:Arial Black">
+                   <table border="1" width="450" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                      <thead>
+					      <tr>
+                             <th><label style="text-align: center;width: 280px; font-size: 12px;font-family:Arial Black">Déficit</th>
+                        	 <th><label style="text-align: center;width: 280px; font-size: 12px;font-family:Arial Black">Excédent</th>
+                          </tr>
+						  <tr>
+						      <th><label style="text-align: center;width: 280px; font-size: 12px;font-family:Arial Black"><font color="red">(a) - [(b) + (λ)] = (Ω)</font></label></th>
+                        	 <th><label style="text-align: center;width: 280px; font-size: 12px;font-family:Arial Black"><font color="red"> (a) - (b) + (λ')  = (Ω')</font></label></th>
+						  </tr>
+					  </thead>   
+                      <tbody>
+                        <tr>
+                            <td><label><?php echo number_format($this->deficit,0,',',' '); ?></label></td>
+                            <td><label><?php echo number_format($this->excedent,0,',',' '); ?></label></td>
+                        </tr>
+                       </tbody>   
+                   </table>
+              </div>
+                  
+	      </div>
+	 </div>
+</div>
+<script>
+  $(document).ready(function() {
+    $(function() {
+    $('#view-content').puipanel();
+    $('fieldset').puifieldset();
+    $('#tab_fgfn').puitabview();
+    var pickerOpts = {
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            selectOtherMonths: true,
+            showButtonPanel: true
+    };
+    $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+    $("#date_fg").datepicker(pickerOpts);
+  });		
+});		
+</script>

@@ -1,0 +1,108 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>La proposition finale provisoire de l'appel d'offre</p></blockquote>
+
+<?php if(count($this->appeloffre)>0){?> 
+  
+<div class="control-group">
+<label class="control-label" for="nom_appel_offre">Appel d'offre</label>
+<div class="controls">
+<label><?php echo htmlentities($this->appeloffre->numero_offre); ?> (<?php echo htmlentities($this->appeloffre->nom_appel_offre); ?>)</label>
+</div>
+</div>
+
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Soumissionnaires</th>
+								  <th>Montant proposition</th>
+								  <th>Montant salarial</th>
+								  <th>Autres budgets</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php 
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($entry->code_membre_morale, $membremorale);
+?><?php echo htmlentities($membremorale->raison_sociale); ?></td>
+      <td><div align="right"><?php echo number_format($entry->montant_proposition, 0, ',', ' '); ?></div></td>
+      <td><div align="right"><?php echo number_format($entry->montant_salaire, 0, ',', ' '); ?></div></td>
+      <td><div align="right"><?php echo number_format($entry->autre_budget, 0, ',', ' '); ?></div></td>
+      <td><div align="center"><a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/detailproposition/id/<?php echo $entry->id_proposition; ?>"><i class="icon-info-sign icon-white"></i>  Détails</a>&nbsp;
+      
+<?php if($sessionutilisateur->code_groupe == "surveillance_technopole"){?>      
+<?php if($entry->choix_proposition == 1){?>
+			<a class="btn btn-mini btn-success"  <?php /*?>onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir dé-selectionner?')) location='<?php echo $this->baseUrl(); ?>/administration/choixproposition/id/<?php echo $entry->id_proposition; ?>/choix_proposition/0'"<?php */?>><i class="icon-ok icon-white"></i>  Choisie</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning"  onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir faire la sélection finale?')) location='<?php echo $this->baseUrl(); ?>/administration/choixproposition/id/<?php echo $entry->id_proposition; ?>/choix_proposition/1'"><i class="icon-off icon-white"></i>  Pas Choisie</a>&nbsp;
+<?php }?>
+<?php }else{?>
+<?php if($entry->choix_proposition == 1){?>
+			<a class="btn btn-mini btn-success"  <?php /*?>onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir dé-selectionner?')) location='<?php echo $this->baseUrl(); ?>/administration/choixproposition/id/<?php echo $entry->id_proposition; ?>/choix_proposition/0'"<?php */?>><i class="icon-ok icon-white"></i>  Choisie</a>&nbsp;
+<?php }?>
+<?php if($entry->disponible == 1){?>
+			<a class="btn btn-mini btn-success" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir dé-selectionner?')) location='<?php echo $this->baseUrl(); ?>/administration/disponibleproposition/id/<?php echo $entry->id_proposition; ?>/disponible/0'"><i class="icon-ok icon-white"></i>  Disponible</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning"  onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir selectionner?')) location='<?php echo $this->baseUrl(); ?>/administration/disponibleproposition/id/<?php echo $entry->id_proposition; ?>/disponible/1'"><i class="icon-off icon-white"></i>  Pas disponible</a>&nbsp;
+<?php }?>
+<?php }?>
+
+</div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune prosition pré-selectionnée enrégistrée pour l'appel d'offre
+</div>
+<?php }?>
+
+
+
+<?php }?>
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

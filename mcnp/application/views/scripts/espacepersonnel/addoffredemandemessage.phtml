@@ -1,0 +1,289 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/credits.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Entamer la discussion sur l'échange</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addoffredemande">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  <?php //echo $this->offredemande->type_offre_demande ?>
+    
+<?php if($this->offredemande->type_offre_demande == "Offre" && $this->offredemande->code_membre != $sessionmembre->code_membre){?>
+<div class="control-group">
+<label class="control-label" for="id_offre1">Offre *</label>
+<div class="controls">
+<input class="input-xxlarge" type="text" name="id_offre1" id="id_offre1" placeholder="Offre" value="<?php 
+if(strpos($this->offredemande->id_credit, "CAPA") !== false){
+$compte_ts_M = new Application_Model_EuCapaTsMapper();
+$compte_ts = new Application_Model_EuCapaTs();
+$compte_ts_M->find($this->offredemande->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->date_capa,0,9);
+$montant = number_format($compte_ts->montant_solde, 0, ',', ' ');
+
+}else if($this->offredemande->id_credit > 0){
+$compte_ts_M = new Application_Model_EuCompteCreditTsMapper();
+$compte_ts = new Application_Model_EuCompteCreditTs();
+$compte_ts_M->find($this->offredemande->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->datefin,0,9);
+$montant = number_format($compte_ts->montant, 0, ',', ' ');
+
+}else{
+$compte_M = new Application_Model_EuCompteMapper();
+$compte = new Application_Model_EuCompte();
+$compte_M->find($this->offredemande->code_compte, $compte);
+
+$categorieM = new Application_Model_EuCategorieCompteMapper();
+$categorie = new Application_Model_EuCategorieCompte();
+$categorieM->find($compte->code_cat, $categorie);
+
+$code_produit = $compte->code_cat;
+$lib_op = htmlentities($categorie->lib_cat);
+$datefin = substr($compte->date_alloc,0,9);
+$montant = number_format($compte->solde, 0, ',', ' ');
+}
+?><?php echo $lib_op; ?> / <?php echo $code_produit; ?> / <?php echo $datefin; ?> / <?php echo $montant; ?>" readonly>
+<input class="input-xxlarge" type="hidden" name="id_offre" id="id_offre" placeholder="Offre" value="<?php echo $this->offredemande->id_offre_demande; ?>" readonly>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="id_demande">Demande *</label>
+<div class="controls">
+<select name="id_demande" id="id_demande" class="input-xxlarge" required>
+  <option value="">Choisir ma demande</option>
+<?php 
+$mapper_offre_demande = new Application_Model_EuOffreDemandeMapper();
+$offre_demande = new Application_Model_EuOffreDemande();
+$entries_offre_demande = $mapper_offre_demande->fetchAllByMembreType2($sessionmembre->code_membre, 'Demande', $this->offredemande->type_credit_of, $this->offredemande->type_credit_de);
+foreach ($entries_offre_demande as $entry):						
+?>  
+  <option value="<?php echo $entry->id_offre_demande; ?>"><?php 
+if(strpos($entry->id_credit, "CAPA") !== false){
+$compte_ts_M = new Application_Model_EuCapaTsMapper();
+$compte_ts = new Application_Model_EuCapaTs();
+$compte_ts_M->find($entry->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->date_capa,0,9);
+$montant = number_format($compte_ts->montant_solde, 0, ',', ' ');
+
+}else if($entry->id_credit > 0){
+$compte_ts_M = new Application_Model_EuCompteCreditTsMapper();
+$compte_ts = new Application_Model_EuCompteCreditTs();
+$compte_ts_M->find($entry->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->datefin,0,9);
+$montant = number_format($compte_ts->montant, 0, ',', ' ');
+
+}else{
+$compte_M = new Application_Model_EuCompteMapper();
+$compte = new Application_Model_EuCompte();
+$compte_M->find($entry->code_compte, $compte);
+
+$categorieM = new Application_Model_EuCategorieCompteMapper();
+$categorie = new Application_Model_EuCategorieCompte();
+$categorieM->find($compte->code_cat, $categorie);
+
+$code_produit = $compte->code_cat;
+$lib_op = htmlentities($categorie->lib_cat);
+$datefin = substr($compte->date_alloc,0,9);
+$montant = number_format($compte->solde, 0, ',', ' ');
+}
+?><?php echo $lib_op; ?> / <?php echo $code_produit; ?> / <?php echo $datefin; ?> / <?php echo $montant; ?></option>
+<?php endforeach; ?>  
+</select>
+</div>
+</div>
+
+<input type="hidden" name="type_message" id="type_message" placeholder="Demande" value="Demande">
+<input type="hidden" name="type_message1" id="type_message1" placeholder="Offre" value="Offre">
+
+<?php }else  if($this->offredemande->type_offre_demande == "Demande" && $this->offredemande->code_membre != $sessionmembre->code_membre){ ?>
+<div class="control-group">
+<label class="control-label" for="id_demande1">Demande *</label>
+<div class="controls">
+<input class="input-xxlarge" type="text" name="id_demande1" id="id_demande1" placeholder="Demande" value="<?php 
+if(strpos($this->offredemande->id_credit, "CAPA") !== false){
+$compte_ts_M = new Application_Model_EuCapaTsMapper();
+$compte_ts = new Application_Model_EuCapaTs();
+$compte_ts_M->find($this->offredemande->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->date_capa,0,9);
+$montant = number_format($compte_ts->montant_solde, 0, ',', ' ');
+
+}else if($this->offredemande->id_credit > 0){
+$compte_ts_M = new Application_Model_EuCompteCreditTsMapper();
+$compte_ts = new Application_Model_EuCompteCreditTs();
+$compte_ts_M->find($this->offredemande->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->datefin,0,9);
+$montant = number_format($compte_ts->montant, 0, ',', ' ');
+
+}else{
+$compte_M = new Application_Model_EuCompteMapper();
+$compte = new Application_Model_EuCompte();
+$compte_M->find($this->offredemande->code_compte, $compte);
+
+$categorieM = new Application_Model_EuCategorieCompteMapper();
+$categorie = new Application_Model_EuCategorieCompte();
+$categorieM->find($compte->code_cat, $categorie);
+
+$code_produit = $compte->code_cat;
+$lib_op = htmlentities($categorie->lib_cat);
+$datefin = substr($compte->date_alloc,0,9);
+$montant = number_format($compte->solde, 0, ',', ' ');
+}
+?><?php echo $lib_op; ?> / <?php echo $code_produit; ?> / <?php echo $datefin; ?> / <?php echo $montant; ?>" readonly>
+<input class="input-xxlarge" type="hidden" name="id_demande" id="id_demande" placeholder="Demande" value="<?php echo $this->offredemande->id_offre_demande; ?>" readonly>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="id_offre">Offre *</label>
+<div class="controls">
+<select name="id_offre" id="id_offre" class="input-xxlarge" required>
+  <option value="">Choisir mon offre</option>
+<?php 
+$mapper_offre_demande = new Application_Model_EuOffreDemandeMapper();
+$offre_demande = new Application_Model_EuOffreDemande();
+$entries_offre_demande = $mapper_offre_demande->fetchAllByMembreType2($sessionmembre->code_membre, 'Offre', $this->offredemande->type_credit_of, $this->offredemande->type_credit_de);
+foreach ($entries_offre_demande as $entry):						
+?>  
+  <option value="<?php echo $entry->id_offre_demande; ?>"><?php 
+if(strpos($entry->id_credit, "CAPA") !== false){
+$compte_ts_M = new Application_Model_EuCapaTsMapper();
+$compte_ts = new Application_Model_EuCapaTs();
+$compte_ts_M->find($entry->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->date_capa,0,9);
+$montant = number_format($compte_ts->montant_solde, 0, ',', ' ');
+
+}else if($entry->id_credit > 0){
+$compte_ts_M = new Application_Model_EuCompteCreditTsMapper();
+$compte_ts = new Application_Model_EuCompteCreditTs();
+$compte_ts_M->find($entry->id_credit, $compte_ts);
+
+$operationM = new Application_Model_EuOperationMapper();
+$operation = new Application_Model_EuOperation();
+$operationM->find($compte_ts->id_operation, $operation);
+
+$code_produit = $compte_ts->code_produit;
+$lib_op = htmlentities($operation->lib_op);
+$datefin = substr($compte_ts->datefin,0,9);
+$montant = number_format($compte_ts->montant, 0, ',', ' ');
+
+}else{
+$compte_M = new Application_Model_EuCompteMapper();
+$compte = new Application_Model_EuCompte();
+$compte_M->find($entry->code_compte, $compte);
+
+$categorieM = new Application_Model_EuCategorieCompteMapper();
+$categorie = new Application_Model_EuCategorieCompte();
+$categorieM->find($compte->code_cat, $categorie);
+
+$code_produit = $compte->code_cat;
+$lib_op = htmlentities($categorie->lib_cat);
+$datefin = substr($compte->date_alloc,0,9);
+$montant = number_format($compte->solde, 0, ',', ' ');
+}
+?><?php echo $lib_op; ?> / <?php echo $code_produit; ?> / <?php echo $datefin; ?> / <?php echo $montant; ?></option>
+<?php endforeach; ?>  
+</select>
+</div>
+</div>
+
+<input type="hidden" name="type_message" id="type_message" placeholder="Offre" value="Offre">
+<input type="hidden" name="type_message1" id="type_message1" placeholder="Demande" value="Demande">
+
+<?php }?>
+
+<div class="control-group">
+<label class="control-label" for="message">Message *</label>
+<div class="controls">
+  <textarea name="message" class="input-xxlarge" id="message" placeholder="Message" required></textarea>
+</div>
+</div>
+
+
+<div class="form-actions">
+<input type="hidden" name="id_offre_demande" id="id_offre_demande" value="<?php echo $this->offredemande->id_offre_demande; ?>">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Envoyer le message</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

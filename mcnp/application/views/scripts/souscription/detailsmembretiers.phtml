@@ -1,0 +1,140 @@
+<?php $sessionsouscription = new Zend_Session_Namespace('souscription');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menutiers.phtml"); ?>
+
+<blockquote><p>Detail d'un membre tiers</p></blockquote>
+  
+    
+
+<fieldset>
+  <legend>Detail d'un  membre tiers </legend>
+    
+
+
+  
+<div class="control-group">
+<label class="control-label" for="membretiers_nom">Nom du souscripteur  </label>
+<div class="controls">
+<?php echo $this->membretiers->membretiers_nom; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="membretiers_prenom">Prénom du souscripteur  </label>
+<div class="controls">
+<?php echo $this->membretiers->membretiers_prenom; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membretiers_mobile">Cellulaire du souscripteur  </label>
+<div class="controls">
+<?php echo $this->membretiers->membretiers_mobile; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membretiers_email">E-mail du souscripteur  </label>
+<div class="controls">
+<?php echo $this->membretiers->membretiers_email; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membretiers_ville">Ville du souscripteur  </label>
+<div class="controls">
+<?php echo $this->membretiers->membretiers_ville; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membretiers_quartier">Quartier du souscripteur  </label>
+<div class="controls">
+<?php echo $this->membretiers->membretiers_quartier; ?>
+</div>
+</div>
+
+
+<?php /*?><div class="control-group">
+<label class="control-label" for="membretiers_filiere">Filière </label>
+<div class="controls">
+<?php 
+        $filiere = new Application_Model_EuFiliere();
+        $filiereM = new Application_Model_EuFiliereMapper();
+        $filiereM->find($this->membretiers->membretiers_filiere, $filiere);
+echo $filiere->nom_filiere; ?>
+</div>
+</div><?php */?>
+
+<div class="control-group">
+<label class="control-label" for="code_activite">Activité </label>
+<div class="controls">
+<?php 
+        $activiteM = new Application_Model_DbTable_EuActivite();
+        $activite = $activiteM->find($this->membretiers->code_activite);
+		$row = $activite->current();
+echo $row->nom_activite; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="id_metier">Métier </label>
+<div class="controls">
+<?php 
+        $metierM = new Application_Model_DbTable_EuMetier();
+        $metier = $metierM->find($this->membretiers->id_metier);
+		$row = $metier->current();
+echo $row->libelle_metier; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="id_competence">Compétence </label>
+<div class="controls">
+<?php 
+        $competenceM = new Application_Model_DbTable_EuCompetence();
+        $competence = $competenceM->find($this->membretiers->id_competence);
+		$row = $competence->current();
+echo $row->libelle_competence; ?>
+</div>
+</div>
+
+
+
+
+
+
+
+<div class="control-group">
+<label class="control-label" for="membretiers_date">Date Création</label>
+<div class="controls">
+<?php echo $this->membretiers->membretiers_date; ?>
+</div>
+</div>
+
+
+</fieldset>
+
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

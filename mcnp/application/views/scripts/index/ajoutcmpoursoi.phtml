@@ -1,0 +1,35 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<blockquote><p><?php echo $titre." - Phase Souscription"; ?> </p></blockquote>
+
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+  </div>
+  <?php } ?>
+  
+  <?php if(isset($this->error) && $this->error !="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

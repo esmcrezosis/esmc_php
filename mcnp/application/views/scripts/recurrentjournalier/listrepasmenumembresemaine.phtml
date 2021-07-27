@@ -1,0 +1,191 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+
+  <blockquote><p>Mon menu de la semaine</p></blockquote>
+<?php if(count($this->entries1) > 0 || count($this->entries2) > 0 || count($this->entries3) > 0 || count($this->entries4) > 0 || count($this->entries5) > 0 || count($this->entries6) > 0 || count($this->entries7) > 0) { ?> <!-- style="font-size:9px;"-->
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+	   <thead>
+							  <tr>
+								  <th>Date</th>
+								  <th>Jour de la semaine</th>
+								  <th>Repas</th>
+								  <th>Code Membre Client</th>
+                  <th>Code Membre Restaurant</th>
+                  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+
+<?php $repa  = 0;  ?>
+<?php foreach ($this->entries1 as $entry): ?>
+<?php if($entry->jour_semaine != $repa){$repa  = $entry->jour_semaine;}else{continue;}  ?>
+    <tr>
+      <td><?php echo datefr($entry->date_creation); ?></td>
+      <td><?php echo joursemaine($entry->jour_semaine); ?></td>
+      <td><?php 
+$repasM = new Application_Model_EuRepasMapper();
+$repas = new Application_Model_EuRepas();
+$repasM->find($entry->id_repas, $repas);
+?>
+<?php echo ($repas->libelle_repas); ?></td>
+      <td><?php echo ($entry->code_membre_client); ?></td>
+      <td><?php echo ($entry->code_membre_restaurant); ?></td>
+      <td><div align="center"><?php //echo ($entry->id_repas_menu); ?></div></td>  
+    </tr>
+<?php endforeach; ?>
+
+<?php $repa  = 0;  ?>
+<?php foreach ($this->entries2 as $entry): ?>
+<?php if($entry->jour_semaine != $repa){$repa  = $entry->jour_semaine;}else{continue;}  ?>
+    <tr>
+      <td><?php echo datefr($entry->date_creation); ?></td>
+      <td><?php echo joursemaine($entry->jour_semaine); ?></td>
+      <td><?php 
+$repasM = new Application_Model_EuRepasMapper();
+$repas = new Application_Model_EuRepas();
+$repasM->find($entry->id_repas, $repas);
+?>
+<?php echo ($repas->libelle_repas); ?></td>
+      <td><?php echo ($entry->code_membre_client); ?></td>
+      <td><?php echo ($entry->code_membre_restaurant); ?></td>
+      <td><div align="center"><?php //echo ($entry->id_repas_menu); ?></div></td>  
+    </tr>
+<?php endforeach; ?>
+
+<?php $repa  = 0;  ?>
+<?php foreach ($this->entries3 as $entry): ?>
+<?php if($entry->jour_semaine != $repa){$repa  = $entry->jour_semaine;}else{continue;}  ?>
+    <tr>
+      <td><?php echo datefr($entry->date_creation); ?></td>
+      <td><?php echo joursemaine($entry->jour_semaine); ?></td>
+      <td><?php 
+$repasM = new Application_Model_EuRepasMapper();
+$repas = new Application_Model_EuRepas();
+$repasM->find($entry->id_repas, $repas);
+?>
+<?php echo ($repas->libelle_repas); ?></td>
+      <td><?php echo ($entry->code_membre_client); ?></td>
+      <td><?php echo ($entry->code_membre_restaurant); ?></td>
+      <td><div align="center"><?php //echo ($entry->id_repas_menu); ?></div></td>  
+    </tr>
+<?php endforeach; ?>
+
+<?php $repa  = 0;  ?>
+<?php foreach ($this->entries4 as $entry): ?>
+<?php if($entry->jour_semaine != $repa){$repa  = $entry->jour_semaine;}else{continue;}  ?>
+    <tr>
+      <td><?php echo datefr($entry->date_creation); ?></td>
+      <td><?php echo joursemaine($entry->jour_semaine); ?></td>
+      <td><?php 
+$repasM = new Application_Model_EuRepasMapper();
+$repas = new Application_Model_EuRepas();
+$repasM->find($entry->id_repas, $repas);
+?>
+<?php echo ($repas->libelle_repas); ?></td>
+      <td><?php echo ($entry->code_membre_client); ?></td>
+      <td><?php echo ($entry->code_membre_restaurant); ?></td>
+      <td><div align="center"><?php //echo ($entry->id_repas_menu); ?></div></td>  
+    </tr>
+<?php endforeach; ?>
+
+<?php $repa  = 0;  ?>
+<?php foreach ($this->entries5 as $entry): ?>
+<?php if($entry->jour_semaine != $repa){$repa  = $entry->jour_semaine;}else{continue;}  ?>
+    <tr>
+      <td><?php echo datefr($entry->date_creation); ?></td>
+      <td><?php echo joursemaine($entry->jour_semaine); ?></td>
+      <td><?php 
+$repasM = new Application_Model_EuRepasMapper();
+$repas = new Application_Model_EuRepas();
+$repasM->find($entry->id_repas, $repas);
+?>
+<?php echo ($repas->libelle_repas); ?></td>
+      <td><?php echo ($entry->code_membre_client); ?></td>
+      <td><?php echo ($entry->code_membre_restaurant); ?></td>
+      <td><div align="center"><?php //echo ($entry->id_repas_menu); ?></div></td>  
+    </tr>
+<?php endforeach; ?>
+
+<?php $repa  = 0;  ?>
+<?php foreach ($this->entries6 as $entry): ?>
+<?php if($entry->jour_semaine != $repa){$repa  = $entry->jour_semaine;}else{continue;}  ?>
+    <tr>
+      <td><?php echo datefr($entry->date_creation); ?></td>
+      <td><?php echo joursemaine($entry->jour_semaine); ?></td>
+      <td><?php 
+$repasM = new Application_Model_EuRepasMapper();
+$repas = new Application_Model_EuRepas();
+$repasM->find($entry->id_repas, $repas);
+?>
+<?php echo ($repas->libelle_repas); ?></td>
+      <td><?php echo ($entry->code_membre_client); ?></td>
+      <td><?php echo ($entry->code_membre_restaurant); ?></td>
+      <td><div align="center"><?php //echo ($entry->id_repas_menu); ?></div></td>  
+    </tr>
+<?php endforeach; ?>
+
+<?php $repa  = 0;  ?>
+<?php foreach ($this->entries7 as $entry): ?>
+<?php if($entry->jour_semaine != $repa){$repa  = $entry->jour_semaine;}else{continue;}  ?>
+    <tr>
+      <td><?php echo datefr($entry->date_creation); ?></td>
+      <td><?php echo joursemaine($entry->jour_semaine); ?></td>
+      <td><?php 
+$repasM = new Application_Model_EuRepasMapper();
+$repas = new Application_Model_EuRepas();
+$repasM->find($entry->id_repas, $repas);
+?>
+<?php echo ($repas->libelle_repas); ?></td>
+      <td><?php echo ($entry->code_membre_client); ?></td>
+      <td><?php echo ($entry->code_membre_restaurant); ?></td>
+      <td><div align="center"><?php //echo ($entry->id_repas_menu); ?></div></td>  
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php } else {?>
+<div class="alert alert-info">
+     Aucun menu enregistré 
+</div>
+<?php }?>
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

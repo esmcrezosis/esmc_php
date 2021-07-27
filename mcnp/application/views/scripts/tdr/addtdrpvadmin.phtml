@@ -1,0 +1,118 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+
+    <div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajouter un proces verbal</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addtdr">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = "";?>
+    </div>
+  <?php }?>
+  
+  
+
+<div class="control-group">
+<label class="control-label" for="id_tdr">TDR * </label>
+<div class="controls">
+<?php 
+$tdr_m = new Application_Model_EuTdrMapper();
+$tdr = $tdr_m->fetchAll();
+if(count($tdr) > 0){?>
+<select name="id_tdr" id="id_tdr" required >
+<option value="">Choisir le TDR </option>
+<?php foreach ($tdr as $value) { ?>
+<option value="<?php echo $value->id_tdr; ?>"><?php echo $value->libelle;?></option>
+<?php } ?>
+</select>
+<?php } ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_membre">Code Membre *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="code_membre" id="code_membre" placeholder="Code Membre" required>
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="libelle">Libellé de la demande *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="libelle" id="libelle" placeholder="Libellé de la demande" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="description">Description * </label>
+<div class="controls">
+<textarea name="description" id="description" placeholder="Description" class="ckeditor" required></textarea>
+</div>
+</div>
+   
+<div class="control-group">
+<label class="control-label" for="fichier">Document de la demande *</label>
+<div class="controls">
+<input name="fichier" type="file" id="fichier" class="input-xxlarge" required  />
+</div>
+</div>
+
+    
+
+
+<div class="control-group">
+<label class="control-label" for="montant_retenu">Montant retenu *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="montant_retenu" id="montant_retenu" placeholder="Montant retenu" required>
+</div>
+</div>
+
+
+
+
+<div class="control-group">
+<label class="control-label" for="montant_revu">Montant revu </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="montant_revu" id="montant_revu" placeholder="Montant revu" >
+</div>
+</div>
+
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter le proces verbal</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

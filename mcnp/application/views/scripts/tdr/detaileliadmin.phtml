@@ -1,0 +1,85 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8">		
+  $(document).ready(function() {
+    $('#example').dataTable( {
+    "sPaginationType": "full_numbers",
+    "aaSorting": []
+  });
+  });
+</script>
+        
+<script type="text/javascript">
+function checkAllInput(form, action) {
+   var i = document.forms[form].getElementsByTagName("input"); 
+    for(var cpt = 0; cpt < i.length; cpt++) 
+        i[cpt].checked = (action)? true : false ;
+}
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p> Détails des produits enrégistrés  </p></blockquote>
+  
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!="") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+<?php 
+
+if(count($this->entries) > 0) { 
+$ttmnteli = 0;
+?> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+	   <thead>
+	          <tr>
+			      <th colspan="4"> DETAILS : <?php echo "ENGAGEMENT DE LIVRAISON IRREVOCABLE N° ".$this->eli->numero_eli." du ".datejourfr($this->eli->date_eli); ?></th> 
+			  </tr>
+			  <tr>
+				  <th>Désignation des Produits</th>
+				  <th>Quantité</th>
+				  <th>Prix Unitaire</th>
+				  <th>Total</th>			 
+			  </tr>
+	   </thead>
+	   
+<tbody>
+<?php foreach($this->entries as $entry) : ?>
+<tr>
+    <td><?php echo($entry->libelle_produit);?></td>
+    <td><?php echo($entry->quantite);?></td>
+    <td><?php echo($entry->prix_unitaire);?> </td>
+    <td><div align="right"><?php echo(floor($entry->prix_unitaire * $entry->quantite));?> </div></td>
+</tr>
+<?php 
+$ttmnteli += floor($entry->prix_unitaire * $entry->quantite);
+endforeach; 
+?>
+
+<tfoot>
+       <tr>
+	       <td colspan="3"><div align="right" style="font-size:14px;"><strong>Montant Total</strong></div></td>
+		   <td><div align="right" style="font-size:14px;"><strong><?php echo number_format($ttmnteli,0,',',' ');?></strong></div></td>
+	   </tr>
+</tfoot>
+</tbody>
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun detail enregistré
+</div>
+<?php } ?>
+</div>
+</div>
+</div>

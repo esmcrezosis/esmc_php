@@ -1,0 +1,234 @@
+<div id="view-content" title="Gestion des salaires" style="min-height: 520px;padding: 1px;margin: 1px;font-size: 12px;">
+    <div id="sal_tabview" style="padding: 1px;">
+        <ul>
+            <li><a href="#tab_employes">Employés</a></li>
+            <li><a href="#tab_salaires">Compte Salaire</a></li>
+            <li><a href="#tab_sal_affect">Salaires affectés</a></li>
+        </ul>
+        <div style="padding: 1px;margin: 1px;">
+            <div id="tab_employes" style="padding: 1px;">
+                <fieldset id="rech_emp_field" style="margin-bottom: 2px;">
+                    <legend>Recherche</legend>
+                    <table>
+                        <tr>
+                            <td>
+                                <label>Code Membre employeur : </label><input size="30" type="text" id="code_memb_emp" name="code_memb_emp" value=""/>
+                                <input id="bt_afficher_emp" type="button" value="Afficher"/>
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+                <table id="tbl-employe"></table>
+                <div id="pg-employe"></div>
+            </div>
+            <div id="tab_salaires" style="padding: 1px;">
+                <fieldset id="field_employeur" style="margin-bottom: 2px;">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label>Code membre: </label>
+                                </td>
+                                <td>
+                                    <input id="code_membre_sal" name="code_membre_emp" type="text" value="" size="30" />
+                                    <input id="bt_afficher_sal" type="button" value="Afficher"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Raison sociale  : </label></td>
+                                <td><input id="raison_soc_emp" name="raison_soc_emp" readonly="true" type="text" value="" size="30" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Représentant  : </label></td>
+                                <td>
+                                    <input id="nom_employeur" name="nom_employeur" readonly="true" type="text" value="" size="30" />
+                                    <input id="prenom_employeur" name="prenom_employeur" readonly="true" type="text" value="" size="30" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <table border="1" width="250" style="margin-right: auto;margin-left: auto;margin-top: 3px; ">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2"><label>Voici la situation de votre compte</label></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><label>Solde : </label></td><td style="text-align: right"><label id="solde_sal"></label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+                <table id="tbl_sal_credit"></table>
+                <div id="pg_sal_credit"></div>
+            </div>
+            <div id="tab_sal_affect" style="padding: 1px;">
+                <fieldset id="rech_affecter_field" style="margin-bottom: 2px;">
+                    <legend>Recherche</legend>
+                    <table>
+                        <tr>
+                            <td>
+                                <label>Date : Début </label><input type="text" id="date_affect" name="date_affect" value=""/>
+                                <label>Fin : </label><input type="text" id="date_fin_affect" name="date_fin_affect" value=""/>
+                                <label>Code Membre : </label><input size="28" type="text" id="code_memb_aff" name="code_memb_emp" value=""/>
+                                <input id="bt_afficher_affect" type="button" value="OK"/>
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+                <table id="tbl-sal"></table>
+                <div id="pg-sal"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-employe").jqGrid({
+        url: '<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl: '<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['ID','Code Membre', 'CNSS', 'Salaire','Date déclaration'],
+        height: '100%', width: 800,
+        colModel: [
+            {name: 'id_employe', index: 'id_employe', width: 50, sorttype: "int", align: "left",hidden:true},
+            {name: 'code_membre_employe', index: 'code_membre_employe', width: 150, editable: true, align: "left"},
+            {name: 'cnss', index: 'cnss', width: 80, editable: true, align: "left"},
+            {name: 'mont_salaire', index: 'mont_salaire', width: 100, editable: true, align: "left"},
+            {name: 'date_declaration', index: 'date_declaration', width: 80, align: "left", editable: true,sorttype:'date',formatter:'date',format:'dd/MM/yyyy'}
+        ],
+        rowNum: 20,
+        rowList: [20, 40, 60],
+        rownumbers: true,
+        pager: '#pg-employe',
+        sortname: "id_employe",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste des employés"
+    });
+
+    $("#tbl-employe").jqGrid('navGrid', '#pg-employe', {edit: true, add: false, del: false, search: true});
+
+    $("#tbl_sal_credit").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['ID','Produit','Code Membre', 'Montant CAPA', 'Montant crédit','Date Maturité'],
+        height: '100%', width: 800,
+        colModel: [
+            {name: 'id_credit', index: 'id_credit', width: 50, sorttype: "int", align: "left",hidden:true},
+            {name: 'code_produit', index: 'code_produit', width: 50, editable: true, align: "left"},
+            {name: 'code_membre', index: 'code_membre', width: 150, editable: true, align: "left"},
+            {name: 'montant_place', index: 'montant_place', width: 80, editable: true, align: "left"},
+            {name: 'montant_credit', index: 'montant_credit', width: 100, editable: true, align: "left"},
+            {name: 'datefin', index: 'datefin', width: 80, align: "left", editable: true,sorttype:'date',formatter:'date',format:'dd/MM/yyyy'}
+        ],
+        rowNum: 20,
+        rowList: [20, 40, 60],
+        rownumbers: true,
+        pager: '#pg_sal_credit',
+        sortname: "id_credit",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste des crédits"
+    });
+
+    $("#tbl_sal_credit").jqGrid('navGrid', '#pg_sal_credit', {edit: false, add: false, del: false, search: true});
+
+    $("#tbl-sal").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['ID','Date','Code Membre', 'Montant', 'Date début','Date fin'],
+        height: 320, width: 800,
+        colModel: [
+            {name: 'id_affectation', index: 'id_employe', width: 50, sorttype: "int", align: "left",hidden:true},
+            {name: 'date_affectation', index: 'date_declaration', width: 80, align: "left", editable: true},
+            {name: 'code_membre', index: 'code_membre_employe', width: 150, editable: true, align: "left"},
+            {name: 'mont_affecter', index: 'mont_affecter', width: 80, editable: true, align: "left"},
+            {name: 'date_deb', index: 'date_deb', width: 80, align: "left", editable: true,sorttype:'date',formatter:'date',format:'dd/MM/yyyy'},
+            {name: 'date_fin', index: 'date_fin', width: 80, align: "left", editable: true,sorttype:'date',formatter:'date',format:'dd/MM/yyyy'}
+        ],
+        rowNum: 20,
+        rowList: [20, 40, 60],
+        rownumbers: true,
+        pager: '#pg-sal',
+        sortname: "date_affectation",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste des employés"
+    });
+
+    $("#tbl-sal").jqGrid('navGrid', '#pg-sal', {edit: false, add: false, del: false, search: true});
+
+    $(document).ready(function() {
+        $(function(){
+            $('#view-content').puipanel();
+            $('#field_employeur').puifieldset();
+            $('#rech_affecter_field').puifieldset();
+            $('#rech_emp_field').puifieldset();
+            $('#sal_tabview').puitabview();
+            var pickerOpts = {
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+            $("#date_affect").datepicker(pickerOpts);
+            $("#date_fin_affect").datepicker(pickerOpts);
+        });
+        
+        $('#bt_afficher_affect').click(function(e){
+            e.preventDefault();
+            jQuery("#tbl-sal").jqGrid('setGridParam', {url: "/eu-affectation/affectations?membre="
+                    + $('#code_memb_aff').val()+'&datedeb='
+                    + $('#date_affect').val()+'&datefin='
+                    + $('#date_fin_affect').val()}).trigger('reloadGrid');
+        });
+        
+        $('#bt_afficher_emp').click(function(e){
+            e.preventDefault();
+            jQuery("#tbl-employe").jqGrid('setGridParam', {url: "/eu-affectation/data?membre=" + $('#code_memb_emp').val()}).trigger('reloadGrid');
+        });
+        
+        $('#bt_afficher_sal').click(function(e){
+            e.preventDefault();
+            $.get("/eu-affectation/salaire", {membre:$('#code_membre_sal').val()}, function success(data){
+                $('#raison_soc_emp').val(data[0]);
+                $('#nom_employeur').val(data[1]);
+                $('#prenom_employeur').val(data[2]);
+                $('#solde_sal').html(data[3]);
+            })
+            $("#tbl_sal_credit").jqGrid('setGridParam', {url: "/eu-affectation/csalaire?membre=" + $('#code_membre_sal').val()}).trigger('reloadGrid');
+        });
+        
+        $.get("/eu-affectation/membremoral",
+        function success(data)
+        {
+            $('#code_memb_emp').autocomplete({"source": data});
+            $('#code_membre_sal').autocomplete({"source": data});
+            $('#code_memb_aff').autocomplete({"source": data});
+        });
+        $('#membre_fg').blur(function(e) {
+            $.get("/eu-affectation/recupnom",
+            {num_membre: $(this).val()},
+            function success(data)
+            {
+                if (data !== false) {
+                    $("#nom_rep").val(data[0]);
+                    $("#prenom_rep").val(data[1]);
+                    $("#raison_soc").val(data[2]);
+                } else {
+                    $("#id_message").html('Ce membre n\'existe pas !!!');
+                }
+            });
+            e.preventDefault();
+        });
+    });
+</script>

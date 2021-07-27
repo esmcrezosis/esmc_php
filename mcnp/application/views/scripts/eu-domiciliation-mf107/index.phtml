@@ -1,0 +1,161 @@
+<div id="view-content">
+
+     <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:11px">
+          <button id="bt_domi_detail">Détail</button>
+     <table id="tbl-domicilie"></table>
+     <div id="pg-domicilie"></div>
+	 
+     <br>
+     <div id="cptedialog">
+            <form>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><label>Numéro bénéficiaire :</label></td>
+                                            <td><input type="text" id="num_benef" name="num_benef" size="25" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Montant à domicilier :</label></td>
+                                            <td><input type="text" id="mt_domiciliation" name="mt_domiciliation" style="text-align: right"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Date Domiciliation :</label></td>
+                                            <td><input type="text" id="date_domi" name="date_domi" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><label>Etat domiciliation :</label></td>
+                                            <td><input type="text" id="etat_domi" name="etat_domi"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Montant domicilié :</label></td>
+                                            <td><input type="text" id="mt_domi" name="mt_domi" style="text-align: right"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Heure domiciliation :</label></td>
+                                            <td><input type="text" id="heure_domi" name="heure_domi" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table id="tbl-credit"></table>
+                                <div id="pg-credit"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+     </div>
+</div>
+
+
+<script type="text/javascript">
+    $("#tbl-domicilie").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Id_domi','Bénéficiaire','Mt à domicilier','Mt domicilié','Date','Heure','Etat'],
+        height:450, width:820,
+        colModel:[
+            {name:'id_domi',index:'id_domi', width: 10, align:"left", hidden:true},
+            {name:'num_benef',index:'num_benef', width: 160, editable: false,align:"left"},
+            {name:'mt_domiciliation',index:'mt_domiciliation', width: 150, align:"right", editable: false,formatter:'number'},
+            {name:'mt_domi',index:'mt_domi', width: 150, editable: false,align:"right",formatter:'number'},
+            {name:'date_domi',index:'date_domi', width: 110, align:"left", editable: false},
+            {name:'heure_domi',index:'heure_domi', width: 110, align:"left", editable: false},
+            {name:'etat_domi',index:'etat_domi', width:100, editable: false,align:"left"},
+        ],
+        rowNum:100,
+        rowList:[100,200,300],
+        pager: '#pg-domicilie',
+        sortname:"num_benef",
+        viewrecords: true,
+        rownumbers:true,
+        sortorder: "desc",
+        caption:"Liste des domiciliations de paiements"
+    });
+    $("#tbl-domicilie").jqGrid('navGrid','#pg-domicilie',{edit:false,add:false,del:false,search:true});
+
+    $("#tbl-credit").jqGrid({
+        url:'/eu-domiciliation-mf107/listcredits?id_domi=0',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Id_mf107','Membre','Mt domicilié','Nb répartitions','Reste répartition'],
+        height:'100%', width:625,
+        colModel:[
+            {name:'id_mf107',index:'id_mf107', width: 10, align:"left", hidden:true},
+            {name:'code_membre',index:'code_membre', width: 170, editable: false,align:"left"},
+            {name:'mt_domici',index:'mt_domici', width: 150, align:"right", editable: false,formatter:'number'},
+            {name:'nb_repartition',index:'nb_repartition', width: 110, align:"right", editable: false},
+            {name:'reste_repartition',index:'reste_repartition', width: 120, align:"right", editable: false},
+        ],
+        rowNum:30,
+        rowList:[30,50,100],
+        rownumbers:true,
+        pager: '#pg-credit',
+        sortname:"datefin",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des domiciliations sur un apport"
+    });
+    $("#tbl-credit").jqGrid('navGrid','#pg-credit',{edit:false,add:false,del:false,search:true});
+    
+    $(document).ready(function ()
+    { 
+        $('#bt_domi_detail').button();
+    
+        $("#bt_domi_detail").button().click(function() {
+            var sel;
+            sel = jQuery("#tbl-domicilie").jqGrid('getGridParam','selrow');
+            data = jQuery("#tbl-domicilie").jqGrid('getRowData',sel);
+            if (sel) {
+                $('#num_benef').val(data.num_benef);
+                $('#etat_domi').val(data.etat_domi);
+                $('#mt_domiciliation').val(data.mt_domiciliation);
+                $('#mt_domi').val(data.mt_domi);
+                $('#date_domi').val(data.date_domi);
+                $('#heure_domi').val(data.heure_domi);
+                jQuery("#tbl-credit").jqGrid('setGridParam',{url:"/eu-domiciliation-mf107/listcredits?id_domi=" + data.id_domi}).trigger('reloadGrid');
+                $("#cptedialog").dialog("open");
+            }
+            else
+            {
+                alert('Il faut sélectionner une ligne');
+            }
+        });
+        
+        $(function() {
+            $( "#cptedialog").dialog({
+             autoOpen: false,
+             height: 450,
+             title : 'Détail de la domiciliation',
+             width: 660,
+             modal: true,
+             buttons: {
+             "Fermer": function() {
+                 $( this ).dialog( "close" );
+             }
+             },
+             close: function() {
+                    //allFields.val( "" ).removeClass( "ui-state-error" );
+             }
+            }
+        );
+        });
+    
+    })
+</script>

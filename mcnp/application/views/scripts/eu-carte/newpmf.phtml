@@ -1,0 +1,373 @@
+<div id="view-content" title="Demande de cartes pour les membres personnes physiques avec l'utilisation des comptes membres fondateurs" style="font-size: 12px;min-height:520px;">
+     <form id="affecte_form" method="Post" action="/eu-carte/donewcartemf" style="margin-left: 10px;margin-top: 15px;">
+	       <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+		   <table style="width: 600px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+		   
+		          <tr>
+                  <td colspan="2">
+                      <fieldset>
+					    <table>
+                            <tbody>
+                                <tr>
+                                    <td><label>Mode de paiement :</label></td>
+                                    <td>
+                                        <select id="sel_mode_fin" name="sel_mode_fin">
+										   <option value=""></option>
+					                       <option value="bon">Par bon</option>
+					                       <option value="autre">Autre</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+					  </fieldset>       
+	              </td>
+				  </tr>
+				  
+				  <tr>
+                    <td colspan="2">
+                        <div id="nn_table">
+                            <fieldset>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><label>Compte MF * </label></td>
+                                            <td>
+											    <select id="type_mf" class="validate[required]" name="type_mf">
+											       <option value=""></option>
+					                               <option value="MF11000">MF11000</option>
+                                                   <option value="MF107">MF107</option>
+												</select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </div>
+                    </td>
+                </tr>
+				
+				<tr>
+                    <td colspan="2">
+                        <div id="div_bon" style="display:none">
+                            <fieldset>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Numero bon *:</td><td><input id="num_bon" type="text" name="num_bon" value="" size="12"/></td>
+                                        </tr>
+									 </tbody>
+								</table>
+							</fieldset>
+						</div>
+					</td>
+				</tr>
+				
+				<tr>
+                    <td colspan="2">
+                        <div id="div_membre" style="display:none">
+                            <fieldset>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td> Apporteur *:</td><td><input id="code_membre_app" type="text" name="code_membre_app" value="" size="25"/></td>
+                                        </tr>
+									 </tbody>
+								</table>
+							</fieldset>
+						</div>
+					</td>
+				</tr>
+				
+				<tr>
+                <td colspan="2">
+                    <fieldset>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label>Code Membre    *: </label></td><td><input id="code_membre" type="text" name="code_membre" value="" required="true" size="30"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Nom et Pr&eacute;noms : </label></td><td><input id="nom_membre" type="text" name="nom_membre" value="" style="width: 200px;" readonly="readonly"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+				
+				
+				<tr>
+                <td colspan="2">
+                    <fieldset>
+                        <table border="1" rules="all" id="tab_salaire">
+                            <thead>
+                                <tr style="text-align: left;">
+                                    <th style="width: 192px;">Code Carte</th><th style="width: 90px;">Nom Carte</th><th style="width: 120px;">Prix</th>
+                                </tr>
+                            </thead>
+                            <tbody> 
+                                <tr>
+                                    <td><select id="typecarte1" name="typecarte1" value="" style="width: 190px;" required="true"/></td>
+                                    <td><select id="carte1" name="carte1" value="" style="width: 90px;" required="true"/></td>
+                                    <td><input id="prix1" type="text" name="prix1" value="" style="width: 120px;" readonly="true" class="validate[required,custom[onlyNumberSp]]"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+			
+            <tr>
+                <td><input id="add" type="button" value="Ajouter" onclick="addRow('tab_salaire');"/><input id="remove" type="button" value="Supprimer" onclick="deleteRow('tab_salaire');"/></td>
+                <td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="R&eacute;initialiser"/></td>
+            </tr>	  
+	       </table>
+	 </form>
+</div>
+
+<script>
+    var compteur = 1;
+    $(document).ready(function() {
+	$(function() {
+      $('#view-content').puipanel();
+      $('fieldset').puifieldset();
+    });
+    $('#val').button();
+    $('#reset').button();
+    $('#add').button();
+    $('#remove').button();
+    $("#affecte_form").validationEngine();
+	
+	$("#type_mf option[value='MF107']").attr('disabled',true);
+		$("#num_bon").attr('required',true);
+		$('#sel_mode_fin').change(function() {
+            var mode = $(this).val();
+			if (mode === 'bon') {
+			   $('#div_bon').show();
+			   $('#div_membre').hide();
+			   $("#num_bon").attr('required',true);
+			   $("#type_mf option[value='MF107']").attr('disabled',true);
+			   $("#type_mf option[value='MF11000']").attr('selected','selected');	
+            } else  if (mode === 'bon' &&  $('#type_mf').val() == 'MF11000') {
+               $('#div_bon').show();
+			   $('#div_membre').hide();
+			   $("#num_bon").attr('required',true);
+			   $("#type_mf option[value='MF107']").attr('disabled',true);	
+            } 
+			else if (mode === 'autre') {
+               $('#div_bon').hide();
+			   $('#div_membre').show();
+			   $("#code_membre_app").attr('required',true);
+			   $("#num_bon").attr('required',false);
+			   $("#type_mf option[value='MF107']").attr('disabled',false);
+            }
+      });
+	  
+	  $.get("/eu-carte/typecarte",
+        function success(data) {
+          var options = '<option/>';
+          for (var i = 0; i < data.length; i++) {
+          options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+          }
+          $('select#typecarte1').html(options);
+      });
+	  
+	  $.get("/eu-carte/categoriep", {type: '%'},
+        function success(data) {
+         var options = '<option/>';
+         for (var i = 0; i < data.length; i++) {
+          options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+         }
+         $('select#carte1').html(options);
+      });
+	   
+	   $.get("/eu-carte/membre",
+         function success(data) {
+          $("#code_membre").autocomplete({"source": data, change: displayItem});
+       });
+
+       function displayItem() {
+         if ($(this).val() !== '') {
+            $.get(
+              '/eu-carte/recupnom',{
+              num_membre: $(this).val()
+            },
+            function success(data) {
+             $("#nom_membre").val(data[1]);
+            });
+
+        $.get("/eu-carte/categorie", {type: '%', memb: $(this).val()},
+          function success(data) {
+           var options = '<option/>';
+           for (var i = 0; i < data.length; i++) {
+           options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+           }
+           $('select#carte1').html(options);
+         });
+         };
+        };
+	    
+	  
+	  $('#typecarte1').change(function(e) {
+       if ($(this).val() !== '') {
+          $.get(
+            '/eu-carte/categoriep',{
+            type: $(this).val()
+          },
+          function success(data) {
+             var options = '<option/>';
+             for (var i = 0; i < data.length; i++) {
+                 options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+             }
+               $('select#carte1').html(options);
+            });
+            }
+            e.preventDefault();
+       });
+	   
+	   $('form#affecte_form').submit(function(e) {
+          $.ajax({
+            url: $('form').attr("action"),
+            data: $('form').serialize(),
+            type: 'post',
+            success: processServerResponse
+          });
+          e.preventDefault();
+       });
+	   
+       function processServerResponse(data) {
+          if (data === true) {
+             alert('La demande de cartes a été effectuée avec succès ');
+             $(location).attr("href", "/eu-carte/index");
+          }
+          else {
+           alert(data);
+         }
+       };
+	   
+	   $('#carte1').change(function(e) {
+         if ($(this).val() !== '') {
+            $.get(
+             '/eu-carte/prix',{
+             code_cat: $(this).val()
+            },
+            function success(data) {
+             if (data !== 0) {
+                $('#prix1').val(data);
+             } else {
+                alert("Le prix de cette carte n'est pas défini!!!");
+             }
+          });
+        }
+        e.preventDefault();
+     });  
+   });
+   
+   
+   function addRow(tableID) {
+     var table = document.getElementById(tableID);
+     var rowCount = table.rows.length;
+     var cpte = rowCount;
+     var row = table.insertRow(rowCount);
+
+     var cell3 = row.insertCell(0);
+     var element2 = document.createElement("select");
+     element2.setAttribute("id", "typecarte" + cpte);
+     element2.setAttribute("name", "typecarte" + cpte);
+     element2.setAttribute("style", "width:190px;");
+     element2.setAttribute("required", "true");
+     cell3.appendChild(element2);
+
+     var cell4 = row.insertCell(1);
+     var element3 = document.createElement("select");
+     element3.setAttribute("id", "carte" + cpte);
+     element3.setAttribute("name", "carte" + cpte);
+     element3.setAttribute("style", "width:90px;");
+     element3.setAttribute("required", "true");
+     cell4.appendChild(element3);
+
+     var cell5 = row.insertCell(2);
+     var element4 = document.createElement("input");
+     element4.type = "text";
+     element4.setAttribute("id", "prix" + cpte);
+     element4.setAttribute("name", "prix" + cpte);
+     element4.setAttribute("style", "width:120px;");
+     element4.setAttribute("value", "");
+     element4.setAttribute("required", "true");
+     cell5.appendChild(element4);
+
+     $('#typecarte' + cpte).puiinputtext();
+     $('#carte' + cpte).puiinputtext();
+     $('#prix' + cpte).puiinputtext();
+
+     $.get("/eu-carte/categoriep", {type: '%'},
+       function success(data) {
+         var options = '<option/>';
+         for (var i = 0; i < data.length; i++) {
+          options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+         }
+         $('select#carte' + cpte).html(options);
+     });
+
+     $.get("/eu-carte/typecarte",
+      function success(data) {
+      var options = '<option/>';
+      for (var i = 0; i < data.length; i++) {
+       options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+      }
+      $('select#typecarte' + cpte).html(options);
+     });
+
+     $('#typecarte' + cpte).change(function(e){
+      if ($(this).val() !== '') {
+         $.get(
+           '/eu-carte/categoriep',{
+           type: $(this).val()
+         },
+         function success(data) {
+           var options = '<option/>';
+           for (var i = 0; i < data.length; i++) {
+            options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+           }
+           $('select#carte' + cpte).html(options);
+         });
+         }
+         e.preventDefault();
+      });
+
+      $('#carte' + cpte).change(function(e) {
+       if ($(this).val() !== '') {
+           $.get(
+           '/eu-carte/prix',{
+             code_cat: $(this).val()
+           },
+           function success(data) {
+             if (data !== 0) {
+                $('#prix' + cpte).val(data);
+             } else {
+                alert("Le prix de cette carte n'est pas défini!!!");
+              }
+            });
+             }
+             e.preventDefault();
+      });
+      compteur = compteur + 1;
+      document.getElementById("cpteur").setAttribute('value', compteur);
+    }
+
+    function deleteRow(tableID) {
+      try {
+          var table = document.getElementById(tableID);
+          var rowCount = table.rows.length - 1;
+          if (rowCount > 1) {
+             table.deleteRow(rowCount);
+          }
+          compteur = compteur - 1;
+          document.getElementById("cpteur").setAttribute('value', compteur);
+       } catch (e) {
+          alert(e);
+       }
+    }
+   	          
+</script>

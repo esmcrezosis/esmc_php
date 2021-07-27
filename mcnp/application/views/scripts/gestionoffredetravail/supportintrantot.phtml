@@ -1,0 +1,203 @@
+<?php 
+
+$tab_diplome_view = $this->tab_diplomes;
+
+
+?>
+<div class="span12" style="text-align:text">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+</div>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+<div class="alert alert-danger">
+
+  <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+</div>
+
+<?php unset($_SESSION['validationerrors']); endif ?>
+
+<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+<div class="alert alert-success">
+
+  <strong><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></strong>
+
+</div>
+
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+<form method="post" class="form-horizontal" enctype="multipart/form-data">
+
+<h2 style="text-align:center">Liste des postes à postuler  </h2>
+
+<div id="searchbox_result" style="margin-bottom:20px">
+
+
+<?php foreach($this->detaildunecandidaturepourpostuler as $keydetailcandidature => $valdetailcandidature): ?>
+
+  <?php if ($this->countalreadycandidatureposts != 0): ?>
+
+    <?php if ($this->alreadypostcandidature[0]->id_candidature_postes == $valdetailcandidature->id_candidature_postes): ?>
+
+         <div style="margin-bottom:20px">
+   
+             <span style="inline-block;font-size:1.2em;margin-left:23px"><?php echo $valdetailcandidature->libelle_roles ?></span>
+    
+	         <span style="background-color: #EC4444;padding: 3px;color: #FFF;font-weight: bold;border-radius: 3px">Vous avez déja acheté et postulé pour ce poste </span>
+   
+        </div>
+ 
+    <?php elseif ($this->alreadypostcandidature[0]->id_candidature_postes != $valdetailcandidature->id_candidature_postes): ?>
+
+	  <label class="radio">
+		
+		<input type="radio" name="offre_post_ot" id="offre_post_ot" value="<?php echo $valdetailcandidature->id_candidature_postes ?>">
+
+		<span style="inline-block;font-size:1.2em;"><?php echo $valdetailcandidature->libelle_roles ?></span>
+	
+	  </label>
+
+    <?php endif ?>
+
+  <?php else: ?>
+
+	<label class="radio">
+		
+		<input type="radio" name="offre_post_ot" id="offre_post_ot" value="<?php echo $valdetailcandidature->id_candidature_postes ?>">
+
+		<span style="inline-block;font-size:1.2em;"><?php echo $valdetailcandidature->libelle_roles ?></span>
+	
+	</label>
+
+  <?php endif ?>
+
+<?php endforeach ?>
+
+</div>
+
+
+<div class="control-group">
+
+  <label class="control-label" for="code BCI">Code BCI *</label>
+
+  <div class="controls">
+
+    <input type="text" name="code_bci_ot" id="code_bci_ot" placeholder="Veuillez mettre ici le code BCi " class="input-large" require="require"/>
+  
+  </div>
+
+</div>
+
+
+<h2 style="text-align:center">Liste des supports </h2>
+
+<div class="control-group" id="piece_existance_justificative">
+
+	<label class="control-label" for="Joindre la lettre de manifestation d'intérêt" style="font-weight:bold">
+
+		Joindre la lettre de manifestation d'intérêt
+        
+	</label>
+
+	<div class="controls">
+
+		<input type="file" name="ot_lettre_manifestation_interet" style="position:relative">
+
+		<div class="alert alert-success">
+
+           <strong>Seul les formats jpg, png, jpeg et pdf sont supportés:</strong>
+				
+        </div>
+
+	</div>
+			
+</div>
+
+<div class="control-group" id="piece_existance_justificative">
+
+	<label class="control-label" for="Joindre votre curriculum vitae bien détaillé" style="font-weight:bold">
+
+		Joindre votre curriculum vitae bien détaillé et actualisé
+        
+	</label>
+
+	<div class="controls">
+
+		<input type="file" name="ot_curriculum_vitae" style="position:relative">
+
+		<div class="alert alert-success">
+
+           <strong>Seul le format pdf est supporté:</strong>
+				
+        </div>
+
+	</div>
+			
+</div>
+
+<div class="control-group">
+
+  <label for="type de transfert de technologie" style="font-weight:bold;float:left">
+			 
+       Type de transfert de technologie*: 
+       
+  </label>
+
+	<select class="input-block-level ot_type_transfert" name="ot_type_transfert">
+
+          <option value>Selectionner l'option de transfert</option>
+
+   		  	<option value="présentielle">Transfert de technologie option présentielle</option>
+
+   		  	<option value="en ligne">Transfert de technologie option en ligne </option>
+
+   		  	<option value="automatisée">Transfert de technologie option automatisée</option>
+
+	</select>
+	
+</div>
+
+<div class="control-group">
+
+     <blockquote style="text-transform:uppercase;font-weight:bold;font-size:1.3em;text-align:left">
+
+				SELECTIONNER LE DERNIER DIPLOME OBTENU
+
+	</blockquote>
+
+    <?php foreach($tab_diplome_view as $key_tab_diplome => $tab_diplome): ?>
+
+		<label class="radio">
+
+			<input type="radio" name="select_last_diploma" id="select_last_diploma" value="<?php echo $key_tab_diplome ?>">
+						
+            <span style="inline-block;font-size:1.2em;font-weight:lighter;"><?php echo $tab_diplome ?></span>
+
+			<input type="hidden" name="select_last_diploma_name" value="<?php echo $tab_diplome ?>">
+					
+        </label>
+
+    <?php endforeach ?>
+
+</div>
+
+<div id="upload_files_diploma"></div>
+
+<input type="hidden" value="<?php echo $this->idcandidature ?>" id="id_candidature" name="id_candidature_ot">
+
+
+<div class="control-group" style="clear:both">
+
+     <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+   
+	     Enrégistrer le support intrant
+
+    </button>
+
+</div>
+
+</form>

@@ -1,0 +1,281 @@
+<?php $sessionmembre = new Zend_Session_Namespace('utilisateur');?>
+
+    <link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+<script>
+  $(document).ready(function(){
+	  $('#example').dataTable({
+    "sPaginationType": "full_numbers",
+		"aaSorting": []
+     });
+  });
+</script>
+
+		<style media="screen">
+    #example_wrapper{
+      position: relative;
+      bottom: -43px;
+    }
+			.table tbody tr.primary > td{
+				background-color: #96d1e2;
+			}
+
+			.table tbody tr.dangerous > td{
+				background-color: #e296a1
+			}
+
+			.table tbody tr.marron > td{
+				    background-color: #dc942d;
+			}
+			.table tbody tr.marron > td{
+				    background-color: #9a6923;
+						color:#FFF;
+			}
+
+			.table tbody tr.level-fifth > td{
+				background-color: #ea9a4b;
+			}
+
+			.level-container{
+				text-align: left
+			}
+			.table tbody tr.level-one > td{
+				background-color: #7d7777;
+				color: #FFF;
+			}
+			.table tbody tr.level-six > td{
+				background-color:#06065a;
+				color: #FFF;
+			}
+
+			.table tbody tr.level-seven > td{
+        background-color:#d82883;color: #FFF;
+			}
+      .table tbody tr.level-heigh > td{
+        background-color:#06065a;color: #FFF;
+			}
+			.table tbody tr.level-nine > td{
+				background-color:#ad1f41;
+				color: #FFF;
+			}
+		</style>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+<?php if(count($this->entries) > 0){?>
+	<blockquote><p>Suivi des tickets de support</p></blockquote>
+	<div class="level-container-wrap" style="float: left;padding-right: 30px;border-right: 3px solid;width:394px">
+		<div class="level-container">
+		<div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #7d7777" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Secretariat(Collecte)</span>
+		</div>
+		<div class="level-container">
+		<div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #96d1e2;" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Gerant (Visa 1)</span>
+		</div>
+		<div class="level-container">
+		<div  style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #d0e9c6;" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Dispatcheur</span>
+		</div>
+		<div class="level-container">
+		<div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #e296a1" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Section</span>
+		</div>
+		<div class="level-container">
+		<div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #9a6923;" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Dispatcheur(Ticket traité)</span>
+		</div>
+		<div class="level-container">
+		<div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #ea9a4b;" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Gérant (visa 2)</span>
+		</div>
+		<div class="level-container">
+		<div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #7b4cca;" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Demandeur (Pour confirmation de traitement)</span>
+		</div>
+
+		<div class="level-container">
+		<div class="primary" style="display:inline-block;width:80px;height:25px;border:1px solid #2e2e2e;background-color: #06065a;" ></div>
+		<span style="display;inline-block;position: relative;top: -8px;font-weight:bold">Tickets Archivés</span>
+		</div>
+
+	</div>
+
+<div class="stat_count_ticket">
+	<div style="width:394px;float:left;border-right:2px solid #000;padding-left:10px">
+		<span style="display: block;text-align: left;color: #FFF;background-color:#06065a;padding: 10px;margin-right: 10px;margin-bottom: -9px;">
+			<?php if ($this->count_ticket_secretariat_two_all <= 1): ?>
+				<?php echo $this->count_ticket_secretariat_two_all; ?> ticket traité et archivé
+		  <?php else: ?>
+				<?php echo $this->count_ticket_secretariat_two_all; ?> tickets traités et archivés
+			<?php endif; ?>
+			</span>
+	  <br>
+
+			<br>
+      <span style="display: block;text-align: left;color: #FFF;background-color:#7b4cca;padding: 10px;margin-right: 10px;margin-bottom: -9px;">
+			<?php if ($this->count_ticket_secretariat_two_all <= 1): ?>
+				<?php echo $this->count_ticket_secretariat_two_all; ?> ticket est envoyé dans l'espace personnel du demandeur
+			<?php else: ?>
+				<?php echo $this->count_ticket_secretariat_two_all; ?> tickets sont envoyés dans l'espace personnel du demandeur
+			<?php endif; ?>
+		</span>
+		<br>
+    <span style="display: block;text-align: left;color: #FFF;background-color:#9a6923;padding: 10px;margin-right: 10px;margin-bottom: -9px;">
+			<?php if ($this->count_list_ticket_dispatcheur_two_all <= 1): ?>
+				<?php echo $this->count_list_ticket_dispatcheur_two_all; ?> ticket est prêt à être envoyé au gérant pour deuxieme signature
+			<?php else: ?>
+				<?php echo $this->count_list_ticket_dispatcheur_two_all; ?> tickets sont prêts à être envoyés au gérant pour deuxieme signature
+			<?php endif; ?>
+			</span>
+
+		<br><span style="display: block;text-align: left;color: #FFF;background-color:#ea9a4b;padding: 10px;margin-right: 10px;margin-bottom: -9px;">
+			<?php if ($this->count_list_ticket_gerant_two_all <= 1): ?>
+				<?php echo $this->count_list_ticket_gerant_two_all; ?> ticket est prêt à être signé une deuxieme fois par le gérant
+			<?php else: ?>
+				<?php echo $this->count_list_ticket_gerant_two_all; ?> tickets sont prêts à être signés une deuxieme fois par le gérant
+			<?php endif; ?>
+			</span>
+
+	</div>
+
+	<div style="padding-left:10px;margin-left: 827px;width: 339px;">
+		<span style="display: block;text-align: left;color: #FFF;background-color:#e296a1;padding: 10px;margin-right: 10px;margin-bottom: -9px;">
+			<?php if ($this->count_list_ticket_section_one_all <= 1): ?>
+				<?php echo $this->count_list_ticket_section_one_all; ?> ticket est en cours de traitement
+			<?php else: ?>
+				<?php echo $this->count_list_ticket_section_one_all; ?> tickets sont en cours de traitement
+			<?php endif; ?>
+			<a href="/ticketsupport/ticketonline" class="btn btn-danger">Voir les détails</a>
+			</span><br>
+		<span style="display: block;text-align: left;color: #00;font-weight:bold;background-color:#d0e9c6;padding: 10px;margin-right: 10px;margin-bottom: -9px;">
+     <?php if ($this->count_list_ticket_dispatcheur_one_all <= 1): ?>
+			 <?php echo $this->count_list_ticket_dispatcheur_one_all; ?> ticket est disponible chez le dispatcheur pour dispatching
+     <?php else: ?>
+       <?php echo $this->count_list_ticket_dispatcheur_one_all; ?> tickets sont disponibles chez le dispatcheur pour dispatching
+     <?php endif; ?>
+			</span>
+		<br><span style="display: block;text-align: left;color: #FFF;background-color:#96d1e2;padding: 10px;margin-right: 10px;margin-bottom: -9px;">
+       <?php if ($this->count_list_ticket_gerant_one_all <= 1): ?>
+						 <?php echo $this->count_list_ticket_gerant_one_all; ?> ticket est disponible chez le gérant pour premiere signature
+       <?php else: ?>
+			    <?php echo $this->count_list_ticket_gerant_one_all; ?> tickets sont disponibles chez le gérant pour première signature
+       <?php endif; ?>
+    </span>
+		<br>
+    <span style="display: block;text-align: left;color: #FFF;background-color:#7d7777;padding: 10px;margin-right: 10px;margin-bottom: -9px;">
+       <?php if ($this->count_list_ticket_secretariat_one_all <= 1): ?>
+       	   <?php echo $this->count_list_ticket_secretariat_one_all; ?> ticket est disponible chez le sécrétariat pour dispatching
+			 <?php else: ?>
+				 <?php echo $this->count_list_ticket_secretariat_one_all; ?> tickets sont  disponibles chez le sécrétariat pour dispatching</span>
+       <?php endif; ?>
+	</div>
+<?php
+$prce_trait = $this->count_list_ticket_ready_all/$this->count_list_ticket_all;
+ ?>
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+   <thead>
+ 	   <tr>
+ 		   <th>Reference</th>
+ 		   <th>Telecharger le Ticket</th>
+		   <th>Telecharger cette piece jointe</th>
+		   <th>Date d'émission du ticket</th>
+		   <th>Date de dernière validation</th>
+ 	   </tr>
+   </thead>
+   <tbody>
+   	 	<?php foreach ($this->entries as $key => $value): ?>
+				<?php if ($value->valid == "0"): ?>
+					<tr class="level-one">
+				<?php elseif ($value->valid == "1"): ?>
+					<tr class="primary">
+		    <?php elseif($value->valid == "2"): ?>
+					<tr class="success">
+				<?php elseif($value->valid == "3"): ?>
+					<tr class="dangerous">
+				<?php elseif($value->valid == "4"): ?>
+          <tr class="marron">
+				<?php elseif($value->valid == "5"): ?>
+					<tr class="level-fifth">
+					<?php elseif($value->valid == "6"): ?>
+          <tr class="level-six">
+					<?php elseif($value->valid == "7"): ?>
+						<tr class="level-seven">
+					<?php elseif($value->valid == "8"): ?>
+					  <tr class="level-heigh">
+					<?php elseif($value->valid == "9"): ?>
+						<tr class="level-nine">
+				<?php endif; ?>
+        	<td ><?php echo $value->numero_demandeur; ?></td>
+				<?php if($value->valid == "6"): ?>
+          <td>
+            <a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/ticketsupport/pdfticketarchive/id/<?php echo $value->id_ticket; ?>"><i class="icon-cog icon-white"></i>Telecharger ce ticket de Support </a>
+          </td>
+					<?php else: ?>
+						<td>
+
+						</td>
+				<?php endif; ?>
+
+					<td>
+						<?php if ($value->file_name == true): ?>
+							<a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/ticketsupport/seealljointefile/id/<?php echo $value->id_ticket; ?>"><i class="icon-cog icon-white"></i> Afficher les pieces jointes</a>
+							<?php elseif($value->renseignement_id > 0): ?>
+							<a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/ticketsupport/fileedit/id/<?php echo $value->renseignement_id; ?>"><i class="icon-cog icon-white"></i> Telecharger cette piece jointe</a>
+						<?php elseif($value->file_name != true && $value->file_name != null): ?>
+							<a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/pdf_upload/<?php echo $value->file_name; ?>"><i class="icon-cog icon-white"></i> Telecharger cette piece jointe</a>
+							            <?php else: ?>
+							<span>Aucune pièce jointe pour ce ticket</span>
+						<?php endif; ?>
+
+					</td>
+					<?php
+							$month = array('01'=>'Janvier','02'=>'Février','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+							$true_month = "";
+							$true_val_month = "";
+
+							$ex_date = explode('-',$value->created);
+							$ex_val_date = explode('-',$value->date_validation);
+
+							foreach ($month as $ky => $vad) {
+								if($ex_date[1] == $ky){
+									$true_month = $vad;
+								}
+								if($ex_val_date[1] == $ky){
+									$true_val_month = $vad;
+								}
+							}
+							$next_ex_date = explode(' ', $ex_date[2]);
+							$next_ex_val_date = explode(' ', $ex_val_date[2]);
+
+							$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0]." à ".$next_ex_date[1];
+							$true_val_date = $next_ex_val_date[0]." ".$true_val_month." ".$ex_val_date[0]." à ".$next_ex_val_date[1];
+
+					 ?>
+					<td>
+						 <?php echo $true_date ?>
+					</td>
+					<td>
+						 <?php echo $true_val_date ?>
+					</td>
+        </tr>
+
+ 	<?php endforeach ?>
+   </tbody>
+
+ </table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucun Ticket de Support n'a été encore enregistré
+</div>
+<?php }?>
+</div>
+
+</div>
+</div>

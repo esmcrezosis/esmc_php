@@ -1,0 +1,253 @@
+<div id="view-content" title="Vue des ventes effectuées sur GCP" style="font-size: 12px">
+    <div id="tab_gcp" style="padding: 1px;">
+        <ul>
+            <li><a href="#tab_gcp_detail">Détail GCP</a></li>
+            <li><a href="#tab_gcp_solde">Solde GCP</a></li>
+        </ul>
+        <div id="tab_gcp_solde" style="padding: 1px;">
+            <table border="1" width="450" style="margin-top: 2px;margin-bottom: 2px;margin-right: auto;margin-left: auto ">
+                <thead>
+                <th colspan="2"><label style="text-align: center;width: 280px;">Voici la situation de votre compte</label></th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><label>Solde</label></td>
+                        <td style="text-align: right"><label><?php echo $this->solde; ?></label></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button id="bt_prelev" style="margin-bottom: 2px">Prélever</button>
+            <div id="prelevement" style="display: none">
+                <fieldset id="prelev_field" style="margin-top: 3px;margin-bottom: 3px; ">
+                    <legend>Prélèvement de GCP</legend>
+                    <table width="450" style="margin-right: auto;margin-left: auto ">
+                        <tr>
+                            <td><label style="text-align: right;">Montant à prélever</label></td>
+                            <td><input id="mont_prel" type="text" value=""/></td>
+                            <td colspan="2"><button id="bt_prelevement">valider</button><button id="bt_an_prel">annuler</button></td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </div>
+            <table id="tab_tpagcp"></table>
+        </div>
+        <div id="tab_gcp_detail" style="padding: 1px;">
+            <div id="tab_detail" style="padding: 1px;">
+                <ul>
+                    <li><a href="#detail_vente">Les ventes</a></li>
+                    <li><a href="#detail_echange">Les échanges</a></li>
+                    <li><a href="#tb_escompte">Les escomptes</a></li>
+                </ul>
+                <div id="detail_vente" style="padding: 2px;">
+                    <form id="gcp_form" method="POST" action="/eu-consommation/consult">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+                                <tr>
+                                    <td><label style="text-align: right">Date</label></td>
+                                    <td><input id="date_conso" name="date_conso" type="text" /></td>
+                                    <td><label style="text-align: right">Produit</label></td>
+                                    <td><input type="text" id="objet" name="objet" value=""/></td>
+                                    <td></td><td><input type="submit" id="val_gcp" value="valider"/><input type="reset" id="reset_gcp" value="Annuler"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <table id="tbl-gcp"></table>
+                    <div id="pg-gcp"></div>
+                </div>
+                <div id="detail_echange" style="padding: 1px;">
+                    <form id="gcp_form" method="POST" action="/eu-consommation/echange">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+                                <tr>
+                                    <td><label style="text-align: right">Date : </label></td>
+                                    <td><input id="date_ech" name="date_ech" type="text" /></td>
+                                    <td></td><td><input type="submit" id="val_ech" value="valider"/><input type="reset" id="reset_gcp" value="Annuler"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <table id="tbl-echange"></table>
+                    <div id="pg-echange"></div>
+                </div>
+                <div id="tb_escompte" style="padding: 1px;">
+                    <table id="tbl_escompte"></table>
+                    <div id="pg-escompte"></div>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    $("#tbl-echange").jqGrid({
+        url: '<?php echo $this->url(array('action' => 'echange', 'date_conso' => ''));?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Date', 'Type echange', 'Echange', 'Produit', 'Montant', 'Marge','Compte Dest.'],
+        height: 320, width: 795,
+        colModel: [
+            {name: 'date_echange', index: 'date_echange', width: 80, editable: false, align: "left"},
+            {name: 'type_echange', index: 'type_echange', width: 80, editable: false, align: "left"},
+            {name: 'cat_echange', index: 'cat_echange', width: 70, align: "left", editable: false},
+            {name: 'code_produit', index: 'code_produit', width: 60, align: "left", editable: false},
+            {name: 'montant', index: 'montant', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+            {name: 'agio', index: 'agio', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum',hidden : true},
+            {name: 'code_compte_obt', index: 'code_compte_obt', width: 270, align: "left", editable: false}
+        ],
+        rowNum: 50,
+        rowList: [50, 60, 70],
+        rownumbers: true,
+        pager: '#pg-echange',
+        sortname: "date_echange",
+        viewrecords: true,
+        sortorder: "ASC",
+        footerrow: true, userDataOnFooter: true,
+        caption: "Echanges effectuées"
+    });
+    $("#tbl-echange").jqGrid('navGrid', '#pg-echange', {edit: false, add: false, del: false, search: true});
+    
+    $("#tbl-gcp").jqGrid({
+        url: '<?php $date = new Zend_Date(Zend_Date::ISO_8601);
+                    echo $this->url(array('action' => 'consult', 'date_conso' => $date->toString('yyyy-MM-dd')));?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Date', 'Acheteur', 'Compte','Crédit', 'Produit', 'Montant', 'Montant prelevé', 'Reste'],
+        height: 320, width: 800,
+        colModel: [
+            {name: 'date_conso', index: 'date_conso', width: 80, sorttype:'date',summaryType:'count', summaryTpl : '({0}) total'},
+            {name: 'code_membre', index: 'code_membre', width: 190, align: "left", editable: false},
+            {name: 'code_cat', index: 'code_cat', width: 70, align: "left", editable: false,hidden:true},
+            {name: 'id_credit', index: 'id_credit', width: 70, align: "left", editable: false},
+            {name: 'code_produit', index: 'code_produit', width: 80, align: "left", editable: false},
+            {name: 'mont_gcp', index: 'mont_gcp', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+            {name: 'mont_preleve', index: 'mont_preleve', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+            {name: 'reste', index: 'reste', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'}
+        ],
+        rowNum: 1000,
+        rowList: [1000, 2000, 3000],
+        rownumbers: true,
+        pager: '#pg-gcp',
+        sortname: "date_conso",
+        viewrecords: true,
+        sortorder: "ASC",
+        grouping: true, 
+        groupingView : { groupField : ['date_conso'], groupColumnShow : [true], groupText : ['<b>{0}</b>'], groupCollapse : false, groupOrder: ['asc'], groupSummary : [true], groupDataSorted : true }, footerrow: true, userDataOnFooter: true,
+        caption: "Compte GCP"
+    });
+    $("#tbl-gcp").jqGrid('navGrid', '#pg-gcp', {edit: false, add: false, del: false, search: true});
+
+	
+    $("#tab_tpagcp").jqGrid({
+        url: '/eu-consommation/tpagcp',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Id', 'Membre', 'Compte', 'Montant', 'Date début', 'Date fin', 'Tranche', 'DD tranche', 'DF Tranche', 'Echu', 'Escompté','Echangé', 'Solde'],
+        height: 300, width: 807,
+        colModel: [
+            {name: 'code_tpagcp', index: 'code_tpagcp', width: 120, editable: false, align: "left", hidden: true},
+            {name: 'membre', index: 'membre', width: 120, editable: false, align: "left", hidden: true},
+            {name: 'compte', index: 'compte', width: 150, align: "left", editable: false, hidden: true},
+            {name: 'mont_gcp', index: 'mont_gcp', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+            {name: 'date_deb', index: 'date_deb', width: 90, align: "left", editable: false},
+            {name: 'date_fin', index: 'date_fin', width: 90, align: "left", editable: false},
+            {name: 'mont_tranche', index: 'mont_tranche', width: 100, editable: false, align: "right", formatter:"number", summaryType:'sum'},
+            {name: 'date_deb_tranche', index: 'date_deb_tranche', width: 90, align: "left", editable: false, hidden: true},
+            {name: 'date_fin_tranche', index: 'date_fin_tranche', width: 90, align: "left", editable: false},
+            {name: 'mont_echu', index: 'mont_echu', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+            {name: 'mont_escompte', index: 'mont_escompte', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+            {name: 'mont_echange', index: 'mont_echange', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+            {name: 'solde', index: 'solde', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+        ],
+        rowNum: 1000,
+        rowList: [1000, 2000, 3000],
+        sortname: "date_deb",
+        rownumbers: true,
+        viewrecords: true,
+        sortorder: "ASC",
+        footerrow: true, userDataOnFooter: true,
+        caption: "Compte TPAGCP"
+    });
+
+$("#tbl_escompte").jqGrid({
+        url: '/eu-consommation/escomptes',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Id', 'Date escompte', 'Membre', 'Montant', 'PBF', 'N° echange'],
+        height: 320, width: 770,
+        colModel: [
+            {name: 'id_escompte', index: 'id_escompte', width: 120, editable: false, align: "left", hidden: true},
+            {name: 'date_escompte', index: 'date_escompte', width: 90, align: "left", editable: false,sorttype: "date", formatter: "date"},
+            {name: 'code_membre', index: 'code_membre', width: 190, align: "left", editable: false},
+            {name: 'montant', index: 'montant', width: 100, editable: false, align: "right", sorttype: "float", formatter: "number"},
+            {name: 'code_membre_benef', index: 'code_membre_benef', width: 190, editable: false, align: "left", sorttype: "int"},
+            {name: 'id_echange', index: 'id_echange', width: 90, align: "right", editable: false}
+        ],
+        rowNum: 1000,
+        rowList: [1000, 2000, 3000],
+        sortname: "date_escompte",
+        rownumbers: true,
+        pager: '#pg-escompte',
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Escomptes en attente",
+        footerrow: true, userDataOnFooter: true
+    });
+    $("#tbl_escompte").jqGrid('navGrid', '#pg-escompte', {edit: false, add: false, del: false, search: true});
+
+    $(document).ready(function()
+    {
+        $("#tab_gcp").tabs();
+        $("#tab_detail").tabs();
+        $(function() {
+            var pickerOpts = {
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+            $("#date_conso").datepicker(pickerOpts);
+            $("#date_ech").datepicker(pickerOpts);
+            $('#view-content').puipanel();
+            $('#prelev_field').puifieldset();
+        });
+        $('#val_gcp').click(function(e)
+        {
+            jQuery("#tbl-gcp").jqGrid('setGridParam', {url: "/eu-consommation/consult?date_conso=" + $('#date_conso').val() + "&objet=" + $('#objet').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+        
+        $('#val_ech').click(function(e)
+        {
+            jQuery("#tbl-gcp").jqGrid('setGridParam', {url: "/compensation/consult?date_conso=" + $('#date_ech').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+
+        $('#bt_prelev').click(function()
+        {
+            $('div#prelevement').css('display', 'block');
+        });
+        $('#bt_an_prel').click(function()
+        {
+            $('#mont_prel').val(0);
+            $('div#prelevement').css('display', 'none');
+        });
+
+        $('#bt_prelevement').click(function()
+        {
+            if ($('#mont_prel').val() != '') {
+                $.get('/eu-consommation/prelever', {
+                    montant: $('#mont_prel').val()
+                },
+                function success(data) {
+                    jQuery("#tab_tpagcp").jqGrid('setGridParam', {url: "/eu-consommation/tpagcp"}).trigger('reloadGrid');
+                    $('div#message').html(data);
+                });
+            }
+        });
+    });
+
+</script>

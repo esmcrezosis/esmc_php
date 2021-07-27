@@ -1,0 +1,31 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+         <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-gamme"></table>
+    <div id="pg-gamme"></div>
+</div>
+<script type="text/javascript">
+    
+    $("#tbl-gamme").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'listgamme')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Désignation'],
+        height:440, width:800,
+        colModel:[
+            {name:'code_gamme',index:'code_gamme',width:200,editable:true,align:"left"},
+            {name:'design_gamme',index:'design_gamme',width: 400,editable: true,align:"left"},
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        pager: '#pg-gamme',
+        sortname:"code_gamme",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des gammes" 
+    });
+        $("#tbl-gamme").jqGrid('navGrid','#pg-gamme',{edit:false,add:false,del:false,search:false}); 
+        $('#editer').button();
+        
+</script>

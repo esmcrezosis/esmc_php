@@ -1,0 +1,126 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example1').dataTable( {
+        "sPaginationType": "full_numbers"
+    } );
+	    $('#example2').dataTable( {
+        "sPaginationType": "full_numbers"
+    } );
+
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Détails d'une proposition</p></blockquote>
+
+<?php if(count($this->proposition)>0){?> 
+
+<label><strong>Appel d'offre :</strong> <?php 
+$appeloffreM = new Application_Model_EuAppelOffreMapper();
+$appeloffre = new Application_Model_EuAppelOffre();
+$appeloffreM->find($this->proposition->id_appel_offre, $appeloffre);
+?>
+<?php echo htmlentities($appeloffre->numero_offre); ?> (<?php echo htmlentities($appeloffre->nom_appel_offre); ?>)</label>
+
+<label><strong>Montant de la proposition :</strong> <?php echo number_format($this->proposition->montant_proposition, 0, ',', ' '); ?></label>
+
+<label><strong>Montant de la salaire :</strong> <?php echo number_format($this->proposition->montant_salaire, 0, ',', ' '); ?></label>
+
+<label><strong>Autres budgets :</strong> <?php echo number_format($this->proposition->autre_budget, 0, ',', ' '); ?></label>
+
+<?php if(count($this->entries_detail_proposition)>0){?> 
+<br />
+
+  <blockquote>Produits</blockquote>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example1" style="font-size:9px;">
+						  <thead>
+							  <tr>
+								  <th>Libellé</th>
+								  <th>Prix unitaire</th>
+								  <th>Quantité</th>
+								  <th>Type</th>
+								  <th>Unité de mesure</th>
+								  <th>MDV</th>
+								  <th>Fournisseurs</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries_detail_proposition as $entry): ?>
+    <tr>
+      <td><?php echo $entry->libelle_produit; ?></td>
+      <td><div align="right"><?php echo number_format($entry->prix_unitaire, 0, ',', ' '); ?></div></td>
+      <td><div align="center"><?php echo $entry->quantite; ?></div></td>
+      <td><div align="center"><?php echo $entry->type_produit; ?></div></td>
+      <td><div align="center"><?php echo $entry->unite_mesure; ?></div></td>
+      <td><?php echo $entry->mdv; ?></td>
+      <td><?php 
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($entry->code_membre_morale, $membremorale);
+?><?php echo htmlentities($membremorale->raison_sociale); ?></td>      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }?>
+
+
+
+<?php if(count($this->entries_membre_proposition)>0){?> 
+<br />
+<br />
+
+  <blockquote>Salariés</blockquote>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example2" style="font-size:9px;">
+						  <thead>
+							  <tr>
+								  <th>Membres salariés</th>
+								  <!--<th>Salaire</th>-->
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries_membre_proposition as $entry): ?>
+    <tr>
+      <td><?php 
+$membreM = new Application_Model_EuMembreMapper();
+$membre = new Application_Model_EuMembre();
+$membreM->find($entry->code_membre, $membre);
+?><?php echo htmlentities($membre->nom_membre); ?> <?php echo htmlentities($membre->prenom_membre); ?></td>
+      <?php /*?><td><?php echo $entry->salaire; ?></td><?php */?>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+	  </table>
+<?php }?>
+
+<?php }?>
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

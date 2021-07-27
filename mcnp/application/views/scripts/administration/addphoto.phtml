@@ -1,0 +1,137 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur'); ?>
+
+<script type="text/javascript">
+  var compteur = 1;
+  function addRow(tableID)  {
+     var table = document.getElementById(tableID);
+     var rowCount = table.rows.length;
+     var cpte = rowCount;
+     var row = table.insertRow(rowCount);
+	 
+	 var cell1 = row.insertCell(0);
+     var element0 = document.createElement("input");
+     element0.type = "text";
+     element0.setAttribute("id", "titre" + cpte);
+	 
+	 element0.setAttribute("name","titre" + cpte);
+	 element0.setAttribute("required", "true");
+	 element0.setAttribute("placeholder","Libelle de la photo");
+	 element0.setAttribute("class","input-large");
+     cell1.appendChild(element0);
+	 
+	 var cell2 = row.insertCell(1);
+     var element1 = document.createElement("input");
+     element1.type = "file";
+     element1.setAttribute("id","photo" + cpte);
+	  
+	 element1.setAttribute("name","photo" + cpte);
+	 element1.setAttribute("required","true");
+	 element1.setAttribute("class","input-xxlarge");
+     cell2.appendChild(element1);
+	  
+	 compteur = compteur + 1;
+     document.getElementById("cpteur").setAttribute('value', compteur);
+
+  }
+  
+
+  function deleteRow(tableID)  {
+     try {
+         var table = document.getElementById(tableID);
+         var rowCount = table.rows.length - 1;
+         if (rowCount >= 1) {
+            table.deleteRow(rowCount);
+            compteur = compteur - 1;
+            document.getElementById("cpteur").setAttribute('value',compteur);
+         }
+     } catch (e) {
+        alert(e);
+     }	 
+  }
+	 
+</script>
+
+ 
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout de photos</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addpublicite">
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php }  ?>
+  
+  <legend> Galerie de photos </legend>
+  <div class="control-group">
+      <label class="control-label">Galerie *</label>
+      <div class="controls">
+      <select  id="id_galerie" name="id_galerie" required>
+      <option value="">Choisir une galerie</option>
+      <?php foreach ($this->entries as $value) { ?>
+      <option
+          value="<?php echo $value->id_galerie; ?>"> <?php echo htmlentities($value->titre); ?>
+	  </option>                         
+      <?php } ?>
+      </select>
+      </div>
+   </div>
+   
+   <legend></legend>
+   <div class="control-group" id="display_galerie">
+        <label class="control-label" for="photo">Photo * </label>
+	    <div class="controls">
+	         <table id="tab_photo">
+             <tr>
+			    <input type="text" name="cpteur" id="cpteur" value="1"/>
+                <td>
+					<input type="text" id="titre0" name="titre0" placeholder="Libelle de la Photo" class="input-large" required />
+			    </td>
+				
+                <td>					 
+					<input id="photo0" type="file" name="photo0"  class="input-xxlarge"  /> 
+			    </td>
+				
+			    <td>
+				    <input class="btn btn-mini"  id="add"     type="button"  value="+"  onclick ="addRow('tab_photo');" /> 
+					<input class="btn btn-mini"  id="remove"  type="button"  value="-"  onclick="deleteRow('tab_photo');" /> 
+				</td>
+			  </tr>
+              </table>			
+	      </div>
+     </div>
+
+	 
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

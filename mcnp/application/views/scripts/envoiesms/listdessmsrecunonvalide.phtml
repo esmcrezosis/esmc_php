@@ -1,0 +1,32 @@
+<div class="container">
+<a href="/envoiesms/addsms" class="btn btn-danger"><strong>Envoyer un nouveau SMS</strong></a>
+<h3>La liste des SMS non Envoyés</h3>
+	<table class="table table-striped">
+     <tr>
+ 			   <th>Id</th>
+ 			   <th>Envoyeur</th>
+ 			   <th>Numero du Receveur</th>
+ 			   <th>Contenu du message</th>
+     </tr>
+     <tbody>
+
+        <?php foreach ($this->entries as $key => $value): ?>
+          <tr>
+             <td>
+               <?php echo $value->id_sms_manuel ?>
+             </td>
+             <td>
+               <?php echo $value->id_utilisateur ?>
+             </td>
+              <td>
+               <?php echo $value->num_portable ?>
+             </td>
+             <td>
+               <?php echo $value->contenu_message ?>
+             </td>
+
+          </tr>
+        <?php endforeach ?>
+  		</tbody>
+ 	</table>
+</div>

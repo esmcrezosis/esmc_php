@@ -1,0 +1,76 @@
+<div id="view-content">
+    <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:11px">
+        <div style="margin-bottom: 3px; width: 800px">
+            <fieldset>
+                <legend style=" font-weight:bold">Recherche</legend>
+                <table align="center">
+                    <tr>
+                        <td width="40">Nom</td><td width="20"><input type="text" id="nom_canton" name="nom_canton" size="30"/></td>
+                        <!--<td width="100">Code membre</td><td width="30"><input type="text" id="code_membre" name="code_membre" size="26"/></td>-->
+                        <td><input id="ok" type="button" value="Chercher" /></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div style="margin-bottom: 3px;">
+            <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+        </div>
+        <table id="tbl-canton"></table>
+        <div id="pg-canton"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-canton").jqGrid({
+        url:'/eu-canton/data?nom_canton='+'',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Id','Libellé','Secteur','Agence'],
+        height:400, width:800,
+        colModel:[
+          {name:'id',index:'id', width:80, sorttype:"int", editable: true,align:"left"},
+          {name:'nom_canton',index:'nom_canton', width: 250, editable: true,align:"left"},
+          {name:'nom_secteur',index:'nom_secteur', width: 210, align:"left", editable: true},
+          {name:'libelle_agence',index:'libelle_agence', width: 100, align:"left", editable: true},
+        ],
+        rowNum:100,
+        rowList:[100,200,900],
+        rownumbers:true,
+        pager: '#pg-canton',
+        sortname:"id",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des cantons"
+    });
+  
+    $("#tbl-canton").jqGrid('navGrid','#pg-canton',{edit:false,add:false,del:false,search:true});
+    
+    $('#editer').click(function() {
+        var rowsel;
+        rowsel = jQuery("#tbl-canton").jqGrid('getGridParam','selrow');
+        if(rowsel) {
+            data=jQuery("#tbl-canton").jqGrid('getRowData',rowsel);
+            $.get('/eu-canton/edit',{
+              id_sub_secteur:data.id,code_secteur:data.code_secteur,code_agence:data.code_agence
+            },function success(data){
+              $("#content").html(data);
+            });             
+        } else {
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+	
+	$(function() {
+      $('#view-content').puipanel();
+	  $('fieldset').puifieldset();
+    });
+	
+    
+    $(document).ready(function () {
+     $('#ok').button();
+     $('#ok').click(function(){
+        jQuery("#tbl-canton").jqGrid('setGridParam',{url:"/eu-canton/data?nom_canton="+$('#nom_canton').val()}).trigger('reloadGrid');
+     });
+    })
+</script>

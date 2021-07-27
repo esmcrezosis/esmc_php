@@ -1,0 +1,235 @@
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/montantcodesms.js"></script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+  <blockquote><p class="text-info">Achat de Codes SMS chez la Division Exécutante de <?php 
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($this->code_membre_vendeur, $membremorale);
+?><strong><?php echo htmlentities($membremorale->raison_sociale); ?></strong></p></blockquote>
+<?php //echo $this->code_envoi; ?>
+<blockquote>
+<p>
+  <i class="icon-home"></i> <strong><?php echo htmlentities($membremorale->raison_sociale); ?></strong>
+</p>
+<small>
+  <?php echo htmlentities($membremorale->domaine_activite); ?> - 
+  <abbr title="Quartier">Qt:</abbr> <?php echo htmlentities($membremorale->quartier_membre); ?> - <abbr title="Ville">Ville:</abbr> <?php echo htmlentities($membremorale->ville_membre); ?>
+</small>
+<small>
+  <abbr title="Boite Postale">BP:</abbr> <?php echo $membremorale->bp_membre; ?> - 
+  <abbr title="Téléphone">Tel:</abbr> <?php echo $membremorale->tel_membre; ?> - 
+  <abbr title="Portable">Cel:</abbr> <?php echo $membremorale->portable_membre; ?> - 
+  <abbr title="E-mail">E-mail:</abbr> <a href="mailto:<?php echo $membremorale->email_membre; ?>"><?php echo $membremorale->email_membre; ?></a>
+</small>
+</blockquote>
+
+
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="codesms">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+  <legend>Vente des unités KACM, CAPA et du BPS </legend>
+<div class="">
+  
+<div class="span6">
+  
+<div class="control-group">
+  <label class="control-label"><strong>Code SMS</strong> </label>
+</div>
+
+  
+  <div class="control-group">
+  <label class="control-label" for="type_transfert">Type Code SMS *</label>
+  <div class="controls">
+  <label for="type_transfertAERL" class="radio">
+  <input type="radio" name="type_transfert" id="type_transfertAERL" value="AERL" required onclick="ouvre_montantcodesms(this.value);document.getElementById('pp').style.display='block'; document.getElementById('pm').style.display='none';document.getElementById('acheteur_type_pp').checked=true;document.getElementById('acheteur_type_pp').disabled=false;document.getElementById('acheteur_type_pm').disabled=true;">
+  Auto-Enrôlement Personne Physique</label>
+
+  <label for="type_transfertAERL2" class="radio">
+  <input type="radio" name="type_transfert" id="type_transfertAERL2" value="AERL2" required onclick="ouvre_montantcodesms(this.value);document.getElementById('pp').style.display='none'; document.getElementById('pm').style.display='block';document.getElementById('acheteur_type_pm').checked=true;document.getElementById('acheteur_type_pm').disabled=false;document.getElementById('acheteur_type_pp').disabled=true;">
+  Auto-Enrôlement Personne Morale</label>
+
+  <!--<label for="type_transfertERL" class="radio">
+  <input type="radio" name="type_transfert" id="type_transfertERL" value="ERL" required onclick="ouvre_montantcodesms(this.value)">
+  Enrôlement</label>-->
+
+  <label for="type_transfertCAPA" class="radio">
+  <input type="radio" name="type_transfert" id="type_transfertCAPA" value="CAPA" required onclick="ouvre_montantcodesms(this.value);document.getElementById('acheteur_type_pp').disabled=false;document.getElementById('acheteur_type_pm').disabled=false;">
+  Capital d’Achat du Pouvoir d’Achat</label>
+
+  <!--<label for="type_transfertCPS" class="radio">
+  <input type="radio" name="type_transfert" id="type_transfertCPS" value="CPS" required onclick="ouvre_montantcodesms(this.value)">
+  Carte Privative de Solvabilité</label>
+
+  <label for="type_transfertFKIT" class="radio">
+  <input type="radio" name="type_transfert" id="type_transfertFKIT" value="FKIT" required onclick="ouvre_montantcodesms(this.value)">
+  Frais de kits</label>
+
+  <label for="type_transfertMF107" class="radio">
+  <input type="radio" name="type_transfert" id="type_transfertMF107" value="MF107" required onclick="ouvre_montantcodesms(this.value)">
+  Membres Fondateurs 107</label>
+
+  <label for="type_transfertMF11000" class="radio">
+  <input type="radio" name="type_transfert" id="type_transfertMF11000" value="MF11000" required onclick="ouvre_montantcodesms(this.value)">
+  Membres Fondateurs 11000</label>
+
+  <label for="type_transfertMFL" class="radio">
+  <input type="radio" name="type_transfert" id="type_transfertMFL" value="MFL" required onclick="ouvre_montantcodesms(this.value)">
+  Membres Fondateurs Licences</label>-->
+
+  <label for="type_transfertAutres" class="radio">
+  <input type="radio" name="type_transfert" id="type_transfertAutres" value="Autres" required onclick="ouvre_montantcodesms(this.value);document.getElementById('acheteur_type_pp').disabled=false;document.getElementById('acheteur_type_pm').disabled=false;">
+  Autres Frais</label>
+
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="mont_transfert">Montant Code SMS *</label>
+  <div class="controls" id="niv2">
+<div class="input-append">
+  <input type="text" name="mont_transfert" id="mont_transfert" placeholder="Montant Code SMS" required>
+  <span class="add-on">XOF</span>
+</div>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="acheteur_cel">Téléphone portable *</label>
+  <div class="controls">
+<div class="input-prepend">
+  <span class="add-on">Cel.</span>
+  <input type="text" name="acheteur_cel" id="acheteur_cel" placeholder="Téléphone portable" required>
+</div>
+  </div>
+  </div>
+  
+</div>
+  <div class="span6">
+<div class="control-group">
+  <label class="control-label"><strong>Acheteur</strong> </label>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="acheteur_type">Type acheteur *</label>
+  <div class="controls">
+  <label for="acheteur_type_pp" class="radio">
+  <input name="acheteur_type" type="radio" required id="acheteur_type_pp" onclick="document.getElementById('pp').style.display='block'; document.getElementById('pm').style.display='none';" value="PP">
+  Personne Physique</label>
+
+  <label for="acheteur_type_pm" class="radio">
+  <input type="radio" name="acheteur_type" id="acheteur_type_pm" value="PM" required onclick="document.getElementById('pp').style.display='none'; document.getElementById('pm').style.display='block';">
+  Personne Morale</label>
+  
+  </div>
+  </div>
+  
+  
+  <div id="pp" style="display:none;">
+  <div class="control-group">
+<label class="control-label" for="acheteur_nom">Nom *</label>
+<div class="controls">
+<input type="text" name="acheteur_nom" id="acheteur_nom" placeholder="Nom" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="acheteur_prenom">Prénom(s) *</label>
+<div class="controls">
+<input type="text" name="acheteur_prenom" id="acheteur_prenom" placeholder="Prénom(s)"  />
+</div>
+</div>
+
+</div>
+  <div id="pm" style="display:none;">
+  <div class="control-group">
+<label class="control-label" for="acheteur_raison_sociale">Raison sociale *</label>
+<div class="controls">
+<input type="text" name="acheteur_raison_sociale" id="acheteur_raison_sociale" placeholder="Raison sociale"  />
+</div>
+</div>
+</div>
+  
+<div class="control-group">
+  <label class="control-label"><strong>Mode de paiement</strong> </label>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="acheteur_numero">N&deg; Reçu Banque *</label>
+<div class="controls">
+<input type="text" name="acheteur_numero" id="acheteur_numero" placeholder="N&deg; Reçu Banque" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="acheteur_banque">Banque *</label>
+<div class="controls">
+<select name="acheteur_banque" id="acheteur_banque" required>
+        <?php $tbanque = new Application_Model_DbTable_EuBanque();
+        $results = $tbanque->fetchAll();?>
+  <option value="">Choisir la banque</option>
+    <?php foreach ($results as $banque): ?>
+               <option value="<?php echo $banque->code_banque; ?>"><?php echo ($banque->libelle_banque); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+  
+<div class="control-group">
+  <label class="control-label"><strong>Agence Canton</strong> </label>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="code_agence">Agence *</label>
+<div class="controls">
+<select name="code_agence" id="code_agence" required>
+        <?php $tagence = new Application_Model_DbTable_EuAgence();
+        $results = $tagence->fetchAll();?>
+  <option value="">Choisir l'agence</option>
+    <?php foreach ($results as $agence): ?>
+               <option value="<?php echo $agence->code_agence; ?>"><?php echo ($agence->libelle_agence); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+  </div>
+
+  </div>
+  
+  <legend></legend>
+  
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Achat de Code SMS</button>
+</div>
+
+
+</form>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

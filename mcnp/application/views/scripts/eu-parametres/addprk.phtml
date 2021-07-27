@@ -1,0 +1,15 @@
+<div id="view-content" title="Ajout d'un paramètre" style="font-size: 12px;min-height: 520px;">
+    <div id="formdiv" class="ui-widget-content ui-corner">
+        <?php
+        $this->form->setAction($this->url());
+        echo $this->form;
+        ?>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#view-content').puipanel();
+        $('#submit').button();
+        $('#cancel').button();
+    });
+</script>

@@ -1,0 +1,33 @@
+<div id="view-content">
+    <table id="tbl-placement"></table>
+    <div id="pg-placement"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-placement").jqGrid({
+        url:'/eu-placement/data',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['ID','Date','Membre','Libellé','Compte','Produit','Montant','type d\'opérations'],
+        height:500, width:827,
+        colModel:[
+            {name:'id_operation',index:'id_operation', width: 120, align:"left", editable: true,visible:false},
+            {name:'date_op',index:'date_op', width: 120, align:"left", editable: true},
+            {name:'code_membre',index:'code_membre', width: 170, align:"left", editable: true},
+            {name:'lib_op',index:'lib_op', width: 250, align:"left", editable: true},
+            {name:'code_cat',index:'code_cat', width: 170, editable: true,align:"left"},
+            {name:'code_produit',index:'code_produit', width: 170, editable: true,align:"left"},
+            {name:'montant_op',index:'montant_op', width: 140, editable: true,align:"left"},
+            {name:'type_op',index:'type_op', width: 150, editable: true,align:"left"}
+        ],
+        rowNum:20,
+        rowList:[20,30,40],
+        pager: '#pg-placement',
+        sortname:"num_op",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Achat du pouvoir d'achat"
+    });
+    $("#tbl-placement").jqGrid('navGrid','#pg-placement',{edit:false,add:false,del:false,search:true});
+    
+</script>

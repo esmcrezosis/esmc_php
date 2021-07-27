@@ -1,0 +1,104 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+
+<script type="text/javascript">
+   function calculmontant() {
+      var serie = document.getElementById('serie').value;
+      var montant_bl = document.getElementById('montant_bl').value;
+      var prk = document.getElementById('id_prk').value;
+      var pck = document.getElementById('pck').value;
+      var taux = document.getElementById('tauxescompte').value;
+	
+      var diviser = ((pck * 100) + (taux * pck))/100;
+      var montantg_opi = Math.floor((prk * montant_bl) / diviser); 
+      var montant_opi = Math.floor(montantg_opi / serie);
+	  
+      document.getElementById('montantg_opi').value = montantg_opi;
+      document.getElementById('montant_opi').value = montant_opi;
+
+      /*
+
+      var montantg_opi = Math.floor(montant_bl);
+      var montant_opi = Math.floor(montant_bl / serie);
+      document.getElementById('montantg_opi').value = montantg_opi; 
+      document.getElementById('montant_opi').value = montant_opi;
+
+      */
+   }
+
+   
+   function annuler() {
+     document.getElementById('montantg_opi').value = "";
+     document.getElementById('montant_opi').value = "";
+   }
+
+   
+     
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p>Calcul du Montant d'OPI Achat-Vente Réciproque</p></blockquote>
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+<blockquote></blockquote>
+<form  action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="" name="">
+
+<fieldset>
+<legend> Montant d'OPI Achat-Vente Réciproque </legend>
+
+<div class="control-group">
+<label class="control-label" for="valeur_juste">Montant du Bon de Livraison *</label>
+<div class="controls">
+<input type="text" name="montant_bl" id="montant_bl" placeholder="Montant du Bon de Livraison" class="input-xlarge" onchange="annuler();"  required="required" />
+</div>
+</div>
+
+<br/><br/>
+
+<div class="control-group">
+<label class="control-label" for="valeur_bps">Montant Global des OPI</label>
+<div class="controls">
+<input type="text" name="montantg_opi" id="montantg_opi" readonly="true" placeholder="Montant Global des OPI obtenu" class="input-xlarge" />
+</div>
+</div>
+<br/><br/>
+<div class="control-group">
+<label class="control-label" for="montant_opi">Montant d'un OPI </label>
+<div class="controls">
+<input type="text" name="montant_opi" id="montant_opi" readonly="true" placeholder="Montant d'un OPI" class="input-xlarge" />
+<a class="btn" onclick="calculmontant()">Calculer</a>
+</div>
+</div>
+</fieldset>
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input  type="hidden"  name="serie"  id="serie"  placeholder="Serie des OPI"  readonly="true"  value="<?php echo $this->serie; ?>" />
+<input  type="hidden"  name="id_prk"  id="id_prk"  placeholder="PRK"  readonly="true"  value="<?php echo $this->prk; ?>" />
+<input  type="hidden"  name="pck"  id="pck"  placeholder="PCK"  readonly="true"  value="<?php echo $this->pck; ?>" />
+<input  type="hidden"  name="tauxescompte"  id="tauxescompte"  placeholder="Taux escompte"  readonly="true"  value="<?php echo $this->tauxescompte; ?>" />
+<button type="reset" class="btn">Annuler</button>
+</div> 
+</form>
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

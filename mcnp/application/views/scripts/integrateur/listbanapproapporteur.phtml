@@ -1,0 +1,124 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+  <blockquote><p>Liste de mes approvisionnements de BAn</p></blockquote>
+  <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+    </div>
+  <?php }?>
+
+<?php if(count($this->entries)>0) { ?>
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <?php /*?><th>Date</th>
+								  <th>Bénéficiaire</th>
+								  <th>Nombre allouée</th>
+								  <th>Nombre utilisé</th>
+								  <th>Nombre restant</th>
+								  <th>Actions</th><?php */?>
+								  <th>Date</th>
+								  <th>Utilisateurs</th>
+								  <th>Bénéficiaire</th>
+								  <th>Montant</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <?php /*?><td><?php echo datejourfr($entry->bon_neutre_appro_date); ?></td>
+      <td><?php if (substr($entry->bon_neutre_appro_beneficiaire, -1) == "P") {
+$membreM = new Application_Model_EuMembreMapper();
+$membre = new Application_Model_EuMembre();
+$membreM->find($entry->bon_neutre_appro_beneficiaire, $membre);?>
+<?php echo htmlentities($membre->nom_membre); ?> <?php echo htmlentities($membre->prenom_membre); ?>
+<?php } else if (substr($entry->bon_neutre_appro_beneficiaire, -1) == "M") {
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($entry->bon_neutre_appro_beneficiaire, $membremorale);?>
+<?php echo htmlentities($membremorale->raison_sociale);?>
+<?php }	?></td>
+      <td><?php echo $entry->bon_neutre_appro_montant; ?></td>
+			<?php
+			$bon_neutre_detail_mapper = new Application_Model_EuBonNeutreDetailMapper();
+			$bon_neutre_detail = $bon_neutre_detail_mapper->fetchAllByAppro($entry->bon_neutre_appro_id);
+			 ?>
+      <td><?php echo $bon_neutre_detail->bon_neutre_detail_montant_utilise; ?></td>
+      <td><?php echo $bon_neutre_detail->bon_neutre_detail_montant_solde; ?></td>
+      <td></td><?php */?>
+      <td><?php echo datejourfr($entry->ban_appro_detail_date); ?></td>
+      <td><?php if ($entry->membreasso_id > 0) {
+$membreasso = new Application_Model_EuMembreasso();
+$membreassoM = new Application_Model_EuMembreassoMapper();
+$membreassoM->find($entry->membreasso_id, $membreasso);?>
+<?php echo htmlentities($membreasso->membreasso_nom); ?> <?php echo htmlentities($membreasso->membreasso_prenom); ?>
+<?php }	?></td>
+      <td><?php if ($entry->bon_neutre_appro_id > 0) {
+$bon_neutre_appro = new Application_Model_EuBonNeutreAppro();
+$bon_neutre_approM = new Application_Model_EuBonNeutreApproMapper();
+$bon_neutre_approM->find($entry->bon_neutre_appro_id, $bon_neutre_appro);?>
+<?php }	?>
+<?php if (substr($bon_neutre_appro->bon_neutre_appro_beneficiaire, -1) == "P") {
+$membre = new Application_Model_EuMembre();
+$membreM = new Application_Model_EuMembreMapper();
+$membreM->find($bon_neutre_appro->bon_neutre_appro_beneficiaire, $membre);?>
+<?php echo htmlentities($membre->nom_membre); ?> <?php echo htmlentities($membre->prenom_membre); ?>
+<?php } else if (substr($bon_neutre_appro->bon_neutre_appro_beneficiaire, -1) == "M") {
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremoraleM->find($bon_neutre_appro->bon_neutre_appro_beneficiaire, $membremorale);?>
+<?php echo htmlentities($membremorale->raison_sociale);?>
+<?php }	?></td>
+      <td><?php echo $entry->ban_appro_detail_montant; ?></td>
+      <td>
+	    <div align="center">
+		    <?php
+			$bon_neutre_detail_mapper = new Application_Model_EuBonNeutreDetailMapper();
+			$bon_neutre_detail = $bon_neutre_detail_mapper->fetchAllByAppro($entry->bon_neutre_appro_id);
+			 ?>
+	        <a class="btn btn-mini btn-info" target="_blank" href="<?php echo $this->baseUrl(); ?>/bons/recudepayementdebanapprointegrateurpdf/id/<?php echo $bon_neutre_detail->bon_neutre_detail_id; ?>"><i class="icon-edit icon-white"></i>Télécharger le recu BAn</a>&nbsp;	   
+        </div>
+	  </td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucun approvisionnement de BAn 
+</div>
+<?php }?>
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>

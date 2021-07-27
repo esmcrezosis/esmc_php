@@ -1,0 +1,135 @@
+<?php $sessionbanqueopi = new Zend_Session_Namespace('banqueopi');?> 
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menubanqueopi.phtml"); ?>
+
+  <blockquote><p>Ajout d'un utilisateur de Banque OPI</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addtelephone">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+<div class="control-group">
+<label class="control-label">Nom Utilisateur *</label>
+<div class="controls">
+						<input type="text" id="nom_banque_user" name="nom_banque_user" required="required" class="input-xxlarge">
+					</div>
+				</div>
+				<div class="control-group">
+<label class="control-label">Prénoms Utilisateur *</label>
+<div class="controls">
+						<input type="text" id="prenom_banque_user"
+							name="prenom_banque_user" class="input-xxlarge" required="required">
+					</div>
+				</div>
+
+
+<div class="control-group">
+<label class="control-label" for="telephone">Numéro de telephone *</label>
+<div class="controls">
+<input type="text" name="telephone" id="telephone" placeholder="Numéro de telephone" class="input-xlarge" required />
+</div>
+</div>
+    
+
+
+<div class="control-group">
+<label class="control-label" for="email">E-mail *</label>
+<div class="controls">
+<input type="text" name="email" id="email" placeholder="E-mail" class="input-xlarge" required />
+</div>
+</div>
+    
+
+				
+				<div class="control-group">
+<label class="control-label">Code Membre Utilisateur *</label>
+<div class="controls">
+						<input type="text" id="code_membre"
+							name="code_membre" class="input-xxlarge" required="required" readonly>
+					</div>
+				</div>
+         
+				<div class="control-group">
+<label class="control-label">Désignation *</label>
+<div class="controls">
+						<input type="text" id="nom_membre"
+							name="nom_membre" class="input-xxlarge" required="required" readonly>
+					</div>
+				</div>
+
+
+				<div class="control-group">
+<label class="control-label">Login *</label>
+<div class="controls">
+						<input type="text" id="login_banque_user" name="login_banque_user" class="input-xxlarge" required="required">
+					</div>
+				</div>
+				<div class="control-group">
+<label class="control-label">Mot de passe *</label>
+<div class="controls">
+						<input type="password" id="pwd_banque_user" name="pwd_banque_user" class="input-xxlarge" required="required">
+					</div>
+				</div>
+				<div class="control-group">
+<label class="control-label">Confirmer le mot de passe *</label>
+<div class="controls">
+						<input type="password" id="c_pwd_banque_user"
+							name="c_pwd_banque_user" class="input-xxlarge" required="required">
+					</div>
+				</div>
+				<div class="control-group">
+<label class="control-label" for="role">Role *</label>
+<div class="controls">
+						<select id="role" name="role">
+						  <option value="B_USER">Utilisateurs</option>
+						  <option value="B_ADMIN">Administrateurs</option>
+						</select>
+					</div>
+				</div>
+    
+
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" id="submit" class="btn btn-primary">Ajouter un utilisateur</button>
+</div>
+ 
+                            
+  
+</form>
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr.js"></script>
+<script type="text/javascript">
+//outilqr('addeli');
+outilqrformobligatoire("addtelephone","submit");
+</script>
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

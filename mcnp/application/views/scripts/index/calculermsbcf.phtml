@@ -1,0 +1,110 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<script type="text/javascript">
+   function calculermsbcf()  {
+      var montant_formation = document.getElementById('montant_formation').value;
+      var id_cycle = document.getElementById('id_cycle').value;
+	  var parties = id_cycle.split("-");
+	  var duree_annee = parties[0];
+	  var duree_cycle = parties[1];
+	  var taux = parties[2];
+	  if(id_cycle != "") {
+	       document.getElementById('montant_msbcf').value = Math.floor((montant_formation / (duree_annee * duree_cycle)) * taux);
+	       document.getElementById('montant_bc').value = Math.floor((montant_formation * 1) / (duree_annee * duree_cycle));
+	  } else {
+           document.getElementById('montant_msbcf').value = "";
+           document.getElementById('montant_bc').value = "";
+      }	  
+	  
+   }
+   
+   
+   function annuler()  {
+      document.getElementById('id_cycle').value = "";
+	  document.getElementById('montant_msbcf').value = "";
+      document.getElementById('montant_bc').value = "";
+   }
+      
+     
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p>Calcul du Montant de Souscription au Bon de Consommation (BC) pour un Cycle de Formation </p></blockquote>
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+
+<blockquote></blockquote>
+<form  action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="" name="">
+
+<fieldset>
+<legend> Montant de Souscription au Bon de Consommation (BC) pour un Cycle de Formation  </legend>
+
+<div class="control-group">
+<label class="control-label" for="mont_bc">Montant de la Formation *</label>
+<div class="controls">
+<input type="text" name="montant_formation" id="montant_formation" placeholder="Montant de la Formation" class="input-xxlarge" onblur="annuler();"  required="required" />
+</div>
+</div>
+
+<br/>
+
+<div class="control-group">
+<label class="control-label" for="cycle_formation"> Cycle de Formation *</label>
+<div class="controls">
+<select name="id_cycle" id="id_cycle" class="input-xxlarge" required="required" onchange="calculermsbcf();">
+<option value="">Choisir un cycle de formation </option>
+<?php foreach ($this->formations as $formation) { ?>
+<option value="<?php echo $formation->duree_annee_formation."-".$formation->duree_cycle_formation."-".$formation->taux_cycle_formation; ?>">  <?php echo ucfirst(utf8_encode($formation->nom_cycle_formation));?></option>
+<?php } ?>
+</select>    
+</div>
+</div>
+
+<br/>
+ 
+<div class="control-group">
+<label class="control-label" for="montant_bc">Montant du Bon de Consommation par Période *</label>
+<div class="controls">
+<input type="text" class="input-xxlarge" name="montant_bc" id="montant_bc" placeholder="Montant du Bon de Consommation par Période" readonly="true" />
+</div>
+</div>
+ 
+<br/>
+
+<div class="control-group">
+<label class="control-label" for="montant_msbcf">Montant à Souscrire *</label>
+<div class="controls">
+<input type="text" class="input-xlarge" name="montant_msbcf" id="montant_msbcf" placeholder="Montant à Souscrire" readonly="true" />
+<!--<a class="btn" onclick="calculermsbcf()">Calculer</a>-->
+</div>
+</div>
+
+</fieldset>
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+</div>  
+</form>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

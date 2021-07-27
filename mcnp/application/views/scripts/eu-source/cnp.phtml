@@ -1,0 +1,85 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 10px; padding-left: 5px;">
+        <h3>Vue de la source CNP</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form id="gcp_form" method="POST" action="/eu-consommation/datacnp">
+            <table style="margin-left: 80px;">
+                <thead/>
+                <tbody>
+                    <tr>
+                        <td><label style="text-align: right">Date</label></td>
+                        <td><input id="date_cnp" name="date_cnp" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td><label style="text-align: right">Type CNP</label></td>
+                        <td><select type="text" id="type_cnp" name="type_cnp">
+                                <option value=""></option>
+                                <option value="Ir">Ir</option>
+                                <option value="Inr">Inr</option>
+                                <option value="RPGr">RPGr</option>
+                                <option value="RPGnr">RPGnr</option>
+                            </select></td>
+                    </tr>
+                    <tr>
+                        <td><label style="text-align: right">Numéro Membre</label></td>
+                        <td><input type="text" id="membre_cnp" name="membre_cnp" value=""/></td>
+                        <td><label style="text-align: right">Produit</label></td>
+                        <td><input type="text" id="compte_cnp" name="compte_cnp" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td></td><td><input type="submit" id="val_cnp" value="valider"/><input type="reset" id="reset_gcp" value="Annuler"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <br/><br/>
+        <table id="tbl_cnp"></table>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl_cnp").jqGrid({
+        url:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Date','Type CNP','Débit','Crédit','Solde','Code crédit'],
+        height:350, width:775,
+        colModel:[
+            {name:'id_cnp',index:'id_cnp', width: 120, align:"left", editable: false,hidden:true},
+            {name:'date_cnp',index:'date_cnp', width: 90, editable: false,align:"left"},
+            {name:'type_cnp',index:'type_cnp', width: 100, align:"left", editable: false},
+            {name:'mont_debit',index:'mont_debit', width: 100, align:"left", editable: false},
+            {name:'mont_credit',index:'mont_credit', width: 100, align:"left", editable: false},
+            {name:'solde_cnp',index:'solde_cnp', width: 100, align:"left", editable: false},
+            {name:'id_credit',index:'id_credit', width: 100, align:"left", editable: false}
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        rownumbers:true,
+        sortname:"date_cnp",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des RPG"
+    });
+    $(document).ready(function(){
+        var pickerOpts = {
+            dateFormat:"dd/mm/yy",
+            changeMonth:true,
+            changeYear:true,
+            selectOtherMonths: true,
+            showButtonPanel: true
+        };
+        $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+        $("#date_cnp").datepicker(pickerOpts);
+        $('#val_cnp').click(function(e)
+        {
+            jQuery("#tbl_cnp").jqGrid('setGridParam',{url:"/eu-source/datacnp?date="+$('#date_cnp').val()+"&type="+$('#type_cnp').val()+"&compte="+$('#compte_cnp').val()+"&membre="+$('#membre_cnp').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+        $.get( "/eu-source/membre",{type:'%'},
+    function success(data)
+    {
+        $('#membre_cnp').autocomplete({"source":data});
+    });
+    })
+</script>

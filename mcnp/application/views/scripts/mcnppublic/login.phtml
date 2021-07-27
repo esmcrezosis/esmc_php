@@ -1,0 +1,108 @@
+<?php $sessionzppe = new Zend_Session_Namespace('zppe');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+  <blockquote><p class="text-info">Les ZPPE </p>
+  <small>Les ZPPEs</small></blockquote>
+
+<?php if(count($this->entries)>0){?>  
+<div class="accordion" id="accordion2">
+<?php foreach ($this->entries as $entry): ?>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $entry->zppe_id; ?>">
+        <i class="icon-arrow-right"></i> <?php echo ($entry->zppe_libelle); ?>
+      </a>
+    </div>
+    <div id="collapse<?php echo $entry->zppe_id; ?>" class="accordion-body collapse" align="left">
+      <div class="accordion-inner">
+
+<div class="">
+  <div class="span12">
+  
+<blockquote>
+<p>
+  <i class="icon-home"></i> <strong><?php echo ($entry->zppe_libelle); ?></strong>
+</p>
+<small>
+  <?php echo ($entry->zppe_resume); ?> 
+</small>
+<small>
+  <abbr title="Téléphone">Tel:</abbr> <?php echo ($entry->zppe_portable); ?> - <abbr title="E-mail">E-mail:</abbr> <?php echo ($entry->zppe_email); ?>
+</small>
+</blockquote>
+<?php 
+$recu_bps = new Application_Model_EuRecuBpsMapper();
+$entries_recu_bps = $recu_bps->fetchAll3($entry->zppe_id);
+
+?>
+<?php if(count($entries_recu_bps)>0){?>
+<?php foreach ($entries_recu_bps as $entry_recu_bps): ?>
+<?php echo $entry_recu_bps->recu_bps_libelle; ?>, 
+<?php endforeach; ?>
+<?php }?>
+<br />
+&nbsp;
+  <?php echo ($entry->zppe_description); ?>
+  
+  </div>
+  
+  
+</div>
+
+
+
+      </div>
+    </div>
+  </div>
+<?php endforeach; ?>
+</div>
+<?php }?>
+<br />
+<br />
+
+<blockquote>
+<p>
+  <strong>Connexion ZPPE</strong>
+</p>
+</blockquote>
+
+<form method="post" id="connexion" action="<?php echo $this->baseUrl();?>/index/login">
+    <?php if(isset($sessionzppe->errorlogin) && $sessionzppe->errorlogin != ""){?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionzppe->errorlogin; ?>
+	</div>
+	<?php }?>
+    
+  <legend>Connexion</legend>
+    <div class="controls">
+      <input name="login" type="text" id="login" placeholder="Votre Login">
+    </div>
+    <div class="controls">
+      <input name="pwd" type="password" id="pwd" placeholder="Votre Mot de Passe">
+    </div>
+    <div class="controls">
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <button type="submit" class="btn">Connexion ZPPE</button>
+    </div>
+</form>
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,135 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bondetails.js"></script>
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout du bon</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addbon">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+<?php $date_id = Zend_Date::now();?><?php echo $date_id->toString('yyyy-MM-dd HH:mm:ss'); ?>
+
+<div class="control-group">
+<label class="control-label" for="bon_zppe">Zppe du bon </label>
+<div class="controls">
+<?php 
+$zppe = new Application_Model_EuZppeMapper();
+$entries = $zppe->fetchAll2();
+if(count($entries) > 0){?>
+<select id="bon_zppe" name="bon_zppe" required>
+  <option value="">Choisir la zppe</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->zppe_id; ?>"><?php echo $value->zppe_libelle; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="bon_code_membre">Code Membre *</label>
+<div class="controls">
+<input type="text" name="bon_code_membre" id="bon_code_membre" placeholder="Code Membre" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="bon_numero">Numéro du bon *</label>
+<div class="controls">
+<input type="text" name="bon_numero" id="bon_numero" placeholder="Numéro du bon" class="input-xxlarge" value="<?php 
+function nbre_zero($nb){
+		$zero = "";
+	for ($i = $nb; $i < 9; $i++){
+		$zero .= "0";
+		}
+		return $zero;
+	}
+$a = new Application_Model_EuBon();
+$ma = new Application_Model_EuBonMapper();
+$num = $ma->findConuterAnnee() + 1;
+echo nbre_zero(strlen(strval($num))); ?><?php echo $num; ?>/<?php echo date("Y"); ?>/Tech/GSSA/ESMC-<?php $p = new Application_Model_EuPays();
+        $mp = new Application_Model_EuPaysMapper();
+            $mp->find($sessionutilisateur->pays, $p); echo strtoupper($p->getCode_pays()); ?>" readonly />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="bon_montant">Montant du bon *</label>
+<div class="controls">
+<input type="number" name="bon_montant" id="bon_montant" placeholder="Montant du bon" class="input-xxlarge" required />
+</div>
+</div>
+
+    
+
+<div class="control-group">
+<label class="control-label" for="bon_montant_credit">Montant credit du bon *</label>
+<div class="controls">
+<input type="number" name="bon_montant_credit" id="bon_montant_credit" placeholder="Montant credit du bon" class="input-xxlarge" required />
+</div>
+</div>
+
+
+  <legend>Détails du bon</legend>
+
+
+<?php $a = 1;?>
+<div id="nivbondetail<?php echo $a;?>">
+<input type="text" name="bon_detail_libelle[]" id="bon_detail_libelle<?php echo $a;?>" placeholder="Libellé du détail" class="input-medium" required />
+
+<input type="text" name="bon_detail_reference[]" id="bon_detail_reference<?php echo $a;?>" placeholder="Réference du détail" class="input-medium" required />
+
+<input type="number" name="bon_detail_quantite[]" id="bon_detail_quantite<?php echo $a;?>" placeholder="Quantité du détail" class="input-medium" required />
+
+<input type="number" name="bon_detail_prix_unitaire[]" id="bon_detail_prix_unitaire<?php echo $a;?>" placeholder="Prix unitaire du détail" class="input-medium" required />
+
+<a class="btn btn-mini" onclick="document.getElementById('nivbondetail<?php echo $a;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_bondetails('<?php echo $a + 1;?>','nivbondetail<?php echo $a + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+<div id="nivbondetail<?php echo $a + 1;?>"></div>
+
+
+
+    
+<div class="form-actions">
+<input name="bon_utilisateur" type="hidden" id="bon_utilisateur" value="<?php echo $sessionutilisateur->id_utilisateur; ?>" />  
+<input name="publier" type="hidden" id="publier" value="0" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter le bon</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

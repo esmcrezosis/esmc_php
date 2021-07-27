@@ -1,0 +1,99 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" charset="utf-8">		
+	$(document).ready(function() {
+    $('#example').dataTable({
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    });
+    });
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+<blockquote><p>Liste de mes demandes de subvention</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+  <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->errorlogin;$sessionmembre->errorlogin = ""; ?>
+    </div>
+  <?php }?>
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:9px;">
+						  <thead>
+							  <tr>
+								  <th>Date</th>
+								  <th>N° AO</th>
+								  <th>Objet</th>
+								  <th>Mt. Proposition</th>
+								  <th>Mt. Salaire</th>
+								  <th>Mt. Frais</th>
+								  <th>Mt. Projet</th>
+								  <th>Etat</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php $datefrais = new Zend_Date($entry->date_frais); echo $datefrais->toString('dd/MM/yyyy'); ?> </td>
+	  <td><?php echo $entry->numero_offre;?></td>
+      <td><?php echo htmlentities($entry->objet_demande); ?></td>
+      <td><?php echo number_format($entry->montant_proposition, 0, ',', ' '); ?></td>
+      <td><?php echo number_format($entry->montant_salaire, 0, ',', ' '); ?></td>
+      <td><?php echo number_format($entry->montant_frais, 0, ',', ' '); ?></td>
+      <td><?php echo number_format($entry->mont_projet, 0, ',', ' '); ?></td>
+      <td>
+	    <div align="center"><?php if($entry->valider == 3) { ?>
+		<a class="btn btn-mini btn-success" ><i class="icon-ok icon-white"></i> Valider</a>&nbsp;
+        <?php } else { ?>
+		<a class="btn btn-mini btn-warning" ><i class="icon-off icon-white"></i> Pas Valider</a>&nbsp;
+       <?php } ?>
+       </div>
+	 </td>
+     <td>
+	     <div align="center">
+		      <?php if($entry->livrer == 1){?>
+			  <a class="btn btn-mini btn-success" <?php /*?>href="<?php echo $this->baseUrl(); ?>/espacepersonnel/livrerdemande/id/<?php echo $demande->id_demande; ?>/livrer/0/idfrais/<?php echo $entry->id_frais; ?>"<?php */?>><i class="icon-ok icon-white"></i>  Livrer</a>&nbsp;
+              <?php } else {?>
+			  <a class="btn btn-mini btn-warning" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir marquer Livrer?')) location='<?php echo $this->baseUrl(); ?>/smcipn/livrerdemande/id/<?php echo $entry->id_demande; ?>/livrer/1/idfrais/<?php echo $entry->id_frais; ?>'"><i class="icon-off icon-white"></i>  Pas encore livrer</a>&nbsp;
+             <?php } ?>
+		 </div>
+	 </td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune demande de subvention enregistrée 
+</div>
+<?php }?>
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

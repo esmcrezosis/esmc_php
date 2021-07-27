@@ -1,0 +1,248 @@
+<div id="view-content" class="ui-widget">
+    <div class="cntError">
+        <?php
+        echo $this->message;
+        ?>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Justification du salaire de la SMCIPN</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom" style="height: auto;">
+        <form action="/eu-smcipn/salairevalid" method="POST" id="fm_salaire">
+            <table style="margin-top: 5px;">
+                <tr><td>Code demande</td>
+                    <td><input name="code_demand" id="code_demand" value="<?php echo $this->code; ?>" readonly="readonly" size="35"/></td>
+                    <td width="140" align="right">Montant du salaire</td>
+                    <td><input name="mt_salaire1" id="mt_salaire1" value="<?php echo $this->salaire; ?>" readonly="readonly" style="text-align: right" size="10"/></td>
+                    <td width="140" align="right">Salaire à utiliser</td>
+                    <td><input name="mt_salaire" id="mt_salaire" value="<?php echo $this->salaire; ?>" style="text-align: right" size="10"/></td>
+                </tr>
+            </table>
+            <table border="1" style="margin-top: 5px;" id="tab_salaire">
+                <thead>
+                    <tr style="text-align: left;">
+                        <th style="width: 30px;">N°</th><th style="width: 180px;">Code membre</th><th style="width: 270px;">Nom</th><th style="width: 120px;">Salaire</th>
+                    </tr>
+                </thead>
+                <?php if (isset($this->data[0][1])) {?>
+                <tbody>
+                    <?php for ($i = 0; $i < count($this->data); $i++) { ?>
+                        <tr>
+                            <input type="hidden" name="cpteur" id="cpteur" value="<?php echo $this->cpteur; ?>"/>
+                            <td><input id="<?php echo "num" . $i ?>" type="text" name="<?php echo "num" . $i ?>" value="<?php echo $i+1; ?>" style="width: 30px;"/></td>
+                            <td><input id="<?php echo "num_membre" . $i ?>" type="text" name="<?php echo "num_membre" . $i ?>" value="<?php echo $this->data[$i][1]; ?>" style="width: 180px;"/></td>
+                            <td><input id="<?php echo "nom" . $i ?>" type="text" name="<?php echo "nom" . $i ?>" value="<?php echo $this->data[$i][2]; ?>" readonly="true" style="width: 270px;"/></td>
+                            <td><input id="<?php echo "salaire" . $i ?>" type="text" name="<?php echo "salaire" . $i ?>" value="<?php echo $this->data[$i][3];?>" style="width: 120px; text-align: right" class="validate[required,custom[onlyNumberSp]]"/></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+                <?php }else{ ?>
+                <tbody>
+                    <tr>
+                        <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+                        <td><input id="num0" type="text" name="num0" value="1" required="true" style="width: 30px;"/></td>
+                        <td><input id="num_membre0" type="text" name="num_membre0" value="" required="true" style="width: 180px;"/></td>
+                        <td><input id="nom0" type="text" name="nom0" value="" style="width: 270px;" readonly="readonly"/></td>
+                        <td><input id="salaire0" type="text" name="salaire0" value="" style="width: 120px;" class="validate[required,custom[onlyNumberSp]]"/></td>
+                    </tr>
+                </tbody>
+                <?php } ?>
+            </table>
+            <table style="margin-top: 5px">
+                <tr>
+                    <td><input id="add" type="button" value="Ajouter" onclick="addRow('tab_salaire')"/><input id="remove" type="button" value="Supprimer" onclick="deleteRow('tab_salaire')"/></td>
+                    <td></td>
+                    <td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Réinitialiser"/></td>
+                    <td></td>
+                    <td><input type="button" id="cancel" value="Annuler"/>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <script type="text/javascript">
+        var compteur = $("#cpteur").val();
+        $(document).ready(function ()
+        {  
+            $('#val').button();
+            $('#reset').button();
+            $('#add').button();
+            $('#remove').button();
+            $('#cancel').button();
+            
+            $.get( "/eu-smcipn/change",
+            function success(data)
+            {
+                $("#num_membre0").autocomplete({"source":data});
+            });
+            
+            $('#num_membre0').blur(function(e)
+            {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-smcipn/recupnom',
+                    {
+                        num_membre: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        $("#nom0").val(data);
+                    });
+                }
+                e.preventDefault();
+            });
+            
+            var sal=parseInt($("#mt_salaire").val(),10);
+            $('#salaire0').blur(function(e)
+            {
+                if(isNaN($(this).val()))
+                {                    
+                    alert('Saisissez un nombre');  
+                    $(this).focus();
+                }else{
+                    if(parseInt($('#salaire0').val(),10) > sal)
+                    {                    
+                        alert('Le montant alloué ne peut être supérieur au salaire disponible');  
+                        $(this).focus();
+                    };   
+                };  
+                e.preventDefault();
+            });
+            
+            $('#val').click(function(e){
+                $.ajax({
+                    url: $('#fm_salaire').attr("action"),
+                    data: $('#fm_salaire').serialize(),
+                    type: 'post',
+                    success: processServerResponse
+                })
+                e.preventDefault();
+            });  
+        }) 
+        function processServerResponse(data) {
+            if(data == 0){
+                alert('Cet employé à déjà justifié cette demande.');
+                return false;
+            }else if(data == 1){
+                alert('Opération effectuée avec succès');
+                $(location).attr("href", "/eu-smcipn/index");
+                return false;
+            }else if(data == 2){
+                alert('La somme des salaires est différente du montant du salaire à utiliser.');
+                return false;
+            }else if(data == 3){
+                alert('La justification de ce salaire est déjà effectuée.');
+                return false;
+            }else if(data == 4){
+                alert('Le montant du salaire à utiliser ne peut être supérieur au montant total disponible.');
+                return false;
+            }else{
+                $('#message').html(data);
+            }
+        }; 
+        
+        function addRow(tableID) {
+
+            var table = document.getElementById(tableID);
+            var rowCount = table.rows.length;
+            var cpte = rowCount-1;
+            var row = table.insertRow(rowCount);
+            
+            var cell1 = row.insertCell(0);
+            var element0 = document.createElement("input");
+            element0.type = "text";
+            element0.setAttribute("id","num" + cpte);
+            element0.setAttribute("name","num" + cpte);
+            element0.setAttribute("value", cpte+1);
+            element0.setAttribute("style","width:30px;");
+            cell1.appendChild(element0);
+            
+            var cell2 = row.insertCell(1);
+            var element1 = document.createElement("input");
+            element1.type = "text";
+            element1.setAttribute("id","num_membre" + cpte);
+            element1.setAttribute("name","num_membre" + cpte); 
+            element1.setAttribute("style","width:180px;");
+            cell2.appendChild(element1);
+
+            var cell3 = row.insertCell(2);
+            var element2 = document.createElement("input");
+            element2.type = "text";
+            element2.setAttribute("id","nom" + cpte);
+            element2.setAttribute("name","nom" + cpte);
+            element2.setAttribute("style","width:270px;");
+            element2.setAttribute("readonly","true");
+            cell3.appendChild(element2);
+
+            var cell4 = row.insertCell(3);
+            var element3 = document.createElement("input");
+            element3.type = "text";
+            element3.setAttribute("id","salaire" + cpte);
+            element3.setAttribute("name","salaire" + cpte);
+            element3.setAttribute("value","");
+            element3.setAttribute("style","width:120px;");
+            cell4.appendChild(element3);
+                        
+            $.get( "/eu-smcipn/change",
+            function success(data)
+            {
+                $("#num_membre"+ cpte).autocomplete({"source":data});
+            });
+            
+            $('#num_membre' + cpte).blur(function(e)
+            {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-smcipn/recupnom',
+                    {
+                        num_membre: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        $("#nom"+cpte).val(data);
+                    });
+                }
+                e.preventDefault();
+            });
+            
+            var sal=parseInt($("#mt_salaire").val(),10);
+            $('#salaire'+cpte).blur(function(e)
+            {
+                if(isNaN($(this).val()))
+                {                    
+                    alert('Saisissez un nombre');  
+                    $(this).focus();
+                }else{
+                    if(parseInt($('#salaire'+cpte).val(),10) > sal)
+                    {                    
+                        alert('Le montant alloué ne peut être supérieur au salaire disponible');  
+                        $(this).focus();
+                    };   
+                };  
+                e.preventDefault();
+            });
+            compteur = parseInt(compteur,10) + 1;
+            document.getElementById("cpteur").setAttribute('value',compteur);
+        }
+
+        function deleteRow(tableID) {
+            try {
+                var table = document.getElementById(tableID);
+                var rowCount = table.rows.length - 1;
+                if(rowCount>1){
+                    table.deleteRow(rowCount);
+                }
+                compteur = parseInt(compteur,10) - 1;
+                document.getElementById("cpteur").setAttribute('value',compteur);
+            }catch(e) {
+                alert(e);
+            }
+        }
+                    
+        $('#cancel').click(function()
+        {
+            window.location="/eu-smcipn/";
+        });      
+    </script>
+</div>

@@ -1,0 +1,41 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Detail d'une procedure : <?php echo ($this->procedure_type->procedure_type_libelle); ?></p></blockquote>
+  
+    
+  <blockquote><?php echo $this->procedure->procedure_libelle; ?></blockquote>
+
+<div>
+<?php echo $this->procedure->procedure_description; ?>
+</div>
+
+<div>
+<?php //echo $this->procedure->procedure_url; ?>
+</div>
+
+
+<?php /*?><div>
+<a href="<?php echo $this->baseUrl();?>/<?php echo $this->procedure->procedure_url; ?>">Télécharger</a>
+</div><?php */?>
+
+
+
+</div>
+<?php /*?><div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div><?php */?>
+</div>
+</div>
+
+
+
+
+
+
+
+

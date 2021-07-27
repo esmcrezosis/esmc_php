@@ -1,0 +1,66 @@
+<div id="view-content">
+    <table id="tbl-commande"></table>
+    <div id="pg-commande"></div>
+    <br>
+    <table id="tbl-objet"></table>
+    <div id="pg-objet"></div>
+</div>
+
+<script type="text/javascript">
+    
+    jQuery("#tbl-commande").jqGrid({ 
+        url:'<?php echo $this->url(array('action' => 'data')); ?>', 
+        datatype: "json", 
+        colNames:['Date commande','Numero commande','Facture proforma','Adresse de livraison'], 
+        height:220, width:828,
+        colModel:[
+            {name:'date_commande',index:'date_commande', width: 130, align:"left", editable: true},
+            {name:'code_commande',index:'code_commande', width: 150, editable: true,align:"left"},
+            {name:'code_proforma',index:'code_proforma', width: 150, editable: true,align:"left"},
+            {name:'adresse_livre',index:'adresse_livre', width: 400, align:"left", editable: true}, 
+        ], 
+        rowNum:100000,
+        rowList:[100000,200000,300000],
+        pager: '#pg-commande',
+        sortname:"date_com",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Liste des commandes",
+        onSelectRow: function(code_commande){ 
+                jQuery("#tbl-objet").jqGrid('setGridParam',{url:"/eu-commande/mdetail?code_commande="+code_commande,page:1}); 
+                jQuery("#tbl-objet").jqGrid('setCaption',"Detail des produits sur la commande N°: "+code_commande+"") .trigger('reloadGrid'); 
+        }
+    });
+    $("#tbl-commande").jqGrid('navGrid','#pg-commande',{edit:false,add:false,del:false,search:false});
+    
+    
+    $("#tbl-objet").jqGrid({
+        url:'/eu-commande/mdetail?code_commande=0',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Unité','Désignation','Quantité','Prix unitaire','Remise'],
+        height:'100%', width:827,
+        colModel:[
+		    {name:'unite_mesure',index:'unite_mesure', width: 150, align:"left", editable: true},
+            {name:'design_objet',index:'design_objet', width: 350, align:"left", editable: true},
+            {name:'qte_objet',index:'qte_objet', width: 100, align:"left", editable: true},
+            {name:'pu_objet',index:'pu_objet', width: 100, align:"left", editable: true,sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'remise',index:'remise', width: 100, align:"left", editable: true}
+        ],
+        rowNum:200,
+        rowList:[200,300,400],
+        pager: '#pg-objet',
+        sortname:"design_objet",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Detail des produits sur la commande"
+    });
+    $("#tbl-objet").jqGrid('navGrid','#pg-objet',{edit:false,add:false,del:false,search:false});
+      
+    var rowsel;
+    $('#tbl-commande').click(function()
+    {   
+        rowsel = jQuery("#tbl-commande").jqGrid('getGridParam','selrow');    
+    });
+      
+</script>    

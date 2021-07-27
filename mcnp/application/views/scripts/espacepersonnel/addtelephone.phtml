@@ -1,0 +1,83 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/paystelephones.js"></script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Ajouter un nouveau numéro de téléphone</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="adddemande">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="id_pays">Pays  *</label>
+<div class="controls">
+<select  name ="id_pays" id="id_pays"  required="required" onchange="ouvre_paystelephones(this.value);">
+     <?php  $pays_mapper = new Application_Model_EuPaysMapper();
+		    $selectpayss = $pays_mapper->fetchAll();?>
+            <option value="">Choisir le pays </option>
+            <?php foreach ($selectpayss as $selectpays): ?>
+            <option value="<?php echo $selectpays->id_pays; ?>"><?php echo $selectpays->libelle_pays; ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div id="nivo2">
+
+
+	
+</div>
+
+<div class="control-group">
+    <label class="control-label">Ce numéro de téléphone est il le principal ? *</label>
+    <div class="controls">
+    <label class="radio inline">
+  <input type="radio" name="principal" id="principal_1" value="1"  required >
+  OUI
+</label>
+<label class="radio inline">
+  <input type="radio" name="principal" id="principal_0" value="0" required >
+  NON
+</label>
+    </div>
+  </div>
+
+<div class="form-actions">
+<input name="code_membre" type="hidden" id="code_membre" value="<?php echo $sessionmembre->code_membre; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter un nouveau numéro de téléphone</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

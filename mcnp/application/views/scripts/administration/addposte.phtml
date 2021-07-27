@@ -1,0 +1,73 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/taches.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout du poste</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addposte">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+
+
+<div class="control-group">
+<label class="control-label" for="poste_utilisateur">Utilisateur du poste *</label>
+<div class="controls">
+<?php 
+$utilisateur = new Application_Model_EuUtilisateurMapper();
+$entries = $utilisateur->fetchAllByUtilisateurParent(140);
+if(count($entries) > 0){?>
+<select id="poste_utilisateur" name="poste_utilisateur" required onchange="ouvre_taches(this.value);">
+  <option value="">Choisir l'utilisateur</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->id_utilisateur; ?>"><?php echo $value->nom_utilisateur; ?> <?php echo $value->prenom_utilisateur; ?> - <?php echo $value->login; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+    
+
+
+<div id="nivotache">
+
+</div>
+
+
+    
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter le poste</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

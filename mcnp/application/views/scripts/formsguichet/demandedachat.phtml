@@ -1,0 +1,68 @@
+<div class="row-fluid">
+
+	<div class="span9">
+      <legend>Formulaire de </legend>
+      <?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationsuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+				</div>
+	    <?php unset($_SESSION['validationsuccess']); endif ?>
+
+      <form action="#" enctype="multipart/form-data" method="post" class="form-horizontal">
+
+      <div class="control-group">
+	      <label class="control-label" for="raison_social_guiucoeop" style="font-weight:bold">
+	          Reference d'Achat*:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="refdemandeachat" class="input-block-level" placeholder="Mettre ici la reference d'achat" required="required"/>
+	      </div>
+	   </div>
+
+       <div class="control-group">
+	      <label class="control-label" for="designationdemandedachat" style="font-weight:bold">
+	         Designation de demande d'Achat *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="representantguiucoeop" class="input-block-level" placeholder="Mettre ici la designation de la demande d'achat" required="required"/>
+	      </div>
+	   </div>
+
+       <div class="control-group">
+	      <label class="control-label" for="designationdemandedachat" style="font-weight:bold">
+	         Quantité 
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="representantguiucoeop" class="input-block-level" placeholder="Mettre ici la quantité" required="required"/>
+	      </div>
+	   </div>
+       <div class="control-group">
+	      <label class="control-label" for="prixunitairedemandedachat" style="font-weight:bold">
+	         Prix Unitaire:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="prixunitairedemandedachat" class="input-block-level" placeholder="Mettre ici le prix unitaire" required="required"/>
+	      </div>
+	   </div>
+
+       <div class="control-group">
+	      <label class="control-label" for="totaldemandedachat" style="font-weight:bold">
+	         Total:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="totaldemandedachat" class="input-block-level" placeholder="Mettre ici le nom & pr&noms du representant de la franchise" required="required"/>
+	      </div>
+	   </div>
+       <div class="control-group" >
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+          Valider le formulaire
+          </button>
+       </div>
+      </form>
+    </div>
+</div>

@@ -1,0 +1,201 @@
+
+<div class="row">
+
+<div class="col-xl-6">
+
+    <div class="control-group">
+	      <label class="control-label" for="code membre" style="font-weight:bold;display:inline-block">
+	            Code membre:
+	      </label>
+	      <div class="controls" style="display:inline-block">
+          <?php echo $this->detailselidejavalider[0]->code_membre ;?>	 
+          </div>
+    </div>
+    <?php
+     $codemembre = $this->detailselidejavalider[0]->code_membre;
+    $subcodemembre = substr($codemembre,-1);?>
+    
+    <?php if ($subcodemembre == "M" ):?>
+      <div class="control-group">
+	      <label class="control-label" for="code membre" style="font-weight:bold;display:inline-block">
+	          Raison sociale:
+	      </label>
+	      <div class="controls" style="display:inline-block">
+          <?php echo $this->raison_sociale ;?>	 
+          </div>
+      </div>
+
+    <?php else :?>
+
+    <div class="control-group">
+	      <label class="control-label" for="Nom & Prenoms" style="font-weight:bold;display:inline-block">
+	          Nom & Prénoms:
+	      </label>
+	      <div class="controls" style="display:inline-block">
+          <?php echo $this->nomsetprenoms ;?>	 
+          </div>
+      </div>
+    <?php  endif ?>
+    <div class="control-group">
+	      <label class="control-label" for="numéro de l'ELI" style="font-weight:bold;display:inline-block">
+	            Numéro de l'ELI:
+	      </label>
+	      <div class="controls" style="display:inline-block">
+          <?php echo $this->detailselidejavalider[0]->numero_eli ;?>	 
+          </div>
+    </div>
+
+        <div class="control-group">
+	      <label class="control-label" for="libellé de l'ELI" style="font-weight:bold;display:inline-block">
+	         Libellé de l'ELI:
+	      </label>
+	      <div class="controls" style="display:inline-block">
+          <?php echo $this->detailselidejavalider[0]->libelle_eli ;?>	 
+          </div>
+    </div>
+    <?php
+              $month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+              $true_month = "";
+              $true_month_arrive = "";
+              $ex_date = explode('-',$this->detailselidejavalider[0]->date_eli);
+              
+
+              foreach ($month as $key => $val) {
+                if($ex_date[1] == $key){
+                  $true_month = $val;
+                }
+              }
+              $next_ex_date = explode(' ', $ex_date[2]);
+              $true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+    ?>
+    <div class="control-group">
+	      <label class="control-label" for="date d'établissement de l'ELI" style="font-weight:bold;display:inline-block">
+	          Date d'établissement de l'ELI:
+	      </label>
+	      <div class="controls" style="display:inline-block">
+          <?php echo $true_date ;?>	 
+          </div>
+      </div>
+
+    <div class="control-group">
+	      <label class="control-label" for="date d'établissement de l'ELI" style="font-weight:bold;display:inline-block">
+	          Montant de l'ELI:
+	      </label>
+	      <div class="controls" style="display:inline-block">
+          <?php echo $this->detailselidejavalider[0]->montant_eli ;?>	 
+          
+          </div>
+      </div>
+</div>
+
+<div class="col-xl-6">
+<div class="control-group">
+	      <label class="control-label" for="BAi" style="font-weight:bold;display:inline-block">
+	          BAi ?:
+	      </label>
+	      <div class="controls" style="display:inline-block">
+           <?php if ($this->detailselidejavalider[0]->bai == 1 ):?> 
+              Oui
+            <?php else :?>
+              Non
+           <?php  endif ?>
+
+          </div>
+    </div>
+
+<div class="control-group">
+	      <label class="control-label" for="Montant BAi" style="font-weight:bold;display:inline-block">
+	          Montant BAi ?:
+	      </label>
+	      <div class="controls" style="display:inline-block">
+           <?php echo $this->detailselidejavalider[0]->montant_bai;  ?> 
+
+          </div>
+    </div>
+
+<div class="control-group">
+	      <label class="control-label" for="BAn" style="font-weight:bold;display:inline-block">
+	          BAn ?:
+	      </label>
+	      <div class="controls" style="display:inline-block">
+           <?php if ($this->detailselidejavalider[0]->ban == 1 ):?> 
+              Oui
+            <?php else :?>
+              Non
+           <?php  endif ?>
+
+          </div>
+</div>
+
+<div class="control-group">
+	      <label class="control-label" for="Montant BAn" style="font-weight:bold;display:inline-block">
+	          Montant BAn:
+	      </label>
+	      <div class="controls" style="display:inline-block">
+           <?php echo $this->detailselidejavalider[0]->montant_ban;  ?> 
+
+          </div>
+    </div>
+
+<div class="control-group">
+	      <label class="control-label" for="BAn" style="font-weight:bold;display:inline-block">
+	          OPi ?:
+	      </label>
+	      <div class="controls" style="display:inline-block">
+           <?php if ($this->detailselidejavalider[0]->opi == 1 ):?> 
+              Oui
+            <?php else :?>
+              Non
+           <?php  endif ?>
+
+          </div>
+    </div>
+</div>
+
+<hr>
+
+<blockquote style="font-weight:bold">Détail de l'ELI</blockquote>
+
+<hr>
+
+<table class="table table-stripped">
+    <thead>
+        <tr>
+			<th>Libellé du produit</th>
+			<th>Montant du produit </th>
+			<th>Type BPS </th>
+			<th>Prix de vente </th>
+			<th>Quantité de vente </th>
+			<th>Quantité </th>
+			<th>Prix Unitaire</th>
+			<th>TOTAL</th>
+		</tr> 
+    </thead>
+    <tbody>
+    </thead>
+    <tbody>
+     <?php foreach ($this->detailselidejavaliderdetails  as $key => $value): ?>
+     <?php
+       $quantite = $value->quantite;
+       $prix_unitaire = $value->prix_unitaire;
+       $total = $quantite * $prix_unitaire;
+      ?>
+      <tr>
+        
+        <td><?php echo $value->libelle_produit ;?></td>
+        <td><?php echo $value->montant_produit ;?></td>
+
+           <?php if ($value->type_bps == "BP" ):?> 
+           <td>Biens & Produits</td>
+           <?php else :?>
+           <td>Services</td>
+           <?php  endif ?>
+        <td><?php echo $value->prix_vente;?></td>
+        <td><?php echo $value->qte_vente;?></td>
+        <td><?php echo $value->quantite;?></td>
+        <td><?php echo $value->prix_unitaire;?></td>
+        <td><?php echo $total;?></td>
+      </tr>
+ 	<?php endforeach ?>
+    </tbody>
+</table>

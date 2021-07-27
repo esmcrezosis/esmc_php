@@ -1,0 +1,88 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+
+<script type="text/javascript">		
+$(document).ready(function() {
+  $('#example').dataTable( {
+   "sPaginationType": "full_numbers",
+   "aaSorting": []
+  });
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p>Liste des pays</p></blockquote>
+
+<?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error !="") { ?>
+  <div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+  <?php } ?>
+
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+
+
+
+<?php if(count($this->entries) > 0) { 
+
+$zone = new Application_Model_EuZone();
+$zone_mapper = new Application_Model_EuZoneMapper();
+
+
+?>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+<thead>
+	  <tr>
+		 <th>Libelle</th>
+		 <th>Code pays</th>
+		 <th>Code téléphonique</th>
+		 <th>Zone</th>
+		 <th>Actions</th>
+	  </tr>
+</thead>
+
+<tbody>
+      <?php foreach($this->entries as $entry) : 
+			  if($entry->code_zone != null) {
+				$zone_mapper->find($entry->code_zone,$zone); 
+			  }       
+	  ?>
+	  
+      <tr>
+	      <td><?php echo $entry->libelle_pays; ?></td>
+          <td><?php echo $entry->code_pays; ?></td>
+          <td><?php echo $entry->code_telephonique; ?></td>
+		  <td><?php echo $zone->nom_zone; ?></td>
+		  <td>
+			  <div align="center">
+	               <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/editpays/id/<?php echo $entry->id_pays; ?>"><i class="icon-edit icon-white"></i>Modifier</a>&nbsp;	   
+              </div>
+		  </td>
+	  </tr>
+	  <?php endforeach; ?>
+      </tbody>
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun enrégistrement 
+</div>
+<?php } ?>
+
+</div>
+</div>
+</div>

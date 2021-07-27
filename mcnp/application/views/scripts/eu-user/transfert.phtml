@@ -1,0 +1,44 @@
+<div id="view-content" title="" style="font-size: 12px;min-height: 520px;">
+    <table id="tbl-user"></table>
+    <div id="pg-user"></div>
+</div>
+<script type="text/javascript">
+$("#tbl-user").jqGrid({
+    url:'<?php echo $this->url(array('action' => 'datatransfert')); ?>',
+    datatype: "json",
+    mtype: 'GET',
+        colNames:['Date','Code','Type','Entrée','Sortie','Solde','Total Entrée/Sortie'],
+        height:500, width:827,
+        colModel:[
+            {name:'datetransfert', index:'datetransfert', width: 150, editable: true, align:"center"},
+            {name:'code', index:'code', width:100, editable: true, align:"center"},
+            {name:'type', index:'type', width:50, editable: true, align:"center"},
+            {name:'montant_entrer', index:'montant_entrer', width: 120, editable: true, align:"right", sorttype: "float", formatter: "number"},
+			{name:'montant_sortie', index:'montant_sortie', width: 120, editable: true, align:"right", sorttype: "float", formatter: "number"},
+			{name:'solde', index:'solde', width: 120, editable: true, align:"right", sorttype: "float", formatter: "number"},
+            {name:'total', index:'total', width: 120, editable: true, align:"right", sorttype: "float", formatter: "number"},
+        ],
+     rowNum:100,
+     rowList:[100,200,300],
+     rownumbers:true,
+     pager: '#pg-user',
+        sortname:"datetransfert",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Tableau de bord des transferts",
+		grouping:true,
+        groupingView : {
+            groupField : ['code'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [true],
+            groupDataSorted : true
+        },       
+        footerrow: true,
+        userDataOnFooter: true
+    });
+    $("#tbl-user").jqGrid('navGrid','#pg-user',{edit:false,add:false,del:false,search:true});    
+    
+</script>    

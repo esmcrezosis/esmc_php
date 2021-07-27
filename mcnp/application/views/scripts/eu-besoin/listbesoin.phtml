@@ -1,0 +1,125 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px; width: 800px">
+       <fieldset>
+           <legend style=" font-weight:bold">Recherche</legend>
+           <form action="/eu-besoin/listbesoin" method="POST">
+            <h5>
+                Libellé du besoin<input type="text" id="besoin" name="besoin" size="35"/>
+                Date du besoin<input type="text" id="date" name="date"/>
+                <input id="ok" type="submit" value="Ok" />
+            </h5> 
+          </form>
+       </fieldset>
+   </div>
+    <div style="margin-bottom: 3px;">
+         <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-besoin"></table>
+    <div id="pg-besoin"></div>
+    <table id="tbl-objet"></table>
+    <br>
+    <div id="pg-objet"></div>
+    <table id="tbl-objethors"></table>
+    <div id="pg-objethors"></div>
+</div>
+<script type="text/javascript">
+    
+    jQuery("#tbl-besoin").jqGrid({ 
+        url:'/eu-besoin/listb?besoin=<?php echo $this->besoin?>&date_besoin=<?php echo $this->date_besoin?>', 
+        datatype: "json", 
+        colNames:['Numero','Besoin','Date de validite','Date creation'], 
+        height:220, width:828,
+        colModel:[
+            {name:'id_besoin',index:'id_besoin', width: 80, editable: true,align:"left"},
+            {name:'objet_besoin',index:'objet_besoin', width: 300, editable: true,align:"left"},
+            {name:'date_valide',index:'date_valide', width: 140, align:"left", editable: true},
+            {name:'date_besoin',index:'date_besoin', width: 200, align:"left", editable: true},     
+        ], 
+        rowNum:1000,
+        rowList:[1000,2000,3000],
+        pager: '#pg-besoin',
+        sortname:"id_besoin",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Liste de mes besoins exprimés",
+        onSelectRow: function(id_besoin){ 
+                jQuery("#tbl-objet").jqGrid('setGridParam',{url:"/eu-besoin/mdetail?besoin="+id_besoin,page:1}); 
+                jQuery("#tbl-objet").jqGrid('setCaption',"Détails des Expressions des Besoins des produits du système") .trigger('reloadGrid'); 
+        }
+                
+    });
+    $("#tbl-besoin").jqGrid('navGrid','#pg-besoin',{edit:false,add:false,del:false,search:false});
+        
+    $("#tbl-objet").jqGrid({
+        url:'/eu-besoin/mdetail?besoin=0',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Unité','Désignation','Quantité','Catégorie'],
+        height:'100%', width:827,
+        colModel:[
+		    {name:'unite_mesure',index:'unite_mesure', width: 200, align:"left", editable: true},
+            {name:'design_objet',index:'design_objet', width: 600, align:"left", editable: true},
+            {name:'qte_objet',index:'qte_objet', width: 150, align:"left", editable: true},
+            {name:'type',index:'qte_objet', width: 150, align:"type", editable: true}
+        ],
+        rowNum:200,
+        rowList:[200,300,400],
+        pager: '#pg-objet',
+        sortname:"design_objet",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Détails sur l'expression des Besoins "
+    });
+    $("#tbl-objet").jqGrid('navGrid','#pg-objet',{edit:false,add:false,del:false,search:false});
+    
+    
+    
+ $('#editer').click(function()
+ {
+        var rowsel;
+        rowsel = jQuery("#tbl-besoin").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-besoin/edit',{
+                 besoin:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }
+        else
+        {
+          alert('Aucune ligne sélectionnée');
+        }
+  }); 
+    
+    $(function(){
+                var pickerOpts = {
+                    dateFormat: "dd/mm/yy",
+                    changeMonth:true,
+                    changeYear:true,
+                    showOtherMonths: true
+                };
+                $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+                $("#date").datepicker(pickerOpts);
+            });  
+      $(document).ready(function ()
+    {
+      $.get( "/eu-besoin/found",
+              function success(data){
+                $("input#besoin").autocomplete({"source":data});
+              }
+       );
+    
+    
+    var rowsel;
+    $('#tbl-besoin').click(function()
+    {   
+        rowsel = jQuery("#tbl-besoin").jqGrid('getGridParam','selrow');    
+    });
+    
+    $('#editer').button();
+	$('#ok').button();
+    
+ })
+
+</script>

@@ -1,0 +1,114 @@
+<div id="view-content" style="font-size: 12px">
+         <div class="ui-widget-content ui-corner-all" style="margin-bottom:3px; width: 827px; font-size:12px">
+          <fieldset>
+             <legend style=" font-weight:bold">Recherche</legend>
+             <h5> 
+                 Ancien numéro<input type="text" id="numero" name="numero" size="15"/>
+                 Nom<input type="text" id="nom" name="nom" size="20"/>
+                 Prénom<input type="text" id="prenom" name="prenom"  size="35"/>
+                 <input id="recherche" type="button" value="Recherche"/>
+             </h5>
+          </fieldset>
+		  </div>
+          <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    
+     <table id="tbl-fondateur"></table>
+     <div id="pg-fondateur"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-fondateur").jqGrid({
+        url: "/eu-membre-fondateur107/data",
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Identité', 'Nom', 'Prenom', 'Code membre', 'Téléphone', 'Cellulaire','Répartition'],
+        height: 410, width: 827,
+        colModel: [
+             {name: 'numident', index: 'numident', width: 100, sorttype: "int", editable: true, align: "left"},
+             {name: 'nom', index: 'nom', width: 200, editable: true, align: "left"},
+             {name: 'prenom', index: 'prenom', width: 200, align: "left", editable: true},
+             {name: 'code_membre', index: 'code_membre', width: 230, editable: true, align: "left"},
+             {name: 'tel', index: 'tel', width:120, editable: true, align: "left"},
+             {name: 'cel', index: 'cel', width:120, align: "left", editable: true},
+			 {name: 'nb_repartition', index: 'nb_repartition', width:120, align: "left", editable: true},
+			 //{name:'total',index:'total',width: 140,align:"right",sorttype:'number',formatter:'number',summaryType:'sum'},
+        ],
+        rowNum: 200000,
+        rowList: [200000, 400000, 600000],
+        pager: '#pg-fondateur',
+        sortname: "numident",
+        viewrecords: true,
+		rownumbers:true,
+        sortorder: "ASC",
+        caption: "Membres Fondateurs 107",
+		footerrow: true,
+        userDataOnFooter: true 
+    });
+    $("#tbl-fondateur").jqGrid('navGrid', '#pg-fondateur', {edit: false, add: false, del: false, search: true});
+    
+	
+	
+    $.get( "/eu-membre-fondateur107/numident",
+    function success(data)
+    {
+      $("#numero").autocomplete({"source":data});
+    });
+    
+    $('#recherche').click(function()
+    {
+      numero = $('#numero').val();
+      nom = $('#nom').val();
+      prenom = $('#prenom').val(); 
+      jQuery("#tbl-fondateur").jqGrid('setGridParam', { url: "/eu-membre-fondateur107/data?numero=" + numero+"&nom="+nom+"&prenom="+prenom}).trigger('reloadGrid');
+    });
+    
+    $('#crediter').click(function()
+    {
+       var rowsel;
+       rowsel = jQuery("#tbl-fondateur").jqGrid('getGridParam', 'selrow');
+       if (rowsel)
+       {
+          seldata = jQuery("#tbl-fondateur").jqGrid('getRowData', rowsel);
+          $.get('/eu-membre-fondateur107/verifier', {
+                numident: rowsel
+            }, function success(data) {
+                if (data != seldata.code_membre) {
+                    alert("Ce membre fondateur n'a pas de compte marchand");
+                }
+                else {
+                     $.get('/eu-membre-fondateur107/crediter', {
+                     numident: rowsel,code_membre:seldata.code_membre
+                     }, function success(data) {
+                     $("#content").html(data);
+                     });  
+                }
+            }); 
+        }
+        else {
+             alert('Aucune ligne sélectionnée');
+        }
+    })
+     
+    $('#editer').click(function()
+    {
+       var rowsel;
+       rowsel = jQuery("#tbl-fondateur").jqGrid('getGridParam', 'selrow');
+       if (rowsel)
+       { 
+         $.get('/eu-membre-fondateur107/edit', {
+                 numident:rowsel
+         }, function success(data) {
+         $("#content").html(data);
+       });
+             
+       } 
+       else {
+            alert('Aucune ligne sélectionnée');
+       }   
+    })
+    
+    $('#editer').button();
+    $('#recherche').button();
+    $('#crediter').button();
+    
+</script>    

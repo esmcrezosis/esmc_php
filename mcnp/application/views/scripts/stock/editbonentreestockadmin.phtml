@@ -1,0 +1,77 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modifier  un bon d'entree de stock</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="editeli">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = "";?>
+    </div>
+  <?php }?>
+  
+    
+
+<div class="control-group">
+<label class="control-label" for="nom_article">Nom article *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="nom_article" id="nom_article" placeholder="Nom article" value="<?php echo $this->bon_entree_stock->nom_article;?>" required>
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="reference_bon_entree_stock">Reference *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="reference_bon_entree_stock" id="reference_bon_entree_stock" placeholder="Reference" value="<?php echo $this->bon_entree_stock->reference_bon_entree_stock;?>" required>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="libelle_bon_entree_stock">Libelle *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="libelle_bon_entree_stock" id="libelle_bon_entree_stock" placeholder="Libelle" value="<?php echo $this->bon_entree_stock->libelle_bon_entree_stock;?>" required>
+</div>
+</div>
+
+
+
+
+
+<div class="form-actions">
+<input name="id_bon_entree_stock" type="hidden" id="id_bon_entree_stock" value="<?php echo $this->bon_entree_stock->id_bon_entree_stock; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier  le bon d'entree de stock</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

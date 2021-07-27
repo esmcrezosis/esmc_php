@@ -1,0 +1,106 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout d'un contrat<!--dossier d'appel d'offres--></p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addappeloffres">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<div class="control-group">
+<label class="control-label" for="id_document">Document canevas du contrat<!--Document d'appel d'offres--> *</label>
+<div class="controls">
+<?php 
+$document = new Application_Model_EuDocumentMapper();
+$entries = $document->fetchAll6(3, $sessionutilisateur->code_source_create, $sessionutilisateur->code_monde_create, $sessionutilisateur->code_zone_create, $sessionutilisateur->id_pays, $sessionutilisateur->id_region, $sessionutilisateur->code_secteur_create, $sessionutilisateur->code_agence_create);
+if(count($entries) > 0){?>
+          <?php $idutilisateur = ""; ?>
+<select id="id_document" name="id_document" required>
+  <option value="">Choisir le document canevas du contrat</option>
+<?php foreach ($entries as $value) {?>
+    <?php if($value->id_utilisateur != $idutilisateur && $idutilisateur != ""){ ?>
+ <?php }?>   
+    <?php if($value->id_utilisateur != $idutilisateur){ $idutilisateur = $value->id_utilisateur;?>
+    <?php 
+$utilisateurM = new Application_Model_EuUtilisateurMapper();
+$utilisateur = new Application_Model_EuUtilisateur();
+$utilisateurM->find($value->id_utilisateur, $utilisateur);
+
+$acteur = new Application_Model_EuActeur();
+$acteurRow = $acteur->findByCodeActeur2($utilisateur->code_acteur);
+
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($acteurRow->code_membre, $membremorale);
+?>
+
+  <option disabled="disabled"><?php echo htmlentities($membremorale->raison_sociale); ?>, <?php echo htmlentities($membremorale->domaine_activite); ?></option>
+<?php }?>
+  <option value="<?php echo $value->id_document; ?>">&nbsp;&nbsp;&nbsp;&#8211;&nbsp;<?php echo $value->nom_document; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="num_appeloffres">Numéro du contrat <!--dossier d'appel d'offre--> *</label>
+<div class="controls">
+<input type="text" name="num_appeloffres" id="num_appeloffres" placeholder="Numéro du dossier d'appel d'offre" class="input-xxlarge" value="<?php $a = new Application_Model_EuAppeloffres();
+        $ma = new Application_Model_EuAppeloffresMapper();
+            echo $ma->findConuterAnnee() + 1;?>/<?php echo date("Y"); ?>/DAC/MCNP/<?php $p = new Application_Model_EuPays();
+        $mp = new Application_Model_EuPaysMapper();
+            $mp->find($sessionutilisateur->pays, $p); echo strtoupper($p->getCode_pays()); ?>" readonly>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="libelle_appeloffres">Libellé du contrat<!--dossier d'appel d'offre--> *</label>
+<div class="controls">
+<input type="text" name="libelle_appeloffres" id="libelle_appeloffres" placeholder="Libellé du dossier d'appel d'offre" class="input-xxlarge" required>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="desc_appeloffres">Fichier du contrat<!--dossier d'appel d'offre--> *</label>
+<div class="controls">
+<input name="desc_appeloffres" type="file" id="desc_appeloffres" class="input-xxlarge" required />  
+</div>
+</div>
+
+<div class="form-actions">
+<input name="id_utilisateur" type="hidden" id="id_utilisateur" value="<?php echo $sessionutilisateur->id_utilisateur; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter contrat<!--d'un dossier d'appel d'offre--></button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

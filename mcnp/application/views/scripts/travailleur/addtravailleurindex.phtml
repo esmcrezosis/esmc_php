@@ -1,0 +1,256 @@
+<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/detailtravailleurs.js"></script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php //include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>SUPPORT EXTRANTS - SOUMISSION A L'AOT</p></blockquote>
+  
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addtravailleur">
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = "";?>
+    </div>
+  <?php }?>
+      
+         
+         <div class="control-group">
+         <label class="control-label" > Désignation  * </label>
+         <div class="controls">
+         <input type="text" name="nom_membre" id="nom_membre" placeholder="Désignation "  class="input-block-level" readonly />
+         </div>
+         </div>
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_libelle">Nom et prénom(s) du travailleur *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="travailleur_libelle" id="travailleur_libelle" placeholder="Nom et prénom(s) du travailleur" required>
+</div>
+</div>
+
+<?php 
+$t_postes = new Application_Model_EuPostesMapper();
+$postes = $t_postes->fetchAll();
+
+?>
+    
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_numero_cin">Numero de votre carte d'identité *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="travailleur_numero_cin" id="travailleur_numero_cin" placeholder="Numero de votre carte d'identité " >
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_date_delivrance_cin">Date de delivrance de la carte*</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="travailleur_date_delivrance_cin" id="travailleur_date_delivrance_cin" placeholder="Date de delivrance de la carte" >
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_date_expiration_cin">Date d'expiration de la carte *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="travailleur_date_expiration_cin" id="travailleur_date_expiration_cin" placeholder="Date d'expiration de la carte " >
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="travailleur_type"> Type de travail * </label>
+<div class="controls">
+<select id="travailleur_type" name="travailleur_type" required class="input-xxlarge">
+<option value="">Choisir un type</option>
+<option value="Emplois">Emplois</option>
+<option value="Stages">Stages</option>
+<option value="Formation">Formation</option>
+<option value="Apprentissage">Apprentissage</option>
+<option value="Education">Education</option>
+</select>     
+</div>     
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_niveau">Niveau scolaire du travailleur *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="travailleur_niveau" id="travailleur_niveau" placeholder="Niveau scolaire du travailleur" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="travailleur_experience">Experience du travailleur * </label>
+<div class="controls">
+<textarea name="travailleur_experience" id="travailleur_experience" placeholder="Experience du travailleur" class="ckeditor"></textarea>
+</div>
+</div>
+
+
+
+
+<div class="control-group">
+<label class="control-label" for="travailleur_education">Education / Formation / Cursus  *</label>
+<div class="controls">
+  <textarea name="travailleur_education" class="input-xxlarge" id="travailleur_education" placeholder="Education/Formation/Cursus" ></textarea>
+  <span class="help-block">Indiquer les études universitaires et autres études spécialisées ainsi que les noms des institutions fréquentées, les diplômes obtenus et les dates auxquelles ils l’ont été</span>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_formation">Autres formations   </label>
+<div class="controls">
+  <textarea name="travailleur_formation" class="input-xxlarge" id="travailleur_formation" placeholder="Autres formations"></textarea>
+  <span class="help-block">Indiquer toute autre formation reçue</span>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="travailleur_adresse">Adresse du travailleur *</label>
+<div class="controls">
+
+<textarea name="travailleur_adresse" id="travailleur_adresse" cols="30" rows="10" placeholder="Adresse du travailleur" required></textarea>
+
+</div>
+</div>
+    
+
+  <legend> Localités </legend>
+  
+
+                        <div class="row-fluid">
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Zone M.</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="code_zone" name="code_zone">
+                                            <option value="">Choisir une zone monétaire</option>
+                                            <?php foreach ($this->zones as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Pays *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_pays" name="id_pays" required="required" onchange="ouvre_paystelephones2(this.value);">
+                                            <option value="">Choisir un pays</option>
+                                            <?php foreach ($this->pays as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Régions</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_region" name="id_region">
+                                            <option value="">Choisir une région</option>
+                                            <?php foreach ($this->regions as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Préfectures</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_prefecture" name="id_prefecture">
+                                            <option value="">Choisir une préfecture</option>
+                                            <?php foreach ($this->prefectures as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Cantons *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_canton" name="id_canton" required="required">
+                                            <option value="">Choisir un canton</option>
+                                            <?php foreach ($this->cantons as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+<legend>Fichiers du travailleur </legend>
+<div class="row-fluid">
+<div class="span5">Libellé du fichier</div>
+<div class="span5">Fichier du travailleur</div>
+<div class="span2">Actions</div>
+</div>
+
+<?php $b = 0;?>
+<div id="nivdetail<?php echo $b;?>">
+<div class="row-fluid">
+<div class="span5"><input class="input-xlarge" type="text" name="detail_travailleur_libelle[]" id="detail_travailleur_libelle<?php echo $b;?>" placeholder="Libellé du fichier" >
+</div>
+<div class="span5"><input name="detail_travailleur_fichier<?php echo $b;?>" type="file" id="detail_travailleur_fichier<?php echo $b;?>" class="input-xxlarge"  />  
+</div>
+<div class="span2"><a class="btn btn-mini" onclick="document.getElementById('nivdetail<?php echo $b;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_detailtravailleurs('<?php echo $b + 1;?>','nivdetail<?php echo $b + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+</div>
+</div>
+<div id="nivdetail<?php echo $b + 1;?>"></div>
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" id="submit" class="btn btn-primary">Ajouter l'offre de travail</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+</div>
+<div class="span3">
+<?php //include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

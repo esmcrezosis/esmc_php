@@ -1,0 +1,67 @@
+<div id="view-content" style="font-size:11px">
+    <div style="margin-bottom: 3px; font-size:12px">
+        <input id="detail" type="button" value="Détail"/>
+    </div>
+    <table id="tbl-smcipnp"></table>
+    <div id="pg-smcipnp"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-smcipnp").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'listaccordsmcipnp')); ?>',
+        editurl:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Code membre','Montant SMCIPNP','Type acteur','Nom Acteur','Date'],
+        height:450, width:827,
+        colModel:[
+            {name:'code_smcipnp',index:'code_smcipnp', width:85, align:"left", hidden:true},
+            {name:'lib_smcipnp',index:'lib_smcipnp', width: 290, align:"left", editable: true},
+            {name:'code_membre',index:'code_membre', width: 190, editable: true,align:"left"},
+            {name:'mt_smcipnp',index:'mt_smcipnp', width: 150, align:"right",sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'type_acteur',index:'type_acteur', width: 130, editable: true,align:"left"},
+            {name:'nom_acteur',index:'nom_acteur', width: 200, editable: true,align:"left"},
+            {name:'date_smcipnp',index:'date_smcipnp', width: 105, align:"left", editable: false},
+        ],
+        rowNum:100,
+        rowList:[100,200,500],
+        rownumbers:true,
+        pager: '#pg-smcipnp',
+        sortname:"date_smcipnp",
+        viewrecords: true,
+        multiselect:false,
+        sortorder: "desc",
+        caption:"Liste des demandes de la SMCIPNP accordées",
+        grouping: true,
+        groupingView : {
+            groupField : ['nom_acteur'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [true],
+            groupDataSorted : true
+        },
+        footerrow: true,
+        userDataOnFooter: true
+    });
+  
+    $("#tbl-smcipnp").jqGrid('navGrid','#pg-smcipnp',{edit:false,add:false,del:false,search:true});
+    
+    $('#detail').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-smcipnp").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-gac/detailoksmcipnp',{
+                code_smcipnp:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });   
+    $('#detail').button();
+</script>

@@ -1,0 +1,132 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left" charset="utf-8">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p> Modification d'une agence </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="update">
+<?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin!="") { ?>
+<div class="alert alert-success">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+</div>
+<?php } ?>
+
+<?php if(isset($this->error) && $this->error!="") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $this->error; ?>
+</div>
+<?php } ?>
+
+
+
+<legend>Agence</legend>  
+<div class="control-group">
+<label class="control-label" for="nom">Nom de l'agence *</label>
+<div class="controls">
+<input type="text" name="libelle_agence" id="libelle_agence" placeholder="Libelle de l'agence" value="<?php if(isset($this->agence)) echo $this->agence->libelle_agence;?>" required />
+<input type="hidden" name="code_agence" id="code_agence" value="<?php if(isset($this->agence)) echo $this->agence->code_agence;?>">
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="">Secteur *</label>
+<div class="controls">
+     <select class="input-xlarge" id="code_secteur" name="code_secteur" required=true>
+     <option value="">Choisir un secteur</option>
+     <?php foreach($this->secteurs as $value) { ?>
+     <option value="<?php echo $value->code_secteur;?>" <?php if($this->agence->code_secteur == $value->code_secteur) {echo 'selected="selected"';}?>>
+	 <?php echo $value->nom_secteur; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="">Zone *</label>
+<div class="controls">
+     <select class="input-xlarge" id="code_zone" name="code_zone" required=true>
+     <option value="">Choisir une zone</option>
+     <?php foreach($this->zones as $value) { ?>
+     <option value="<?php echo $value->code_zone;?>" <?php if($this->agence->code_zone == $value->code_zone) {echo 'selected="selected"';}?>>
+	 <?php echo $value->nom_zone; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="">Pays *</label>
+<div class="controls">
+     <select class="input-xlarge" id="id_pays" name="id_pays" required=true>
+     <option value=""> Choisir un pays </option>
+     <?php foreach($this->pays as $value) { ?>
+     <option value="<?php echo $value->id_pays;?>" <?php if($this->agence->id_pays == $value->id_pays) {echo 'selected="selected"';}?>>
+	 <?php echo $value->libelle_pays; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="">Region *</label>
+<div class="controls">
+     <select class="input-xlarge" id="id_region" name="id_region" required=true>
+     <option value="">Choisir une region</option>
+     <?php foreach($this->regions as $value) { ?>
+     <option value="<?php echo $value->id_region;?>" <?php if($this->agence->id_region == $value->id_region) {echo 'selected="selected"';}?>>
+	 <?php echo $value->nom_region; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="">Prefecture *</label>
+<div class="controls">
+     <select class="input-xlarge" id="id_prefecture" name="id_prefecture" required=true>
+     <option value="">Choisir une prefecture</option>
+     <?php foreach($this->prefectures as $value) { ?>
+     <option value="<?php echo $value->id_prefecture;?>" <?php if($this->agence->id_prefecture == $value->id_prefecture) {echo 'selected="selected"';}?>>
+	 <?php echo $value->nom_prefecture; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="">Canton *</label>
+<div class="controls">
+     <select class="input-xlarge" id="id_canton" name="id_canton" required=true>
+     <option value="">Choisir un canton</option>
+     <?php foreach($this->cantons as $value) { ?>
+     <option value="<?php echo $value->id_canton;?>" <?php if($this->agence->id_canton == $value->id_canton) {echo 'selected="selected"';}?> >
+	 <?php echo $value->nom_canton; ?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>	  
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok"/>
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier</button>
+</div>
+	  	  
+</form>
+</div>
+</div>
+</div>

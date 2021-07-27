@@ -1,0 +1,203 @@
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<div class="row-fluid">
+
+	 <BLockquote> AFFECTATION DES AGENTS A LEURS POSTES</BLockquote>
+
+			<?php if (isset($_SESSION["validationerrors"])): ?>
+
+				<div class="alert alert-danger">
+
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+				</div>
+
+			<?php unset($_SESSION['validationerrors']); endif ?>
+
+			<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+				<div class="alert alert-success">
+
+					<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+
+				</div>
+
+			<?php unset($_SESSION['validationsuccess']); endif ?>
+
+    <form action="#" method = "post" id="affecterunutilisateuraunrole" name="affecterunutilisateuraunrole">
+
+
+	    <div class="control-group">
+
+	      <label class="control-label" for="rechercher un membre" style="font-weight:bold">
+
+	        Code membre *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="affectation_code_membre_ot" id="code_membre_qr_auth" placeholder="Mettre ici votre code membre" required="required" readonly/>
+	      
+		  </div>
+
+	   </div>
+
+       <div class="control-group">
+
+	      <label class="control-label" for="login de l'utilisateur" style="font-weight:bold">
+
+	        Login de l'agent*:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="affectation_membre_login_ot" class="input-block-level affectation_membre_login" placeholder="Veuillez saisir le login de l'utilisateur" required="required"/>
+	      
+		  </div>
+
+	   </div>
+
+       <div class="control-group">
+
+	      <label class="control-label" for="Mot de passe de l'utilisateur" style="font-weight:bold">
+
+	        Mot de passe de l'agent*:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="password" name="affectation_membre_password" class="input-block-level affectation_membre_password" placeholder="Veuillez saisir le mot de passe de l'utilisateur" required="required"/>
+	      
+		  </div>
+
+	   </div>
+
+       <div class="control-group">
+
+	      <label class="control-label" for="Confirmation du mot de passe de utilisateur" style="font-weight:bold">
+
+	        Confirmer le mot de passe de l'agent*:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="password" name="affectation_membre_confirmpassword_ot" class="input-block-level affectation_membre_confirmpassword" placeholder="Veuillez confirmer le mot de passe saisi" required="required"/>
+	      
+		  </div>
+
+	   </div>
+
+        <div class="control-group"> 
+
+				<label for="roles_groupes" style="font-weight:bold;float:left">
+
+					Liste des postes correspondant au types de poste selectionné*: 
+
+				</label>
+
+				<select class="input-block-level" name="id_user_roles" id="input_roles_groupes">
+
+ 					    <option value>Choisir le poste </option>
+
+ 						<?php foreach ($this->listdesroles as $key => $value): ?>
+
+						      <?php if ($value->id_groupe_roles == 24 || $value->id_groupe_roles == 25): ?>
+                              
+							         <?php  $libelle_roles = $value->code_roles ?>
+							  
+                              <?php else: ?>
+
+							         <?php  $libelle_roles = $value->libelle_roles ?>
+             			      
+							  <?php endif ;?>
+
+						    
+ 						     <option value="<?php echo $value->id_roles ?>" data-idroles="<?php echo $value->id_roles ?>"><?php echo $libelle_roles ?></option>
+
+ 						<?php endforeach; ?>
+ 				</select>
+		</div>
+
+		<?php if (in_array($this->idgrouperoles, array(12,13,14,15,16,17))): ?>
+
+		<blockquote>RESPONSABILITE</blockquote>
+
+		<div class="control-group">
+
+          <label for="" class="checkbox">
+
+		     <input type="hidden" name="og_resp_roles" id="og_resp_roles" value="0">
+
+             <input type="checkbox" name="og_resp_roles" id="og_resp_roles" value="1">
+
+             <span>RESPONSABLE ?</span>
+
+          </label>
+
+        </div>
+
+
+		<div class="control-group">
+
+	      <label class="control-label" for="Code du responsable" style="font-weight:bold">
+
+	        Code responsable *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="organisation_responsable_code" class="input-block-level responsable_code" placeholder="Veuillez saisir le code responsable de l'utilisateur"/>
+
+	      </div>
+
+	   </div>
+
+	   <div class="control-group">
+
+	      <label class="control-label" for="Le libelle du responsable" style="font-weight:bold">
+
+	        Libelle du responsable *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="organisation_libelle_responsable" class="input-block-level organisation_libelle_responsable" placeholder="Veuillez saisir le libelle du responsable de l'utilisateur"/>
+	     
+		  </div>
+
+	   </div>
+
+	   <?php endif ;?>
+
+       <div class="control-group" >
+
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative" id ="submit">
+
+                 Valider le formulaire
+
+          </button>
+
+      </div>
+
+    </form>
+
+</div>
+
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+
+<script src="/outil-qr.js"></script>
+
+<script type="text/javascript">
+
+//outilqr('addeli');
+
+outilqrformobligatoire("affecterunutilisateuraunrole","submit");
+
+</script>

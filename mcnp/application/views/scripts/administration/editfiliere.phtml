@@ -1,0 +1,64 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left" charset="utf-8">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p> Modification d'une fili&egrave;re </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="update">
+<?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin!="") { ?>
+<div class="alert alert-success">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+</div>
+<?php } ?>
+
+<?php if(isset($this->error) && $this->error!="") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $this->error; ?>
+</div>
+<?php } ?>
+
+<legend>Fili&egrave;res</legend>  
+<div class="control-group">
+<label class="control-label" for="nom">Nom Fili&egrave;re *</label>
+<div class="controls">
+<input type="text" name="nom_filiere" id="nom_filiere" placeholder="Nom de la fili&egrave;re" value="<?php if(isset($this->filiere)) echo $this->filiere->nom_filiere;?>" required />
+<input type="hidden" name="id_filiere" id="id_filiere" value="<?php if(isset($this->filiere)) echo $this->filiere->id_filiere;?>">
+</div>
+</div>
+	  
+<div class="control-group">
+<label class="control-label">Sous-Division </label>
+<div class="controls">
+<select  id="id_sousdivision" name="id_sousdivision" >
+<option value="">Choisir une sous division</option>
+<?php foreach ($this->sousdivisions as $value) { ?>
+<option
+  value="<?php echo $value->id_sous_division; ?>" <?php if($this->filiere->id_sous_division == $value->id_sous_division) {echo 'selected="selected"';}?> ><?php echo $value->nom_sous_division; ?>
+</option>                         
+<?php } ?>
+</select>
+</div>
+</div>
+	  
+<div class="control-group">
+<label class="control-label" for="nom">Description</label>
+<div class="controls">
+<textarea name="desc" id="desc"><?php if(isset($this->filiere)) echo $this->filiere->descrip_filiere;?></textarea>
+</div>
+</div>	  
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok"/>
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier</button>
+</div>
+	  	  
+</form>
+</div>
+</div>
+</div>

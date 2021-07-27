@@ -1,0 +1,57 @@
+<style>
+#page_title{
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+#page_direction_container{
+    clear:both;
+    width: 100%;
+}
+
+#page_direction_container_left{
+    width: 50%;
+    position: relative;
+    left:0;
+}
+
+#page_direction_container_right{
+    width: 50%;
+    position: relative;
+    right: 0;
+    float: right;
+    top: -67px;
+}
+
+
+</style>
+
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<h3 id="page_title">TITRE DU POSTE : <?php echo $this->pagetitle ;?></h3>
+
+<div id="page_direction_container">
+
+  <div id="page_direction_container_left">
+
+    <h3>SUPERIEUR HIERARCHIQUE : <?php echo $this->postehierarchique ;?></h3>
+  
+  </div>
+
+  <div id="page_direction_container_right">
+
+    <h3>COLLABORATEURS : Tout le reste du personnel</h3>
+    
+  </div>
+</div>
+
+
+<blockquote>  PRINCIPALES TACHES :</blockquote>
+
+<ol>
+    <li>Planification des travaux Comptables </li>
+    <li>Analyse et Auto Contrôle des Comptes</li>
+    <li>Contrôle Interne </li>
+    <li>Contrôle Externe</li>
+</ol>

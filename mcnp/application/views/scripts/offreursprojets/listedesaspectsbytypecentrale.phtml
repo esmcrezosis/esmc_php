@@ -1,0 +1,102 @@
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function() {
+
+    $('#example').dataTable( {
+
+        "sPaginationType": "full_numbers",
+
+        "iDisplayLength":10,
+
+		"aaSorting": []
+
+    } );
+} );
+</script>
+
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+<div class="alert alert-danger">
+
+    <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+</div>
+
+<?php unset($_SESSION['validationerrors']); endif ?>
+
+<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+<div class="alert alert-success">
+
+    <?php echo implode('<br>',$_SESSION['validationsuccess']) ?>
+
+</div>
+
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+
+<?php if ($this->countlistedesopbycentrale > 0): ?>
+
+<blockquote>
+ 
+   <strong>LISTE DE TOUS LES PROJETS</strong>
+
+</blockquote>
+
+<table class="table table-striped" id="example">
+
+   <thead> 
+
+        <tr>
+
+             <th>LIBELLE DU PROJET</th>
+
+             <th>CODE MEMBRE DE L'OFFREUR</th>
+
+             <th> NOM & PRENOMS DE L'OFFREUR</th>  
+
+             <th>DATE DE SOUMISSION DE PROJET</th>
+
+             <th>VOIR LES DETAILS</th>
+
+         </tr>
+
+   </thead>
+
+   <tbody>
+
+   <?php foreach ($this->listedesopbycentrale as $key => $value): ?>
+
+       <tr>
+
+             <td><?php echo $value->libelle_vente_op ;?> </td>   
+
+             <td><?php echo $value->code_membre_apporteur ;?> </td>
+
+             <td><?php echo $value->nom_membre. " ".$value->prenom_membre  ;?> </td>   
+
+             <td><?php echo $value->date_creation ;?> </td>  
+
+             <td><a href="voirlesdetailsdesprojets/idventeop/<?php echo $value->id_vente_op ;?>" class = "btn btn-primary">Voir ses détails </a></td>
+                 
+       </tr>
+
+
+   <?php endforeach ?> 
+   
+   </tbody>
+
+</table>
+
+<?php else: ?>
+
+   <div class="alert alert-danger">
+
+      <strong>Aucun projet n'a encore été enrégistré pour cette centrale</strong>
+       
+   </div>
+
+<?php endif ?>

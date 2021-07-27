@@ -1,0 +1,16 @@
+<div id="view-content">
+    <p>View script for controller <b>Categorie</b> and script/action name <b>delete</b></p>
+    <div id="formdiv">
+        <h1>Supprimer une categorie</h1>
+        <p>Utilisez ce formulaire pour confirmer la suppression d'un Partenaire.</p>
+
+        <?php
+        $this->form->setAction($this->url());
+// Overwrite the default value used in
+// the New Employee form
+        $this->form->getElement("submit")->setLabel("Supprimer");
+
+        echo $this->form;
+        ?>
+    </div>
+</div>

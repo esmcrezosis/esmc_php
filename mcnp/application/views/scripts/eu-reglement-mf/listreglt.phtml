@@ -1,0 +1,73 @@
+﻿<div id="view-content">
+      <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:12px">
+        <div style="margin-bottom: 3px; width: 820px">
+            <fieldset>
+                <legend style=" font-weight:bold">Recherche</legend>
+                <table align="left">
+                    <tr>
+                        <td>Code membre </td><td><input name="code_membre_mf" id="code_membre_mf" size="25" /></td>
+                        <td>Code membre Distributeur SMS</td><td><input name="code_membre_dist" id="code_membre_dist" size="25" /></td>
+                        <td><input id="ok" type="button" value="OK" /></td>
+                    </tr>
+                </table>
+            </fieldset>
+      </div>                
+      <table id="tbl-reglement"></table>
+      <div id="pg-reglement"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-reglement").jqGrid({
+        url: '/eu-reglement-mf/listingreglt',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['','Code membre apporteur','Distributeur SMS','Entrée','Sortie','Solde','Origine'],
+        height: 450, width: 818,
+        colModel: [
+          {name: 'id_detail_smsmoney', index: 'id_detail_smsmoney', width:70, sorttype: "int", editable: true, align: "left",hidden:true},
+          {name: 'code_membre', index: 'code_membre', width:300, editable: true, align: "left"},  
+          {name: 'code_membre_dist', index: 'code_membre_dist', width:300, align: "left", editable: true},
+          {name: 'mont_sms', index: 'mont_sms', width:150, align: "right",editable: false},
+	      {name: 'mont_vendu', index: 'mont_vendu', width:150, align: "right",editable: false},
+		  {name: 'solde_sms', index: 'solde_sms', width:130, align: "right",editable: false},
+		  {name: 'origine_sms', index: 'origine_sms', width: 150, align: "left", editable: true}
+        ],
+        rowNum: 200000,
+        rowList: [200000, 400000, 600000],
+        pager: '#pg-reglement',
+        sortname: "id_detail_smsmoney",
+        viewrecords: true,
+        rownumbers:true,
+        sortorder: "ASC",
+        caption: "Unités d' enrölements" 
+    });
+    $("#tbl-reglement").jqGrid('navGrid','#pg-reglement', {edit: false, add: false, del: false, search: true});   
+    
+    $(document).ready(function () { 
+	    $(function() {
+          $('#view-content').puipanel();
+          $('fieldset').puifieldset();
+        });
+        
+        $(function(){
+            var pickerOpts = {
+                dateFormat: "dd/mm/yy",
+                changeMonth:true,
+                changeYear:true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+            $("#date_debut").datepicker(pickerOpts);
+            $("#date_fin").datepicker(pickerOpts);
+        });
+		
+        $('#ok').button();
+		
+        $('#ok').click(function() {
+          jQuery("#tbl-reglement").jqGrid('setGridParam',{url:"/eu-reglement-mf/listingreglt?code_membre_mf="+$('#code_membre_mf').val()+"&code_membre_dist="+$('#code_membre_dist').val()}).trigger('reloadGrid');      
+        }) 
+    })
+  
+      
+</script> 

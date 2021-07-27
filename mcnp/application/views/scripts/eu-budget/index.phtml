@@ -1,0 +1,87 @@
+<div id="view-content">
+   <div  class="cntError">
+        <?php
+        echo $this->message;
+        ?>
+   </div>
+   <div style="margin-bottom: 3px; font-size:13px">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+        <input id="detail" type="button" value="Détails" class="ui-widget button"/>
+   </div> 
+   <table id="tbl-investissement"></table>
+   <div id="pg-investissement"></div>     
+</div>
+
+<script type="text/javascript">
+    
+    $("#tbl-investissement").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé besoin','Code smcipn','Investissement','Catégorie','Date'],
+        height:450, width:827,
+        colModel:[           
+                 {name:'id_investissement',index:'id_investissement', width:5, sorttype:"int", editable: true,align:"left", hidden:true},
+                 {name:'objet_besoin',index:'objet_besoin', width: 380, editable: true,align:"left"},
+                 {name:'code_smcipn',index:'code_smcipn', width: 220, align:"left", editable: true},                         
+                 {name:'montant_budget',index:'montant_budget', width: 250, align:"right", editable: true,formatter:'number'},
+                 {name:'cat_objet',index:'cat_objet', width: 100, editable: true,align:"left"},
+                 {name:'date_investissement',index:'date_investissement', width: 130, editable: true,align:"left"},
+        ],
+        rowNum:100000,
+        rowList:[100000,200000,300000],
+        rownumbers:true,
+        pager: '#pg-investissement',
+        sortname:"id_investissement",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Liste des budgets d'investissement"
+    });
+    $("#tbl-investissement").jqGrid('navGrid','#pg-investissement',{edit:false,add:false,del:false,search:false});
+    
+    $('#detail').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-investissement").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-budget/detailsmcipn',{
+                id_investissement:rowsel
+            },
+			function success(data){
+                $("#content").html(data);
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+    $('#editer').click(function() {
+            var rowsel;
+            rowsel = jQuery("#tbl-investissement").jqGrid('getGridParam','selrow');
+            if(rowsel) { 
+               seldata = jQuery("#tbl-investissement").jqGrid('getRowData',rowsel);
+               if(seldata.code_smcipn == '') {
+                  $.get('/eu-budget/edit',{
+                    id_investissement:rowsel,categorie:seldata.cat_objet
+                },
+                function success(data){
+                    $("#content").html(data);
+                });
+                  
+                }
+                else 
+				{
+                  alert('Impossible de modifier le budget');
+                }     
+            }
+            else 
+			{
+                  alert('Aucune ligne sélectionnée');
+            }
+        });
+    
+    $('#detail').button();
+    $('#editer').button();
+</script>    

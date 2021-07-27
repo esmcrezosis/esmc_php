@@ -1,0 +1,270 @@
+<div class="row-fluid">
+
+    <?php if (isset($_SESSION["validationdemandeerrors"])): ?>
+				<div class="alert alert-danger" style="width:100%">
+					<?php echo implode('<br>', $_SESSION['validationdemandeerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationdemandeerrors']); endif ?>
+			<?php if (isset($_SESSION["validationsuccess"])): ?>
+				<div class="alert alert-success" style="width:100%">
+					<?php echo implode('<br>',$_SESSION['validationsuccess']) ?>
+				</div>	
+		<?php unset($_SESSION['validationsuccess']); endif ?>
+
+		<?php
+
+$month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+$true_month = "";
+$true_month_paie = "";
+$true_month_livraison = "";
+$ex_date = explode('-',$this->proformachoisit[0]->date_proforma);
+$ex_date_paie = explode('-',$this->proformachoisit[0]->date_paie);
+$ex_date_livraison = explode('-',$this->proformachoisit[0]->date_livraison);
+
+
+
+foreach ($month as $key => $valdate) {
+  if($ex_date[1] == $key){
+    $true_month = $valdate;
+  }
+
+  if($ex_date_paie[1] == $key){
+    $true_month_paie = $valdate;
+  }
+
+  if($ex_date_livraison[1] == $key){
+    $true_month_livraison = $valdate;
+  }
+
+
+}
+/*** */
+$next_ex_date = explode(' ', $ex_date[2]);
+$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+
+$next_ex_date_paie = explode(' ', $ex_date_paie[2]);
+$true_date_paie = $next_ex_date_paie[0]." ".$true_month_paie." ".$ex_date_paie[0];
+
+$next_ex_date_livraison = explode(' ', $ex_date_livraison[2]);
+$true_date_livraison = $next_ex_date_livraison[0]." ".$true_month_livraison." ".$ex_date_livraison[0];
+
+?>
+		
+
+     <div class="control-group" style="margin-top: -34px;position: absolute;right: 10px;">
+	      <label class="control-label" for="reference du proforma" style="font-weight:bold;display:inline-block">
+	     Reference du proforma *:
+	      </label>
+	      <div class="controls" style="display:inline-block">
+        <?php echo $this->proformachoisit[0]->numero_proforma;?>
+				  </div>
+	   </div>
+<table class="table table-stripped" >
+    <thead>
+        <tr>
+			<th>Quantité disponible </th>
+			<th>Prix Unitaire</th>            
+			<th>TOTAL</th>
+			<th>Disponibilité (O/N)</th>      
+
+		</tr> 
+    </thead>
+    <tbody id="table_proforma_fournisseur_procedure_achat">
+<?php foreach ($this->detailproformachoisit as $key => $valdetailproforma): ?>
+       
+        <tr>
+         <td><?php echo $valdetailproforma->quantite_disponible_produit ;?></td>
+         <td><?php echo $valdetailproforma->prix_unitaire_fournisseur ;?></td>        
+         <td><?php echo $valdetailproforma->total_article ;?></td> 
+         <td>            
+          
+         <?php if($valdetailproforma->disponibilite_demande == 1):?>
+         <?php echo "Oui"?>
+         <?php elseif($valdetailproforma->disponibilite_demande == 0): ?>
+         <?php echo "Non"?>
+         
+          <?php endif ?>
+          </td>  
+
+       </tr>
+       
+<?php endforeach ?>
+</tbody>
+     </table>
+     <div class="row">     
+     <div class="col-xl-6" style="width: 739px;">
+     <div class="control-group" >
+	      <label class="control-label" for="montant hors taxe" style="font-weight:bold">
+	        Montant Hors taxe (MHT)*:
+	      </label>
+	      <div class="controls">
+        <?php echo $this->proformachoisit[0]->montant_ht;?>
+		     </div>
+	   </div>
+     
+     <div class="control-group">
+	      <label class="control-label" for="modalité de paiement" style="font-weight:bold">
+	        Modalité de paiement *:
+	      </label>
+        <div class="controls">
+        <?php echo $this->proformachoisit[0]->modalite_paiement;?>
+        </div>
+			</div>
+
+        <div class="control-group">
+	      <label class="control-label" for="tva" style="clear:both;font-weight:bold">
+	        TVA (Taxe sur la valeur ajoutée)*:
+	      </label>
+	      <div class="controls">
+        <?php echo $this->proformachoisit[0]->tva;?>
+        
+		        </div>
+	   </div>  
+     <div class="control-group">
+	      <label class="control-label" for="date de paiement" style="font-weight:bold">
+	        Date d'établissement du proforma *:
+	      </label>
+	      <div class="controls">
+        <?php echo $true_date;?>
+		     
+         </div>
+	   </div> 
+     </div>
+     
+    <div class="col-xl-6">
+    
+   
+    <div class="control-group">
+	      <label class="control-label" for="lieu de livraison" style="font-weight:bold">
+	        Addresse de livraison *:
+	      </label>
+	      <div class="controls">
+        <?php echo $this->proformachoisit[0]->addresse_livraison;?>
+        </div>
+	   </div>
+       
+       <div class="control-group">
+	      <label class="control-label" for="tva" style="clear:both;font-weight:bold">
+	        Montant Toute Taxe Comprise (TTC)*:
+	      </label>
+	      <div class="controls">
+        <?php echo $this->proformachoisit[0]->montant_ttc;?>
+        </div>
+	   </div>
+
+     <div class="control-group">
+	      <label class="control-label" for="date de paiement" style="font-weight:bold">
+	        Date de paiement *:
+	      </label>
+	      <div class="controls">
+        <?php echo $true_date_paie;?>
+		     	      </div>
+	   </div>
+     <div class="control-group">
+	      <label class="control-label" for="date de paiement" style="font-weight:bold">
+	        Date de livraison *:
+	      </label>
+	      <div class="controls">
+        <?php echo $true_date_livraison;?>
+        
+		    </div>
+	   </div>
+    </div>
+    </div>
+
+		<hr>
+		<legend style="text-align:center"> 
+    BON DE COMMANDE
+    </legend>
+
+
+     <form action="#" method="post" class="form-horizontal">
+        <div class="control-group">
+	      <label class="control-label" for="code_membre_fournisseur" style="font-weight:bold">
+	        Code membre du fournisseur *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="code_membre_fournisseur" class="input-block-level code_membre_fournisseur" placeholder="Mettre ici le code membre du fournisseur" required="required"/>
+	      </div>
+	    </div>
+
+			<div class="control-group">
+	      <label class="control-label" for="libelle_bon_commande_procedure" style="font-weight:bold">
+	        Le libellé du bon de commande *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="libelle_bon_commande_procedure" class="input-block-level libelle_bon_commande_procedure" placeholder="Mettre ici le libellé du bon de commande" required="required"/>
+	      </div>
+	    </div>
+
+			<div class="control-group">
+	      <label class="control-label" for="numero_demande_achat" style="font-weight:bold">
+	        Demande d'achat N° *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="numero_demande_achat" class="input-block-level numero_demande_achat" placeholder="Mettre ici le numéro de la demande d'achat" required="required"/>
+	      </div>
+	    </div>
+
+        <div class="control-group">
+	      <label class="control-label" for="date_etablissement_demande_achat" style="font-weight:bold">
+	        Date d'établissement de la demande d'achat *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="date_etablissement_demande_achat" class="input-block-level ref_achat_demande_achat datepicker"  date-provide="datepicker" placeholder="Mettre ici la reference de la demande d'achat" required="required"/>
+	      </div>
+	    </div>
+        <div class="control-group">
+	      <label class="control-label" for="date_livraison_commande" style="font-weight:bold">
+	        Date de livraison*:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="date_livraison_commande" class="input-block-level date_livraison_commande datepicker" date-provide="datepicker" placeholder="Selectionner la date de livraison" required="required"/>
+	      </div>
+	   </div>
+       <div class="control-group">
+		   <table class="table table-bordered table_bon_commande_great_parent">
+             <thead>
+                 <tr>
+					 <th>Références</th>
+					 <th>Désignations</th>
+					 <th>Quantité </th>
+					 <th>Prix Unitaire</th>
+					 <th>Total</th>
+					 <th>Plus</th>					 
+				 </tr> 
+             </thead>
+             <tbody>
+             <tr id="clone_article_bon_commande_parent">
+					 <td><input type="text" id="ref_article_bon_commande" name="ref_article_bon_commande[]" required="required"></td>
+					 <td><input type="text" id="designation_article_bon_commande" name="designation_article_bon_commande[]" required="required"></td>
+					 <td><input type="text" id="quantite_article_bon_commande" name="quantite_article_bon_commande[]" value="0" required="required"></td>
+					 <td><input type="text" id="prix_unitaire_article_bon_commande" name="prix_unitaire_article_bon_commande[]" value="0" required="required"></td>
+					 <td><input type="text" id="total_article_bon_commande" name="total_article_bon_commande[]" readonly="true" value="0" required="required"></td>
+                     
+					 <td><button class="btn btn-primary" id="clone_article_bon_commande_plus">Ajouter</button></td>
+		     </tr>
+             <tr>
+               <td colspan="2">
+               <strong>Important</strong>
+               </td>
+               <td colspan="2">
+                 Montant du Bon de Commande
+               </td>
+               <td colspan="2"><input type="text" id="montant_total_bon_commande" name="montant_total_bon_commande"></td>
+             </tr>
+             <tr>
+               <td  colspan="2">
+               Le double de ce Bon de Commande doit être
+               retourné avec votre facture sous peine de rejet.
+               </td>
+             </tr>
+            </tbody>
+		   </table>
+			 <button class="btn btn-danger" style="width:133px">Valider</button>
+
+     </form>
+
+
+
+</div>

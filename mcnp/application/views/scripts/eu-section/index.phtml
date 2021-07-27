@@ -1,0 +1,51 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-section"></table>
+    <div id="pg-section"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-section").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['ID','Nom','Date création','Pays'],
+        height:400, width:827,
+        colModel:[
+            {name:'id_section',index:'id_section', width:140, sorttype:"int", editable: true,align:"right"},
+            {name:'nom_section',index:'nom_section', width: 250, editable: true,align:"left"},
+            {name:'date_creation',index:'date_creation', width: 150, editable: true,align:"left"},
+            {name:'id_pays',index:'id_pays', width: 150, editable: true,align:"left"}
+        ],
+        rowNum:200,
+        rowList:[200,300,500],
+        rownumbers:true,
+        pager: '#pg-section',
+        sortname:"id_section",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des sections"
+    });
+  
+    $("#tbl-section").jqGrid('navGrid','#pg-section',{edit:false,add:false,del:false,search:true});
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-section").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-section").jqGrid('getRowData',rowsel);
+            $.get('/eu-section/edit',{
+                id_section:data.id_section
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+</script>

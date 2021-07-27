@@ -1,0 +1,44 @@
+<div id="view-content" style="font-size:11px">
+    <table id="tbl-ressource"></table>
+    <div id="pg-ressource"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-ressource").jqGrid({
+        url:'/eu-creneau/listalloc',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code membre','Nom créneau','Type créneau','Ressource','Montant','Date','Heure'],
+        height:450, width:827,       
+        colModel:[
+            {name:'num_membre',index:'num_membre', width:170, editable: true,align:"left"},
+            {name:'nom_creneau',index:'nom_creneau', width: 250, editable: true,align:"left"},
+            {name:'type_creneau',index:'type_creneau', width: 100, editable: true,align:"left"},
+            {name:'ressource',index:'ressource', width: 100, editable: true,align:"left"},
+            {name:'montant_op',index:'montant_op', width: 140, editable: true,align:"right",sorttype:'number',formatter:'number'},
+            {name:'date_op',index:'date_op', width: 100, editable: true,align:"left"},
+            {name:'heure_op',index:'heure_op', width: 70, editable: true,align:"left"},
+        ],
+        rowNum:50,
+        rowList:[50,100,300],
+        pager: '#pg-ressource',
+        sortname:"date_op",
+        viewrecords: true,
+        sortorder: "desc",
+        caption:"Liste des resources allouées aux créneaux d'activités",
+        grouping: true,
+        groupingView : {
+            groupField : ['nom_creneau'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [false],
+            groupDataSorted : true
+        }
+    });
+    $("#tbl-ressource").jqGrid('navGrid','#pg-ressource',{edit:false,add:false,del:false,search:true});
+   
+        
+</script>

@@ -1,0 +1,93 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des attributions</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>#</th>
+								  <th>Centrale</th>
+								  <th>Groupe</th>
+								  <th>Procedure</th>
+								  <th>Formulaire</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php echo ($entry->attribution_procedure_formulaire_id); ?></td>
+      <td><?php $centraleM = new Application_Model_EuCentraleMapper();
+$centrale = new Application_Model_EuCentrale();
+$centraleM->find($entry->centrale_id, $centrale);
+?><?php echo ($centrale->centrale_libelle); ?></td>
+      <td><?php $usergroupM = new Application_Model_EuUserGroupMapper();
+$usergroup = new Application_Model_EuUserGroup();
+$usergroupM->find($entry->code_groupe, $usergroup);
+?><?php echo ($usergroup->libelle_groupe); ?></td>
+      <td><?php $procedureM = new Application_Model_EuProcedureMapper();
+$procedure = new Application_Model_EuProcedure();
+$procedureM->find($entry->procedure_id, $procedure);
+?><?php echo ($procedure->procedure_libelle); ?></td>
+      <td><?php $formulaireM = new Application_Model_EuFormulaireMapper();
+$formulaire = new Application_Model_EuFormulaire();
+$formulaireM->find($entry->formulaire_id, $formulaire);
+?><?php echo ($formulaire->formulaire_libelle); ?></td>
+      <td><div align="center">
+			<?php if($entry->etat == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/attribution/etatattribution/id/<?php echo $entry->attribution_procedure_formulaire_id; ?>/etat/0"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/attribution/etatattribution/id/<?php echo $entry->attribution_procedure_formulaire_id; ?>/etat/1"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?></div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune attribution enrégistrée 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

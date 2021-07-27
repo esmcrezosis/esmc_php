@@ -1,0 +1,262 @@
+<?php
+$month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+$true_month = "";
+$ex_date = explode('-',$this->dbrecuperationdesinformationsdelademadeachatapartirdeid[0]->date_demande);
+
+foreach ($month as $key => $value) {
+  if($ex_date[1] == $key){
+    $true_month = $value;
+  }
+}
+$next_ex_date = explode(' ', $ex_date[2]);
+$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+
+?>
+
+			<?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+				</div>
+			<?php unset($_SESSION['validationpertesuccess']); endif ?>
+<form action="" method="post" enctype="multipart/form-data">
+
+<h3>DEMANDE D'ACHAT N° <?php echo $this->dbrecuperationdesinformationsdelademadeachatapartirdeid[0]->reference_demande_achat ;?></h3>
+
+<p style="text-align: right;font-weight: bold;">Date:<?php echo $true_date ;?></p>
+
+<table class="table table-stripped">
+    <thead>
+        <tr>
+        
+			<th>Références</th>
+			<th>Désignation des Articles </th>
+			<th>Quantité </th>
+			<th>Prix Unitaire</th>
+			<th>TOTAL</th>
+		</tr> 
+    </thead>
+    <tbody>
+     <?php foreach ($this->dbrecuperationdesdetailsdelademadeachatapartirdeid as $key => $value): ?>
+     
+     <?php
+       $quantite = $this->dbrecuperationdesdetailsdelademadeachatapartirdeid[0]->quantite;
+       $prix_unitaire = $this->dbrecuperationdesdetailsdelademadeachatapartirdeid[0]->prix_unitaire;
+       $total = $quantite * $prix_unitaire;
+      ?>
+      <tr>
+        
+        <td><?php echo $value->reference_article ;?></td>
+        <td><?php echo $value->designation_article ;?></td>
+        <td><?php echo $value->quantite;?></td>
+        <td><?php echo $value->prix_unitaire;?></td>
+        <td id="total_visa_demande_achat_budget"><?php echo $total;?></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><label for="">Montant demande d’Achat</label></td>
+		<td id="montant_total_visa_demande_achat"><?php echo $this->dbrecuperationdesinformationsdelademadeachatapartirdeid[0]->montant_demande_achat;?></td>			                     
+	 </tr>
+    </tbody>
+ 	<?php endforeach ?>
+</table>   
+<div style="position:relative">
+
+<?php foreach ($this->dbeditiondelafactureproforma as $key => $valproforma): ?>
+<?php
+
+$month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+$true_month = "";
+$true_month_paie = "";
+$true_month_livraison = "";
+$ex_date = explode('-',$valproforma->date_proforma);
+$ex_date_paie = explode('-',$valproforma->date_paie);
+$ex_date_livraison = explode('-',$valproforma->date_livraison);
+
+
+
+foreach ($month as $key => $valdate) {
+  if($ex_date[1] == $key){
+    $true_month = $valdate;
+  }
+
+  if($ex_date_paie[1] == $key){
+    $true_month_paie = $valdate;
+  }
+
+  if($ex_date_livraison[1] == $key){
+    $true_month_livraison = $valdate;
+  }
+
+
+}
+/*** */
+$next_ex_date = explode(' ', $ex_date[2]);
+$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+
+$next_ex_date_paie = explode(' ', $ex_date_paie[2]);
+$true_date_paie = $next_ex_date_paie[0]." ".$true_month_paie." ".$ex_date_paie[0];
+
+$next_ex_date_livraison = explode(' ', $ex_date_livraison[2]);
+$true_date_livraison = $next_ex_date_livraison[0]." ".$true_month_livraison." ".$ex_date_livraison[0];
+
+?>
+        <label class="radio">
+						 <input type="radio" name="id_fournisseur_choisit" id="id_fournisseur_choisit" data-idproforma ="<?php echo $valproforma->id_proforma;?>" value="<?php echo $valproforma->id_fournisseur_choisit;?>">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:bold;"><?php echo $valproforma->raison_sociale;?></span>
+				</label>
+
+     <div class="control-group" style="margin-top: -34px;position: absolute;right: 10px;">
+	      <label class="control-label" for="reference du proforma" style="font-weight:bold;display:inline-block">
+	     Reference du proforma *:
+	      </label>
+	      <div class="controls" style="display:inline-block">
+        <?php echo $valproforma->numero_proforma;?>
+				  </div>
+	   </div>
+<table class="table table-stripped" >
+    <thead>
+        <tr>
+			<th>Quantité disponible </th>
+			<th>Prix Unitaire</th>            
+			<th>TOTAL</th>
+			<th>Disponibilité (O/N)</th>      
+
+		</tr> 
+    </thead>
+    <tbody id="table_proforma_fournisseur_procedure_achat">
+<?php foreach ($this->dbeditiondesdetailsdelafactureproforma as $key => $valdetailproforma): ?>
+           <?php if($valproforma->id_proforma == $valdetailproforma->id_proforma_procedure):?>
+       
+        <tr>
+         <td><?php echo $valdetailproforma->quantite_disponible_produit ;?></td>
+         <td><?php echo $valdetailproforma->prix_unitaire_fournisseur ;?></td>        
+         <td><?php echo $valdetailproforma->total_article ;?></td> 
+         <td>            
+          
+         <?php if($valdetailproforma->disponibilite_demande == 1):?>
+         <?php echo "Oui"?>
+         <?php elseif($valdetailproforma->disponibilite_demande == 0): ?>
+         <?php echo "Non"?>
+         
+          <?php endif ?>
+          </td>  
+
+       </tr>
+       <?php endif ?>
+       
+<?php endforeach ?>
+</tbody>
+     </table>
+     <div class="row">     
+     <div class="col-xl-6">
+     <div class="control-group" >
+	      <label class="control-label" for="montant hors taxe" style="font-weight:bold">
+	        Montant Hors taxe (MHT)*:
+	      </label>
+	      <div class="controls">
+        <?php echo $valproforma->montant_ht;?>
+		     </div>
+	   </div>
+     
+     <div class="control-group">
+	      <label class="control-label" for="modalité de paiement" style="font-weight:bold">
+	        Modalité de paiement *:
+	      </label>
+        <div class="controls">
+        <?php echo $valproforma->modalite_paiement;?>
+        </div>
+			</div>
+
+        <div class="control-group">
+	      <label class="control-label" for="tva" style="clear:both;font-weight:bold">
+	        TVA (Taxe sur la valeur ajoutée)*:
+	      </label>
+	      <div class="controls">
+        <?php echo $valproforma->tva;?>
+        
+		        </div>
+	   </div>  
+     <div class="control-group">
+	      <label class="control-label" for="date de paiement" style="font-weight:bold">
+	        Date d'établissement du proforma *:
+	      </label>
+	      <div class="controls">
+        <?php echo $true_date;?>
+		     
+         </div>
+	   </div> 
+     </div>
+     
+    <div class="col-xl-6">
+    
+   
+    <div class="control-group">
+	      <label class="control-label" for="lieu de livraison" style="font-weight:bold">
+	        Addresse de livraison *:
+	      </label>
+	      <div class="controls">
+        <?php echo $valproforma->addresse_livraison;?>
+        </div>
+	   </div>
+       
+       <div class="control-group">
+	      <label class="control-label" for="tva" style="clear:both;font-weight:bold">
+	        Montant Toute Taxe Comprise (TTC)*:
+	      </label>
+	      <div class="controls">
+        <?php echo $valproforma->montant_ttc;?>
+        </div>
+	   </div>
+
+     <div class="control-group">
+	      <label class="control-label" for="date de paiement" style="font-weight:bold">
+	        Date de paiement *:
+	      </label>
+	      <div class="controls">
+        <?php echo $true_date_paie;?>
+		     	      </div>
+	   </div>
+     <div class="control-group">
+	      <label class="control-label" for="date de paiement" style="font-weight:bold">
+	        Date de livraison *:
+	      </label>
+	      <div class="controls">
+        <?php echo $true_date_livraison;?>
+        
+		    </div>
+	   </div>
+    </div>
+    </div>
+
+    <hr>
+<?php endforeach ?>
+<div class="control-group">
+	      <label class="control-label" for="contenu du proforma" style="font-weight:bold">
+	        Contenu du proforma *:
+	      </label>
+	      <div class="controls">
+				  <textarea name="contenu_proces_verbale" class="input-block-level contenu_proforma" placeholder="Mettre ici l'addresse exacte de livraison" cols="30" rows="10" required="required"></textarea>
+	      </div>
+</div>
+<div class="control-group" id="piece_existance_justificative">
+				<label class="control-label" for="joindre la facture proforma" style="font-weight:bold">
+					 Joindre la facture proforma
+				</label>
+			 <div class="controls">
+				 <input type="file" name="proces_verbale_files" style="position:relative">
+				 <div class="alert alert-danger">
+           <strong>Seul le fichier pdf est supporté.</strong>
+				 </div>
+			</div>
+</div>
+<button class="btn btn-success" style="width:133px">Valider</button>
+</div>
+
+</form>

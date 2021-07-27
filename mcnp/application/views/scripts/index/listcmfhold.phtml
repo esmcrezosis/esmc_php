@@ -1,0 +1,352 @@
+<?php $sessionmcnp = new Zend_Session_Namespace('mcnp'); ?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript" charset="utf-8">		
+	$(document).ready(function() {
+    $('#example').dataTable({
+        "sPaginationType": "full_numbers",
+        "aaSorting": []
+    });
+    });
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p> Liste des CMFH </p></blockquote>
+
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+    <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+            Formulaire de trie par critères
+        </a>
+    </div>
+	
+	<div id="collapseOne" class="accordion-body collapse <?php if (!isset($_POST['ok'])) {?> in <?php }?>">
+	    <div class="accordion-inner">
+		    <form method="post" enctype="multipart/form-data" role="form" name="postulat" id="postulat" action="" class="">
+			    <div class="">
+				    <div class="span4">
+			            <div class="control-group">
+                        <label class="control-label" for="postulat">Type CMFH</label>
+                        <div class="controls">
+                        <select  id="id_type_candidat" name="id_type_candidat">
+                        <option value="">Choisir un type </option>
+                        <?php foreach ($this->candidats as $value) { ?>
+                        <option
+                        value="<?php echo $value->id_type_candidat; ?>"><?php echo $value->libelle_type_candidat; ?>
+						</option>                         
+                        <?php } ?>
+                        </select>
+                        </div>
+                        </div>
+						
+						<div class="control-group">
+                        <label class="control-label"> Région </label>
+                        <div class="controls">
+                        <select  id="id_region" name="id_region">
+                        <option value="">Choisir une région </option>
+                        <?php foreach ($this->regions as $value) { ?>
+                        <option
+                        value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?>
+						</option>                         
+                        <?php } ?>
+                        </select>
+                        </div>
+                        </div>
+			        </div>
+					
+					<div class="span4">
+					    <div class="control-group">
+                        <label class="control-label"> Zone M.</label>
+                        <div class="controls">
+                        <select class="input-block-level" id="code_zone" name="code_zone">
+                        <option value="">Choisir une zone monétaire</option>
+                        <?php foreach ($this->zones as $value) { ?>
+                        <option
+                        value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?>
+						</option>                         
+                        <?php } ?>
+                        </select>
+                        </div>
+                        </div>
+						
+						
+						<div class="control-group">
+                        <label class="control-label"> Préfecture </label>
+                        <div class="controls">
+                        <select class="input-block-level" id="id_prefecture" name="id_prefecture">
+                        <option value="">Choisir une préfecture </option>
+                        <?php foreach ($this->prefectures as $value) { ?>
+                        <option
+                        value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?>
+						</option>                         
+                        <?php } ?>
+                        </select>
+                        </div>
+                        </div>
+					</div>
+					
+					<div class="span4">
+					    <div class="control-group">
+                        <label class="control-label"> Pays </label>
+                        <div class="controls">
+                        <select class="input-block-level" id="id_pays" name="id_pays">
+                        <option value="">Choisir un pays</option>
+                        <?php foreach ($this->pays as $value) { ?>
+                        <option
+                        value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?>
+						</option>                         
+                        <?php } ?>
+                        </select>
+                        </div>
+                        </div>
+						
+						
+						<div class="control-group">
+                        <label class="control-label"> Canton </label>
+                        <div class="controls">
+                        <select class="input-block-level" id="id_canton" name="id_canton">
+                        <option value="">Choisir un canton </option>
+                        <?php foreach ($this->cantons as $value) { ?>
+                        <option
+                        value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?>
+						</option>                         
+                        <?php } ?>
+                        </select>
+                        </div>
+                        </div>	
+					</div>
+		        </div>
+				
+				<div class="">
+                <div class="span12">
+                <div class="form-actions">
+                <input name="ok" type="hidden" id="ok" value="ok" />
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+                </div>    
+                </div>
+                </div>
+            </form>
+		</div>
+	</div>	
+    </div>
+</div>
+
+<?php if(count($this->entries) > 0) { ?>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+    <thead>
+		<tr>
+			<th>Type</th>
+			<th>Nom & prénom(s) / Raison sociale</th>
+			<th>Cellulaire</th>
+			<th>Zone</th>
+			<th>Pays</th>
+			<th>Région</th>
+			<th>Préfecture</th>
+			<th>Canton</th>
+			<th>Métier</th>
+			<th>Compétence</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+	
+	<?php foreach ($this->entries as $entry): ?>
+	<?php 
+        /*
+        if(($entry->code_activite != NULL) && ($entry->code_activite != "")) {
+            $t_activite = new Application_Model_DbTable_EuActivite();
+		    $select = $t_activite->select();
+		    $select->where('code_activite = ?',$entry->code_activite);
+	        $select->limit(1);
+            $result1 = $t_activite->fetchRow($select);
+		}*/ 
+		
+		if(($entry->id_metier != NULL) && ($entry->id_metier != "")) {
+		
+		   $t_metier = new Application_Model_DbTable_EuMetier();
+		   $select = $t_metier->select();
+		   $select->where('id_metier = ?',$entry->id_metier);
+	       $select->limit(1);
+           $result2 = $t_metier->fetchRow($select);
+		
+		}
+		
+		if(($entry->id_competence != NULL) && ($entry->id_competence != "")) {
+		    $t_competence = new Application_Model_DbTable_EuCompetence();
+		    $select = $t_competence->select();
+		    $select->where('id_competence = ?',$entry->id_competence);
+	        $select->limit(1);
+            $result3 = $t_competence->fetchRow($select);
+        }
+	
+	    $type_candidat = new Application_Model_EuTypeCandidat();
+	    $m_type_candidat = new Application_Model_EuTypeCandidatMapper();
+		
+		//$membre = new Application_Model_EuMembre();
+	    //$m_membre = new Application_Model_EuMembreMapper();
+		
+		//$membremorale = new Application_Model_EuMembreMorale();
+	    //$m_membremorale = new Application_Model_EuMembreMoraleMapper();
+		
+		$canton = new Application_Model_EuCanton();
+	    $m_canton = new Application_Model_EuCantonMapper();
+		
+		$prefecture = new Application_Model_EuPrefecture();
+	    $m_prefecture = new Application_Model_EuPrefectureMapper();
+		
+		$region = new Application_Model_EuRegion();
+	    $m_region = new Application_Model_EuRegionMapper();
+		
+		$pays = new Application_Model_EuPays();
+	    $m_pays = new Application_Model_EuPaysMapper();
+		
+		$zone = new Application_Model_EuZone();
+	    $m_zone = new Application_Model_EuZoneMapper();
+		$nom = "";
+		$cellulaire = "";
+		
+		$trouve = false;
+		
+		$nom = $entry->souscription_raison." ".$entry->souscription_nom." ".$entry->souscription_prenom;
+		$cellulaire = $entry->souscription_mobile;
+		
+		$findcandidat = $m_type_candidat->find($entry->souscription_type_candidat,$type_candidat);
+		$findcanton = $m_canton->find($entry->id_canton,$canton);
+		$findprefecture = $m_prefecture->find($canton->id_prefecture,$prefecture);
+		$findregion = $m_region->find($prefecture->id_region,$region);
+		$findpays = $m_pays->find($region->id_pays,$pays);
+		$findzone = $m_zone->find($pays->code_zone,$zone);
+		
+		//if((substr($entry->code_membre,19,1) == 'P'))  {
+		//$findmembre = $m_membre->find($entry->code_membre,$membre);
+        //$nom = $membre->nom_membre." ".$membre->prenom_membre;
+        //$cellulaire = $membre->portable_membre;			
+		//} else {
+		//$findmembre = $m_membremorale->find($entry->code_membre,$membremorale);
+        //$nom = 	$membremorale->raison_sociale;
+        //$cellulaire = $membremorale->portable_membre;			
+		//}
+		/*
+		if(!empty($this->type) && empty($this->code_zone) && empty($this->id_pays) && empty($this->id_region) && empty($this->id_prefecture) && empty($this->id_canton)) {
+		    
+		    if(trim($entry->souscription_type_candidat) == $this->type) {
+			   $trouve = true;
+			}
+		} else
+			*/
+			
+		if(!empty($this->type) && !empty($this->id_canton)) {
+			
+			if($entry->souscription_type_candidat == $this->type  &&  $entry->id_canton == $this->id_canton) {
+			   $trouve = true;
+			}
+			
+		}  elseif(!empty($this->type) && !empty($this->id_prefecture)) {
+			
+			if($entry->souscription_type_candidat == $this->type  &&  $prefecture->id_prefecture == $this->id_prefecture) {
+			   $trouve = true;
+			}
+			
+		}  elseif(!empty($this->type) && !empty($this->id_region)) {
+			
+			if($entry->souscription_type_candidat == $this->type  &&  $region->id_region == $this->id_region) {
+			   $trouve = true;
+			}
+			
+		}  elseif(!empty($this->type) && !empty($this->id_pays))  {
+			
+			if($entry->souscription_type_candidat == $this->type  &&  $pays->id_pays == $this->id_pays) {
+			   $trouve = true;
+			}	
+			
+		} elseif(!empty($this->type) && !empty($this->code_zone))  {
+			
+			if($entry->souscription_type_candidat == $this->type  &&  $zone->code_zone == $this->code_zone) {
+			   $trouve = true;
+			}
+			
+		}   else if(empty($this->type) && !empty($this->id_canton))  {
+            if($entry->id_canton == $this->id_canton) {
+			   $trouve = true;
+			}
+
+        } else if (empty($this->type) && !empty($this->id_prefecture)) {
+            if($prefecture->id_prefecture == $this->id_prefecture) {
+			   $trouve = true;
+			}
+			
+        } else if (empty($this->type) && !empty($this->id_region)) {
+			
+            if($region->id_region == $this->id_region) {
+			   $trouve = true;
+			}
+			
+        } else if (empty($this->type) && !empty($this->id_pays)) {
+			
+            if($pays->id_pays == $this->id_pays) {
+			   $trouve = true;
+			}
+			
+        } else if (empty($this->type) && !empty($this->code_zone)) {
+		    if($zone->code_zone == $this->code_zone) {
+			   $trouve = true;
+			}
+	    } else {
+			   $trouve = true;
+		}
+		
+		
+	    if($trouve) {
+	?>
+	  <tr> 
+	    <td><?php echo ($type_candidat->libelle_type_candidat); ?></td>
+		<td><?php echo ($nom); ?></td>
+		<td><?php echo ($cellulaire); ?></td>
+		<td><?php echo ($zone->nom_zone); ?></td>
+		<td><?php echo ($pays->libelle_pays); ?></td>
+		<td><?php echo ($region->nom_region); ?></td>
+		<td><?php echo ($prefecture->nom_prefecture); ?></td>
+		<td><?php echo ($canton->nom_canton); ?></td>
+		<td><?php if(count($result2) > 0 ) { echo ($result2->libelle_metier);} else {echo "";} ?></td>
+		<td><?php if(count($result3) > 0 ) {echo ($result3->libelle_competence);} else {echo "";} ?></td>
+	   </tr>
+		
+		<?php } endforeach; ?>
+	</tbody>
+</table>
+
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun CMFH enrégistré 
+</div>
+<?php } ?>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+</div>
+</div>
+</div>
+       
+
+
+
+
+
+
+
+
+
+

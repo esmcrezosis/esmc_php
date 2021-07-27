@@ -1,0 +1,241 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+    <script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/budgetnatures.js"></script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajouter un budget de projet</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addprojet">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = "";?>
+    </div>
+  <?php }?>
+  
+    
+
+
+  <blockquote><p>Details d'un projet</p></blockquote>
+  
+    
+<div class="control-group">
+<label class="control-label" for="projet_code_membre">Code Membre </label>
+<div class="controls">
+<?php echo $this->projet->projet_code_membre; ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="projet_libelle">Libelle </label>
+<div class="controls">
+<?php echo $this->projet->projet_libelle; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="projet_description">Description </label>
+<div class="controls">
+<?php echo $this->projet->projet_description; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="projet_type">Type </label>
+<div class="controls">
+<?php echo $this->projet->projet_type; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="projet_centrale">Centrale </label>
+<div class="controls">
+<?php echo $this->projet->projet_centrale; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="projet_stockage">Entreposage </label>
+<div class="controls">
+<?php echo $this->projet->projet_stockage; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="projet_date">Date  </label>
+<div class="controls">
+<?php echo $this->projet->projet_date; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="projet_montant">Montant </label>
+<div class="controls">
+<?php echo $this->projet->projet_montant; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="projet_montant_final">Montant Final</label>
+<div class="controls">
+<?php echo $this->projet->projet_montant_final; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="projet_observation">Observation </label>
+<div class="controls">
+<?php echo $this->projet->projet_observation; ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="projet_utilisateur">Utilisateur</label>
+<div class="controls">
+<?php if($this->projet->projet_utilisateur > 0){
+        $utilisateur = new Application_Model_EuUtilisateur();
+        $utilisateurM = new Application_Model_EuUtilisateurMapper();
+        $utilisateurM->find($this->projet->projet_utilisateur, $utilisateur);
+        echo $utilisateur->nom_utilisateur;
+      }
+?>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="code_zone">Zone</label>
+<div class="controls">
+<?php if($this->projet->code_zone > 0){
+        $zone = new Application_Model_EuZone();
+        $zoneM = new Application_Model_EuZoneMapper();
+        $zoneM->find($this->projet->code_zone, $zone);
+        echo $zone->nom_zone;
+      }
+?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="id_pays">Pays</label>
+<div class="controls">
+<?php if($this->projet->id_pays > 0){
+        $pays = new Application_Model_EuPays();
+        $paysM = new Application_Model_EuPaysMapper();
+        $paysM->find($this->projet->id_pays, $pays);
+        echo $pays->libelle_pays;
+      }
+?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="id_region">Region</label>
+<div class="controls">
+<?php if($this->projet->id_region > 0){
+        $region = new Application_Model_EuRegion();
+        $regionM = new Application_Model_EuRegionMapper();
+        $regionM->find($this->projet->id_region, $region);
+        echo $region->nom_region;
+      }
+?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="id_prefecture">Prefecture</label>
+<div class="controls">
+<?php if($this->projet->id_prefecture > 0){
+        $prefecture = new Application_Model_EuPrefecture();
+        $prefectureM = new Application_Model_EuPrefectureMapper();
+        $prefectureM->find($this->projet->id_prefecture, $prefecture);
+        echo $prefecture->nom_prefecture;
+      }
+?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="id_canton">Canton</label>
+<div class="controls">
+<?php if($this->projet->id_canton > 0){
+        $canton = new Application_Model_EuCanton();
+        $cantonM = new Application_Model_EuCantonMapper();
+        $cantonM->find($this->projet->id_canton, $canton);
+        echo $canton->nom_canton;
+      }
+?>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<legend>Détails de budget du projet </legend>
+<div class="row-fluid">
+<div class="span4">Biens/Produits/Services</div>
+<div class="span4">Prix Unitaire</div>
+<div class="span2">Quantité</div>
+<div class="span2">Actions</div>
+</div>
+ 
+<?php $b = 0;?>
+<div id="nivdetail<?php echo $b;?>">
+<div class="row-fluid">
+<div class="span4"><input class="input-xlarge" type="text" name="bps_demande[]" id="bps_demande<?php echo $b;?>" placeholder="Biens/Produits/Services" >
+</div>
+<div class="span4"><input class="input-xlarge" type="text" name="prix_unitaire_budget_nature[]" id="prix_unitaire_budget_nature<?php echo $b;?>" placeholder="Prix Unitaire" >
+</div>
+<div class="span2"><input class="input-xlarge" type="text" name="qte_budget_nature[]" id="qte_budget_nature<?php echo $b;?>" placeholder="Quantité" >
+</div>
+<div class="span2"><a class="btn btn-mini" onclick="document.getElementById('nivdetail<?php echo $b;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_budgetnatures('<?php echo $b + 1;?>','nivdetail<?php echo $b + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+</div>
+</div>
+<div id="nivdetail<?php echo $b + 1;?>"></div>
+
+<div class="form-actions">
+<input name="projet_id" type="hidden" id="projet_id" value="<?php echo $this->projet->projet_id; ?>" />  
+<input name="code_membre_budget" type="hidden" id="code_membre_budget" value="<?php echo $this->projet->projet_code_membre; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter le budget du projet</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

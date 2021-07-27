@@ -1,0 +1,18 @@
+<?php 		
+//set_include_path('/var/www/html/mcnp/library/');
+
+        $bon = new Application_Model_EuBon();
+        $bonM = new Application_Model_EuBonMapper();
+        $bonM->find($this->id, $bon);
+
+require_once 'Zend/Barcode.php';
+
+$rendererOptions = array();
+$barcodeOptions = array(
+    'text' => $bon->bon_numero,
+    'rendererParams' => array('imageType' => 'gif'),
+);
+Zend_Barcode::factory('CODE128', 'image', $barcodeOptions, $rendererOptions)->render();
+exit;
+
+?>

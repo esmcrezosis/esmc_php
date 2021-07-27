@@ -1,0 +1,66 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+<blockquote><p> Etablir une Facture </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addfacture">
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+  <?php if(isset($sessionmembre->error) && $sessionmembre->error != "") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembre->error; $sessionmembre->error = ""; ?>
+  </div>
+  <?php } ?>
+
+  
+<div class="control-group">
+<label class="control-label" for="numero_facture"> Numéro Facture * </label>
+<div class="controls">
+<input type="text" name="numero_facture" id="numero_facture" placeholder="Numéro Facture" value="<?php echo $this->numero_facture;?>" class="input-block-level" readonly />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="libelle_facture"> Libellé Facture * </label>
+<div class="controls">
+<input type="text" name="libelle_facture" id="libelle_facture" placeholder="Libellé de la Facture" value="<?php echo $this->libelle_facture;?>" class="input-block-level" required />
+</div>
+</div> 
+
+<div class="control-group">
+<label class="control-label" for="montant_facture">Montant Facture * </label>
+<div class="controls">
+<input type="text" name="montant_facture" id="montant_facture" placeholder="Montant Facture" value="<?php echo $this->livraison->montant_bon_livraison; ?>" class="input-block-level" readonly />
+</div>
+</div>
+ 
+
+<div class="form-actions">  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input type="hidden" name="id_bon_livraison_prestation" id="id_bon_livraison_prestation" placeholder="" value="<?php echo $this->livraison->id_bon_livraison_prestation; ?>" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Valider</button>
+</div>                           
+  
+</form>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

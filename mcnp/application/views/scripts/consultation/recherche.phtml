@@ -1,0 +1,53 @@
+<div id="view-content" style="margin-bottom: 3px; width: 827px;font-size:11px" class="ui-widget-content ui-corner-all">
+     <div style="margin-bottom: 3px; width: 800px">
+          <fieldset>
+              <legend style=" font-weight:bold">Recherche</legend>
+              <h5>
+                  Nom            <input type="text" id="nom" name="nom" />
+                  Prenom         <input type="text" id="prenom" name="prenom"/>
+				  Raison sociale <input type="text" id="raison_sociale" name="raison_sociale" size="25"/>
+                  <input id="ok" type="button" value="Ok" />
+              </h5> 
+              
+          </fieldset>
+     </div>
+	 <table id="tbl-membre"></table>
+     <div id="pg-membre"></div>
+</div>
+<script type="text/javascript">
+
+    $("#tbl-membre").jqGrid({
+        url:"",
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code membre','Nom & Prenom','Raison sociale'],
+        height:410,width:827,
+        colModel:[
+           {name:'ancien_code_membre',index:'ancien_code_membre', width:200, sorttype:"int", editable: true,align:"left"},
+           {name:'nom_membre',index:'nom_membre', width: 220, editable: true,align:"left"},
+           {name:'raison_sociale',index:'raison_sociale', width: 220, editable: true,align:"left"},		   
+        ],
+        rowNum:100000,
+        rowList:[100000,300000,500000],
+        pager: '#pg-membre',
+        sortname:"ancien_code_membre",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Membres MCNP"
+    });
+    $("#tbl-membre").jqGrid('navGrid','#pg-membre',{edit:false,add:false,del:false,search:false});
+
+    $(function() {
+      $('#view-content').puipanel();
+	  $('fieldset').puifieldset();
+	  
+	   $('#ok').click(function() {
+        raison_sociale = $('#raison_sociale').val();
+	    nom            = $('#nom').val();
+	    prenom         = $('#prenom').val();             
+        jQuery("#tbl-membre").jqGrid('setGridParam',{url:"/consultation/datasearch?raison_sociale="+raison_sociale+"&nom="+nom+"&prenom="+prenom}).trigger('reloadGrid');
+	  });	  
+    });
+
+</script>

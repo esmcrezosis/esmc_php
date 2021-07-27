@@ -1,0 +1,33 @@
+<div id="view-content">
+    <table id="tbl-placement"></table>
+    <div id="pg-placement"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-placement").jqGrid({
+        url:'/eu-bnp/datacmit',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['ID','N° Membre','Libellé','Carte numérique','Compte','Montant','Type BNP'],
+        height:440, width:825,
+        colModel:[
+          {name:'id_operation',index:'id_operation', width: 60, align:"left", editable: true},
+          //{name:'date_op',index:'date_op', width: 100, align:"left", editable: true},
+          {name:'code_membre',index:'code_membre', width: 150, align:"left", editable: true},
+          {name:'lib_op',index:'lib_op', width: 200, align:"left", editable: true},
+          {name:'code_cat',index:'code_cat', width: 120, editable: true,align:"left"},
+          {name:'code_produit',index:'code_produit', width: 120, editable: true,align:"left"},
+          {name:'montant_op',index:'montant_op', width: 120, editable: true,align:"left"},
+          {name:'type_op',index:'type_op', width: 130, editable: true,align:"left"}
+        ],
+        rowNum:200,
+        rowList:[200,300,400],
+        pager: '#pg-placement',
+        sortname:"id_operation",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"BNP :"
+    });
+    $("#tbl-placement").jqGrid('navGrid','#pg-placement',{edit:false,add:false,del:false,search:true});
+    
+</script>

@@ -1,0 +1,81 @@
+<?php $sessionterminal = new Zend_Session_Namespace('terminal');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuterminal.phtml"); ?>
+
+  <blockquote><p>Liste de mes tarifs de livraison</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:9px;">
+						  <thead>
+							  <tr>
+								  <th>Prefecture</th>
+								  <th>Montant</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php $prefectureM = new Application_Model_EuPrefectureMapper();
+$prefecture = new Application_Model_EuPrefecture();
+$prefectureM->find($entry->id_prefecture, $prefecture);?>
+<?php echo ($prefecture->nom_prefecture);?>
+</td>
+      <td><?php echo $entry->montant_tarif_livraison; ?></td>
+      <td><div align="center"><?php if($entry->statut == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/terminal/statuttariflivraison/id/<?php echo $entry->id_tarif_livraison; ?>/statut/0"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/terminal/statuttariflivraison/id/<?php echo $entry->id_tarif_livraison; ?>/statut/1"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+
+<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/terminal/edittariflivraison/id/<?php echo $entry->id_tarif_livraison; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>
+</div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun tarif de livraison enregistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

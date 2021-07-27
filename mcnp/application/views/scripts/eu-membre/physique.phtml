@@ -1,0 +1,136 @@
+<div id="view-content">
+     <div style="margin-bottom: 3px;">
+          <form action="">
+            <input id="p_editer" type="button" value="Editer" class="ui-widget button"/>
+            <input id="p_detail" type="button" value="Afficher" class="ui-widget button"/>
+            <input type="text" id="membre" name="membre" size="35"/>
+            <input id="recherche" type="button" value="Recherche"/>
+         </form>  
+    </div>
+    <table id="tbl-physique"></table>
+    <div id="pg-physique"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-physique").jqGrid({
+        url:"/eu-membre/data?type=P"+"&membre="+$('#membre').val(),
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Numero','Nom','Prenom','Sexe','Profession','Telephone','Ville'],
+        height:410, width:827,
+        colModel:[
+           {name:'code_membre',index:'code_membre', width:220, sorttype:"int", editable: true,align:"left"},
+		   {name:'nom_membre',index:'nom_membre', width: 180, editable: true,align:"left"},
+		   {name:'prenom_membre',index:'prenom_membre',width: 200,align:"left",editable: true},
+           {name:'sexe_membre',index:'sexe_membre', width: 50, editable: true,align:"left"},
+           //{name:'date_nais_membre',index:'date_nais_membre', width: 140, editable: true,align:"left"},
+           //{name:'sitfam_membre',index:'sitfam_membre', width: 120, editable: true,align:"left"},
+           {name:'profession_membre',index:'profession_membre', width: 200, align:"left", editable: true},
+           {name:'portable_membre',index:'portable_membre', width: 150, align:"left", editable: true},
+           {name:'ville_membre',index:'ville_membre', width: 150, align:"left", editable: true},
+        ],
+        rowNum:200,
+        rowList:[200,300,400],
+        pager: '#pg-physique',
+        sortname:"code_membre",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Membres physiques"
+    });
+    $("#tbl-physique").jqGrid('navGrid','#pg-physique',{edit:false,add:false,del:false,search:true});
+   
+    $.get( "/eu-membre/changep",
+         function success(data) {
+         $("input#membre").autocomplete({"source":data});
+       }); 
+    
+	 
+    $('#recherche').click(function()
+    {
+          membre=$('#membre').val(); 
+          jQuery("#tbl-physique").jqGrid('setGridParam',{url:"/eu-membre/data?type=P"+"&membre="+membre}).trigger('reloadGrid');
+    });
+    
+   
+   
+    $('#p_editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-physique").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-membre/pedit',{
+                membre:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+	
+    $('#p_detail').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-physique").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-membre/detail',{
+                membre:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+    $('#contrat').click(function()
+    {
+      var rowsel;
+      rowsel = jQuery("#tbl-physique").jqGrid('getGridParam','selrow');
+      if(rowsel)
+      {		   
+            seldata = jQuery("#tbl-physique").jqGrid('getRowData',rowsel);
+		    $.get('/eu-membre/contrat',{
+                 code_membre:rowsel
+            },function success(data) {
+                 if(data == rowsel){
+				    alert("Ce membre a déjà un contrat"); 
+	   }
+	   else 
+	   {	 	
+                if(seldata.type_membre == 'P'){
+                $.get('/eu-membre/newcpp',{
+                    membre:rowsel
+                },function success(data){
+                    $("#content").html(data);
+                }); 
+            }
+            else
+            {
+                $.get('/eu-membre/newcpm',{
+                    membre:rowsel
+                },function success(data){
+                    $("#content").html(data);
+                }); 
+            }
+		}
+		});	
+        }
+        else
+        {
+            alert('Aucune ligne sélectionnée');
+        }
+	
+
+});
+    $('#membre').puiinputtext();
+    $('#p_editer').button();
+    $('#p_detail').button();
+    $('#recherche').button();
+	$('#contrat').button();
+        
+</script>

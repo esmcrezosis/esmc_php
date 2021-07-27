@@ -1,0 +1,43 @@
+<?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationsuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+				</div>
+	    <?php unset($_SESSION['validationsuccess']); endif ?>
+<h3>Liste des bons de livraison établit par l'agent Acnev</h3>
+
+<?php if(count($this->listingdetouslesbonsdelivraisons) > 0){?>
+
+<table class="table table-stripped">
+ 	<tr>
+		<th>Référence du bon de livraison</th>
+		<th>Libellé du bon de livraison</th>
+		<th>Le montant du bon de livraison</th>
+        
+		<th>Actions</th>
+        
+ 	</tr>
+   </thead>
+   <tbody>
+   	  <?php foreach ($this->listingdetouslesbonsdelivraisons as $key => $value): ?>
+         <tr class="primary">
+            <td> <?php echo $value->reference_bon_livraison ;?> </td>
+            <td> <?php echo $value->libelle_bon_livraison ;?> </td>
+            <td> <?php echo $value->montant_bon_livraison ;?> </td>
+            
+            <td> <a href="/procedureachat/editdetailsdubondelivraison/id/<?php echo $value->id_bon_livraison_procedure ?>">Details</a> </td>         
+         </tr>
+
+ 	  <?php endforeach ?>       
+   
+    </tbody>
+</table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucun bon de livraison n'est encore établit
+</div>
+<?php }?>

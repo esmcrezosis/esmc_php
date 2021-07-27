@@ -1,0 +1,144 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+
+    <div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajouter un detail d'une fiche de stock</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addfiche_stock">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = "";?>
+    </div>
+  <?php }?>
+  
+  
+
+<div class="control-group">
+<label class="control-label" for="id_fiche_stock">Fiche Stock * </label>
+<div class="controls">
+<?php 
+$fiche_stock_m = new Application_Model_EuFicheStockMapper();
+$fiche_stock = $fiche_stock_m->fetchAll();
+if(count($fiche_stock) > 0){?>
+<select name="id_fiche_stock" id="id_fiche_stock" required >
+<option value="">Choisir la fiche </option>
+<?php foreach ($fiche_stock as $value) { ?>
+<option value="<?php echo $value->id_fiche_stock; ?>"><?php echo $value->nom_article;?></option>
+<?php } ?>
+</select>
+<?php } ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="reference_article_fiche_stock">Reference Article *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="reference_article_fiche_stock" id="reference_article_fiche_stock" placeholder="Reference Article" required>
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="entree_qte_article">Entrée Quantité  </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="entree_qte_article" id="entree_qte_article" placeholder="Entrée Quantité " >
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="entree_prix_unitaire">Entrée Prix Unitaire  </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="entree_prix_unitaire" id="entree_prix_unitaire" placeholder="Entrée Prix Unitaire" >
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="entree_valeur">Entrée Valeur </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="entree_valeur" id="entree_valeur" placeholder="Entrée Valeur" >
+</div>
+</div>
+  
+
+<div class="control-group">
+<label class="control-label" for="sortie_qte_article">Sortie Quantité  </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="sortie_qte_article" id="sortie_qte_article" placeholder="Sortie Quantité " >
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="sortie_prix_unitaire">Sortie Prix Unitaire  </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="sortie_prix_unitaire" id="sortie_prix_unitaire" placeholder="Sortie Prix Unitaire" >
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="sortie_valeur">Sortie Valeur </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="sortie_valeur" id="sortie_valeur" placeholder="Sortie Valeur" >
+</div>
+</div>
+  
+
+
+<div class="control-group">
+<label class="control-label" for="stocks_qte_article">Stocks Quantité  </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="stocks_qte_article" id="stocks_qte_article" placeholder="Stocks Quantité " >
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="stocks_prix_unitaire">Stocks Prix Unitaire  </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="stocks_prix_unitaire" id="stocks_prix_unitaire" placeholder="Stocks Prix Unitaire" >
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="stocks_valeur">Stocks Valeur </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="stocks_valeur" id="stocks_valeur" placeholder="Stocks Valeur" >
+</div>
+</div>
+  
+
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter le detail de la fiche de stock</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

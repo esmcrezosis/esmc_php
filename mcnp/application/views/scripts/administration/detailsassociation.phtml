@@ -1,0 +1,135 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Detail d'un agrément OSE/OE</p></blockquote>
+  
+    
+<div class="control-group">
+<label class="control-label" for="code_agence">Agence </label>
+<div class="controls">
+<?php 
+        $agenceM = new Application_Model_DbTable_EuAgence();
+        $agence = $agenceM->find($this->membretiers->code_agence);
+		$row = $agence->current();
+echo $row->libelle_agence; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_nom">Raison sociale de l'agrément OSE/OE  </label>
+<div class="controls">
+<?php echo $this->association->association_nom; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_numero">Numero de l'agrément OSE/OE</label>
+<div class="controls">
+<?php echo $this->association->association_numero; ?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="association_date_agrement">Date Agrément de l'agrément OSE/OE  </label>
+<div class="controls">
+<?php echo $this->association->association_date_agrement; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_mobile">Cellulaire de l'agrément OSE/OE  </label>
+<div class="controls">
+<?php echo $this->association->association_mobile; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_email">E-mail de l'agrément OSE/OE  </label>
+<div class="controls">
+<?php echo $this->association->association_email; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_recepisse">Récépissé de l'agrément OSE/OE </label>
+<div class="controls">
+<?php echo $this->association->association_recepisse; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="association_adresse">Adresse de l'agrément OSE/OE </label>
+<div class="controls">
+<?php echo $this->association->association_adresse; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="type_acteur">Type Agrément OSE/OE </label>
+<div class="controls">
+<?php if($this->association->code_type_acteur == 'EI'){echo 'Entreprise Industrie';}?>
+<?php if($this->association->code_type_acteur == 'OE'){echo 'Opérateur Economique';}?>
+<?php if($this->association->code_type_acteur == 'OSE'){echo 'Opérateur Socio-Economique';}?>
+<?php if($this->association->code_type_acteur == 'PEI'){echo 'Partenaire Entreprise Industrie';}?>
+<?php if($this->association->code_type_acteur == 'POE'){echo 'Partenaire Opérateur Economique';}?>
+<?php if($this->association->code_type_acteur == 'POSE'){echo 'Partenaire Opérateur Socio-Economique';}?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="statut_juridique">Statut juridique </label>
+<div class="controls">
+<?php 
+        $statutjuridique = new Application_Model_EuStatutJuridique();
+        $statutjuridiqueM = new Application_Model_EuStatutJuridiqueMapper();
+        $statutjuridiqueM->find($this->association->code_statut, $statutjuridique);
+echo $statutjuridique->libelle_statut; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="id_filiere">Filière </label>
+<div class="controls">
+<?php 
+        $filiere = new Application_Model_EuFiliere();
+        $filiereM = new Application_Model_EuFiliereMapper();
+        $filiereM->find($this->association->id_filiere, $filiere);
+echo $filiere->nom_filiere; ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="association_date">Date Création</label>
+<div class="controls">
+<?php echo $this->association->association_date; ?>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

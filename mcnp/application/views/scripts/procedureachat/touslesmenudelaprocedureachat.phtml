@@ -1,0 +1,43 @@
+<style>
+#precontainer{
+    background-color: #666464;
+    color: #FFF;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 45px;
+    position: relative;
+}
+
+
+#precontainer span:first-child {
+    position:absolute;
+    left:14px;
+    top: 20px;
+}
+
+#precontainer span:last-child {
+    position:absolute;
+    right:5px;
+    top: 20px;
+}
+
+#precontainer span:last-child a{
+    background-color: #0e2ee0;
+
+    padding: 5px;
+
+    color: #FFF;
+}
+
+</style>
+
+
+<pre id="precontainer">
+   <span>Etablissement de la demande d'achat</span>
+   <span><a href="/formsguichet/etablissementdelademandachat">Etablissement de la demande d'achat</a></span>
+</pre>
+
+<pre id="precontainer">
+   <span>La liste des demandes d'achat établit par les agents ESMC</span>
+   <span><a class="dropdown-item" href="<?php echo $this->baseUrl();?>/procedureachat/listedesdemandeachatemiseparagentesmc">La liste des demandes d'achat établit par les agents ESMC</a></span>
+</pre>

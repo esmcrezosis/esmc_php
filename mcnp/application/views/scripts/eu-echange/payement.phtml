@@ -1,0 +1,172 @@
+<div id="view-content" title="Règlement des échanges" style="font-size: 12px;min-height: 520px">
+    <fieldset style="margin-bottom: 2px;"><legend>Recherche</legend>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="text-align: right;"><label>Date</label></td>
+                    <td>
+                        <input type="text" id="echange_date" name="echange_date"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><label>Membre</label></td>
+                    <td>
+                        <input type="text" size="25" id="echange_membre" name="echange_membre"/>
+                    </td>
+                    <td style="text-align: right;"><label>Compte</label></td>
+                    <td>
+                        <select id="echange_produit" name="echange_produit">
+                            <option value=""></option>
+                            <option value="GCP">GCP</option>
+                            <option value="I">I</option>
+                            <option value="RPG">RPG</option>
+                            <option value="TCNCS">TCNCS</option>
+                            <option value="TCNCSEI">TCNCSEI</option>
+                        </select>
+                    </td>
+                    <td></td><td><button id="bt_show">Afficher</button></td></tr>
+            </tbody>
+        </table>
+    </fieldset>
+    <button id="payer" style="margin-bottom: 2px;">Payer</button>
+    <table id="tbl-krr"></table>
+    <div id="pg-krr"></div>
+    <div id="pdialog">
+        <form>
+            <table>
+                <tbody>
+                    <tr><td><input type="hidden" id="id" name="id" /></td></tr>
+                    <tr>
+                        <td><label>Date :</label></td>
+                        <td><input type="text" id="date_echange" name="date_echange" /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Membre :</label></td>
+                        <td><input type="text" size="25" id="membre_echange" name="membre_ech" /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Compte :</label></td>
+                        <td><input type="text" size="30" id="produit_echange" name="produit_ech" /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Montant échangé :</label></td>
+                        <td><input type="text" id="mont_echange" name="payer_ech" /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Montant à payer :</label></td>
+                        <td><input type="text" id="montant_echange" name="montant_ech" /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Agio :</label></td>
+                        <td><input type="text" id="agio_echange" name="echeance_ech" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-krr").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['ID', 'Date', 'Membre', 'Numérique noir', 'Compte prelevé', 'Montant', 'Montant reçu', 'Agio'],
+        height: 260, width: 810,
+        colModel: [
+            {name: 'id_echange', index: 'id_echange', width: 75, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'date_echange', index: 'date_echange', width: 100, editable: false, align: "left"},
+            {name: 'membre', index: 'membre', width: 100, editable: false, align: "left"},
+            {name: 'credit', index: 'credit', width: 150, align: "left", editable: true},
+            {name: 'compte', index: 'compte', width: 150, align: "left", editable: false, hidden: true},
+            {name: 'montant', index: 'montant', width: 100, align: "left", editable: false},
+            {name: 'montant_echange', index: 'montant_echange', width: 100, align: "left", editable: false},
+            {name: 'agio', index: 'agio', width: 100, align: "left", editable: true}
+        ],
+        rowNum: 1000,
+        rowList: [1000, 2000, 3000],
+        pager: '#pg-krr',
+        sortname: "code_credi",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Capitaux reconstitués"
+    });
+
+    $("#tbl-krr").jqGrid('navGrid', '#pg-krr', {edit: false, add: false, del: false, search: true});
+    $(function() {
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+        $("#pdialog").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            title: 'Confirmez-vous cette opération ?',
+            modal: true,
+            buttons: {
+                "OUI": function() {
+                    $.get('/eu-echange/save', {
+                        code: $('#id').val(), compte: $('#produit_echange').val()
+                    },
+                    function success(data) {
+                        if (data === true) {
+                            alert('Opération effectuée avec succes');
+                        } else {
+                            $('#message').html(data);
+                        }
+                    });
+                    $(this).dialog("close");
+                },
+                "NON": function() {
+                    $(this).dialog("close");
+                }
+            },
+            close: function() {
+                //allFields.val( "" ).removeClass( "ui-state-error" );
+            }
+        }
+        );
+    });
+
+    $('#bt_show').click(function(e)
+    {
+        jQuery("#tbl-krr").jqGrid('setGridParam', {url: "/eu-echange/edata?membre=" + $('#echange_membre').val() + "&compte=" + $('#echange_produit').val() + "&date=" + $('#echange_date').val()}).trigger('reloadGrid');
+        e.preventDefault();
+    });
+
+    $("#payer").button().click(function() {
+        var sel;
+        sel = jQuery("#tbl-krr").jqGrid('getGridParam', 'selrow');
+        data = jQuery("#tbl-krr").jqGrid('getRowData', sel);
+        if (sel > 0) {
+            $('#id').val(data.id_echange);
+            $('#date_echange').val(data.date_echange);
+            $('#membre_echange').val(data.membre);
+            $('#produit_echange').val(data.credit);
+            $('#montant_echange').val(data.montant_echange);
+            $('#mont_echange').val(data.montant);
+            $('#agio_echange').val(data.agio);
+            $("#pdialog").dialog("open");
+        } else {
+            alert('Il faut sélectionner une ligne');
+        }
+
+    });
+
+    $.get("/eu-echange/membre",{type:'%'},
+            function success(data)
+            {
+                $('#echange_membre').autocomplete({"source": data});
+            });
+            $(document).ready(function()
+            {
+                $(function() {
+                    var pickerOpts = {
+                        dateFormat: "dd/mm/yy",
+                        changeMonth: true,
+                        changeYear: true,
+                        showOtherMonths: true
+                    };
+                    $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+                    $('#echange_date').datepicker(pickerOpts);
+                });
+            });
+</script>

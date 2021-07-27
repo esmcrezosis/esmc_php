@@ -1,0 +1,86 @@
+<?php $sessionsouscription = new Zend_Session_Namespace('souscription');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menutiers.phtml"); ?>
+<legend style="text-align:center"> 
+    <strong> DETAIL DE BON DE SORTIE N ° <?php echo $this->detailbonsortie[0]->id_bon_sortie_interne; ?></strong>
+</legend>
+  
+<?php 
+
+//var_dump($this->detailbonsortie);
+
+?>
+
+<form action="#" method="post" class="form-horizontal">
+      
+      <div class="control-group">
+        <label class="control-label" for="no_vehicule" style="font-weight:bold"> 
+          Date de remise du bon : <?php echo $this->detailbonsortie[0]->date_bon_sortie_interne; ?>
+        </label>
+      </div>
+      
+
+      <div class="control-group">
+        <label class="control-label" for="date_prise" style="font-weight:bold"> 
+          Nature article : <?php echo $this->detailbonsortie[0]->nature_article; ?>
+        </label>
+      </div>
+
+    <div class="control-group">
+        <label class="control-label" for="objet_du_deplacement" style="font-weight:bold">
+          Quantite article :   <?php echo $this->detailbonsortie[0]->quantite_article; ?>
+        </label>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="km_au_depart" style="font-weight:bold">
+          Objet / Motif : <?php echo $this->detailbonsortie[0]->objet_bon_sortie; ?>
+        </label>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="km_arrivee" style="font-weight:bold">
+          Prix unitaire :   <?php echo $this->detailbonsortie[0]->prix_unitaire; ?>
+        </label>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="observations" style="font-weight:bold">
+          Cout Total :   <?php echo $this->detailbonsortie[0]->montant_total_bon_sortie_interne; ?>
+        </label>
+      </div>
+
+     <div class="control-group">
+        <label class="control-label" for="km_arrivee" style="font-weight:bold">
+          Imputation : <?php echo $this->detailbonsortie[0]->imputation; ?>
+        </label>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="km_arrivee" style="font-weight:bold">
+          Nom beneficiaire : <?php echo $this->detailbonsortie[0]->nom_beneficiaire; ?>
+        </label>
+      </div>
+      
+      <div class="control-group">
+        <label class="control-label" for="km_arrivee" style="font-weight:bold">
+          No vehicule : <?php echo $this->detailbonsortie[0]->no_vehicule; ?>
+        </label>
+      </div>
+      
+      <div class="control-group">
+        <label class="control-label" for="km_arrivee" style="font-weight:bold">
+          Date livraison : <?php echo $this->detailbonsortie[0]->date_livraison; ?>
+        </label>
+      </div>
+      <div class="controls">
+        <button class="btn btn-primary" style="width:133px"><a href="/bonsortieinterne/listbonsortieinterne">Retour</a></button>
+      </div>
+     </form>
+     
+</div>
+</div>
+</div> 

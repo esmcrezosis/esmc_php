@@ -1,0 +1,78 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/intermediaires.js"></script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+<?php 
+$type = $sessionmembre->type;
+$desctype = $sessionmembre->desctype;
+?>
+                        
+                        
+  <blockquote><p>Compte de transaction - <strong><?php echo $type; ?></strong> <small>Compte intermediaire - <strong><?php echo $desctype; ?></strong></small></p></blockquote>
+<form method="post" enctype="multipart/form-data" class="well form-horizontal" id="apa">
+    <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin != ""){?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+	</div>
+	<?php }?>
+  <div class="control-group">
+    <label class="control-label">Catégorie *</label>
+    <div class="controls">
+    <?php //if (substr($sessionmembre->code_membre, -1) == "P") {?>
+    <label class="radio inline">
+  <input type="radio" name="categorie" id="categorier" value="NB-TPAGC<?php echo $type; ?>-<?php echo $type; ?>r-<?php echo $sessionmembre->code_membre; ?>" required onclick="ouvre_intermediaires('NB-TPAGC<?php echo $type; ?>-<?php echo $type; ?>r-<?php echo $sessionmembre->code_membre; ?>');">
+  Récurrent
+</label>
+<?php //}?>
+<label class="radio inline">
+  <input type="radio" name="categorie" id="categorienr" value="NB-TPAGC<?php echo $type; ?>-<?php echo $type; ?>nr-<?php echo $sessionmembre->code_membre; ?>" required onclick="ouvre_intermediaires('NB-TPAGC<?php echo $type; ?>-<?php echo $type; ?>nr-<?php echo $sessionmembre->code_membre; ?>');">
+  Non Récurrent
+</label>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="mont_capa">Cumul des CAPA  *</label>
+    <div class="controls" id="niv2">
+      <input type="hidden" name="mont_capa" id="mont_capa">
+      <input type="text" name="mont_capa1" id="mont_capa1" placeholder="Cumul des CAPA " readonly>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="mont_credit">Montant Utilisé *</label>
+    <div class="controls">
+      <input type="text" name="mont_credit" id="mont_credit" placeholder="Montant Utilisé" required>
+    </div>
+  </div>
+  
+<div class="form-actions">
+              <input name="ok" type="hidden" value="ok" />
+  <button type="reset" class="btn">Annuler</button>
+      <button type="submit" class="btn btn-primary">Transférer vers le compte intermediaire</button>
+</div>  
+</form>
+
+
+
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

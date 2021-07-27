@@ -1,0 +1,140 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+
+<blockquote><p>Demande de configuration des terminaux d'Echange (TE) </p></blockquote>
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+  </div>
+  <?php } ?>
+  
+
+  
+<blockquote>Informations concernant la demande de configuration</blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription1" name="addsouscription1">
+<fieldset>
+<legend>Remplir le formulaire </legend>
+  
+<div class="control-group">
+<label class="control-label" for="code_membre">Code Membre *</label>
+<div class="controls">
+<input type="text" name="code_membre" id="code_membre" placeholder="Code Membre" class="input-xxlarge" required />
+<span class="help-block"><p class="text-error">Veuillez saisir votre <strong>Code Membre Morale Offreur de Projets ou de Biens,Produits et Services</strong> </span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="nom_produit">Nom du Produit *</label>
+<div class="controls">
+<input type="text" name="nom_produit" id="nom_produit" placeholder="Nom du Produit" class="input-xxlarge" required />
+<span class="help-block"><p class="text-error">Veuillez saisir le nom réel de votre <strong>Produit </strong> que vous offrez. </p></span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Cat&eacute;gorie de Produit</label>
+<div class="controls">
+<input type="checkbox"  name="categorie1" id="special" value="1"/>
+   Sp&eacute;cial	&nbsp;&nbsp;			                        
+<input type="checkbox"  name="categorie2" id="ordinaire" value="1"/>
+   Ordinaire				 				 
+</div>
+</div>
+
+ 
+<legend> Localités </legend>
+     <div class="row-fluid">
+     <div class="span4">
+     <div class="control-group">
+          <label class="control-label span4">Zone M.</label>
+     <div class="controls span8">
+          <select class="input-block-level" id="code_zone" name="code_zone">
+                  <option value="">Choisir une zone monétaire</option>
+                  <?php foreach ($this->zones as $value) { ?>
+                        <option value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+                  <?php } ?>
+         </select>
+     </div>
+     </div>
+     </div>
+     <div class="span4">
+          <div class="control-group">
+          <label class="control-label span4">Pays</label>
+          <div class="controls span8">
+          <select class="input-block-level" id="id_pays" name="id_pays" onchange="ouvre_banquespays(this.value, 'nivo_banquespays');">
+          <option value="">Choisir un pays</option>
+          <?php foreach ($this->pays as $value) { ?>
+                <option value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+          <?php } ?>
+          </select>
+          </div>
+          </div>
+      </div>
+      </div>
+      <div class="row-fluid">
+      <div class="span4">
+      <div class="control-group">
+           <label class="control-label span4">Régions</label>
+           <div class="controls span8">
+           <select class="input-block-level" id="id_region" name="id_region">
+                   <option value="">Choisir une région</option>
+                   <?php foreach ($this->regions as $value) { ?>
+                         <option value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+                   <?php } ?>
+           </select>
+           </div>
+           </div>
+           </div>
+       <div class="span4">
+            <div class="control-group">
+            <label class="control-label span4">Préfectures</label>
+            <div class="controls span8">
+            <select class="input-block-level" id="id_prefecture" name="id_prefecture">
+            <option value="">Choisir une préfecture</option>
+                    <?php foreach ($this->prefectures as $value) { ?>
+                          <option value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+                    <?php } ?>
+           </select>
+           </div>
+           </div>
+           </div>
+           <div class="span4">
+        <div class="control-group">
+             <label class="control-label span4">Cantons *</label>
+             <div class="controls span8">
+             <select class="input-block-level" id="id_canton" name="id_canton" required="required">
+             <option value="">Choisir un canton</option>
+             <?php foreach ($this->cantons as $value) { ?>
+                   <option value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>                         
+             <?php } ?>
+             </select>
+        </div>
+        </div>
+        </div>
+        </div>
+
+</fieldset>
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer la demande</button>
+</div> 
+</form>
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

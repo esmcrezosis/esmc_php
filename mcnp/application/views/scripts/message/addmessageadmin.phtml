@@ -1,0 +1,120 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+    <script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/destinatairemessages.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/fichiermessages.js"></script>
+
+    <div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Envoyer un message</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addmessage">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = "";?>
+    </div>
+  <?php }?>
+  
+
+<div class="control-group">
+<label class="control-label" for="code_membre_expediteur">Code Membre Expediteur *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="code_membre_expediteur" id="code_membre_expediteur" placeholder="Code Membre Expediteur" required>
+</div>
+</div>
+
+
+<legend>Destinataire(s) du message </legend>
+
+<?php $b = 0;?>
+<div id="nivdestinataire<?php echo $b;?>">
+<div class="row-fluid">
+<div class="span8"><input class="input-xlarge" type="text" name="code_membre_destinataire[]" id="code_membre_destinataire<?php echo $b;?>" placeholder="Destinataire(s) du message" >
+</div>
+<div class="span4"><a class="btn btn-mini" onclick="document.getElementById('nivdestinataire<?php echo $b;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_destinatairemessages('<?php echo $b + 1;?>','nivdestinataire<?php echo $b + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+</div>
+</div>
+<div id="nivdestinataire<?php echo $b + 1;?>"></div>
+
+
+    
+<div class="control-group">
+<label class="control-label" for="titre_message">Titre Message *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="titre_message" id="titre_message" placeholder="Titre Message" required>
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="description_message">Description du message * </label>
+<div class="controls">
+<textarea name="description_message" id="description_message" placeholder="Description du message" class="ckeditor"></textarea>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="alerte">Alerte SMS  *  </label>
+<div class="controls">
+<label class="checkbox">
+<input name="alerte" type="checkbox" id="alerte" value="1" required /> Envoyer des alertes SMS
+</label>
+</div>
+</div>
+
+
+<legend>Fichiers du message </legend>
+<div class="row-fluid">
+<div class="span10">Fichier du message</div>
+<div class="span2">Actions</div>
+</div>
+
+<?php $b = 0;?>
+<div id="nivfichier<?php echo $b;?>">
+<div class="row-fluid">
+<div class="span8"><input name="fichier_message<?php echo $b;?>" type="file" id="fichier_message<?php echo $b;?>" class="input-xxlarge"  />  
+</div>
+<div class="span4"><a class="btn btn-mini" onclick="document.getElementById('nivfichier<?php echo $b;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_fichiermessages('<?php echo $b + 1;?>','nivfichier<?php echo $b + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+</div>
+</div>
+<div id="nivfichier<?php echo $b + 1;?>"><input name="fichier_message_count" type="hidden" id="fichier_message_count" value="<?php echo $b + 1;?>" /></div>
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Envoyer le message</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

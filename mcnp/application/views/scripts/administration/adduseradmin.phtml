@@ -1,0 +1,435 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr8.js"></script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+	   $('#groupe').change(function(e) {
+		   if($(this).val() == "detentrice_technopole") {
+			   $('#div_technopole').css('display','block');
+			   $('#div_filiere').css('display','none');
+			   $('#div_acnev').css('display','none');
+			   
+			   $('select#section_technopole').attr("disabled",false);
+			   $('select#section_filiere').attr("disabled",true);
+			   $('select#section_acnev').attr("disabled",true);
+			   
+	       } else if($(this).val() == "surveillance_filiere") {
+			   $('#div_filiere').css('display','block');
+			   $('#div_technopole').css('display','none');
+			   $('#div_acnev').css('display','none');
+			   
+			   $('select#section_technopole').attr("disabled",true);
+			   $('select#section_filiere').attr("disabled",false);
+			   $('select#section_acnev').attr("disabled",true);
+			   
+		   } else if($(this).val() == "executante_acnev") {
+			   $('#div_acnev').css('display','block');
+			   $('#div_filiere').css('display','none');
+			   $('#div_technopole').css('display','none');
+			   
+			   $('select#section_technopole').attr("disabled",true);
+			   $('select#section_filiere').attr("disabled",true);
+			   $('select#section_acnev').attr("disabled",false);
+			   
+		   } else if($(this).val() == "technopole") {
+			   $('#div_technopole').css('display','block');
+			   $('#div_filiere').css('display','none');
+			   $('#div_acnev').css('display','none');
+			   
+			   $('select#section_technopole').attr("disabled",false);
+			   $('select#section_filiere').attr("disabled",true);
+			   $('select#section_acnev').attr("disabled",true);
+			   
+	       } else if($(this).val() == "filiere") {
+			   $('#div_filiere').css('display','block');
+			   $('#div_technopole').css('display','none');
+			   $('#div_acnev').css('display','none');
+			   
+			   $('select#section_technopole').attr("disabled",true);
+			   $('select#section_filiere').attr("disabled",false);
+			   $('select#section_acnev').attr("disabled",true);
+			   
+		   } else if($(this).val() == "acnev") {
+			   $('#div_acnev').css('display','block');
+			   $('#div_filiere').css('display','none');
+			   $('#div_technopole').css('display','none');
+			   
+			   $('select#section_technopole').attr("disabled",true);
+			   $('select#section_filiere').attr("disabled",true);
+			   $('select#section_acnev').attr("disabled",false);
+		   }
+		   else {
+			   $('#div_acnev').css('display','none');
+			   $('#div_filiere').css('display','none');
+			   $('#div_technopole').css('display','none');
+			   $('select#section_technopole').attr("disabled",true);
+			   $('select#section_filiere').attr("disabled",true);
+			   $('select#section_acnev').attr("disabled",true);
+		   }
+	   });
+   });
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p> Ajout d'un utilisateur administratif </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="adduserte">
+      <div id="myModal" class="qrmodal overlayDiv"><div id="qrmodal-content" class="qrmodal-content"><span id="close-qrmodal">&times;</span><br/> <br/><p>Veuillez mettre le code QR du membre en façe de votre Caméra afin de l\'authentifier.</p><video class="cam_video" autoplay></video><br/></div></div>
+      <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $sessionutilisateur->error; ?>
+      </div>
+      <?php } ?>
+
+      <?php if(isset($this->error) && $this->error!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $this->error; ?>
+      </div>
+      <?php } ?>	  
+	   
+      <legend> Utilisateur Administratif </legend>  
+      
+	  <div class="control-group">
+      <label class="control-label" for="nom">Nom utilisateur *</label>
+      <div class="controls">
+      <input type="text" name="nom" id="nom" class="input-xxlarge" placeholder="Nom utilisateur" required>
+      </div>
+      </div>
+
+      <div class="control-group">
+      <label class="control-label" for="prenom">Pr&eacute;nom utilisateur *</label>
+      <div class="controls">
+      <input type="text" name="prenom" id="prenom" class="input-xxlarge"  placeholder="Prenom utilisateur" required />
+      </div>
+      </div>
+
+      <div class="control-group">
+      <label class="control-label" for="login">Login utilisateur *</label>
+      <div class="controls">
+      <input type="text" name="login" id="login" class="input-xxlarge" placeholder="Login utilisateur" required />
+      </div>
+      </div>
+
+      <div class="control-group">
+      <label class="control-label" for="pwd">Mot de passe *</label>
+      <div class="controls">
+      <input type="password" name="pwd" id="pwd" class="input-xxlarge" placeholder="Mot de passe" required />
+      </div>
+      </div>
+
+      <div class="control-group">
+      <label class="control-label" for="pwd">Confirmer Mot de passe *</label>
+      <div class="controls">
+      <input type="password" name="pwd1" id="pwd1" class="input-xxlarge" placeholder="Confirmer le mot de passe" required />
+      </div>
+      </div>
+
+	  
+	  <div class="control-group">
+      <label class="control-label" for="pwd">Code Membre utilisateur *</label>
+      <div class="input-group mb-3">
+      <input type="text" name="code_membre" id="code_membre_mandataire" class="form-control"  placeholder="Code Membre Utilisateur" required />
+	  <input type="hidden" name="representant" id="designation_mandataire" placeholder="Représentant" class="input-block-level" required />
+	  <div class="input-group-append">
+      <button class="btn btn-outline-secondary button_qr_code" type="button" id="button_qr_code_mandataire"> QR Code </button>
+      </div>
+      </div>
+      </div>
+	  
+	  <div class="control-group">
+      <label class="control-label" for="groupe"> Groupe * </label>
+      <div class="controls">
+      <select  id="groupe" name="groupe" class="input-xxlarge" required>
+      <option value="">Choisir un groupe</option>
+      <?php for($i = 0; $i < count($this->data); $i++) { ?>
+      <option
+          value="<?php echo $this->data[$i][0]; ?>"><?php echo $this->data[$i][1]; ?>
+	  </option>                         
+      <?php } ?>
+      </select>
+      </div>
+      </div>
+	  
+	  <div class="control-group">
+      <label class="control-label" for=""> Rôle * </label>
+	  <div class="controls">
+	       <select name="role" id="role" required="true" class="input-xxlarge" >
+             <option value=""> Choisir un rôle </option>
+			 <?php if($sessionutilisateur->role == "FOADDIP") { ?>
+             <option value="FOADDIP"> FOADDIP </option>
+			 <?php } elseif($sessionutilisateur->role == "ESMC") { ?>
+             <option value="ESMC"> ESMC </option>
+			 <?php } elseif($sessionutilisateur->role == "CMFH") { ?>
+             <option value="CMFH"> CMFH </option>
+			 <option value="REMEDD"> REMEDD </option>
+			 <option value="REE"> REE-PC </option>
+			 <?php } elseif($sessionutilisateur->role == "REMEDD") { ?>
+			 <option value="REMEDD"> REMEDD </option>
+			 <?php } elseif($sessionutilisateur->role == "REE") { ?>
+			 <option value="REE"> REE-PC </option>
+			 <?php } elseif($sessionutilisateur->role == "SOURCE") { ?>
+			 <option value="SOURCE"> SOURCE </option>
+			 <?php } else { ?>
+			 <option value="SOURCE"> SOURCE </option>
+			 <option value="ESMC">   ESMC </option>
+			 <option value="FOADDIP"> FOADDIP </option>
+			 <option value="CMFH"> CMFH </option>
+			 <option value="REMEDD"> REMEDD </option>
+			 <option value="REE"> REE-PC </option>
+			 <?php } ?>
+           </select>
+	  </div>
+      </div>
+	  
+	  <?php if($sessionutilisateur->role == "ESMC" ||  $sessionutilisateur->role == "CMFH" ||  $sessionutilisateur->role == "SOURCE") { ?>
+	  <div class="control-group">
+      <label class="control-label" for=""> Division * </label>
+	      <div class="controls">
+		  <select name="odd" id="odd" required="true" class="input-xxlarge" >
+		       <option value="">Choisir une division </option>
+			   <option value="div_1">  DIVISION1 </option>
+			   <option value="div_2">  DIVISION2 </option>
+			   <option value="div_3">  DIVISION3 </option>
+			   <option value="div_4">  DIVISION4 </option>
+			   <option value="div_5">  DIVISION5 </option>
+			   <option value="div_6">  DIVISION6 </option>
+			   <option value="div_7">  DIVISION7 </option>
+			   <option value="div_8">  DIVISION8 </option>
+			   <option value="div_9">  DIVISION9 </option>
+			   <option value="div_10"> DIVISION10 </option>
+			   <option value="div_11"> DIVISION11 </option>
+			   <option value="div_12"> DIVISION12 </option>
+			   <option value="div_13"> DIVISION13 </option>
+			   <option value="div_14"> DIVISION14 </option>
+			   <option value="div_15"> DIVISION15 </option>
+			   <option value="div_16"> DIVISION16 </option>
+			   <option value="div_17"> DIVISION17 </option>
+		  </select>
+	      </div>
+	  </div>
+	  <?php } else if($sessionutilisateur->role == "FOADDIP") { ?>
+	  <div class="control-group">
+      <label class="control-label" for=""> Commissariat * </label>
+	      <div class="controls">
+		  <select name="odd" id="odd" required="true" class="input-xxlarge" >
+		       <option value="">Choisir un commissariat </option>
+			   <option value="cat_1">  COMMISSARIAT1 </option>
+			   <option value="cat_2">  COMMISSARIAT2 </option>
+			   <option value="cat_3">  COMMISSARIAT3 </option>
+			   <option value="cat_4">  COMMISSARIAT4 </option>
+			   <option value="cat_5">  COMMISSARIAT5 </option>
+			   <option value="cat_6">  COMMISSARIAT6 </option>
+			   <option value="cat_7">  COMMISSARIAT7 </option>
+			   <option value="cat_8">  COMMISSARIAT8 </option>
+			   <option value="cat_9">  COMMISSARIAT9 </option>
+			   <option value="cat_10"> COMMISSARIAT10 </option>
+			   <option value="cat_11"> COMMISSARIAT11 </option>
+			   <option value="cat_12"> COMMISSARIAT12 </option>
+			   <option value="cat_13"> COMMISSARIAT13 </option>
+			   <option value="cat_14"> COMMISSARIAT14 </option>
+			   <option value="cat_15"> COMMISSARIAT15 </option>
+			   <option value="cat_16"> COMMISSARIAT16 </option>
+			   <option value="cat_17"> COMMISSARIAT17 </option>
+		    </select>
+	      </div>
+	  </div>
+	          
+	  
+	  <?php } else if($sessionutilisateur->role == "REMEDD" ||  $sessionutilisateur->role == "REE") { ?>
+	  <div class="control-group">
+      <label class="control-label" for=""> ODD * </label>
+	      <div class="controls">
+		  <select name="odd" id="odd" required="true" class="input-xxlarge" >
+		       <option value="">Choisir un odd </option>
+			   <option value="odd_1">  ODD1 </option>
+			   <option value="odd_2">  ODD2 </option>
+			   <option value="odd_3">  ODD3 </option>
+			   <option value="odd_4">  ODD4 </option>
+			   <option value="odd_5">  ODD5 </option>
+			   <option value="odd_6">  ODD6 </option>
+			   <option value="odd_7">  ODD7 </option>
+			   <option value="odd_8">  ODD8 </option>
+			   <option value="odd_9">  ODD9 </option>
+			   <option value="odd_10"> ODD10 </option>
+			   <option value="odd_11"> ODD11 </option>
+			   <option value="odd_12"> ODD12 </option>
+			   <option value="odd_13"> ODD13 </option>
+			   <option value="odd_14"> ODD14 </option>
+			   <option value="odd_15"> ODD15 </option>
+			   <option value="odd_16"> ODD16 </option>
+			   <option value="odd_17"> ODD17 </option>
+		  </select>
+	      </div>
+	  </div>
+	  <?php } ?>
+	  
+	  
+	<div class="control-group" style="display:none;" id="div_technopole">
+    <label class="control-label" for=""> Section </label>
+	<div class="controls">
+	    <select name="section" id="section_technopole" class="input-xxlarge" >
+            <option value="">Choisir une section </option>
+			<option value="ADMINISTRATIF">Principal</option>
+            <option value="ACHAT">Achat</option>
+            <option value="IMMOBILISATIONS">Immobilisation</option>
+            <option value="SECRETAIRE-ADMINISTRATIF">Secretaire Administratif</option>
+            <option value="AMENAGEMENT-CONSTRUCTION">Amenagement et constuction</option>
+            <option value="CONNECTIVITE">Connectivité</option>
+            <option value="DEVELOPPEMENT">Développement</option>
+            <option value="ENERGIE-ELECTRICITE">Energie électrique</option>
+            <option value="ENTRETIEN">Entretien</option>
+            <option value="RESEAU-SYSTEME">Réseau et système</option>
+            <option value="SECURITE">Sécurité</option>
+            <option value="SERVICES-GENERAUX">Services généraux</option>
+            <option value="SUPPORT">Support</option>		 
+			<option value="STOCK">Stock</option>
+			<option value="RH">Ressources Humaines</option>
+			<option value="JURIDIQUE">Juridique</option>
+        </select>
+	</div>
+    </div>
+	  
+	  
+	<div class="control-group" style="display:none;" id="div_acnev">
+    <label class="control-label" for=""> Section </label>
+	<div class="controls">
+	    <select name="section" id="section_acnev" class="input-xxlarge" >
+            <option value="">Choisir une section </option>
+			<option value="ADMINISTRATIF">Principal</option>
+            <option value="SOUSCRIPTION">Souscription</option>
+            <option value="EXPRESSION">Expression</option>
+            <option value="REGLEMENT">Règlement</option>
+            <option value="RAPPROCHEMENT">Rapprochement</option>
+            <option value="REGLEMENT">Règlement</option>
+            <option value="MULTIMEDIA">Multimedia</option>
+            <option value="RESEAUX-SOCIAUX">Réseaux sociaux</option>
+            <option value="DIGITAL">Digital</option>
+			<option value="TDB">Tableau de Bord</option> 
+			<option value="COMPENSATION">Compensation</option>
+			<option value="ANNULATION">Annulation</option>
+			<option value="ARCHIVAGE">Archivage</option>
+	        <option value="DESTRUCTION">Destruction</option>
+        </select>
+	</div>
+    </div>
+	  
+	<div class="control-group" style="display:none;" id="div_filiere">
+    <label class="control-label" for=""> Section </label>
+	<div class="controls">
+	    <select name="section" id="section_filiere" class="input-xxlarge" >
+		       <option value="">Choisir une section </option>
+			   <option value="ADMINISTRATIF">Principal</option>
+               <option value="BUDGET">Budget</option>
+		       <option value="MOBILISATION">Mobilisation</option>
+		       <option value="TRESORERIE">Trésorerie</option>
+			   <option value="AUDIT-CONTROLE">Audit et Contrôle général</option>	   
+		       <option value="COMPTABILITE">Comptabilité</option>
+		       <option value="FINANCIER">Financier</option>
+        </select>
+	</div>
+    </div>
+	  
+
+    <div class="control-group">
+      <label class="control-label">Zone Mon&eacute;taire *</label>
+      <div class="controls">
+      <select  id="code_zone" name="code_zone" class="input-xxlarge" required>
+      <option value="">Choisir une zone mon&eacute;taire</option>
+      <?php foreach ($this->zones as $value) { ?>
+      <option
+          value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+      <?php } ?>
+      </select>
+      </div>
+      </div>
+
+      <div class="control-group">
+      <label class="control-label">Pays *</label>
+      <div class="controls">
+      <select  id="id_pays" name="id_pays" class="input-xxlarge" required>
+      <option value="">Choisir un pays</option>
+      <?php foreach ($this->pays as $value) { ?>
+      <option
+          value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+      <?php } ?>
+      </select>
+      </div>
+      </div>
+
+      <div class="control-group">
+      <label class="control-label">R&eacute;gions *</label>
+      <div class="controls">
+      <select  id="id_region" name="id_region" class="input-xxlarge" required>
+      <option value="">Choisir une r&eacute;gion</option>
+      <?php foreach ($this->regions as $value) { ?>
+      <option
+          value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+      <?php } ?>
+      </select>
+      </div>
+      </div>
+
+      <div class="control-group">
+      <label class="control-label">Pr&eacute;fectures *</label>
+      <div class="controls">
+      <select  id="id_prefecture" name="id_prefecture" class="input-xxlarge" required>
+      <option value="">Choisir une pr&eacute;fecture</option>
+      <?php foreach ($this->prefectures as $value) { ?>
+      <option
+          value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+      <?php } ?>
+      </select>
+      </div>
+      </div>
+
+      <div class="control-group">
+      <label class="control-label">Cantons *</label>
+      <div class="controls">
+      <select  id="id_canton" name="id_canton" class="input-xxlarge" required>
+      <option value="">Choisir un canton</option>
+      <?php foreach ($this->cantons as $value) { ?>
+      <option
+          value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>                         
+      <?php } ?>
+      </select>
+      </div>
+      </div>
+	  
+      <div class="form-actions">  
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <button type="reset" class="btn">Annuler</button>
+      <button type="submit" class="btn btn-primary">Enrégistrer</button>
+      </div>
+  
+</form>
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+<style>
+.button_qr_code
+{
+    background: #aa325f;
+}
+</style>
+<script type="text/javascript">
+    outilqr_champ_personnalise("button_qr_code_mandataire", "code_membre_mandataire", "designation_mandataire");
+</script>
+
+
+
+
+
+

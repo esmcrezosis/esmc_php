@@ -1,0 +1,92 @@
+<?php $sessionbanqueopi = new Zend_Session_Namespace('banqueopi');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menubanqueopi.phtml"); ?>
+
+  <blockquote><p>Liste des pourcentages de commission</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Banque</th>
+								  <th>Type bénéficiaire</th>
+								  <th>Pourcentage</th>
+								  <th>Principal</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php 
+$banqueM = new Application_Model_EuBanqueMapper();
+$banque = new Application_Model_EuBanque();
+$banqueM->find($entry->code_banque, $banque);
+?><?php echo ($entry->code_banque); ?> - <?php echo ($banque->libelle_banque); ?></td>
+      <td><?php if($entry->id_type_acteur > 0){
+$ttype_acteur = new Application_Model_DbTable_EuTypeActeur();
+	      $select = $ttype_acteur->select();
+	      $select->where('id_type_acteur = ?', $entry->id_type_acteur);
+              $results = $ttype_acteur->fetchAll($select);
+              $rows = $results[0];
+              echo ($rows->lib_type_acteur);} ?></td>
+      <td><?php echo ($entry->pcommission); ?></td>
+		    <td><div align="center">
+		    <?php if($entry->status == 1) { ?>
+		    <a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/banqueopi/statuspcommission/id/<?php echo $entry->id_pcommission; ?>/status/0"> <i class="icon-ok icon-white">  </i> Principal </a>&nbsp;
+                    <?php } else { ?>
+		    <a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/banqueopi/statuspcommission/id/<?php echo $entry->id_pcommission; ?>/status/1"> <i class="icon-off icon-white"> </i> Rendre principal </a>&nbsp;
+                    <?php } ?>
+		    </div></td>
+      <td><div align="center"><a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/banqueopi/editpcommission/id/<?php echo $entry->id_pcommission; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+
+			<?php /*?><a class="btn btn-mini btn-danger" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/banqueopi/supppcommission/id/<?php echo $entry->id_pcommission; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a><?php */?></div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun pcommission enrégistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

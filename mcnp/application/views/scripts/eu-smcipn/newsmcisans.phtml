@@ -1,0 +1,141 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Demande de la SMCI sans proforma</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form action="/eu-smcipn/newsmcisans" name="fm_smcipn" method="POST" id="fm_smcipn">
+            <div>
+                <fieldset>
+                    <legend>Informations sur la demande</legend>
+                    <table>
+                        <input name="code_demand" id="code_demand" class="" value="<?php echo $this->code_demand ?>" hidden="true"/>
+                        <tr>     
+                            <td>Libellé *</td><td><input name="lib_demand" id="lib_demand" class="validate[required]" value="<?php echo $this->lib_demand ?>" size="35"/></td>
+                            <td>Nom GAC centrale *</td>
+                            <td colspan="3"><select name="num_gac" id="num_gac" class="validate[required]" value="<?php echo $this->num_gac ?>"></select></td>
+                        </tr>
+                        <tr>                         
+                            <td>Code membre bénéficiaire *</td>
+                            <td>
+                                <input name="code_benef" id="code_benef" class="validate[required]" value="<?php echo $this->code_benef ?>" size="25"/>
+                            </td>   
+                            <td>Raison sociale</td>
+                            <td colspan="3">
+                                <input name="nom_benef" id="nom_benef" class="validate[required]" value="<?php echo $this->nom_benef ?>" size="35" readonly="readonly"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Investissement *</td><td><input size="20" name="mt_investis" id="mt_investis" class="validate[required]" value="<?php echo $this->mt_investis ?>"/></td>
+                            <td>Date début *</td><td><input name="date_deb" id="date_deb" class="validate[required]" value="<?php echo $this->date_deb ?>" size="12"/></td>
+                            <td>Date fin *</td><td><input name="date_fin" id="date_fin" class="validate[required]" value="<?php echo $this->date_fin ?>" size="12"></td>
+                        </tr>
+                        <tr>
+                            <td>Description</td>
+                            <td colspan='5'><textarea name="desc_demand"><?php echo $this->desc_demand ?></textarea></td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </div>
+            <div>
+                <input type="submit" value="Valider" name="valider" id="valider"   />
+                <input type="reset" value="Rafraichir" name="refresh" id="refresh"   />
+                <input id="t_annuler" type="button" value="Annuler" />
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            $('#refresh').button();
+            $('#valider').button();
+            $('#t_annuler').button();
+            
+            jQuery(document).ready(function(){
+                // binds form submission and fields to the validation engine
+                jQuery("#fm_smcipn").validationEngine();
+            });
+            
+            $(function(){
+                var pickerOpts = {
+                    dateFormat: "dd/mm/yy",
+                    changeMonth:true,
+                    changeYear:true,
+                    showOtherMonths: true
+                };
+                $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+                $("#date_deb").datepicker(pickerOpts);
+                $("#date_fin").datepicker(pickerOpts);
+            });
+            
+            $.get(
+            '/eu-smcipn/numgac',
+            function success(data)
+            {
+                var options = '<option value=""></option>';
+                for( var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+                }
+                $('select#num_gac').html(options);
+            });
+            
+            $('#cat_objet').change(function()
+            {
+                $.get(
+                "/eu-smcipn/numbesoin?cat_objet="+$('#cat_objet').val(),
+                function success(data)
+                {
+                    var options = '<option value=""></option>';
+                    for( var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+                    }
+                    $('select#id_besoin').html(options);
+                });
+            });
+            
+            $('#id_besoin').change(function()
+            {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-smcipn/recupinves',
+                    {
+                        id_investis: $(this).val(),cat_objet: $('#cat_objet').val()
+                    },
+                    function success(data)
+                    {
+                        $('#mt_investis').val(data[0]);
+                    });
+                }
+            });
+            
+            $.get( "/eu-smcipn/changemoral",
+            function success(data)
+            {
+                $("#code_benef").autocomplete({"source":data});
+            });
+            
+            $('#code_benef').blur(function(e)
+            {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-smcipn/recupnom',
+                    {
+                        num_membre: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        $("#nom_benef").val(data);
+                    });
+                }
+                e.preventDefault();
+            });
+            
+            $('#t_annuler').click(function()
+            {
+                window.location="/eu-smcipn/";
+            });  
+            
+        });
+    </script>
+</div>

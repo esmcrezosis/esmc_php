@@ -1,0 +1,314 @@
+<div id="view-content" style="font-size: 12px;min-height: 520px;" title="Vente de licences">
+    <form id="licence_form" method="Post" action="/eu-carte/donewl">
+        <table style="margin-left:auto;margin-right: auto;margin-top: 10px;" id="tab_fl">
+            <tbody>
+                <tr>
+                    <td colspan="2">
+                        <fieldset>
+                            <table>
+                                <tbody>
+                                    <tr><td>Code Membre    : </td> <td><input id="code_membre" type="text" name="code_membre" value="" required="true" style="width: 170px;"/></td></tr>
+                                    <tr><td>Raison sociale : </td><td><input id="raison_membre_fl" type="text" name="raison_membre_fl" value="" style="width: 200px;" readonly="readonly"/></td></tr>
+                                    <tr><td>Nom et Prénoms : </td><td><input id="nom_membre_fl" type="text" name="nom_membre_fl" value="" style="width: 200px;" readonly="readonly"/></td></tr>
+                                    <tr>
+                                        <td><label>Mode de paiement :</label></td>
+                                        <td>
+                                            <select id="sel_mode_fin">
+                                                <option value="SMS">Code SMS</option>
+                                                <option value="NN">Numériques Noirs</option>
+                                                <option value="CAPS">CAPS</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </td> 
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div id="nn_table" style="display: none;">
+                            <fieldset>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>N° Membre Apporteur *:</td><td><input id="code_memb_app" type="text" name="code_memb_app" value="" size="30" class="validate[required]"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Type NN * </label></td>
+                                            <td>
+                                                <select id="select_compte" name="select_compte">
+                                                    <option></option>
+                                                    <option value="TPAGCP">GCP</option>
+                                                    <option value="TPAGCI">Investissement</option>
+                                                    <option  value="TPAGCRPG">RPG</option>
+                                                    <option value="TCNCS">Salaire</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <label style="color: red;">Solde NN </label>
+                                                <input id="solde_nn" name="solde_nn" value="" readonly="true"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div id="sms_table">
+                            <fieldset>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Code SMS      *:</td><td><input id="code_sms" type="text" name="code_sms" class="validate[required]"  value="" style="width: 160px;"/></td>
+                                            <td><div id="id_message" style="width: 150px; color:red;"></div></td> 
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div id="caps_table" style="display: none;">
+                            <fieldset>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Code membre Apporteur *:</td><td><input id="code_memb_caps" type="text" name="code_memb_caps" class="validate[required]" value="" size="30"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <fieldset>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Prix     :</td>    
+                                        <td><input id="prix" type="text" name="prix" value="" readonly="true" style="width: 120px; text-align:right;" class="validate[required,custom[onlyNumberSp]]"/>
+                                            <select class="validate[required]" type="text" id="dev_capa" name="dev_capa" value=""></select>
+                                        </td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>	
+<script>
+
+    var compteur = 1;
+    $(document).ready(function()
+    {
+        $('#val').button();
+        $('#reset').button();
+        $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+            $("#licence_form").validationEngine();
+        });
+        $.get("/eu-carte/membre",
+                function success(data)
+                {
+                    $("#code_membre").autocomplete({minLength: 5, "source": data});
+                    $("#code_memb_app").autocomplete({minLength: 5, "source": data});
+                    $("#code_memb_caps").autocomplete({minLength: 5, "source": data});
+                });
+
+        $('form#licence_form').submit(function(event) {
+            event.preventDefault();
+            $.post('/eu-carte/donewl',
+                    {
+                        mode_fin: $('#sel_mode_fin').val(),
+                        code_membre: $('#code_membre').val(),
+                        code_membre_app: $('#code_memb_app').val(),
+                        code_membre_caps: $('#code_memb_caps').val(),
+                        prix: $('#prix').val(),
+                        code_sms: $('#code_sms').val(),
+                        code_dev: $('#dev_capa').val(),
+                        compte_nn: $('#select_compte').val()
+                    }
+            , function success(data) {
+                if (data === true) {
+                    alert('Opération effectuée avec succes');
+                    $(location).attr("href", "/eu-carte/index");
+                } else {
+                    alert(data);
+                }
+            });
+        });
+
+        $('#code_sms').blur(function(e)
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-carte/codesms',
+                        {
+                            code: $(this).val()
+                        },
+                function success(data)
+                {
+                    if (data !== 0) {
+                        $('#prix').val(data);
+                    } else {
+                        $("#id_message").html("<label>Ce code est invalide</label>");
+                    }
+
+                });
+            }
+            e.preventDefault();
+        });
+
+        $('#code_membre').blur(function(e)
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-carte/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    if (data !== '') {
+                        $("#nom_membre_fl").val(data[1]);
+                        $("#raison_membre_fl").val(data[2]);
+                    } else {
+                        alert('Ce membre n\existe pas!!!');
+                    }
+                });
+            }
+            e.preventDefault();
+        });
+
+
+        $('#code_memb_app').blur(function(e)
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-carte/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    if (data !== '') {
+                        if (data[0] === 'P') {
+                            $('select#select_compte option[value=TPAGCP]').attr('disabled', true);
+                            $('select#select_compte option[value=TPAGCI]').attr('disabled', true);
+                            $('select#select_compte option[value=TPAGCRPG]').attr('disabled', false);
+                            $('select#select_compte option[value=TCNCS]').attr('disabled', false);
+                        } else {
+                            $('select#select_compte option[value=TPAGCP]').attr('disabled', false);
+                            $('select#select_compte option[value=TPAGCI]').attr('disabled', false);
+                            $('select#select_compte option[value=TPAGCRPG]').attr('disabled', true);
+                            $('select#select_compte option[value=TCNCS]').attr('disabled', true);
+                        }
+                    } else {
+                        alert('Ce membre n\existe pas!!!');
+                    }
+                });
+            }
+            e.preventDefault();
+        });
+
+        $('#select_compte').change(function(e) {
+            e.preventDefault();
+            if ($(this).val() !== '' && $('#code_membre').val() !== '')
+            {
+                $.get(
+                        '/eu-carte/soldenn',
+                        {
+                            compte: $(this).val(), membre: $('#code_memb_app').val()
+                        },
+                function success(data)
+                {
+                    if (data !== null) {
+                        $('#solde_nn').val(data);
+                    } else {
+                        $('#solde_nn').val(0);
+                    }
+
+                });
+            } else {
+                alert("Le code membre doit être renseigné!!!");
+            }
+        });
+
+        $.get(
+                '/eu-carte/devise',
+                function success(data)
+                {
+                    var options = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i] === 'XOF') {
+                            options += '<option value="' + data[i] + '" selected>' + data[i] + ' </option>';
+                        } else {
+                            options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                        }
+
+                    }
+                    $('select#dev_capa').html(options);
+                });
+
+        $("#sel_mode_fin").change(function(e) {
+            e.preventDefault();
+            if ($(this).val() === 'NN') {
+                $('#sms_table').css('display', 'none');
+                $('#caps_table').css('display', 'none');
+                $('#nn_table').css('display', 'block');
+                $.get(
+                        '/eu-carte/fl',
+                        function success(data)
+                        {
+                            if (data !== null) {
+                                $('#prix').val(data);
+                            } else {
+                                $('#prix').val(0);
+                            }
+
+                        });
+            } else if ($(this).val() === 'SMS') {
+                $('#nn_table').css('display', 'none');
+                $('#caps_table').css('display', 'none');
+                $('#prix').val(0);
+                $('#sms_table').css('display', 'block');
+            } else {
+                $('#nn_table').css('display', 'none');
+                $('#sms_table').css('display', 'none');
+                $('#caps_table').css('display', 'block');
+                $.get(
+                        '/eu-carte/fl',
+                        function success(data)
+                        {
+                            if (data !== null) {
+                                $('#prix').val(data);
+                            } else {
+                                $('#prix').val(0);
+                            }
+
+                        });
+            }
+        });
+    });
+
+
+</script>

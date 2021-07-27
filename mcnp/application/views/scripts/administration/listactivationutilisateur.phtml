@@ -1,0 +1,421 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+    <script type="text/javascript" charset="utf-8">
+      /*$(document).ready(function() {
+        $('#example').dataTable();
+      } );*/
+      $(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+    "aaSorting": []
+    } );
+    $('#example2').dataTable( {
+        "sPaginationType": "full_numbers",
+    "aaSorting": []
+    } );
+    $('#example3').dataTable( {
+        "sPaginationType": "full_numbers",
+    "aaSorting": []
+    } );
+} );
+    </script>
+        
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des commissions par utilisateurs : de <?php echo $this->debut; ?> à <?php echo $this->fin; ?></p></blockquote>
+  
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+    </div>
+  <?php }?>
+  
+
+
+<?php //echo ($this->debut); ?>
+<?php //echo ($this->fin); ?>
+<?php if(count($this->entries_partagem)>0){?> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+              <thead>
+                <tr>
+                  <th>Intégrateurs</th>
+                  <th>Utilisateurs</th>
+                  <th>Date</th>
+                  <th>Code Membre</th>
+                  <th>Membre</th>
+                  <th>Commission</th>
+                  <th>Payé</th>
+                  <th>Solde</th>
+                  <th>Observations</th>
+                </tr>
+              </thead>  
+                    <tbody>
+<?php 
+$partagem_montant_partagem = 0;
+$partagem_montant_utilise_partagem = 0;
+$partagem_montant_solde_partagem = 0;
+?>
+<?php foreach ($this->entries_partagem as $entry): ?>
+
+<?php 
+if($entry->partagem_activation > 0){
+        $activation = new Application_Model_EuActivation();
+        $activationM = new Application_Model_EuActivationMapper();
+        $activationM->find($entry->partagem_activation, $activation);
+$code_membre = $activation->code_membre;
+}
+if($entry->partagem_code_activation > 0){
+        $code_activation = new Application_Model_EuCodeActivation();
+        $code_activationM = new Application_Model_EuCodeActivationMapper();
+        $code_activationM->find($entry->partagem_code_activation, $code_activation);
+$code_membre = $code_activation->code_membre;
+}
+?>
+    <tr>
+      <td><?php 
+        $membreasso = new Application_Model_EuMembreasso();
+        $membreassoM = new Application_Model_EuMembreassoMapper();
+        $membreassoM->find($entry->partagem_membreasso, $membreasso);
+    
+        $association = new Application_Model_EuAssociation();
+        $associationM = new Application_Model_EuAssociationMapper();
+        $associationM->find($membreasso->membreasso_association, $association);
+    
+    echo $association->association_nom; ?></td>
+      <td><?php echo $membreasso->membreasso_nom." ".$membreasso->membreasso_prenom;?></td>
+      <td><?php echo $entry->partagem_date;?></td>
+      <td><?php echo $code_membre;?></td>
+      <td><?php if (substr($code_membre, -1) == "P") {
+      $membreM = new Application_Model_EuMembreMapper();
+      $membre = new Application_Model_EuMembre();
+      $membreM->find($code_membre, $membre);?>
+      <?php echo htmlentities($membre->nom_membre); ?> <?php echo htmlentities($membre->prenom_membre); ?>
+      <?php } else if (substr($code_membre, -1) == "M") {
+      $membremoraleM = new Application_Model_EuMembreMoraleMapper();
+      $membremorale = new Application_Model_EuMembreMorale();
+      $membremoraleM->find($code_membre, $membremorale);?>
+      <?php echo htmlentities($membremorale->raison_sociale);?>
+      <?php } ?></td>
+<?php if($code_membre != ""){
+        $membre_doublon2 = new Application_Model_EuMembreDoublonMapper();
+        $entries2 = $membre_doublon2->fetchAllByMembre2($code_membre);
+      }
+if(count($entries2) > 0){
+  ?>
+      <td><?php echo $partagem_montant = 0; ?></td>
+      <td><?php echo $partagem_montant_utilise = 0; ?></td>
+      <td><?php echo $partagem_montant_solde = 0; ?></td>
+      <td>Doublon</td>      
+<?php }else{ ?>
+      <td><?php echo $partagem_montant = $entry->partagem_montant; ?></td>
+      <td><?php echo $partagem_montant_utilise = $entry->partagem_montant_utilise; ?></td>
+      <td><?php echo $partagem_montant_solde = $entry->partagem_montant_solde; ?></td>
+      <td></td>      
+<?php }  ?>
+    </tr>
+<?php 
+$partagem_montant_partagem += $partagem_montant;
+$partagem_montant_utilise_partagem += $partagem_montant_utilise;
+$partagem_montant_solde_partagem += $partagem_montant_solde;
+?>
+<?php endforeach; ?>
+
+</tbody>
+<tfoot>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>TOTAUX</td>
+      <td><?php echo ($partagem_montant_partagem); ?></td>
+      <td><?php echo ($partagem_montant_utilise_partagem); ?></td>
+      <td><?php echo ($partagem_montant_solde_partagem); ?></td>
+      <td><div align="center"></div></td>      
+    </tr>
+</tfoot>
+            </table>
+<?php }else{?>
+<!--<div class="alert alert-info">
+  Aucune commission enregistrée 
+</div>-->
+<?php }?>
+
+
+<br />
+<br />
+<br />
+
+
+
+<?php if(count($this->entries_activation)>0){?> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="example2" style="font-size:12px;">
+              <thead>
+                <tr>
+                  <th>Intégrateurs</th>
+                  <th>Utilisateurs</th>
+                  <th>Date</th>
+                  <th>Code Membre</th>
+                  <th>Membre</th>
+                  <th>Commission</th>
+                  <th>Payé</th>
+                  <th>Solde</th>
+                  <th>Observations</th>
+                </tr>
+              </thead>  
+                    <tbody>
+<?php 
+$activation_montant_activation = 0;
+$activation_montant_utilise_activation = 0;
+$activation_montant_solde_activation = 0;
+?>
+
+<?php foreach ($this->entries_activation as $entry): ?>
+
+<?php 
+if($entry->id_activation > 0){
+        $activation = new Application_Model_EuActivation();
+        $activationM = new Application_Model_EuActivationMapper();
+        $activationM->find($entry->id_activation, $activation);
+$code_membre = $activation->code_membre;
+}
+/*if($entry->id_code_activation > 0){
+        $code_activation = new Application_Model_EuCodeActivation();
+        $code_activationM = new Application_Model_EuCodeActivationMapper();
+        $code_activationM->find($entry->id_code_activation, $code_activation);
+$code_membre = $code_activation->code_membre;
+}*/
+?>
+    <tr>
+      <td><?php 
+        $membreasso = new Application_Model_EuMembreasso();
+        $membreassoM = new Application_Model_EuMembreassoMapper();
+        $membreassoM->find($entry->membreasso_id, $membreasso);
+    
+        $association = new Application_Model_EuAssociation();
+        $associationM = new Application_Model_EuAssociationMapper();
+        $associationM->find($membreasso->membreasso_association, $association);
+    
+    echo $association->association_nom; ?></td>
+      <td><?php echo $membreasso->membreasso_nom." ".$membreasso->membreasso_prenom;?></td>
+      <td><?php echo $entry->date_activation;?></td>
+      <td><?php echo $code_membre;?></td>
+      <td><?php if (substr($code_membre, -1) == "P") {
+      $membreM = new Application_Model_EuMembreMapper();
+      $membre = new Application_Model_EuMembre();
+      $membreM->find($code_membre, $membre);?>
+      <?php echo htmlentities($membre->nom_membre); ?> <?php echo htmlentities($membre->prenom_membre); ?>
+      <?php } else if (substr($code_membre, -1) == "M") {
+      $membremoraleM = new Application_Model_EuMembreMoraleMapper();
+      $membremorale = new Application_Model_EuMembreMorale();
+      $membremoraleM->find($code_membre, $membremorale);?>
+      <?php echo htmlentities($membremorale->raison_sociale);?>
+      <?php } ?></td>
+<?php if($code_membre != ""){
+        $membre_doublon2 = new Application_Model_EuMembreDoublonMapper();
+        $entries2 = $membre_doublon2->fetchAllByMembre2($code_membre);
+      }
+if(count($entries2) > 0){
+  ?>
+      <td><?php echo $activation_montant = 0; ?></td>
+      <td><?php echo $activation_montant_utilise = 0; ?></td>
+      <td><?php echo $activation_montant_solde = 0; ?></td>
+      <td>Doublon</td>      
+<?php }else{ ?>
+<?php 
+if($association->guichet == 1){
+$activation_montant = floor(480 * 25 / 100);
+}else{
+$activation_montant = floor(109 * 25 / 100); 
+}
+?>
+      <td><?php echo $activation_montant = $activation_montant; ?></td>
+      <td><?php echo $activation_montant_utilise = 0; ?></td>
+      <td><?php echo $activation_montant_solde = $activation_montant; ?></td>
+      <td></td>      
+<?php }  ?>
+    </tr>
+<?php 
+$activation_montant_activation += $activation_montant;
+$activation_montant_utilise_activation += 0;
+$activation_montant_solde_activation += $activation_montant;
+?>
+<?php endforeach; ?>
+
+</tbody>
+<tfoot>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>TOTAUX</td>
+      <td><?php echo ($activation_montant_activation); ?></td>
+      <td><?php echo ($activation_montant_utilise_activation); ?></td>
+      <td><?php echo ($activation_montant_solde_activation); ?></td>
+      <td><div align="center"></div></td>      
+    </tr>
+</tfoot>
+            </table>
+<?php }else{?>
+<!--<div class="alert alert-info">
+  Aucune commission enregistrée 
+</div>-->
+<?php }?>
+
+
+<br />
+<br />
+<br />
+
+
+
+<?php if(count($this->entries_code_activation)>0){?> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="example3" style="font-size:12px;">
+              <thead>
+                <tr>
+                  <th>Intégrateurs</th>
+                  <th>Utilisateurs</th>
+                  <th>Date</th>
+                  <th>Code Membre</th>
+                  <th>Membre</th>
+                  <th>Commission</th>
+                  <th>Payé</th>
+                  <th>Solde</th>
+                  <th>Observations</th>
+                </tr>
+              </thead>  
+                    <tbody>
+<?php 
+$code_activation_montant_code_activation = 0;
+$code_activation_montant_utilise_code_activation = 0;
+$code_activation_montant_solde_code_activation = 0;
+?>
+<?php foreach ($this->entries_code_activation as $entry): ?>
+
+<?php 
+/*if($entry->id_activation > 0){
+        $activation = new Application_Model_EuActivation();
+        $activationM = new Application_Model_EuActivationMapper();
+        $activationM->find($entry->id_activation, $activation);
+$code_membre = $activation->code_membre;
+}*/
+if($entry->id_code_activation > 0){
+        $code_activation = new Application_Model_EuCodeActivation();
+        $code_activationM = new Application_Model_EuCodeActivationMapper();
+        $code_activationM->find($entry->id_code_activation, $code_activation);
+$code_membre = $code_activation->code_membre;
+}
+?>
+    <tr>
+      <td><?php 
+        $membreasso = new Application_Model_EuMembreasso();
+        $membreassoM = new Application_Model_EuMembreassoMapper();
+        $membreassoM->find($entry->membreasso_id, $membreasso);
+    
+        $association = new Application_Model_EuAssociation();
+        $associationM = new Application_Model_EuAssociationMapper();
+        $associationM->find($membreasso->membreasso_association, $association);
+    
+    echo $association->association_nom; ?></td>
+      <td><?php echo $membreasso->membreasso_nom." ".$membreasso->membreasso_prenom;?></td>
+      <td><?php echo $entry->date_generer;?></td>
+      <td><?php echo $code_membre;?></td>
+      <td><?php if (substr($code_membre, -1) == "P") {
+      $membreM = new Application_Model_EuMembreMapper();
+      $membre = new Application_Model_EuMembre();
+      $membreM->find($code_membre, $membre);?>
+      <?php echo htmlentities($membre->nom_membre); ?> <?php echo htmlentities($membre->prenom_membre); ?>
+      <?php } else if (substr($code_membre, -1) == "M") {
+      $membremoraleM = new Application_Model_EuMembreMoraleMapper();
+      $membremorale = new Application_Model_EuMembreMorale();
+      $membremoraleM->find($code_membre, $membremorale);?>
+      <?php echo htmlentities($membremorale->raison_sociale);?>
+      <?php } ?></td>
+<?php if($code_membre != ""){
+        $membre_doublon2 = new Application_Model_EuMembreDoublonMapper();
+        $entries2 = $membre_doublon2->fetchAllByMembre2($code_membre);
+      }
+if(count($entries2) > 0){
+  ?>
+      <td><?php echo $code_activation_montant = 0; ?></td>
+      <td><?php echo $code_activation_montant_utilise = 0; ?></td>
+      <td><?php echo $code_activation_montant_solde = 0; ?></td>
+      <td>Doublon</td>      
+<?php }else{ ?>
+<?php 
+if($association->guichet == 1){
+$code_activation_montant = floor(480 * 25 / 100);
+}else{
+$code_activation_montant = floor(109 * 25 / 100); 
+}
+?>
+      <td><?php echo $code_activation_montant = $code_activation_montant; ?></td>
+      <td><?php echo $code_activation_montant_utilise = 0; ?></td>
+      <td><?php echo $code_activation_montant_solde = $code_activation_montant; ?></td>
+      <td></td>      
+<?php }  ?>
+    </tr>
+<?php 
+$code_activation_montant_code_activation += $code_activation_montant;
+$code_activation_montant_utilise_code_activation += 0;
+$code_activation_montant_solde_code_activation += $code_activation_montant;
+?>
+<?php endforeach; ?>
+
+</tbody>
+<tfoot>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>TOTAUX</td>
+      <td><?php echo ($code_activation_montant_code_activation); ?></td>
+      <td><?php echo ($code_activation_montant_utilise_code_activation); ?></td>
+      <td><?php echo ($code_activation_montant_solde_code_activation); ?></td>
+      <td><div align="center"></div></td>      
+    </tr>
+</tfoot>
+            </table>
+<?php }else{?>
+<!--<div class="alert alert-info">
+  Aucune commission enregistrée 
+</div>-->
+<?php }?>
+
+
+<br />
+<br />
+<br />
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

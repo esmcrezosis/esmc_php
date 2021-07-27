@@ -1,0 +1,120 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?> 
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/centremembres.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification du centre</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addcentre">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+        
+
+<div class="control-group">
+<label class="control-label" for="centre_libelle">Libellé du centre *</label>
+<div class="controls">
+<input type="text" name="centre_libelle" id="centre_libelle" placeholder="Libellé du centre" class="input-xlarge" value="<?php echo $this->centre->centre_libelle; ?>" required />
+</div>
+</div>
+   
+    
+<div class="control-group">
+  <label class="control-label" for="id_pays">Pays du centre *</label>
+  <div class="controls">
+  <select name="id_pays" id="id_pays" required>
+       <?php  $pays = new Application_Model_EuPaysMapper();
+		$selectpays = $pays->fetchAll();?>
+               <option value="">Choisir le pays</option>
+    <?php foreach ($selectpays as $selectpays): ?>
+               <option value="<?php echo $selectpays->id_pays; ?>" <?php if($selectpays->id_pays == $this->centre->id_pays){echo ' selected="selected"';}?>><?php echo htmlentities($selectpays->libelle_pays); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+    
+    
+<div class="control-group">
+<label class="control-label" for="centre_ville">Ville du centre *</label>
+<div class="controls">
+<input type="text" name="centre_ville" id="centre_ville" placeholder="Ville du centre" class="input-xlarge" value="<?php echo $this->centre->centre_ville; ?>" required />
+</div>
+</div>
+    
+  
+<div class="control-group">
+<label class="control-label" for="centre_quartier">Quartier du centre *</label>
+<div class="controls">
+<input type="text" name="centre_quartier" id="centre_quartier" placeholder="Quartier du centre" class="input-xlarge" value="<?php echo $this->centre->centre_quartier; ?>" required />
+</div>
+</div>
+    
+
+
+
+<label>Membres du centre </label>
+<?php $b = 1;?>
+<?php 
+$centremembreM = new Application_Model_EuCentreMembreMapper();
+$centremembre = $centremembreM->fetchAll2($this->centre->centre_id);
+foreach ($centremembre as $membre):?>
+<div id="nivmembre<?php echo $b;?>">
+<input class="input-large" type="text" name="code_membre[]" id="code_membre<?php echo $b;?>" placeholder="Code Membre du centre" value="<?php echo $membre->code_membre; ?>" required>
+<a class="btn btn-mini" onclick="document.getElementById('nivmembre<?php echo $b;?>').style.display='none';"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_centremembres('<?php echo $b + 1;?>','nivmembre<?php echo $b + 1;?>');"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+<?php $b++;?>
+<?php endforeach;?>
+<div id="nivmembre<?php echo $b;?>"></div>
+
+
+
+
+
+ <div class="control-group">
+<label class="control-label" for="centre_description">Description du centre </label>
+<div class="controls">
+<textarea name="centre_description" id="centre_description" placeholder="Description du centre" class="ckeditor"><?php echo $this->centre->centre_description; ?></textarea>
+</div>
+</div>
+    
+
+
+<div class="form-actions">
+<input name="centre_id" type="hidden" id="centre_id" value="<?php echo $this->centre->centre_id; ?>" />  
+<input name="centre_ville_old" type="hidden" id="centre_ville_old" value="<?php echo $this->centre->centre_ville; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier du centre</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

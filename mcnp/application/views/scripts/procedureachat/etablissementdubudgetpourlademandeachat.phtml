@@ -1,0 +1,127 @@
+<div class="row-fluid">
+	<div class="span12">
+    <?php
+$month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+$true_month = "";
+$ex_date = explode('-',$this->demandeachatbudget[0]->date_demande);
+
+foreach ($month as $key => $value) {
+  if($ex_date[1] == $key){
+    $true_month = $value;
+  }
+}
+$next_ex_date = explode(' ', $ex_date[2]);
+$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+
+?>
+    <form action="#" method="post" class="form-horizontal">
+
+<h3>DEMANDE D'ACHAT N° <?php echo $this->demandeachatbudget[0]->reference_demande_achat ;?></h3>
+
+<p style="text-align: right;font-weight: bold;">Date:<?php echo $true_date ;?></p>
+
+<table class="table table-stripped">
+    <thead>
+        <tr>
+			<th>Références</th>
+			<th>Désignation des Articles </th>
+			<th>Quantité </th>
+			<th>Prix Unitaire</th>
+			<th>TOTAL</th>
+		</tr> 
+    </thead>
+    <tbody>
+     <?php foreach ($this->detailachatbudget as $key => $value): ?>
+     <?php
+       $quantite = $this->detailachatbudget[0]->quantite;
+       $prix_unitaire = $this->detailachatbudget[0]->prix_unitaire;
+       $total = $quantite * $prix_unitaire;
+      ?>
+      <tr>
+        
+        <td><?php echo $value->reference_article ;?></td>
+        <td><?php echo $value->designation_article ;?></td>
+        <td><?php echo $value->quantite;?></td>
+        <td><?php echo $value->prix_unitaire;?></td>
+        <td id="total_visa_demande_achat_budget"><?php echo $total;?></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+
+        <td><label for="">Montant demande d’Achat</label></td>
+		<td id="montant_total_visa_demande_achat"> <?php echo $this->demandeachatbudget[0]->montant_demande_achat;?></td>			                     
+	 </tr>
+    </tbody>
+ 	<?php endforeach ?>
+</table>   
+      <legend>ETABLISSEMENT DU BUDGET POUR LA DEMANDE D'ACHAT N° <?php echo $this->demandeachatbudget[0]->reference_demande_achat ;?></legend>
+			<?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationsuccess"])): ?>
+				<div class="alert alert-success">
+					<?php echo implode('<br>',$_SESSION['validationsuccess']) ?>
+				</div>
+			<?php unset($_SESSION['validationsuccess']); endif ?>
+        <div class="control-group"> 
+			<label for="bps_vendu" style="font-weight:bold;float:left">
+				BPS vendu*: 
+            </label>
+			<select class="input-block-level" name="bps_vendu" required="required">
+ 			  <option value>Choisir le bps vendu </option>
+ 				<?php foreach ($this->bpsvendu as $key => $value): ?>
+ 				  <option value="<?php echo $value->id_bps_vendu_achat_vente_reciproque ?>" data-idbpsavr="<?php echo $value->id_bps_vendu_achat_vente_reciproque ?>"><?php echo $value->nom_bps_vendu ?></option>
+ 				<?php endforeach; ?>
+ 			</select>
+		</div>
+
+
+        <div class="control-group">
+		   <table class="table table-bordered">
+             <thead>
+                 <tr>
+					 <th>BPS DEMANDES</th>
+					 <th>Quantité Disponible</th>
+					 <th>Prix Unitaire</th>
+					 <th>TOTAL</th>
+					 <th>DISPONIBLE(O/N)</th>
+					 <th>Plus</th>					 
+				 </tr> 
+             </thead>
+						 
+             <tbody id="table_details_budget">
+               <?php foreach ($this->detailachatbudget as $key => $value): ?>
+                 <tr id="clone_budget_nature_avr">
+					         <td><input type="text" id="bps_demande_avr" name="bps_demande_avr[]" value="<?php echo $value->reference_article ;?>" readonly="true" required="required"></td>
+					         <td><input type="text" id="qte_budget" name="qte_avr[]" value="0" required="required"></td>
+					         <td><input type="text" id="prix_unitaire_budget" name="prix_unitaire_avr[]" value="0" required="required"></td>
+					         <td><input type="text" id="total_article_budget" name="total_avr[]" readonly="true" required="required"></td>
+					         <td>
+					           <select class="input-block-level" name="disponible_avr[]" id="disponible_avr" required="required">
+ 			                 <option value>Choisir la disponibilité du produit</option>
+ 				               <option value="1">Oui</option>
+ 				               <option value="0">Non</option>					   
+ 			               </select>
+				         	</td>
+				        </tr>
+ 	              <?php endforeach ?>
+             </tbody>
+			 </table>
+			 <div class="control-group" style="position: relative;width: 252px;left: 40rem;">
+	            <label class="control-label" for="montant total du budget" style="font-weight:bold">
+		         Montant total du budget*:
+	            </label>
+	            <div class="controls">
+		         <input type="text" name="montant_total_budget" id="montant_total_budget" value="0" class="input-block-level montant_hors_taxe" required="required" readonly="true"/>
+	            </div>
+	        </div>
+					<input type="hidden" name="id_budget_demande_achat"value="<?php echo $this->id ;?>">
+			 <button class="btn btn-danger" style="width:133px">Valider</button>
+		</div>
+        </form>
+    </div>
+</div>

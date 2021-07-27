@@ -1,0 +1,184 @@
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+</script>
+
+<?php
+$days = array(
+ "1"=>"1","2"=>"2","3"=>"3","4"=>"4","5"=>"5","6"=>"6","7"=>"7","8"=>"8","9"=>"9",
+ "10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"15","16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23","24"=>"24","25"=>"25","26"=>"26","27"=>"27","28"=>"28","29"=>"29","30"=>"30","31"=>"31");
+$years = array("2016"=>"2016","2017"=>"2017","2018"=>"2018","2019"=>"2019","2020"=>"2020","2021"=>"2021","2022"=>"2022","2023"=>"2023","2024"=>"2024","2025"=>"2025","2026"=>"2026","2027"=>"2027","2028"=>"2028","2029"=>"2029","2030"=>"2030","2031"=>"2031","2032"=>"2032","2033"=>"2033","2034"=>"2034","2035"=>"2035","2036"=>"2036","2037"=>"2037","2038"=>"2038","2039"=>"2039","2040"=>"2040");
+
+$months = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+?>
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<?php if ($this->level_validation == "recrutement"): ?>
+
+<blockquote>  Agent Recrutement:Page de validation des dossiers de l'AOT de la production commune  </blockquote>
+
+<?php endif ?>
+
+<?php if ($this->level_validation == "Présentiel"): ?>
+
+<blockquote>  Agent Ponctualité:Page de validation des dossiers de l'AOT de la production commune   </blockquote>
+
+<?php endif ?>
+
+<?php if ($this->level_validation == "Ponctualité"): ?>
+
+<blockquote>  Agent Productivité :Page de validation des dossiers de l'AOT de la production commune  </blockquote>
+
+<?php endif ?>
+
+<?php if ($this->level_validation == "Productivité"): ?>
+
+<blockquote>  Agent Productivité:Page de validation des dossiers de l'AOT de la production commune  </blockquote>
+
+<?php endif ?>
+
+<?php if ($this->level_validation == "Salle virtuelle/Physique" || $this->level_validation == "site"): ?>
+
+<blockquote>  Agent Salle virtuelle/Physique:Page de génération de code d'accès au transfert de technologie  </blockquote>
+
+<?php endif ?>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+	<div class="alert alert-danger">
+
+		<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+	</div>
+
+<?php unset($_SESSION['validationerrors']); endif ?>
+
+<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+	<div class="alert alert-success">
+
+		<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+        
+	</div>
+
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+<table class="table table-striped table-condensed table-hover table-selection-all-prestataire" id="example">
+
+<thead>
+    <tr>
+        <th style="width:202px">Code membre du candidat OT</th>
+
+        <th>Nom & prénoms du candidat</th>  
+
+        <th>Appel à candidature</th>  
+
+        <th>Résumé de sa candidature</th>        
+
+        <th>Date du postulat</th>
+
+        <th>Actions</th>
+
+    </tr>
+
+</thead>
+
+<tbody>
+
+<?php foreach ($this->selectvalidationot as $key => $value): ?>
+
+    <td><?php echo $value->code_membre; ?></td>
+
+    <?php 
+
+        $true_month = "";
+         
+        $nom_membre = $value->nom_membre;
+
+        $prenoms_membre = $value->prenom_membre;
+
+        $nometprenom_membre = $nom_membre." ".$prenoms_membre;
+
+        
+        $ex_date = explode('-',$value->date_postulat);
+
+            foreach ($months as $ky => $vad) {
+
+                if($ex_date[1] == $ky){
+
+                    $true_month = $vad;
+
+                }
+
+            }
+
+           $next_ex_date = explode(' ', $ex_date[2]);
+
+           $true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0]." à ".$next_ex_date[1];
+
+    ?>
+
+    <td><?php echo $nometprenom_membre; ?></td>
+
+    <td><a href="/gestionoffredetravail/detaildunappeldoffre/id/<?php echo $value->id_candidature; ?>" class="btn btn-danger" target="_blank">Lire l'appel d'offre</a></td>
+    
+    <td><a href="detailduprofilduncandidat/iddetailcandidat/<?php echo $value->id_candidature_membre ?>/iddetailpost/<?php echo $value->id_candidature_postes ?>/idcandidature/<?php echo $value->id_candidature?>/codemembre/<?php echo $value->code_membre ?>" class="btn btn-success" data-idcandidaat = "<?php echo $value->id_candidature_membre ;?>">Voir son profil</a></td>
+
+    <td>
+        
+        <?php echo $true_date ;?>
+    </td>
+    
+    <?php if ($this->level_validation == "recrutement"): ?>
+    
+    <td>
+    
+         <a href="#" class="btn btn-primary"  id="btn-validation-to-another" data-idsento= "<?php echo $value->id_candidature_membre; ?>" data-idcandidature = "<?php echo $value->id_candidature ?>" data-sendonetoanother="administrateur" data-idcandidaturepost="<?php echo $value->id_candidature_postes ?>" data-codemembresento = "<?php echo $value->code_membre; ?>" data-libellemembresento = "<?php echo $nometprenom_membre; ?>">Valider le dossier OT</a>
+         
+    </td>
+    
+   <?php endif ?>
+
+    <?php if ($this->level_validation == "Presentiel"): ?>
+    
+    <td><a href="#" class="btn btn-danger"  id="btn-validation-to-another"  data-idsento= "<?php echo $value->id_candidature_membre; ?>" data-sendonetoanother="Ponctualite" data-codemembresento = "<?php echo $value->travailleur_code_membre; ?>" data-libellemembresento = "<?php echo $value->travailleur_libelle; ?>">Envoyer à l'agent validation ponctualité</a></td>
+    
+   <?php endif ?>
+
+   <?php if ($this->level_validation == "Ponctualite"): ?>
+    
+    <td><a href="#" class="btn btn-success" id="btn-validation-to-another"  data-idsento= "<?php echo $value->id_candidature_membre; ?>" data-sendonetoanother="Productivite" data-codemembresento = "<?php echo $value->travailleur_code_membre; ?>" data-libellemembresento = "<?php echo $value->travailleur_libelle; ?>">Envoyer à l'agent validation productivité</a></td>
+    
+   <?php endif ?>
+
+    <?php if ($this->level_validation == "Productivite"): ?>
+    
+    <td><a href="#" class="btn btn-info" id="btn-validation-to-another"  data-idsento= "<?php echo $value->id_candidature_membre; ?>" data-sendonetoanother="Salle-virtuelle-physique" data-codemembresento = "<?php echo $value->travailleur_code_membre; ?>" data-libellemembresento = "<?php echo $value->travailleur_libelle; ?>">Envoyer à l'administrateur de la salle virtuelle/physique</a></td>
+    
+   <?php endif ?>
+
+   
+   <?php if ($this->level_validation == "Salle-virtuelle-physique" || $this->level_validation = "site"): ?>
+
+    <td><a href="#" class="btn btn-info" id="btn-generatekeyot"  data-idcandidaturemembre= "<?php echo $value->id_candidature_membre; ?>" data-idcandidaturepost="<?php echo $value->id_candidature_postes ?>" data-codemembreot = "<?php echo $value->code_membre; ?>">Générer le code d'accès au transfert de technologie</a></td>
+
+    
+   <?php endif ?>
+
+<?php endforeach ?>
+
+</tbody>
+</table>

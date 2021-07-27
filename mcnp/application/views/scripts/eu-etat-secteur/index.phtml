@@ -1,0 +1,34 @@
+<div id="view-content">
+    <table id="tbl-gac-filiere"></table>
+    <div id="pg-gac-filiere"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-gac-filiere").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Nom','Code membre','Filière','Gestionnaire','Nom GAC','Création'],
+        height:440, width:827,
+        colModel:[
+            {name:'num_gac_filiere',index:'num_gac_filiere', width:80, sorttype:"int", editable: true,align:"left", hidden:true},
+            {name:'nom_gac_filiere',index:'nom_gac_filiere', width:220, editable: true,align:"left"},
+            {name:'membre',index:'membre', width: 160, editable: true,align:"left"},
+            {name:'filiere',index:'filiere', width: 140, editable: true,align:"left"},
+            {name:'nom_gestion1',index:'nom_gestion1', width: 120, editable: true,align:"left"},
+            {name:'nom_gac',index:'nom_gac', width: 200, align:"left", editable: true},
+            {name:'date_creation',index:'date_creation', width: 115, align:"left", editable: false},
+        ],
+        rowNum:100,
+        rowList:[100,200,300],
+        rownumbers:true,
+        pager: '#pg-gac-filiere',
+        sortname:"date_creation",
+        viewrecords: true,
+        sortorder: "desc",
+        caption:"Liste des GAC filières"
+    });
+  
+    $("#tbl-gac-filiere").jqGrid('navGrid','#pg-gac-filiere',{edit:false,add:false,del:false,search:true});
+    
+</script>

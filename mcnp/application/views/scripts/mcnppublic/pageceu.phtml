@@ -1,0 +1,144 @@
+<style> 
+
+    /* MARKETING CONTENT
+    -------------------------------------------------- */
+
+    /* Center align the text within the three columns below the carousel */
+    .marketing .span4 {
+      text-align: center;
+    }
+    .marketing h2 {
+      font-weight: normal;
+    }
+    .marketing .span4 p {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+
+    /* Featurettes
+    ------------------------- */
+
+    .featurette-divider {
+      margin: 40px 0; /* Space out the Bootstrap <hr> more */
+    }
+    .featurette {
+      padding-top: 30px; /* Vertically center images part 1: add padding above and below text. */
+      overflow: hidden; /* Vertically center images part 2: clear their floats. */
+    }
+    .featurette-image {
+      margin-top: -10px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
+    }
+
+    /* Give some space on the sides of the floated elements so text doesn't run right into it. */
+    .featurette-image.pull-left {
+      margin-right: 30px;
+    }
+    .featurette-image.pull-right {
+      margin-left: 30px;
+    }
+
+    /* Thin out the marketing headings */
+    .featurette-heading {
+      /*font-size: 30px;*/
+      font-weight: 200;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+
+
+
+</style>
+<br />
+
+<div class="row-fluid">
+<?php if($this->page->id_page == 10){?>
+        <div class="span12"> 
+<?php }else{?>
+        <div class="span9"> 
+<?php }?>
+             
+<?php if(count($this->page) > 0){?>
+<div class="featurette" align="justify">
+        <?php if($this->page->vignette != ""){?><img class="featurette-image pull-left img-polaroid" src="<?php echo $this->baseUrl();?>/<?php echo ($this->page->vignette); ?>" <?php list($width, $height, $type, $attr) = getimagesize($this->page->vignette);echo $attr; ?>  /><?php }?>
+        <h2 class="featurette-heading" align="left"><?php echo ($this->page->titre); ?></h2>
+        <h3 class="featurette-heading" align="left"><span class="muted"><?php echo ($this->page->resume); ?></span></h3>
+        <p align="justify"><br />
+<?php echo ($this->page->description); ?></p>
+      </div>
+      <div class="span12">
+      <hr />
+      </div>
+      <div class="span12">
+      <div class="span6 text-left">
+<?php $precedentM = new Application_Model_EuPageMapper();
+      $precedent = $precedentM->findOrdreSuivantPrecedent($this->page->menu, $this->page->ordre - 1);
+	  if(count($precedent) > 0){?>
+      <?php $menusous = new Application_Model_EuMenuSous();
+        $menusousM = new Application_Model_EuMenuSousMapper();
+        $menusousM->find($precedent->menusous, $menusous);?>
+      <a class="link" href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $precedent->id_page; ?>"><i class="icon-arrow-left"></i>  <?php echo ($menusous->menusous_libelle); ?></a>
+	  <?php }?>
+      </div>
+      <div class="span6 text-right">
+<?php $suivantM = new Application_Model_EuPageMapper();
+      $suivant = $suivantM->findOrdreSuivantPrecedent($this->page->menu, $this->page->ordre + 1);
+	  if(count($suivant) > 0){?>
+      <?php $menusous = new Application_Model_EuMenuSous();
+        $menusousM = new Application_Model_EuMenuSousMapper();
+        $menusousM->find($suivant->menusous, $menusous);?>
+      <a class="link" href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $suivant->id_page; ?>"><?php echo ($menusous->menusous_libelle); ?>  <i class="icon-arrow-right"></i></a>
+	  <?php }?>
+      </div>
+      </div>
+      <div class="span12">
+      <hr />
+      </div>
+<?php }?>
+
+        <?php 
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAll3($this->page->id_page, $this->page->menu);
+	?>
+<?php if(count($entriespage)>0){?> 
+      <!-- Example row of columns -->
+<div class="container marketing">
+      <!-- Three columns of text below the carousel -->
+      <div class="span9">
+<?php foreach ($entriespage as $entrypage): ?>
+        <div class="span4">
+          <?php if($entrypage->vignette != ""){?><img class="img-rounded" src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/<?php echo ($entrypage->vignette); ?>&w=150&h=150&zc=1" /><?php }?>
+          <?php $menusous = new Application_Model_EuMenuSous();
+        $menusousM = new Application_Model_EuMenuSousMapper();
+        $menusousM->find($entrypage->menusous, $menusous);?>
+          <h2><?php echo ($menusous->menusous_libelle); ?></h2>
+          <p><?php echo ($entrypage->resume); ?></p>
+          <p><a class="link" href="<?php echo $this->baseUrl();?>/index/pageceu/id/<?php echo $entrypage->id_page; ?>">Voir plus &raquo;</a></p>
+        </div><!-- /.span4 -->
+<?php endforeach; ?>
+<!-- /.span4 -->
+      </div><!-- /.row -->
+      <!-- START THE FEATURETTES -->
+      <!-- /END THE FEATURETTES -->
+    </div>
+		<?php }?>
+</div>
+
+<?php if($this->page->id_page == 10){?>
+<?php /*?><div class="span3">
+	<?php include("../application/layouts/scripts/droite_ceu.phtml"); ?>
+</div><?php */?>
+<?php }else{?>
+<div class="span3">
+	<?php include("../application/layouts/scripts/droite_ceu.phtml"); ?>
+</div>
+<?php }?>
+
+</div>
+      <hr class="featurette-divider" />
+
+
+
+</div>
+
+

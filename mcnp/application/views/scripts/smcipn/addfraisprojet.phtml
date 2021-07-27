@@ -1,0 +1,282 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script>
+function docalcul() {	
+   duree_projet = Math.ceil(document.getElementById('duree_projet').value);
+   pck = (document.getElementById('pck').value);
+   taux_frais = (document.getElementById('taux_frais').value);
+   pre = duree_projet;
+   
+   if(document.getElementById('smcpn').checked) {
+      investissement = 0;
+      montant_salaire = Math.ceil(document.getElementById('montant_salaire').value);
+	  
+	  montant_frais = Math.ceil((investissement + montant_salaire) * taux_frais / 100);
+      montant_total = Math.ceil(investissement + montant_frais + montant_salaire);	
+      montant_banque = Math.ceil(montant_total * pck / pre);
+	  
+	  document.getElementById('montant_salaire').value = (montant_salaire);
+      document.getElementById('montant_frais').value = (montant_frais);
+      document.getElementById('montant_total').value = (montant_total);
+      document.getElementById('montant_banque').value = (montant_banque);
+   }
+   
+   if(document.getElementById('smci').checked) {
+      montant_proposition	= Math.ceil(document.getElementById('montant_proposition').value);					
+      autre_budget = Math.ceil(document.getElementById('autre_budget').value);
+      investissement = montant_proposition + autre_budget;
+      montant_salaire = 0;
+	  
+	  montant_frais = Math.ceil((investissement + montant_salaire) * taux_frais / 100);
+      montant_total = Math.ceil(investissement + montant_frais + montant_salaire);	
+      montant_banque = Math.ceil(montant_total * pck / pre);
+	  
+	  document.getElementById('montant_frais').value = (montant_frais);
+      document.getElementById('montant_total').value = (montant_total);
+      document.getElementById('montant_banque').value = (montant_banque);
+	   
+   }
+
+   if(document.getElementById('smcipn').checked) {
+      montant_proposition	= Math.ceil(document.getElementById('montant_proposition').value);					
+      autre_budget = Math.ceil(document.getElementById('autre_budget').value);
+      investissement = montant_proposition + autre_budget;
+      montant_salaire = Math.ceil(investissement * ((pre / pck) - 1));
+	  
+	  montant_frais = Math.ceil((investissement + montant_salaire) * taux_frais / 100);
+      montant_total = Math.ceil(investissement + montant_frais + montant_salaire);	
+      montant_banque = Math.ceil(montant_total * pck / pre);
+	  
+	  document.getElementById('montant_salaire').value = (montant_salaire);
+      document.getElementById('montant_frais').value = (montant_frais);
+      document.getElementById('montant_total').value = (montant_total);
+      document.getElementById('montant_banque').value = (montant_banque);
+	  
+   }
+   
+
+}
+
+
+function dosmcipn() {
+   document.getElementById('salaire').style.display ='block';
+   document.getElementById('projet').style.display ='block';
+   document.getElementById('budget').style.display ='block';
+   document.getElementById('montant_proposition').required = true;
+   document.getElementById('autre_budget').required = true;
+   document.getElementById('montant_salaire').readOnly = true;
+   document.getElementById('montant_salaire').value = "";
+   document.getElementById('montant_proposition').value = "";
+   document.getElementById('autre_budget').value = "";
+   document.getElementById('montant_frais').value = "";
+   document.getElementById('montant_total').value = "";
+   document.getElementById('montant_banque').value = "";
+   
+}
+
+function dosmci() {
+   document.getElementById('salaire').style.display ='none';
+   document.getElementById('montant_salaire').readOnly = true;
+   document.getElementById('projet').style.display ='block';
+   document.getElementById('budget').style.display ='block';
+   document.getElementById('montant_proposition').required = true;
+   document.getElementById('autre_budget').required = true;
+   document.getElementById('montant_salaire').value = "";
+   document.getElementById('montant_proposition').value = "";
+   document.getElementById('autre_budget').value = "";
+   document.getElementById('montant_frais').value = "";
+   document.getElementById('montant_total').value = "";
+   document.getElementById('montant_banque').value = "";
+}
+
+
+function dosmcpn() {
+   document.getElementById('salaire').style.display ='block';
+   document.getElementById('montant_salaire').readOnly = false;
+   document.getElementById('projet').style.display ='none';
+   document.getElementById('budget').style.display ='none'; 
+   document.getElementById('montant_proposition').required = false;
+   document.getElementById('autre_budget').required =false; 
+   document.getElementById('montant_salaire').required = true;
+   document.getElementById('montant_salaire').value = "";
+   document.getElementById('montant_frais').value = "";
+   document.getElementById('montant_total').value = "";
+   document.getElementById('montant_banque').value = "";
+}
+
+
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+<blockquote><p>Enregistrement et Calcul du montant global du projet</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addoffredemande">
+  <?php if(isset($sessionmembre->error) && $sessionmembre->error !="") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->error; $sessionmembre->error = ""; ?>
+    </div>
+  <?php } ?>
+    
+    
+<fieldset>
+    
+<legend>Descriptif du projet </legend>
+  
+<div class="control-group">
+<label class="control-label" for="objet_demande">Objet du projet *</label>
+<div class="controls">
+<input class="input-xxlarge" type="text" name="objet_demande" id="objet_demande" placeholder="Objet du projet" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="description_demande">Description du projet </label>
+<div class="controls">
+<textarea class="input-xxlarge" name="description_demande" id="description_demande" placeholder="Description du projet"></textarea>
+</div>
+</div>
+    
+    
+<div class="control-group">
+<label class="control-label" for="code_membre_morale_demandeur">Code Membre du demandeur *</label>
+<div class="controls">
+<input class="input-xxlarge" type="text" name="code_membre_morale_demandeur" id="code_membre_morale_demandeur" placeholder="Code Membre du demandeur" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="duree_projet">Durée du projet *</label>
+<div class="controls">
+<div class="input-append">
+<input type="number" name="duree_projet" id="duree_projet" placeholder="Durée du projet" required />
+  <span class="add-on">Mois (supérieur à 8)</span>
+</div>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="type_appel_offre">Type Appel Offre *</label>
+<div class="controls">
+<select id="type_appel_offre" name="type_appel_offre" required>
+  <option value="">Choisir le type</option>
+  <option value="inrpre">InrPRE</option>
+  <option value="kit">Kit Technopole</option>
+  <option value="ass">Assurance</option>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="type_smcipn">Type Smcipn *</label>
+    <div class="controls">
+         <label for="type_smcipn" class="radio">
+         <input name="type_smcipn" type="radio" checked="checked"  id="smcipn" value="smcipn"  onclick="dosmcipn();" />
+         <span style="color:red;"><strong>S</strong></span>ubvention <span style="color:red;"><strong>M</strong></span>archande des <span style="color:red;"><strong>C</strong></span>oûts d'<span style="color:red;"><strong>I</strong></span>nvestissement et de la <span style="color:red;"><strong>P</strong></span>roduction <span style="color:red;"><strong>N</strong></span>ouvelle (<span style="color:red;"><strong>SMCIPN</strong></span>)
+	     </label>
+		 <br/>
+         <label for="type_smcipn" class="radio">
+         <input type="radio" name="type_smcipn" id="smci" value="smci" onclick="dosmci();" />
+         <span style="color:red;"><strong>S</strong></span>ubvention <span style="color:red;"><strong>M</strong></span>archande des <span style="color:red;"><strong>C</strong></span>oûts d'<span style="color:red;"><strong>I</strong></span>nvestissement (<span style="color:red;"><strong>SMCI</strong></span>)
+         </label>
+		 <br/>
+	     <label for="type_smcipn" class="radio">
+         <input type="radio" name="type_smcipn" id="smcpn" value="smcpn" onclick="dosmcpn();"/>
+         <span style="color:red;"><strong>S</strong></span>ubvention <span style="color:red;"><strong>M</strong></span>archande des <span style="color:red;"><strong>C</strong></span>oûts de la <span style="color:red;"><strong>P</strong></span>roduction <span style="color:red;"><strong>N</strong></span>ouvelle (<span style="color:red;"><strong>SMCPN</strong></span>)
+         </label>
+    </div>
+</div>
+
+
+<div class="control-group" id="projet">
+<label class="control-label" for="montant_proposition">Montant du projet *</label>
+<div class="controls">
+<div class="input-append">
+<input type="number" name="montant_proposition" id="montant_proposition" placeholder="Montant du projet" required />
+  <span class="add-on">XOF</span>
+</div>
+</div>
+</div>
+
+<div class="control-group" id="budget">
+<label class="control-label" for="autre_budget">Autres budgets *</label>
+<div class="controls">
+<div class="input-append">
+<input type="number" name="autre_budget" id="autre_budget" placeholder="Autres budgets" required />
+  <span class="add-on">XOF</span>
+</div>
+</div>
+</div>
+
+<div class="control-group" id="salaire">
+<label class="control-label" for="montant_salaire">Montant salarial *</label>
+<div class="controls">
+<div class="input-append">
+<input type="number" name="montant_salaire" id="montant_salaire" placeholder="Montant salarial" readonly/>
+  <span class="add-on">XOF</span>
+</div>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="montant_frais">Montant Frais Surveillance *</label>
+<div class="controls">
+<div class="input-append">
+<input type="number" name="montant_frais" id="montant_frais" placeholder="Montant Frais Surveillance" required readonly />
+  <span class="add-on">XOF</span>
+</div>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="montant_total">Montant Total du projet *</label>
+<div class="controls">
+<div class="input-append">
+<input type="number" name="montant_total" id="montant_total" placeholder="Montant Total du projet" required readonly />
+  <span class="add-on">XOF</span>
+</div>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="montant_banque">Montant de bon de souscription *</label>
+<div class="controls">
+<div class="input-append">
+<input type="number" name="montant_banque" id="montant_banque" placeholder="Montant de bon de souscription" required readonly />
+  <span class="add-on">XOF</span>
+</div>
+</div>
+</div>
+
+</fieldset>
+
+<div class="form-actions">
+<input name="pck" type="hidden" id="pck" value="<?php echo Util_Utils::getParametre('pck','nr'); ?>" />
+<input name="taux_frais" type="hidden" id="taux_frais" value="<?php echo Util_Utils::getParametre('taux','frais'); ?>" />
+<input name="ok" type="hidden" id="ok" value="ok"/>
+<button type="reset" class="btn">Annuler</button>
+<button type="button" class="btn btn-warning" onclick="docalcul();">Calculer les differents montants </button>
+<button type="submit" class="btn btn-primary">Enregistrer le projet </button>
+</div>
+  
+</form>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+

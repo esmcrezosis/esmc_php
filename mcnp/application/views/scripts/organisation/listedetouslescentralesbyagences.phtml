@@ -1,0 +1,81 @@
+
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+        "iDisplayLength":10,
+		"aaSorting": []
+    } );
+} );
+</script>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+	<div class="alert alert-danger">
+		<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+	</div>
+	<?php unset($_SESSION['validationerrors']); endif ?>
+	<?php if (isset($_SESSION["validationsuccess"])): ?>
+	<div class="alert alert-success">
+		<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+	</div>
+<?php unset($_SESSION['validationsuccess']); endif ?>
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+<?php if ($this->countlistedescentralesbyagences > 0): ?>
+
+<h3>Liste de tous les centrales gérés par esmc</h3>
+
+
+ <table class="table table-stripped" id="example">
+
+   <thead> 
+
+        <tr>
+
+             <th>Référence d'une centrale</th>
+
+             <th>Libellé d'une centrale</th>
+
+             <th>Date de création d'une centrale</th>
+
+             <th>Détail d'un centrale</th>
+
+             <th>Edition d'un centrale</th>
+
+         </tr>
+
+   </thead>
+   
+   <tbody>
+
+         <?php foreach ($this->listedescentralesbyagences as $key => $value): ?>
+
+         <tr>
+
+             <td><?php echo $value->reference_centrale ;?> </td>
+
+             <td><?php echo $value->libelle_centrale ;?> </td>
+
+             <td><?php echo $value->date_creation_centrales ;?></td>
+
+             <td><a href="detaildunecentrale/idcentrale/<?php echo $value->id_centrales ;?>" class = "btn btn-primary">Voir les détails de la centrale</a></td>
+
+             <td><a href="editiondunecentrale/idcentrale/<?php echo $value->id_centrales ;?>" class = "btn btn-danger">Modifier les informations de la centrale</a></td>
+
+         </tr>
+         
+    	  <?php endforeach ?>       
+     
+   
+   </tbody>
+ 
+ 
+ </table>
+
+<?php else: ?>
+   <div class="alert alert-danger">
+       Aucune centrale n'est encore enrégistré dans votre agence
+   </div>
+<?php endif ?>

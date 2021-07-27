@@ -1,0 +1,103 @@
+<div id="view-content" style="font-size:11px;min-height: 520px;font:verdana" title="Edition contrat membres personnes morales">
+     <div id="formdiv" class="ui-widget-content ui-corner-bottom"> 
+          <form action="/eu-contrat/donewose" name="fm_contrat" method="POST" id="fm_contrat">
+                <fieldset><legend>Contrat</legend>
+				    <table style="margin-left:auto;margin-right: auto;margin-top: 10px;" id="tab_fl">
+						   <tr style="text-align: right;">
+                               <td colspan="1">Code membre * :</td>
+			                   <td style="text-align: left;"><input type="text" id="code_membre" name="code_membre" value="<?php echo $this->code_membre; ?>" size="30" required="true"></td>
+                               <td>Raison sociale :</td><td><input id="raison_sociale" type="text" name="raison_sociale" value="" style="width: 200px;" class="validate[required]" readonly="readonly"/></td> 
+                           </tr>
+                           </tr><tr><td colspan="4" style=" height:30px"></td></tr><tr>
+                           <tr>
+                               <td colspan="1">Type acteur * :</td>
+							   <td><select name="type_acteur" id="type_acteur" required="true"></select></td>
+							   <td colspan="1">Pays * :</td>
+                               <td><select name="pays" id="pays" required="true"></select></td>
+                           </tr>						   	 
+				    </table>
+                </fieldset>
+				<div  style="margin-left:45px;margin-right: auto;margin-top:10px;">
+                      <input type="submit" value="Valider" id="valider"/>
+                      <input type="reset" value="Annuler" id="t_annuler"/>
+                </div>
+          </form>  
+     </div>		  
+</div>
+
+<script>
+$(document).ready(function () {
+
+    $(function() {
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+        $("#fm_contrat").validationEngine();
+    });
+	
+	$('form#fm_contrat').submit(function(e) {
+        $.ajax({
+               url: $('form').attr("action"),
+               data: $('form').serialize(),
+               type: 'post',
+               success: processServerResponse
+        });
+        e.preventDefault();
+    });
+    function processServerResponse(data) {
+       if (data === true) {
+          alert('La demande de contrat a ete effectuee avec succes ');
+          $(location).attr("href", "/eu-contrat/consultation");
+       }else {
+          alert(data);
+       }
+    }
+	
+	
+	$.get("/eu-contrat/membrem",
+           function success(data){
+               $("#code_membre").autocomplete({"source": data, change: displayItem});                    
+    });
+    function displayItem() {
+        if ($(this).val() !== '') {
+            $.get(
+                '/eu-contrat/recupraison',{
+                                            num_membre: $(this).val()
+            },
+            function success(data){
+                $("#raison_sociale").val(data[1]);
+           });
+        }
+    }
+	
+	
+	$.get(
+        '/eu-contrat/typeacteur',
+        function success(data) {
+             var options = '<option value=""></option>';
+             for( var i = 0; i < data.length; i++) {
+             options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+             }
+             $('select#type_acteur').html(options);
+        });
+	
+	
+	$.get(
+        '/eu-contrat/pays',
+        function success(data) {
+             var options = '<option value=""></option>';
+             for( var i = 0; i < data.length; i++) {
+             options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+             }
+             $('select#pays').html(options);
+        });
+	
+
+})
+
+$('#submit').button();
+$('#cancel').button();
+$('#valider').button();
+$('#t_annuler').button();
+$("#fm_contrat").validationEngine();
+
+</script>

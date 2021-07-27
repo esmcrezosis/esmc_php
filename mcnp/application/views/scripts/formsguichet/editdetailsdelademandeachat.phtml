@@ -1,0 +1,55 @@
+<?php
+
+$month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+$true_month = "";
+$ex_date = explode('-',$this->entries[0]->date_demande);
+
+foreach ($month as $key => $value) {
+  if($ex_date[1] == $key){
+    $true_month = $value;
+  }
+}
+$next_ex_date = explode(' ', $ex_date[2]);
+$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+
+?>
+
+<h3>DEMANDE D'ACHAT N° <?php echo $this->entries[0]->reference_demande_achat ;?></h3>
+
+<p style="text-align: right;font-weight: bold;">Date:<?php echo $true_date ;?></p>
+
+<table class="table table-stripped">
+    <thead>
+        <tr>
+			<th>Références</th>
+			<th>Désignation des Articles </th>
+			<th>Quantité </th>
+			<th>Prix Unitaire</th>
+			<th>TOTAL</th>
+		</tr> 
+    </thead>
+    <tbody>
+     <?php foreach ($this->detailachat as $key => $value): ?>
+     <?php
+       $quantite = $this->detailachat[0]->quantite;
+       $prix_unitaire = $this->detailachat[0]->prix_unitaire;
+       $total = $quantite * $prix_unitaire;
+      ?>
+      <tr>
+        
+        <td><?php echo $value->reference_article ;?></td>
+        <td><?php echo $value->designation_article ;?></td>
+        <td><?php echo $value->quantite;?></td>
+        <td><?php echo $value->prix_unitaire;?></td>
+        <td id="total_visa_demande_achat"><?php echo $total;?></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><label for="">Montant demande d’Achat</label></td>
+		<td id="montant_total_visa_demande_achat"><input type="text"  id="montant_demande_achat" name="montant_demande_achat" required="required"></td>			                     
+	 </tr>
+    </tbody>
+ 	<?php endforeach ?>
+</table>

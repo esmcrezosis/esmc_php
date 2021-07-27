@@ -1,0 +1,119 @@
+<div id="view-content" style="margin-bottom: 3px; width: 827px;font-size:11px" class="ui-widget-content ui-corner-all">
+     <div>
+          <fieldset>
+              <legend style=" font-weight:bold">Recherche</legend>
+              <h5>
+                  Ancien code membre <input type="text" id="code_membre" name="code_membre" size="30"/>
+                  Raison sociale    <input type="text" id="nomm" name="nomm" size="25" />
+                  <input id="ok" type="button" value="Ok" />
+              </h5> 
+          </fieldset>
+     </div>
+     <div style="margin-bottom: 3px;">
+          <input id="ncm" type="button" value="Nouveau CM" class="ui-widget button"/>
+     </div>
+     <table id="tbl-morale"></table>
+     <div id="pg-morale"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-morale").jqGrid({
+        url:"",
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Numero','Raison sociale','Representant','Quartier','Ville','Bp','T&eacute;l','Date identification','','',''],
+        height:410, width:827,
+        colModel:[
+                {name:'numIdentm',index:'numIdentm', width:150, sorttype:"int", editable: true,align:"left"},
+                {name:'nomm',index:'nomm', width: 150, editable: true,align:"left"},
+                {name:'representant',index:'representant', width: 150, editable: true,align:"left"},
+                {name:'qart',index:'qart', width:120, editable: true,align:"left"},
+                {name:'ville',index:'ville', width: 150, align:"left", editable: true},
+                {name:'bp',index:'bp', width: 75, align:"left", editable: true},
+                {name:'tel',index:'tel', width:75, align:"left", editable: true},
+                {name:'dateIdent',index:'dateIdent', width: 150, align:"left", editable: true},
+			    {name:'portable',index:'portable', width: 150, align:"left", editable: true,hidden:true},
+			    {name:'email',index:'email', width: 150, align:"left", editable: true,hidden:true},
+			    {name:'site',index:'site', width: 150, align:"left", editable: true,hidden:true},
+        ],
+        rowNum:100000,
+        rowList:[100000,300000,500000],
+        pager: '#pg-morale',
+        sortname:"numIdentm",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Membres morales GIE Ex-ReDeMaRe"
+    });
+    $("#tbl-morale").jqGrid('navGrid','#pg-morale',{edit:false,add:false,del:false,search:true});
+   
+    $.get( "/eu-membre-ancien/changem",
+    function success(data){
+      $("input#code_membre").autocomplete({"source":data});
+    }); 
+           
+    $.get( "/eu-membre-ancien/nomm",
+      function success(data){
+      $("input#nomm").autocomplete({"source":data});
+    });       
+    
+	$('#ok').click(function()
+    {
+          code_membre=$('#code_membre').val();
+		  nomm=$('#nomm').val();            	
+		  jQuery("#tbl-morale").jqGrid('setGridParam',{url:"/eu-membre-ancien/datamose?code_membre="+code_membre+"&nomm="+nomm}).trigger('reloadGrid');
+		
+});
+	 
+    $('#m_detail').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-morale").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-membre-ancien/mdetail',{
+                membre:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+    $('#ncm').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-morale").jqGrid('getGridParam','selrow');
+        if(rowsel) { 
+          $.get('/eu-membre-ancien/cmm',{
+            numident:rowsel
+          },function success(data) {
+          if(data == 1) {
+	         alert("Ce membre a déjà son nouveau code de membre"); 
+          }
+          else {
+               seldata = jQuery("#tbl-morale").jqGrid('getRowData',rowsel);
+               $.get('/eu-membre-ancien/ncmmose',{
+                numident:seldata.numIdentm,nomm:seldata.nomm,ville:seldata.ville,tel:seldata.tel,portable:seldata.portable,email:seldata.email,site:seldata.site,qart:seldata.qart,bp:seldata.bp
+               },
+               function success(data) {
+                $("#content").html(data);
+            });
+           }
+         })
+        }
+        else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+	$(function() {
+     $('#view-content').puipanel();
+	 $('fieldset').puifieldset();
+    });
+	
+    $('#ncm').button();
+    $('#ok').button()
+   
+</script>

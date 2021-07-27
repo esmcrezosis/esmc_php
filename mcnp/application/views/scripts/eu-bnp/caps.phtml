@@ -1,0 +1,220 @@
+<div id="view-content" title="ENROLEMENT PAR CAPS" style="font-size: 12px;min-height: 520px;" >
+    <form id="new_caps_form" action="<?php echo $this->url(); ?>" method="<?php echo $this->form->getMethod(); ?>" enctype="<?php echo $this->form->getEnctype(); ?>" > 
+        <table style="margin-top: 20px;margin-left: 10px;">
+            <tbody>
+                <tr>
+                    <td><label>Type BNP</label></td>
+                    <td><?php echo $this->form->getElement("type_bnp"); ?></td>
+                </tr>
+				
+				<tr>
+				    <td><label>Type Membre *</label></td>
+				    <td>
+					<select id="type_membre" type="text" name="type_membre" required="true"/>
+					    <option value=""></option>
+                        <option value="P">Physique</option>
+                        <option value="M">Morale</option>
+					</select>	  
+					</td>
+				</tr>		   
+                <tr>
+                    <td><label>Code Membre Apporteur * </label></td>
+                    <td><input id="apport" type="text" name="apport"  size="25" class="validate[required]" readonly="true" /></td>
+                </tr>
+                <tr>
+                    <td><label>D&eacute;signation Membre *  </label></td>
+                    <td><input id="raison_apport" type="text" name="raison_apport"  readonly="true" size="25" class="validate[required]" /></td>
+                </tr>
+                
+                <tr>
+                    <td><label>Type du CAPS * </label></td>
+                    <td>
+                        <?php echo $this->form->getElement("type_caps"); ?>
+                    </td>
+                </tr>
+				
+                <tr>
+                    <td><label>Montant CAPS *</label></td>
+                    <td><?php echo $this->form->getElement("mont_caps"); ?></td>
+                </tr>
+				
+				<tr>
+					<td><label>Mode de paiement *</label></td>
+                    <td>
+					    <select id="mode_fin" name="mode_fin">
+					      <option value="SMS">Code SMS </option>
+						  <!--<option value="NN">Numeriques noirs </option>-->
+					    </select>
+					</td>
+				</tr>
+				
+				<tr id="tr_typenn" style="display: none">
+                    <td><label>Compte MF * </label></td>
+                    <td><?php echo $this->form->getElement("type_mf"); ?></td>
+                </tr>
+				
+                <tr id="tr_sms">
+                    <td><label>Code SMS * </label></td>
+                    <td><?php echo $this->form->getElement("code_sms"); ?></td>
+                </tr>
+				
+                <tr id="tr_mt">
+                    <td><label>Montant *</label></td>
+                    <td><?php echo $this->form->getElement("montant"); ?>
+					<input type="text"id="dev_caps" name="dev_caps" value="" size="5px" readonly="true">
+					</td>
+                </tr>
+				 
+				<?php
+				  $date_id = new Zend_Date(Zend_Date::DATES,'de');
+                  $date_idd = clone $date_id;
+				  $tabela = new Application_Model_DbTable_EuParametres();
+			      $select = $tabela->select();
+			      $select->where('code_param LIKE ?','datedebutpromo');
+			      $result = $tabela->fetchAll($select);
+			      $row = $result->current();
+				  
+				  $select1 = $tabela->select();
+			      $select1->where('code_param LIKE ?','datefinpromo');
+			      $result1 = $tabela->fetchAll($select1);
+			      $row1 = $result1->current();
+				  
+				  $datedebutpromo = new Zend_Date($row->lib_param); 
+				  $datefinpromo = new Zend_Date($row1->lib_param);
+				  if(($date_idd >= $datedebutpromo) &&  ($date_idd <= $datefinpromo)) {
+		    ?> 	
+			<tr id="tr_mtespece">
+			<td style="font-weight:bold;color:red">Montant esp&egrave;ce pay&eacute;</td>
+			<td><input style="font-weight:bold;color:red" id="mtespece" type="text" name="mtespece" value="2200 F CFA" size="12" readonly="true"/></td>
+			</tr>
+		    <?php
+				 }
+			?>
+				<tr><td colspan="2" height="5px"></td></tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <?php
+                           echo $this->form->getElement("val");
+                           echo $this->form->getElement("cancel");
+                        ?>
+                    </td>
+                </tr>
+					
+            </tbody>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function() {
+	
+        $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+            //$('#fs_check').attr('disabled',true);
+            //$('input:checkbox').puicheckbox();
+        });
+		$("#new_caps_form").validationEngine();
+		
+		
+		$('#mode_fin').change(function() {
+            var mode = $(this).val();
+            if (mode === 'SMS') {
+                $('#tr_sms').show();
+				$('#tr_mt').show();
+				$('#tr_mtespece').show();
+                $('#tr_typenn').hide();
+				
+            } else {
+                $('#tr_sms').hide();
+				$('#tr_mt').hide();
+				$('#tr_mtespece').hide();
+                $('#tr_typenn').show();
+            }
+        });
+		
+        $('#apport').blur(function(e) {
+            e.preventDefault();
+            if ($(this).val() !== '') {
+                $.get(
+                '/eu-bnp/recupnom',{
+                  num_membre: $(this).val(),type_membre:$("#type_membre").val()
+                },
+                function success(data)
+                {
+                    if (data !== '') {
+                        $("#raison_apport").val(data[1]);
+                    } else {
+                        alert('Ce membre n\existe pas!!!');
+                    }
+                });
+            }
+        });
+
+
+        $('#type_caps').change(function() {
+            var caps = 0;
+            if ($('#mont_caps').val() === '') {
+               caps = 0;
+            } else {
+               caps = parseFloat($('#mont_caps').val());
+            }
+            if ($(this).val() === 'CAPSFLFCPS') {
+               caps = 70000;
+               $('#mont_caps').val(caps);
+            }
+			
+			/*else if ($(this).val() === 'CAPSFL2FCPS') {
+                caps = 80000;
+                $('#mont_caps').val(caps);
+            } else {
+                caps = 90000;
+                $('#mont_caps').val(caps);
+            }*/
+        });
+		
+		$("#type_membre").change(function(e) {
+		  if ($(this).val() != '') {
+		      $('#apport').attr('readonly',false);
+			  $.get("/eu-bnp/membreapporteur",{
+                type_membre : $('#type_membre').val()
+              },
+              function success(data) {
+                $("#apport").autocomplete({"source": data});
+              }); 
+		  } else {
+		        $('#apport').attr('readonly',true);	  
+		  }
+		
+		});
+		
+
+        $('#code_sms').blur(function(e) {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-bnp/sms',{
+                            code: $(this).val()
+                        },
+                function success(data)
+                {
+                    if (data !== 0) {
+                       $('#montant').val(data[0]);
+					   $('#dev_caps').val(data[1]);
+                       $('#montant').attr('readonly',true);
+                    } else {
+                        $("#id_message").html("<label>Ce code est invalide</label>");
+                    }
+
+                });
+            } else {
+                $('#montant').val('');
+            }
+            e.preventDefault();
+        });
+		
+		
+		
+		
+    });
+</script>

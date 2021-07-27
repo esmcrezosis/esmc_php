@@ -1,0 +1,53 @@
+<div id="view-content" class="ui-widget">
+    <div id="c_header" class="ui-widget-header ui-corner-top" style="padding-left: 5px; height: 35px;">
+        <h3>Etat de justification du salaire</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <?php
+        $this->form->setAction($this->url());
+        echo $this->form;
+        ?>
+        <br><br>
+        <div style="height: auto;">
+             <form id="echange_form" method="Post" action="">
+                <?php if (isset($this->data[0][1])) { ?> 
+                    <table>
+                        <tr>
+                            <td>Salaire perçu</td>
+                            <td><input id="sal_percu" type="text" name="sal_percu" value="<?php echo number_format($this->sal_percu, 0, '.', ' '); ?>" readonly="true" style="text-align:right"/></td>
+                        </tr>
+                    </table>
+                    <table border="1" style="margin: 5px;" id="tab_salaire">
+                        <thead>
+                            <tr style="text-align: left;">
+                                <th align="center">Code membre</th><th align="center">Nom</th><th align="center">Salaire</th><th align="center">Affecté</th><th align="center">Reste</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php for ($i = 0; $i < count($this->data); $i++) { ?>
+                                <tr>
+                                    <td><input id="num_membre" type="text" name="<?php echo "num_membre" . $i ?>" value="<?php echo $this->data[$i][1]; ?>" readonly="true" style="width: 180px;"/></td>
+                                    <td><input id="nom" type="text" name="<?php echo "nom" . $i ?>" value="<?php echo $this->data[$i][2]; ?>" readonly="true" style="width: 210px;"/></td>
+                                    <td><input id="<?php echo "salaire" . $i ?>" type="text" name="<?php echo "salaire" . $i ?>" value="<?php echo $this->data[$i][3]; echo $this->data[$i][7]; ?>" readonly="true" style="width: 120px; text-align: right"/></td>
+                                    <td><input id="<?php echo "mt_affecte" . $i ?>" type="text" name="<?php echo "mt_affecte" . $i ?>" value="<?php echo $this->data[$i][4];?>" readonly="true" style="width: 90px; text-align: right"/></td>
+                                    <td><input id="<?php echo "reste" . $i ?>" type="text" name="<?php echo "reste" . $i ?>" value="<?php echo $this->data[$i][5];?>" readonly="true" style="width: 90px; text-align: right"/></td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                        <input type="hidden" value="<?php echo $this->data[0][6]; ?>" name="code_demand">
+                        <input type="hidden" value="<?php echo count($this->data); ?>" name="compteur" id="compt">
+                    </table>
+                <?php } ?> 
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function ()
+        {
+            $('#submit').button();
+            $('#cancel').button();
+        });
+                
+    </script>
+</div>	

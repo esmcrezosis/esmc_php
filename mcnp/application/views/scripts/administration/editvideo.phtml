@@ -1,0 +1,98 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification de la video</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addvideo">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+<div class="control-group">
+<label class="control-label" for="video_categorie">Catégorie de la video *</label>
+<div class="controls">
+<?php 
+$menu = new Application_Model_EuCategorieVideoMapper();
+$entries = $menu->fetchAll();
+if(count($entries) > 0){?>
+<select id="video_categorie" name="video_categorie" required>
+  <option value="">Choisir la catégorie</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->id_categorie_video; ?>" <?php if($this->video->video_categorie == $value->id_categorie_video){?> selected="selected"<?php }?>><?php echo $value->libelle_categorie_video; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+        
+
+<div class="control-group">
+<label class="control-label" for="video_type">Type de la video *</label>
+<div class="controls">
+<label class="radio inline" for="video_type1">
+<input type="radio" id="video_type1" name="video_type" value="ESMC" <?php if($this->video->video_type == "ESMC"){echo 'checked="checked"';}?> required> ESMC</label>
+<br />
+<label class="radio inline" for="video_type2">
+<input type="radio" id="video_type2" name="video_type" value="CEU/ReDeMaRe" <?php if($this->video->video_type == "CEU/ReDeMaRe"){echo 'checked="checked"';}?> required> CEU/ReDeMaRe</label>
+<br />
+<label class="radio inline" for="video_type3">
+<input type="radio" id="video_type3" name="video_type" value="MCNP" <?php if($this->video->video_type == "MCNP"){echo 'checked="checked"';}?> required> MCNP</label>
+<br />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="video_libelle">Libellé de la video *</label>
+<div class="controls">
+<input type="text" name="video_libelle" id="video_libelle" placeholder="Libellé de la video" class="input-xxlarge" value="<?php echo $this->video->video_libelle; ?>" required>
+</div>
+</div>
+
+ <div class="control-group">
+<label class="control-label" for="video_description">Description de la video *</label>
+<div class="controls">
+<textarea name="video_description" id="video_description" placeholder="Description de la video" required><?php echo $this->video->video_description; ?></textarea>
+</div>
+</div>
+    
+   
+    
+
+
+<div class="form-actions">
+<input name="video_id" type="hidden" id="video_id" value="<?php echo $this->video->video_id; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier de la video</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

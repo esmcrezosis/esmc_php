@@ -1,0 +1,123 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Ajout d'appels d'offres</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addappeloffre">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<div class="control-group">
+<label class="control-label" for="id_demande">Demande *</label>
+<div class="controls">
+<?php 
+$demande = new Application_Model_EuDemandeMapper();
+$entries = $demande->fetchAll5($sessionutilisateur->code_source_create, $sessionutilisateur->code_monde_create, $sessionutilisateur->code_zone_create, $sessionutilisateur->id_pays, $sessionutilisateur->id_region, $sessionutilisateur->code_secteur_create, $sessionutilisateur->code_agence_create);
+if(count($entries) > 0){?>
+<select id="id_demande" name="id_demande" required>
+  <option value="">Choisir la demande</option>
+<?php foreach ($entries as $value) { ?>
+  <option value="<?php echo $value->id_demande; ?>"><?php echo $value->objet_demande; ?></option>
+<?php } ?>
+</select>
+<?php }?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="numero_offre">Numéro de l'appel d'offre *</label>
+<div class="controls">
+<input type="text" name="numero_offre" id="numero_offre" placeholder="Numéro de l'appel d'offre" required>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="nom_appel_offre">Titre de l'appel d'offre *</label>
+<div class="controls">
+<input type="text" name="nom_appel_offre" id="nom_appel_offre" placeholder="Titre de l'appel d'offre" class="input-xxlarge" required>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="descrip_appel_offre">Fichier d'appel d'offre *</label>
+<div class="controls">
+<input name="descrip_appel_offre" type="file" id="descrip_appel_offre" class="input-xxlarge" required />  
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="duree_projet">Durée du projet *</label>
+<div class="controls">
+<div class="input-append">
+<input type="text" name="duree_projet" id="duree_projet" placeholder="Durée du projet" required>
+  <span class="add-on">Mois (supérieur à 8)</span>
+</div>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="code_membre_morale">Division offre *</label>
+<div class="controls">
+<?php 
+$table = new Application_Model_DbTable_EuUtilisateur();
+		$select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
+        $select->setIntegrityCheck(false);
+		$select->join('eu_membre_morale', 'eu_membre_morale.code_membre_morale = eu_utilisateur.code_membre');
+		$select->join('eu_filiere', 'eu_filiere.id_filiere = eu_membre_morale.id_filiere');
+		$select->where("eu_utilisateur.code_groupe = ?", "surveillance_technopole");
+		$select->order("eu_filiere.nom_filiere ASC");
+        $entries = $table->fetchAll($select);
+if(count($entries) > 0){?>
+<select id="code_membre_morale" name="code_membre_morale" required>
+  <option value="">Choisir la division</option>
+<?php foreach ($entries as $value) { ?>
+  <option value="<?php echo $value->code_membre_morale; ?>"><?php echo $value->nom_filiere; ?></option>
+<?php } ?>
+</select>
+<?php } ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="type_appel_offre">Type Appel Offre *</label>
+<div class="controls">
+<select id="type_appel_offre" name="type_appel_offre" required>
+  <option value="">Choisir le type</option>
+  <option value="inrpre">InrPRE</option>
+  <option value="kit">Kit Technopole</option>
+  <option value="ass">Assurance</option>
+</select>
+</div>
+</div>
+
+<div class="form-actions">
+<input name="id_utilisateur" type="hidden" id="id_utilisateur" value="<?php echo $sessionmembre->id_utilisateur; ?>" />  
+<input name="publier" type="hidden" id="publier" value="0" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter l'appel d'offre</button>
+</div>
+  
+</form>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

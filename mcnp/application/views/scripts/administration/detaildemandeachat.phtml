@@ -1,0 +1,99 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8">		
+  $(document).ready(function() {
+    $('#example').dataTable( {
+    "sPaginationType": "full_numbers",
+    "aaSorting": []
+  });
+  });
+</script>
+        
+<script type="text/javascript">
+function checkAllInput(form, action) {
+   var i = document.forms[form].getElementsByTagName("input"); 
+    for( var cpt = 0; cpt < i.length; cpt++) 
+        i[cpt].checked = (action)? true : false ;
+}
+
+//onclick="checkAllInput('form1', true);" //coche
+//onclick="checkAllInput('form1', false);" //decoche
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p> Détails de la demande d'Achat </p></blockquote>
+  
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!="") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+<?php 
+
+if(count($this->entries) > 0) { 
+$ttmntdemande = 0;
+?> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+	   <thead>
+	          <tr>
+			      <th colspan="5"> DETAILS : <?php echo "DEMANDE D'ACHAT N° ".$this->demande->reference_demande_achat." du ".datejourfr($this->demande->date_demande); ?></th> 
+			  </tr>
+			  <tr>
+				  <th>Référence</th>
+				  <th>Désignation des Articles</th>
+				  <th>Quantité</th>
+				  <th>Prix Unitaire</th>
+				  <th>Total</th>			 
+			  </tr>
+	   </thead>
+<tbody>
+<?php foreach($this->entries as $entry) : ?>
+<tr>
+    <td><?php echo($entry->reference_article); ?></td>
+    <td><?php echo($entry->designation_article); ?></td>
+    <td><?php echo($entry->quantite); ?></td>
+    <td><?php echo($entry->prix_unitaire);?> </td>
+    <td><div align="right"><?php echo(floor($entry->prix_unitaire * $entry->quantite));?> </div></td>
+</tr>
+<?php 
+$ttmntdemande += floor($entry->prix_unitaire * $entry->quantite);
+endforeach; 
+?>
+
+<tfoot>
+       <tr>
+	       <td colspan="4"><div align="right" style="font-size:14px;"><strong>Montant Demande d'Achat</strong></div></td>
+		   <td><div align="right" style="font-size:14px;"><strong><?php echo number_format($ttmntdemande,0,',',' ');?></strong></div></td>
+	   </tr>
+</tfoot>
+</tbody>
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucune demande enregistrée 
+</div>
+<?php } ?>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

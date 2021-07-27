@@ -1,0 +1,440 @@
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<div class="role-fluid">
+
+<?php 
+$typecentre = $this->idtypecentre;
+?>
+
+<legend>Ajouter un centre</legend>
+
+			<?php if (isset($_SESSION["validationerrors"])): ?>
+
+				<div class="alert alert-danger">
+
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+				</div>
+
+			<?php unset($_SESSION['validationerrors']); endif ?>
+
+			<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+
+				<div class="alert alert-success">
+
+					<li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+
+				</div>
+
+			<?php unset($_SESSION['validationpertesuccess']); endif ?>
+            <form action="#"  method="post" class="form-horizontal" id="ajouteruncentre">
+                <div class="control-group">
+	               <label class="control-label" for="Code membre" style="font-weight:bold">
+	                 Code membre du responsable *:
+	               </label>
+	               <div class="controls">
+		              <input type="text" name="responsable_code_membre" class="input-block-level responsable_code_membre" placeholder="Mettre ici votre code membre" required="required"/>
+	               </div>
+	            </div>
+
+                <div class="control-group">
+	                <label class="control-label" for="organisateur_centre_nom" style="font-weight:bold">
+	                    Nom du centre *:
+	                </label>
+	              <div class="controls">
+		             <input type="text" name="organisateur_centre_nom" class="input-block-level organisateur_centre_nom" placeholder="Mettre ici le titre du centre" required="required"/>
+	              </div>
+	            </div>
+
+
+                <div class="control-group">
+	                <label class="control-label" for="organisateur_centre_surface" style="font-weight:bold">
+	                    Superficie du centre(m2):
+	                </label>
+	              <div class="controls">
+		             <input type="text" name="organisateur_centre_surface" class="input-block-level organisateur_centre_surface" placeholder="Mettre ici la superficie du centre"/>
+	              </div>
+	            </div>
+                <div class="control-group">
+	                <label class="control-label" for="organisateur_centre_phone" style="font-weight:bold">
+	                    Numéro de téléphone du centre *:
+	                </label>
+	              <div class="controls">
+		             <input type="text" name="organisateur_centre_phone" class="input-block-level organisateur_centre_phone" placeholder="Mettre ici le numéro de téléphone du centre" required="required"/>
+	              </div>
+	            </div>
+
+                <div class="control-group">
+	                <label class="control-label" for="organisateur_centre_bp" style="font-weight:bold">
+	                    Boîte postale du centre *:
+	                </label>
+	              <div class="controls">
+		             <input type="text" name="organisateur_centre_bp" class="input-block-level organisateur_centre_bp" placeholder="Mettre ici la boîte postale" required="required"/>
+	              </div>
+	            </div>
+
+                <div class="control-group">
+	                <label class="control-label" for="organisateur_centre_description" style="font-weight:bold">
+	                    Bref description du centre *:
+	                </label>
+	              <div class="controls">
+                     <Textarea name="organisateur_centre_description" class="input-block-level organisateur_centre_description" placeholder="Mettre ici le titre du centre" required="required"></Textarea>
+		          </div>
+	            </div>
+                <div class="control-group">
+	                <label class="control-label" for="organisateur_centre_address" style="font-weight:bold">
+	                    Addresse du centre *:
+	                </label>
+	              <div class="controls">
+                     <Textarea name="organisateur_centre_address" class="input-block-level organisateur_centre_address" placeholder="Mettre ici l'adresse du centre" required="required"></Textarea>
+		          </div>
+	            </div>
+                <blockquote style="font-weight:bold"> RESPONSABILITE </blockquote>
+
+				<div id="qrcaptcha"></div>
+                <div class="control-group">
+	               <label class="control-label" for="login de l'utilisateur responsable du centre" style="font-weight:bold">
+	                 Login du responsable*:
+	               </label>
+	               <div class="controls">
+		              <input type="text" name="responsable_membre_login" class="input-block-level responsable_membre_login" placeholder="Veuillez saisir le login du responsable" required="required"/>
+	               </div>
+	            </div>
+                <div class="control-group">
+	            <label class="control-label" for="Mot de passe de l'utilisateur" style="font-weight:bold">
+	                Mot de passe du responsable *:
+	            </label>
+	            <div class="controls">
+		            <input type="text" name="responsable_membre_password" class="input-block-level responsable_membre_password" placeholder="Veuillez saisir le mot de passe du responsable" required="required"/>
+	            </div>
+	            </div>
+                <div class="control-group">
+	            <label class="control-label" for="Confirmation du mot de passe de utilisateur" style="font-weight:bold">
+
+	                Confirmation du Mot de passe du responsable*:
+
+	            </label>
+                
+	            <div class="controls">
+		            <input type="text" name="responsable_membre_confirmpassword" class="input-block-level responsable_membre_confirmpassword" placeholder="Veuillez confirmer le mot de passe saisi" required="required"/>
+	            </div>
+	            </div>
+
+                <?php if(in_array($this->idtypecentre, array(1,2,3,4,5))):?>
+
+
+                <blockquote style = "font-weight:bold"> LOCALISATION GEOGRAPHIQUE</blockquote>
+                
+                <div class="row-fluid" style = "clear: both;padding-bottom: 10px;position: relative;bottom: -11px;margin-bottom: 51px;">
+
+
+                <?php if ($this->idtypecentre  == 1):?>
+
+                <div class="span4">
+                            <div class="control-group">
+                                    <label class="control-label span4">Zone M.</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="code_zone" name="code_zone">
+                                            <option value="">Choisir une zone monétaire</option>
+                                            <?php foreach ($this->zones as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                            </div>
+                </div>
+                <?php endif ?>
+
+                <?php if ($this->idtypecentre  == 2):?>
+
+                    <div class="span4">
+                            <div class="control-group">
+                                    <label class="control-label span4">Zone M.</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="code_zone" name="code_zone">
+                                            <option value="">Choisir une zone monétaire</option>
+                                            <?php foreach ($this->zones as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                            </div>
+                    </div>
+                    <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Pays *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_pays" name="id_pays" required="required" onchange="ouvre_paystelephones2(this.value);">
+                                            <option value="">Choisir un pays</option>
+                                            <?php foreach ($this->pays as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                    </div>
+
+                <?php endif ?>
+
+                <?php if ($this->idtypecentre  == 3):?>
+
+                    <div class="span4">
+                            <div class="control-group">
+                                    <label class="control-label span4">Zone M.</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="code_zone" name="code_zone">
+                                            <option value="">Choisir une zone monétaire</option>
+                                            <?php foreach ($this->zones as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                            </div>
+                    </div>
+                    <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Pays *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_pays" name="id_pays" required="required" onchange="ouvre_paystelephones2(this.value);">
+                                            <option value="">Choisir un pays</option>
+                                            <?php foreach ($this->pays as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                    </div>
+                    <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Régions</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_region" name="id_region">
+                                            <option value="">Choisir une région</option>
+                                            <?php foreach ($this->regions as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                    <?php endif ?>
+
+                    <?php if ($this->idtypecentre  == 4):?>
+
+                        <div class="span4">
+                            <div class="control-group">
+                                    <label class="control-label span4">Zone M.</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="code_zone" name="code_zone">
+                                            <option value="">Choisir une zone monétaire</option>
+                                            <?php foreach ($this->zones as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                            </div>
+                    </div>
+                    <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Pays *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_pays" name="id_pays" required="required" onchange="ouvre_paystelephones2(this.value);">
+                                            <option value="">Choisir un pays</option>
+                                            <?php foreach ($this->pays as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                    </div>
+                    <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Régions</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_region" name="id_region">
+                                            <option value="">Choisir une région</option>
+                                            <?php foreach ($this->regions as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                    </div>
+                    <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Préfectures</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_prefecture" name="id_prefecture">
+                                            <option value="">Choisir une préfecture</option>
+                                            <?php foreach ($this->prefectures as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                    </div>
+                    <?php endif ?>
+
+                    <?php if ($this->idtypecentre  == 5):?>
+
+
+                        <div class="span4">
+                            <div class="control-group">
+                                    <label class="control-label span4">Zone M.</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="code_zone" name="code_zone">
+                                            <option value="">Choisir une zone monétaire</option>
+                                            <?php foreach ($this->zones as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                            </div>
+                    </div>
+                    <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Pays *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_pays" name="id_pays" required="required" onchange="ouvre_paystelephones2(this.value);">
+                                            <option value="">Choisir un pays</option>
+                                            <?php foreach ($this->pays as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                    </div>
+                    <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Régions</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_region" name="id_region">
+                                            <option value="">Choisir une région</option>
+                                            <?php foreach ($this->regions as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                    </div>
+                    <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Préfectures</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_prefecture" name="id_prefecture">
+                                            <option value="">Choisir une préfecture</option>
+                                            <?php foreach ($this->prefectures as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                    </div>
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Cantons *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_canton" name="id_canton" required="required">
+                                            <option value="">Choisir un canton</option>
+                                            <?php foreach ($this->cantons as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                    <?php endif ?>
+                    
+                </div>
+
+<?php endif ?>
+                <div class="control-group" style ="clear:both">
+                  <button type="submit" class="btn btn-large btn-primary" id ="valid_centre_qrcode" style="position:relative">
+                    Valider le formulaire
+                  </button>
+                </div>
+            </form>
+
+</div>
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+    <script src="/outil-qr.js"></script>
+    <script type="text/javascript">
+         //outilqr('addeli');
+		 outilqrformobligatoire("ajouteruncentre","valid_centre_qrcode");
+    </script>
+
+<style>
+/**
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+                             Division Centre
+                        </button>
+                        <div class="dropdown-menu">
+	                      <div class="nav-header">DIVISIONS D'UN CENTRE</div>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/organisation/affecterlesutilisateursauxroles/idgrouperoles/1/parentroles/11" target="_blank">Créér une division</a>
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/organisation/listdesgroupsderoles/idgrouperoles/1" target="_blank">Liste des divisions</a>
+                        </div>
+                      </div>
+
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+                             TETE DE DIVISION DU CENTRE
+                        </button>
+                        <div class="dropdown-menu">
+	                      <div class="nav-header">DETENTRICE</div>
+
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/organisation/affecterlesutilisateursauxroles/idgrouperoles/2/parentroles/12" target="_blank">Créer une tête de division détentrice</a>
+                          
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/organisation/listdesgroupsderoles/idgrouperoles/2" target="_blank">Liste des têtes de division détentrice</a>
+
+                        <div class="nav-header">SURVEILLANCE</div>
+
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/organisation/affecterlesutilisateursauxroles/idgrouperoles/2/parentroles/13" target="_blank">Créer une tête de division surveillance</a>
+
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/organisation/listdesgroupsderoles/idgrouperoles/2" target="_blank">Liste des têtes de division surveillance</a>
+
+
+                        <div class="nav-header">EXECUTANTE</div>
+
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/organisation/affecterlesutilisateursauxroles/idgrouperoles/2/parentroles/13" target="_blank">Créer une tête de division exécutante</a>
+
+                          <a class="dropdown-item" href="<?php echo $this->baseUrl();?>/organisation/listdesgroupsderoles/idgrouperoles/2" target="_blank">Liste des têtes de division exécutante</a>
+
+                      </div>
+
+                      </div>
+
+                      <div class="btn-group">
+
+                          <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #aa325f; font-size: 12px;">
+                             
+                              SUBDIVISION DU CENTRE
+
+                        </button>
+
+                        <div class="dropdown-menu">
+
+	                           <div class="nav-header">TETE DE DIVISION DETENTRICE</div>
+
+                         </div>
+
+                      </div>
+ */
+</style>

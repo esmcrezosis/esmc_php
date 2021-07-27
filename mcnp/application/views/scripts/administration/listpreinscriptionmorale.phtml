@@ -1,0 +1,91 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste Pré-inscription pour la mise sur chaine Membre Morale</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Date</th>
+								  <th>Type</th>
+								  <th>Domaine</th>
+								  <th>Raison sociale</th>
+								  <th>Situation</th>
+								  <th>Adresse</th>
+								  <th>E-mail & Site web</th>
+								  <th>Representant</th>
+								  <th>Portable</th>
+								  <th>Code Membre Morale</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+<?php 
+$date_inscription = new Zend_Date($entry->date_inscription);
+$heure_inscription = new Zend_Date($entry->heure_inscription);
+?>
+    <tr>
+      <td><?php echo ($date_inscription->toString('dd-MM-YY')); ?> <?php echo ($heure_inscription->toString('HH:mm:ss')); ?></td>
+      <td><?php echo ($entry->categorie_membre); ?></td>
+      <td><?php echo ($entry->code_type_acteur); ?> - <?php echo ($entry->code_statut); ?> - <?php echo ($entry->domaine_activite); ?></td>
+      <td><?php echo ($entry->raison_sociale); ?></td>
+      <td><?php echo ($entry->quartier_membre); ?> - <?php echo ($entry->ville_membre); ?> - <?php 
+$paysM = new Application_Model_EuPaysMapper();
+$pays = new Application_Model_EuPays();
+$paysM->find($entry->id_pays, $pays);
+?><?php echo ($pays->libelle_pays); ?></td>
+      <td><?php echo ($entry->bp_membre); ?> - <?php echo ($entry->tel_membre); ?></td>
+      <td><?php echo ($entry->email_membre); ?> - <?php echo ($entry->site_web); ?></td>
+      <td><?php echo ($entry->code_rep); ?></td>
+      <td><?php echo ($entry->portable_membre); ?></td>
+      <td><?php echo ($entry->code_membre_morale); ?></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune Pré-inscription enrégistrée 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

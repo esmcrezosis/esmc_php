@@ -1,0 +1,284 @@
+<style>
+
+  article{
+
+      font-size: 1.2em;
+
+      text-align:justify
+      
+  }
+
+</style>
+
+<div class="span12" >
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+
+<?php
+
+  $libelle_post_candidature = $this->libelle_postes;
+
+  $nometprenoms_candidature = $this->nometprenoms;
+ 
+?>
+
+
+<?php if ($this->countselectallunsignedcontrat != 0):?>
+
+<form method="post" class="form-horizontal">
+
+<article>
+  
+    <header style="position:relative;width:100%" >
+      
+       <div class="contrat_header_left" style="position:relative;display:inline-block;width:10%">
+       
+       </div>
+
+       <div class="contrat_header_right" style="width:90%;margin-left:10%">
+       
+            <div style="text-align: center;font-family: 'Maiandra GD';color: #ad2d58;font-weight: bold;font-size: 4em;"><span style="color:#c30c60">ESMC</span> GIE</div>
+
+            <div style="text-align: center;font-family: 'Maiandra GD';color: #ad2d58;font-size: 3em;">ECONOMIE SOCIAL DE MARCHE COMMUN</div>
+       
+           <p style="text-align:justify;font-size:0.8em">Toute activité liée à la recherche technologique, Conseils en Organisation des Affaires Commerciales, Recherche & Développement de Logiciels, Exploitation du Progiciel MCNP, Commerce 
+           sur internet, les prestations diverses et tous types d’activités dans les formes plus diverses pouvant se rattacher directement ou indirectement à l’objet social ou susceptible d’en faciliter l’extension ou le développement.
+           </p>
+
+           <p style="font-size:1.2em;text-align:center;font-weight:bold">RCCM N°: TG-LOM 2019 M 1485 - N° FISCAL 1001608966 - N° CNSS 93723</p>
+
+       </div>
+
+    
+    </header>
+
+
+    <h1 style="font-weight:bold">Contrat de service à durée limitée – Court terme</h1>
+
+    <header style="border:1px solid #2e2e2e;padding:5px;font-size:1.3em;margin-bottom:15px">
+      
+       <p style="font-weight:bold;font-size:1.3em;margin-bottom:0">Ce contrat concerne : UNE PERSONNE INDIVIDUELLE</p>
+
+       <p style="font-size:1.5em;margin-bottom:0">
+
+          <span style="display:inline-block;font-weight:bold">Prénom :  </span>
+
+          <span style=""><?php echo $this->prenoms_membre_ot; ?></span>
+       </p>
+
+        <p style="font-size:1.5em;margin-bottom:0">
+       
+          <span style="display:inline-block;font-weight:bold">NOM : </span>
+
+          <span style=""><?php echo $this->nom_membre_ot ?></span>
+       </p>
+    
+        <p style="font-size:1.5em;margin-bottom:0">
+       
+          <span style="display:inline-block;font-weight:bold">Né le :</span>
+
+          <span style=""><?php echo $this->datedenaissance ?></span>
+       </p>
+
+        <p style="font-size:1.5em;margin-bottom:0">
+       
+          <span style="display:inline-block;font-weight:bold">Nationalité :</span>
+
+          <span style=""><?php echo $this->nationality_ot ?></span>
+
+       </p>
+
+    </header>
+
+    <div class="control-group">
+
+      <label class="control-label" for="code de validation du pouvoir-faire" style="font-weight:bold">
+
+	            Code de validation du pouvoir-faire *:
+
+	    </label>
+
+	    <div class="controls">
+
+		         <input type="text" name="ot_code_pouvoir-faire" class="input-block-level ot_code_pouvoir-faire" placeholder="Mettre ici votre code de validation du pouvoir-faire" required="required"/>
+	
+      </div>
+
+    </div>
+
+    <h3 style="text-decoration:underline;font-weight:bold"> Définitions : </h3>
+
+
+    <section>
+    
+       <p>L’Offre de Travail <span style="color:#c30c60">ESMC</span> est assimilée à la prestation de services, l’auto-emploi, l’emploi indépendant ou free-lances en temps plein qui requiert la présence physique au poste. </p>
+       
+       <p>La flexibilité qu’offre l’Offre de Travail sur la plateforme GIE <span style="color:#c30c60">ESMC</span> vise l’emploi pour tous et répond parfaitement aux nombreux services à personne et entreprises, dans le cadre de la  réalisation effective des 17 ODD, prolongement de l’article 25 de la Déclaration Universelle des Droits de l’Homme auxquels est attelé le concept <span style="color:#c30c60">ESMC</span>.</p>
+    
+       <p>L’Offre de Travail concerne toute personne physique, en âge de travailler, qui offre du Travail à la Production Commune sur la plateforme GIE <span style="color:#c30c60">ESMC</span> au même titre que tout vendeur et revendeur de marchandises contre des <strong> Supports Marchands </strong>(Bons de Livraison) échangeables au besoin en Monnaies Espèce et Virtuelle (MEV) sous réserve des conditions y afférentes. </p>
+    
+       <p>Le Cadre du projet : L’implantation des Centres GIE <span style="color:#c30c60">ESMC</span> ; </p>
+
+       <p>Le contrat signé entre le GIE <span style="color:#c30c60">ESMC</span> et l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> concerne l’exécution de la Production Commune du GIE <span style="color:#c30c60">ESMC</span> dans les centres;</p>
+
+       <p>Le poste ou la fonction de l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span>  est définie dans la fiche de poste jointe en annexe ;</p>
+
+       <p>Le financement : le projet est financé par les Acteurs de l’Offre de la PC et leurs partenaires à travers l’achat du TIHU/KSU de la plateforme GIE <span style="color:#c30c60">ESMC</span>  du progiciel MCNP ;</p>
+
+       <p>Le Bénéficiaire : les Acteurs de l’Offre des centres GIE <span style="color:#c30c60">ESMC</span> </p>
+
+       <input type="hidden" name="id_candy_contract_ot" value="<?php echo $this->tokenstrongkey ?>">
+
+       <p>Les parties à cet accord, à savoir :</p>
+
+       <p>Le GIE <span style="color:#c30c60">ESMC</span>, dont le siège social se trouve dans l’Angle Rue Sagouda, Kiyéou et Bandjéli – Quartier Wuiti-Atchati, 03 BP : 30038 Lomé-Togo (Afrique de l’Ouest), E-mail : esmcgie@gmail.com, Tel : 93 76 61 90 / 79 82 60 86. Site web : esmcgie.com"> www.esmcgie.com </a> </p>
+
+       <ul>
+
+          <li>Désigné ci-dessous le « contractant »,</li>
+
+          <strong>Et</strong>
+
+          <li>L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span></li>
+
+          <li>Adresse : <textarea name="ot_adresse_contrat" id="" cols="30" rows="10"><?php echo $this->adresse_membre ?></textarea></li>
+
+          <li>E-mail : <input type="email" name="ot_email_contrat" value="<?php echo $this->email_membre ?>"></li>
+          
+          <li>Tél : <input type="number" value="<?php echo $this->telephone_membre ?>"></li>
+       </ul>
+
+        <p>  Désigné ci-dessous « l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span>;</p>
+
+        <p>Adresse que l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> certifie comme étant son adresse légale ; adresse et e-mail où sera envoyée toute correspondance formelle éventuelle et qui apparaitra sur toutes les factures ou notes de frais de l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> relatives au présent contrat.</p>
+
+        <p>Dans le cadre du projet mentionné ci-dessus, réalisé pour le compte du GIE <span style="color:#c30c60">ESMC</span>, le contractant du projet susmentionné, </p>
+
+        <p>le contractant et l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> :</p>
+
+        <strong>Conviennent et confirment par leur signature que :</strong>
+
+        <ol>
+           <li> L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> contracté pour le poste mentionné en « définitions » ci-dessus, la mission étant à réaliser au Togo, essentiellement dans les centres mais pourrait amener à faire des déplacements à l’intérieur du pays.
+                Le contractant est expressément autorisé à faire contrôler la qualité des prestations de l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> et à vérifier si celles-ci s’intègrent bien dans le projet y compris par rapport au document des termes de référence (TDR) du projet. 
+           </li>
+
+           <li>N°OTR/NIF : Néant</li>
+
+           <li>Durée et quantité de la prestation de l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> : la durée maximum de la prestation de l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> est d’un (1) an renouvelable à partir de la date de la signature dudit contrat  et se termine un (1) an au plus tard. Toutefois les deux parties peuvent convenir en toute liberté de renouveler ce présent contrat.
+Les périodes des prestations de l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> devront permettre la meilleure exécution des termes de référence du projet. La 1ère phase se déroulera à partir de la date de signature; le calendrier des prestations futures sera défini durant cette première phase selon les TDR du projet.
+           </li>
+
+           <li>Description des tâches : <a href="#" style="display:block">voir la fiche de poste</a> </li>
+
+           <i>NB:Les TDR du projet en Annexe 2 et la fiche de poste en annexe 1 font partie intégrante du présent accord.</i>
+
+           <li>Les frais de prestations de l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> sont fixés de commun accord à l’Annexe 3 du présent contrat ; l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span>, qui exerce sa mission de manière indépendante assumera la responsabilité de toute imposition personnelle, toute prime professionnelle ou d’assurance et les cotisations de sécurité sociale. Les détails en sont spécifiés dans l’annexe 1.</li>
+
+           <li>Les frais de prestations de l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> lui seront versés par le contractant, le GIE <span style="color:#c30c60">ESMC</span> en Bons de Livraison (BL) <span style="color:#c30c60">ESMC</span> chaque fois qu’il présente à cet effet une facture ou note de frais de prestations, accompagnée d’un calendrier de prestations approuvé et signé par l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> puis validé par le Président Directeur Général du GIE <span style="color:#c30c60">ESMC</span> ou la personne désignée.</li>
+
+           <li>La rémunération convenue ne sera en aucun cas augmentée durant l’exécution du contrat, ni adaptée pour aucune cause que ce soit. </li>
+        
+           <li>Les paiements éventuels seront uniquement effectués en monnaie locale.</li>
+
+           <li>L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> s’engage à la remise régulière et ponctuelle des rapports techniques et financiers.</li>
+        
+           <li>En conformité avec le système de contrôle interne du contractant, les rapports de l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> devront être approuvés par le contractant avant le dépôt de sa facture pour paiement.</li>
+
+           <li>L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> confirme que toutes les informations fournies et qu’il fournira sont correctes.</li>
+
+           <li>L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> confirme qu’il n’est impliqué dans aucune procédure judiciaire qui pourrait mettre en péril l’exercice de sa mission.</li>
+        
+           <li>L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> veillera à ne divulguer avant, pendant ou après l’exécution du présent contrat, aucune information confidentielle (y compris tout rapport et document interne préparé dans le cadre du projet) qu’il détiendrait de par l’exercice de sa mission. L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> ne publiera ni ne dévoilera aucun élément spécifique du projet ou du contrat principal sans l’accord écrit préalable du contractant.</li>
+        
+           <li>L’accord prendra fin immédiatement si les Acteurs de l’offre de la PC, demandent que l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> soit retiré de son affectation ;Dans cette hypothèse, le contractant veillera à prévenir l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> Commune Zio 2  / le consultant  dans les meilleurs délais et par les moyens les plus appropriés à la situation (fax, courrier, e-mail, …). </li>
+        
+           <li>Chaque partie pourra également mettre un terme au présent contrat, à tout moment et sans justifier de motifs, pour autant qu’elle respecte un préavis de quinze (15) jours-calendrier. En aucun cas, l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> ne pourra réclamer une indemnité de résiliation au contractant, ni inversement le contractant à l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span>.</li>
+        
+           <li>Les parties décident donc d’aménager le principe de résiliation anticipée, en prévoyant une faculté de résiliation anticipée du contrat, au paiement des prestations qui auront été effectuées.
+Sauf exécution fautive du contrat, l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> aura droit, en cas de rupture anticipée du contrat, au paiement des prestations qui auront été effectuées.     
+</li>
+           <li>Responsabilité et éthique :
+Même si le contractant peut être le responsable premier dans certains cas vis-à-vis d’un tiers pour un préjudice qui serait causé par l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span>  et est alors couvert par une « assurance de responsabilité civile » comme prévu au contrat principal (Convention de collaboration avec le GIE <span style="color:#c30c60">ESMC</span>), l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> demeure responsable vis-à-vis du contractant pour d’éventuels préjudices causés par l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span>  à un tiers durant l’exécution du présent contrat.
+</li>
+
+ <li>L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> respectera les lois et règlements d’application de la République Togolaise.  L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> indemnisera le contractant de tout dommage ou réclamation émanant d’une infraction de l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> au présent article. L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> n’acceptera aucun cadeau, faveur, rémunération ou ristourne personnelle dans le cadre  dudit projet.
+Dans l’exercice de ses responsabilités établies par le présent accord, l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> s’interdit strictement de tolérer la corruption sous quelque forme que ce soit et garantit qu’il n’a pas – et n’aura pas – payé, offert ou promis de payer, ou autorisé le paiement direct ou indirect de quels que fonds que ce soit ou d’aucun bien de valeurs, soit de façon directe ou indirectement par le biais d’un intermédiaire, afin d’influencer, d’obtenir ou de préserver des affaires ou pour sécuriser un avantage commercial ou financier illégitime pour sa personne ou pour le contractant. Dans le cas où le contractant aurait une raison de croire qu’une violation du présent paragraphe a eu lieu ou pourrait avoir lieu, celui-ci peut, après en avoir informé les Acteurs de l’Offre, suspendre les paiements à l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> concerné jusqu’à ce qu’il ait obtenu à sa satisfaction ou à celle de ces acteurs, confirmation qu’aucune infraction n’a eu lieu ou aura lieu. Le contractant a droit de regard dans les faits et circonstances qui sous-tendent cette inquiétude. Ce droit peut inclure des procédures internes et des communications avec l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> concernant des informations sur l’activité douteuse et/ou des demandes des copies de documents relatifs à cette activité. L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> aura le devoir de collaborer avec le contractant afin de déterminer la validité de l’activité mise en doute. Dans le cas où serait observée une violation par l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> du présent paragraphe, les droits de l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> émanant du présent contrat et du contrat principal seront annulés par le contractant sur simple information écrite. L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> a le devoir de protéger le contractant contre les réclamations, pertes et dommages de la part des Acteurs de l’Offre. L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> aura l’obligation d’indemniser le contractant en cas de réclamations, pertes et dommages qui résulteraient d’une infraction de l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> au présent paragraphe.
+</li>
+
+<input type="hidden" name="id_candidature_postes" value="<?php echo $this->selectionsignedcontrat[0]->id_candidature_postes?>">
+
+<input type="hidden" name="id_candidature_membre" value="<?php echo $this->selectionsignedcontrat[0]->id_candidature_membre ?>">
+
+<li>Les parties conviennent que :
+ 
+  <ol>
+     <li>Cet accord ne constitue pas un contrat de travail et/ou d’emploi de l’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span>;</li>
+     <li>L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> agit en tant qu’entité entièrement indépendante ; il organise son travail comme il l’entend en respectant  néanmoins  les termes du contrat principal tels que reproduits dans les annexes au présent contrat (en ce compris ses termes de référence) et les règles de l’art ;</li>
+     <li>En cas de litige, seules les juridictions de la République Togolaise seront compétentes et seule la loi togolaise sera applicable. L’OT <span style="display:inline-block;font-weight:bold"><?php echo $libelle_post_candidature ?></span> accepte cette clause sans réserve et en aucun cas ne cherchera à faire appliquer la loi d’un autre pays dans le cadre du présent contrat.</li>
+  </ol>
+
+</li>
+
+<li>Les parties confirment, de par leur signature, qu’elles ont pris connaissance de l’entièreté du contrat, chaque partie ayant reçu un original. </li>
+        </ol>
+
+<p style="text-align:right">Fait à Lomé, le <?php echo $this->datesignature ?> </p>
+
+
+<p>
+
+       <span style="display:block"> Pour  le GIE <span style="color:#c30c60">ESMC</span>, <span style="display:block;text-align:right">L’OT <?php echo $libelle_post_candidature ?>,</span></span> 
+       
+       <span style="display:block;margin-bottom:30px">le PDG  <span style="display:block;text-align:right"><?php echo $this->nometprenoms ?></span></span> 
+
+       <span>Essohamlon SAMA </span>
+       
+</p>
+
+</section>
+
+
+<section>
+
+<p style="font-weight:bold;text-decoration:underline" >Liste des Annexes :</p>
+
+<p> <a href="/ficheposteprocedure/fichepostedivisionasection/post/<?php echo $this->id_roles ?>/parentpost/<?php echo $this->id_roles_parent ?>/typecentre/cantonnal" target="_blank">ANNEXE 1 – Fiche de poste</a>  </p>
+
+<p> <a href="/gestionoffredetravail/annexetdr" target="_blank">ANNEXE 2 – Termes de référence du projet</a> </p>
+
+<p> <a href="/gestionoffredetravail/annexegrille" target="_blank">ANNEXE 3 – Grille de rémunération des prestations et connexes</a>  </p>
+
+<p> <a href="/gestionoffredetravail/annexebonasavoir" target="_blank">ANNEXE 4 – Bon à savoir OT</a> </p>
+
+<p> <a href="/gestionoffredetravail/annexemodalitepayement" target="_blank">ANNEXE 5 – Modalité de payement</a> </p>
+
+
+</section>
+
+<input type="hidden" name="id_candidature_contrat" value="<?php echo $this->id_candidature?>">
+
+<input type="hidden" name="id_candidaturepost_contrat" value="<?php echo $this->id_candidature_postes?>">
+
+<input type="hidden" name="id_candidaturemembre_contrat" value="<?php echo $this->id_candidature_membre?>">
+
+
+
+<button type="submit" class="btn btn-large btn-primary" style="position:relative">
+
+          J'accepte les termes et conditions du contrat
+
+</button>
+
+</article>
+
+</form>
+
+<?php else: ?>
+
+<div class="alert alert-success">Vous avez déjà signé le contrat</div>
+
+<?php endif ?>
+
+</div>

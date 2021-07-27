@@ -1,0 +1,173 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<script type="text/javascript">
+   var compteur = 1;
+   function addRow(tableID) {
+	   var table = document.getElementById(tableID);
+       var rowCount = table.rows.length;
+       var cpte = rowCount;
+       var row = table.insertRow(rowCount);
+	   
+	   var cell1 = row.insertCell(0);
+       var element0 = document.createElement("input");
+       element0.type = "text";
+       element0.setAttribute("id", "code_rubrique" + cpte);
+	   element0.setAttribute("name", "code_rubrique[]");
+	   element0.setAttribute("class","input-xxlarge");
+	   element0.setAttribute("placeholder","Code Rubrique");
+	   element0.setAttribute("required","true");
+       cell1.appendChild(element0);
+	   
+	   var cell2 = row.insertCell(1);
+       var element1 = document.createElement("input");
+       element1.type = "text";
+       element1.setAttribute("id", "code_nature" + cpte);
+	   element1.setAttribute("name", "code_nature[]");
+	   element1.setAttribute("class","input-xxlarge");
+	   element1.setAttribute("placeholder","Code Nature Immobilisation");
+	   element1.setAttribute("required","true");
+       cell2.appendChild(element1);
+	   
+	   var cell3 = row.insertCell(2);
+       var element2 = document.createElement("input");
+       element2.type = "number";
+       element2.setAttribute("id", "annee" + cpte);
+	   element2.setAttribute("name", "annee[]");
+	   element2.setAttribute("class","input-xxlarge");
+	   element2.setAttribute("placeholder","Année Acquisition");
+	   element2.setAttribute("required","true");
+       cell3.appendChild(element2);
+	   
+	   var cell4 = row.insertCell(3);
+       var element3 = document.createElement("input");
+       element3.type = "text";
+       element3.setAttribute("id", "code_localisation" + cpte);
+	   element3.setAttribute("name", "code_localisation[]");
+	   element3.setAttribute("class","input-xxlarge");
+	   element3.setAttribute("placeholder","Code Localisation");
+	   element3.setAttribute("required","true");
+       cell4.appendChild(element3);
+	   
+	   
+	   var cell5 = row.insertCell(4);
+       var element4 = document.createElement("input");
+       element4.type = "text";
+       element4.setAttribute("id", "code_financement" + cpte);
+	   element4.setAttribute("name", "code_financement[]");
+	   element4.setAttribute("class","input-xxlarge");
+	   element4.setAttribute("placeholder","Code Financement");
+	   element4.setAttribute("required","true");
+       cell5.appendChild(element4);
+	   
+	   
+	   compteur = compteur + 1;
+       document.getElementById("cpteur").setAttribute('value',compteur);
+	   
+   }
+   
+   
+   
+   
+   function deleteRow(tableID)  {
+	   try {
+         var table = document.getElementById(tableID);
+         var rowCount = table.rows.length - 1;
+         if (rowCount >= 1) {
+            table.deleteRow(rowCount);
+            compteur = compteur - 1;
+            document.getElementById("cpteur").setAttribute('value', compteur);
+         }
+      } catch (e) {
+         alert(e);
+      }    
+   }
+   
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p> Remplir le formulaire de Codification des immobilisations </p></blockquote>
+
+<?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+<?php } ?>
+  
+<?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error != "") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+<?php } ?>
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addcodification">
+
+<div class="control-group">
+<label class="control-label" for="designation_pv">Procès verbal * </label>
+<div class="controls">
+<input type="text" name="designation_pv" id="designation_pv" value="<?php echo $this->pv->designation_pvacquisition; ?>"  class="input-xxlarge" readonly />
+</div>
+</div>
+
+<div class="control-group" id="display_code">
+     <label class="control-label" for="codification"> Codification * </label>
+     <div class="controls">
+	 <table id="tab_code">
+	        <tr>
+                <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+				<td>
+				<input type="text" id="code_rubrique" name="code_rubrique[]" placeholder="Code Rubrique"  class="input-xxlarge" required />
+			    </td>
+				
+				<td>
+				<input type="text" id="code_nature" name="code_nature[]" placeholder="Code Nature Immobilisation"  class="input-xxlarge" required />
+			    </td>
+				
+				<td>
+				<input type="number" id="annee" name="annee[]" placeholder="Année Acquisition"   class="input-xxlarge" required />
+			    </td>
+				
+				<td>
+				<input type="text" id="code_localisation" name="code_localisation[]" placeholder="Code Localisation"  class="input-xxlarge" required />
+			    </td>
+				
+				<td>
+				<input type="text" id="code_financement" name="code_financement[]" placeholder="Code Financement"  class="input-xxlarge" required />
+			    </td>
+				
+				<td>
+				    <input class="btn btn-mini"  id="add"     type="button"  value="+"  onclick ="addRow('tab_code');"   /> 
+					<input class="btn btn-mini"  id="remove"  type="button"  value="-"  onclick="deleteRow('tab_code');" /> 
+				</td>
+	        </tr>
+	 </table>
+     </div>	 
+</div>
+
+
+<div class="form-actions">  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input type="hidden" name="id_pvacquisition" id="id_pvacquisition" value="<?php echo $this->pv->id_pvacquisition; ?>"/>
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Valider</button>
+</div>                           
+  
+</form>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,468 @@
+<div id="view-content" title="Demande de cartes pour les membres personnes physiques" style="font-size: 12px;min-height:520px;">
+     <form id="affecte_form" method="Post" action="/eu-carte/donewcarte" style="margin-left: 10px;margin-top: 15px;">
+        <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+		<fieldset><legend>Cartes</legend>
+        <table style="width: 600px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+		       <tr>
+                  <td colspan="2">
+                    <fieldset>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label>Mode de paiement :</label></td>
+                                    <td>
+                                        <select id="sel_mode_fin" name="sel_mode_fin">
+                                                <option value="SMS">Code SMS</option>
+                                                <option value="CAPS">CAPS</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+			
+			<tr>
+                <td colspan="2">
+                    <div id="nn_table" style="display: none;">
+                        <fieldset>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>N° Membre Apporteur *:</td>
+										<td><input id="code_memb_app" type="text" name="code_memb_app" value="" size="30" class="validate[required]"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Compte MF *</label></td>
+                                        <td>
+											    <select id="type_mf" class="validate[required]" name="type_mf"></select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </div>
+                </td>
+            </tr>
+			
+			
+            <tr>
+                <td colspan="2">
+                    <div id="sms_table">
+                        <fieldset>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td><label>Code SMS *:</label></td>
+                                        <td><input id="code_sms" name="code_sms" value="" class="validate[required]"/></td>
+                                        <td><div id="id_message" style="width: 150px; color:red;"></div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </div>
+                </td>
+            </tr>
+			
+            <tr>
+                <td colspan="2">
+                    <div id="caps_table" style="display: none;">
+                        <fieldset>
+                            <table>
+                                <tbody>
+								    <tr>
+                                        <td><label>Type membre apporteur :</label></td>
+                                        <td>
+                                            <select id="type_membre">
+											  <option value=""></option>
+                                              <option value="P">Physique</option>
+                                              <option value="M">Morale</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Code Membre Apporteur *:</td><td><input id="code_memb_caps" type="text" name="code_memb_caps" class="validate[required]" value="" size="30"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <fieldset>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label>Montant     *:</label></td><td><input id="mont_sms"  type="text" name="mont_sms" value="" required="true" style="width: 160px;"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Code Membre    *: </label></td><td><input id="code_membre" type="text" name="code_membre" value="" required="true" size="30"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Nom et Prénoms : </label></td><td><input id="nom_membre" type="text" name="nom_membre" value="" style="width: 200px;" readonly="readonly"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+			<!--
+            <tr>
+                <td colspan="2">
+                    <fieldset>
+                        <table border="1" rules="all" id="tab_salaire">
+                            <thead>
+                                <tr style="text-align: left;">
+                                    <th style="width: 192px;">Code Carte</th><th style="width: 90px;">Nom Carte</th><th style="width: 120px;">Prix</th>
+                                </tr>
+                            </thead>
+                            <tbody> 
+                                <tr>
+                                    <td><select id="typecarte1" name="typecarte1" value="" style="width: 190px;" required="true"/></td>
+                                    <td><select id="carte1" name="carte1" value="" style="width: 90px;" required="true"/></td>
+                                    <td><input id="prix1" type="text" name="prix1" value="" style="width: 120px;" readonly="true" class="validate[required,custom[onlyNumberSp]]"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>-->
+			
+            <tr>
+                <!--<td><input id="add" type="button" value="Ajouter" onclick="addRow('tab_salaire');"/><input id="remove" type="button" value="Supprimer" onclick="deleteRow('tab_salaire');"/></td>
+                -->
+				<td colspan=2 align=center>
+				    <input type="submit" id="val" value="Valider"/>
+				    <input type="reset" id="reset" value="Réinitialiser"/>
+				</td>
+            </tr>
+        </table>
+		</fieldset>
+        <table>
+        </table>
+    </form>
+</div>	
+<script>
+            var compteur = 1;
+            $(document).ready(function() {
+                $(function() {
+                   $('#view-content').puipanel();
+                   $('fieldset').puifieldset();
+                });
+                $('#val').button();
+                $('#reset').button();
+                $('#add').button();
+                $('#remove').button();
+                $("#affecte_form").validationEngine();
+                        $('#code_sms').blur(function(e)
+                        {
+                            if ($(this).val() !== '') {
+                                $.get(
+                                        '/eu-carte/codesms',
+                                        {
+                                            code: $(this).val()
+                                        },
+                                function success(data) {
+                                    if (data !== 0) {
+                                        $('#mont_sms').val(data);
+                                        $('#mont_sms').attr('readonly', true);
+                                    } else {
+                                        $('#mont_sms').attr('readonly', false);
+                                        $("#id_message").html("<label>Ce code est invalide</label>");
+                                    }
+
+                                });
+                            } else {
+                                $('#mont_sms').attr('readonly', false);
+                            }
+                            e.preventDefault();
+                        });
+
+                        $('#carte1').change(function(e) {
+                            if ($(this).val() !== '') {
+                                $.get(
+                                        '/eu-carte/prix',
+                                        {
+                                            code_cat: $(this).val()
+                                        },
+                                function success(data)
+                                {
+                                    if (data !== 0) {
+                                        $('#prix1').val(data);
+                                    } else {
+                                        alert("Le prix de cette carte n'est pas défini!!!");
+                                    }
+
+                                });
+                            }
+                            e.preventDefault();
+                        });
+
+						$('#code_memb_caps').attr('readonly',true);
+		
+        $("#type_membre").change(function(e) {
+             e.preventDefault();
+			 $('#code_memb_caps').val('');
+             if ($(this).val() != '') {
+			      
+		          $('#code_memb_caps').attr('readonly',false);
+				  $.get("/eu-carte/membreapporteur",{
+                            type_membre : $('#type_membre').val()
+                  },
+                  function success(data) {
+                       $("#code_memb_caps").autocomplete({minLength: 5, "source": data});
+                  });
+				  
+			 }
+			 else {
+			      $('#code_memb_caps').attr('readonly',true);	  
+			 }
+        
+        })
+                        $.get("/eu-carte/membre",
+                                function success(data)
+                                {
+                                    $("#code_membre").autocomplete({"source": data, change: displayItem});
+                                    
+                                });
+
+                        function displayItem()
+                        {
+                            if ($(this).val() !== '')
+                            {
+                                $.get(
+                                        '/eu-carte/recupnom',
+                                        {
+                                            num_membre: $(this).val()
+                                        },
+                                function success(data)
+                                {
+                                    $("#nom_membre").val(data[1]);
+                                });
+
+                                $.get("/eu-carte/categorie", {type: '%', memb: $(this).val()},
+                                function success(data)
+                                {
+                                    var options = '<option/>';
+                                    for (var i = 0; i < data.length; i++) {
+                                        options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                                    }
+                                    $('select#carte1').html(options);
+                                });
+                            }
+                        }
+
+                        $.get("/eu-carte/typecarte",
+                                function success(data)
+                                {
+                                    var options = '<option/>';
+                                    for (var i = 0; i < data.length; i++) {
+                                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                                    }
+                                    $('select#typecarte1').html(options);
+                                });
+
+                        $.get("/eu-carte/categoriep", {type: '%'},
+                        function success(data)
+                        {
+                            var options = '<option/>';
+                            for (var i = 0; i < data.length; i++) {
+                                options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                            }
+                            $('select#carte1').html(options);
+                        });
+						
+                        $('#typecarte1').change(function(e)
+                        {
+                            if ($(this).val() !== '')
+                            {
+                                $.get(
+                                        '/eu-carte/categoriep',
+                                        {
+                                            type: $(this).val()
+                                        },
+                                function success(data)
+                                {
+                                    var options = '<option/>';
+                                    for (var i = 0; i < data.length; i++) {
+                                        options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                                    }
+                                    $('select#carte1').html(options);
+                                });
+                            }
+                            e.preventDefault();
+                        });
+						
+						$.get("/eu-carte/typemf",
+                          function success(data) {
+                          var options = '<option/>';
+                          for (var i = 0; i < data.length; i++) {
+                              options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                          }
+                          $('select#type_mf').html(options);
+                        });
+
+                        $("#sel_mode_fin").change(function(e) {
+                            e.preventDefault();
+                            if ($(this).val() === 'NN') {
+                                $('#sms_table').css('display', 'none');
+                                $('#caps_table').css('display', 'none');
+                                $('#nn_table').css('display', 'block');
+                            } else if ($(this).val() === 'SMS') {
+                                $('#nn_table').css('display', 'none');
+                                $('#caps_table').css('display', 'none');
+                                $('#prix').val(0);
+                                $('#sms_table').css('display', 'block');
+                            } else if ($(this).val() === 'CAPS') {
+                                $('#nn_table').css('display', 'none');
+                                $('#sms_table').css('display', 'none');
+                                $('#caps_table').css('display', 'block');
+                            } else {
+                                $('#nn_table').css('display', 'none');
+                                $('#sms_table').css('display', 'none');
+                                $('#caps_table').css('display', 'none');
+                            }
+                        });
+
+                        $('form#affecte_form').submit(function(e) {
+                            $.ajax({
+                                url: $('form').attr("action"),
+                                data: $('form').serialize(),
+                                type: 'post',
+                                success: processServerResponse
+                            });
+                            e.preventDefault();
+                        });
+                        function processServerResponse(data) {
+                            if (data === true) {
+                                alert('La demande de cartes a été effectuée avec succès ');
+                                $(location).attr("href", "/eu-carte/index");
+                            }
+                            else {
+                                alert(data);
+                            }
+                        }
+                        ;
+                    });
+
+                    function addRow(tableID) {
+
+                        var table = document.getElementById(tableID);
+                        var rowCount = table.rows.length;
+                        var cpte = rowCount;
+                        var row = table.insertRow(rowCount);
+
+                        var cell3 = row.insertCell(0);
+                        var element2 = document.createElement("select");
+                        element2.setAttribute("id", "typecarte" + cpte);
+                        element2.setAttribute("name", "typecarte" + cpte);
+                        element2.setAttribute("style", "width:190px;");
+                        element2.setAttribute("required", "true");
+                        cell3.appendChild(element2);
+
+                        var cell4 = row.insertCell(1);
+                        var element3 = document.createElement("select");
+                        element3.setAttribute("id", "carte" + cpte);
+                        element3.setAttribute("name", "carte" + cpte);
+                        element3.setAttribute("style", "width:90px;");
+                        element3.setAttribute("required", "true");
+                        cell4.appendChild(element3);
+
+                        var cell5 = row.insertCell(2);
+                        var element4 = document.createElement("input");
+                        element4.type = "text";
+                        element4.setAttribute("id", "prix" + cpte);
+                        element4.setAttribute("name", "prix" + cpte);
+                        element4.setAttribute("style", "width:120px;");
+                        element4.setAttribute("value", "");
+                        element4.setAttribute("required", "true");
+                        cell5.appendChild(element4);
+
+                        $('#typecarte' + cpte).puiinputtext();
+                        $('#carte' + cpte).puiinputtext();
+                        $('#prix' + cpte).puiinputtext();
+
+                        $.get("/eu-carte/categoriep", {type: '%'},
+                        function success(data)
+                        {
+                            var options = '<option/>';
+                            for (var i = 0; i < data.length; i++) {
+                                options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                            }
+                            $('select#carte' + cpte).html(options);
+                        });
+
+                        $.get("/eu-carte/typecarte",
+                                function success(data)
+                                {
+                                    var options = '<option/>';
+                                    for (var i = 0; i < data.length; i++) {
+                                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                                    }
+                                    $('select#typecarte' + cpte).html(options);
+                                });
+
+                        $('#typecarte' + cpte).change(function(e)
+                        {
+                            if ($(this).val() !== '')
+                            {
+                                $.get(
+                                        '/eu-carte/categoriep',
+                                        {
+                                            type: $(this).val()
+                                        },
+                                function success(data)
+                                {
+                                    var options = '<option/>';
+                                    for (var i = 0; i < data.length; i++) {
+                                        options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                                    }
+                                    $('select#carte' + cpte).html(options);
+                                });
+                            }
+                            e.preventDefault();
+                        });
+
+                        $('#carte' + cpte).change(function(e)
+                        {
+                            if ($(this).val() !== '')
+                            {
+                                $.get(
+                                        '/eu-carte/prix',
+                                        {
+                                            code_cat: $(this).val()
+                                        },
+                                function success(data)
+                                {
+                                    if (data !== 0) {
+                                        $('#prix' + cpte).val(data);
+                                    } else {
+                                        alert("Le prix de cette carte n'est pas défini!!!");
+                                    }
+
+                                });
+                            }
+                            e.preventDefault();
+                        });
+
+                        compteur = compteur + 1;
+                        document.getElementById("cpteur").setAttribute('value', compteur);
+                    }
+
+                    function deleteRow(tableID) {
+                        try {
+                            var table = document.getElementById(tableID);
+                            var rowCount = table.rows.length - 1;
+                            if (rowCount > 1) {
+                                table.deleteRow(rowCount);
+                            }
+                            compteur = compteur - 1;
+                            document.getElementById("cpteur").setAttribute('value', compteur);
+                        } catch (e) {
+                            alert(e);
+                        }
+                    }
+</script>

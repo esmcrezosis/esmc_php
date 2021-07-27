@@ -1,0 +1,189 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+
+<script type="text/javascript" charset="utf-8">			
+$(document).ready(function() {
+ $('#example').dataTable( {
+   "sPaginationType": "full_numbers",
+   "aaSorting": []
+ });
+});
+</script>
+       
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Rechercher sur les activations pour soi et pour tiers </p></blockquote>
+
+<div class="accordion" id="accordion2">
+<div class="accordion-group">
+     <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+        Formulaire de trie par critères
+      </a>
+     </div>
+	 
+<div id="collapseOne" class="accordion-body in collapse show">
+<div class="accordion-inner">
+<form method="post" enctype="multipart/form-data" role="form" name="souscription" id="souscription" action="" class="">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+   
+<div class="">
+    <div class="span3">
+       <div class="control-group">
+       <label class="control-label" for="nom_membre">Nom Membre</label>
+       <div class="controls">
+       <input type="text" name="nom_membre" id="nom_membre" placeholder="Nom Membre" class="input-large" value="<?php echo $this->nom_membre; ?>"  />
+       </div>
+       </div>
+    </div>
+   
+   <div class="span3">   
+	   <div class="control-group">
+       <label class="control-label" for="prenom_membre">Prénom Membre</label>
+       <div class="controls">
+       <input type="text" name="prenom_membre" id="prenom_membre" placeholder="Prénom Membre" class="input-large" value="<?php echo $this->prenom_membre; ?>" />
+       </div>
+       </div>    
+   </div>
+   
+   <div class="span3">   
+	   <div class="control-group">
+       <label class="control-label" for="raison_sociale">Raison Sociale</label>
+       <div class="controls">
+       <input type="text" name="raison_sociale" id="raison_sociale" placeholder="Raison Sociale" class="input-large" value="<?php echo $this->raison_sociale;?>" />
+       </div>
+       </div>    
+   </div>
+   
+   <div class="span3">   
+	   <div class="control-group">
+       <label class="control-label" for="raison_sociale">Code Membre</label>
+       <div class="controls">
+       <input type="text" name="code_membre" id="code_membre" placeholder="Code Membre" class="input-large" value="<?php echo $this->code_membre;?>" />
+       </div>
+       </div>    
+   </div>
+   
+</div>
+    
+ <div class="">
+ <div class="span12">
+   
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="submit" class="btn btn-primary">Rechercher</button>
+</div>    
+
+</div>
+</div>
+
+</form>
+</div>
+</div>
+</div> 
+</div>
+
+<BR/><BR/><BR/><BR/><BR/><BR/>
+
+<?php if(isset($this->entries)) {  if(count($this->entries) > 0) { ?> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+<thead>
+	  <tr>
+		  <th>Code membre</th>
+		  <th>Nom && Prénom</th>
+		  <th>Date de naissance</th>
+      <th>Lieu de naissance</th>
+		  <th>Actualisation</th>
+      <th>QR Code</th>
+	  </tr>
+</thead>	   
+<tbody>
+<?php foreach ($this->entries as $entry) : 
+$eusms = new Application_Model_DbTable_EuSms();
+$select = $eusms->select();
+$select->where("smsbody LIKE '%Bienvenue%'");
+$select->where("smsbody LIKE '%".$entry->code_membre."%'");
+$select->order(array('neng ASC'));
+$select->limit(1);
+$rowseusms = $eusms->fetchRow($select);
+?>
+<tr>
+<td><?php echo($entry->code_membre);?></td>
+<td><?php echo($entry->nom_membre.'  '.$entry->prenom_membre); ?></td>
+<td><?php echo datefr($entry->date_nais_membre);?></td>
+<td><?php echo ($entry->lieu_nais_membre);?></td>
+<td><a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/editcm/id/<?php echo $entry->code_membre; ?>"><i class="icon-edit icon-white"></i>Modifier</a></td>
+<td><a class="btn btn-mini btn-danger" href="<?php echo $this->baseUrl();?>/souscriptionbon/certificatpdfqrcode/membre/<?php echo $entry->code_membre; ?>" target="_blank"> Imprimer le Certificat de CM avec QRcode</a></td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun membre enrégistré 
+</div>
+<?php } } ?>
+
+<?php if(isset($this->results)) { if(count($this->results) > 0) { ?> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+<thead>
+<tr><th>Code membre</th>
+  <th>Raison Sociale</th>
+    <th>Actualisation</th>
+      <th>QR Code</th>
+    </tr>
+</thead>	   
+<tbody>
+<?php foreach ($this->results as $entry) : 
+  $eusms = new Application_Model_DbTable_EuSms();
+  $select = $eusms->select();
+  $select->where("smsbody like '%Bienvenue%'");
+  $select->where("smsbody like '%".$entry->code_membre_morale."%'");
+  $select->order(array('neng ASC'));
+  $select->limit(1);
+  $rowseusms = $eusms->fetchRow($select);
+?>
+<tr>
+<td><?php echo($entry->code_membre_morale);?></td>
+<td><?php echo($entry->raison_sociale); ?></td>
+<td><?php //echo($rowseusms->smsbody);?></td>
+<td><a class="btn btn-mini btn-danger" href="<?php echo $this->baseUrl();?>/souscriptionbon/certificatpdfqrcode/membre/<?php echo $entry->code_membre_morale; ?>" target="_blank"> Imprimer le Certificat de Compte Marchand avec QRcode</a></td>
+
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun membre enrégistré 
+</div>
+<?php } } ?>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

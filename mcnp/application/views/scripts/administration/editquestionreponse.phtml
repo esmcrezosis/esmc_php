@@ -1,0 +1,93 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?> 
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Réponse de la question posée</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addquestion_reponse">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+  
+  
+<div class="control-group">
+<label class="control-label" for="question_reponse_categorie">Catégorie *</label>
+<div class="controls">
+<?php 
+$categorie = new Application_Model_EuQuestionReponseCategorieMapper();
+$entries = $categorie->fetchAll();
+if(count($entries) > 0){?>
+<select id="question_reponse_categorie" name="question_reponse_categorie" class="input-xxlarge" required>
+  <option value="">Choisir la catégorie</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->question_reponse_categorie_cod; ?>" <?php if($this->question_reponse->question_reponse_categorie == $value->question_reponse_categorie_cod){?> selected="selected"<?php }?>><?php echo $value->question_reponse_categorie_lib; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="question_reponse_nom">Nom et prénom *</label>
+<div class="controls">
+<input type="text" name="question_reponse_nom" id="question_reponse_nom" placeholder="Nom et prénom" class="input-xxlarge" value="<?php echo $this->question_reponse->question_reponse_nom; ?>" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="question_reponse_question">La question posée *</label>
+<div class="controls">
+<textarea name="question_reponse_question" id="question_reponse_question" placeholder="La question posée" class="input-xxlarge" required><?php echo $this->question_reponse->question_reponse_question; ?></textarea>
+</div>
+</div>
+    
+    
+
+<div class="control-group">
+<label class="control-label" for="question_reponse_reponse">Ma réponse *</label>
+<div class="controls">
+<textarea name="question_reponse_reponse" id="question_reponse_reponse" placeholder="Ma réponse" class="ckeditor"><?php echo $this->question_reponse->question_reponse_reponse; ?></textarea>
+</div>
+</div>
+
+    
+
+<div class="form-actions">
+<input name="question_reponse_id" type="hidden" id="question_reponse_id" value="<?php echo $this->question_reponse->question_reponse_id; ?>" />  
+<input name="publier" type="hidden" id="publier" value="0" />
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Répondre à la question posée</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

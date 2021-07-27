@@ -1,0 +1,121 @@
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+<blockquote>
+  DETAIL DU CENTRE : <?php echo $this->detailduncentre[0]->libelle_centre;?>
+</blockquote>
+
+<div class="span6">
+
+
+<div class="control-group">
+	<label class="control-label" for="organisateur_centre_nom" style="font-weight:bold;display:inline-block">
+	                    Code membre morale du centre :
+	</label>
+	<span style="display:inline-block">
+		 <?php echo $this->detailduncentre[0]->code_membre_morale;?>
+	</span>
+</div>
+
+<div class="control-group">
+	<label class="control-label" for="organisateur_centre_reference" style="font-weight:bold;display:inline-block">
+	                    Référence du centre :
+	</label>
+	<span style="display:inline-block">
+		 <?php echo $this->detailduncentre[0]->reference_centre;?>
+	</span>
+</div>
+
+<div class="control-group">
+	<label class="control-label" for="organisateur_centre_type" style="font-weight:bold;display:inline-block">
+	                    Type du centre *:
+	</label>
+	<span style="display:inline-block">
+		 <?php echo $this->detailduncentre[0]->type_centre;?>
+	</span>
+</div>
+
+<div class="control-group">
+	<label class="control-label" for="organisateur_centre_surface" style="font-weight:bold;display:inline-block">
+	                    Surface du centre :
+	</label>
+	<span style="display:inline-block">
+		 <?php echo $this->detailduncentre[0]->surface_centre;?>
+	</span>
+</div>
+
+
+</div>
+
+<div class="span6">
+
+<div class="control-group">
+
+     <div class="control-group">
+	     <label class="control-label" for="organisateur_centre_adresse" style="font-weight:bold;display:inline-block">
+	                         Adresse du centre :
+	     </label>
+	     <span style="display:inline-block">
+		      <?php echo $this->detailduncentre[0]->addresse_centre;?>
+	     </span>
+     </div>
+	<label class="control-label" for="organisateur_centre_contact" style="font-weight:bold;display:inline-block">
+	                    Contact du centre :
+	</label>
+	<span style="display:inline-block">
+		 <?php echo $this->detailduncentre[0]->telephone_centre;?>
+	</span>
+</div>
+
+<div class="control-group">
+	<label class="control-label" for="organisateur_centre_bp" style="font-weight:bold;display:inline-block">
+	                    Boîte postale du centre :
+	</label>
+	<span style="display:inline-block">
+		 <?php echo $this->detailduncentre[0]->bp_centre;?>
+	</span>
+</div>
+
+</div>
+
+<div class="span12">
+
+<?php if ($this->countagencesbycentres > 0):?>
+
+<h3>Liste de toutes les agences  </h3>
+
+
+ <table class="table table-stripped" id="example">
+   <thead> 
+        <tr>
+             <th>Référence d'une agence</th>
+             <th>Libellé d'une agence</th>
+             <th>Date de création d'une agence</th>
+             <th>Détail d'une agence</th>
+             <th>Edition d'une agence</th>
+         </tr>
+   </thead>
+   <tbody>
+         <?php foreach ($this->listedesagencesbycentre as $key => $value): ?>
+         <tr>
+             <td><?php echo $value->reference_agences_odd ;?> </td>
+             <td><?php echo $value->libelle_agences_odd ;?> </td>
+             <td><?php echo $value->date_agences_odd ;?></td>
+             <td><a href="/organisation/detailduneagence/idagences/<?php echo $value->id_agences_odd ;?>" class = "btn btn-primary">Voir ses détails </a></td>
+             <td><a href="/organisation/editionduneagence/ideditonagence/<?php echo $value->id_agences_odd ;?>" class = "btn btn-danger">Modifier ses informations</a></td>
+         </tr>
+    	  <?php endforeach ?>       
+   </tbody>
+ 
+ </table>
+
+<?php else: ?>
+
+	<div class="alert alert-danger">
+       Aucune agence n'est encore enrégistré dans ce centre
+   </div>
+<?php endif ;?>
+
+</div>
+
+

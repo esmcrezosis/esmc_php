@@ -1,0 +1,34 @@
+<div id="view-content">
+    <table id="tbl-creneau"></table>
+    <div id="pg-creneau"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-creneau").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Nom','Code membre','Type créneau','Gestionnaire','Nom GAC filière','Date création'],
+        height:450, width:827,
+        colModel:[
+            {name:'code_creneau',index:'code_creneau', width:100, sorttype:"int", editable: true,align:"left",hidden:true},
+            {name:'nom_creneau',index:'nom_creneau', width: 230, editable: true,align:"left"},  
+            {name:'membre',index:'membre', width: 170, align:"left", editable: true},
+            {name:'type_creneau',index:'type_creneau', width: 115, editable: true,align:"left",
+                edittype: 'select', editoptions: {value: "producteur:Producteur; transformateur:Transformateur; distributeur:Distributeur"}},
+            {name:'nom_gestion',index:'nom_gestion', width: 150, align:"left", editable: true},
+            {name:'nom_gac_filiere',index:'nom_gac_filiere', width: 180, align:"left", editable: true},
+            {name:'date_creation',index:'date_creation', width: 125, editable: true,align:"fase"},
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        rownumbers:true,
+        pager: '#pg-creneau',
+        sortname:"nom_creneau",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des créneaux d'activités"
+    });
+  
+    $("#tbl-creneau").jqGrid('navGrid','#pg-creneau',{edit:false,add:false,del:false,search:true});
+</script>

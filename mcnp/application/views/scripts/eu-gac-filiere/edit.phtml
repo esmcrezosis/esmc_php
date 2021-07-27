@@ -1,0 +1,54 @@
+<div id="view-content" class="ui-widget">
+    <div  class="cntError">
+        <?php
+        //echo $this->message;
+        ?>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Modification d'une GAC filière</h3>
+    </div>
+     <div class="ui-widget-content ui-corner-bottom" style="height: 470px;">
+        <form action="/eu-gac-filiere/edit" method="<?php echo $this->form->getMethod(); ?>" enctype="<?php echo $this->form->getEnctype(); ?>" id="fm_filiere">
+            <div style="margin: 10px;">
+                <table>
+                    <tr><td>Nom *</td><td><?php echo $this->form->getElement("nom_gac_filiere"); ?></td></tr>
+                    <tr><td>Code membre</td><td><?php echo $this->form->getElement("code_membre"); ?></td></tr>
+                    <tr><td>Filières</td><td><?php echo $this->form->getElement("id_filiere"); ?></td></tr>
+                    <tr><td>Numéro gestionnaire *</td><td><?php echo $this->form->getElement("code_membre_gestionnaire"); ?></td></tr>
+                    <tr><td>Nom gestionnaire</td><td><?php echo $this->form->getElement("nom_gestion"); ?></td></tr>
+                    <tr><td>Prénoms gestionnaire</td><td><?php echo $this->form->getElement("prenom_gestion"); ?></td></tr>
+                    <tr><td>Téléphone gestionnaire</td><td><?php echo $this->form->getElement("tel_gestion"); ?></td></tr>
+                    <tr><td><?php echo $this->form->getElement("code_gac_filiere"); ?></td></tr>
+                </table>
+                <?php
+                echo $this->form->getElement("submit")->setLabel("Modifier");
+                echo $this->form->getElement("cancel");
+                ?>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#submit').button();
+    $('#cancel').button();
+    $(document).ready(function ()
+    {
+        $('#code_membre_gestionnaire').blur(function()
+        {
+            if($(this).val() != '')
+            {
+                $.get(
+                '/eu-gac-filiere/gestionchange',
+                {
+                    gestion: $(this).val()
+                },
+                function success(data)
+                {
+                    $('#nom_gestion').val(data[0]);
+                    $('#prenom_gestion').val(data[1]);
+                    $('#tel_gestion').val(data[2]);
+                });
+            }
+        });
+    });
+</script>

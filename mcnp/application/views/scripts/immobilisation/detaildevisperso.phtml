@@ -1,0 +1,104 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+<blockquote><p> Details Devis </p></blockquote>
+  
+    
+<div class="control-group">
+<label class="control-label" for="libelle_devis_prestation" style="font-weight:bold"> Désignation du devis </label>
+<div class="controls">
+<?php echo $this->devis->libelle_devis_prestation; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="code_membre_prestataire" style="font-weight:bold"> Code Membre Prestataire </label>
+<div class="controls">
+<?php echo $this->devis->code_membre_fournisseur; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="date_devis_prestation" style="font-weight:bold"> Date devis </label>
+<div class="controls">
+<?php echo $this->devis->date_devis_prestation; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="montant_devis_prestation" style="font-weight:bold"> Montant devis </label>
+<div class="controls">
+<?php echo $this->devis->montant_devis_prestation; ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="debut_periode_besoin" style="font-weight:bold"> Détails </label>
+
+</div>
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;"> 
+<thead>
+   <tr>
+	   <th> Article / Prestation </th>
+	   <th> Quantité </th>
+	   <th> Prix unitaire </th>
+	   <th> Montant Total </th>
+   </tr>
+</thead>
+
+<tbody>
+<?php 
+$montanttt = 0;
+
+foreach($this->entries as $entry): 
+
+?>
+   <tr>
+	   <td> <?php echo ($entry->designation_article)." ".($entry->designation_prestation); ?> </td>
+	   <td> <?php echo ($entry->quantite); ?> </td>
+	   <td> <?php echo ($entry->prix_unitaire); ?> </td>
+	   <td> <?php echo ($entry->montant_total); ?> </td>
+   </tr>
+<?php 
+
+$montanttt = $montanttt + $entry->montant_total;
+
+endforeach; 
+
+?>
+<tr>
+     <td colspan="3" align="right">TOTAL</td>
+	 <td><?php echo ($montanttt); ?></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+</div>
+<div class="span3">
+<?php //include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

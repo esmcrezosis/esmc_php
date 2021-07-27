@@ -1,0 +1,90 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/fondateurs.js"></script><?php */?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capasenrolement.js"></script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+  <blockquote><p class="text-info">Mise sur chaine des acteurs créneaux</p></blockquote>
+
+<div class="">
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="enrolement">
+  <?php if(isset($this->message) && $this->message!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->message; ?>
+    </div>
+  <?php }?>
+  
+  <legend>Code Membre</legend>
+  
+    <div class="control-group">
+  <label class="control-label" for="code_membre">Code Membre *</label>
+  <div class="controls">
+  <input type="text" name="code_membre" id="code_membre" placeholder="Code Membre" value="<?php echo $this->code_membre; ?>"  required>
+  </div>
+  </div>
+
+  
+<legend>Numéro Agrement</legend>
+
+
+  <div class="control-group">
+  <label class="control-label" for="numero_agrement_filiere">Agrement Filière *</label>
+  <div class="controls">
+  <input type="text" class="input-large" name="numero_agrement_filiere" id="numero_agrement_filiere" value="<?php echo $this->numero_agrement_filiere; ?>" placeholder="Numéro Agrement Filière" required>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="numero_agrement_acnev">Agrement ACNEV *</label>
+  <div class="controls">
+  <input type="text" class="input-large" name="numero_agrement_acnev" id="numero_agrement_acnev" value="<?php echo $this->numero_agrement_acnev; ?>" placeholder="Numéro Agrement ACNEV" required>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="numero_agrement_technopole">Agrement Technopole *</label>
+  <div class="controls">
+  <input type="text" class="input-large" name="numero_agrement_technopole" id="numero_agrement_technopole" value="<?php echo $this->numero_agrement_technopole; ?>" placeholder="Numéro Agrement Technopole" required>
+  </div>
+  </div>
+  
+  
+  
+
+  
+  
+  <legend></legend>
+  
+
+<?php /*?><div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Préinscription Mise sur chaine Membre Moral</button>
+</div><?php */?>
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+<button id="submit" type="submit" class="btn btn-primary" >Mise sur chaine Membre Moral</button>
+</div>
+
+
+
+</form>
+</div>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,116 @@
+<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/recupnoms2.js"></script>
+
+<div class="well3">
+	<div class="row-fluid">
+		<div class="span12" style="text-align: left">
+
+<?php //include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+			<blockquote>
+				<p>Souscription au BAn par FLOOZ ou T-MONEY</p>
+			</blockquote>
+
+			<form method="post" id="addbanflooztmoney" class="well form-horizontal"
+				action="">
+    <?php if(isset($this->message) && $this->message != ""){?>
+    <div class="alert alert-error">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->message; $this->message = ""; ?>
+	</div>
+	<?php }?>
+<?php if(isset($_GET['message']) && $_GET['message'] != ""){?>
+    <div class="alert alert-error">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $_GET['message']; ?>
+	</div>
+	<?php }?>
+<!--<div class="control-group">
+<label class="control-label" for="code_banque">FLOOZ / T-MONEY *</label>
+<div class="controls">
+<select name="code_banque" id="code_banque" required>
+  <option value="FLOOZ_TMONEY">FLOOZ / T-MONEY</option>
+</select>
+</div>
+</div>
+
+				<div class="control-group">
+					<label class="control-label">Date Dépôt</label>
+					<div class="controls">
+						<div class="input-append date">
+							<input type="text" id="date_releve" name="date_releve" type="text"
+								class="datepicker"
+								value="<?php echo $this->date_releve; ?>">
+							<div class="add-on">
+								<span class="icon-calendar"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="control-group">
+					<label class="control-label">Date de Valeur</label>
+					<div class="controls">
+						<div class="input-append date">
+							<input id="dateValeur" name="date_valeur" type="text"
+								class="datepicker"
+								value="<?php echo $this->date_valeur; ?>">
+							<div class="add-on">
+								<span class="icon-calendar"></span>
+							</div>
+						</div>
+					</div>
+				</div>-->
+
+				<div class="control-group">
+					<label class="control-label">Code Membre</label>
+					<div class="controls">
+						<input id="code_membre" name="code_membre" type="text" class="input-xxlarge" onblur="ouvre_recupnoms2(this.value, 'nivonom');" readonly required>
+					</div>
+				</div>
+
+				<div id="nivonom">
+					<div class="control-group">
+					<label class="control-label">Libellé</label>
+					<div class="controls">
+						<input id="nom_membre" name="libelle" type="text"
+							class="input-xxlarge" value="<?php echo $this->libelle; ?>" required>
+					</div>
+				</div>
+			</div>
+
+				<!--<div class="control-group">
+					<label class="control-label">Numéro</label>
+					<div class="controls">
+						<input id="numero" name="numero" type="text" class="input-xxlarge"
+							value="<?php echo $this->numero; ?>">
+					</div>
+				</div>-->
+
+				<div class="control-group">
+					<label class="control-label">Montant</label>
+					<div class="controls">
+						<input id="montant" name="montant"
+							value="<?php echo $this->montant?>" type="text"
+							class="input-xxlarge" required>
+					</div>
+				</div>
+
+				<div class="controls">
+					<input name="ok" type="hidden" id="ok" value="ok" />
+					<button type="submit" id="submit" class="btn btn-primary">Souscription au BAn par FLOOZ ou T-MONEY</button>
+					<button type="reset" class="btn">Annuler</button>
+				</div>
+			</form>
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr1.js"></script>
+<script type="text/javascript">
+//outilqr1('addbanflooztmoney');
+outilqr1("addbanflooztmoney","submit");
+</script>
+
+
+		</div>
+	</div>
+</div>

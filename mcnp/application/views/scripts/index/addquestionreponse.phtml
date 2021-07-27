@@ -1,0 +1,148 @@
+<?php $sessionzppe = new Zend_Session_Namespace('zppe');?>
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/questionreponses.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/questionreponses1.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+  <blockquote><p class="text-info">Questions et Réponses </p>
+  <small>Poser vos questions et patienter pour avoir la reponse ... </small></blockquote>
+
+
+<?php if(count($this->entries)>0){?>  
+<div class="accordion" id="accordion2">
+<?php foreach ($this->entries as $entry): ?>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $entry->question_reponse_id; ?>">
+        <i class="icon-arrow-right"></i> <?php echo ($entry->question_reponse_date); ?> : <?php echo substr(($entry->question_reponse_question), 0, 165); ?> ...
+      </a>
+    </div>
+    <div id="collapse<?php echo $entry->question_reponse_id; ?>" class="accordion-body collapse <?php if((isset($sessionzppe->id) && $sessionzppe->id==$entry->question_reponse_id) || (isset($sessionutilisateur->code_groupe) && ($sessionutilisateur->code_groupe == "admin_site" || $sessionutilisateur->code_groupe == "espace_bps_ei" || $sessionutilisateur->code_groupe == "espace_bps_gp" || $sessionutilisateur->code_groupe == "espace_capa" || $sessionutilisateur->code_groupe == "espace_caps" || $sessionutilisateur->code_groupe == "espace_cmfh" || $sessionutilisateur->code_groupe == "espace_gp_mcnp" || $sessionutilisateur->code_groupe == "espace_gp_mf107" || $sessionutilisateur->code_groupe == "espace_gp_mf11000" || $sessionutilisateur->code_groupe == "espace_gp_redemare" || $sessionutilisateur->code_groupe == "espace_kacm" || $sessionutilisateur->code_groupe == "espace_tc_pm" || $sessionutilisateur->code_groupe == "espace_tc_pp" || $sessionutilisateur->code_groupe == "espace_traite" || $sessionutilisateur->code_groupe == "espace_tr_pm" || $sessionutilisateur->code_groupe == "espace_zppe"))){?> in<?php }?>" align="left">
+      <div class="accordion-inner">
+
+<div class="">
+  <div class="span12">
+<blockquote>
+<p class="text-info">
+  <i class="icon-question-sign"></i> <?php echo ($entry->question_reponse_question); ?>
+<small>
+Question posée par : <?php echo ($entry->question_reponse_nom); ?> le <?php echo ($entry->question_reponse_date); ?>
+</small>
+<small>
+Catégorie : <?php 
+$categorieM = new Application_Model_EuQuestionReponseCategorieMapper();
+$categorie = new Application_Model_EuQuestionReponseCategorie();
+$categorieM->find($entry->question_reponse_categorie, $categorie);
+?><?php echo ($categorie->question_reponse_categorie_lib); ?>
+</small>
+</p>
+</blockquote>
+<?php if(isset($sessionzppe->id) && $sessionzppe->id==$entry->question_reponse_id){?>
+<script>
+var x = setInterval(function(){ouvre_questionreponses(<?php echo $entry->question_reponse_id; ?>, 'nivo<?php echo $entry->question_reponse_id; ?>');}, 5000);
+//clearInterval(x);
+</script>
+<div id="nivo<?php echo $entry->question_reponse_id; ?>">
+<div class="alert alert-success">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+Veuillez patienter un instant. ...
+</div>
+</div>
+<?php }else{?>
+<small>
+<?php echo ($entry->question_reponse_reponse); ?>
+</small>  
+<?php }?>
+  </div>
+  
+</div>
+
+
+
+      </div>
+    </div>
+  </div>
+<?php endforeach; ?>
+</div>
+<?php }?>
+
+
+<br />
+<br />
+
+  <blockquote><p>Formulaire d'envoi de la question</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addquestion_reponse">
+  <?php if(isset($sessionzppe->errorlogin) && $sessionzppe->errorlogin!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionzppe->errorlogin;$sessionzppe->errorlogin = ""; ?>
+    </div>
+  <?php }?>
+  
+<div class="control-group">
+<label class="control-label" for="question_reponse_categorie">Catégorie *</label>
+<div class="controls">
+<?php 
+$categorie = new Application_Model_EuQuestionReponseCategorieMapper();
+$entries = $categorie->fetchAll();
+if(count($entries) > 0){?>
+<select id="question_reponse_categorie" name="question_reponse_categorie" class="input-xxlarge" required>
+  <option value="">Choisir la catégorie</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->question_reponse_categorie_cod; ?>"><?php echo $value->question_reponse_categorie_lib; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="question_reponse_nom">Votre nom et prénom *</label>
+<div class="controls">
+<input type="text" name="question_reponse_nom" id="question_reponse_nom" placeholder="Votre nom et prénom" class="input-xxlarge" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="question_reponse_question">Votre question *</label>
+<div class="controls">
+<textarea name="question_reponse_question" id="question_reponse_question" placeholder="Votre question" class="input-xxlarge" required></textarea>
+</div>
+</div>
+    
+    
+    
+
+<div class="form-actions">
+<input name="publier" type="hidden" id="publier" value="0" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Poser une question</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

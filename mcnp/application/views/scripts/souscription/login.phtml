@@ -1,0 +1,43 @@
+<?php $sessionsouscription = new Zend_Session_Namespace('souscription');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+
+
+<form method="post" id="connexion" action="<?php echo $this->baseUrl();?>/souscription/login">
+    <?php if(isset($sessionsouscription->errorlogin) && $sessionsouscription->errorlogin != ""){?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionsouscription->errorlogin; ?>
+	</div>
+	<?php }?>
+    <div class="controls">
+      <input name="login" type="text" id="login" placeholder="Votre Login" />
+    </div>
+    <div class="controls">
+      <input name="pwd" type="password" id="pwd" placeholder="Votre Mot de Passe" />
+    </div>
+    <div class="controls">
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <button type="submit" class="btn">Connexion Souscripteur</button>
+    </div>
+</form>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="d_editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-devise"></table>
+    <div id="pg-devise"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-devise").jqGrid({
+        url:'/eu-devise/data',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Symbole','Zone'],
+        height:400, width:827,
+        colModel:[
+            {name:'code_dev',index:'code_dev', width: 120, align:"left", editable: true},
+            {name:'lib_dev',index:'lib_dev', width: 170, align:"left", editable: true},
+            {name:'symbole_dev',index:'symbole_dev', width: 70, editable: true,align:"left"},
+            {name:'zone_dev',index:'zone_dev', width: 150, align:"left", editable: true}
+        ],
+        rowNum:20,
+        rowList:[20,30,40],
+        pager: '#pg-devise',
+        sortname:"code_dev",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Devises"
+    });
+    $("#tbl-devise").jqGrid('navGrid','#pg-devise',{edit:false,add:false,del:false,search:true});
+    
+    $('#d_editer').button().click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-devise").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+           $(location).attr("href", "/eu-devise/update?code="+rowsel);
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+</script>

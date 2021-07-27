@@ -1,0 +1,56 @@
+<div id="view-content" style="font-size:11px">
+    <div style="margin-bottom: 3px;">
+        <!--<input id="editer" type="button" value="Editer" class="ui-widget button"/>-->
+    </div>
+    <table id="tbl-prefecture"></table>
+    <div id="pg-prefecture"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-prefecture").jqGrid({
+        url:"/eu-secteur/datapre",
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Id','Prefecture','Region'],
+        height:400, width:828,
+        colModel:[
+            {name:'id_prefecture',index:'id_prefecture', width:100, sorttype:"int", editable: true,align:"left"},
+            {name:'nom_prefecture',index:'nom_prefecture', width: 250, editable: true,align:"left"},
+            {name:'nom_region',index:'nom_region', width: 220, align:"left", editable: true},
+        ],
+        rowNum:50,
+        rowList:[50,100,200],
+        rownumbers:true,
+        pager: '#pg-prefecture',
+        sortname:"id_prefecture",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Liste des prefectures"
+    });
+  
+    $("#tbl-prefecture").jqGrid('navGrid','#pg-prefecture',{edit:false,add:false,del:false,search:true});
+    
+	
+	$(function() {
+      $('#view-content').puipanel();
+	  //$('fieldset').puifieldset();
+    });
+	
+	
+    $('#editer').click(function() {
+        var rowsel;
+        rowsel = jQuery("#tbl-prefecture").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-prefecture").jqGrid('getRowData',rowsel);
+            $.get('/eu-secteur/editpre',{
+                id_prefecture:data.id_prefecture
+            },function success(data){
+                $("#content").html(data);
+            });             
+        } else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+</script>
+</script>

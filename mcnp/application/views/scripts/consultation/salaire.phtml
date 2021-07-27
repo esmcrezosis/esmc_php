@@ -1,0 +1,311 @@
+<div id="view-content" title="Vue globale des salaires" style="font-size:10px">
+    <div id="tab_salaire" style="padding: 1px;">
+        <ul>
+            <li><a href="#tab_salaire_detail">Bons de salaires</a></li>
+        </ul>
+		<div id="tab_gcp_detail" style="padding: 1px;">
+            <div id="tab_detail" style="padding: 1px;">
+                <ul>
+				    <li><a href="#detail_recap">Récapitulatif</a></li>
+					<li><a href="#detail_salaire">Détails salaires affectés</a></li>
+                    <li><a href="#detail_escompte">Détails salaires escomptés</a></li>
+                    <li><a href="#detail_echange">Détails salaires échangés</a></li>					
+                </ul>
+				
+				<div id="detail_recap" style="padding: 3px;">
+                    <form id="salaire_form" method="POST" action="/consultation/salaire">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre</label></td>
+									<td><input id="code_membre_recap" name="code_membre_recap" type="text" size="25" value="<?php echo $this->code_membre; ?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_recap" name="design_membre_recap" type="text" size="25" value="<?php echo $this->designation;?>" /></td>
+									<td></td><td><input type="submit" id="val_recap" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+					<br>
+					<table border="1" width="600" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                            <thead>
+				            <tr>
+							  <th><label style="text-align: center;width: 280px; font-size: 10px;font-family:Arial Black"><font color="black">CNCS</font> Global</label></th>
+							  <th><label style="text-align: center;width: 280px; font-size: 10px;font-family:Arial Black"><font color="black">CNCS</font> Escompté</label></th>
+							  <th><label style="text-align: center;width: 280px; font-size: 10px;font-family:Arial Black"><font color="black">CNCS</font> Echangé</label></th>
+                              <!--<th><label style="text-align: center;width: 280px; font-size: 10px;font-family:Arial Black">CNCS Non Mature</label></th>-->
+                              <th><label style="text-align: center;width: 280px; font-size: 10px;font-family:Arial Black">Solde <font color="black">CNCS</font></label></th>
+                            </tr>
+				            </thead>   
+                            <tbody>
+                            <tr>
+						      <td><label><?php echo number_format($this->cncs,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->escompte,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->echange,0,',',' ');?></label></td>
+                              <!--<td><label><?php echo number_format($this->soldenr,0,',',' ');?></label></td>-->
+                              <td><label><?php echo number_format($this->soldenn,0,',',' ');?></label></td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+				
+				<div id="detail_salaire" style="padding: 3px;">
+                    <form id="salaire_form" method="POST" action="">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre</label></td>
+									<td><input id="code_membre_sal" name="code_membre_sal" type="text" size="25" value="<?php echo $this->code_membre; ?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_sal" name="design_membre_sal" type="text" size="25" value="<?php echo $this->designation;?>" /></td>
+									<td></td><td><input type="submit" id="val_sal" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <table id="tbl-salaire"></table>
+                    <div id="pg-salaire"></div>
+                </div>
+				
+				<div id="detail_escompte" style="padding: 3px;">
+                    <form id="escompte_form" method="POST" action="">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre</label></td>
+									<td><input id="code_membre_esc" name="code_membre_esc" type="text" size="25" value="<?php echo $this->code_membre; ?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_esc" name="design_membre_esc" type="text" size="25" value="<?php echo $this->designation;?>" /></td>
+									<td></td><td><input type="submit" id="val_esc" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <table id="tbl-escompte"></table>
+                    <div id="pg-escompte"></div>
+                </div>
+				
+				
+				<div id="detail_echange" style="padding: 3px;">
+                    <form id="echange_form" method="POST" action="">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre</label></td>
+									<td><input id="code_membre_ech" name="code_membre_ech" type="text" size="25" value="<?php echo $this->code_membre; ?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_ech" name="design_membre_ech" type="text" size="25" value="<?php echo $this->designation;?>" /></td>
+									<td></td><td><input type="submit" id="val_ech" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <table id="tbl-echange"></table>
+                    <div id="pg-echange"></div>
+                </div>
+				
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#tab_salaire").tabs();
+    $("#tab_detail").tabs();
+	$('#view-content').puipanel();
+	
+	$.get("/consultation/membre",
+        function success(data) {
+        $('#code_membre_ech').autocomplete({"source":data,change: displayItem});
+    });
+	
+	function displayItem() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_ech").val(data[0]);
+            });
+        }
+    }
+	
+	
+	
+	
+	$('#val_ech').click(function(e) {
+     jQuery("#tbl-echange").jqGrid('setGridParam',{url: "/consultation/echangesalaire?code_membre="+$('#code_membre_ech').val()}).trigger('reloadGrid');
+     e.preventDefault();
+    });
+	
+	$.get("/consultation/membre",
+      function success(data) {
+      $('#code_membre_recap').autocomplete({"source":data,change:displayItemrecap});
+    });
+	
+	function displayItemrecap() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_recap").val(data[0]);
+            });
+        }
+    }
+	
+	
+	$.get("/consultation/membre",
+      function success(data) {
+      $('#code_membre_esc').autocomplete({"source": data,change:displayItemesc});
+    });
+	
+	function displayItemesc() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_esc").val(data[0]);
+            });
+        }
+    }
+	
+	$('#val_esc').click(function(e) {
+     jQuery("#tbl-escompte").jqGrid('setGridParam',{url: "/consultation/escomptesalaire?code_membre="+$('#code_membre_esc').val()}).trigger('reloadGrid');
+     e.preventDefault();
+    });
+	
+	$.get("/consultation/membre",
+      function success(data) {
+      $('#code_membre_sal').autocomplete({"source": data,change:displayItemsal});
+    });
+	
+	
+	function displayItemsal() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_sal").val(data[0]);
+            });
+        }
+    }
+	
+	$('#val_sal').click(function(e) {
+     jQuery("#tbl-salaire").jqGrid('setGridParam',{url: "/consultation/detailsalaire?code_membre="+$('#code_membre_sal').val()}).trigger('reloadGrid');
+     e.preventDefault();
+    });	
+	
+});
+
+$("#tbl-salaire").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['', 'Compte origine', 'Produit', 'Montant','Date'],
+        height: 320, width: 795,
+        colModel: [
+          {name: 'id_credit', index: 'id_credit', width: 0, editable: false, align: "left", hidden: true},
+          {name: 'compte_source', index: 'compte_source', width: 250, editable: false, align: "left"},
+		  {name: 'code_produit', index: 'code_produit', width:100, align: "left", editable: false},
+          {name: 'montant', index: 'montant', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+		  {name: 'date_octroi', index: 'date_octroi', width: 80, editable: false, align: "left"}
+        ],
+        rowNum: 500000,
+        rowList: [500000, 600000, 700000],
+        rownumbers: true,
+        pager: '#pg-salaire',
+        sortname: "date_octroi",
+        viewrecords: true,
+        sortorder: "ASC",
+        footerrow: true, userDataOnFooter: true,
+        caption: "Détails salaires affectés"
+});
+$("#tbl-salaire").jqGrid('navGrid', '#pg-salaire', {edit: false, add: false, del: false, search: true});
+
+
+
+$("#tbl-escompte").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['', 'Produit', 'Compte Destinataire', 'Montant','Date'],
+        height: 320, width: 795,
+        colModel: [
+          {name: 'id_echange', index: 'id_echange', width: 0, editable: false, align: "left", hidden: true},
+          {name: 'cat_echange', index: 'compte_source', width: 250, editable: false, align: "left"},
+		  {name: 'code_compte', index: 'code_compte_obt', width: 250, align: "left", editable: false},
+          {name: 'montant', index: 'montant', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+		  {name: 'date_echange', index: 'date_echange', width: 80, editable: false, align: "left"}
+        ],
+        rowNum: 500000,
+        rowList: [500000, 600000, 700000],
+        rownumbers: true,
+        pager: '#pg-escompte',
+        sortname: "date_echange",
+        viewrecords: true,
+        sortorder: "ASC",
+        footerrow: true, userDataOnFooter: true,
+        caption: "Détails escomptes effectuées"
+});
+$("#tbl-escompte").jqGrid('navGrid', '#pg-escompte', {edit: false, add: false, del: false, search: true});
+
+
+
+
+
+$("#tbl-echange").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['', 'Compte origine', 'Compte Destinataire', 'Montant','Date'],
+        height: 320, width: 795,
+        colModel: [
+          {name: 'id_echange', index: 'id_echange', width: 0, editable: false, align: "left", hidden: true},
+          {name: 'compte_source', index: 'compte_source', width: 250, editable: false, align: "left"},
+		  {name: 'code_compte', index: 'code_compte_obt', width: 250, align: "left", editable: false},
+          {name: 'montant', index: 'montant', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+		  {name: 'date_echange', index: 'date_echange', width: 80, editable: false, align: "left"}
+        ],
+        rowNum: 500000,
+        rowList: [500000, 600000, 700000],
+        rownumbers: true,
+        pager: '#pg-echange',
+        sortname: "date_echange",
+        viewrecords: true,
+        sortorder: "ASC",
+        footerrow: true, userDataOnFooter: true,
+        caption: "Détails échanges bleus effectués"
+});
+$("#tbl-echange").jqGrid('navGrid', '#pg-echange', {edit: false, add: false, del: false, search: true});
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

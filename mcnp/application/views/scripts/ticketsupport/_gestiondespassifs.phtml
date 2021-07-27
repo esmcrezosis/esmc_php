@@ -1,0 +1,147 @@
+<legend>Formulaire de gestion des passifs</legend>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+	<div class="alert alert-danger">
+
+		<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+	
+    </div>
+	
+    <?php unset($_SESSION['validationerrors']); endif ?>
+
+	<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+
+		<div class="alert alert-success">
+
+			<li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+		
+        </div>
+	
+    <?php unset($_SESSION['validationpertesuccess']); endif ?>
+
+    <form action="#" enctype="multipart/form-data" method="post" class="form-horizontal">
+
+        <div class="control-group">
+
+	      <label class="control-label" for="Ancien code membre" style="font-weight:bold">
+
+	        Ancien code membre *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="ancien_code_membre" class="input-block-level ancien_code_membre" placeholder="Mettre l'ancien code membre" required="required"/>
+	      
+          </div>
+
+	    </div>
+
+        <div class="control-group">
+
+	      <label class="control-label" for="telephone ancien membre" style="font-weight:bold">
+
+	         Telephone (pour vous contacter):
+
+	      </label>
+
+	      <div class="controls">
+
+		    <input type="text" name="telephone_ancien_membre" placeholder="Mettre ici le numero de téléphone du demandeur" class="input-block-level telephone_ancien_membre" required="required"/>
+	      
+          </div>
+
+	   </div>
+
+       <div class="control-group">
+
+	       <label class="control-label" for="Votre emal pour vous contacter" style="font-weight:bold" >
+
+	         Votre email (pour vous contacter):
+
+	       </label>
+
+	       <div class="controls">
+
+		     <input type="email" name="email_ancien_membre" placeholder="Mettre ici votre email" class="input-block-level email_ancien_membre" required="required"/>
+	       
+           </div>
+
+	    </div>
+
+         
+		<div class="control-group">
+
+	       <label class="control-label" for="description du problème" style="font-weight:bold;text-align:left">
+
+	          Description du problème *:
+
+	       </label>
+
+	       <div class="controls">
+
+              <textarea name="probleme_ancien_membre" rows="8" cols="40" class="input-xxlarge" required="required">Décriver votre problème</textarea>
+
+	       </div>
+
+	    </div>
+
+
+
+        <blockquote style="text-transform:uppercase;font-weight:bold;font-size:1.3em;text-align:left">
+				
+                AJOUT DE PIECES JUSTIFICATIVES
+
+		</blockquote>
+
+
+       <div class="control-group">
+				
+            <?php foreach($this->selecttouslescasdespassifs as $kselecttouslescasdespassifs => $vallescasdespassifs): ?>
+    
+                <label class="radio">
+    
+                    <input type="radio" name="cas_traitement" id="cas_traitement" value="<?php echo $kselecttouslescasdespassifs->id ?>">
+                     
+                    <span style="inline-block;font-size:1.2em;"><?php echo $vallescasdespassifs->libelle_cas ?></span>
+    
+                </label>
+    
+            <?php endforeach ?>
+    
+        </div>
+
+        <div class="control-group" id="piece_existance_justificative">
+
+		    <label class="control-label" for="piece justificative" style="font-weight:bold">
+
+					 Joindre les pieces justificatives
+
+			</label>
+
+			 <div class="controls">
+
+				 <input type="file" name="ticket_multiple_upload_file[]" multiple="multiple" style="position:relative">
+
+				 <div class="alert alert-danger">
+           
+                    <strong>Seul les formats jpg, png et jpeg sont supportés. Vous avez la possibilité de selectionner plusieurs pieces justificatives en même temps:</strong>
+				 
+                 </div>
+                 
+			</div>
+		
+        </div>
+
+        <div class="control-group" >
+
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+
+             Valider le formulaire
+
+          </button>
+          
+         </div>
+
+    </form>

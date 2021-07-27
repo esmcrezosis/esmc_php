@@ -1,0 +1,78 @@
+<?php $sessionmembre = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+<style media="screen">
+.table tbody tr.level-fifth > td{
+	background-color: #ea9a4b;
+}
+.table tbody tr.level-fifth > td:hover{
+	background-color: #ea9a4b;
+}
+.table tbody tr.level-fifth > td{
+	background-color: #ea9a4b;
+}
+</style>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+<?php if(count($this->entries) > 0){?>
+	<blockquote><p>Liste des Tickets de Support pour apposer un deuxieme visa</p></blockquote>
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+   <thead>
+ 	<tr>
+ 		<th>Reference</th>
+		<th>Telecharger cette piece jointe</th>
+    <th>Lire ce ticket</th>
+ 	</tr>
+   </thead>
+   <tbody>
+   	 	<?php foreach ($this->entries as $key => $value): ?>
+        <tr class="level-fifth">
+        	<td ><?php echo $value->numero_demandeur; ?></td>
+					<td>
+						<?php if ($value->file_name !== null): ?>
+							<a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/pdf_upload/<?php echo $value->file_name; ?>"><i class="icon-cog icon-white"></i> Telecharger cette piece jointe</a>
+            <?php elseif($value->renseignement_id > 0): ?>
+							<a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/ticketsupport/fileedit/id/<?php echo $value->renseignement_id; ?>"><i class="icon-cog icon-white"></i> Telecharger cette piece jointe</a>
+            <?php else: ?>
+							<span>Aucune pièce jointe pour ce ticket</span>
+						<?php endif; ?>
+					</td>
+          <td>
+               <a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/ticketsupport/editticketgerantsecondvisa/id/<?php echo $value->id_ticket; ?>" ><i class="icon-cog icon-white"></i>Apposer le visa</a>
+          </td>
+        </tr>
+
+ 	<?php endforeach ?>
+   </tbody>
+
+ </table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucun Ticket de Support n'a été encore envoyé
+</div>
+<?php }?>
+</div>
+
+</div>
+</div>

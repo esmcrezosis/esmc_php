@@ -1,0 +1,234 @@
+<div id="view-content" title="Escompte de GCP" style="font-size: 12px;min-height: 520px;">
+    <form id="escompte_form" method="Post" action="/eu-echange/egcp">
+        <table>
+            <tr >
+                <td style="text-align: right;"><label for="type_escompte" >Type d'escompte :</label></td>
+                <td>
+                    <select  id="type_escompte" name="type_escompte" value="<?php echo $this->type_escompte ?>" >
+                        <option value="ECPR">ECPR</option>
+                        <option value="EACPR">EACPR</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="e_membre">Membre :</label></td><td><input size="30" type="text" id="e_membre" name="e_membre" value="<?php echo $this->e_membre ?>" required="true"/></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="raison_soc">Raison sociale :</label></td>
+                <td>
+                    <input size="40" type="text" id="raison_soc" name="raison_soc" value="<?php echo $this->raison_soc ?>" readonly="true"/>
+                    <button id="afficher" >Afficher</button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table id="gcp_table"></table>
+                    <div id="gcp_div"></div>
+                </td>
+            </tr>
+            <tr><td style="text-align: right;"><label id="lbl_ntf" for="ntf">NTF à escompter :</label></td><td><input type="text" id="ntf" name="ntf" value="<?php echo $this->ntf ?>" required="true"/></td></tr>
+            <tr><td style="text-align: right;"><label for="montant">Montant :</label></td><td><input type="text" id="montant" name="montant" value="<?php echo $this->montant ?>" required="true" readonly="true"/></td></tr>
+            <tr><td></td><td><input type="submit" id="val"/><input type="reset" id="reset"/></td></tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $("#gcp_table").jqGrid({
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code', 'Compte', 'Membre', 'Montant', 'Nombre', 'Valeur/P', 'Montant echu', 'Solde', 'Debut', 'Fin', 'Debut tranche', 'Fin tranche '],
+        height: 170, width: 812,
+        colModel: [
+            {name: 'id_tpagcp', index: 'id_tpagcp', sorttype: "int", editable: true, align: "left", hidden: true},
+            {name: 'code_compte', index: 'code_compte', width: 160, sorttype: "int", editable: true, align: "left", hidden: true},
+            {name: 'code_membre', index: 'code_membre', width: 105, editable: true, align: "left"},
+            {name: 'mont_gcp', index: 'mont_gcp', width: 80, formatter: "number", align: "right", editable: true},
+            {name: 'reste_ntf', index: 'reste_ntf', width: 60, sorttype: "int", editable: true, align: "right"},
+            {name: 'mont_tranche', index: 'mont_tranche', width: 100, formatter: "number", sorttype: "float", editable: false, align: "right"},
+            {name: 'mont_echu', index: 'mont_echu', width: 100, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'solde', index: 'solde', width: 100, formatter: "number", sorttype: "float", editable: true, align: "right"},
+            {name: 'date_deb', index: 'date_deb', width: 80, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'date_fin', index: 'date_fin', width: 80, sorttype: "int", editable: true, align: "left"},
+            {name: 'date_deb_tranche', index: 'date_deb_tranche', width: 80, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'date_fin_tranche', index: 'date_fin_tranche', width: 80, sorttype: "int", editable: true, align: "left"},
+        ],
+        rowNum: 10,
+        rowList: [10, 20, 30],
+        rownumbers: true,
+        pager: '#gcp-div',
+        sortname: "id_tpagcp",
+        multiselect: true,
+        viewrecords: true,
+        sortorder: "ASC",
+        onSelectRow: function(id, status) {
+            var montant = $('#montant').val();
+            if (id !== 0 || id !== null) {
+                var data = jQuery('#gcp_table').jqGrid('getRowData', id);
+                var value = 0;
+                var gcp = data.solde;
+                var tranche = data.mont_tranche;
+                if (montant === '') {
+                    montant = 0;
+                } else {
+                    montant = parseInt(montant, 10);
+                }
+                if (status === true) {
+                    if ($('#type_escompte').val() === 'ECPR') {
+                        value = parseInt(montant) + (parseInt(tranche) * parseInt($("#ntf").val()));
+                        $('#montant').val(value);
+                    } else {
+                        value = parseInt(montant, 10) + parseInt(gcp);
+                        $('#montant').val(value);
+                    }
+                } else {
+                    if ($('#type_escompte').val() === 'ECPR') {
+                        value = montant - (tranche * parseInt($("#ntf").val()));
+                        $('#montant').val(value);
+                    } else {
+                        value = montant - gcp;
+                        $('#montant').val(value);
+                    }
+                }
+                lastsel = id;
+            }
+        },
+        onSelectAll: function(ids, status) {
+            var montant = 0;
+            if (status === true) {
+                for (var i = 0; i < ids.length; i++) {
+                    var id = ids[i];
+                    var data = jQuery('#gcp_table').jqGrid('getRowData', id);
+                    if ($('#type_escompte').val() === 'ECPR') {
+                        var tranche = data.mont_tranche;
+                        montant += parseInt($("#ntf").val()) * parseInt(tranche);
+                    } else {
+                        var gcp = data.solde;
+                        montant += parseInt(gcp);
+                    }
+                }
+                $('#montant').val(montant);
+            } else {
+                $('#montant').val(0);
+            }
+        }
+    });
+
+    $("#gcp_table").jqGrid('navGrid', '#gcp_div', {edit: true, add: true, del: false, search: true});
+    $(document).ready(function()
+    {
+        $('form#escompte_form').submit(function(event) {
+            event.preventDefault();
+            var sel = jQuery("#gcp_table").jqGrid('getGridParam', 'selarrrow');
+            if ($('#type_escompte').val() === 'ECPR') {
+                $.post('/eu-echange/ecpr',
+                        {
+                            comptes: sel,
+                            type_escompte: $('#type_escompte').val(),
+                            membre: $('#e_membre').val(),
+                            montant: $('#montant').val(),
+                            ntf: $('#ntf').val()
+                        }
+                , function(data) {
+                    if (data === true) {
+                        alert('Opération effectuée avec succes');
+                        $(location).attr("href", "/eu-echange/index");
+                    } else {
+                        alert(data);
+                    }
+                });
+            } else {
+                $.post('/eu-echange/eacpr',
+                        {
+                            comptes: sel,
+                            type_escompte: $('#type_escompte').val(),
+                            membre: $('#e_membre').val(),
+                            montant: $('#montant').val(),
+                            ntf: $('#ntf').val()
+                        }
+                , function(data) {
+                    if (data === true) {
+                        alert('Opération effectuée avec succes');
+                        $(location).attr("href", "/eu-echange/index");
+                    } else {
+                        alert(data);
+                    }
+                });
+            }
+        });
+        $("#val").button();
+        $("#reset").button().click(function() {
+            jQuery("#gcp_table").jqGrid('setGridParam', {url: "/eu-echange/tpagcp"}).trigger('reloadGrid');
+        });
+
+        $('#e_membre').blur(function(e)
+        {
+            e.preventDefault();
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-echange/raison',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    $("#raison_soc").val(data[0]);
+                });
+            }
+        });
+
+        $("#afficher").button().click(function(e)
+        {
+            if ($('#e_membre').val() !== '') {
+                jQuery("#gcp_table").jqGrid('setGridParam', {url: "/eu-echange/tpagcp?membre=" + $('#e_membre').val()}).trigger('reloadGrid');
+            } else {
+                alert('Il faut entrer un numero de membre');
+            }
+            e.preventDefault();
+        });
+
+        $('#ntf').change(function(e) {
+            if ($(this).val() !== '') {
+                var ids = jQuery("#gcp_table").jqGrid('getGridParam', 'selarrrow');
+                var montant = 0;
+                for (var i = 0; i < ids.length; i++) {
+                    var id = ids[i];
+                    var data = jQuery('#gcp_table').jqGrid('getRowData', id);
+                    var tranche = data.mont_tranche;
+                    montant = montant + (tranche * parseInt($(this).val()));
+                }
+                $('#montant').val(montant);
+            }
+            e.preventDefault();
+        });
+
+        $('#type_escompte').change(function(e) {
+            e.preventDefault();
+            $('#montant').val(0);
+            if ($(this).val() === 'ECPR') {
+                $('#ntf').css('display', 'block');
+                $('#lbl_ntf').css('display', 'block');
+                if ($('#e_membre').val() !== '') {
+                    jQuery("#gcp_table").jqGrid('setGridParam', {url: "/eu-echange/tpagcp?membre=" + $('#e_membre').val()}).trigger('reloadGrid');
+                }
+            } else {
+                $('#ntf').val(1);
+                $('#ntf').css('display', 'none');
+                $('#lbl_ntf').css('display', 'none');
+                if ($('#e_membre').val() !== '') {
+                    jQuery("#gcp_table").jqGrid('setGridParam', {url: "/eu-echange/tpagcp?membre=" + $('#e_membre').val()}).trigger('reloadGrid');
+                }
+            }
+        });
+        $.get("/eu-echange/moral",
+                function success(data)
+                {
+                    $('#e_membre').autocomplete({"source": data});
+                });
+
+    });
+    $(function() {
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+    });
+</script>

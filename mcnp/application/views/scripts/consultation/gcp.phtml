@@ -1,0 +1,319 @@
+<div id="view-content" title="Vue des ventes effectuées sur GCP" style="font-size: 10px">
+    <div id="tab_gcp" style="padding: 1px;">
+        <ul>
+            <li><a href="#tab_gcp_detail">Détail GCP</a></li>
+        </ul>
+		<div id="tab_gcp_detail" style="padding: 1px;">
+            <div id="tab_detail" style="padding: 1px;">
+                <ul>
+				    <li><a href="#detail_recapitulatif">Récapitulatif</a></li>
+                    <li><a href="#detail_vente">Les ventes effectuées</a></li>
+                    <li><a href="#detail_escompte">Les escomptes effectuées</a></li>
+					<li><a href="#detail_echange">Les échanges effectués</a></li>	
+                </ul>
+				
+				<div id="detail_recapitulatif" style="padding: 3px;">
+                    <form id="recap_form" method="POST" action="/consultation/gcp">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre</label></td>
+									<td><input id="code_membre_recap" name="code_membre_recap" type="text" size="25" value="<?php echo $this->code_membre; ?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_recap" name="design_membre_recap" type="text" size="25" value="<?php echo $this->designation;?>" /></td>
+									
+									<td></td><td><input type="submit" id="val_recap" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+					<br>
+					<table border="1" width="600" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                            <thead>
+				            <tr>
+                              <th><label style="text-align: center;width: 280px; font-size: 10px;font-family:Arial Black">Total <font color="blue">GCP</font></label></th>
+                              <th><label style="text-align: center;width: 280px; font-size: 10px;font-family:Arial Black"><font color="blue">GCP</font> escomptées</label></th>
+							  <th><label style="text-align: center;width: 280px; font-size: 10px;font-family:Arial Black"><font color="blue">GCP</font> echangées en <font color="blue">I</font> et <font color="blue">RPG</font></label></th>
+							  <th><label style="text-align: center;width: 280px; font-size: 10px;font-family:Arial Black">Solde <font color="blue">GCP</font></label></th>
+							  <th><label style="text-align: center;width: 280px; font-size: 10px;font-family:Arial Black"><font color="blue">GCP</font> échues</label></th>
+                            </tr>
+				            </thead>   
+                            <tbody>
+                            <tr>
+                              <td><label><?php echo number_format($this->gcp,0,',',' ');?></label></td>
+                              <td><label><?php echo number_format($this->escompte,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->echange,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->reste,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->echue,0,',',' ');?></label></td>
+                            </tr>
+                            </tbody>
+                    </table>
+					
+                    <table id="tbl-recap"></table>
+                    <div id="pg-recap"></div>
+                </div>
+				
+				<div id="detail_vente" style="padding: 3px;">
+                    <form id="gcp_form" method="POST" action="">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre</label></td>
+									<td><input id="code_membre" name="code_membre" type="text" size="25" value="<?php echo $this->code_membre; ?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre" name="design_membre" type="text" size="25" value="<?php echo $this->designation;?>" /></td>
+									<td></td><td><input type="submit" id="val_gcp" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <table id="tbl-gcp"></table>
+                    <div id="pg-gcp"></div>
+                </div>
+				
+				<div id="detail_escompte" style="padding: 3px;">
+                    <form id="escompte_form" method="POST" action="">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre</label></td>
+									<td><input id="code_membre_esc" name="code_membre_esc" type="text" size="25" value="<?php echo $this->code_membre; ?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_esc" name="design_membre_esc" type="text" size="25" value="<?php echo $this->designation;?>" /></td>
+									<td></td><td><input type="submit" id="val_esc" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <table id="tbl-escompte"></table>
+                    <div id="pg-escompte"></div>
+                </div>
+				
+				<div id="detail_echange" style="padding: 3px;">
+                    <form id="echange_form" method="POST" action="">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre</label></td>
+									<td><input id="code_membre_ech" name="code_membre_ech" type="text" size="25"  value="<?php echo $this->code_membre; ?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_ech" name="design_membre_ech" type="text" size="25" value="<?php echo $this->designation;?>" /></td>
+									<td></td><td><input type="submit" id="val_ech" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <table id="tbl-echange"></table>
+                    <div id="pg-echange"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#tab_gcp").tabs();
+    $("#tab_detail").tabs();
+	$('#view-content').puipanel();
+	
+	$.get("/consultation/membremorale",
+      function success(data) {
+      $('#code_membre').autocomplete({"source": data,change: displayItem});
+    });
+	
+	function displayItem() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre").val(data[0]);
+            });
+        }
+    }
+	
+	$('#val_gcp').click(function(e) {
+        jQuery("#tbl-gcp").jqGrid('setGridParam', {url: "/consultation/consult?code_membre=" + $('#code_membre').val()}).trigger('reloadGrid');
+        e.preventDefault();
+    });
+	
+	
+	$.get("/consultation/membremorale",
+        function success(data) {
+        $('#code_membre_esc').autocomplete({"source": data,change: displayItemesc});
+    });
+	
+	function displayItemesc() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_esc").val(data[0]);
+            });
+        }
+    }
+	
+	
+	
+	$('#val_esc').click(function(e) {
+        jQuery("#tbl-escompte").jqGrid('setGridParam',{url: "/consultation/escomptes?code_membre=" + $('#code_membre_esc').val()}).trigger('reloadGrid');
+        e.preventDefault();
+    });
+	
+	
+	$.get("/consultation/membremorale",
+        function success(data) {
+        $('#code_membre_ech').autocomplete({"source": data ,change: displayItemech});
+    });
+	
+	function displayItemech() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_ech").val(data[0]);
+            });
+        }
+    }
+	
+	
+	
+	$('#val_ech').click(function(e) {
+        jQuery("#tbl-echange").jqGrid('setGridParam',{url: "/consultation/echange?code_membre=" + $('#code_membre_ech').val()}).trigger('reloadGrid');
+        e.preventDefault();
+    });
+	
+	
+	
+	$.get("/consultation/membremorale",
+        function success(data) {
+        $('#code_membre_recap').autocomplete({"source": data,change: displayItemrecap});
+    });
+	
+	function displayItemrecap() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_recap").val(data[0]);
+            });
+        }
+    }
+	
+	
+});
+
+$("#tbl-gcp").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['','Code membre Acheteur', 'Produit', 'Montant', 'Date opération'],
+        height: 320, width: 800,
+        colModel: [
+		    {name: 'id_gcp', index: 'id_gcp', width: 120, editable: false, align: "left", hidden: true},
+            {name: 'code_membre', index: 'code_membre', width: 190, align: "left", editable: false},
+            {name: 'code_produit', index: 'code_produit', width: 80, align: "left", editable: false},
+            {name: 'mont_gcp', index: 'mont_gcp', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+            {name: 'date_conso', index: 'date_conso', width: 90, align: "left", editable: false},
+			//{name: 'heure_conso', index: 'heure_conso', width: 90, align: "left", editable: false}
+        ],
+        rowNum: 100000,
+        rowList: [100000, 2000000, 3000000],
+        rownumbers: true,
+        pager: '#pg-gcp',
+        sortname: "date_conso",
+        viewrecords: true,
+        sortorder: "ASC",
+		footerrow: true, userDataOnFooter: true,
+        grouping: true, 
+        caption: "Compte GCP"
+});
+$("#tbl-gcp").jqGrid('navGrid','#pg-gcp',{edit: false, add: false, del: false, search: true});
+
+
+
+$("#tbl-escompte").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['','PBF', 'Raison sociale', 'Montant', 'Date escompte'],
+        height: 320, width: 800,
+        colModel: [
+		  {name: 'id_escompte', index: 'id_escompte', width: 120, editable: false, align: "left", hidden: true},
+          {name: 'code_membre_benef', index: 'code_membre_benef', width: 190, align: "left", editable: false},
+          {name: 'raison_sociale', index: 'code_produit', width: 200, align: "left", editable: false},
+          {name: 'montant', index: 'montant', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+          {name: 'date_escompte', index: 'date_escompte', width:100, align: "left", editable: false}
+        ],
+        rowNum: 100000,
+        rowList: [100000, 2000000, 3000000],
+        rownumbers: true,
+        pager: '#pg-escompte',
+        sortname: "date_escompte",
+        viewrecords: true,
+        sortorder: "ASC",
+		footerrow: true, userDataOnFooter: true,
+        grouping: true, 
+        caption: "Escomptes effectuées"
+});
+$("#tbl-escompte").jqGrid('navGrid','#pg-escompte',{edit: false, add: false, del: false, search: true});
+
+
+
+
+$("#tbl-echange").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['', 'Type echange', 'Compte Destinataire', 'Montant','Date'],
+        height: 320, width: 795,
+        colModel: [
+          {name: 'id_echange', index: 'id_echange', width: 0, editable: false, align: "left", hidden: true},
+          {name: 'type_echange', index: 'type_echange', width: 80, editable: false, align: "left"},
+		  {name: 'code_compte_obt', index: 'code_compte_obt', width: 270, align: "left", editable: false},
+          {name: 'montant', index: 'montant', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+		  {name: 'date_echange', index: 'date_echange', width: 80, editable: false, align: "left"}
+        ],
+        rowNum: 500000,
+        rowList: [500000, 600000, 700000],
+        rownumbers: true,
+        pager: '#pg-echange',
+        sortname: "date_echange",
+        viewrecords: true,
+        sortorder: "ASC",
+        footerrow: true, userDataOnFooter: true,
+        caption: "Echanges effectuées"
+});
+$("#tbl-echange").jqGrid('navGrid', '#pg-echange', {edit: false, add: false, del: false, search: true});
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

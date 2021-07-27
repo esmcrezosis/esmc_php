@@ -1,0 +1,330 @@
+<div id="view-content" title="Vue des unités FS , FL et FCPS" style="font-size: 10px">
+    <div id="tab_kacm" style="padding: 1px;">
+        <ul>
+			<li><a href="#tab_kacm_detail2">Détails FS , FL et FCPS </a></li>
+        </ul>
+		
+		<div id="tab_kacm_detail" style="padding: 1px;">
+		    <div id="tab_detail" style="padding: 1px;">
+                <ul>
+				    <li><a href="#detail_kacm">Récapitulatif</a></li>
+                    <li><a href="#detail_fs">Détails FS</a></li>
+                    <li><a href="#detail_fl">Détails FL </a></li>
+                    <li><a href="#detail_fcps">Détails FCPS</a></li>					
+                </ul>
+				
+				<div id="detail_kacm" style="padding: 3px;">
+                    <form id="kacm_form" method="POST" action="/consultation/kacm">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre PBF/CYBER</label></td>
+									<td><input id="code_membre_kacm" name="code_membre_kacm" type="text" size="25" value="<?php echo $this->code_membre; ?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_kacm" name="design_membre_kacm" type="text" size="25" value="<?php echo $this->designation;?>" /></td>
+									<td></td><td><input type="submit" id="val_kacm" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+					<br>
+					<table border="1" width="800" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                            <thead>
+				            <tr>
+                              <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">FS Transférés</label></th>
+                              <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">FS utilisés</label></th>
+                              <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">Solde FS</label></th>							  
+							  <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">FL Transférés</label></th>
+							  <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">FL utilisés</label></th>
+							  <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">Solde FL</label></th>
+							  <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">FCPS Transférés</label></th>
+							  <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">FCPS utilisés</label></th>
+							  <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">Solde FCPS</label></th>
+                            </tr>
+				            </thead>   
+                            <tbody>
+                            <tr>
+                              <td><label><?php echo number_format($this->fs,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->fsu,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->fsnu,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->fl,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->flu,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->flnu,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->fcps,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->fcpsu,0,',',' ');?></label></td>
+							  <td><label><?php echo number_format($this->fcpsnu,0,',',' ');?></label></td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+				
+				<div id="detail_fs" style="padding: 3px;">
+                    <form id="fs_form" method="POST" action="">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre PBF/CYBER</label></td>
+									<td><input id="code_membre_fs" name="code_membre_fs" type="text" size="25" value="<?php echo $this->code_membre;?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_fs" name="design_membre_fs" type="text" size="25" value="<?php echo $this->designation;?>"/></td>
+									<td></td><td><input type="submit" id="val_fs" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <table id="tbl-fs"></table>
+                    <div id="pg-fs"></div>
+                </div>
+				
+				<div id="detail_fl" style="padding: 3px;">
+                    <form id="fl_form" method="POST" action="">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre PBF/CYBER</label></td>
+									<td><input id="code_membre_fl" name="code_membre_fl" type="text" size="25" value="<?php echo $this->code_membre;?>"  /></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_fl" name="design_membre_fl" type="text" size="25" value="<?php echo $this->designation;?>"/></td>
+									<td></td><td><input type="submit" id="val_fl" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <table id="tbl-fl"></table>
+                    <div id="pg-fl"></div>
+                </div>
+				
+				<div id="detail_fcps" style="padding: 3px;">
+                    <form id="fcps_form" method="POST" action="">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre PBF/CYBER</label></td>
+									<td><input id="code_membre_fcps" name="code_membre_fcps" type="text" size="25" value="<?php echo $this->code_membre;?>"  /></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_fcps" name="design_membre_fcps" type="text" size="25" value="<?php echo $this->designation;?>"/></td>
+									<td></td><td><input type="submit" id="val_fcps" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <table id="tbl-fcps"></table>
+                    <div id="pg-fcps"></div>
+                </div>	
+            </div>    
+		</div>
+		
+    </div>
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $("#tab_kacm").tabs();
+    $("#tab_detail").tabs();
+	$("#tab_detail2").tabs();
+	$('#view-content').puipanel();
+	
+	
+	$.get("/consultation/membremorale",
+        function success(data) {
+        $('#code_membre_kacm').autocomplete({"source": data,change: displayItem});
+    });
+	
+	
+	
+	function displayItem() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_kacm").val(data[0]);
+            });
+        }
+    }
+	
+	
+	
+	
+	$.get("/consultation/membremorale",
+        function success(data) {
+        $('#code_membre_fs').autocomplete({"source": data , change: displayItemfs});
+    });
+	
+	
+	
+	function displayItemfs() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_fs").val(data[0]);
+            });
+        }
+    }
+	
+	
+	$.get("/consultation/membremorale",
+        function success(data) {
+        $('#code_membre_fl').autocomplete({"source": data , change: displayItemfl});
+    });
+	
+	function displayItemfl() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_fl").val(data[0]);
+            });
+        }
+    }
+	
+	$.get("/consultation/membremorale",
+        function success(data) {
+        $('#code_membre_fcps').autocomplete({"source": data , change: displayItemfcps});
+    });
+	
+	function displayItemfcps() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_fcps").val(data[0]);
+            });
+        }
+    }
+	
+	
+	$('#val_fs').click(function(e) {
+      jQuery("#tbl-fs").jqGrid('setGridParam',{url: "/consultation/detailfs?code_membre=" + $('#code_membre_fs').val()}).trigger('reloadGrid');
+      e.preventDefault();
+    });
+	
+	$('#val_fl').click(function(e) {
+      jQuery("#tbl-fl").jqGrid('setGridParam',{url: "/consultation/detailfl?code_membre=" + $('#code_membre_fl').val()}).trigger('reloadGrid');
+      e.preventDefault();
+    });
+	
+	$('#val_fcps').click(function(e) {
+      jQuery("#tbl-fcps").jqGrid('setGridParam',{url: "/consultation/detailfcps?code_membre=" + $('#code_membre_fcps').val()}).trigger('reloadGrid');
+      e.preventDefault();
+    });
+
+	
+});
+
+
+$("#tbl-fs").jqGrid({
+    url: '',
+    datatype: "json",
+    mtype: 'GET',
+    colNames: ['','Compte Transfert','Code SMS','Motif','Montant Entré','Montant Sorti','Solde'],
+    height: 320, width: 800,
+    colModel: [
+	  {name: 'NEng', index: 'NEng', width: 120, editable: false, align: "left", hidden: true},
+      {name: 'FromAccount', index: 'FromAccount', width: 220, align: "left", editable: false},
+      {name: 'CreditCode', index: 'CreditCode', width: 80, align: "left", editable: false},
+	  {name: 'motif', index: 'motif', width: 80, align: "left", editable: false},
+      {name: 'CreditAmount', index: 'CreditAmount', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+	  {name: 'sorti', index: 'sorti', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+	  {name: 'solde', index: 'solde', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'}
+    ],
+    rowNum: 100000,
+    rowList: [100000, 2000000, 3000000],
+    rownumbers: true,
+    pager: '#pg-fs',
+    sortname: "NEng",
+    viewrecords: true,
+    sortorder: "ASC",
+    footerrow: true, userDataOnFooter: true,
+    grouping: true, 
+    caption: "Détails FS"
+});
+$("#tbl-fs").jqGrid('navGrid','#pg-fs',{edit:false,add:false,del:false,search:true});
+
+
+$("#tbl-fl").jqGrid({
+    url: '',
+    datatype: "json",
+    mtype: 'GET',
+    colNames: ['','Compte Transfert','Code SMS','Motif','Montant Entré','Montant Sorti','Solde'],
+    height: 320, width: 800,
+    colModel: [
+	  {name: 'NEng', index: 'NEng', width: 120, editable: false, align: "left", hidden: true},
+      {name: 'FromAccount', index: 'FromAccount', width: 220, align: "left", editable: false},
+      {name: 'CreditCode', index: 'CreditCode', width: 80, align: "left", editable: false},
+	  {name: 'motif', index: 'motif', width: 80, align: "left", editable: false},
+      {name: 'CreditAmount', index: 'CreditAmount', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+	  {name: 'sorti', index: 'sorti', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+	  {name: 'solde', index: 'solde', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'}
+    ],
+    rowNum: 100000,
+    rowList: [100000, 2000000, 3000000],
+    rownumbers: true,
+    pager: '#pg-fl',
+    sortname: "code_membre",
+    viewrecords: true,
+    sortorder: "ASC",
+    footerrow: true, userDataOnFooter: true,
+    grouping: true, 
+    caption: "Détails FL"
+});
+$("#tbl-fl").jqGrid('navGrid','#pg-fl',{edit:false,add:false,del:false,search:true});
+
+
+
+$("#tbl-fcps").jqGrid({
+    url: '',
+    datatype: "json",
+    mtype: 'GET',
+    colNames: ['','Compte Transfert','Code SMS','Motif','Montant Entré','Montant Sorti','Solde'],
+    height: 320, width: 800,
+    colModel: [
+	  {name: 'NEng', index: 'NEng', width: 120, editable: false, align: "left", hidden: true},
+      {name: 'FromAccount', index: 'FromAccount', width:220, align: "left", editable: false},
+      {name: 'CreditCode', index: 'CreditCode', width: 80, align: "left", editable: false},
+	  {name: 'motif', index: 'motif', width: 80, align: "left", editable: false},
+      {name: 'CreditAmount', index: 'CreditAmount', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+	  {name: 'sorti', index: 'sorti', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+	  {name: 'solde', index: 'solde', width: 120, align: "left", editable: false, formatter:"number", summaryType:'sum'}
+    ],
+    rowNum: 100000,
+    rowList: [100000, 2000000, 3000000],
+    rownumbers: true,
+    pager: '#pg-fcps',
+    sortname: "code_membre",
+    viewrecords: true,
+    sortorder: "ASC",
+    footerrow: true, userDataOnFooter: true,
+    grouping: true, 
+    caption: "Détails FCPS"
+});
+$("#tbl-fcps").jqGrid('navGrid','#pg-fcps',{edit:false,add:false,del:false,search:true});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

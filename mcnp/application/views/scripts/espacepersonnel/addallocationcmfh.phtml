@@ -1,0 +1,85 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<script>
+function choixtype(choix){
+	if(choix == 'SansListe'){
+			document.getElementById('code_membre_integrageur').style.display='none';
+			document.getElementById('allocation_cmfh_code_membre_integrageur').removeAttribute('required');
+	}else if(choix == 'AvecListe'){
+			document.getElementById('code_membre_integrageur').style.display='block';
+			document.getElementById('allocation_cmfh_code_membre_integrageur').setAttribute('required', true);
+	}
+	}
+</script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Allocation de souscriptions pour tiers aux intégrateurs</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="adddemande">
+  <?php if(isset($sessionmembre->error) && $sessionmembre->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->error; $sessionmembre->error = ""; ?>
+    </div>
+  <?php }?>
+  
+  
+  <div class="control-group">
+  <label class="control-label" for="allocation_cmfh_type">Type d'allocation *</label>
+  <div class="controls">
+<select name="allocation_cmfh_type" id="allocation_cmfh_type"  required="required" onchange="choixtype(this.value);">
+  <option value="">Choisir le type</option>
+  <option value="SansListe">Sans Liste ou Non Ciblé</option>
+  <option value="AvecListe">Avec Liste ou Ciblé</option>
+</select>
+  </div>
+  </div>
+    
+<div class="control-group" id="code_membre_integrageur">
+<label class="control-label" for="allocation_cmfh_code_membre_integrageur">Code Membre d'un intégrateur *</label>
+<div class="controls">
+<input class="input-xxlarge" type="text" name="allocation_cmfh_code_membre_integrageur" id="allocation_cmfh_code_membre_integrageur" placeholder="Code Membre d'un intégrateur" required>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="allocation_cmfh_nombre">Nombre d'activation à allouer *</label>
+<div class="controls">
+<input class="input-xxlarge" type="text" name="allocation_cmfh_nombre" id="allocation_cmfh_nombre" placeholder="Nombre d'activation à allouer" required>
+</div>
+</div>
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Allouer les souscriptions</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

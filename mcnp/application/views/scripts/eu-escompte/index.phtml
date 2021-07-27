@@ -1,0 +1,70 @@
+<div id="view-content" title="Vue des gcp eligibles" style="min-height: 520px;padding: 1px;margin: 1px;font-size: 12px;">
+    <div>
+	    <form action="/eu-pdf-reglt/traite" name="" method="POST" target="_blank">
+		      <input id="apercu" type="submit" value="Apercu" class="ui-widget button"/>
+              <input type="hidden" id="id_tpagcp" name="id_tpagcp"/>
+			  <input type="text" id="membre" name="membre" size="35"/>
+              <input id="recherche" type="button" value="Recherche"/>  
+		</form>
+	</div>
+	<br>
+	<table id="tab-tpagcp"></table>
+	<div id="pg-tpagcp"></div>
+</div>
+
+<script type="text/javascript">
+        $("#tab-tpagcp").jqGrid({
+        url: '/eu-escompte/data',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Id', 'Membre', 'Compte','Date debut', 'Date fin','Montant','Montant Tranche','Montant Echu', 'Solde','Escomptable'],
+        height: 300, width: 807,
+        colModel: [
+             {name: 'id_tpagcp', index: 'id_tpagcp', width: 120, editable: false, align: "left", hidden:true},
+             {name: 'membre', index: 'membre', width: 120, editable: false, align: "left", hidden: true},
+             {name: 'compte', index: 'compte', width: 150, align: "left", editable: false, hidden: true},
+			 {name: 'date_deb', index: 'date_deb', width: 90, align: "left", editable: false},
+             {name: 'date_fin', index: 'date_fin', width: 90, align: "left", editable: false},
+             {name: 'mont_gcp', index: 'mont_gcp', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+             {name: 'mont_tranche', index: 'mont_tranche', width: 100, editable: false, align: "right", formatter:"number", summaryType:'sum'},
+             {name: 'mont_echu', index: 'mont_echu', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+			 {name: 'solde', index: 'solde', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+			 {name: 'escompte', index: 'escompte', width: 150, align: "left", editable: false},       
+        ],
+        rowNum: 1000,
+        rowList: [1000, 2000, 3000],
+        sortname: "date_deb",
+        //rownumbers: true,
+		pager: '#pg-tpagcp',
+        viewrecords: true,
+		//multiselect: true,
+        sortorder: "ASC",
+        footerrow: true, userDataOnFooter: true,
+        caption: "Compte TPAGCP",  
+    });
+	$("#tab-tpagcp").jqGrid('navGrid','#pg-tpagcp',{edit:false,add:false,del:false,search:true});
+	
+	$(document).ready(function() {
+	  $('#view-content').puipanel();
+	  $('fieldset').puifieldset();
+		
+      $("#apercu").click(function() {
+          var sel;
+          sel = jQuery("#tab-tpagcp").jqGrid('getGridParam','selrow');
+          data = jQuery("#tab-tpagcp").jqGrid('getRowData',sel);
+          $('#id_tpagcp').val(data.id_tpagcp);         
+      });	  
+
+	  $.get( "/eu-escompte/change",
+        function success(data) {
+        $("input#membre").autocomplete({"source":data});
+      });	
+		
+      $('#recherche').click(function() {
+          membre=$('#membre').val(); 
+          jQuery("#tab-tpagcp").jqGrid('setGridParam',{url:"/eu-escompte/data?code_membre="+membre}).trigger('reloadGrid');
+      });	
+			
+	});
+		
+</script>

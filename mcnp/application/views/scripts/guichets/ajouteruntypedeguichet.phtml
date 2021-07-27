@@ -1,0 +1,44 @@
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<div class="role-fluid">
+
+<legend>Ajouter un type de guichet</legend>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+				</div>
+			<?php unset($_SESSION['validationpertesuccess']); endif ?>
+
+  <form action="#"  method="post" class="form-horizontal">
+        <div class="control-group">
+	      <label class="control-label" for="Code du type de guichet" style="font-weight:bold">
+	        Code du type de guichet *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="guichet_code_type" class="input-block-level guichet_code_type" placeholder="Mettre ici le code du type de guichet" required="required"/>
+	      </div>
+	   </div>
+
+       <div class="control-group">
+	      <label class="control-label" for="Description du type de guichet" style="font-weight:bold">
+	        La description du type de guichet *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="guichet_type_description" class="input-block-level guichet_type_description" placeholder="Mettre ici la description du type de guichet" required="required"/>
+	      </div>
+	   </div>
+
+       <div class="control-group" >
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+          Valider le formulaire
+          </button>
+      </div>
+
+   </form>
+</div>

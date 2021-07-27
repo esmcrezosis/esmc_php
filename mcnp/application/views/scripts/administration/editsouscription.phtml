@@ -1,0 +1,525 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+<script>
+function nbremontantcmfh(type){
+	if(type > 0 && type <= 5){
+		if(document.getElementById('souscription_personne_pp').checked == true && document.getElementById('souscription_autonome_1').checked == true){
+			document.getElementById('souscription_nombre').value = 500 + 1;
+			document.getElementById('souscription_montant').value = (500 * 2187.5) + 5000;
+		document.getElementById('souscription_nombre').readOnly = true;
+		document.getElementById('souscription_montant').readOnly = true;
+		}else if(document.getElementById('souscription_personne_pm').checked == true && document.getElementById('souscription_autonome_1').checked == true){
+			document.getElementById('souscription_nombre').value = 500 + 1;
+			document.getElementById('souscription_montant').value = (500 * 2187.5) + 70000;
+		document.getElementById('souscription_nombre').readOnly = true;
+		document.getElementById('souscription_montant').readOnly = true;
+		}else{
+			document.getElementById('souscription_nombre').value = 500;
+			document.getElementById('souscription_montant').value = 500 * 2187.5;
+		document.getElementById('souscription_nombre').readOnly = true;
+		document.getElementById('souscription_montant').readOnly = true;
+		}	
+	}else if(type > 5 && type <= 7){
+		if(document.getElementById('souscription_personne_pp').checked == true && document.getElementById('souscription_autonome_1').checked == true){
+			document.getElementById('souscription_nombre').value = 100 + 1;
+			document.getElementById('souscription_montant').value = (100 * 2187.5) + 5000;
+		document.getElementById('souscription_nombre').readOnly = true;
+		document.getElementById('souscription_montant').readOnly = true;
+		}else if(document.getElementById('souscription_personne_pm').checked == true && document.getElementById('souscription_autonome_1').checked == true){
+			document.getElementById('souscription_nombre').value = 100 + 1;
+			document.getElementById('souscription_montant').value = (100 * 2187.5) + 70000;
+		document.getElementById('souscription_nombre').readOnly = true;
+		document.getElementById('souscription_montant').readOnly = true;
+		}else{
+			document.getElementById('souscription_nombre').value = 100;
+			document.getElementById('souscription_montant').value = 100 * 2187.5;
+		document.getElementById('souscription_nombre').readOnly = true;
+		document.getElementById('souscription_montant').readOnly = true;
+		}	
+	}else if(type == 9){
+		if(document.getElementById('souscription_personne_pp').checked == true && document.getElementById('souscription_autonome_1').checked == true){
+			document.getElementById('souscription_nombre').value = 10 + 1;
+			document.getElementById('souscription_montant').value = (10 * 2187.5) + 5000;
+		document.getElementById('souscription_nombre').readOnly = true;
+		document.getElementById('souscription_montant').readOnly = true;
+		}else if(document.getElementById('souscription_personne_pm').checked == true && document.getElementById('souscription_autonome_1').checked == true){
+			document.getElementById('souscription_nombre').value = 10 + 1;
+			document.getElementById('souscription_montant').value = (10 * 2187.5) + 70000;
+		document.getElementById('souscription_nombre').readOnly = true;
+		document.getElementById('souscription_montant').readOnly = true;
+		}else{
+			document.getElementById('souscription_nombre').value = 10;
+			document.getElementById('souscription_montant').value = 10 * 2187.5;
+		document.getElementById('souscription_nombre').readOnly = true;
+		document.getElementById('souscription_montant').readOnly = true;
+		}	
+	}else if(type == 8){
+		if(document.getElementById('souscription_personne_pp').checked == true && document.getElementById('souscription_autonome_1').checked == true){
+			document.getElementById('souscription_nombre').value = 10 + 1;
+			document.getElementById('souscription_montant').value = (10 * 2187.5) + 5000;
+		document.getElementById('souscription_nombre').readOnly = false;
+		document.getElementById('souscription_montant').readOnly = false;
+		}else if(document.getElementById('souscription_personne_pm').checked == true && document.getElementById('souscription_autonome_1').checked == true){
+			document.getElementById('souscription_nombre').value = 10 + 1;
+			document.getElementById('souscription_montant').value = (10 * 2187.5) + 70000;
+		document.getElementById('souscription_nombre').readOnly = false;
+		document.getElementById('souscription_montant').readOnly = false;
+		}else{
+			document.getElementById('souscription_nombre').value = 10;
+			document.getElementById('souscription_montant').value = 10 * 2187.5;
+		document.getElementById('souscription_nombre').readOnly = false;
+		document.getElementById('souscription_montant').readOnly = false;
+		}	
+	}
+	}
+	
+function nbremontantkacm(){
+	if(document.getElementById('souscription_personne_pp').checked == true && document.getElementById('souscription_autonome_1').checked == true){
+		document.getElementById('souscription_nombre').value = 1;
+		document.getElementById('souscription_montant').value = 5000;
+		document.getElementById('souscription_nombre').readOnly = true;
+		document.getElementById('souscription_montant').readOnly = true;
+	}
+	if(document.getElementById('souscription_personne_pm').checked == true && document.getElementById('souscription_autonome_1').checked == true){
+		document.getElementById('souscription_nombre').value = 1;
+		document.getElementById('souscription_montant').value = 70000;
+		document.getElementById('souscription_nombre').readOnly = true;
+		document.getElementById('souscription_montant').readOnly = true;
+	}
+	}
+	
+function mobilisation() {
+	if(document.getElementById('souscription_type_candidat').value == 8 && document.getElementById('souscription_personne_pp').value == 'PP') {
+		document.getElementById('mobilisation').style.display = 'block';
+		document.getElementById('souscription_mobilisateur_0').setAttribute('required', true);
+		document.getElementById('souscription_mobilisateur_1').setAttribute('required', true);
+	} else {
+		document.getElementById('mobilisation').style.display = 'none';
+		document.getElementById('souscription_mobilisateur_0').removeAttribute('required');
+		document.getElementById('souscription_mobilisateur_1').removeAttribute('required');
+	}
+}
+	
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+
+<blockquote><p>Formulaire d'édition de souscription </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+<fieldset>
+<legend>Formulaire d'édition de souscription </legend>
+
+<div class="control-group">
+  <label class="control-label" for="souscription_personne">Type du souscripteur *</label>
+  <div class="controls">
+
+  <label class="radio">
+  <input name="souscription_personne" type="radio" id="souscription_personne_pp" value="PP" required onclick="document.getElementById('pp').style.display='block'; document.getElementById('pm').style.display='none';nbremontantkacm(); nbremontantcmfh(document.getElementById('souscription_type_candidat').value);"  <?php if($this->souscription->souscription_personne == "PP"){echo ' checked="checked"';}?>>
+  Personne Physique</label>
+  
+  <label class="radio">
+  <input type="radio" name="souscription_personne" id="souscription_personne_pm" value="PM" required onclick="document.getElementById('pp').style.display='none'; document.getElementById('pm').style.display='block';nbremontantkacm(); nbremontantcmfh(document.getElementById('souscription_type_candidat').value);"  <?php if($this->souscription->souscription_personne == "PM"){echo ' checked="checked"';}?>>
+  Personne Morale</label>
+  
+</div>
+</div>
+  
+<div class="control-group">
+  <label class="control-label" for="souscription_autonome">Ancien Membre ou déjà souscris *</label>
+  <div class="controls">
+  <label for="souscription_autonome_0" class="radio">
+  <input name="souscription_autonome" type="radio" id="souscription_autonome_0" value="0" required onclick="nbremontantkacm();document.getElementById('membre').style.display='block'; 
+  nbremontantcmfh(document.getElementById('souscription_type_candidat').value);"  <?php if($this->souscription->souscription_autonome == "0"){echo ' checked="checked"';}?> />
+  Oui
+  </label>
+
+  <label for="souscription_autonome_1" class="radio">
+  <input type="radio" name="souscription_autonome" id="souscription_autonome_1" value="1" required onclick="nbremontantkacm(); document.getElementById('membre').style.display='none';
+  nbremontantcmfh(document.getElementById('souscription_type_candidat').value);"  <?php if($this->souscription->souscription_autonome == "1"){echo ' checked="checked"';}?> />
+  Non
+  </label>
+  
+  </div>
+</div>
+
+<?php /*?><div id="membre" style="display:none">
+<div class="control-group">
+<label class="control-label" for="souscription_membre">Code membre du souscripteur  </label>
+<div class="controls">
+<input type="text" name="souscription_membre" id="souscription_membre" placeholder="Code Membre du souscripteur " class="input-xxlarge"  />
+</div>	 
+</div>
+</div><?php */?>
+  
+<div id="pp" style=' <?php if($this->souscription->souscription_personne == "PP"){?> display:block;<?php }else{?> display:none;<?php }?> '>
+<div class="control-group">
+<label class="control-label" for="souscription_nom">Nom du souscripteur  </label>
+<div class="controls">
+<input type="text" name="souscription_nom" id="souscription_nom" placeholder="Nom du souscripteur " class="input-xxlarge"  value="<?php echo $this->souscription->souscription_nom; ?>" />
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="souscription_prenom">Prénom du souscripteur  </label>
+<div class="controls">
+<input type="text" name="souscription_prenom" id="souscription_prenom" placeholder="Prénom du souscripteur " class="input-xxlarge"  value="<?php echo $this->souscription->souscription_prenom; ?>" />
+</div>
+</div>
+</div>
+
+<div id="pm" style=' <?php if($this->souscription->souscription_personne == "PM"){?> display:block;<?php }else{?> display:none;<?php }?>'>
+<div class="control-group">
+<label class="control-label" for="souscription_raison">Raison sociale du souscripteur * </label>
+<div class="controls">
+  <input type="text" name="souscription_raison" id="souscription_raison" placeholder="Raison sociale du souscripteur" class="input-xxlarge" value="<?php echo $this->souscription->souscription_raison; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="type_acteur">Type Agrément OSE/OE *</label>
+  <div class="controls">
+  <select name="type_acteur" id="type_acteur" class="input-xxlarge" >
+  <option value="">Choisir le type</option>
+    <option value="EI" <?php if($this->souscription->code_type_acteur == 'EI'){echo ' selected="selected"';}?>>Entreprise Industrie</option>
+    <option value="OE" <?php if($this->souscription->code_type_acteur == 'OE'){echo ' selected="selected"';}?>>Opérateur Economique</option>
+    <option value="OSE" <?php if($this->souscription->code_type_acteur == 'OSE'){echo ' selected="selected"';}?>>Opérateur Socio-Economique</option>
+    <option value="PEI" <?php if($this->souscription->code_type_acteur == 'PEI'){echo ' selected="selected"';}?>>Partenaire Entreprise Industrie</option>
+    <option value="POE" <?php if($this->souscription->code_type_acteur == 'POE'){echo ' selected="selected"';}?>>Partenaire Opérateur Economique</option>
+    <option value="POSE" <?php if($this->souscription->code_type_acteur == 'POSE'){echo ' selected="selected"';}?>>Partenaire Opérateur Socio-Economique</option>
+   </select>
+</div>
+</div>
+  
+<div class="control-group">
+  <label class="control-label" for="statut_juridique">Statut juridique *</label>
+  <div class="controls">
+  <select  class="input-xxlarge" name="statut_juridique" id="statut_juridique" >
+       <?php  $statutjuridique = new Application_Model_EuStatutJuridiqueMapper();
+		$selectstatutjuridique = $statutjuridique->fetchAll();?>
+               <option value="">Choisir un statut juridique</option>
+    <?php foreach ($selectstatutjuridique as $selectstatutjuridique): ?>
+               <option value="<?php echo $selectstatutjuridique->code_statut; ?>" <?php if($this->souscription->code_statut == $selectstatutjuridique->code_statut){echo ' selected="selected"';}?>><?php echo htmlentities($selectstatutjuridique->libelle_statut); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+
+</div>
+
+<div class="control-group">
+<label class="control-label" for="souscription_mobile">Cellulaire du souscripteur  *</label>
+<div class="controls">
+<input type="number" name="souscription_mobile" id="souscription_mobile" placeholder="Cellulaire du souscripteur" class="input-xxlarge" required  value="<?php echo $this->souscription->souscription_mobile; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="souscription_email">E-mail du souscripteur  </label>
+<div class="controls">
+<input type="email" name="souscription_email" id="souscription_email" placeholder="E-mail du souscripteur" class="input-xxlarge"  value="<?php echo $this->souscription->souscription_email; ?>" />
+</div>
+</div>
+
+
+    
+<div class="control-group">
+<label class="control-label" for="souscription_ville">Ville du souscripteur  </label>
+<div class="controls">
+<input type="text" name="souscription_ville" id="souscription_ville" placeholder="Ville du souscripteur " class="input-xxlarge"  value="<?php echo $this->souscription->souscription_ville; ?>" />
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="souscription_quartier">Quartier du souscripteur  </label>
+<div class="controls">
+<input type="text" name="souscription_quartier" id="souscription_quartier" placeholder="Quartier du souscripteur " class="input-xxlarge"  value="<?php echo $this->souscription->souscription_quartier; ?>" />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="id_canton">R&eacute;gion du souscripteur  </label>
+<div class="controls">
+<select  class="input-xxlarge" name ="id_region" id="id_region"  onchange="ouvre_decoupage(this.value);">
+     <?php  $region_mapper = new Application_Model_EuRegionMapper();
+		    $selectregions = $region_mapper->fetchAll();?>
+            <option value="">Choisir la région </option>
+            <?php foreach ($selectregions as $selectregion): ?>
+            <option value="<?php echo $selectregion->id_region; ?>"><?php echo $selectregion->nom_region; ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div id="nivpref">
+<div class="control-group">
+<label class="control-label" for="id_prefecture">Pr&eacute;fecture du souscripteur </label>
+<div class="controls">
+<select name="id_prefecture" id="id_prefecture" >
+  <option value="">Choisir la Pr&eacute;fecture</option>
+</select>
+</div>
+</div>
+</div>
+
+
+<div id="nivcant">
+<div class="control-group">
+<label class="control-label" for="id_canton">Canton du Souscripteur </label>
+<div class="controls">
+<select name="id_canton" id="id_canton" >
+     <?php  $canton_mapper = new Application_Model_EuCantonMapper();
+		    $selectcantons = $canton_mapper->fetchAll();?>
+  <option value="">Choisir le canton </option>
+            <?php foreach ($selectcantons as $selectcanton): ?>
+            <option value="<?php echo $selectcanton->id_canton; ?>" <?php if($this->souscription->id_canton == $selectcanton->id_canton){echo ' selected="selected"';}?>><?php echo $selectcanton->nom_canton; ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+</div>
+
+
+<div class="control-group">
+  <label class="control-label" for="souscription_programme">Type de programme *</label>
+  <div class="controls">
+
+  <label class="radio">
+  <input name="souscription_programme" type="radio" required id="souscription_programme_kacm" value="KACM" onclick="document.getElementById('cmfh').style.display='none'; document.getElementById('souscription_login').removeAttribute('required'); document.getElementById('souscription_passe').removeAttribute('required'); document.getElementById('confirme').removeAttribute('required'); nbremontantkacm(); nbremontantcmfh(document.getElementById('souscription_type_candidat').value);"  <?php if($this->souscription->souscription_programme == "KACM"){echo ' checked="checked"';}?> />
+  Souscription pour soi (KACM)</label>
+
+  <!--<label for="souscription_programme_caps" class="radio">
+  <input name="souscription_programme" type="radio" required id="souscription_programme_caps" value="CAPS" onclick="document.getElementById('cmfh').style.display='none';">
+  CAPS</label>-->
+
+
+  <label class="radio">
+  <input name="souscription_programme" type="radio" required id="souscription_programme_cmfh" value="CMFH" onclick="document.getElementById('cmfh').style.display='block'; document.getElementById('souscription_login').setAttribute('required', true); 	document.getElementById('souscription_passe').setAttribute('required', true); document.getElementById('confirme').setAttribute('required', true); nbremontantkacm(); nbremontantcmfh(document.getElementById('souscription_type_candidat').value);"  <?php if($this->souscription->souscription_programme == "CMFH"){echo ' checked="checked"';}?> />
+  Souscription pour tiers (CMFH)</label>
+  
+  </div>
+  </div>
+  
+<div id="cmfh" style=' <?php if($this->souscription->souscription_programme == "CMFH"){?> display:block;<?php }else{?> display:none;<?php }?>'>
+<div class="control-group">
+<label class="control-label" for="souscription_type_candidat">Type CMFH </label>
+<div class="controls">
+<select name="souscription_type_candidat" id="souscription_type_candidat" onchange="nbremontantcmfh(this.value); mobilisation();" >
+    <?php $ttype_candidat = new Application_Model_EuTypeCandidatMapper();
+    $results = $ttype_candidat->fetchAll();?>
+
+    <option value="">Choisir le type</option>
+    <?php foreach ($results as $type_candidat): ?>
+    <option value="<?php echo $type_candidat->id_type_candidat; ?>" <?php if($this->souscription->souscription_type_candidat == $type_candidat->id_type_candidat){echo ' selected="selected"';}?>><?php echo ($type_candidat->libelle_type_candidat); ?> (<?php if($type_candidat->id_type_candidat == 8){?>à partir de <?php }?><?php echo ($type_candidat->option_type_candidat); ?> Comptes Marchands)</option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+
+
+<!--<div id="mobilisation" style="display:none;">
+<div class="control-group">
+  <label class="control-label" for="souscription_mobilisateur">Vous souhaitez être un Mobilisateur Sensibilisateur  *</label>
+  <div class="controls">
+  <label for="souscription_mobilisateur_0" class="radio">
+  <input name="souscription_mobilisateur" type="radio" id="souscription_mobilisateur_0" value="0" checked="checked" />
+  Non</label>
+
+  <label for="souscription_mobilisateur_1" class="radio">
+  <input type="radio" name="souscription_mobilisateur" id="souscription_mobilisateur_1" value="1" />
+  Oui</label>
+  
+  </div>
+  </div>
+  </div>-->
+
+
+
+
+
+<div class="control-group">
+<label class="control-label" for="souscription_login">Login du souscripteur  </label>
+<div class="controls">
+  <input type="text" name="souscription_login" id="souscription_login" placeholder="Login du souscripteur" class="input-xxlarge" value="<?php echo $this->souscription->souscription_login; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="souscription_passe">Mot de passe du souscripteur   </label>
+<div class="controls">
+  <input type="password" name="souscription_passe" id="souscription_passe" placeholder="Mot de passe du souscripteur" class="input-xxlarge" value="<?php echo $this->souscription->souscription_passe; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="confirme">Confirmer Mot de passe du souscripteur   </label>
+<div class="controls">
+  <input type="password" name="confirme" id="confirme" placeholder="Confirmer Mot de passe du souscripteur" class="input-xxlarge" value="<?php echo $this->souscription->souscription_passe; ?>" />
+</div>
+</div>
+
+</div>
+
+
+<?php /*?><div class="control-group">
+<label class="control-label" for="code_activite">Domaine d'activité *</label>
+<div class="controls">
+<select name="code_activite" id="code_activite" required onchange="ouvre_competences(this.value);">
+        <?php $tactivite = new Application_Model_DbTable_EuActivite();
+        $results = $tactivite->fetchAll();?>
+  <option value="">Choisir le domaine </option>
+    <?php foreach ($results as $activite): ?>
+               <option value="<?php echo $activite->code_activite; ?>"><?php echo ($activite->nom_activite); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div id="niv2">
+
+<div class="control-group">
+<label class="control-label" for="id_metier">Métiers </label>
+<div class="controls">
+<select name="id_metier" id="id_metier" >
+  <option value="">Choisir le métier</option>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="id_competence">Compétences </label>
+<div class="controls">
+<select name="id_competence" id="id_competence" >
+  <option value="">Choisir la compétence</option>
+</select>
+</div>
+</div>
+
+</div><?php */?>
+
+<div class="control-group">
+  <label class="control-label" for="souscription_type">Type de payement *</label>
+  <div class="controls">
+  <label for="souscription_type_banque" class="radio">
+  <input name="souscription_type" type="radio" required id="souscription_type_banque" onclick="document.getElementById('banque').style.display='block';  document.getElementById('banque2').style.display='block'; document.getElementById('flooz').style.display='none';document.getElementById('souscription_vignette').setAttribute('required', true);" value="Banque" <?php if($this->souscription->souscription_type == "Banque"){echo ' checked="checked"';}?>>
+  Banque</label>
+
+  <label for="souscription_type_flooz" class="radio">
+  <input type="radio" name="souscription_type" id="souscription_type_flooz" value="Flooz" required onclick="document.getElementById('banque').style.display='none'; document.getElementById('banque2').style.display='none';  document.getElementById('flooz').style.display='block';document.getElementById('souscription_vignette').removeAttribute('required');" <?php if($this->souscription->souscription_type == "Flooz"){echo ' checked="checked"';}?>>
+  Flooz</label>
+  
+  </div>
+  </div>
+  
+  <div id="banque" style=' <?php if($this->souscription->souscription_type == "Banque"){?> display:block;<?php }else{?> display:none;<?php }?>'>
+<div class="control-group">
+<label class="control-label" for="souscription_banque">Banque </label>
+<div class="controls">
+<select name="souscription_banque" id="souscription_banque" >
+        <?php $tbanque = new Application_Model_DbTable_EuBanque();
+        $results = $tbanque->fetchAll();?>
+  <option value="">Choisir la banque</option>
+    <?php foreach ($results as $banque): ?>
+               <option value="<?php echo $banque->code_banque; ?>" <?php if($this->souscription->souscription_banque == $banque->code_banque){echo ' selected="selected"';}?>><?php echo ($banque->libelle_banque); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+</div>
+
+  <div id="flooz" style=' <?php if($this->souscription->souscription_type == "Flooz"){?> display:block;<?php }else{?> display:none;<?php }?>'>
+</div>
+
+  <div class="control-group">
+<label class="control-label" for="souscription_numero">Numéro de reçu de banque ou Numéro de transation Flooz  * </label>
+<div class="controls">
+  <input type="text" name="souscription_numero" id="souscription_numero" placeholder="Numero de reçu de banque ou Numéro de transation Flooz" class="input-xxlarge" required value="<?php echo $this->souscription->souscription_numero; ?>" />
+</div>
+</div>
+
+
+  <div class="control-group">
+<label class="control-label" for="souscription_date_numero">Date de reçu de banque ou de transation Flooz  * </label>
+<div class="controls">
+  <input type="text" name="souscription_date_numero" id="souscription_date_numero" placeholder="Date de reçu de banque ou de transation Flooz" class="input-xxlarge datepicker" data-provide="datepicker" required value="<?php echo $this->souscription->souscription_date_numero; ?>" />
+</div>
+</div>
+
+  <div id="banque2" style=' <?php if($this->souscription->souscription_type == "Banque"){?> display:block;<?php }else{?> display:none;<?php }?>'>
+<div class="control-group">
+<label class="control-label" for="souscription_vignette">Scanne du reçu *  </label>
+<div class="controls">
+  <input type="file" name="souscription_vignette" id="souscription_vignette" class="input-xxlarge"  />
+<input type="hidden" name="souscription_vignetteold" id="souscription_vignetteold" value="<?php echo $this->souscription->souscription_vignette; ?>" />
+</div>
+</div>
+</div>
+
+  <div class="control-group">
+<label class="control-label" for="souscription_nombre">Nombre de compte marchand souscris * </label>
+<div class="controls">
+  <input type="text" name="souscription_nombre" id="souscription_nombre" placeholder="Nombre de compte marchand souscris" class="input-xxlarge" required value="<?php echo $this->souscription->souscription_nombre; ?>" />
+</div>
+</div>
+  
+  <div class="control-group">
+<label class="control-label" for="souscription_montant">Montant de la souscription * </label>
+<div class="controls">
+  <input type="text" name="souscription_montant" id="souscription_montant" placeholder="Montant de la souscription" class="input-xxlarge" required value="<?php echo $this->souscription->souscription_montant; ?>" />
+</div>
+</div>
+
+
+
+
+
+</fieldset> 
+   
+    
+    
+
+<div class="form-actions">
+<input type="hidden" name="souscription_id" id="souscription_id" value="<?php echo $this->souscription->souscription_id; ?>" />
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<!--<button type="reset" class="btn">Annuler</button>-->
+<button type="submit" class="btn btn-primary">Modifier</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

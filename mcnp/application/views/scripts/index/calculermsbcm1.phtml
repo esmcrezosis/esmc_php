@@ -1,0 +1,237 @@
+﻿<?php  $sessionmcnp = new Zend_Session_Namespace('mcnp'); ?>
+<script type="text/javascript">
+
+function calculmontant()  {
+    if(document.getElementById('type_souscripteur1').checked) {
+        var mont_msbcm = Math.floor((document.getElementById('mont_bc').value * document.getElementById('bnpmpsfs').value * document.getElementById('nbre').value ));
+        var mont_panu  = Math.floor((mont_msbcm * document.getElementById('tpanupp').value * 2) / 100);
+        var mont_gopi = Math.floor(mont_msbcm + mont_panu);
+        var mont_opi  = Math.floor(mont_gopi / 22.4);
+        document.getElementById('mont_msbcm').value = mont_msbcm;
+        document.getElementById('mont_gopi').value = mont_gopi;
+        document.getElementById('mont_opi').value = mont_opi;
+
+     
+    } else if(document.getElementById('type_souscripteur2').checked) {
+        var mont_msbcm = Math.floor((document.getElementById('mont_bc').value * document.getElementById('bnpmpsfs').value * document.getElementById('nbre').value ));
+        var mont_panu  = Math.floor((mont_msbcm * document.getElementById('tpanupm').value) / 100);
+        var mont_gopi = Math.floor(mont_msbcm + mont_panu);
+        var mont_opi  = Math.floor(mont_gopi / 22.4);
+        document.getElementById('mont_msbcm').value = mont_msbcm;
+        document.getElementById('mont_gopi').value = mont_gopi;
+        document.getElementById('mont_opi').value = mont_opi;
+		
+    }
+	
+	/*
+	else if(document.getElementById('type_activation2').checked  &&  document.getElementById('type_souscripteur1').checked) { 
+        var mont_msbcm = Math.floor((document.getElementById('mont_bc').value * document.getElementById('bnpmps').value * document.getElementById('nbre').value ));
+        var mont_panu  = Math.floor((mont_msbcm * document.getElementById('tpanupp').value * 2) / 100);
+        var mont_gopi = Math.floor(mont_msbcm + mont_panu);
+        var mont_opi  = Math.floor(mont_gopi / 22.4);
+        document.getElementById('mont_msbcm').value = mont_msbcm;
+        document.getElementById('mont_gopi').value = mont_gopi;
+        document.getElementById('mont_opi').value = mont_opi;
+
+    } else if(document.getElementById('type_activation2').checked  &&  document.getElementById('type_souscripteur2').checked) {
+        var mont_msbcm = Math.floor((document.getElementById('mont_bc').value * document.getElementById('bnpmps').value * document.getElementById('nbre').value ));
+        var mont_panu  = Math.floor((mont_msbcm * document.getElementById('tpanupm').value) / 100);
+        var mont_gopi = Math.floor(mont_msbcm + mont_panu);
+        var mont_opi  = Math.floor(mont_gopi / 22.4);
+        document.getElementById('mont_msbcm').value = mont_msbcm;
+        document.getElementById('mont_gopi').value = mont_gopi;
+        document.getElementById('mont_opi').value = mont_opi;
+  
+    }
+	*/
+  
+}
+
+
+/*
+function calculmontant()  {
+   if((document.getElementById('type_activation1').checked)) {
+     var mont_msbcm = Math.floor((document.getElementById('mont_bc').value * document.getElementById('bnpmpsfs').value
+	 * document.getElementById('nbre').value));
+     var mont_panu  = Math.floor((mont_msbcm * document.getElementById('tpanu').value) / 100);
+     var mont_gopi = Math.floor(mont_msbcm + mont_panu);
+     var mont_opi  = Math.floor(mont_gopi / 22.4);
+
+     document.getElementById('mont_msbcm').value = mont_msbcm;
+     document.getElementById('mont_gopi').value = mont_gopi;
+     document.getElementById('mont_opi').value = mont_opi;
+	
+  } else if((document.getElementById('type_activation2').checked)) {
+    
+	    var mont_msbcm = Math.floor((document.getElementById('mont_bc').value * document.getElementById('bnpmps').value
+		* document.getElementById('nbre').value)); 
+	
+        var mont_panu  = Math.floor((mont_msbcm * document.getElementById('tpanu').value) / 100);
+        var mont_gopi = Math.floor(mont_msbcm + mont_panu);
+        var mont_opi  = Math.floor(mont_gopi / 22.4);
+
+ 
+        document.getElementById('mont_msbcm').value = mont_msbcm;
+        document.getElementById('mont_gopi').value = mont_gopi;
+        document.getElementById('mont_opi').value = mont_opi;
+	
+  }
+  
+}
+*/
+
+
+function  vider()  {
+  document.getElementById('mont_bc').value = "";
+  document.getElementById('mont_msbcm').value = "";
+  document.getElementById('nbre').value = "";
+  document.getElementById('mont_gopi').value = "";
+  document.getElementById('mont_opi').value = "";
+  //document.getElementById('type_activation1').checked = true;
+}
+
+
+function  vider1()  {
+  document.getElementById('mont_bc').value = "";
+  document.getElementById('mont_msbcm').value = "";
+  document.getElementById('nbre').value = "";
+  document.getElementById('mont_gopi').value = "";
+  document.getElementById('mont_opi').value = "";
+  //document.getElementById('type_activation1').checked = true;
+
+}
+
+
+
+
+
+function annuler() {
+  document.getElementById('nbre').value = "";
+  document.getElementById('mont_msbcm').value = "";
+  document.getElementById('mont_gopi').value = "";
+  document.getElementById('mont_opi').value = "";
+  //document.getElementById('type_activation1').checked = true;
+}
+
+function annuler1() {
+  document.getElementById('mont_gopi').value = "";
+  document.getElementById('mont_opi').value = "";
+  //document.getElementById('type_activation1').checked = true;
+}
+
+
+
+function annulation1() {
+  document.getElementById('mont_msbcm').value = "";
+  document.getElementById('mont_gopi').value = "";
+  document.getElementById('mont_opi').value = "";
+}
+
+function annulation2() {
+  document.getElementById('mont_msbcm').value = "";
+  document.getElementById('mont_gopi').value = "";
+  document.getElementById('mont_opi').value = "";
+}
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+<blockquote><p>Calcul du Montant de Souscription au Bon de Consommation (BC) pour Tiers (Marchand)</p></blockquote>
+<?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+<?php } ?>
+
+<form  action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="calculermsbcm" name="calculermsbcm">
+       <fieldset>
+            <legend> Montant de Souscription au Bon de Consommation (BC) pour Tiers (Marchand)</legend>
+		    <div class="control-group">
+			    <label class="control-label" for="type">Type souscripteur *</label>
+				<div class="controls">
+		            <input type="radio"  checked="checked"  name="type_souscripteur" id="type_souscripteur1" value="PP" onclick="vider()" />
+                    Personne Physique &nbsp;&nbsp;&nbsp;&nbsp;
+		            <input type="radio"  name="type_souscripteur" id="type_souscripteur2" value="PM"  onclick="vider1()" />
+	                Personne Morale
+	            </div>
+			</div>
+            <br/>
+		   
+		    <div class="control-group">
+            <label class="control-label" for="mont_bc">Montant Minimum du Bon de Consommation *</label>
+            <div class="controls">
+                 <input type="text" name="mont_bc" id="mont_bc" placeholder="Montant Minimum du Bon de Consommation" class="input-xxlarge" onblur="annuler();"  required="required" />
+            </div>
+            </div>
+            <br/>
+		   
+		    <div class="control-group">
+            <label class="control-label" for="nbre">Nombre de bénéficiaires de la souscription *</label>
+		    <div class="controls">
+                <input type="text" name="nbre" id="nbre" placeholder="Nombre de bénéficiaires de la souscription" class="input-xxlarge" onblur="annuler1();"  required="required" />
+            </div>
+            </div>
+            <br/>
+		   
+		    <!--
+            <div class="control-group" id="type">
+                <label class="control-label"></label>
+				<div class="controls">
+				     <input type="radio" checked="checked" name="type_activation" id="type_activation1" value="avecfs" onclick="annulation1()" />
+                     AVEC FS &nbsp;&nbsp;&nbsp;&nbsp;
+					 <input type="radio"  name="type_activation" id="type_activation2" value="sansfs"  onclick="annulation2()" />
+	                 SANS FS
+				</div>
+           </div>
+           <br/><br/>
+		   -->
+           
+           <div class="control-group">
+           <label class="control-label" for="mont_msbcr">Montant à Souscrire *</label>
+           <div class="controls">
+                <input type="text" name="mont_msbcm" id="mont_msbcm" placeholder="Montant A Souscrire" class="input-xxlarge" readonly="true" />
+                <input  type="hidden"  name="bnpmpo"  id="bnpmpo"  placeholder="bnpmpo"  readonly="true"  value="<?php echo $this->bnpmpo; ?>" />
+                <input  type="hidden"  name="bnpmpofs"  id="bnpmpofs"  placeholder="bnpmpofs"  readonly="true"  value="<?php echo $this->bnpmpofs; ?>" />				
+                <input  type="hidden"  name="bnpmps"  id="bnpmps"  placeholder="bnpmps"  readonly="true"  value="<?php echo $this->bnpmps; ?>" />
+                <input  type="hidden"  name="bnpmpsfs"  id="bnpmpsfs"  placeholder="bnpmpsfs"  readonly="true"  value="<?php echo $this->bnpmpsfs; ?>" />
+				<input  type="hidden"  name="pck"  id="pck"  placeholder="pck"  readonly="true"  value="<?php echo $this->pck; ?>" />
+                <input  type="hidden"  name="tpanu"  id="tpanu"  placeholder="tpanu"  readonly="true"  value="<?php echo $this->tpanu; ?>" />
+				<input  type="hidden"  name="tpanupm"  id="tpanupm"  placeholder="tpanupm"  readonly="true"  value="<?php echo $this->tpanupm; ?>" />
+                <input  type="hidden"  name="tpanupp"  id="tpanupp"  placeholder="tpanupp"  readonly="true"  value="<?php echo $this->tpanupp; ?>" />
+		   </div>
+           </div>
+           <br/><br/>
+
+           <div class="control-group">
+           <label class="control-label" for="mont_gopi">Montant Global des OPI à Obtenir *</label>
+           <div class="controls">
+           <input type="text" name="mont_gopi" id="mont_gopi" placeholder="Montant Global des OPI à Obtenir" class="input-xxlarge" readonly="true" />	 
+           </div>
+           </div>
+           <br/><br/>
+           <div class="control-group">
+           <label class="control-label" for="mont_opi">Montant d'OPI / période *</label>
+           <div class="controls">
+           <input type="text" name="mont_opi" id="mont_opi" placeholder="Montant d'OPI par période" class="input-xxlarge" readonly="true" />	 
+           </div>
+           </div>		      
+	   </fieldset>
+       <div class="form-actions">
+       <button type="reset" class="btn">Annuler</button>
+	   <button type="button" class="btn btn-primary" onclick="calculmontant();">Calculer </button>
+       </div>	   
+</form>
+</div>
+
+
+
+
+
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+</div>
+</div>
+</div>

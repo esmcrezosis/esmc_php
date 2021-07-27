@@ -1,0 +1,51 @@
+<div style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+</div>
+
+<h3>Ticket N°<?php echo $this->entries[0]['numero_demandeur'] ?> </h3>
+<div class="form-control" style="display:block;text-align:left;margin-bottom:10px"><label for="" style="font-weight:bold;display:inline-block">Date d'émission du Ticket:</label>
+  <span><?php echo $this->entries[0]['created'] ?></span>
+</div>
+<table style="width:100%;margin-bottom: 20px;border: 1px solid #ddd;border-collapse: separate;border-left: 0;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;">
+<tbody>
+  <tr>
+    <td style="font-weight:bold;width:300px;padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">DEMANDEURS</td>
+    <td style="padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;"><?php echo $this->entries[0]['numero_demandeur'] ?></td>
+  </tr>
+  <tr>
+    <td style="font-weight:bold;width:300px;padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">TELEPHONE( pour vous contacter)</td>
+    <td style="padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;"><?php echo $this->entries[0]['telephone'] ?></td>
+  </tr>
+  <?php if ($this->entries[0]['email'] !== "" ): ?>
+    <tr>
+      <td style="font-weight:bold;width:300px;padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">EMAIL( pour vous contacter)</td>
+      <td style="padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;"><?php echo $this->entries[0]['email'] ?></td>
+    </tr>
+  <?php endif; ?>
+  <tr>
+    <td style="font-weight:bold;width:300px;padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">LIEU DE SOUSCRIPTION</td>
+    <td style="padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;"><?php echo $this->entries[0]['lieu'] ?></td>
+  </tr>
+  <tr>
+    <td rowspan="2" style="font-weight:bold;width:300px;padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">ADDRESSE INTEGRATEUR</td>
+    <td style="padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">Integrateur fixe:<?php echo $this->entries[0]['lieu'] ?></td>
+  </tr>
+  <tr>
+    <td style = "padding: 8px;line-height: 20px;text-align: left;vertical-align: top;border-top: 1px solid #ddd;border-left: 1px solid #ddd;">Integrateur Ambulant:<?php echo $this->entries[0]['lieu'] ?></td>
+  </tr>
+</tbody>
+</table>
+<div style="text-align:left"><strong style="text-decoration:underline;display:block;margin-bottom: -5px;">NB:</strong><p style="margin-left:10px;display:inline-block;margin-bottom:-15px;margin-top: 10px;"><span style="display:inline-block;font-size:20px;font-weight:bold;position: relative;top: 5px;left: -10px;">*</span><span style="display:inline-block;margin-left:15px;margin-top:-11px">Si la demande concerne des modifications de :</span></p><span style="display:block;margin-left:25px;text-align:justify"><span style="font-weight:bold;font-size:40px">.</span> nom, prénoms, email, date de naissance, nationalité, profession: veuillez joindre les pièces d\'identités ou toutes pièces justificatives à ce ticket</span><br/>
+<span style="display:block;margin-left:25px;margin-top:-18px;margin-bottom:-10px;"><span style="font-weight:bold;font-size:40px">.</span> Téléphone: veullez joindre les codes membres et les pièces d\'identités à ce ticket</span><br/><p style="margin-left:10px;margin-bottom:-10px;margin-top:-15px"><span style="display:inline-block;font-size:20px;font-weight:bold;position: relative;top: 5px;left: -10px;">*</span><span style="display:inline-block;margin-left:15px;text-align:justify;margin-top:12px">Si la demande concerne les codes (membre, secret, d\'activation), veuillez joindre les pièces d\'identités à ce ticket.</span></p><p style="margin-left:10px"> <span style="display:inline-block;font-size:20px;font-weight:bold;position: relative;top: 26px;left: -10px;">*</span><span style="display:inline-block;margin-left:15px;text-align:justify">Si la demande concerne une restitution de BAn pour cause d\'erreur de nom sur le recu de versement bancaire: souscrire au BAn avec le reçu erroné puis joindre une lettre reconnaissance écrite de celui qui fait la restitution</span></p><div style="width:100%;padding:10px 0px 10px 10px;border:1px solid #000;font-style:italic;"> Ex: je sousigné....................(Code membre......) demande la restitution de ..... à .......</div><p style="margin-left:10px;margin-top:10px"><span style="display:inline-block;font-size:20px;font-weight:bold;position: relative;top: 5px;left: -10px;">*</span><span style="display:inline-block;margin-left:15px;text-align:justify"> Si la demande concerne une concession de BAn pour tiers, joindre une lettre de reconnaissance écrite de celui qui concède.</span></p><div style="width:100%;padding:10px 0px 10px 10px;border:1px solid #000;margin-bottom:10px;font-style:italic;"> Ex: je sousigné....................(Code membre......) demande la concession de ..... à ....... </div></div>
+
+<div style="text-align:left">
+<div style="width:100%;border:1px solid #CCC;padding:5px;font-weight:bold; ">Description du problème</div>
+<div style="width:100%;border:1px solid #CCC;padding:5px;padding-bottom: 52px;margin-bottom: 15px;">
+<?php echo $this->entries[0]['description'] ?>
+</div>
+<a class="btn btn-primary" href="" data-idticket="<?php echo $this->entries[0]['id_ticket']; ?>"  data-numticket="<?php echo $this->entries[0]['numero_demandeur'] ?>" id="valid_ticket"><i class="icon-cog icon-white"></i>Transférer ce ticket au gérant </a>
+</div>
+<div style="text-align:right;margin-top: -31px;">
+  <a class="btn btn-danger" href="" data-idticket="<?php echo $this->entries[0]['id_ticket']; ?>" data-numticket="<?php echo $this->entries[0]['numero_demandeur'] ?>" id="invalid_ticket"><i class="icon-cog icon-white"></i>Confirmer l'invalidité de ce ticket</a>
+</div>

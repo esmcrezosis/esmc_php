@@ -1,0 +1,36 @@
+
+
+<h3>Liste des procès verbales des fournisseurs choisit</h3>
+
+<?php if(count($this->lalistedetouslesprocesverbalevaliderparlatechnopolefiliere) > 0){?>
+
+<table class="table table-stripped">
+ 	<tr>
+ 		<th>Reference du procès verbale</th>
+		<th>Téléchargement du procès verbale</th>
+		<th>Date d'établissement du procès verbale</th>
+		<th>Actions</th>
+        
+ 	</tr>
+   </thead>
+   <tbody>
+   	  <?php foreach ($this->lalistedetouslesprocesverbalevaliderparlatechnopolefiliere as $key => $value): ?>
+         <tr class="primary">
+            <td> <?php echo $value->reference_proces_verbale ?> </td>
+            <td>
+             <a href="<?php echo $this->domaine ?>proces_verbale_procedure_achat/<?php echo $value->id_demande_achat ?>">Details</a>
+             
+              </td>
+            <td> <?php echo $value->date_proces_verbale ?> </td>
+            <td> <a href="/procedureachat/editiondesprocesverbaleassocieauxfournisseurchoisit/id/<?php echo $value->id_demande_achat ?>">Details</a> </td>         
+         </tr>
+
+ 	  <?php endforeach ?>       
+   
+    </tbody>
+</table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucun procès verbale n'est encore validé par la technopole
+</div>
+<?php }?>

@@ -1,0 +1,83 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp'); ?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/integrateur.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+		$('#code_membre_beneficiaire').blur(function(e) {
+	    if($(this).val() !== '') {
+            $.get('/souscriptionbon/recupnom',{
+                 code_membre: $(this).val()
+            },
+            function success(data) {
+	        if(data !== '') {
+               $("#nom_membre").val(data[1]);
+            } else {
+               alert('Ce membre n\existe pas!!!');
+            }
+	        })
+        } else {
+            $("#nom_membre").val("");
+        }		   
+	});
+    });
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p> Inscription à la Souscription au Bon de Consommation pour Tiers </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscriptionbc">
+    <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+    <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+    <?php } ?>
+	  
+	<?php if(isset($this->error) && $this->error !="") { ?>
+    <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <?php echo $this->error; ?>
+    </div>
+    <?php } ?>
+	
+	<fieldset>
+	    <legend>Bénéficiaire</legend>
+        <div class="control-group">
+        <label class="control-label" for="code_membre_beneficiaire"> Code membre * </label>
+        <div class="controls">
+        <input type="text" name="code_membre_beneficiaire" id="code_membre_beneficiaire" placeholder="Code Membre du Bénéficiaire"  value="<?php echo $this->code_membre; ?>"  class="input-xxlarge"  required />
+        </div>
+        </div>
+
+        <div class="control-group">
+        <label class="control-label" for="code_membre">Nom & Prenom * </label>
+	    <div class="controls">
+        <input type="text" name="nom_membre" id="nom_membre" placeholder="" readonly  value="<?php echo $this->nom_membre; ?>"  class="input-xxlarge"  required="required" />
+        </div>
+        </div>
+	</fieldset>
+    
+    <div class="form-actions">
+    <input name="ok" type="hidden" id="ok" value="ok" />
+    <button type="reset" class="btn">Annuler</button>
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </div>
+
+
+</form>
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+</div>
+</div>
+</div>

@@ -1,0 +1,90 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+<script src="<?php echo $this->baseUrl();?>/pv.js"></script>
+
+<script type="text/javascript" charset="utf-8">		
+	$(document).ready(function() {
+    $('#example').dataTable({
+       "sPaginationType": "full_numbers",
+	   "aaSorting": []
+    });
+    });
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+  <blockquote><p>Liste des immobilisations restituées </p></blockquote>
+  
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+<?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error != "") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+<?php } ?>
+
+<?php if(count($this->entries) > 0) { ?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+<thead> 
+	  <tr>
+		  <th>Date Entrée</th>
+		  <th>Codification</th>
+		  <th>Désignation</th>
+		  <th>Famille</th>
+		  <th>Nature</th>
+		  <th>Lieu affectation</th>
+		  <th>Valeur</th>
+		  <th>Date Sortie</th>
+		  <th>Bénéficiaire</th>
+	  </tr>
+</thead>
+  
+<tbody>
+<?php foreach($this->entries as $entry): 
+
+$morale = new Application_Model_EuMembreMorale();
+$m_morale  = new Application_Model_EuMembreMoraleMapper();
+$m_morale->find($entry->code_membre_fournisseur,$morale);
+
+?>
+    <tr>
+	  <td><?php echo ($entry->date_entree); ?></td>
+	  <td><?php echo ($entry->code_identification); ?></td>
+	  <td><?php echo ($entry->designation_immobilisation); ?></td>
+	  <td><?php echo ($entry->famille_immobilisation); ?></td>
+	  <td><?php echo ($entry->nature_immobilisation); ?></td>
+	  <td><?php echo ($entry->lieu_affectation); ?></td>
+	  <td><?php echo ($entry->valeur_acquisition); ?></td>
+	  <td><?php echo ($entry->date_sortie); ?></td>
+	  <td><?php echo ($morale->raison_sociale); ?></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucune immobilisation restituée 
+</div>
+<?php } ?>
+
+</div>
+</div>
+</div>
+
+

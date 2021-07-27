@@ -1,0 +1,222 @@
+<div id="view-content">
+    <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:12px">
+        <div style="margin-bottom: 3px; width: 800px">
+            <fieldset>
+                <legend style=" font-weight:bold">Recherche</legend>
+                <table align="center">
+                    <tr>
+                        <td>Code membre</td>
+                        <td><input type="text" id="code_membre" name="code_membre" size="25"/></td>
+                        <td>Raison sociale</td>
+                        <td><input type="text" id="raison_sociale" name="raison_sociale" size="40" readonly="true"/></td>
+                        <td><input id="ok" type="button" value="OK" /></td>
+                    </tr>
+                </table> 
+            </fieldset>      
+        </div>
+
+        <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 10px; padding-left: 7px;">
+            <h3>Mise sur chaine d'un ancien acteur</h3>
+        </div>
+
+        <form name="fm_acteur" id="fm_acteur" method="Post" action="/eu-mise-chaine/traiter">
+            <div style="margin: 3px;">
+                <table>
+                    <tr>
+                        <td width="150">Nom </td>
+                        <td>
+                            <input type="text" id="nom" name="nom" size="40" class="validate[required]">
+                            <input type="hidden" id="code_acteur" name="code_acteur">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="150">Type acteur </td>
+                        <td>
+                            <select id="id_type_acteur" type="text" name="id_type_acteur"  class="validate[required]"/>
+                            <input id="ta" type="hidden" value="<?php echo $this->id_type_acteur ?>"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="150">Code membre </td>
+                        <td ><input type="text" id="num_membre" name="num_membre" size="30" readonly="true" class="validate[required]"></td>
+                    </tr>
+                    <tr>
+                        <td width="150">Activité</td>
+                        <td>
+                            <select id="code_activite" type="text" name="code_activite"  class="validate[required]"/>
+                            <input id="id_ac" type="hidden" value="<?php echo $this->code_activite ?>"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="150">Numéro gestionnaire</td>
+                        <td>
+                            <input type="text" id="code_membre_gestionnaire" name="code_membre_gestionnaire" size="30" class="validate[required]">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="150">Nom gestionnaire</td>
+                        <td>
+                            <input type="text" id="nom_gestion" name="nom_gestion" size="30" readonly="true" class="validate[required]">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="150">Prénom gestionnaire</td>
+                        <td>
+                            <input type="text" id="prenom_gestion" name="prenom_gestion" size="30" readonly="true" class="validate[required]">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="150">Téléphone gestionnaire</td>
+                        <td>
+                            <input type="text" id="tel_gestion" name="tel_gestion" size="30" readonly="true">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"> 
+                            <input type="submit" value="Valider" id="valider"/>
+                            <input id="annuler" type="button" value="Annuler"/>
+                        </td>    
+                    </tr>
+                </table> 
+            </div>    
+        </form>
+    </div>    
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function()
+    {
+        $("#fm_acteur").validationEngine();
+
+        $.get("/eu-mise-chaine/typeacteur",
+                function success(data)
+                {
+                    var options = '<option/>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                    $('select#id_type_acteur').html(options);
+                });
+
+        $.get("/eu-mise-chaine/activite",
+                function success(data)
+                {
+                    var options = '<option/>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                    $('select#code_activite').html(options);
+                });
+
+        $.get("/eu-mise-chaine/change",
+                function success(data)
+                {
+                    $("input#code_membre").autocomplete({"source": data});
+                });
+
+        $('#code_membre').blur(function(e)
+        {
+            e.preventDefault();
+            if ($(this).val() != '')
+            {
+                $.get(
+                        '/eu-mise-chaine/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    $("#raison_sociale").val(data[1]);
+                });
+            }
+        });
+
+        $('#ok').click(function()
+        {
+            $.get(
+                    '/eu-mise-chaine/recupacteur',
+                    {
+                        num_membre: $('#code_membre').val()
+                    },
+            function success(data)
+            {
+                if (data == '') {
+                    alert('Ce membre n\'est pas un acteur du réseau');
+                    $("#nom").val("");
+                    $("#num_membre").val("");
+                    $("#code_membre_gestionnaire").val("");
+                    $('#nom_gestion').val("");
+                    $('select#id_type_acteur option[value ="' + data + '"]').attr('selected', true);
+                    $('select#code_activite option[value ="' + data + '"]').attr('selected', true);
+                    $('#prenom_gestion').val("");
+                    $('#tel_gestion').val("");
+                }
+                else {
+                    $("#nom").val(data[0]);
+                    $("#num_membre").val(data[1]);
+                    $('select#id_type_acteur option[value ="' + data[2] + '"]').attr('selected', true);
+                    $('select#code_activite option[value ="' + data[3] + '"]').attr('selected', true);
+                    $("#code_membre_gestionnaire").val(data[4]);
+                    $("#code_acteur").val(data[5]);
+                    $.get(
+                            '/eu-mise-chaine/gestionchange',
+                            {
+                                gestion: data[4]
+                            },
+                    function success(data)
+                    {
+                        $('#nom_gestion').val(data[0]);
+                        $('#prenom_gestion').val(data[1]);
+                        $('#tel_gestion').val(data[2]);
+                    });
+                }
+            })
+        })
+
+
+        $('#code_membre_gestionnaire').change(function()
+        {
+            if ($(this).val() != '')
+            {
+                $.get(
+                        '/eu-mise-chaine/gestionchange',
+                        {
+                            gestion: $(this).val()
+                        },
+                function success(data)
+                {
+                    $('#nom_gestion').val(data[0]);
+                    $('#prenom_gestion').val(data[1]);
+                    $('#tel_gestion').val(data[2]);
+                });
+            }
+            else {
+                $('#nom_gestion').val("");
+                $('#prenom_gestion').val("");
+                $('#tel_gestion').val("");
+            }
+        });
+
+        $('form#fm_acteur').submit(function(e) {
+            $.ajax({
+                url: $('form').attr("action"),
+                data: $('form').serialize(),
+                type: 'post',
+                success: processServerResponse
+            });
+            e.preventDefault();
+        });
+        function processServerResponse(data) {
+            if (data === true) {
+                alert('La mise sur chaine a été effectuée avec succès');
+                $(location).attr("href", "/eu-mise-chaine/index");
+            }
+            else {
+                $('#message').html(data);
+            }
+        }
+        ;
+
+    })
+</script>    

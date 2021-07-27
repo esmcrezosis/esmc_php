@@ -1,0 +1,80 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre'); ?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+<blockquote><p> Formulaire de modification de produit  </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addfichebesoin">
+  
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+  <?php if(isset($sessionmembre->error) && $sessionmembre->error != "") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembre->error; $sessionmembre->error = ""; ?>
+  </div>
+  <?php } ?>
+
+<legend> Modifier un produit </legend>
+  
+<div class="control-group">
+<label class="control-label" for="libelle_produit"> Libellé du produit * </label>
+<div class="controls">
+<input type="text" value="<?php echo $this->produit->libelle_produit_fournisseur;?>" name="libelle_produit" id="libelle_produit" placeholder="Libellé du Produit" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="desc_produit"> Description du produit </label>
+<div class="controls">
+<textarea value="<?php echo $this->produit->desc_produit_fournisseur;?>" name="desc_produit" class="input-block-level" id="desc_produit" placeholder="Description du produit"></textarea>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_tegc"> Terminal d'Echange * </label>
+<div class="controls">
+<select  id="code_tegc" name="code_tegc" required class="input-xxlarge">
+   <option value=""> Choisir un terminal d'Echange </option>
+     <?php foreach ($this->tes as $value) { ?>
+     <option
+           value="<?php echo $value->code_tegc; ?>"   <?php if($this->produit->code_tegc == $value->code_tegc) {echo 'selected="selected"';}?> ><?php echo $value->nom_tegc; ?>
+     </option>                         
+     <?php } ?>
+</select>
+</div>
+</div>
+   
+ 
+<div class="form-actions">  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input  type="hidden"    name="id_produit_fournisseur" id="id_produit_fournisseur" value="<?php echo $this->produit->id_produit_fournisseur;?>" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier</button>
+</div>                           
+  
+</form>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

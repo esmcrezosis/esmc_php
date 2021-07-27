@@ -1,0 +1,241 @@
+<div id="view-content">
+     <form id="repartition_form" method="Post" action="/eu-repartition-nn/payer">
+	       <fieldset style="margin-bottom: 2px;">
+	       <table id="tab_fact" style="margin: 5px;">
+				<tr>
+				    <td>
+						<label>Numero Appel offre *</label>
+                    </td>
+                    <td>					
+					    <select id="numero_offre" name="numero_offre" required="true" />
+					</td>   
+			    </tr>
+				<tr>
+				     <td>
+						<label>Montant NN collecte *</label>
+                     </td>
+                     <td>					
+					    <input id="montant_nn" name="montant_nn" readonly="true"/>
+					 </td>					 
+			    </tr>
+				<tr>
+				     <td>
+						   <label>Montant NN exigible *</label>
+                     </td>
+                     <td>					
+					       <input id="montant_exigible" name="montant_exigible" readonly="true"/>
+					 </td>
+				</tr>
+				<tr>
+				     <td>
+						<label>Montant du marche *</label>
+                     </td>
+                     <td>					
+					    <input id="montant_budget" name="montant_budget" readonly="true"/>
+					 </td>   
+			       </tr>
+				   <tr>
+				     <td>
+						<label>Marge  NN *</label>
+                     </td>
+                     <td>					
+					    <input id="marge_nn" name="marge_nn" readonly="true"/>
+					 </td>   
+			       </tr>
+				   <tr>
+				     <td>
+						<label>Code membre surveillance *</label>
+                     </td>
+                     <td>					
+					    <input id="code_membre" name="code_membre" readonly="true" size="28"/>
+					 </td>   
+			       </tr>
+				   <!--<tr>
+				     <td>
+						<label>Raison sociale surveillance *</label>
+                     </td>
+                     <td>					
+					    <input id="raison_sociale" name="raison_sociale" readonly="true"/>
+					 </td>   
+			       </tr>-->
+				   <tr>
+				     <td>
+						 <label>Solde GCP Repartition</label>
+                     </td>
+                     <td>					
+					     <input  type="text"  id="montant_gcp"  name="montant_gcp"  readonly="true"/>
+					 </td>   
+			       </tr>
+				   
+		   </table> 
+	       <table>
+                <tr>
+                    <td>
+				        <input type="button" id="val" value="Valider"/>
+				        <input type="reset" id="reset" value="Reinitialiser"/>
+				    </td>
+                </tr>
+        </table>
+		</fieldset>
+	 </form>	 
+</div>
+<input id="payer" type="button" value="Payer" class="ui-widget button"/>
+<table id="tbl-repartition"></table>
+<div id="pg-repartition"></div>
+<script>
+  $(document).ready(function () {
+      $("#tbl-repartition").jqGrid({
+      url: '/eu-repartition-nn/data',
+      editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+      datatype: "json",
+      mtype: 'GET',
+      colNames: ['Code membre','Date apport','Montant','id_detail_appel_nn','Code compte'],
+      height:400,width:820,
+      colModel:[
+                 {name:'code_membre',index:'code_membre',width:140, align:"left"},
+                 {name:'date_apport',index:'date_apport',width: 100, align:"left"},
+                 {name:'montant_apport',index:'montant_apport',width:80,align:"right",editable: false,formatter:'number'},
+                 {name:'id_detail_appel_nn',index:'id_detail_appel_nn',width:30, align:"left",hidden:true},
+				 {name:'code_compte',index:'code_compte',width:140, align:"left"},
+      ],
+      rowNum:1000,
+      rowList:[1000,30000,70000],
+      pager: '#pg-repartition',
+      sortname:"id_detail_appel_nn",
+      viewrecords:true,
+      multiselect:false,
+      sortorder: "asc",
+      caption:"Liste des apports ",
+      forceFit : true, 
+      cellEdit: true, 
+      cellsubmit: 'clientArray',
+      footerrow: true,
+      userDataOnFooter: true
+   });
+   $("#tbl-repartition").jqGrid('navGrid','#pg-repartition',{edit:false,add:false,del:false,search:true});
+ 
+   $('#view-content').puipanel();
+   $('fieldset').puifieldset();
+	
+	
+   $('#val').click(function() {
+      jQuery("#tbl-repartition").jqGrid('setGridParam',{url: "/eu-repartition-nn/data?id="+$('#numero_offre').val()}).trigger('reloadGrid');  
+   })	
+	
+
+   $('#payer').click(function() {	
+	   if ($('#numero_offre').val()=='') {
+		   alert('Veuillez saisir le numero offre');
+	   } else if($('#montant_nn').val() != $('#montant_exigible').val()) {
+	       alert('Impossible de faire cette repartition : Le montant nn collecte doit etre egal au montant nn exigible');
+	   }   
+	   else if($('#montant_budget').val() > $('#montant_gcp').val()) {
+	       alert('Impossible de faire cette repartition : Le montant du marche doit etre inferieur ou egale au montant du gcp destine a la repartition');
+	  }
+	   else {
+	        var sel;
+            sel = jQuery("#tbl-repartition").jqGrid('getGridParam','selarrrow');
+            var tab = new Array();  
+            var rowsel;
+            rowsel = jQuery("#tbl-repartition").jqGrid('getGridParam','selrow');
+            //for(var i=0; i<sel.length; i++) {
+            //        tab[i]=jQuery("#tbl-repartition").jqGrid('getRowData',sel[i]);   
+            //};
+			//if(rowsel) {
+			    //data = jQuery("#tbl-repartition").jqGrid('getRowData',rowsel);
+                $.get('/eu-repartition-nn/payer?id='+$('#numero_offre').val()+"&marge="+$('#marge_nn').val()+"&montant_nn="+$('#montant_nn').val()+"&code_membre="+$('#code_membre').val()+"&montant_budget="+$('#montant_budget').val(),{
+            },function success(data) {
+                    if(data == 'good') {
+                      alert('Reglement effectue avec succes');
+                      $(location).attr("href", "/eu-repartition-nn/index");
+                    } else if(data == 'erreurdetentrice') {
+                         alert('Le compte de la gac detentrice est introuvable');
+                    } else if(data == 'erreur') {
+                         alert('Un compte apporteur est introuvable');
+                    } else if(data == 'erreurdem') {
+                         alert('Le compte de repartition est introuvable');
+                    } else {
+                         alert(data);
+                    }
+            });         
+			      
+	        //} else {
+                  // alert('Aucune ligne sélectionnee');
+            //}
+	   
+	   }
+   })
+	
+	
+   $.get("/eu-repartition-nn/offre",
+     function success(data) {
+       var options = '<option/>';
+           for (var i = 0; i < data.length; i++) {
+               options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+           }
+       $('select#numero_offre').html(options);
+   });
+	
+		
+   $("#numero_offre").change(function(e) {
+        e.preventDefault();
+        $.get(
+            '/eu-repartition-nn/montantapportnn',{
+            id_proposition : $(this).val()
+       },
+       function success(data) {
+        if (data != 0) {
+            $('#montant_nn').val(data[0]);
+		    $('#montant_budget').val(data[1]);
+		    $('#marge_nn').val(data[2]);
+		    $('#montant_exigible').val(data[3]);
+			$('#code_membre').val(data[4]);
+			$('#montant_gcp').val(data[5]);
+        } else {
+            $('#montant_nn').val(0);
+        }
+		});		
+	})
+	
+
+
+
+
+	
+/*	
+    $.get( "/eu-repartition-nn/membremoral",
+        function success(data){
+        $("input#code_membre").autocomplete({"source":data ,change: displayItem});
+    });	
+	
+    function displayItem() {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-repartition-nn/recupraison',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data){
+                    $("#raison_sociale").val(data[0]);
+                });
+				
+				$.get(
+                        '/eu-repartition-nn/gcpdispo',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data){
+                    $("#montant_gcp").val(data[0]);
+                });
+            }
+        }	
+		
+ */   	
+	  
+	  
+	  
+	  
+ })		 
+
+</script>	 

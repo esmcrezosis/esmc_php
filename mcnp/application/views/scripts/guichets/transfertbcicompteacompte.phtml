@@ -1,0 +1,102 @@
+<blockquote>
+
+INTERFACE D'ECHANGE DE BCi DE COMPTE A COMPTE
+
+</blockquote>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+<div class="alert alert-danger">
+
+    <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+</div>
+
+<?php unset($_SESSION['validationerrors']); endif ?>
+
+<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+    <div class="alert alert-success">
+
+        <li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+
+    </div>
+    
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+
+<form action="#" method= "POST" enctype="multipart/form-data" id="ajouterunguichet" >
+
+    <div class="control-group">
+
+	      <label class="control-label" for="Code membre de l'apporteur" style="font-weight:bold">
+
+	        Code membre de l'apporteur *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="bci_code_membre_apporteur" class="input-block-level bci_code_membre_apporteur" placeholder="Renseignez ici votre code membre " required/>
+	      
+          </div>
+
+	</div>
+
+    <div class="control-group">
+
+	      <label class="control-label" for="Code membre du destinataire" style="font-weight:bold">
+
+	        Code membre du destinataire *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="bci_code_membre_destinataire" class="input-block-level bci_code_membre_destinataire" placeholder="Renseignez ici le code membre du destinataire" required/>
+	      
+          </div>
+
+	</div>
+
+    <div class="control-group">
+
+	      <label class="control-label" for="Code membre du destinataire" style="font-weight:bold">
+
+	        Montant du BCi à transférer *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="bci_montant_transfert" class="input-block-level bci_montant_transfert" placeholder="Renseignez ici le code membre du destinataire" required/>
+	      
+          </div>
+
+	</div>
+
+    <div class="control-group" >
+
+          <button type="submit" class="btn btn-large btn-primary" id ="validtransfertbci" style="position:relative">
+
+              Valider le formulaire
+
+          </button>
+
+    </div>
+
+
+</form>
+
+
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+
+<script src="/outil-qr.js"></script>
+
+<script type="text/javascript">
+
+//outilqr('addeli');
+//outilqrformobligatoire("ajouterunguichet","validguichet");
+
+</script>

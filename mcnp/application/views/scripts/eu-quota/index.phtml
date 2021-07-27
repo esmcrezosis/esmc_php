@@ -1,0 +1,54 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-param"></table>
+    <div id="pg-param"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-param").jqGrid({
+        url:'/eu-quota/data',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Montant'],
+        height:'100%', width:827,
+        rownumbers:true,
+        colModel:[
+            {name:'code_param',index:'code_param', width: 50, align:"left", editable: true},
+            {name:'lib_param',index:'lib_param', width: 50, align:"left", editable: true},
+            {name:'montant',index:'montant', width: 30, align:"right", editable: true},
+        ],
+        rowNum:20,
+        rowList:[20,30,40],
+        pager: '#pg-param',
+        sortname:"code_param",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des paramètres : QUOTA"
+    });
+    $("#tbl-param").jqGrid('navGrid','#pg-param',{edit:false,add:false,del:false,search:false});
+    $(document).ready(function ()
+    { 
+        $('#editer').button();
+    
+        $('#editer').click(function()
+        {
+            var rowsel;
+            rowsel = jQuery("#tbl-param").jqGrid('getGridParam','selrow');
+            if(rowsel)
+            {
+                data = jQuery("#tbl-param").jqGrid('getRowData',rowsel);
+                $.get('/eu-quota/edit',{
+                    code_param:data.code_param,lib_param:data.lib_param,montant:data.montant
+                },function success(data){
+                    $("#content").html(data);
+                });   
+            }
+            else
+            {
+                alert('Aucune ligne sélectionnée');
+            }       
+        });
+    })
+</script>

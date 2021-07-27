@@ -1,0 +1,219 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+<blockquote><p> Details d'un Terminal de Vente </p></blockquote>
+
+<div class="control-group">
+<label class="control-label" for="code_membre"><strong>Code Membre </strong></label>
+<div class="controls">
+<?php if($this->tegc->code_membre != null) {echo $this->tegc->code_membre;} else {echo $this->tegc->code_membre_physique;} ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="nom_tegc"><strong>D&eacute;signation TE</strong></label>
+<div class="controls">
+<?php echo $this->tegc->nom_tegc; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="filiere"><strong>Fili&egrave;re</strong></label>
+<div class="controls">
+<?php echo $this->division; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="nom_produit"><strong>Nom du Produit </strong></label>
+<div class="controls">
+<?php echo $this->tegc->nom_produit; ?>
+</div>
+</div>
+
+<!--
+<div class="control-group">
+<label class="control-label"><strong>PRK</strong></label>
+<div class="controls">
+     
+	 <?php //$x = 1; ?>
+	 <?php //foreach ($this->typeprks as $value) : ?>
+	       <input disabled type="checkbox" name="<?php //echo "prk".$x ?>" id="<?php //echo "prk".$x ?>" value="<?php //echo $value->valeur_prk; ?>" <?php //if($this->prks != false) { foreach ($this->prks as $prk) { if($prk->valeur == $value->valeur_prk) { echo 'checked="checked"';} }} ?>/>
+		   <?php //echo $value->valeur_prk; ?> &nbsp;&nbsp;
+	 <?php //$x++;endforeach; ?>
+	 
+</div>
+</div>
+-->
+
+<div class="control-group">
+<label class="control-label"><strong>Type r&eacute;current </strong></label>
+<div class="controls">
+     <input disabled type="checkbox"  name="produit1" id="produit1" value="ri" <?php if(isset($this->tegc) && ($this->tegc->recurrent_illimite == 1)) {echo 'checked="checked"';} ?> />
+     R&eacute;current Illimit&eacute; &nbsp;&nbsp;				                         
+     <input disabled type="checkbox"  name="produit2" id="produit2" value="rl" <?php if(isset($this->tegc) && ($this->tegc->recurrent_limite == 1)) {echo 'checked="checked"';} ?> />
+     R&eacute;current limit&eacute; &nbsp;&nbsp;				 
+     <input disabled type="checkbox"  name="produit3" id="produit3" value="nr" <?php if(isset($this->tegc) && ($this->tegc->nonrecurrent == 1)) {echo 'checked="checked"';} ?> />
+     Non R&eacute;current				                               
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label"><strong>P&eacute;riode </strong></label>
+<div class="controls">
+     <input disabled type="checkbox"  name="periode1" id="periode1" value="11.2" <?php if(isset($this->tegc) && ($this->tegc->periode1 == 1)) {echo 'checked="checked"';} ?> />
+     11.2 &nbsp;&nbsp;				                     
+     <input disabled type="checkbox"  name="periode2" id="periode2" value="22.4" <?php if(isset($this->tegc) && ($this->tegc->periode2 == 1)) {echo 'checked="checked"';} ?> />
+     22.4 &nbsp;&nbsp;	
+     <input disabled type="checkbox"  name="periode3" id="periode3" value="1" <?php if(isset($this->tegc) && ($this->tegc->periode3 == 1)) {echo 'checked="checked"';} ?> />
+     1				 
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Situation</label>
+<div class="controls">
+     <input disabled type="radio" name="situation" id="situation1" value="1" <?php if(isset($this->tegc) && ($this->tegc->formel == 1)) {echo 'checked="checked"';} ?> />
+     Formelle	&nbsp;&nbsp;			                        
+	 <input disabled type="radio"  name="situation" id="situation2" value="0" <?php if(isset($this->tegc) && ($this->tegc->formel == 0)) {echo 'checked="checked"';} ?> />
+     Non Formelle				 				 
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Exon&eacute;r&eacute; de TVA</label>
+<div class="controls">
+     <input disabled type="radio" name="tva" id="tva1" value="0" <?php if(isset($this->tegc) && ($this->tegc->regime_tva == 0)) {echo 'checked="checked"';} ?> />
+     Oui	&nbsp;&nbsp;			                        
+	 <input disabled type="radio"  name="tva" id="tva2" value="1" <?php if(isset($this->tegc) && ($this->tegc->regime_tva == 1)) {echo 'checked="checked"';} ?> />
+     Non				 				 
+</div>
+</div>
+
+<!--
+<div class="control-group">
+<label class="control-label"><strong>Cat&eacute;gorie </strong></label>
+<div class="controls">
+     <input disabled type="checkbox"  name="categorie1" id="categorie1" value="special" <?php //if(isset($this->tegc) && ($this->tegc->special == 1)) {echo 'checked="checked"';} ?> />
+     Sp&eacute;cial	&nbsp;&nbsp;			                        
+	 <input disabled type="checkbox"  name="categorie2" id="categorie2" value="ordinaire" <?php //if(isset($this->tegc) && ($this->tegc->ordinaire == 1)) {echo 'checked="checked"';} ?> />
+     Ordinaire				 				 
+</div>
+</div>
+-->
+
+<div class="control-group">
+<label class="control-label"><strong>Produit</strong></label>
+<div class="controls">
+     <?php $x = 1; ?>
+	 <?php 
+	   foreach($this->prks as $value) : 
+	       $typecredit = new Application_Model_EuTypeCredit();
+           $m_typecredit = new Application_Model_EuTypeCreditMapper();
+		   $m_typecredit->find($value->code_type_credit,$typecredit);
+		   
+		   echo $typecredit->lib_type_credit;  
+		   
+	 ?>
+<br/>	 
+     <?php $x++;endforeach; ?>	 
+</div>
+</div>
+
+
+<!--
+<div class="control-group">
+<label class="control-label" for="mdv"><strong>Nombre des tranches &agrave; payer </strong></label>
+<div class="controls">
+<?php //echo $this->tegc->mdv; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="mdv"><strong>Nombre de payement des tranches</strong></label>
+<div class="controls">
+<?php //echo $this->tegc->tranche_payement;?>
+</div>
+</div>
+-->
+
+<div class="control-group">
+<label class="control-label" for="zone"><strong>Zone</strong></label>
+<div class="controls">
+<?php   
+     $zone = new Application_Model_EuZone();
+     $m_zone = new Application_Model_EuZoneMapper();
+     $findzone = $m_zone->find($this->tegc->code_zone,$zone);
+     if($findzone) {
+        echo $zone->nom_zone;
+     } 	
+?>
+</div>
+</div>
+
+
+
+
+<div class="control-group">
+<label class="control-label" for="zone"><strong>Pays</strong></label>
+<div class="controls">
+<?php   
+    $pays = new Application_Model_EuPays();
+    $m_pays = new Application_Model_EuPaysMapper();
+    $findpays = $m_pays->find($this->tegc->id_pays,$pays);
+    if($findpays) {
+      echo $pays->libelle_pays;
+    }  
+?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="zone"><strong>R&eacute;gion</strong></label>
+<div class="controls">
+<?php   
+     $region = new Application_Model_EuRegion();
+     $m_region = new Application_Model_EuRegionMapper();
+     $findregion = $m_region->find($this->tegc->id_region,$region);
+     if($findregion) {
+       echo $region->nom_region;
+     } 
+?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="zone"><strong>Pr&eacute;fecture</strong></label>
+<div class="controls">
+<?php   
+     $prefecture = new Application_Model_EuPrefecture();
+     $m_prefecture = new Application_Model_EuPrefectureMapper();
+     $findprefecture = $m_prefecture->find($this->tegc->id_prefecture,$prefecture);
+     if($findprefecture) {
+       echo $prefecture->nom_prefecture;
+     }
+?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="zone"><strong>Canton</strong></label>
+<div class="controls">
+<?php   
+     $canton = new Application_Model_EuCanton();
+     $m_canton = new Application_Model_EuCantonMapper();
+     $findcanton = $m_canton->find($this->tegc->id_canton,$canton);
+     if($findcanton) {
+       echo $canton->nom_canton;
+     }	 
+?>
+</div>
+</div>
+
+</div>
+</div>
+</div>

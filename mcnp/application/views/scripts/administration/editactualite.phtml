@@ -1,0 +1,106 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification de d'actualite</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addactualite">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+        
+
+<div class="control-group">
+<label class="control-label" for="actualite_type">Type de l'actualite *</label>
+<div class="controls">
+<label class="radio inline" for="actualite_type1">
+<input type="radio" id="actualite_type1" name="actualite_type" value="ESMC" <?php if($this->actualite->actualite_type == "ESMC"){echo 'checked="checked"';}?> required /> ESMC</label>
+<br />
+<label class="radio inline" for="actualite_type2">
+<input type="radio" id="actualite_type2" name="actualite_type" value="CEU/ReDeMaRe" <?php if($this->actualite->actualite_type == "CEU/ReDeMaRe"){echo 'checked="checked"';}?> required /> CEU/ReDeMaRe</label>
+<br />
+<label class="radio inline" for="actualite_type3">
+<input type="radio" id="actualite_type3" name="actualite_type" value="MCNP" <?php if($this->actualite->actualite_type == "MCNP"){echo 'checked="checked"';}?> required /> MCNP</label>
+<br />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="actualite_libelle">Libellé de l'actualite *</label>
+<div class="controls">
+<input type="text" name="actualite_libelle" id="actualite_libelle" placeholder="Libellé de l'actualite" class="input-xxlarge" value="<?php echo $this->actualite->actualite_libelle; ?>" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="actualite_resume">Resume de l'actualite *</label>
+<div class="controls">
+<textarea name="actualite_resume" id="actualite_resume" placeholder="Resume de l'actualite" required><?php echo $this->actualite->actualite_resume; ?></textarea><!---->
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="actualite_vignette">Vignette de l'actualite </label>
+<div class="controls">
+<input name="actualite_vignette" type="file" id="actualite_vignette" class="input-xxlarge" />  
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="actualite_date">Date de l'actualite *</label>
+<div class="controls">
+<input type="date" name="actualite_date" id="actualite_date" placeholder="Date de l'actualite" class="input-xxlarge" value="<?php echo $this->actualite->actualite_date; ?>" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="actualite_description">Description de l'actualite </label>
+<div class="controls">
+<textarea name="actualite_description" id="actualite_description" placeholder="Description de l'actualite" class="ckeditor"><?php echo $this->actualite->actualite_description; ?></textarea><!---->
+</div>
+</div>
+    
+   
+    
+
+
+<div class="form-actions">
+<input name="actualite_id" type="hidden" id="actualite_id" value="<?php echo $this->actualite->actualite_id; ?>" />  
+<input name="actualite_vignette_old" type="hidden" id="actualite_vignette_old" value="<?php echo $this->actualite->actualite_vignette; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier l'actualite</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,177 @@
+<div class="row-fluid">
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+
+<div class="span12">
+<div class="row">
+        <div class="col-8">
+        <h3>Remplissage de formulaire par QR Code</h3>
+        <br/>
+        <br/>
+
+                <div class="input-group mb-3" id="champ_code_membre">
+                    <input type="text" id="code_membre" class="form-control" placeholder="Votre code membre" aria-label="Votre code membre" aria-describedby="button_qr_code">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="button_qr_code">QR Code</button>
+                    </div>
+                </div>
+        <br/>
+        <br/>
+                <!-- Dialogue du QR CODE-->
+                <div id="myModal" class="qrmodal overlayDiv">
+
+                <!-- Contenu du dialogue-->
+                <div class="qrmodal-content">
+                    <span id="close-qrmodal">&times;</span>
+                    <br/> <br/>
+                    <p>Veuillez mettre le code QR du membre en façe de votre Caméra afin de l'authentifier.</p>
+                    <video class="cam_video" autoplay></video>
+                    <br/>
+                </div>
+
+                </div>
+
+        </div>
+        <div class="col-4">
+
+        </div>
+</div>
+</div>
+
+
+
+<script type="text/javascript">
+
+var qr = new QCodeDecoder();
+
+    var modal = document.getElementById('myModal');
+                var champCm = document.getElementById('button_qr_code');
+
+                document.getElementById('close-qrmodal').addEventListener('click', function() {
+                    modal.style.display = "none";
+                    qr.stop();
+                }, false);
+
+                champCm.addEventListener('click', function() {
+                    modal.style.display = "block";
+                   // alert('Hello');
+                   startQRCamera();
+
+                }, false);
+
+
+    function startQRCamera () {
+        'use strict';
+
+
+
+    // alert("Attente du QR CODE");
+
+        if (!(qr.isCanvasSupported() && qr.hasGetUserMedia())) {
+        alert('Your browser doesn\'t match the required specs.');
+        throw new Error('Canvas and getUserMedia are required');
+        }
+
+        var video = document.querySelector('video');
+        var reset = document.querySelector('#reset');
+        var stop = document.querySelector('#stop');
+
+
+        function resultHandler (err, result) {
+        if (err)
+            return console.log(err.message);
+            var str = result;
+            var infosqr = str.split(',');
+
+            //alert("Code membre :"+infosqr[0]);
+            // alert("Code secret :"+infosqr[1]);
+
+            document.getElementById('code_membre').value = ''+infosqr[0];
+            modal.style.display = "none";
+            qr.stop();
+            //    document.getElementById('codesecret').value = ''+infosqr[1];
+            //   document.getElementById('connexion_cam').submit();
+
+        console.log(result);
+        }
+
+        qr.decodeFromCamera(video, resultHandler);
+
+    /*
+        stop.onclick = function () {
+        qr.stop();
+        };*/
+
+    }
+</script>
+
+</div>
+
+<style>
+
+
+.cam_video
+{
+    width: 400px;
+    height: 300px;
+    background: #F3F3F3;
+    border: 1px solid #F3F3F3;
+}
+#button_qr_code
+{
+    background: #aa325f;
+}
+#connexion_cam
+{
+    display: none;
+}
+.qrmodal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+.qrmodal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 450px;
+    z-index: -99999;
+
+}
+#close-qrmodal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+#close-qrmodal:hover,
+#close-qrmodal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.overlayDiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index:99;
+}
+</style>
+
+
+
+
+
+
+
+

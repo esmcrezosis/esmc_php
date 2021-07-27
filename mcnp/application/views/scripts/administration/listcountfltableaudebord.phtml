@@ -1,0 +1,203 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+    <script type="text/javascript" charset="utf-8">
+      /*$(document).ready(function() {
+        $('#example').dataTable();
+      } );*/
+      $(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+    "aaSorting": []
+    } );
+} );
+    </script>
+       
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Tableau de bord des FL utilisés </p></blockquote>
+
+<div class="accordion" id="accordion2">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+        Formulaire de trie par critères
+      </a>
+    </div>
+    <div id="collapseOne" class="accordion-body collapse <?php if (!isset($_POST['ok'])) {?> in <?php }?>">
+      <div class="accordion-inner">
+<form method="post" enctype="multipart/form-data" role="form" name="souscription" id="souscription" action="" class="">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+   
+  <div class="">
+
+  <div class="span4">
+    
+  <div class="control-group">
+  <label class="control-label" for="origine_fl">Origine FL </label>
+  <div class="controls">
+  <select name="origine_fl" id="origine_fl" >
+    <option value="">Choisir l'origine</option>
+    <option value="N">Nouveau Membre</option>
+    <option value="A">Ancien Membre</option>
+  </select>
+  </div>
+  </div>
+    
+    
+    
+    </div>
+
+
+  <div class="span4">
+    
+  
+    <div class="control-group">
+  <label class="control-label" for="date_fl1">Date Début  </label>
+  <div class="controls">
+    <input type="text" name="date_fl1" id="date_fl1" placeholder="Date Début" class="input-medium datepicker" data-provide="datepicker" value="<?php 
+                        $eufl = new Application_Model_DbTable_EuFl();
+                        $select = $eufl->select();
+                        $select->order(array('date_fl ASC'));
+                        $select->limit(1);
+                        $rowseufl = $eufl->fetchRow($select);
+                        echo substr($rowseufl->date_fl, 0, 10); ?>" readonly />
+  </div>
+  </div>
+  
+
+    </div>
+
+  <div class="span4">
+  
+    <div class="control-group">
+  <label class="control-label" for="date_fl2">Date Fin  </label>
+  <div class="controls">
+    <input type="text" name="date_fl2" id="date_fl2" placeholder="Date Fin" class="input-medium datepicker" data-provide="datepicker" value="<?php 
+                        $eufl = new Application_Model_DbTable_EuFl();
+                        $select = $eufl->select();
+                        $select->order(array('date_fl DESC'));
+                        $select->limit(1);
+                        $rowseufl = $eufl->fetchRow($select);
+                        echo substr($rowseufl->date_fl, 0, 10); ?>" readonly />
+  </div>
+  </div>
+
+    
+  
+ 
+    </div>
+    </div>
+    
+ <div class="">
+  <div class="span12">
+   
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<!--<button type="reset" class="btn">Annuler</button>-->
+<button type="submit" class="btn btn-primary">Rechercher</button>
+</div>    
+
+    </div>
+    </div>
+
+</form>
+
+
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+
+
+<?php  if(count($this->entries)>0){?> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Nombre</th>
+                  <th>Montant</th>
+                  
+                  <th>Actions</th>
+                </tr>
+              </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php echo datefr($entry->date_fl); ?></td>
+      <td><?php echo ($entry->NOMBRE); ?></td>
+      <td><?php echo number_format($entry->SOMME, 0, ',', ' '); ?></td>
+      
+      <td><div align="center">&nbsp;</div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+<tfoot>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      
+    </tr>
+<tr>
+      <td><strong>Nombre et Total </strong></td>
+      <td><strong><?php echo ($this->entriestotal->NOMBRE); ?></strong></td>
+      <td><strong><?php echo number_format($this->entriestotal->SOMME, 0, ',', ' '); ?></strong></td>
+      
+      <td><div align="center">&nbsp;</div></td>
+      
+    </tr>
+</tfoot>
+            </table>
+                      <br />
+
+
+<br />
+<br />
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun fl enrégistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

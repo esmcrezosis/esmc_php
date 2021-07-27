@@ -1,0 +1,74 @@
+<?php $sessionbanqueopi = new Zend_Session_Namespace('banqueopi');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menubanqueopi.phtml"); ?>
+
+  <blockquote><p>Ajout de pourcentage de commission</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addpcommission">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+
+    
+<div class="control-group">
+<label class="control-label" for="id_type_acteur">Type bénéficiaire *</label>
+<div class="controls">
+<select name="id_type_acteur" id="id_type_acteur"  required="required">
+        <?php $ttype_acteur = new Application_Model_DbTable_EuTypeActeur();
+	      $select = $ttype_acteur->select();
+	      $select->where('id_type_acteur != 1');
+              $results = $ttype_acteur->fetchAll($select);
+        ?>
+  <option value="">Choisir le type bénéficiaire</option>
+    <?php foreach ($results as $type_acteur): ?>
+               <option value="<?php echo $type_acteur->id_type_acteur; ?>"><?php echo ($type_acteur->lib_type_acteur); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="pcommission">Pourcentage de commission *</label>
+<div class="controls">
+<input type="number" name="pcommission" id="pcommission" placeholder="Pourcentage de commission" class="input-xlarge" required />
+</div>
+</div>
+    
+
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter le pourcentage</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

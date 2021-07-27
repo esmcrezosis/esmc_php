@@ -1,0 +1,102 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+
+
+  <blockquote><p>Modifier un utilisateur de l'agrément OSE/OE</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addappeloffres">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<fieldset>
+<legend>Formulaire de modification d'un utilisateur</legend>
+    
+
+<div class="control-group">
+<label class="control-label" for="membreasso_nom">Nom de l'utilisateur  *</label>
+<div class="controls">
+<input type="text" name="membreasso_nom" id="membreasso_nom" placeholder="Nom de l'utilisateur " class="input-xxlarge" required value="<?php echo $this->membreasso->membreasso_nom; ?>" />
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="membreasso_prenom">Prénom de l'utilisateur  *</label>
+<div class="controls">
+<input type="text" name="membreasso_prenom" id="membreasso_prenom" placeholder="Prénom de l'utilisateur " class="input-xxlarge" required value="<?php echo $this->membreasso->membreasso_prenom; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membreasso_mobile">Cellulaire de l'utilisateur  *</label>
+<div class="controls">
+<input type="number" name="membreasso_mobile" id="membreasso_mobile" placeholder="Cellulaire de l'utilisateur" class="input-xxlarge" required value="<?php echo $this->membreasso->membreasso_mobile; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membreasso_email">E-mail de l'utilisateur  *</label>
+<div class="controls">
+<input type="email" name="membreasso_email" id="membreasso_email" placeholder="E-mail de l'utilisateur" class="input-xxlarge" required value="<?php echo $this->membreasso->membreasso_email; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membreasso_login">Login de l'utilisateur  </label>
+<div class="controls">
+  <input type="text" name="membreasso_login" id="membreasso_login" placeholder="Login de l'utilisateur" class="input-xxlarge" value="<?php echo $this->membreasso->membreasso_login; ?>" />
+</div>
+</div>
+
+
+  
+<div class="control-group">
+<label class="control-label" for="code_membre">Code Membre de l'utilisateur  *</label>
+<div class="controls">
+<input type="text" name="code_membre" id="code_membre" placeholder="Code Membre de l'utilisateur " class="input-xxlarge" required <?php if($sessionmembreasso->membreasso_type == 2){echo " readonly";} ?> value="<?php echo $this->membreasso->code_membre; ?>" />
+</div>
+</div>
+
+
+</fieldset> 
+   
+    
+    
+
+<div class="form-actions">
+<input type="hidden" name="membreasso_id" id="membreasso_id" value="<?php echo $this->membreasso->membreasso_id; ?>" />
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

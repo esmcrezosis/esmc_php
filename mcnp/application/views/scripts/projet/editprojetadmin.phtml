@@ -1,0 +1,130 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modifier un projet</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="editprojet">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = "";?>
+    </div>
+  <?php }?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="projet_libelle">Désignation du projet *</label>
+<div class="controls">
+<input class="input-xxlarge" type="text" name="projet_libelle" id="projet_libelle" placeholder="Désignation du projet" required value="<?php echo $this->projet->projet_libelle;?>">
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="projet_type"> Type du projet * </label>
+<div class="controls">
+<select id="projet_type" name="projet_type" required class="input-xxlarge">
+<option value="">Choisir un type</option>
+<option value="Biens" <?php if($this->projet->projet_type == "Biens"){?> selected="selected"<?php }?>>Biens</option>
+<option value="Produits" <?php if($this->projet->projet_type == "Produits"){?> selected="selected"<?php }?>>Produits</option>
+<option value="Services" <?php if($this->projet->projet_type == "Services"){?> selected="selected"<?php }?>>Services</option>
+</select>     
+</div>     
+</div>
+
+<div class="control-group">
+<label class="control-label" for="projet_centrale"> Centrale * </label>
+<div class="controls">
+<select id="projet_centrale" name="projet_centrale" required class="input-xxlarge">
+<option value="">Choisir une centrale</option>
+<option value="Achat" <?php if($this->projet->projet_centrale == "Achat"){?> selected="selected"<?php }?>>Centrale d'Achat</option>
+<option value="Vente" <?php if($this->projet->projet_centrale == "Vente"){?> selected="selected"<?php }?>>Centrale de Vente</option>
+<option value="Production" <?php if($this->projet->projet_centrale == "Production"){?> selected="selected"<?php }?>>Centrale de Production</option>
+<option value="Transformation" <?php if($this->projet->projet_centrale == "Transformation"){?> selected="selected"<?php }?>>Centrale de Transformation</option>
+</select>     
+</div>     
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="projet_stockage"> Entreposage * </label>
+<div class="controls">
+<select id="projet_stockage" name="projet_stockage" required class="input-xxlarge">
+<option value="">Choisir un type</option>
+<option value="Entrepots" <?php if($this->projet->projet_stockage == "Entrepots"){?> selected="selected"<?php }?>>Entrepots</option>
+<option value="Marches" <?php if($this->projet->projet_stockage == "Marches"){?> selected="selected"<?php }?>>Marches</option>
+<option value="Magasins" <?php if($this->projet->projet_stockage == "Magasins"){?> selected="selected"<?php }?>>Magasins</option>
+<option value="Boutiques" <?php if($this->projet->projet_stockage == "Boutiques"){?> selected="selected"<?php }?>>Boutiques</option>
+</select>     
+</div>     
+</div>
+
+
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+<div class="control-group">
+<label class="control-label" for="projet_description">Description du projet * </label>
+<div class="controls">
+<textarea name="projet_description" id="projet_description" placeholder="Description du projet" class="ckeditor" required><?php echo $this->projet->projet_description;?></textarea>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="projet_montant">Montant du projet </label>
+<div class="controls">
+<input class="input-xlarge" type="number" name="projet_montant" id="projet_montant" placeholder="Montant du projet"  value="<?php echo $this->projet->projet_montant;?>" readonly>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="projet_montant_final">Montant du projet *</label>
+<div class="controls">
+<input class="input-xlarge" type="number" name="projet_montant_final" id="projet_montant_final" placeholder="Montant du projet" required value="<?php echo $this->projet->projet_montant_final;?>">
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="projet_observation">Observation du validateur </label>
+<div class="controls">
+<textarea name="projet_observation" id="projet_observation" placeholder="Observation du validateur" class="ckeditor"><?php echo $this->projet->projet_observation;?></textarea>
+</div>
+</div>
+
+
+
+
+
+<div class="form-actions">
+<input name="projet_id" type="hidden" id="projet_id" value="<?php echo $this->projet->projet_id; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier le projet</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

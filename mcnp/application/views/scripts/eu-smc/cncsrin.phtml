@@ -1,0 +1,67 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 10px; padding-left: 5px;">
+        <h3>Vue de la source SMC</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <fieldset>
+            <legend style=" font-weight:bold">Recherche</legend>
+            <form id="cncs_form" action="/eu-source/datacncsrin" method="POST">
+                <h5 align="center">
+                    Date début <input type="text" id="date_deb" name="date_deb"/>
+                    Date fin <input type="text" id="date_fin" name="date_fin"/>
+                    <input id="ok" type="submit" value="Ok" />
+                </h5> 
+            </form>
+        </fieldset>
+        <table id="tbl_smc"></table>
+        <div id="pg-smc"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl_smc").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'datacncsrin')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Code capa','Code crédit','Type SMC','Montant','Date création'],
+        height:350, width:817,
+        colModel:[
+            {name:'id_smc',index:'id_smc', width: 100, editable: false,align:"left",hidden:true},
+            {name:'code_capa',index:'code_capa', width: 100, editable: false,align:"left",hidden:true},
+            {name:'code_credit',index:'code_credit', width: 100, align:"left", editable: false,hidden:true},
+            {name:'type_smc',index:'type_smc', width: 100, align:"left", editable: false},
+            {name:'montant',index:'montant', width: 120, align:"right", editable: false,formatter:'number'},
+            {name:'date_smc',index:'date_smc', width: 120, align:"left", editable: false}
+        ],
+        rownumbers:true,
+        rowNum:100,
+        rowList:[100,200,300],
+        pager: '#pg-smc',
+        sortname:"date_smc",
+        viewrecords: true,
+        sortorder: "desc",
+        caption:"Liste des CNCSr en entrée",
+        footerrow: true,
+        userDataOnFooter: true
+    });
+    $("#tbl_smc").jqGrid('navGrid','#pg-smc',{edit:false,add:false,del:false,search:true});
+    
+    $(document).ready(function(){
+        var pickerOpts = {
+            dateFormat:"dd/mm/yy",
+            changeMonth:true,
+            changeYear:true,
+            selectOtherMonths: true,
+            showButtonPanel: true
+        };
+        $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+        $("#date_deb").datepicker(pickerOpts);
+        $("#date_fin").datepicker(pickerOpts);
+        $('#ok').click(function(e)
+        {
+            jQuery("#tbl_smc").jqGrid('setGridParam',{url:"/eu-smc/datacncsrin?date_deb="+$('#date_deb').val()+"&date_fin="+$('#date_fin').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+        
+        $('#ok').button();
+    })
+</script>

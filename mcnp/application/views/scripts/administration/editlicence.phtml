@@ -1,0 +1,69 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification de la licence</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addlicence">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="num_licence">Numéro de la détentrice<!--licence--> *</label>
+<div class="controls">
+<input type="text" name="num_licence" id="num_licence" placeholder="Numéro de la licence" class="input-xxlarge" value="<?php echo $this->licence->num_licence; ?>" readonly>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="libelle_licence">Libellé de la licence *</label>
+<div class="controls">
+<input type="text" name="libelle_licence" id="libelle_licence" placeholder="Libellé de la licence" class="input-xxlarge" value="<?php echo $this->licence->libelle_licence; ?>" required>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="desc_licence">Fichier de la licence *</label>
+<div class="controls">
+<input name="desc_licence" type="file" id="desc_licence" class="input-xxlarge" />  
+</div>
+</div>
+
+
+<div class="form-actions">
+<input name="id_licence" type="hidden" id="id_licence" value="<?php echo $this->licence->id_licence; ?>" />  
+<input name="desc_licence_old" type="hidden" id="desc_licence_old" value="<?php echo $this->licence->desc_licence; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier la licence</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

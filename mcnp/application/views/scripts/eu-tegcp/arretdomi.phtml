@@ -1,0 +1,171 @@
+<form method="post" action="csvexport">
+    <input type="hidden" name="csvBuffer" id="csvBuffer"/>
+</form>
+<div id="view-content">
+    <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:12px">
+        <div style="margin-bottom: 3px; width: 800px">
+            <fieldset>
+                <legend style=" font-weight:bold">Recherche</legend>
+                <table align="center">
+                    <tr>
+                        <td width="100">Code membre</td><td width="220"><input type="text" id="code_membre" name="code_membre" size="30"/></td>
+                        <td width="120">Date domiciliation</td><td width="140"><input type="text" id="date_domi" name="date_domi" size="12"/></td>
+                        <td><input id="ok" type="button" value="OK" /></td>
+                    </tr>
+                    <tr>
+                        <td width="100">Nom membre</td><td width="220" colspan="4"><input type="text" id="nom_membre" name="nom_membre" size="55" readonly="true"/></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div style="margin-bottom: 3px;"><input id="arreter" type="button" value="Arrêter" class="ui-widget button"/></div>
+        <table id="tbl-domicilie"></table>
+        <div id="pg-domicilie"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-domicilie").jqGrid({
+        url:'',
+        editurl:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Id_credit','Code_domi','Code membre','Mt domicilié','Bénéficiaire','Raison sociale','Date','Etat','Type'],
+        height:450, width:820,
+        colModel:[
+            {name:'id_credit',index:'id_credit', width: 16, align:"left", hidden:true},
+            {name:'code_domici',index:'code_domici', width: 100, align:"left", hidden:true},
+            {name:'code_membre',index:'code_membre', width: 150, editable: false,align:"left"},
+            {name:'mt_domici',index:'mt_domici', width: 110, editable: false,align:"right",formatter:'number'},
+            {name:'code_benef',index:'code_benef', width: 150, editable: false,align:"left"},
+            {name:'nom',index:'nom', width: 170, editable: false,align:"left"},
+            {name:'date_domici',index:'date_domici', width: 80, align:"left", editable: false},
+            {name:'domicilier',index:'domicilier', width:70, editable: false,align:"left"},
+            {name:'type_domici',index:'type_domici', width: 60, align:"right", hidden:true},
+        ],
+        rowNum:100,
+        rowList:[100,200,300],
+        rownumbers:true,
+        multiselect:true,
+        pager: '#pg-domicilie',
+        sortname:"code_domici",
+        viewrecords: true,
+        sortorder: "desc",
+        caption:"Liste des domiciliations de paiements du client",
+        footerrow: false,
+        userDataOnFooter: true
+    });
+    $("#tbl-domicilie").jqGrid('navGrid','#pg-domicilie',{edit:false,add:false,del:false,search:true,excel:true})
+    .navButtonAdd('#pg-domicilie',{
+        caption:"Exporter", 
+        buttonicon:"ui-icon-save", 
+        onClickButton: function(){ 
+            exportExcel();
+        }, 
+        position:"last"
+    });
+    
+    function exportExcel()
+    {
+        var mya=new Array();
+        mya=$("#tbl-domicilie").getDataIDs();  // Get All IDs
+        var data=$("#tbl-domicilie").getRowData(mya[0]);     // Get First row to get the labels
+        var colNames=new Array(); 
+        var ii=0;
+        for (var i in data){colNames[ii++]=i;}    // capture col names
+        var html="";
+        //            for(k=0;k<colNames.length;k++)
+        //            {
+        //            html=html+colNames[k]+"\t";     // output each Column as tab delimited
+        //            }
+        html=html+colNames[0]+"\t"+colNames[1]+"\t"+colNames[2]+"\t"; 
+        html=html+"\n";                    // Output header with end of line
+        for(i=0;i<mya.length;i++)
+        {
+            data=$("#tbl-domicilie").getRowData(mya[i]); // get each row
+            //            for(j=0;j<colNames.length;j++)
+            //            {
+            //                html=html+data[colNames[j]]+"\t"; // output each Row as tab delimited
+            //            }
+            html=html+data[colNames[0]]+"\t"+data[colNames[1]]+"\t"+data[colNames[2]]+"\t";
+            html=html+"\n";  // output each row with end of line
+        }
+        html=html+"\n";  // end of line at the end
+        document.forms[0].csvBuffer.value=html;
+        document.forms[0].method='POST';
+        document.forms[0].action='csvexport';  // send it to server which will open this contents in excel file
+        document.forms[0].target='_blank';
+        document.forms[0].submit();
+    }
+    
+    $(document).ready(function ()
+    { 
+        $(function(){
+            var pickerOpts = {
+                dateFormat: "dd/mm/yy",
+                changeMonth:true,
+                changeYear:true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+            $("#date_domi").datepicker(pickerOpts);
+        });
+        $('#arreter').button();
+        $('#ok').button();
+        $('#ok').click(function(){
+            jQuery("#tbl-domicilie").jqGrid('setGridParam',{url:"/eu-tegcp/arretdomilist?code_membre="+$('#code_membre').val()+"&date_domi="+$('#date_domi').val()}).trigger('reloadGrid');
+        });
+        
+        $('#code_membre').blur(function(e)
+        {
+            e.preventDefault();
+            if($(this).val() != '')
+            {
+                $.get(
+                '/eu-tegcp/recupnom',
+                {
+                    num_membre: $(this).val()
+                },
+                function success(data)
+                {
+                    $("#nom_membre").val(data);
+                });
+            }
+        });
+         
+        $.get( "/eu-tegcp/change",
+        function success(data)           
+        {
+            $("input#code_membre").autocomplete({"source":data});                  
+        });
+        
+        $('#arreter').click(function()
+        {
+            var sel;
+            sel = jQuery("#tbl-domicilie").jqGrid('getGridParam','selarrrow');
+            var tab=new Array();  
+            var rowsel;
+            rowsel = jQuery("#tbl-domicilie").jqGrid('getGridParam','selrow');
+            for(var i=0; i<sel.length; i++) {
+                tab[i]=jQuery("#tbl-domicilie").jqGrid('getRowData',sel[i]);   
+            };
+            if(rowsel)
+            {
+                data=jQuery("#tbl-domicilie").jqGrid('getRowData',rowsel);
+                $.get('/eu-tegcp/arreter',{
+                    lignes:tab
+                },function success(data){
+                    if(data == 'good'){
+                        alert('Arrêt de la domiciliation effectué avec succès');
+                        jQuery("#tbl-domicilie").jqGrid('setGridParam',{url:"/eu-tegcp/arretdomilist?code_membre="+$('#code_membre').val()+"&date_domi="+$('#date_domi').val()}).trigger('reloadGrid');
+                    }
+                    else if(data == 'erreur'){
+                        alert("Echec de l'opération");
+                    }
+                });             
+            }else{
+                alert('Aucune ligne de domiciliation sélectionnée');
+            }    
+        });
+    })
+    
+</script>

@@ -1,0 +1,327 @@
+<div id="view-content" title="Ventes sur TEGCP" style="font-size: 12px;height: 520px">
+    <form>
+        <table id="tab_fact">
+            <tr>
+                <td colspan="2">
+                    <fieldset>
+                        <legend>Distributeur</legend>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label for="vendeur">Code membre :</label></td>
+                                    <td><input class="validate[required]" size ="30" type="text" id="f_vendeur" name="f_vendeur" value="<?php echo $this->dist; ?>"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right"><label for="pl_raison">Raison sociale * :</label></td>
+                                    <td>
+                                        <input readonly="true" class="validate[required]" type="text" id="pl_raison" name="pl_raison" value="<?php echo $this->pl_raison; ?>" size="30"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <fieldset>
+                        <legend>Acheteur</legend>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label for="acheteur">Acheteur :</label></td>
+                                    <td><input class="validate[required]" size ="30" type="text" id="f_acheteur" name="f_acheteur" value="" /></td>
+                                </tr>
+                                <?php if ($this->type == 'I') { ?>
+                                    <tr>
+                                        <td style="text-align: right"><label for="acheteur_raison">Raison sociale * :</label></td>
+                                        <td>
+                                            <input readonly="true" class="validate[required]" type="text" id="acheteur_raison" name="acheteur_raison" value="<?php echo $this->pl_raison; ?>" size="30"/>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                                <tr>
+                                    <td><label for="nom_membre">Nom Membre * :</label></td>
+                                    <td>
+                                        <input readonly="true" type="text" id="nom_membre" name="nom_membre" value="<?php echo $this->nom_membre; ?>" size="30"/>
+                                    </td>
+                                    <td><label for="prenom_membre">Prénoms  * :</label>
+                                        <input readonly="true" type="text" id="prenom_membre" name="prenom_membre" value="<?php echo $this->prenom_membre; ?>" size="30"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <fieldset>
+                        <legend></legend>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label for="compte">Compte de consommation :</label></td>
+                                    <td>
+                                        <select id="cat_compte" class="validate[required]" name="cat_compte" value="">
+                                            <option value=""></option>
+                                            <option value="FS">FS</option>
+                                            <option value="I">Investissement</option>
+                                            <option value="RPG">RPG</option>
+                                            <option value="PaNu">PaNu</option>
+                                            <option value="PaR">PaR</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="compte">Type Compte :</label></td>
+                                    <td>
+                                        <select id="f_compte" class="validate[required]" name="f_compte" value="">
+                                            <option value=""></option>
+                                            <option value="CNP">Tous</option>
+                                            <option value="nr">Non récurrent</option>
+                                            <option value="r">Récurrent</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="montant">Montant consommé :</label></td>
+                                    <td><input type="text" id="f_montant" name="f_montant" value="0" size="35" style="text-align: right;"/></td>
+                                    <td>
+                                        <select class="validate[required]" type="text" id="dev_conso" name="dev_conso" value=""></select>
+                                    </td>                
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr><td></td><td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td></tr>
+        </table>
+    </form>
+    <div id="conso_dialog" style="font-size: 13px;">
+        <form id="conso_form" method="Post" action="/eu-consommation/traiter">
+            <table>
+                <tbody>
+                    <tr>
+                        <td><label>Code Membre Distributeur :</label></td>
+                        <td><input type="text" id="vendeur" name="vendeur" readonly="true" size="30"/></td>
+                    </tr>
+                    <tr>
+                        <td><label>Code membre Acheteur :</label></td>
+                        <td><input type="text" size="30" id="acheteur" name="acheteur" readonly="true"/></td>
+                    </tr>
+                    <tr>
+                        <td><label>Compte :</label></td>
+                        <td><input type="text" size="30" id="type_compte" name="type_compte" readonly="true"/></td>
+                    </tr>
+                    <tr>
+                        <td><label>Type Crédit :</label></td>
+                        <td><input type="text" size="30" id="compte" name="compte" readonly="true"/></td>
+                    </tr>
+                    <tr>
+                        <td><label>Montant à déduire:</label></td>
+                        <td><input type="text" id="montant" name="montant" readonly="true" size="30"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>	
+<script>
+    $(document).ready(function ()
+    {
+        $(function(){
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+            $("#conso_dialog").dialog({
+                autoOpen: false,
+                height: 250,
+                width: 570,
+                title: 'Confirmez-vous cette opération ?',
+                modal: true,
+                buttons: {
+                    "Valider": function() {
+                        $.ajax({
+                            url: $('#conso_form').attr("action"),
+                            data: $('#conso_form').serialize(),
+                            type: 'post',
+                            success: processServerResponse
+                        })
+                        $(this).dialog("close");
+                    },
+                    "Annuler": function() {
+                        $(this).dialog("close");
+                    }
+                },
+                close: function() {
+                    //allFields.val( "" ).removeClass( "ui-state-error" );
+                }
+            })});
+        $("#conso_form").validationEngine();
+        $.get(
+        '/eu-consommation/devise',
+        function success(data)
+        {
+            var options = '';
+            for( var i = 0; i < data.length; i++) {
+                if(data[i] == 'XOF'){
+                    options += '<option value="' + data[i] + '" selected>' + data[i] +' </option>'; 
+                }else{
+                    options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+                }
+                
+            }
+            $('select#dev_conso').html(options);
+        });
+            
+        var  dev = 'XOF';
+        $('#dev_conso').change(function()
+        {
+            var  dev1 = $('#dev_conso').val();
+            if(dev != dev1){
+                if($('#f_montant').val() != '' && parseInt($('#f_montant').val()) > 0){
+                    $.get(
+                    '/eu-consommation/convertir',
+                    {
+                        dev:dev,dev1 : dev1,credit :$('#f_montant').val()
+                    },
+                    function success(data)
+                    {
+                        if(data != false){
+                            $('#f_montant').val(data);
+                            dev = dev1;}
+                        else{
+                            alert('Ce cours n\'est pas défini: '+ dev+'->'+dev1);
+                            $('#dev_conso').val(dev); 
+                        }
+                    });
+                }
+            }
+        });
+        $('#reset').click(function(){
+            dev = 'XOF';
+        });
+        
+        $('#cat_compte').change(function(e){
+            e.preventDefault();
+            if($(this).val() !== 'I' && $(this).val() !== 'RPG'){
+                $('#f_compte').val('');
+                $('#f_compte').attr('disabled', true);
+                $.get("/eu-consommation/compte", {membre : $('#f_acheteur').val(),compte : '',cat : $('#cat_compte').val()},
+                function success(data){
+                    if(data != ''){
+                        $('#f_montant').val(data);
+                    }else{
+                        $('#f_montant').val(data);
+                    }
+                });
+            }else{
+                $('#f_compte').attr('disabled', false);
+            }
+        });
+        
+        $('#f_compte').change(function(e){
+            e.preventDefault();
+            if($(this).val()){
+                if($('#f_acheteur').val() !== '' && $('#cat_compte').val() !== ''){
+                    $.get("/eu-consommation/compte", {membre : $('#f_acheteur').val(),compte : $(this).val(),cat : $('#cat_compte').val()},
+                    function success(data){
+                        if(data != ''){
+                            $('#f_montant').val(data);
+                        }else{
+                            alert("Erreur d'exécution !!!");
+                        }
+                    });
+                }else{
+                    alert('Le membre Acheteur doit être saisie !!!');
+                }
+            }
+        });
+            
+        $.get( "/eu-consommation/membre",{type:'M'},
+        function success(data)
+        {
+            $('#f_vendeur').autocomplete({"source":data,
+                change: displayVendeur});
+        });
+            
+        function displayVendeur()
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                '/eu-consommation/recupnom',
+                {
+                    num_membre: $(this).val()
+                },
+                function success(data)
+                {
+                    $("#pl_raison").val(data[2]);
+                });
+            }
+        }
+            
+        $.get( "/eu-consommation/membre",{type:'%'},
+        function success(data)
+        {
+            $('#f_acheteur').autocomplete({"source":data,
+                change: displayItem});
+        });
+            
+        function displayItem()
+        {
+            if ($(this).val() !== '')
+            {
+                if($(this).val() !== ''){
+                    var code_membre = $(this).val();
+                    var type_membre = code_membre.charAt(code_membre.length - 1);
+                    if(type_membre === 'P'){
+                        $('#cat_compte option[value = I]').attr('disabled',true);
+                        $('#cat_compte option[value = RPG]').attr('disabled',false);
+                    }else{
+                        $('#cat_compte option[value = I]').attr('disabled',false);
+                        $('#cat_compte option[value = RPG]').attr('disabled',true);
+                    }
+                }
+                $.get(
+                '/eu-consommation/recupnom',
+                {
+                    num_membre: $(this).val()
+                },
+                function success(data)
+                {
+                    $("#nom_membre").val(data[0]);
+                    $("#prenom_membre").val(data[1]);
+                    $("#acheteur_raison").val(data[2]);
+                });
+            }
+        }
+        $('#reset').button();
+            
+        $('#val').button().click(function(e){
+            e.preventDefault();       
+            if($('#f_vendeur').val() !== '' && $('#f_acheteur').val() !== '' && $('#f_compte').val() !== '' && $('#f_montant').val() !== ''){
+                $('#vendeur').val($('#f_vendeur').val());
+                $('#acheteur').val($('#f_acheteur').val());
+                $('#compte').val($('#f_compte').val());
+                $('#type_compte').val($('#cat_compte').val());
+                $('#montant').val($('#f_montant').val());
+                $("#conso_dialog").dialog("open");
+            }else{
+                alert('Renseignez les champs Téléphone et Montant transfert');
+            }
+        });
+            
+        function processServerResponse(data) {
+            if(data == true){
+                alert('Opération effectuée avec succès !!!');
+                $(location).attr("href", "/eu-consommation/index");
+            }else{
+                $('#message').html(data);
+            }
+        };
+           
+    });
+
+</script>

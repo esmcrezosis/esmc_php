@@ -1,0 +1,239 @@
+<?php $sessionbanqueopi = new Zend_Session_Namespace('banqueopi');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques2.js"></script>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/fondateurs.js"></script><?php */?>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capasenrolement.js"></script><?php */?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banquespays.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+
+<!--<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/recupnoms.js"></script>-->
+
+<!--<script type="text/javascript">
+$(document).ready(function() {
+  $('#code_membre').blur(function(e) {
+	  if($(this).val() !== '') {
+            $.get('/souscriptionbon/recupnom',{
+                 code_membre: $(this).val()
+            },
+            function success(data) {
+	     if(data !== '') {
+               $("#nom_membre").val(data[1]);
+             } else {
+               alert('Ce membre n\'existe pas!!!');
+             }
+	  })
+         } else {
+               $("#nom_membre").val("");
+         }		   
+	});
+
+});
+
+</script>-->
+
+<script type="text/javascript">
+function submitform(){
+document.getElementById('code_membre1').value = document.getElementById('code_membre').value;
+document.getElementById('nom_membre1').value = document.getElementById('nom_membre').value;
+document.getElementById('bon_neutre_appro_montant1').value = document.getElementById('bon_neutre_appro_montant').value;
+document.getElementById('id_type_acteur1').selectedIndex = document.getElementById('id_type_acteur').selectedIndex;
+}
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menubanqueopi.phtml"); ?>
+
+<blockquote><p>Approvisionnement de Bon d'Achat neutre (BAn)</p></blockquote>
+  <?php if(isset($sessionbanqueopi->error) && $sessionbanqueopi->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionbanqueopi->error; $sessionbanqueopi->error = ""; ?>
+    </div>
+  <?php } ?>
+
+    <?php /* if(isset($sessionbanqueopi->code_BAn) && $sessionbanqueopi->code_BAn != "") { ?>
+<blockquote>
+  <a href="/souscriptionbon/bonachatneutrepdf/code/<?php echo $sessionbanqueopi->code_BAn; ?>" target="_blank"><span style="color:#800080;">Télécharger votre Bon d'Achat neutre (<strong>BAn</strong>)</span></a> <br /><br />
+
+  <?php $sessionbanqueopi->code_BAn = "";?>
+</blockquote>
+  <?php }*/ ?>
+
+    <?php if(isset($sessionbanqueopi->code_BAn) && $sessionbanqueopi->code_BAn != "")  { ?>
+    <blockquote>
+    <a href="/bons/recudepayementdebanpdf/id/<?php echo $sessionbanqueopi->bon_neutre_detail_id; ?>" target="_blank"><span style="color:#800080;">Télécharger le reçu de votre Bon d'Achat neutre (<strong>BAn</strong>)</span></a> <br /><br />
+    <?php $sessionbanqueopi->code_BAn = "";?>
+    </blockquote>
+    <?php  } ?>
+
+  <?php //if(!isset($sessionbanqueopi->code_BAn) || $sessionbanqueopi->code_BAn == "") { ?>
+  
+<blockquote>Remplir le formulaire</blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription1" name="addsouscription1">
+<fieldset>
+<legend>Remplir le formulaire </legend>
+
+
+<div class="control-group">
+<label class="control-label" for="code_membre">Code Membre du bénéficiaire  </label>
+<div class="controls">
+  <input type="text" name="bon_neutre_appro_beneficiaire" id="code_membre" placeholder="Code Membre du bénéficiaire" class="input-xxlarge"   /><!--readonly onblur="ouvre_recupnoms(this.value, 'nivonom');"-->
+<span class="help-block"><p class="text-error">Veuillez saisir le <strong>Code Membre</strong> du bénéficiaire </p></span>
+</div>
+</div>
+
+<div id="nivonom">
+<div class="control-group">
+     <label class="control-label" for="nom_membre">Désignation Personne * </label>
+     <div class="controls">
+          <input type="text" name="design_membre" id="nom_membre" placeholder="" readonly    class="input-xxlarge"  required="required" />
+     </div>
+</div>
+</div>
+
+
+    
+<div class="control-group">
+<label class="control-label" for="id_type_acteur">Type Acteur *</label>
+<div class="controls">
+<select name="id_type_acteur" id="id_type_acteur"  required="required">
+        <?php $ttype_acteur = new Application_Model_DbTable_EuTypeActeur();
+        $select = $ttype_acteur->select();
+        $select->where('id_type_acteur != 1');
+              $results = $ttype_acteur->fetchAll($select);
+        ?>
+  <option value="">Choisir le type acteur</option>
+    <?php foreach ($results as $type_acteur): ?>
+               <option value="<?php echo $type_acteur->id_type_acteur; ?>"><?php echo ($type_acteur->lib_type_acteur); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+  <div class="control-group">
+<label class="control-label" for="bon_neutre_appro_montant">Montant à allouer * </label>
+<div class="controls">
+  <input type="number" name="bon_neutre_appro_montant" id="bon_neutre_appro_montant" placeholder="Montant à allouer" class="input-xxlarge"  required="required" />
+<span class="help-block"><p class="text-error">Veuillez saisir le montant à allouer</p></span>
+</div>
+</div>
+
+</fieldset>
+
+
+<!--<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer l'approvisionnement de Bon d'Achat neutre (BAn)</button>
+</div>-->
+
+<!-- Button trigger modal -->
+<button id="button" type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal" onclick="submitform();">Enregistrer l'approvisionnement de Bon d'Achat neutre (BAn)
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Veuillez bien vérifier les informations de l'approvisionnement.</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+
+<div class="control-group">
+<label class="control-label" for="code_membre1">Code Membre du bénéficiaire  </label>
+<div class="controls">
+  <input type="text" name="bon_neutre_appro_beneficiaire1" id="code_membre1" placeholder="Code Membre du bénéficiaire" class="input-xxlarge" required="required" disabled="disabled" />
+</div>
+</div>
+
+<div id="nivonom">
+<div class="control-group">
+     <label class="control-label" for="nom_membre1">Désignation Personne * </label>
+     <div class="controls">
+          <input type="text" name="design_membre1" id="nom_membre1" placeholder="" disabled="disabled"    class="input-xxlarge"  required="required" />
+     </div>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="id_type_acteur1">Type bénéficiaire *</label>
+<div class="controls">
+<select name="id_type_acteur1" id="id_type_acteur1"  required="required" disabled="disabled">
+        <?php $ttype_acteur = new Application_Model_DbTable_EuTypeActeur();
+        $select = $ttype_acteur->select();
+        $select->where('id_type_acteur != 1');
+              $results = $ttype_acteur->fetchAll($select);
+        ?>
+  <option value="">Choisir le type bénéficiaire</option>
+    <?php foreach ($results as $type_acteur): ?>
+               <option value="<?php echo $type_acteur->id_type_acteur; ?>"><?php echo ($type_acteur->lib_type_acteur); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+  <div class="control-group">
+<label class="control-label" for="bon_neutre_appro_montant1">Montant à allouer * </label>
+<div class="controls">
+  <input type="number" name="bon_neutre_appro_montant1" id="bon_neutre_appro_montant1" placeholder="Montant à allouer" class="input-xxlarge"  required="required" disabled="disabled" />
+</div>
+</div>
+
+
+  <label for="valide" class="checkbox">
+  <input type="checkbox" name="valide" id="valide" value="1" required onclick="if(document.getElementById('valide').checked == true){
+  document.getElementById('submit1').disabled = false;
+  }else{
+  document.getElementById('submit1').disabled = false;
+    }">
+  <strong>Etes vous sur de vouloir valider cette approvisionnement de BAn ? Si OUI cochez</strong></label>
+
+
+      </div>
+      <div class="modal-footer">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+<button type="submit" class="btn btn-primary">Valider l'approvisionnement du BAn</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<?php //} ?>
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr1.js"></script>
+<script type="text/javascript">
+outilqr1("addsouscription1");
+</script>
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>

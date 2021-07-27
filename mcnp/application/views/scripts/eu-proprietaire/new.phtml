@@ -1,0 +1,88 @@
+<div id="view-content" style="font-size: 12px;min-height: 520px;" title="">
+     <div class="ui-widget-header ui-corner-top" style="height: 30px;padding-bottom: 5px; padding-left: 10px;">
+         <h3>Enr&eacute;gistrer un propri&eacute;taire d'immeubles</h3>
+    </div>
+     <div class="ui-widget-content ui-corner-bottom" style="height: 500px;">
+        <form id="fm_proprio" method="Post" action="/eu-proprietaire/save">
+            <table style="margin-left:auto;margin-right: auto;margin-top: 40px;" id="tab_proprietaire">
+                <tbody>
+                    <tr><td>Code Membre        : </td>  <td><input id="code_membre" type="text" name="code_membre" value="" required="true" style="width: 170px;"/></td></tr>
+                    
+                    <tr><td heigth="10"></td></tr>
+                    
+                    <tr><td>Nom et Prénoms     : </td><td><input id="nom_membre" type="text" name="nom_membre" value="" style="width: 200px;" readonly="readonly"/></td></tr>
+                    <tr><td heigth="10"></td></tr>
+                    <tr>
+                        <td>Nombre d'immeubles :</td><td><input id="nbre" type="text" name="nbre" value="" style="width: 120px; text-align:right;" class="validate[required,custom[onlyNumberSp]]"/></td>
+                    </tr>
+                    
+                    <tr><td heigth="10"></td></tr>
+                    
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" id="val" value="Valider"/>
+                            <input type="reset" id="reset" value="Réinitialiser"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+     </div>
+</div>
+
+<script>
+        $(document).ready(function () {
+           
+           $('#val').button();
+           $('#reset').button();
+           $(function() {
+              $('#view-content').puipanel();
+           });
+           
+           $.get( "/eu-proprietaire/membre",
+           function success(data)
+           {
+             $("#code_membre").autocomplete({"source":data});
+           }); 
+             
+           $('#code_membre').blur(function(e)
+           {
+              if($(this).val() !== '')
+              {
+                $.get(
+                  '/eu-proprietaire/recupnom',
+                {
+                        num_membre: $(this).val()
+                },
+                function success(data)
+                {
+                  $("#nom_membre").val(data);
+                });
+              }
+                  e.preventDefault();
+            });
+            
+            $('form#fm_proprio').submit(function(e){
+            $.ajax({
+                url: $('form').attr("action"),
+                data: $('form').serialize(),
+                type: 'post',
+                success: processServerResponse
+            });
+            e.preventDefault();
+        });
+        
+        function processServerResponse(data) {
+            if(data === true){
+                alert('L\'enrégistrement a été effectué avec succès ');
+                $(location).attr("href", "/eu-proprietaire/index");
+            }
+            else{
+                $('#message').html(data);
+            }
+        };
+        
+        $("#fm_proprio").validationEngine();   
+        });
+</script>    

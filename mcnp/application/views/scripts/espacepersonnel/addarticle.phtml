@@ -1,0 +1,79 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Ajouter un article</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addarticle_stockes">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="code_barre">Code Barre *</label>
+<div class="controls">
+<input class="input-large" type="text" name="code_barre" id="code_barre" placeholder="Code Barre" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="reference">Réference *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="reference" id="reference" placeholder="Réference" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="designation">Désignation *</label>
+<div class="controls">
+<input class="input-xxlarge" type="text" name="designation" id="designation" placeholder="Désignation" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="prix">Prix *</label>
+<div class="controls">
+<div class="input-append">
+<input type="text" name="prix" id="prix" placeholder="Prix" required>
+  <span class="add-on">XOF</span>
+</div>
+</div>
+</div>
+
+
+<div class="form-actions">
+<input name="code_membre_morale" type="hidden" id="code_membre_morale" value="<?php echo $sessionmembre->code_membre; ?>" />  
+<input name="publier" type="hidden" id="publier" value="1" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter l'article</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

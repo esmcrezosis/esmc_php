@@ -1,0 +1,105 @@
+<div id="view-content" style="margin-bottom: 3px; width: 827px;font-size:11px" class="ui-widget-content ui-corner-all">
+     <div>
+          <fieldset>
+              <legend style="font-weight:bold">Recherche</legend>
+              <h5>
+                  Ancien code membre <input type="text" id="code_membre" name="code_membre" size="30"/>
+                  Raison sociale <input type="text" id="raison_sociale" name="raison_sociale" size="25"/>
+                  <input id="ok" type="button" value="Ok"/>
+              </h5> 
+          </fieldset>
+     </div>
+     <div style="margin-bottom: 3px;">
+          <input id = "ncm" type = "button" value = "Nouveau CM"  class="ui-widget button" />
+     </div>
+     <table id="tbl-morale"></table>
+     <div id="pg-morale"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-morale").jqGrid({
+        url:"",
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Numero','Raison sociale','Representant','Quartier','Ville','Bp','T&eacute;l','Date identification','','',''],
+        height:410, width:827,
+        colModel:[
+                {name:'ancien_code_membre',index:'ancien_code_membre', width:150, sorttype:"int", editable: true,align:"left"},
+                {name:'raison_sociale',index:'raison_sociale', width: 150, editable: true,align:"left"},
+                {name:'representant',index:'representant', width: 150, editable: true,align:"left"},
+                {name:'quartier_membre',index:'quartier_membre', width:120, editable: true,align:"left"},
+                {name:'ville_membre',index:'ville_membre', width: 150, align:"left", editable: true},
+                {name:'bp_membre',index:'bp_membre', width: 75, align:"left", editable: true},
+                {name:'tel_membre',index:'tel_membre', width:75, align:"left", editable: true},
+                {name:'date_identification',index:'date_identification', width: 150, align:"left", editable: true},
+			    {name:'portable_membre',index:'portable_membre', width: 150, align:"left", editable: true,hidden:true},
+			    {name:'email_membre',index:'email_membre', width: 150, align:"left", editable: true,hidden:true},
+			    {name:'site_web',index:'site_web', width: 150, align:"left", editable: true,hidden:true},
+        ],
+        rowNum:100000,
+        rowList:[100000,300000,500000],
+        pager: '#pg-morale',
+        sortname:"ancien_code_membre",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Membres morales MCNP"
+    });
+    $("#tbl-morale").jqGrid('navGrid','#pg-morale',{edit:false,add:false,del:false,search:true});
+   
+    $.get( "/eu-membre-ancien/changemmcnp",
+           function success(data){
+           $("input#code_membre").autocomplete({"source":data});
+           }); 
+           
+    $.get( "/eu-membre-ancien/nommmcnp",
+           function success(data){
+           $("input#raison_sociale").autocomplete({"source":data});
+           });       
+    
+$('#ok').click(function() {
+  code_membre = $('#code_membre').val();
+  raison_sociale = $('#raison_sociale').val();  jQuery("#tbl-morale").jqGrid('setGridParam',{url:"/eu-membre-ancien/datammcnp?code_membre="+code_membre+"&raison_sociale="+raison_sociale}).trigger('reloadGrid');		
+});
+	 
+    $('#m_detail').click(function() {
+        var rowsel;
+        rowsel = jQuery("#tbl-morale").jqGrid('getGridParam','selrow');
+        if(rowsel){
+            $.get('/eu-membre-ancien/mdetail',{
+                membre:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        } else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+    $('#ncm').click(function() {
+        var rowsel;
+        rowsel = jQuery("#tbl-morale").jqGrid('getGridParam','selrow');
+        if(rowsel) { 
+               seldata = jQuery("#tbl-morale").jqGrid('getRowData',rowsel);
+               $.get('/eu-membre-ancien/ncmmmcnp',{               code_membre:seldata.ancien_code_membre,raison_sociale:seldata.raison_sociale,ville_membre:seldata.ville_membre,tel_membre:seldata.tel_membre,portable_membre:seldata.portable_membre,email_membre:seldata.email_membre,site_web:seldata.site_web,quartier_membre:seldata.quartier_membre,bp_membre:seldata.bp_membre
+               },
+               function success(data){
+                  $("#content").html(data);
+               })
+         ;
+		 
+        }
+        else {
+          alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+	$(function() {
+     $('#view-content').puipanel();
+	 $('fieldset').puifieldset();
+    });
+	
+    $('#ncm').button();
+    $('#ok').button()
+   
+</script>

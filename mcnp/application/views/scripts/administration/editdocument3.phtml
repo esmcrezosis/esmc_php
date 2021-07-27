@@ -1,0 +1,85 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml");?>
+
+  <blockquote><p>Modification de document type</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="adddocument">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<div class="control-group">
+<label class="control-label" for="id_type_document">Type du document type *</label>
+<div class="controls">
+<?php 
+$typedocumentM = new Application_Model_EuTypeDocumentMapper();
+$typedocument = new Application_Model_EuTypeDocument();
+$typedocumentM->find($this->document->id_type_document, $typedocument);
+?><?php echo htmlentities($typedocument->libelle_type_document); ?>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="nom_document">Titre du document type *</label>
+<div class="controls">
+<input type="text" name="nom_document" id="nom_document" placeholder="Titre du document" class="input-xxlarge" value="<?php echo $this->document->nom_document; ?>" required>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="descrip_document">Fichier du document type *</label>
+<div class="controls">
+<input name="descrip_document" type="file" id="descrip_document" class="input-xxlarge" />  
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="date_debut">Date début publication *</label>
+<div class="controls">
+<input type="date" name="date_debut" id="date_debut" placeholder="Date début publication" class="input-xxlarge" value="<?php echo $this->document->date_debut;?>" > <?php //echo $this->document->date_debut;?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="date_fin">Date fin publication *</label>
+<div class="controls">
+<input type="date" name="date_fin" id="date_fin" placeholder="Date fin publication" class="input-xxlarge" value="<?php echo $this->document->date_fin; ?>" > <?php //echo $this->document->date_fin; ?>
+</div>
+</div>
+<div class="form-actions">
+<input name="id_utilisateur" type="hidden" id="id_utilisateur" value="<?php echo $sessionutilisateur->id_utilisateur; ?>" />  
+<input name="id_document" type="hidden" id="id_document" value="<?php echo $this->document->id_document; ?>" />  
+<input name="descrip_documentold" type="hidden" id="descrip_documentold" value="<?php echo $this->document->descrip_document; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier le document type</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

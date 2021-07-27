@@ -1,0 +1,63 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+  <div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Details d'un mobilisateur</p></blockquote>
+  
+    
+<div class="control-group">
+<label class="control-label" for="code_membre">Code Membre </label>
+<div class="controls">
+<?php echo $this->mobilisateur->code_membre; ?>
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="datecreat">Date  </label>
+<div class="controls">
+<?php echo $this->mobilisateur->datecreat; ?>
+</div>
+</div>
+    
+    
+<div class="control-group">
+<label class="control-label" for="id_utilisateur">Utilisateur</label>
+<div class="controls">
+<?php if($this->mobilisateur->id_utilisateur > 0){
+        $utilisateur = new Application_Model_EuUtilisateur();
+        $utilisateurM = new Application_Model_EuUtilisateurMapper();
+        $utilisateurM->find($this->mobilisateur->id_utilisateur, $utilisateur);
+        echo $utilisateur->nom_utilisateur." ".$utilisateur->prenom_utilisateur;
+      }
+?>
+</div>
+</div>
+
+    
+
+
+
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

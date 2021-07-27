@@ -1,0 +1,24 @@
+<div id="view-content" class="ui-widget">
+    <div  class="cntError">
+        <?php
+           //echo $this->message;
+        ?>
+    </div>
+    
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Ajout du param&egrave;tre sqmaxui</h3>
+    </div>
+    
+    <div id="formProdiv" class="ui-widget-content">
+        <?php
+             $this->form->setAction($this->url());
+             echo $this->form;
+        ?>
+    </div>
+    
+</div>
+<script>
+        $('#submit').button();
+        $('#cancel').button();
+</script>
+

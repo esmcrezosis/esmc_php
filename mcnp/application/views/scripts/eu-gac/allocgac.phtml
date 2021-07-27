@@ -1,0 +1,109 @@
+<div id="view-content" class="ui-widget">
+    <div  class="cntError">
+        <?php
+        echo $this->message;
+        ?>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+         <h3>Allocation d'investissement à la GAC </h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <div>
+            <?php
+            $this->form->setAction($this->url());
+            echo $this->form;
+            ?>
+        </div>
+        <br><br>
+        <div style="font-size: 11px">
+            <table id="tbl-smcipn"></table>
+            <div id="pg-smcipn"></div>
+        </div>
+        <p><input id="allouer" type="button" value="Allouer"></p>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-smcipn").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'listsmcipngac')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Code membre','Nom GAC','Date','Salaire','Investissement','Total'],
+        height:'100%', width:817,
+        colModel:[
+            {name:'code_demand',index:'code_demand', width:85, sorttype:"int",align:"left",summaryType:'count', summaryTpl : 'Total ({0})',hidden:true},
+            {name:'lib_demand',index:'lib_demand', width: 300, align:"left", editable: true},
+            {name:'num_membre',index:'num_membre', width: 150, editable: true,align:"left"},
+            {name:'nom_gac',index:'nom_gac', width: 180, editable: true,align:"left"},
+            {name:'date_demand',index:'date_demand', width: 110, align:"left", editable: false},
+            {name:'mt_salaire',index:'mt_salaire', width: 120, align:"right",sorttype:'number',formatter:'number',summaryType:'sum',hidden:true},
+            {name:'mt_investis',index:'mt_investis', width: 145, align:"right",sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'total',index:'total', width: 100, align:"right", sorttype:'number',formatter:'number',hidden:true},
+        ],
+        rowNum:50,
+        rowList:[50,100,300],
+        rownumbers:true,
+        pager: '#pg-smcipn',
+        sortname:"date_demand",
+        viewrecords: true,
+        multiselect:true,
+        sortorder: "desc",
+        caption:"Liste des demandes d'investissement de la GAC",
+        grouping: false,
+        groupingView : {
+            groupField : ['nom_gac'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [true],
+            groupDataSorted : true
+        },
+        footerrow: true,
+        userDataOnFooter: true
+    });
+  
+    $("#tbl-smcipn").jqGrid('navGrid','#pg-smcipn',{edit:false,add:false,del:false,search:true});
+        
+    $(document).ready(function () {
+        $('#valider').click(function() {
+            jQuery("#tbl-smcipn").jqGrid('setGridParam',{url:"/eu-gac/listsmcipngac?num_gac="+$('#num_gac').val()}).trigger('reloadGrid');
+        });
+        $('#valider').button();
+        $('#annuler').button();
+        $('#allouer').button();
+    });
+    
+    $('#allouer').click(
+    function(){
+        var sel;
+        sel = jQuery("#tbl-smcipn").jqGrid('getGridParam','selarrrow');
+        if(sel!=0) {
+            $.get('/eu-gac/allouer?num_gac='+$('#num_gac').val(), {
+                lignes:sel
+            },
+            function success(data){
+                if(data == 'inves'){
+                    alert('L\'investissement disponible à la source est insuffisant');
+                }
+                if(data == 'inves1'){
+                    alert('Pas de ressources créées à la source FN');
+                }
+                else if(data == 'alloci'){
+                    alert('Cet investissement est déjà alloué');
+                }
+                else if(data == 'good'){
+                    jQuery("#tbl-smcipn").jqGrid('setGridParam',{url:"/eu-gac/listsmcipngac?num_gac="+$('#num_gac').val()}).trigger('reloadGrid');
+                    alert('Allocation d\'investissement effectuée avec succès');
+                }
+                else if(data == 'echec'){
+                    alert('Echec de l\'opération');
+                }
+            });
+        } else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+        
+</script>
+

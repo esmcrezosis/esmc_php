@@ -1,0 +1,54 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-param"></table>
+    <div id="pg-param"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-param").jqGrid({
+        url:'/eu-parametres/data',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Montant'],
+        height:500, width:827,
+        colModel:[
+            {name:'code_param',index:'code_param', width: 30, align:"left", editable: true},
+            {name:'lib_param',index:'lib_param', width: 40, align:"left", editable: true},
+            {name:'montant',index:'montant', width: 20, align:"right", editable: true},
+        ],
+        rowNum:1000,
+        rowList:[1000,2000,4000],
+        rownumbers:true,
+        pager: '#pg-param',
+        sortname:"code_param",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des paramètres"
+    });
+    $("#tbl-param").jqGrid('navGrid','#pg-param',{edit:false,add:false,del:false,search:true});
+    $(document).ready(function ()
+    { 
+        $('#editer').button();
+    
+        $('#editer').click(function()
+        {
+            var rowsel;
+            rowsel = jQuery("#tbl-param").jqGrid('getGridParam','selrow');
+            if(rowsel)
+            {
+                data = jQuery("#tbl-param").jqGrid('getRowData',rowsel);
+                $.get('/eu-parametres/edit',{
+                    code_param:data.code_param,lib_param:data.lib_param,montant:data.montant
+                },function success(data){
+                    $("#content").html(data);
+                });   
+            }
+            else
+            {
+                alert('Aucune ligne sélectionnée');
+            }       
+        });
+    })
+</script>

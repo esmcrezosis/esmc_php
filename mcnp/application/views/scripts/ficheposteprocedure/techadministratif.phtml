@@ -1,0 +1,171 @@
+<?php $sessionmembre = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<h3 id="page_title">TITRE DU POSTE : <?php echo $this->pagetitle ;?></h3>
+
+<div id="page_direction_container">
+
+  <div id="page_direction_container_left">
+
+    <h3>SUPERIEUR HIERARCHIQUE : <?php echo $this->postehierarchique ;?></h3>
+  
+  </div>
+
+  <div id="page_direction_container_right">
+
+    <h3>COLLABORATEURS : Tout le reste du personnel</h3>
+    
+  </div>
+</div>
+
+<h3>ATTRIBUTIONS :</h3>
+
+<p>Assurer la bonne gestion sur la plateforme ESMC, l’Administration et de la Réglementations qui s’appliquent aux BPS liés aux 17 Divisions ODD :</p>
+
+<ul>
+    <li>Mobiliser, Déployer et Exploiter  les ressources (financières,  matérielles et humaines) sur les interfaces via les Activités qui s’y exercent par les clients,</li>
+    <li>Mise en place et opérationnalité des aspects de la Production Commune : Outils, Espaces, Matériels et Ressources Humaines, </li>
+    <li>Traduire dans les faits les résultats de la Production Commune, dans son rôle de Technopole DETENTRICE lié aux aspects de cette surveillance dans les rubriques :</li>
+</ul>
+
+<p>Description des travaux  TECHNOPOLE DETENDTRICE depuis les GU jusqu’aux Centres selon les cibles : </p>
+
+<ul>
+<li>Offreurs d’intégration
+<ul>
+  <li>Réceptionner, examiner, certifier la conformité à la procédure adaptée et apposer la validation de la TECHNOPOLE DETENTRICE sur les fichiers mis à jour des Offreurs d’intégration avec liste et sans liste, depuis les GU jusqu’aux Centres</li>
+  <li>Réceptionner, examiner, certifier la conformité à la procédure adaptée et apposer la validation de la TECHNOPOLE DETENDTRICE sur les fichiers KIT de solvabilité universelle et KIT Technopole des Offreurs d’intégration avec liste et sans liste depuis les GU jusqu’aux Centres, </li>
+  <li>Apposer la validation de la TECHNOPOLE DETENTRICE depuis les GU jusqu’aux Centres sur le dossier du crédit pour les PBF du reste des composantes du Kit de solvabilité universelle : 
+    <ul>
+        <li>frais de solvabilité 70.000f ; </li>
+        <li>frais d’ouverture de compte bancaire ou SFD ; </li>
+        <li>frais du périphérique 27 000f  carte d’accès ; 75 000f Android, </li>
+        <li>frais de la puce de téléphone avec forfait pérenne 112 000f, </li>
+        <li>Montant de Souscription au Bon de Consommation 1.443.750f</li>
+        <li>prime d’assurance xxxf,</li>
+        <li>déposit 180 000f</li>
+    </ul>
+  </li>
+  <li>Apposer la validation de la TECHNOPOLE DETENDTRICE depuis les GU jusqu’aux Centres sur le dossier de la police d’assurances pour obtenir la prime d’assurance</li>
+  <li>Apposer la validation de la TECHNOPOLE DETENDTRICE depuis les GU jusqu’aux Centres sur le dossier du montant du déposit à mettre à la disposition des PBF au profit de l’offreur d’intégration avec liste </li>
+  <li>Apposer la validation de la TECHNOPOLE DETENDTRICE depuis les GU jusqu’aux Centres sur la demande du positionnement sur le compte ESMC dans les livres des PBF  du montant du déposit provenant du prépaiement du BAn</li>
+  <li>Apposer la validation de la TECHNOPOLE DETENDTRICE depuis les GU jusqu’aux Centres sur la demande du transfert du compte ESMC vers le compte du bénéficiaire, du montant requis pour l’obtention du  crédit du Kit de solvabilité universelle offreur d’intégration avec liste. </li>
+</ul>
+</li>
+<li>
+<strong>Souscripteurs aux quatre Activités</strong>
+<ul>
+  <li>Réceptionner, examiner, certifier la conformité aux procédures adaptées et  apposer la validation de la TECHNOPOLE DETENTRICE sur les fichiers des dossiers des souscripteurs pour soi et pour tiers au CM et au BC : avec liste et sans liste, </li>
+</ul>
+</li>
+
+</ul>
+
+<p>Contre BPS :
+ <ul>
+   <li>à acheter : formulaire Achat-Vente Réciproques  (Appliquer les procédures adaptées), </li>
+   <li>à produire : formulaire Budget en Nature  (Appliquer les procédures adaptées),  </li>
+   <li>à transformer : formulaire Budget en Nature  (Appliquer les procédures adaptées), </li>
+   <li>à vendre : formulaire Achat-Vente Réciproques  (Appliquer les procédures adaptées).</li>
+ </ul>
+</p>
+
+<p>Contre OPI :
+  <ul>
+    <li>Souscription récurrente et pérenne (Appliquer les procédures de contrôle adaptées) </li>
+    <li>Souscription non récurrente (Appliquer les procédures de contrôle adaptées) </li>
+  </ul>
+  <li>Réceptionner, examiner, certifier la conformité aux procédures adaptées et  apposer la validation de la TECHNOPOLE DETENDTRICE sur les fichiers des dossiers des Acheteurs Revendeurs en Ligne contre OPI :
+   <ul>
+     <li>Souscription récurrente et pérenne (Appliquer les procédures de contrôle adaptées) </li>
+     <li>Souscription non récurrente (Appliquer les procédures de contrôle adaptées) </li>
+   </ul>
+   <li>Réceptionner, examiner, certifier la conformité aux procédures adaptées et   apposer la validation de la TECHNOPOLE DETENDTRICE sur les fichiers des dossiers des souscripteurs Achat-Vente Réciproques : </li>
+  
+  </li>
+</p>
+<p>Contre OPI :
+<ul>
+  <li>Caution d’enlèvement contre formulaire Achat-Vente Réciproques :
+    <ul>
+      <li>Avec Engagement de Livraison Irrévocable/ELI contre OPI/BAi/BAn non anticipé</li>
+      <li>(Appliquer les procédures adaptées)</li>
+      <li>Sans Engagement de Livraison Irrévocable/ELI contre OPI/BAi/BAn non anticipé (Appliquer les procédures adaptées)</li>
+      <li>Avec Engagement de Livraison Irrévocable/ELI contre OPI/BAi/BAn  anticipé (Appliquer les procédures adaptées)</li>
+    </ul>
+  </li>
+</ul>
+<p>Sans Engagement de Livraison Irrévocable/ELI contre OPI/BAi/BAn anticipé (Appliquer les procédures adaptées)</p>
+</p>
+
+<p>
+<strong>PROCEDURES D’ACHATS :</strong>
+
+<ul>
+  <li><strong>PRINCIPALES TACHES (GESTION DES ACHATS) </strong></li>
+  <li>Constitution des Bases des Données </li>
+  <li>Passation de contrats des fournisseurs</li>
+  <li>Achat de petits Matériels Fournitures et services de Faibles valeurs</li>
+  <li>Suivi des Délais de Livraisons des Commandes</li>
+  <li>Suivi des Contrats</li>
+  <li>Réception d’une Livraison</li>
+  <li>Traitement d’une facture fournisseur</li>
+</ul>
+</p>
+
+<h3>PROCEDURES A UTILISER</h3>
+
+<ul>
+    <li><a href="/administration/detailstachemembreasso/id/1" target= "_blanc">PROCEDURE : ACHAT DE PETITS MATERIELS FOURNITURES ET SERVICES DONT LE MONTANT EST INFERIEUR A 50 000 FCFA</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/4" target= "_blanc">PROCEDURE : RECEPTION D’UNE LIVRAISON</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/5" target= "_blanc">PROCEDURE : SUIVI DES DELAIS DE LIVRAISON DES COMMANDES</a> </li>
+    <li><a href="/administration/detailstachemembreasso/id/6" target= "_blanc">PROCEDURE : GESTION DE CARBURANT</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/21" target= "_blanc">PROCEDURE : GESTION DES AUTRES FOURNITURES ET CONSOMMABLES</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/7" target= "_blanc">PROCEDURE : PASSATION DE CONTRATS DE FOURNISSEURS</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE : SUIVI DES CONTRATS</a></li>
+
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE DE  RECRUTEMENT</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE DE TENUE DU DOSSIER DU PERSONNEL</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE DE GESTION DES SALAIRES</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE DE CONGES	</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE DES ABSENCES - MALADIES	</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE DE RUPTURE DE CONTRAT DE TRAVAIL</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE DE GESTION DES MISSIONS</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE D’EVALUATION DU PERSONNEL</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE DES MISSIONS</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE : GESTION DES FOURNITURES ET CONSOMMABLES</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE : GESTION DES KITS</a></li>
+
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE : GESTION DES SORTIES DES IMMOBILISATIONS ET DU MATERIEL ROULANT</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE : ENTRETIEN ET REPARATION DES IMMOBILISATIONS</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE : SECURISATION DES IMMOBILISATIONS</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE : GESTION DES VEHICULES ET DES MOTOS</a></li>
+
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURES DU RESPONSABLE JURIDIQUE A POURVOIR</a></li>
+</ul>
+
+</div>
+</div>
+</div>

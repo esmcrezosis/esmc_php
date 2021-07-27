@@ -1,0 +1,154 @@
+<?php $sessionterminal = new Zend_Session_Namespace('terminal');?>
+  <div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuterminal.phtml"); ?>
+
+  <blockquote><p>Modification d'un article</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addarticle_stockes">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+
+  <?php //echo $this->id; var_dump($this->article_stockes);?>
+
+<div class="control-group">
+    <label class="control-label">Type de produit *</label>
+    <div class="controls">
+    <label class="radio inline">
+  <input type="radio" name="type" id="type_bp" value="bp"  required  <?php if("bp" == $this->article_stockes->type){echo 'checked="checked"';} ?>>
+  Biens et produits
+</label>
+<label class="radio inline">
+  <input type="radio" name="type" id="type_s" value="s" required  <?php if("s" == $this->article_stockes->type){echo 'checked="checked"';} ?>>
+  Services
+</label>
+    </div>
+  </div>
+
+<div class="control-group">
+<label class="control-label" for="categorie">Classification *</label>
+<div class="controls">
+<select id="categorie" name="categorie" required>
+  <option value="">Choisir la classification</option>
+<?php 
+$tegc = new Application_Model_DbTable_EuTegc();
+$select = $tegc->select();
+$select->where("code_membre LIKE '".$sessionterminal->code_membre."'");
+$select->where("nom_tegc IS NOT NULL");
+$entries = $tegc->fetchAll($select);
+if(count($entries) > 0){?>
+<?php foreach ($entries as $value) { ?>
+  <option value="<?php echo $value->code_tegc; ?>" <?php if($value->code_tegc == $this->article_stockes->categorie){echo 'selected="selected"';} ?>><?php echo $value->nom_tegc; ?> - <?php echo $value->nom_produit; ?></option>
+<?php } ?>
+<?php }?>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="article_stockes_categorie">Categorie *</label>
+<div class="controls">
+<select id="article_stockes_categorie" name="article_stockes_categorie" required>
+  <option value="">Choisir la categorie</option>
+<?php 
+$categorie = new Application_Model_DbTable_EuArticleStockesCategorie();
+$select = $categorie->select();
+$select->where("code_membre_morale LIKE '".$sessionterminal->code_membre."'");
+$select->where("etat = 1");
+$entries = $categorie->fetchAll($select);
+if(count($entries) > 0){?>
+<?php foreach ($entries as $value) { ?>
+  <option value="<?php echo $value->id_article_stockes_categorie; ?>"  <?php if($value->id_article_stockes_categorie == $this->article_stockes->article_stockes_categorie){echo 'selected="selected"';} ?>><?php echo $value->nom_article_stockes_categorie; ?></option>
+<?php } ?>
+<?php }?>
+</select>
+</div>
+</div>
+
+<?php /*?>
+<div class="control-group">
+<label class="control-label" for="reference">Réference *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="reference" id="reference" placeholder="Réference" required value="<?php echo $this->article_stockes->reference; ?>" readonly>
+</div>
+</div>
+<?php */?>
+
+<div class="control-group">
+<label class="control-label" for="designation">Désignation *</label>
+<div class="controls">
+<input class="input-xxlarge" type="text" name="designation" id="designation" placeholder="Désignation" required value="<?php echo $this->article_stockes->designation; ?>">
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="prix">Prix *</label>
+<div class="controls">
+<div class="input-append">
+<input type="number" name="prix" id="prix" placeholder="Prix" required value="<?php echo $this->article_stockes->prix; ?>">
+  <span class="add-on">XOF</span>
+</div>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="remise">Remise </label>
+<div class="controls">
+<input class="input-large" type="number" name="remise" id="remise" placeholder="Remise" value="<?php echo $this->article_stockes->remise; ?>" >
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="quantite">Quantite *</label>
+<div class="controls">
+<input class="input-large" type="text" name="quantite" id="quantite" placeholder="Quantite" value="<?php echo $this->article_stockes->quantite; ?>" required>
+</div>
+</div>
+<?php /*?><?php */?> 
+
+<div class="control-group">
+<label class="control-label" for="imageArticle">Image </label>
+<div class="controls">
+<input name="imageArticle" type="file" id="imageArticle" class="input-xxlarge" />  
+<input name="imageArticleold" type="hidden" id="imageArticleold" value="<?php echo $this->article_stockes->imageArticle; ?>" />  
+</div>
+</div>
+
+<div class="form-actions">
+<input name="code_membre_morale" type="hidden" id="code_membre_morale" value="<?php echo $sessionterminal->code_membre; ?>" />  
+<input name="id_article_stockes" type="hidden" id="id_article_stockes" value="<?php echo $this->article_stockes->id_article_stockes; ?>" />  
+<input name="publier" type="hidden" id="publier" value="1" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier l'article</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,1359 @@
+<?php
+
+$month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+$true_month = "";
+$ex_date = explode('-',$this->dateconvention);
+
+foreach ($month as $key => $value) {
+  if($ex_date[1] == $key){
+    $true_month = $value;
+  }
+}
+$next_ex_date = explode(' ', $ex_date[2]);
+$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+
+?>
+
+
+<style>
+
+article {
+
+     font-family:"Calibri";
+
+     font-size:1.1rem
+}
+#convention_header_title{
+
+    font-family: "Algerian";
+
+    font-size: 4em;
+
+    line-height: 52px;
+
+    text-align: center;
+
+    margin: 14px;
+
+    letter-spacing: 7px;
+
+    margin-bottom:100px;
+
+    margin-top:96px;
+
+    padding: 20px;
+
+}
+/*
+p,li,i{
+      font-size: 1.2em;
+}*/
+#select_text_convention p,li{
+    /*-webkit-touch-callout: none; 
+    -webkit-user-select: none;
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+        -o-user-select:none;
+          user-select: none;*/
+
+}
+
+#select_text_convention{
+
+      text-align:justify;
+
+      border:2px solid #000;
+
+      padding-left: 45px;
+
+      padding-right: 25px;
+}
+
+
+</style>
+
+<form action="#" method="post">
+
+  <article id="select_text_convention" oncontextmenu="return false;">
+
+    <header id="convention_header_title">
+
+      CONVENTION DE <span style="display:block;margin-top:18px"> COLLABORATION </span>
+
+    </header>
+
+    <p style="font-weight:bold;font-size:1.3rem">Entre :</p>
+
+    <section style="margin-bottom:60px">
+      
+       <span style="display:inline-block;font-weight:bold">le Groupement d’Intérêt Economique « Economie Sociale de Marché Commun » (GIE <span style="color:'#910707'">ESMC</span> )</span>
+       de droit OHADA (Organisation pour l’Harmonisation en Afrique du Droit des Affaires) ; N RCCM : TG-LFW-01-2019-G10-00003 / TG-LOM 2019 M 1485 ; NIF (carte d’opérateur économique) : N° 1001608966 représenté par Monsieur Essohamlon SAMA, Président Directeur Général, Administrateur;
+       Adresse complète du siège social : Angle Rues Sagouda, Kiyéou et Bandjéli – 
+       Quartier Wuiti-Atchati, 03 BP : 30038 Lomé-Togo ; 
+       Contacts : Tel : (00228) 93 76 61 90 / 79 82 60 86_ E-mail : esmcgie@gmail.com
+       Site web : esmcgiegacsource.com / esmcgie.com ;
+    
+    </section>
+
+    <p style="font-weight:bold;font-size:1.3rem;margin-bottom:20px">D'une part :</p>
+
+    <p style="font-weight:bold;font-size:1.3rem;margin-bottom:20px">Et :</p>
+
+    <p><i>(Cocher la case correspondante)</i></p>
+
+   <section>
+
+         <p id="personne_physique" style="margin-top:1rem">
+       
+             <label for="personne physique">
+
+                 <strong>Mme / M:</strong>  
+
+                 <input type="radio" name="convention_select" style="position relative;left:-108px;top:3px" value="personne_physique">
+
+             </label>
+
+             <span><input type="text" style="width: 92%;position: relative;margin-top: -39px;margin-left: 76px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[..............................................................................................................]"> </span>
+
+             <label for="ville/village" style="margin-top:20px">Demeurant à (ville/village)
+
+                 <input type="text" name="civilite_domicile" style="width: 25%;margin-top: -21px;position: relative;border:0;right: -160px;padding: 0;background: transparent;font-size: 1.3em;" placeholder="[................................]">
+       
+            </label>
+
+            <label for="quartier" style="margin-top: -29px;position: relative;right: -411px;">
+
+                 (Quartier)
+
+                <input type="text" name="civilite_quartier" style="width: 43%;margin-top: -25px;position: relative;font-size: 1.3em;left: 73px;padding: 0;border:0;background:transparent" placeholder="[.........................................................]">
+       
+             </label>
+
+             <label for="bp" style="position: relative;top: 17px;">
+             
+                 (BP)
+
+                <input type="text" name="civilite_bp" style="width: 26%;margin-top: -25px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+       
+            </label>
+
+            <label for="tel" style="margin-top: -12px;margin-left: 260px;">
+
+                (Tél)
+
+                <input type="text" name="civilite_phone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       
+             </label>
+
+            <p>Ou</p>
+
+        </p>
+
+  </section>
+
+
+    <section>
+
+         <p style="margin-top:1rem">
+
+             <label for="maison/villa/immeuble">
+          
+                 <strong>Etablissement:</strong>
+
+                 <input type="radio" name="convention_select" style="position relative;left:-130px;top:2px" value="Maison/Villa/Immeuble">
+
+            </label>
+
+             <span><input type="text" name="etablissement_name" style="width: 81%;position: relative;margin-top: -40px;margin-left: 155px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[..........................................................................................................]"> </span>
+       
+            <label for="ville/village" style="margin-top:20px">Situé(e) à (ville/village)
+
+                 <input type="text" name="etablissement_residence" style="width: 25%;margin-top: -22px;position: relative;border:0;right: -139px;padding: 0;background: transparent;font-size: 1.3em;" placeholder="[.........................................]">
+       
+            </label>
+
+            <label for="quartier"  style="margin-top: -28px;position: relative;right: -369px;">
+
+                (Quartier)
+
+                <input type="text" name="etablissement_quartier" style="width: 43%;margin-top: -22px;position: relative;font-size: 1.3em;left: 73px;padding: 0;border:0;background:transparent" placeholder="[.........................................................]">
+            </label> 
+
+       <label for="rue" style="margin-top:20px">
+       Rue
+       <input type="text" name="etablissement_rue" style="width:95%;padding:0;font-size:1.4em;border:0;background-color:transparent;margin-top:-23px;margin-left:33px" placeholder="[......................................................................................................................]">
+       </label>
+
+       <label for="rue" style="margin-top:20px">
+       Représenté par Mme/ M.
+       <input type="text" name="etablissement_representant_name" style="width:95%;padding:0;font-size:1.4em;border:0;background-color:transparent;margin-top:-23px;margin-left:156px" placeholder="[......................................................................................................................]">
+       </label>
+           
+       <label for="bp" style="position: relative;top: 12px;">
+        (BP) 
+        <input type="text"  name="etablissement_representant_bp" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+       </label> 
+       <label for="tel"  style="position:relative;margin-top: -18px;margin-left: 260px;">
+        (Tél)
+        <input type="text" name="etablissement_representant_phone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>
+       <label for="rue" style="margin-top:20px">
+       Numéro de la carte d’Opérateur Economique
+       <input type="text" name="etablissement_representant_operateur" style="width:63%;padding:0;font-size:1.4em;border:0;background-color:transparent;margin-top:-23px;margin-left:274px" placeholder="[....................................................................................................]">
+       </label>
+    </p>
+  
+  </section>
+
+  <section>
+  <p style="margin-top:1rem">
+       <label for="maison/villa/immeuble">
+          <strong>Maison/Villa/Immeuble:</strong>
+          <input type="radio" name="convention_select" style="position relative;left:-178px;top:2px" value="Maison/Villa/Immeuble">         
+        </label>
+       <span><input type="text" name="residence_name" style="width: 81%;position: relative;margin-top: -40px;margin-left: 155px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[..........................................................................................................]"> </span>
+       
+       <label for="ville/village" style="margin-top:20px">Situé(e) à (ville/village)
+        <input type="text" name="residence_situation" style="width: 25%;margin-top: -22px;position: relative;border:0;right: -139px;padding: 0;background: transparent;font-size: 1.3em;" placeholder="[.........................................]">
+       </label>
+       <label for="quartier"  style="margin-top: -28px;position: relative;right: -369px;">
+       (Quartier)
+       <input type="text" name="residence_quartier" style="width: 43%;margin-top: -22px;position: relative;font-size: 1.3em;left: 73px;padding: 0;border:0;background:transparent" placeholder="[.........................................................]">
+       </label> 
+
+       <label for="rue" style="margin-top:20px">
+       Rue
+       <input type="text" name="residence_rue" style="width:95%;padding:0;font-size:1.4em;border:0;background-color:transparent;margin-top:-23px;margin-left:33px" placeholder="[......................................................................................................................]">
+       </label>
+
+       
+       <label for="ville/village" style="margin-top:26px">Demeurant à (ville/village)
+        <input type="text" name="residence_representant_demeure" style="width: 25%;margin-top: -24px;position: relative;border:0;right: -162px;padding: 0;background: transparent;font-size: 1.3em;" placeholder="[................................]">
+       </label>
+       <label for="quartier" style="margin-top: -26px;position: relative;right: -411px;">
+       (Quartier)
+       <input type="text" name="residence_representant_quartier" style="width: 43%;margin-top: -23px;position: relative;font-size: 1.3em;left: 73px;padding: 0;border:0;background:transparent" placeholder="[.........................................................]">
+       </label>         
+       <label for="bp" style="position: relative;top: 12px;">
+        (BP) 
+        <input type="text"  name="residence_representant_bp" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+       </label> 
+       <label for="tel"  style="position:relative;margin-top: -18px;margin-left: 260px;">
+        (Tél)
+        <input type="text" name="residence_representant_phone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>
+    </p>
+  
+  </section>
+
+  <section>
+  <p style="margin-top:1rem">
+       <label for="Collectivité">
+         <strong>Collectivité:</strong>
+         <input type="radio" name="convention_select" style="position relative;left:-99px" value="Collectivité">         
+       </label>
+       <span><input type="text" name="collectivite_name" style="width: 90%;position: relative;margin-top: -43px;margin-left: 91px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................................]"> </span>
+       
+       <label for="personne physique" style="margin-top:16px">
+       Représentée par Mme/ M.
+       </label>
+       <span><input type="text" name="collectivite_representant" style="width: 78%;position: relative;margin-top: -43px;margin-left: 190px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................]"> </span>
+
+
+       <label for="ville/village" style="margin-top:20px">Demeurant à (ville/village)
+        <input type="text" name="collectivite_domicile" style="width: 25%;margin-top: -28px;position: relative;border:0;right: -193px;padding: 0;background: transparent;font-size: 1.3em;" placeholder="[................................]">
+       </label>
+       <label for="quartier" style="margin-top: -34px;position: relative;right: -411px;">
+       (Quartier)
+       <input type="text" name="collectivite_quartier" style="width: 43%;margin-top: -27px;position: relative;font-size: 1.3em;left: 73px;padding: 0;border:0;background:transparent" placeholder="[.........................................................]">
+       </label>         
+       <label for="bp" style="position: relative;top: 10px;">
+        (BP) 
+        <input type="text" name="collectivite_bp" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+       </label> 
+       <label for="tel" style="margin-top: -26px;margin-left: 260px;">
+        (Tél)
+        <input type="text" name="collectivite_tel" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>
+    </p>
+
+  </section>
+<section>
+<p style="margin-top:1rem">
+       <label for="L’Association">
+           <strong>L’Association:</strong> 
+          <input type="radio" name="convention_select" style="position:relative;left:-107px" value="Association">
+       </label>
+       <span><input type="text" name="association_name" style="width: 90%;position: relative;margin-top: -43px;margin-left: 101px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................................]"> </span>
+    </p>
+
+</section>  
+<section>
+<p style="margin-top:1rem">
+       <label for="L’ONG">
+         <strong>L’ONG:</strong>
+         <input type="radio" name="convention_select" style="position:relative;left:-67px" value="ONG">
+        </label>
+       <span><input type="text" name="ong_name" style="width: 95%;position: relative;margin-top: -43px;margin-left: 52px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[..............................................................................................................................]"> </span>
+    </p>
+</section>
+
+<section>
+<p style="margin-top:1rem">
+       <label for="personne physique">
+         <strong>Le Groupement:</strong>
+         <input type="radio" name="convention_select" style="position:relative;left:-124px" value="Groupement">
+       </label>
+       <span><input type="text" name="groupement_name" style="width: 88%;position: relative;margin-top: -41px;margin-left: 121px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[....................................................................................................................]"> </span>
+    </p>
+</section>  
+
+<section>
+<p style="margin-top:1rem">
+       <label for="L’Union">
+       <strong>L’Union:</strong>
+       <input type="radio" name="convention_select" style="position:relative;left:-74px" value="Union">
+       </label>
+       <span><input type="text" name="union_name" style="width: 90%;position: relative;margin-top: -43px;margin-left: 91px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................................]"> </span>
+    </p> 
+</section>
+
+<section>
+<p style="margin-top:1rem">
+       <label for="La Fédération">
+          <strong>La Fédération:</strong>
+          <input type="radio" name="convention_select" style="position:relative;left:-111px" value="Fédération">
+       </label>
+       <span><input type="text" name="federation_name" style="width: 90%;position: relative;margin-top: -43px;margin-left: 105px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................................]"> </span>
+    </p>
+</section>
+
+<section>
+<p style="margin-top:1rem">
+       <label for="La Confédération">
+          <strong>La Confédération:</strong>
+          <input type="radio" name="convention_select" style="position:relative;left:-130px" value="Confédération">
+       </label>
+       <span><input type="text" name="confédération_name" style="width: 86%;position: relative;margin-top: -43px;margin-left: 132px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[.................................................................................................................]"> </span>
+    </p>
+</section>
+<section>
+<p style="margin-top:1rem">
+       <label for="Le Réseau">
+         <strong>Le Réseau:</strong> 
+         <input type="radio" name="convention_select" style="position:relative;left:-88px" value="Réseau">
+       </label>
+       <span><input type="text" name="reseau_name" style="width: 90%;position: relative;margin-top: -43px;margin-left: 91px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................................]"> </span>
+    </p>
+</section>
+
+<section>
+    <p style="margin-top:1rem">
+       <label for="La Faitière">
+          <strong>La Faitière:</strong>
+          <input type="radio" name="convention_select" style="position:relative;left:-88px" value="Faitière">
+       </label>
+       <span><input type="text" name="faitiere_name" style="width: 90%;position: relative;margin-top: -43px;margin-left: 91px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................................]"> </span>
+    </p>
+    <p>
+    Ayant pour numéro du récépissé/d’enregistrement/du registre des coopératives <input type="text" name="faitiere_numero" style="border: 0;padding: 0;font-size: 1.3em;background-color: transparent;" placeholder="[…………………..…………………………………………………………………………......]">,
+    dont le siège social est <input type="text" name="faitiere_siege" style="font-size: 1.3em;padding:0;border: 0;background-color: transparent;" placeholder="[……………………………………………………………………….…………………..........]">,
+    représenté (e) par <input type="text" name="faitiere_representant" style="font-size: 1.3em;padding:0;margin-bottom:20px;border: 0;background-color: transparent;" placeholder="[…………………………………………………………………………………………...........]">
+    Ou
+    </p>
+</section>
+
+<section>
+
+    <p style="margin-top:1rem">
+       <label for="personne physique">
+         <strong>Confession religieuse:</strong>
+       <input type="radio" name="convention_select" style="position:relative;left:-157px" value="Confession_religieuse">
+       </label>
+       <span><input type="text" name="confession_religieuse_name" style="width: 83%;position: relative;margin-top: -43px;margin-left: 162px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[.............................................................................................................]"> </span>
+       
+       <label for="personne physique" style="margin-top:16px">
+       Représentée par Mme/ M.
+       </label>
+       <span><input type="text" name="confession_religieuse_representant" style="width: 78%;position: relative;margin-top: -43px;margin-left: 190px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[......................................................................................................]"> </span>
+
+
+       <label for="ville/village" style="margin-top:20px">Demeurant à (ville/village)
+        <input type="text" name="confession_religieuse_demeure" style="width: 25%;margin-top: -28px;position: relative;border:0;right: -193px;padding: 0;background: transparent;font-size: 1.3em;" placeholder="[................................]">
+       </label>
+       <label for="quartier" style="margin-top: -34px;position: relative;right: -411px;">
+       (Quartier)
+       <input type="text" name="confession_religieuse_quartier_name" style="width: 43%;margin-top: -27px;position: relative;font-size: 1.3em;left: 73px;padding: 0;border:0;background:transparent" placeholder="[.........................................................]">
+       </label>         
+       <label for="bp" style="position: relative;top: 10px;">
+        (BP) 
+        <input type="text" name="confession_religieuse_bp" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+       </label> 
+       <label for="tel" style="margin-top: -26px;margin-left: 260px;">
+        (Tél)
+        <input type="text" name="confession_religieuse_phone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>
+       Ou
+    </p>
+    </section>
+    <section>
+
+    <p style="margin-top:1rem">
+       <label for="La société">
+        <strong>La société:</strong>
+       <input type="radio" name="convention_select" style="position:relative;left:-88px" value="société" >
+       </label>
+       <span><input type="text" name="societe_name" style="width: 92%;position: relative;margin-top: -43px;margin-left: 92px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[.........................................................................................................................]"> </span>
+       
+       <label for="personne physique" style="margin-top:16px">
+       Immatriculée au RCCM sous le numéro 
+       </label> 
+       <span><input type="text" name="societe_imatriculation_numero" style="width: 68%;position: relative;margin-top: -43px;margin-left: 279px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[.........................................................................................]"> </span>
+
+
+       <label for="ville/village" style="margin-top:20px">dont le siège social est 
+        <input type="text" name="societe_siege" style="width: 27%;margin-top: -28px;position: relative;border:0;right: -163px;padding: 0;background: transparent;font-size: 1.3em;" placeholder="[..................................]">
+       </label>
+       <label for="quartier" style="margin-top: -34px;position: relative;right: -396px;">
+       représentée par 
+       <input type="text" name="societe_representant_name" style="width: 40%;margin-top: -27px;position: relative;font-size: 1.3em;left: 116px;padding: 0;border:0;background:transparent" placeholder="[....................................................]">
+       </label>   
+       <p>dûment habilité aux fins des présentes,</p>      
+       
+       <p>Ou</p>
+
+    </p>
+</section>
+<section>
+    
+    <p style="margin-top:1rem">
+       <label for="L’Etablissement Public Administratif">
+       <strong>L’Etablissement Public Administratif :</strong>
+       <input type="radio" name="convention_select" style="position:relative;left:-247px" value="Etablissement_Public_Administratif">
+         </label>
+       <span><input type="text" name="etablissement_administratif_name" style="width: 71%;position: relative;margin-top: -43px;margin-left: 270px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[.............................................................................................]"> </span>
+       <label for="bp" style="position: relative;top: 10px;">
+        (BP) 
+        <input type="text" name="etablissement_administratif_bp" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+       </label> 
+       <label for="tel" style="margin-top: -26px;margin-left: 260px;">
+        (Tél)
+        <input type="text" name="etablissement_administratif_telephone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>
+      
+    </p>
+    </section>
+    <section>
+
+    <p style="margin-top:1rem">
+       <label for="L’Etablissement Public Industriel Commercial">
+       <strong>L’Etablissement Public Industriel Commercial:</strong>  
+       <input type="radio" name="convention_select" style="position:relative;left:-299px" value="Etablissement_Public_Industriel_Commercial">
+      </label>
+       <span><input type="text" name="etablissement_industriel_commercial_name" style="width: 64%;position: relative;margin-top: -43px;margin-left: 333px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[...................................................................................]"> </span>
+       <label for="bp" style="position: relative;top: 10px;">
+        (BP) 
+        <input type="text" name="etablissement_industriel_commercial_bp" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+       </label> 
+       <label for="tel"  style="margin-top: -26px;margin-left: 260px;">
+        (Tél)
+        <input type="text" name="etablissement_industriel_commercial_phone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>
+       <p>Ou</p>
+    </p>
+</section>
+<section>
+    
+    <p style="margin-top:1rem">
+       <label for="L’Organisation Internationale">
+       <strong>L’Organisation Internationale:</strong>
+       <input type="radio" name="convention_select" style="position:relative;left:-204px" value="Organisation_Internationale">
+        </label>
+       <span><input type="text" name="organisation_internationale_name" style="width: 77%;position: relative;margin-top: -43px;margin-left: 218px;padding-left: 0;border:0; background: transparent;font-size: 1.3em;" placeholder="[.....................................................................................................]"> </span>
+       <label for="bp" style="position: relative;top: 10px;">
+        (BP) 
+        <input type="text" name="organisation_internationale_bp" style="width: 26%;margin-top: -22px;margin-left: 36px;padding: 0;font-size: 1.4rem;background:transparent;border:0" placeholder="[.................................]">
+       </label> 
+       <label for="tel" style="margin-top: -26px;margin-left: 260px;">
+        (Tél)
+        <input type="text" name="organisation_internationale_phone" style="width: 93%;margin-top: -24px;margin-left: 36px;padding: 0;font-size: 1.4rem;background: transparent;border: 0;" placeholder="[........................................................................................]">
+       </label>
+    </p>
+
+
+</section>
+
+<section style="margin-bottom:20px;">
+
+<p>Ci-après dénommé(e) : </p>
+
+<small >(Cocher la case correspondante)</small>
+
+</section>
+
+<section style="height:150px">
+
+    <div class="span12" style="margin-left:-15px">
+
+          <label class="checkbox">
+
+                  <span style="inline-block;font-weight:bold;float:left">« Acteur de l’Offre Interne » : </span>
+
+                  <input type="checkbox" style="margin-top:7px" name="check_type_acteur" id="comite_fournisseurs" value="ACTEUR DE L'OFFRE INTERNE">
+
+          </label>
+
+     </div>
+
+<div class="span12" style="margin-left:-15px">
+
+      <label class="checkbox">
+
+                  <span style="inline-block;font-weight:bold;float:left">« Acteur de l’Offre Externe » : </span>
+
+                  <input type="checkbox" style="margin-top:7px" name="check_type_acteur" id="comite_fournisseurs" value="ACTEUR DE L'OFFRE EXTERNE">
+
+      </label>
+
+</div>
+
+<div class="span12" style="margin-left:-15px">
+
+      <label class="checkbox">
+
+                  <span style="inline-block;font-weight:bold;float:left">« Acteur de l’Offre Spécifique » :</span>
+
+                  <input type="checkbox" style="margin-top:7px" name="check_type_acteur" id="comite_fournisseurs" value="ACTEUR DE L'OFFRE SPECIFIQUE">
+
+      </label>
+</div>
+
+</section>
+
+<section >
+
+  <div style="display:flex;flex-direction:row;width:100%;align-content:space-between;margin-top:10px;margin-bottom:15px">
+  
+      <label class="checkbox" style="flex-grow:4">
+
+                  <span style="font-weight:bold;">« Acheteur » : </span>
+
+                  <input type="checkbox" style="" name="check_type_acteur" id="acheteur" value="ACHETEUR">
+
+      </label>
+
+      <label class="checkbox" style="flex-grow:4">
+
+                  <span style="font-weight:bold;">« Producteur » : </span>
+
+                  <input type="checkbox" style="" name="check_type_acteur" id="producteur" value="PRODUCTEUR">
+
+      </label>
+
+      <label class="checkbox" style="flex-grow:4">
+
+                  <span style="font-weight:bold;">« Transformateur » : </span>
+
+                  <input type="checkbox" style="" name="check_type_acteur" id="transformateur" value="TRANSFORMATEUR">
+
+      </label>
+
+      <label class="checkbox" style="flex-grow:4">
+
+                  <span style="font-weight:bold;">« Vendeur » : </span>
+
+                  <input type="checkbox" style="" name="check_type_acteur" id="vendeur" value="VENDEUR">
+
+      </label>
+     
+     
+  </div>
+
+  <div style="display:flex;flex-direction:row;width:100%;align-content:space-between;margin-top:10px;margin-bottom:15px">
+
+      <label class="checkbox" style="flex-grow:3">
+
+                  <span style="font-weight:bold;"> Biens : </span>
+
+                  <input type="checkbox" style="" name="biens" id="biens" value="BIENS">
+
+      </label>
+
+      <label class="checkbox" style="flex-grow:3">
+
+                  <span style="font-weight:bold;"> Produits : </span>
+
+                  <input type="checkbox" style="" name="produits" id="produits" value="PRODUITS">
+
+      </label>
+
+      <label class="checkbox" style="flex-grow:3">
+
+                  <span style="font-weight:bold;"> Services : </span>
+
+                  <input type="checkbox" style="" name="services" id="services" value="SERVICES">
+
+      </label>
+  
+  </div>
+
+    <div style="display:flex;flex-direction:row;width:100%;align-content:space-between;margin-top:10px;margin-bottom:15px">
+
+      <label class="checkbox" style="flex-grow:3">
+
+                  <span style="font-weight:bold;"> OSE : </span>
+
+                  <input type="checkbox" style="" name="ose" id="biens" value="OSE">
+
+      </label>
+
+      <label class="checkbox" style="flex-grow:3">
+
+                  <span style="font-weight:bold;"> OE : </span>
+
+                  <input type="checkbox" style="" name="oe" id="produits" value="OE">
+
+      </label>
+
+      <label class="checkbox" style="flex-grow:3">
+
+                  <span style="font-weight:bold;"> Prestataire de la PC : </span>
+
+                  <input type="checkbox" style="" name="prestataire" id="prestataire_pc" value="PRESTATAIRE DE LA PC">
+
+      </label>
+  
+  </div>
+
+
+</section>
+
+
+<p style="font-weight:bold;font-size:1.3rem;margin-bottom:30px">D’autre part :</p>
+
+<section>
+    
+      <p style="font-size:1.3rem"><strong><u> PREAMBULE </u> </strong> </p>
+
+      <p>Plateforme de transactions électroniques, le Groupement d’Intérêt Economique « Economie Sociale de Marché Commun » (GIE <span style="color:'#910707'">ESMC</span>) souhaite réaliser et renforcer les chaines de valeurs (Achat, Production, Transformation et Vente) et de distributions (Entrepôts, Marchés, Magasins, Boutiques et Guichets Uniques) de sa Production Commune (PC) par la collaboration avec toute communauté qu’il aménage en six Acteurs de l’Offre de la PC sur sa plateforme. Ces Acteurs sont les Offreurs d’Intégration : les OI (ménages et individus) ; les Offreurs de Kits de Solvabilité Universelle : les OKSU ; les Offreurs de Biens, Produits et Services Dématérialisés : les OBPSD ; les Offreurs de Biens, Produits et Services : les OBPS ; les Offreurs de Projets : les OP et les Offreurs de Travail : les OT.</p>
+
+      <p>Les six Acteurs de l’Offre de la PC quant à eux disposent de biens, produits et services utiles à la réalisation et au renfort des chaines de valeurs et de distributions de la Production Commune (PC) du GIE <span style="color:'#910707'">ESMC</span> sur sa plateforme.</p>
+
+      <p style="font-size:1.3rem;font-weigh:bold">Article 1 : Objet de la convention</p>
+
+      <p>La présente convention a pour objet :</p>
+
+      <ul>
+
+         <li>
+             de formaliser la volonté des parties d’instaurer un partenariat dans une perspective de 
+
+             relation à long terme, permettant de développer des avantages réciproques en collaborant aux quatre activités du GIE <span style="color:'#910707'">ESMC</span> d’où découlent les six Acteurs de l’Offre à savoir :
+         </li>
+
+
+         <li>
+         
+            <ul>
+
+               <li>Souscriptions aux Comptes Marchands et aux Bons de Consommations pour soi (OKSU) et tiers (OI),</li>
+
+               <li>Achat-Vente Réciproques (OBPS),</li>
+
+               <li>Prestataires de la Production Commune (OP/ OT) et </li>
+
+               <li>Acheteurs-Revendeurs en ligne contre OPI (OBPSD) ; </li>
+
+            </ul>
+         
+         </li>
+
+         <li>
+          
+             de définir les conditions de mise en œuvre de cette collaboration dans le cadre de
+
+             l’observation des règles indispensables au fonctionnement du système Progiciel MCNP (Marché commun en Nature Pérenne) et du modèle de l’«économie sociale de marché commun » de la Production Commune (PC) du GIE <span style="color:'#910707'">ESMC</span>.
+
+         </li>
+
+      </ul>
+
+      <p>
+      NB:En cochant l’une des cases indiquées plus haut, en remplissant et en validant en ligne ce présent, l’Acteur de l’Offre <strong>accepte d’être adhérent</strong> interne, externe ou spécifique du Groupement d’Intérêt Economique <span style="color:'#910707'">ESMC</span> et par conséquent, <strong>accepte la clause fondamentale</strong> des quatre activités par laquelle les avantages sont concédés à chacun selon le cas, notamment l’activité « Achat-Vente Réciproques » (AVR), l’échange complet qui, pour assurer la solvabilité absolue fait intervenir l’achat en retour de biens, produits et services (BPS) auprès du GIE sur sa plateforme  <strong> et accepte également d’être lié </strong> par toutes les clauses de la présente convention de collaboration, par les conditions des Kits de Solvabilité Universelle, par celles des Supports Marchands, par celles de l’Engagement de Livraison Irrévocable (ELI), par les onze règles de l’innovation <span style="color:'#910707'">ESMC</span>/MCNP, et enfin par les statuts du GIE <span style="color:'#910707'">ESMC</span> et son règlement intérieur.
+      </p>
+
+</section>
+
+
+<section>
+
+<p style="font-size:1.3rem"><strong> Article 2 : Caractéristiques des différents produits du GIE <span style="color:'#910707'">ESMC</span> </strong> </p>
+
+<p style="font-size:1.3rem;margin-left:35px"><strong>2.1 : Compte Marchand (CM)/le KSU</strong></p>
+
+<ul>
+
+   <li><strong> Souscriptions </strong></li>
+   
+   <p>Le Compte Marchand/KSU des personnes physiques ou morales s’acquiert par voie d’Achat moyennant des frais non remboursables.</p>
+
+   <li><strong>Interdépendance du Compte Marchand</strong></li>
+
+   <p>Le Compte Marchand est interdépendant entre ses détenteurs Acteurs de l’Offre de la Production Commune (PC) et les Agents du GIE <span style="color:'#910707'">ESMC</span>. </p>
+
+   <li><strong>  Durée de vie </strong></li>
+
+   <p><span>La durée de vie du Compte Marchand est égale à celle de la société exploitante GIE <span style="color:'#910707'">ESMC</span>. Toutefois, la disparition, le décès, la liquidation et le renoncement du détenteur entrainent la caducité du compte. </span>
+    <span>Le contenu du compte devenu caduque demeure tel et assujetti à la reconstitution des éventuels Supports Marchands qu’il contient, exclusivement en Bons d’Achat internes, au profit des héritiers s’il y en a.</span>
+   </p>
+
+   <li><strong>Usage</strong> </li>
+
+   <p>Le Compte Marchand est à usage personnel ; contrairement aux supports Marchands qu’il contient, il est inaliénable.</p>
+
+</ul>
+
+<p style="font-weight:bold;font-size:1.3rem;margin-left:35px">2.2 : Supports Marchands contenus dans le Compte Marchand</p>
+
+<p>En cas d’absence catégorique des biens, de pénurie des biens ou en cas de suspension des activités des fournisseurs sur la plateforme GIE <span style="color:'#910707'">ESMC</span>, le cumul de tous les Supports Marchands devient des Bons de Consommation et s’échangera, à la reprise requise, contre des marchandises disponibles. Les Supports Marchands cumulés peuvent également servir de Bons de Commande pour une nouvelle production (consommation future). </p>
+
+<p style="font-weight:bold;font-size:1.3rem;margin-left:45px">2.2.1 : Bons de Consommation récurrente (BCr)</p>
+
+<ul>
+
+   <li><strong>  Période d’affectation </strong> </li>
+
+   <p>
+      
+      <span style="display:block">Le Bon de Consommation récurrente est affecté par période de trente (30) jours, période qui peut se prolonger en cas de pénurie généralisée des Biens, Produits et Services réels sur la plateforme GIE <span style="color:'#910707'">ESMC</span>.</span>
+   
+      <span>L’affectation peut être limitée ou non limitée dans le temps selon le type de Bons de Consommation récurrente. </span>
+
+   </p>
+
+   <li> <strong>Spécificité d’affectation</strong> </li>
+
+   <p>Le Bon de Consommation récurrente est exclusivement affecté à des types de Biens, Produits ou Services spécifiques. Cette affectation spécifique peut s’élargir à d’autres biens en cas de pénurie généralisée des produits spécifiques auxquels il est affecté. </p>
+
+   <li>Aspect non cumulable</li>
+
+   <p>
+   
+      <span style="display:block">Le Bon de Consommation récurrente n’est pas cumulable.</span>
+      
+      <span>En cas de suspension du Bon de Consommation récurrente, pour des fins de reconstitution et sur demande du titulaire, il se cumule compte tenu de la Période de Constitution du Montant d’Achat au Bon de Consommation récurrente qui est de 22.4 périodes de 30 jours. Le cumul devient un Bon d’Achat interne égal au Montant de Consommation récurrente pour soi limité à 11.2, lorsque la période de jouissance est égale à 22.4 périodes de 30 jours. Une proportion est faite pour le cas des périodes de jouissance inférieure ou supérieure à 22.4 périodes de 30 jours.</span>
+   </p>
+
+   <li><strong>Aspect non redevable en monnaie bancaire</strong> </li>
+
+   <span>En aucun cas, le Bon de Consommation récurrente ne peut être dû en monnaie bancaire. </span>
+
+
+</ul>
+
+<p style="font-weight:bold;font-size:1.3rem;margin-left:45px">2.2.2 : Bons de Consommation non récurrente (BCnr)</p>
+
+<ul>
+
+  <li> <strong> Période </strong> </li>
+
+  <p>Le Bon de Consommation non récurrente s’exprime une fois pour de bon. Il peut être affecté aux marchandises déjà produites (consommation immédiate) et aux marchandises à produire par les fournisseurs (consommation future).</p>
+
+
+  <li> <strong> Spécificité d’affectation </strong> </li>
+
+  <p>Le Bon de Consommation non récurrente est exclusivement affecté à des types de Biens, Produits ou Services spécifiques. Cette affectation spécifique peut s’élargir à d’autres biens en cas de pénurie généralisée des produits spécifiques auxquels il est affecté.  </p>
+
+  <li> <strong>  Aspect cumulable </strong> </li>
+
+  <p>Le Bon de Consommation non récurrente est cumulable dans le cas où il est affectable aux biens futurs.</p>
+
+  <li><strong>Aspect non redevable en monnaie bancaire</strong></li>
+
+  <p>En aucun cas, le Bon de Consommation non récurrente ne peut être dû en monnaie bancaire</p>
+
+</ul>
+
+<p style="font-weight:bold;font-size:1.3rem;margin-left:45px">2.2.3 : Bons de Commande (BC)</p>
+
+<ul>
+
+   <li><strong> Période </strong></li>
+
+   <p>Les Bons de Commande sont issus des OPI non matures. Ils sont affectés par commande aux Biens, Produits ou Services selon les échéances des OPI dont ils sont issus. A cet effet les périodes de livraison des commandes varient selon les séries de 12, 18, 24, 30, 36 ... OPI et selon les tranches cumulées de 3 OPI égalent à 90 jours ouvrés, 6 OPI égalent à 180 jours ouvrés, 12 OPI égalent à 360 jours ouvrés ainsi de suite.</p>
+  
+   <li><strong>Spécificité d’affectation </strong></li>
+
+   <p>
+   
+   <span style="display:block"> Les Bons de Commande sont destinés à la commande auprès des centrales de la Production Commune et auprès de fournisseurs prestataires de travaux, industries de production et de transformation, importateurs et exportateurs.  </span></p>
+
+   <span>Les Bons de Commande s’échangent, à l’échéance des OPI de leur provenance, le cas échéant, contre des Bons d’Achat internes. </span>
+
+   <li><strong>Aspect cumulable</strong></li>
+
+   <p>Les Bons de Commande sont cumulables.</p>
+
+</ul>
+
+<p style="font-size:1.3rem;margin-left:30px"><strong>2.2.4 : Bons d’Achat </strong></p>
+
+<p style="font-size:1.3rem;margin-left:45px"><strong> 2.2.4.1 : Bons d’Achat neutres (BAn)</strong></p>
+
+<p>Ils sont émis aux Acteurs OKSU contre l’argent payé sur l’un des comptes du GIE <span style="color:'#910707'">ESMC</span> auprès de ses Partenaires Bancaires et Financiers, les OBPSD. </p>
+
+<ul>
+
+   
+   <li><strong>Période</strong></li>
+
+    <p>Les Bons d’Achat neutres sont émis instantanément ou 24 à 72 heures selon la banque et le mode de payement utilisé, après enregistrement sur le formulaire d’achat GIE <span style="color:'#910707'">ESMC</span> des renseignements contenus par les fiches de versement bancaires. Ils sont valables à durée indéterminée. </p>
+
+    <li><strong>Spécificité d’affectation </strong></li>
+
+    <p>Les Bons d’Achat neutres sont affectés au moment de l’achat des Activités : Souscriptions pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation et Acheteurs-Revendeurs en ligne contre OPI.</p>
+
+    <li><strong>Aspect cumulable</strong></li>
+
+    <p>Les Bons d’Achat neutres sont cumulables.</p>
+
+    <li>Aspect non redevable en monnaie bancaire</li>
+
+    <p>
+    
+      <span style="display:block">En aucun cas, le Bon d’Achat neutre ne peut être dû en monnaie bancaire. </span>
+
+      <span>Par conséquent, en signant cette convention dans le cadre de sa collaboration avec le GIE <span style="color:'#910707'">ESMC</span>, l’OKSU accepte de renoncer, de facto, à son droit de rétractation lié au Bon d’Achat neutre, dans la mesure où ce bon, en soi, n’est pas une marchandise, conformément à la septième règle de l’innovation des activités du GIE <span style="color:'#910707'">ESMC</span> qui dit « L’existence du Bon d’Achat neutre est conditionnée par son affectation à un Bien, un Produit ou un Service sur la plateforme GIE <span style="color:'#910707'">ESMC</span> ».
+
+      </span>
+    
+    </p>
+
+</ul>
+
+<p style="font-size:1.3rem;margin-left:45px"><strong>2.2.4.2 : Bons d’Achat internes (BAi)</strong></p>
+
+<p>Ils sont émis contre les Activités d’Achat et Vente Réciproques et celles de Prestataires de la Production Commune. De même, les Bons d’Achat internes sont émis contre des Bons de Consommation reconstitués et contre des Bons de Commande et des OPI non exprimés à leur échéance. Ils pourraient aussi être émis en apurement du passif engendré par l’exploitation antérieure du progiciel MCNP. </p>
+
+
+<ul>
+
+   <li><strong>Période </strong></li>
+
+   <p>
+       Les Bons d’Achat internes sont valables pour une durée indéterminée. Ils sont émis après la validation des Engagements de Livraison Irrévocable (cas des activités Achat-vente Réciproques et Prestataires de la Production Commune), à la reconstitution de Bons de Consommation dès la demande du titulaire et à l’échéance des Bons de Commande et des OPI non exprimés.
+       Ils sont émis lorsque les conditions le permettent (cas du passif de l’exploitation du progiciel MCNP).
+   </p>
+
+   <li><strong>Spécificité d’affectation </strong></li>
+
+   <p>Les Bons d’Achat internes, tout comme les Bons d’Achat neutres, sont affectés à l’achat des Activités : Souscriptions pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation et Acheteurs-Revendeurs en ligne contre OPI.</p>
+
+   <li>Aspect cumulable</li>
+
+   <p>En aucun cas, le Bon d’Achat interne ne peut être dû en monnaie bancaire.   </p>
+
+</ul>
+
+
+   <p style="font-size:1.3rem;"> <strong>2.2.5 : Bons de Livraison (BL)</strong></p>
+
+   <p>
+       Les Bons de Livraison sont émis contre la vente de tous Biens, Produits et Services et contre tout achat d’Activités payées par voie de Supports Marchands sur la plateforme GIE <span style="color:'#910707'">ESMC</span>.
+       Les Bons de livraison s’échangent contre des BCi ou contre des OPI.
+   </p>
+
+   <ul>
+   
+   
+       <li> <strong>Période</strong>  </li>
+
+       <p>Les Bons de Livraison sont émis instantanément après la livraison de marchandises. </p>
+
+       <li><strong>Spécificité d’affectation</strong> </li>
+
+       <p>Les Bons de Livraison sont affectés aux BPS via les Bons de Consommation internes et aux OPI.</p>
+
+       <li><strong>Aspect cumulable</strong> </li>
+
+       <p>Les Bons de Livraison sont cumulables.</p>
+
+       <li><strong>Aspect non redevable en monnaie bancaire</strong></li>
+
+       <p>En aucun cas, les Bons de Livraison ne peuvent être dus en monnaie bancaire.</p>
+   
+   </ul>
+
+   <p><strong>2.2.6 : Ordres de Prélèvement Irrévocable (OPI)</strong></p>
+
+       <p>Les OPI sont émis aux personnes physiques et morales contre l’achat des Activités : Souscriptions pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation, Acheteurs-Revendeurs en ligne contre OPI, Achat et Vente Réciproques et Prestataire de la Production Commune. </p>
+
+       <ul>
+       
+          <li> Période </li>
+
+          <p>La période de trente (30) jours ouvrés sépare un Ordre de Prélèvement Irrévocable à l’autre, à compter du premier qui, lui, peut être instantané. </p>
+
+          <li>Modalités d’utilisation des OPI </li>
+
+          <p><span>Pour rendre liquide les OPI aux mains des bénéficiaires, ceux-ci ont le choix entre les quatre (04) modes d’utilisation ci-après : </span></p>
+
+          <ul>
+          
+            <li>Attendre les échéances pour obtenir le virement sur leur compte bancaire ouvert nécessairement dans les livres des OBPSD, personnes morales sur la plateforme GIE <span style="color:'#910707'">ESMC</span>, sous réserve de l’acceptation de son activité principale « AVR » ; </li>
+
+            <li>Choisir de se désendetter (payer ses dettes) au moyen de ses OPI auprès des banques ou auprès de tout créancier ; </li>
+
+            <li>S’approvisionner par commande de Biens, Produits et Services (BPS) de consommation finale sur la plateforme GIE <span style="color:'#910707'">ESMC</span> ;</li>
+
+            <li>S’approvisionner par commande de Biens, Produits et Services de production sur la plateforme GIE <span style="color:'#910707'">ESMC</span>.  </li>
+            
+          </ul>
+
+          <li><strong>Aspect cumulable</strong></li>
+
+          <p>Les OPI sont cumulables tant qu’ils ne sont pas exprimés suivant les quatre (04) modes d’utilisation sus évoqués. 	</p>
+
+          <li><strong>Aspect non redevable en monnaie bancaire</strong></li>
+
+          <p>Les OPI arrivés à maturité en cours d’activité sont payés en monnaie bancaire. Dans le cas contraire, ils sont affectés aux Bons de Commande, aux Bons d’Achat neutres ou aux Bons d’Achat internes.</p>
+
+          <p>Toutefois, les Acteurs des activités Souscription pour soi et pour tiers aux Comptes Marchands et aux Bons de Consommation et des activités Acheteurs-Revendeurs en Ligne contre OPI ne disposent pas au départ de Biens, Produits et Services. Pour cela, ils doivent les acheter d’abord sur la plateforme avant de les y revendre pour obtenir en retour des OPI. Par conséquent, même le premier mode d’utilisation des OPI s’achève par l’observation de la règle « Achats-Ventes Réciproques » (AVR).</p>
+
+       </ul>
+
+       <p style="font-size:1.3rem;font-weight:bold;margin-left:30px">2.2.7 : Achats-Ventes Réciproques (AVR)</p>
+
+       <p>
+       
+            <span>L’Achat-Vente Réciproques (AVR) est l’activité principale autour de laquelle gravitent toutes les autres activités du GIE <span style="color:'#910707'">ESMC</span> auxquelles sont soumis les six (6) Acteurs de l’Offre de la Production Commune (PC). C’est le consentement explicite obtenu des Acteurs de l’Offre par le GIE <span style="color:'#910707'">ESMC</span> pour combler les écarts dus au partage anticipé des retombées de la Production Commune sur sa plateforme. L’« AVR » consiste, pour les Acteurs de l’Offre, à collaborer aux avantages mutuels provenant de la réciprocité ou de la permutation des achats et des ventes dans le but d’assurer à chaque Acteur de l’Offreur de la PC y compris le GIE <span style="color:'#910707'">ESMC</span> lui-même la solvabilité absolue qu’engendre cet échange complet dit AVR.</span> </p>
+
+            <span>Bref, avant d’exercer sur la plateforme GIE <span style="color:'#910707'">ESMC</span>, l’Acteur Offreur de la PC doit s’assurer qu’il s’est tacitement engagé à observer la règle de l’activité principale du GIE <span style="color:'#910707'">ESMC</span> « Achats-Ventes Réciproques » (AVR) pour soi et pour les autres conformément à l’article 2 de la présente.</span>
+
+      <p style="font-size:1.3rem;font-weight:bold;margin-left:30px">2.2.8 Engagement de Livraison Irrévocable (ELI)</p>
+
+      <p>
+         
+          <span style="display:block">Il existe deux types d’ELI : </span>
+
+      </p>
+
+      
+      <ul>
+          
+          <li> Le premier consiste à fournir sans rupture ses Biens, Produits et Services au GIE <span style="color:'#910707'">ESMC</span>. </li>
+
+          <li> Le second consiste à livrer au GIE <span style="color:'#910707'">ESMC</span>, la totalité de la quantité convenue de Biens, Produits et Services pour laquelle le GIE <span style="color:'#910707'">ESMC</span> lui avait servi par avance des OPI, des BAi ou des BAn.</li>
+       
+       </ul>
+
+       <p>
+        
+        
+           <span style="display:block">Avant d’exercer sur la plateforme, l’OBPS doit s’assurer qu’il a préalablement signé le Contrat d’Engagement de Livraison Irrévocable avec le GIE <span style="color:'#910707'">ESMC</span>.</span>
+
+           <span>Par rapport au second type d’ELI, l’OBPS doit s’assurer qu’en plus de la signature du contrat d’ELI, l’exploitant, le GIE <span style="color:'#910707'">ESMC</span> lui a également servi des OPI, des BAi ou des BAn par avance. </span>
+
+       
+       </p>
+
+</section>
+
+<section>
+
+ <p style="font-weight:bold;font-size:1.3rem">Article 3 : Paiement du Montant d’Achat de Bons d’Achat neutres (MABAn) </p>
+
+ <p style="font-size:1.3rem;margin-left:30px">
+ 
+    <strong> 3.1 : Montant d’Achat de Comptes Marchands (MACM) pour soi et pour tiers</strong>
+
+ </p>
+
+ <p>Les Montants d’Achat des Comptes Marchands sont fonction du pouvoir d’achat de la monnaie en cours dans chaque pays. </p>
+
+ <p style="font-size:1.3rem;margin-left:30px"><strong> 3.2 : Montant d’Achat de Bons de Consommation pour soi et pour tiers (MABC)</strong></p>
+
+ <p>
+ 
+    <span style="display:block">Les Montants d’Achat de Bons de Consommation sont fonction du pouvoir d’achat de la monnaie en cours dans chaque pays. </span>
+ 
+    <span>Ils sont également fonction des deux modalités d’Achat : pour soi et pour tiers marchands et non marchands.</span>
+
+ </p>
+ 
+
+ <ul>
+ 
+   <li><strong>Consommation récurrente</strong></li>
+
+   <p>
+   
+      <span style="display:inline-block"> Le Montant d’Achat de Bons de Consommation récurrente se calcule en fonction des paramètres suivants :</span>
+
+      <ul>
+      
+         <li>	Le Montant du Bon périodique que multiplie la PCMABC (Période de Constitution du Montant d’Achat de Bons de Consommation) ;</li>
+
+         <li> La PCMABC, le multiplicateur, est fonction du pouvoir d’achat de la monnaie en cours dans chaque pays.</li>
+      
+      </ul>
+   
+   </p>
+
+   <li><strong>Consommation non récurrente</strong></li>
+
+   <p>Le Montant d’Achat de Bons de Consommation non récurrente se calcule en fonction des paramètres suivants intégrés à la table des calculs mis en ligne sur la plateforme GIE <span style="color:'#910707'">ESMC</span>.</p>
+
+ </ul>
+
+ <p style="font-size:1.3rem;font-weight:bold"> 3.3 : Retombées de l’Achat pour tiers </p>
+
+ <p style="font-weight:bold;margin-left:45px">3.3.1 : Les retombées de l’Achat de Comptes Marchands pour tiers</p>
+
+ <p>
+ 
+    <span style="display:inline-block">Le montant de l’Achat de comptes marchands pour tiers bénéficie du payement par OPI :</span>
+
+    <ul>
+    
+       <li>égal à 2.565 fois le montant du Bon d’Achat neutre, morcelé en 22,4 périodes de trente jours ouvrés indexé au compte bancaire des Acteurs (cas des OKSU personnes physiques) et </li>
+
+       <li>égal à 1.42 fois le montant du Bon d’Achat neutre, morcelé en 22,4 périodes de trente jours ouvrés par voie d’OPI indexé au compte bancaire des Acteurs (cas des OKSU personnes morales).</li>
+    
+    </ul>
+ 
+ </p>
+
+ <p style="font-weight:bold;margin-left:45px">3.3.2 : Les retombées de l’Achat de Bons de Consommation récurrente pour tiers  </p>
+ 
+ <p>
+  
+    <span style="display:bold">Le montant de l’Achat de Bons de Consommation récurrente pour tiers bénéficie du payement par OPI :</span>
+
+    <ul>
+    
+      <li>égal à 2.565 fois le montant du Bon d’Achat neutre, morcelé en 22,4 périodes de trente jours ouvrés indexé au compte bancaire des Acteurs (cas des OKSU personnes physiques) et </li>
+
+      <li>égal 1.42 fois le montant du Bon d’Achat neutre, morcelé en 22,4 périodes de trente jours ouvrés par voie d’OPI indexé au compte bancaire des Acteurs (cas des OKSU personnes morales).</li>
+
+    </ul>
+
+ </p>
+
+ <p style="font-size:1.3rem"><strong>Article 4 : Conditions d’accès aux six (06) types d’offres de la PC sur la plateforme GIE <span style="color:'#910707'">ESMC</span></strong></p>
+
+ <p style="font-size:1.2rem"><i>Ces conditions sont disponibles sous forme de prospectus numérique dans la librairie sur l’espace en ligne grand public, l’interface de la plateforme GIE <span style="color:'#910707'">ESMC</span>.</i></p>
+
+
+  <p style="font-size:1.3rem"> <strong>Article 5 : Conditions d’accès aux espaces des chaines de valeurs (Achat, Production, Transformation et Vente) et de distributions (Entrepôts, Marchés, Magasins, Boutiques et Guichets Uniques) de la Production Commune sur la plateforme GIE <span style="color:'#910707'">ESMC</span> </strong></p>
+
+  <p>
+
+     <span>L’accès aux espaces des chaines de valeurs et de distributions de la Production Commune sur la plateforme GIE <span style="color:'#910707'">ESMC</span> oblige les Acteurs de l’Offre acheteurs et vendeurs au respect mutuel des droits liés aux : </span>
+
+     <ul>
+     
+       <li>commandes,</li>
+
+       <li>paiements,</li>
+
+       <li>livraisons,</li>
+
+       <li>services après-vente,</li>
+
+       <li>rétractations,</li>
+
+       <li>annulations, retour de marchandises et remboursement,</li>
+
+       <li>erreurs de livraison, non-conformité,</li>
+
+       <li>garanties,</li>
+
+       <li>compensations et</li>
+
+       <li>fiscs conformément à la loi relative aux transactions électroniques (LTE) au Togo.</li>
+     
+     </ul> 
+  
+  </p>
+
+  <p style="font-size:1.3rem;"><strong>Article 6 : Obligations des Parties</strong></p>
+
+  <p style="font-size:1.3rem;margin-left:30px"> <strong> 6.1 : Obligations du GIE <span style="color:'#910707'">ESMC</span> </strong></p>
+
+  <p style="font-size:1.3rem;margin-left:45px"><strong>  6.1.1 : Obligations générales du GIE <span style="color:'#910707'">ESMC</span></strong></p>
+
+  <p>Le GIE <span style="color:'#910707'">ESMC</span> se met d’accord avec l’Acteur de l’Offre pour consommer continuellement sur sa plateforme ses  </p>
+
+  <div style="display:flex;flex-direction:row;width:100%;align-content:space-between;margin-top:10px;margin-bottom:15px">
+
+      <label class="checkbox" style="flex-grow:3">
+
+                  <span style="font-weight:bold;"> Biens : </span>
+
+                  <input type="checkbox" style="" name="biens" id="biens" value="BIENS">
+
+      </label>
+
+      <label class="checkbox" style="flex-grow:3">
+
+                  <span style="font-weight:bold;"> Produits : </span>
+
+                  <input type="checkbox" style="" name="produits" id="produits" value="PRODUITS">
+
+      </label>
+
+      <label class="checkbox" style="flex-grow:3">
+
+                  <span style="font-weight:bold;"> Services : </span>
+
+                  <input type="checkbox" style="" name="services" id="services" value="SERVICES">
+
+      </label>
+  
+  </div>
+
+  <i class="font-size:1.2rem">(Cocher la case correspondante).</i>
+
+  <p>Le GIE <span style="color:'#910707'">ESMC</span> s’engage à mettre à la disposition de l’Acteur de l’Offre, les Biens, Produits et Services de consommation Entreprise et Industrie à travers la Centrale d’Achat Commune par le biais de leur type de KSU qui doit être ouvert sur la plateforme GIE <span style="color:'#910707'">ESMC</span>.</p>
+
+  <p>Le GIE <span style="color:'#910707'">ESMC</span> s’engage à mettre à la disposition de l’Acteur de l’Offre les deux types d’activités de Souscription pour soi et pour tiers aux Bons de Consommation dans les modalités de consommation : la consommation en mode récurrent destinée à la pérennité de leur consommation et la consommation en mode non récurrent, destinée à la diminution de leurs coûts de production dans le but de leur assurer la compétitivité requise pour le développement durable de leurs activités sur le marché global, de même que les avantages de vente en mode non récurrent. </p>
+
+  <p>Par ailleurs, le GIE <span style="color:'#910707'">ESMC</span> s’engage à fournir à l’Acteur de l’Offre en temps utile, tout élément d’information nécessaire au bon déroulement des présentes, afin que les échanges en Centrale d’Achat et de Vente se déroulent dans des conditions optimales.</p>
+
+  <p>Enfin, le GIE <span style="color:'#910707'">ESMC</span> s’engage à fournir à l’Acteur de l’Offre, tous conseils appropriés au déroulement des échanges dans les Centrales.</p>
+
+  <p style="margin-left:45px;font-size:1.3rem"><strong>6.1.2 : Obligations spécifiques du GIE <span style="color:'#910707'">ESMC</span> </strong></p>
+
+  <p>Le GIE <span style="color:'#910707'">ESMC</span> s’engage à ouvrir des comptes auprès des OBPSD, (banques, des institutions de microfinances, des services de transfert d’argent et des services de payement) pour le payement aux Acteurs de l’Offre, en temps normal, des OPI arrivés à maturité. </p>
+
+  <p style="margin-left:45px;font-size:1.3rem"><strong>6.1.3 : Obligations logistiques du GIE <span style="color:'#910707'">ESMC</span> vis-à-vis des détenteurs de Comptes Marchands</strong></p>
+
+  <p>
+  
+     <span style="display:block">Au titre de la présente Convention, les prestations offertes par l’exploitant GIE <span style="color:'#910707'">ESMC</span> à tout détenteur de Compte Marchand, KSU comprennent :</span>
+
+     <ul>
+     
+        <li>l’accès au MCNP pour toutes ses transactions marchandes disponibles répondant à son type de KSU (Personne Physique ou Morale, Opératrice Economique ou non) ;</li>
+
+        <li>les dénouements des difficultés des transactions liées aux dysfonctionnements éventuels du Progiciel MCNP ;</li>
+
+        <li>le GIE <span style="color:'#910707'">ESMC</span> s’engage à renouveler les Supports Marchands physiques, la carte ou code, les périphériques par lui fournis aux détenteurs de KSU, en cas de vol, de perte ou défectuosité, aux frais du bénéficiaire ;</li>
+
+        <li>le GIE <span style="color:'#910707'">ESMC</span> met à la disposition de l’Acteur de l’Offre, un service d’assistance pour le bon fonctionnement de son interface utilisée.</li>
+     
+        <li>le GIE <span style="color:'#910707'">ESMC</span> s’engage à gérer les réclamations, les recouvrements et les règlements dans la mesure où les opérations concernées sont lisibles sur la plateforme GIE <span style="color:'#910707'">ESMC</span>. </li>
+
+     </ul>
+  
+  </p>
+
+  <p style="margin-left:45px;font-size:1.3rem"><strong>6.1.4: Obligations du GIE vis-à-vis des Guichets Uniques d’Intégration  Universelle (GUIU)</strong></p>
+
+   <p>
+   
+   
+      <span style="display:block">Les Guichets Uniques d’Intégration Universelle (GUIU) sont des espaces sur la plateforme GIE <span style="color:'#910707'">ESMC</span> destinées à jouer le rôle anciennement dévolu aux intégrateurs fixes et ambulants. </span>
+
+      <span>Toute personne désireuse d’utiliser ces espaces est tenue d’être acteur OBPSD en étant elle-même un partenaire bancaire et financier ou en liaison avec un partenaire bancaire et financier.  </span>
+   
+   </p>
+
+   <p>
+     
+      <span style="display:inline-block">Le GIE <span style="color:'#910707'">ESMC</span> s’engage à payer au prestataire des GUIU, à l’acteur OBPSD les commissions ci-après : </span>
+   
+       <ul>
+
+          <li>une commission de ….. FCFA pour l’établissement de KSU individu, ménage ou personne morale à travers son espace professionnel de GUIU à lui créé par le GIE <span style="color:'#910707'">ESMC</span> ; </li>
+          
+          <li>une commission de ……% sur les Bons d’Achat neutres prépayés servant à l’approvisionnement des OKSU  dans leur guichet ; </li>
+
+       </ul>
+
+       <span>Les paiements sont faits par OPI étalés sur douze (12) périodes de trente (30) jours ouvrés, à l’instar de tous les Acteurs de l’Offre sur la plateforme GIE <span style="color:'#910707'">ESMC</span>. </span>
+   </p>
+
+
+   <p style="font-size:1.3rem;margin-left:30px"><strong>6.2. Obligations spécifiques aux prestataires des GUIU</strong></p>
+
+   <p>La mission des prestataires des GUIU s’étend aux prestations essentielles du GIE à l’endroit de ses six (6) Acteurs de l’Offre disponibles sur la plateforme GIE <span style="color:'#910707'">ESMC</span>.</p>
+
+   <p> <strong>En aucun cas, l’appellation « prestataires de GUIU » ne peut être utilisée comme titre professionnel pour solliciter, contracter ou obtenir quelques avantages que ce soient. Le cas échéant, l’acte de tout prestataire des guichets uniques d’intégration n’engagera aucunement le GIE <span style="color:'#910707'">ESMC</span> vis-à-vis de ceux qui en seraient éventuellement victimes. </strong></p>
+
+   <p> 
+   
+       <strong>
+       
+           Sans préjudice à l’action judiciaire des éventuelles victimes, le GIE <span style="color:'#910707'">ESMC</span> se réserve le droit de rayer le prestataire des guichets uniques d’intégration fautif de la liste des prestataires et/ou d’exercer une action judiciaire contre lui.
+            Les prestataires des guichets uniques d’intégration sont responsables des ressources humaines, matérielles et techniques qu’ils utilisent.
+       </strong>
+       
+   </p>
+
+   <p style="font-size:1.3rem;margin-left:30px"><strong>6.3 : Obligations des détenteurs de Comptes Marchands/KSU</strong></p>
+
+   <p>Dès la réception de sa carte, de son code et de ses supports et périphériques d’accès à son interface MCNP, le détenteur est entièrement responsable de son utilisation qu’elle soit par lui-même ou par un tiers, sur son terminal ou non. </p>
+
+   <p>En cas de désagrément, de perte ou de vol, le détenteur s’engage à avertir immédiatement l’exploitant GIE <span style="color:'#910707'">ESMC</span>.</p>
+
+   <p>Le détenteur prend toutes les mesures propres à assurer la sécurité de sa carte, de son code, et de ses supports et périphériques d’accès à son interface MCNP.</p>
+
+   <p>Le détenteur s’engage à utiliser son KSU et est tenu de se conformer aux règles de confidentialité et de bon usage en général sur la plateforme GIE <span style="color:'#910707'">ESMC</span>.</p>
+
+   <p>Pour participer aux activités qui débouchent sur le payement par OPI, chaque utilisateur KSU, chaque Acteur de l’Offre doit disposer d’un compte bancaire ou d’un compte auprès des structures de micro finances ou des systèmes de transferts d’argent et de payement, des OBPSD et les partenaires bancaires et financiers du GIE <span style="color:'#910707'">ESMC</span>. </p>
+
+   <p style="font-size:1.3rem;margin-left:30px"><strong>6.4 : Obligations des OBPS</strong></p>
+
+   <p>Pour vendre leurs Biens, Produits et Services sur la plateforme GIE <span style="color:'#910707'">ESMC</span>, les OBPS disposent de KSU qui, à la fois, leur permet d’y faire tous leurs achats, consommations usuelles d’entreprises : charges, biens, produits et services de production, d’achat de matières premières, d’investissements additionnels, de réapprovisionnement de leurs marchandises pour la distribution. </p>
+
+   <p>En contrepartie des prestations de la plateforme GIE <span style="color:'#910707'">ESMC</span> faites par les OBPS, ceux-ci collaborent étroitement avec le GIE <span style="color:'#910707'">ESMC</span> dans le cadre de l’observation des règles indispensables au fonctionnement de son système et modèle qui sont engagés dans l’alternative à l’économie classique, souscrivant aux 17 Objectifs de Développement Durable pour lesquels la plateforme se propose d’être l’outil intégrateur de chaque être humain « sans laisser personne de côté ». </p>
+
+   <p>Les OBPS s’engagent à payer les frais de prestation de service au GIE <span style="color:'#910707'">ESMC</span> d’un montant supérieur ou égal au montant de bénéfice accordé à la vente en mode non récurrent contre OPI et aux avantages accordés aux consommateurs en aval, en contrepartie de l’économie d’échelle, de la solvabilité et de la clientèle garantie dont ils bénéficient. Ces frais de prestation ou frais de transaction sont prélevés de façon égalitaire par émission automatique de Bons de Livraison aux fins de Production Commune sans toucher directement aux ressources des Acteurs de l’Offre.</p>
+
+   <p>Les OBPS s’engagent à assurer la disponibilité de leur production selon les normes et qualités requises. </p>
+
+   <p>En cas de difficultés à remplir ce dernier engagement de façon autonome, les OBPS peuvent souscrire à l’activité de Prestataires de la Production Commune sur la plateforme GIE <span style="color:'#910707'">ESMC</span>.</p>
+
+   <p style="font-size:1.3rem;margin-left:30px"><strong>6.5. Obligations spécifiques aux OBPSD personnes morales </strong></p>
+
+   <p>Pour pouvoir assurer les services d’encaissement des montants d’achat de Bons d’Achat neutres (MABAn) sur la plateforme GIE <span style="color:'#910707'">ESMC</span> et de décaissement pour le payement des OPI à ses OBPS, les OBPSD, Partenaires Bancaires et Financiers (PBF) s’engagent à détenir chacun son « KSU OBPSD ». Cet espace professionnel dédié aux OBPSD sur la plateforme GIE <span style="color:'#910707'">ESMC</span> évite toute lourdeur dans les traitements et les supports physiques (papiers). Il assure l’instantanéité des opérations d’Achat de Bons d’Achat neutres par voie de monnaie bancaire de même que les payements des OPI émis en faveur des OBPS par le GIE <span style="color:'#910707'">ESMC</span>, libellés au nom de l’institution détentrice du « KSU OBPSD » sur la plateforme GIE <span style="color:'#910707'">ESMC</span>.  </p>
+
+   <p>Pour pouvoir assurer les services d’encaissement des montants d’achat de Bons d’Achat neutres (MABAn) sur la plateforme GIE <span style="color:'#910707'">ESMC</span> et de décaissement pour le payement des OPI à ses OBPS, les OBPSD, Partenaires Bancaires et Financiers (PBF) s’engagent à détenir chacun son « KSU OBPSD ». Cet espace professionnel dédié aux OBPSD sur la plateforme GIE <span style="color:'#910707'">ESMC</span> évite toute lourdeur dans les traitements et les supports physiques (papiers). Il assure l’instantanéité des opérations d’Achat de Bons d’Achat neutres par voie de monnaie bancaire de même que les payements des OPI émis en faveur des OBPS par le GIE <span style="color:'#910707'">ESMC</span>, libellés au nom de l’institution détentrice du « KSU OBPSD » sur la plateforme GIE <span style="color:'#910707'">ESMC</span>.  </p>
+
+   <p>Chacune de ces institutions conclura avec le GIE <span style="color:'#910707'">ESMC</span>, leurs contrats d’entreprise contenant leurs clauses d’encaissement, de décaissement, de caution, de crédits documentaires et éventuellement de fourniture d’autres services. </p>
+
+   <p>Chacune de ces institutions pourra également conclure des contrats de crédits liés aux Supports Marchands avec les OBPSD et par eux, avec les partenaires bancaires et financiers sur la plateforme du GIE <span style="color:'#910707'">ESMC</span> dans le cadre de ses services dénommés : « Approvisionnement BAn », « Achat d’OPI » … </p>
+
+   <p style="font-size:1.3rem"><strong>Article 7 : Mode de règlement</strong></p>
+
+   <p>
+   
+     <span style="display:block">Les fournitures seront réglées, selon le type d’OBPS :</span>
+
+     <ul>
+     
+        <li>OBPS spécifiques : Ordres de virement concédés à lui par les OBPSD par le rachat de leurs Ordres de Prélèvement Irrévocable (OPI) non matures. </li>
+
+        <li>OBPS externes : Ordres de Prélèvement Irrévocable (OPI) matures tirés sur les comptes du GIE <span style="color:'#910707'">ESMC</span>. </li>
+
+        <li>OBPS internes : Bons de livraison (Bons de Consommation interne, Bons de Commande, Bons d’Achat interne, Bons d’Achat neutre…) et, en cas de nécessité, en monnaie espèce et virtuelle à travers leurs OPI matures.</li>
+     
+     </ul>
+
+   </p>
+
+
+   <p style="font-size:1.3rem"><strong>Article 8 : Règlement litigieux de créance </strong></p>
+
+   <p>Conformément à l’esprit de collaboration qui régit le fonctionnement de la plateforme GIE <span style="color:'#910707'">ESMC</span>, le règlement des créances en difficulté à l’endroit des OBPS internes, des OBPS spécifiques et des OBPS externes doit se faire par équivalent de Biens, Produits et Services disponibles ou à rendre disponibles sur la plateforme suivant la règle de la solvabilité absolue requise pour le bon fonctionnement durable du concept <span style="color:'#910707'">ESMC</span>. </p>
+
+   <p><strong>En cas de litige, l’exigence de paiement exclusivement en monnaie de banque, par l’OBPS, qu’il soit interne, spécifique ou externe, serait un refus du respect de cette règle, objet de la présente convention. </strong></p>
+
+   <p>Au cas échéant, le payement de la redevance qui ne peut concerner que le principal, se fera après déduction de tout payement précédent fait sur la créance. </p>
+
+   <p><strong>En cas de cessation des activités ou en cas de crise grave, la reprise des activités est et reste, le seul gage de solvabilité, étant entendu que, la solvabilité n’est réelle qu’en nature, c'est-à-dire en Biens, Produits et Services présents ou futurs. </strong></p>
+
+   <p>L’exigence de paiement des créances en monnaie de banque exclusivement sur la plateforme GIE <span style="color:'#910707'">ESMC</span> en cas de litige, serait une cause principale de l’endettement généralisé qui paralyserait le bon fonctionnement pérenne des activités du marché MCNP ainsi que les Acteurs de l’Offre eux-mêmes. </p>
+
+   <p style="font-size:1.3rem"><strong>Article 9 : Durée de la convention</strong></p>
+
+   <p>La présente convention est établie sur une période d’un (01) an renouvelable par tacite reconduction. La partie qui n’entend pas renouveler la convention doit le signifier à l’autre par Acte d’Huissier ou par tout moyen permettant d’établir la réception effective par le destinataire au moins un (01) mois à l’avance.</p>
+
+   <p style="font-size:1.3rem"><strong>Article 10 : Lieu d’exécution de la convention</strong></p>
+
+   <p>Les ventes et achats de Biens, Produits et Services en Centrales d’Achat et de Vente entre les parties se feront sur l’ensemble du territoire national du lieu d’exercice de la Production Commune GIE <span style="color:'#910707'">ESMC</span>. </p>
+
+   <p style="font-size:1.3rem"><strong>Article 11 : Confidentialité </strong></p>
+
+   <p>Les parties s’interdisent notamment d’utiliser ou de divulguer, directement ou indirectement à quelque tiers que ce soit, les informations échangées à l’occasion de la négociation, de la conclusion, de l’exécution et/ou après la cessation des présentes.</p>
+
+   <p>Sont considérées comme confidentielles toutes les informations commerciales, financières ou techniques qui ne seraient pas dans le domaine public.</p>
+
+   <p>Ne seront cependant pas considérées comme confidentielles, les informations connues du public ou qui seraient, postérieurement à la présente convention, connues du public de façon licite ou dont la divulgation aura expressément été autorisée par les parties.</p>
+
+   <p style="font-size:1.3rem"><strong>Article 12 : Résiliation</strong></p>
+
+   <p>En cas d’inexécution ou de violation par l’une des Parties de l’une quelconque des dispositions de la convention, celle-ci pourra être résiliée unilatéralement et de plein droit par l’autre partie 30 jours après l’envoi d’une mise en demeure par lettre recommandée avec accusé de réception, restée sans effet. </p>
+ 
+   <p>La présente convention sera résiliée automatiquement et de plein droit dans l’hypothèse où, par suite d’une modification législative ou règlementaire concernant ses activités, l’une ou l’autre partie se trouverait dans l’impossibilité de poursuivre la convention.</p>
+
+   <p style="font-size:1.3rem"><strong>Article 13 : Révision</strong></p>
+
+
+   <p>Dans l’intérêt des parties, la présente convention pourra être révisée à tout moment et ceci à la demande de l’une des parties.Toute révision devra donner lieu à un avenant signé par chacune des parties.</p>
+
+   <p style="font-size:1.3rem"><strong>Article 14 : Force majeure</strong></p>
+
+   <p>La force majeure s’entend d’un événement imprévisible, irrésistible et indépendant des parties (guerre déclarée ou non, épidémies ou mesures de quarantaine, tremblement de terre…) qui les met dans l’impossibilité de poursuivre le cours normal de l’exécution de la convention. La preuve de la force majeure appartient à celui qui l’invoque.</p>
+
+   <p>Aucune des parties ne sera tenue pour responsable vis-à-vis de l’autre, de l’inexécution ou des retards dans l’exécution de leurs obligations prévues à la présente convention, et qui seraient dus à la survenance d’un cas de force majeure.</p>
+
+   <p style="font-size:1.3rem"><strong>Article 15 : Arbitrage de litiges</strong></p>
+
+   <p>Le GIE <span style="color:'#910707'">ESMC</span> s’engage à se rendre disponible en vue du dénouement heureux des difficultés éventuelles de transactions liées au dysfonctionnement du système.</p>
+
+   <p>Sous réserve de l’existence en la matière de dispositions légales d’ordre public, toute contestation, tout litige ou quelque différend que ce soit sur l’interprétation ou l’exécution de la présente convention sera réglé à l’amiable. </p>
+
+   <p>En cas d’échec du règlement à l’amiable, le différend sera soumis à la Cour d’Arbitrage du Togo (CATO).</p>
+
+   <p style="font-size:1.3rem"><strong>Article 16 : Election de domiciles</strong></p>
+
+   <p>Les parties font élection de leur domicile à leurs adresses respectives indiquées dans la présente convention.</p>
+
+   <p style="font-size:1.3rem"> <strong>Article 17 : Documents annexés à la convention</strong></p>
+
+  <div style="display:flex;flex-direction:row;align-content:space-between;margin-top:10px;margin-bottom:15px">
+
+      <label class="checkbox" style="flex-grow:3">
+
+                  <span style="font-weight:bold;"> OBPS interne : </span>
+
+                  <input type="checkbox" style="" name="biens" id="biens" value="OBPS_interne">
+
+      </label>
+
+      <label class="checkbox" style="flex-grow:3">
+
+                  <span style="font-weight:bold;"> OBPS Spécifique </span>
+
+                  <input type="checkbox" style="" name="produits" id="produits" value="PRODUITS">
+
+      </label>
+
+      <label class="checkbox" style="flex-grow:3">
+
+                  <span style="font-weight:bold;"> OBPS Externe: </span>
+
+                  <input type="checkbox" style="" name="services" id="services" value="SERVICES">
+
+      </label>
+  
+  </div>
+
+  <i class="font-size:1.2rem">(Cocher la case correspondante).</i>
+
+  <p>déclare avoir pris entièrement connaissance des informations, de même que  la table de calcul automatique mis sur le site internet du GIE <span style="color:'#910707'">ESMC</span>.</p>
+
+  <p style="font-size:1.3rem"><strong>Article 18 : Entrée en vigueur</strong></p>
+
+  <p>La présente convention entre en vigueur à la date de sa validation sur le site internet du GIE <span style="color:'#910707'">ESMC</span>, et tient lieu de loi aux parties qui doivent l’exécuter de bonne foi conformément à l’article 1104 du Code Civil français. </p>
+
+  <p style="font-size:1.3rem"><strong>Article 19 : Réactualisation</strong></p>
+
+  <p>L’Acteur de l’Offre est tenu de valider la présente convention à chaque fois qu’elle est réactualisée.   </p>
+
+</section>
+  
+<button type="submit" id="valid_convention_btn_new" class="btn btn-primary">J'ai lu et approuvé cette convention</button>
+
+
+  
+  </article>
+
+
+</form>
+
+</form>

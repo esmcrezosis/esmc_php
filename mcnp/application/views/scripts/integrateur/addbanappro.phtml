@@ -1,0 +1,152 @@
+﻿<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques2.js"></script>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/fondateurs.js"></script><?php */?>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capasenrolement.js"></script><?php */?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banquespays.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#bon_neutre_appro_beneficiaire').blur(function(e) {
+    if($(this).val() !== '') {
+        $.get('/integrateur/recupnom',{
+            code_membre: $(this).val()
+        },
+        function success(data) {
+            $("#design_membre").val(data); 
+        })
+    } else {
+        $("#design_membre").val("");
+    }       
+    });
+});
+
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+<blockquote><p>Approvisionnement de Bon d'Achat neutre (BAn)</p></blockquote>
+  <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+    </div>
+  <?php } ?>
+
+    <?php /* if(isset($sessionmembreasso->code_BAn) && $sessionmembreasso->code_BAn != "") { ?>
+<blockquote>
+  <a href="/souscriptionbon/bonachatneutrepdf/code/<?php echo $sessionmembreasso->code_BAn; ?>" target="_blank"><span style="color:#800080;">Télécharger votre Bon d'Achat neutre (<strong>BAn</strong>)</span></a> <br /><br />
+
+  <?php $sessionmembreasso->code_BAn = "";?>
+</blockquote>
+  <?php } */ ?>
+
+    <?php /* if(isset($sessionmembreasso->code_BAn) && $sessionmembreasso->code_BAn != "") { ?>
+    <blockquote>
+    <a href="/bons/recudepayementdebanapprointegrateurpdf" target="_blank"><span style="color:#800080;">Télécharger le reçu de votre Bon d'Achat neutre (<strong>BAn</strong>)</span></a> <br /><br />
+
+    <?php $sessionmembreasso->code_BAn = "";?>
+    </blockquote>
+    <?php } */ ?>
+	
+	<?php  if(isset($sessionmembreasso->code_BAn) && $sessionmembreasso->code_BAn != "") { ?>
+    <blockquote>
+    <a href="/bons/recudepayementdebanapprointegrateurpdf/id/<?php echo $sessionmembreasso->bon_neutre_detail_id; ?>" target="_blank"><span style="color:#800080;">Télécharger votre Bon d'Achat neutre (<strong>BAn</strong>)</span></a> <br /><br />
+
+    <?php $sessionmembreasso->code_BAn = "";?>
+    </blockquote>
+    <?php }  ?>
+	
+	
+	
+
+  <?php 
+        if($sessionmembreasso->guichet == 1) {
+              if($sessionmembreasso->appro == 1) {
+                $association_code_membre = $sessionmembreasso->code_membre;
+              } else {
+                $association_code_membre = $sessionmembreasso->association_code_membre;
+              }
+        } else {
+            $association_code_membre = $sessionmembreasso->code_membre;
+        }
+  ?>
+
+  
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription1" name="addsouscription1">
+<fieldset>
+<legend> Remplir le formulaire </legend>
+
+
+<div class="control-group">
+<label class="control-label" for="code_membre">Code Membre du bénéficiaire  </label>
+<div class="controls">
+  <input type="text" name="bon_neutre_appro_beneficiaire" id="code_membre" placeholder="Code Membre du bénéficiaire" class="input-xxlarge" readonly />
+<span class="help-block"><p class="text-error">Veuillez saisir le <strong>Code Membre</strong> du bénéficiaire </p></span>
+</div>
+</div>
+
+
+<div class="control-group">
+     <label class="control-label" for="nom_membre">Désignation Personne * </label>
+     <div class="controls">
+          <input type="text" name="design_membre" id="nom_membre" placeholder="" readonly    class="input-xxlarge"  required="required" />
+     </div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_appro_montant">Montant à allouer * </label>
+<div class="controls">
+     <input type="number" name="bon_neutre_appro_montant" id="bon_neutre_appro_montant" placeholder="Montant à allouer" class="input-xxlarge"  required="required" />
+<span class="help-block"><p class="text-error"> Veuillez saisir le montant à allouer </p></span>
+</div>
+</div>
+
+</fieldset>
+
+<div id="qrcaptcha"></div>
+
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input name="confirmation" type="hidden" id="confirmation" value="1" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" id="submit" class="btn btn-primary">Valider</button>
+</div>
+
+
+
+</form>
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr1.js"></script>
+<script type="text/javascript">
+//outilqr('addeli');
+outilqr1("addsouscription1");
+outil_confirmation_biometrique_personelle('addsouscription1', 'qrcaptcha', 'submit', "Veuillez confirmer cette opération d'approvisionnement ?", '<?php echo $association_code_membre;  ?>');
+
+</script>
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>

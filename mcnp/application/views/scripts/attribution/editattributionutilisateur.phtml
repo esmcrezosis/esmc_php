@@ -1,0 +1,126 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification Attribution des utilisateurs</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addposte">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+
+
+<div class="control-group">
+<label class="control-label" for="centrale_id">Centrale *</label>
+<div class="controls">
+<?php 
+$centrale = new Application_Model_EuCentraleMapper();
+$entries = $centrale->fetchAll();
+if(count($entries) > 0){?>
+<select id="centrale_id" name="centrale_id" required>
+  <option value="">Choisir la centrale</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->centrale_id; ?>" <?php if($this->attribution_utilisateur_formulaire->centrale_id == $value->centrale_id){?> selected="selected"<?php }?>><?php echo $value->centrale_libelle; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="id_utilisateur">Utilisateur *</label>
+<div class="controls">
+<?php 
+$liste = array("detentrice_technopole","surveillance_filiere","executante_acnev","agrement_technopole","agrement_filiere","agrement_acnev","cm","secretariat","gerant","comite_selection","comite_evaluation","comite_reception");
+$t_id_utilisateur = new Application_Model_DbTable_EuUtilisateur();
+$select = $t_id_utilisateur->select();
+$select->where("code_groupe IN (?) ", $liste);
+$entries = $t_id_utilisateur->fetchAll($select);
+if(count($entries) > 0){?>
+<select id="id_utilisateur" name="id_utilisateur" required>
+  <option value="">Choisir un utilisateur</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->id_utilisateur; ?>" <?php if($this->attribution_utilisateur_formulaire->id_utilisateur == $value->id_utilisateur){?> selected="selected"<?php }?>><?php echo $value->nom_utilisateur; ?> <?php echo $value->prenom_utilisateur; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+  
+
+<div class="control-group">
+<label class="control-label" for="procedure_id">Procedure *</label>
+<div class="controls">
+<?php 
+$procedure = new Application_Model_EuProcedureMapper();
+$entries = $procedure->fetchAll();
+if(count($entries) > 0){?>
+<select id="procedure_id" name="procedure_id" required>
+  <option value="">Choisir la procedure</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->procedure_id; ?>" <?php if($this->attribution_utilisateur_formulaire->procedure_id == $value->procedure_id){?> selected="selected"<?php }?>><?php echo $value->procedure_libelle; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="formulaire_id">Formulaire *</label>
+<div class="controls">
+<?php 
+$formulaire = new Application_Model_EuFormulaireMapper();
+$entries = $formulaire->fetchAll();
+if(count($entries) > 0){?>
+<select id="formulaire_id" name="formulaire_id" required>
+  <option value="">Choisir la formulaire</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->formulaire_id; ?>" <?php if($this->attribution_utilisateur_formulaire->formulaire_id == $value->formulaire_id){?> selected="selected"<?php }?>><?php echo $value->formulaire_libelle; ?> - <?php echo $value->formulaire_nom; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+
+
+
+
+    
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input name="attribution_utilisateur_formulaire_id" type="hidden" id="attribution_utilisateur_formulaire_id" value="<?php echo $this->attribution_utilisateur_formulaire->attribution_utilisateur_formulaire_id; ?>" />  
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Attribuer un utilisateur</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

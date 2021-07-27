@@ -1,0 +1,87 @@
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+  <blockquote><p class="text-info">Centres d'enrôlement, Centrale d'Achat, ... </p>
+  <small>Centres d'enrôlement, Centrale d'Achat, ...  </small></blockquote>
+
+
+<?php if(count($this->entries)>0){?>  
+<div class="accordion" id="accordion2">
+<?php foreach ($this->entries as $entry): ?>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $entry->centre_id; ?>">
+        <i class="icon-arrow-right"></i> <?php echo ($entry->centre_libelle); ?>
+      </a>
+    </div>
+    <div id="collapse<?php echo $entry->centre_id; ?>" class="accordion-body collapse in" align="left">
+      <div class="accordion-inner">
+
+<div class="">
+  <div class="span12">
+  
+<blockquote>
+<p>
+  <i class="icon-home"></i> <strong><?php echo ($entry->centre_libelle); ?></strong>
+</p>
+<small>
+  <abbr title="Quartier">Qt:</abbr> <?php echo ($entry->centre_quartier); ?> - <abbr title="Ville">Ville:</abbr> <?php echo ($entry->centre_ville); ?>
+</small>
+</blockquote>
+<?php echo ($entry->centre_description); ?>
+<blockquote>
+<p>
+  <i class="icon-user"></i> <strong>Les Membres du centre</strong>
+</p>
+<?php 
+$centremembreM = new Application_Model_EuCentreMembreMapper();
+$centremembre = $centremembreM->fetchAll2($entry->centre_id);
+foreach ($centremembre as $membrecent):?>
+<small>
+<?php 
+$membreM = new Application_Model_EuMembreMapper();
+$membre = new Application_Model_EuMembre();
+$membreM->find($membrecent->code_membre, $membre);
+?>
+<?php echo ($membre->nom_membre); ?> <?php echo ($membre->prenom_membre); ?> 
+(<?php echo ($membre->formation); ?>)
+  <abbr title="Quartier">Qt:</abbr> <?php echo ($membre->quartier_membre); ?> - <abbr title="Ville">Ville:</abbr> <?php echo ($membre->ville_membre); ?> - 
+  <?php if($membre->tel_membre != ""){?><abbr title="Téléphone">Tel:</abbr> <span class="label label-important"><?php echo ($membre->tel_membre); ?></span> - <?php }?>
+  <?php if($membre->portable_membre != ""){?><abbr title="Portable">Cel:</abbr> <span class="label label-important"><?php echo ($membre->portable_membre); ?></span><?php }?> - 
+  <abbr title="E-mail">E-mail:</abbr> <a href="mailto:<?php echo ($membre->email_membre); ?>"><?php echo ($membre->email_membre); ?></a><?php /*?><?php */?>
+</small>
+<?php endforeach;?>
+</blockquote>  
+  </div>
+  
+  
+</div>
+
+
+
+      </div>
+    </div>
+  </div>
+<?php endforeach; ?>
+</div>
+<?php }?>
+
+
+
+
+
+
+</div>
+<div class="span3">
+	<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,184 @@
+﻿<?php
+  $auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin'));
+  $user = $auth->getIdentity();
+?>
+<div id="view-content" title=' Ajout de préfecture ' style="font-size: 12px;min-height: 520px;">
+     <form id="fmm_membre" action="/eu-secteur/addprefecture" method="POST">
+        <fieldset style="margin-bottom: 2px;">
+            <legend>Préfecture</legend>
+			<table>
+			       <tr>
+					   <td>Nom Préfecture *</td><td><input size="30" name="nom_prefecture" id="nom_prefecture" class="validate[required]" value="<?php echo $this->designation ?>"/></td>
+                   <tr>
+				   
+					<tr><td rowspan="1"></td></tr>
+					
+					<tr>
+                        <td>Région *</td>
+				        <td>
+						    <select  id="id_region" name="id_region" required="true">
+                            <option value="">Choisir une région</option>
+                            <?php foreach ($this->regions as $value) { ?>
+                            <option
+                                  value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+                            <?php } ?>
+                            </select>
+						</td>
+					</tr>
+			</table>
+        </fieldset>
+		 
+        <div style="margin-top: 10px;">
+            <input type="submit" value="Valider" name="valider" id="valider"   />
+            <input type="reset" value="Rafraichir" name="refresh" id="refresh"   />
+            <input id="t_annuler" type="button" value="Annuler" />
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+        $(document).ready(function() {
+            $(function() {
+              $('#view-content').puipanel();
+              $('fieldset').puifieldset();
+            });
+				   
+           //binds form submission and fields to the validation engine
+           jQuery("#fmm_membre").validationEngine();
+        
+		   $('#valider').button();
+           $('#t_annuler').button();
+           $('#refresh').button();
+           $('#add').button();
+           $('#remove').button();
+		   
+		   $("#code_zone").change(function(e) {
+               var code = $(this).val();       
+               $.get("/eu-membre/listpays", {type: code},
+                 function success(data) {
+                    var options = '<option/>';
+                    for(var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                    $('select#id_pays').html(options);
+                 });
+                 e.preventDefault();
+           })
+		   
+		   $("#id_pays").change(function(e) {
+               var code = $(this).val();       
+               $.get("/eu-membre/listregion", {type: code},
+                 function success(data) {
+                    var options = '<option/>';
+                    for(var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                    $('select#id_region').html(options);
+                 });
+                 e.preventDefault();
+           })
+		   
+		   $("#id_region").change(function(e) {
+               var code = $(this).val();       
+               $.get("/eu-membre/listprefecture", {type: code},
+                 function success(data) {
+                    var options = '<option/>';
+                    for(var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                    $('select#id_prefecture').html(options);
+                 });
+                 e.preventDefault();
+           })
+		   
+		   
+		   
+		   
+		   $("#id_prefecture").change(function(e) {
+               var code = $(this).val();       
+               $.get("/eu-membre/listcanton", {type: code},
+                 function success(data) {
+                    var options = '<option/>';
+                    for(var i = 0; i < data.length; i++) {
+                       options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                    $('select#id_canton').html(options);
+                 });
+                 e.preventDefault();
+           })
+
+      });
+							
+							
+							$.get("/eu-membre/pays",
+                              function success(data) {
+                                            var options = '<option/>';
+                                            for (var i = 0; i < data.length; i++) {
+                                                options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                                            }
+                                            $('select#id_pays').html(options);
+                            });
+							
+							if(($('#code_groupe').val() == 'gacdp') || ($('#code_groupe').val() == 'gacsp') || ($('#code_groupe').val() == 'gacexp')) {  
+							     $.get("/eu-membre/pays",
+                                 function success(data) {
+                                   var options = 
+								   '<option></option>'+
+								   '<option value="pays">Gac Pays</option>';
+                                   $('select#categorie_gac').html(options);
+                                });
+							} else if(($('#code_groupe').val() == 'gacd') || ($('#code_groupe').val() == 'gacs') || ($('#code_groupe').val() == 'gacex')) {  
+							     $.get("/eu-membre/pays",
+                                 function success(data) {
+                                   var options = 
+								   '<option></option>'+
+								   '<option value="source">Gac Source</option>';
+                                   $('select#categorie_gac').html(options);
+                                });
+							} else if(($('#code_groupe').val() == 'gacdm') || ($('#code_groupe').val() == 'gacsm') || ($('#code_groupe').val() == 'gacexm')) {  
+							     $.get("/eu-membre/pays",
+                                 function success(data) {
+                                   var options = 
+								   '<option></option>'+
+								   '<option value="monde">Gac Monde</option>';
+                                   $('select#categorie_gac').html(options);
+                                });
+							} else if(($('#code_groupe').val() == 'gacdz') || ($('#code_groupe').val() == 'gacsz') || ($('#code_groupe').val() == 'gacexz')) {  
+							     $.get("/eu-membre/pays",
+                                 function success(data) {
+                                   var options = 
+								   '<option></option>'+
+								   '<option value="zone">Gac Zone</option>';
+                                   $('select#categorie_gac').html(options);
+                                });
+							}								
+							  						  
+							  
+							
+														
+							
+							
+							
+							
+							
+							
+							
+							
+						   
+						   $.get( "/eu-membre/membrephys",
+                                 function success(data) {
+                                 $("#code_rep").autocomplete({"source":data});
+                            });
+							
+							
+							
+						   
+						   
+	
+							
+							
+							
+                            
+                            
+                            
+</script>

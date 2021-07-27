@@ -1,0 +1,55 @@
+<div id="view-content" style="font-size:11px">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-zone"></table>
+    <div id="pg-zone"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-zone").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Nom','Devise','Date de création'],
+        height:400, width:828,
+        colModel:[
+            {name:'code_zone',index:'code_zone', width:100, sorttype:"int", editable: true,align:"left"},
+            {name:'nom_zone',index:'nom_zone', width: 250, editable: true,align:"left"},
+            {name:'id_pays',index:'id_pays', width: 150, editable: true,align:"left"},
+            {name:'date_creation',index:'date_creation', width: 110, align:"left", editable: false},
+        ],
+        rowNum:20,
+        rowList:[20,50,100],
+        rownumbers:true,
+        pager: '#pg-zone',
+        sortname:"code_zone",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des zones"
+    });
+  
+    $("#tbl-zone").jqGrid('navGrid','#pg-zone',{edit:false,add:false,del:false,search:true});
+	
+	$(function() {
+      $('#view-content').puipanel();
+    });
+	
+    
+    $('#editer').click(function() {
+        var rowsel;
+        rowsel = jQuery("#tbl-zone").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-zone").jqGrid('getRowData',rowsel);
+            $.get('/eu-zone/edit',{
+                code_zone:data.code_zone,pays:data.id_pays
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+</script>

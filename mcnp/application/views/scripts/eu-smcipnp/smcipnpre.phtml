@@ -1,0 +1,41 @@
+<div id="view-content">
+    <div  class="cntError">
+        <?php
+        echo $this->message;
+        ?>
+    </div>
+    <table id="tbl-smcipnpre"></table>
+    <div id="pg-smcipnpre"></div>
+</div>
+
+<script type="text/javascript">
+
+    $("#tbl-smcipnpre").jqGrid({
+        url: '<?php echo $this->url(array('action' => 'smcipnplist')); ?>',
+        editurl: '<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code', 'Code membre', 'Raison sociale', 'Date', 'Montant salaire', 'Mt Investissement'],
+        height: 450, width: 815,
+        colModel: [
+            {name: 'code_smcipnp', index: 'code_smcipnp', width: 85, align: "left", hidden: true},
+            {name: 'code_membre', index: 'code_membre', width: 135, editable: true, align: "left", summaryType: 'count', summaryTpl: 'Total ({0})'},
+            {name: 'raison_sociale', index: 'raison_sociale', width: 200, align: "left", editable: false},
+            {name: 'date_smcipnp', index: 'date_smcipnp', width: 90, align: "left", editable: false},
+            {name: 'mt_salaire', index: 'mt_salaire', width: 120, align: "right", sorttype: 'number', formatter: 'number', summaryType: 'sum'},
+            {name: 'mt_investis', index: 'mt_investis', width: 120, align: "right", sorttype: 'number', formatter: 'number', summaryType: 'sum'},
+        ],
+        rowNum: 400,
+        rowList: [100, 200, 500],
+        rownumbers: true,
+        pager: '#pg-smcipnpre',
+        sortname: "date_smcipnp",
+        viewrecords: true,
+        sortorder: "desc",
+        caption: "Liste des demandes de la SMCIPNP reçues"
+    });
+
+    $("#tbl-smcipnpre").jqGrid('navGrid', '#pg-smcipnpre', {edit: false, add: false, del: false, search: true});
+
+
+</script>

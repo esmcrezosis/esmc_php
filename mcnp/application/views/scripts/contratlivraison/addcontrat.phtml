@@ -1,0 +1,445 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/contratlivraisonirrevocables.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/detailcontrats.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<script type="text/javascript">
+function montantcontrat() {
+montant_contrat = 0;
+nbre = Number(document.getElementById('nbre').value);
+for (i = 1; i <= nbre; i++) {
+  //if(document.getElementById('prix_unitaire' + i + '').value != ""){
+montant_contrat = montant_contrat + (Number(document.getElementById('montant_produit' + i + '').value));
+  //}
+}
+document.getElementById('montant_produits').value = montant_contrat;        
+}
+</script>
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Etablir un contrat de livraison irrévocable</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addcontrat">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+
+<style type="text/css">
+<!--
+p.MsoNoSpacing {
+margin:0cm;
+margin-bottom:.0001pt;
+font-size:11.0pt;
+font-family:"Calibri","sans-serif";
+}
+p.MsoNormal {
+margin-top:0cm;
+margin-right:0cm;
+margin-bottom:10.0pt;
+margin-left:0cm;
+line-height:115%;
+font-size:11.0pt;
+font-family:"Calibri","sans-serif";
+}
+-->
+</style>
+
+<script>
+function validation(type_validateur){
+
+if(document.getElementById('type_validateur1').checked == true){
+ouvre_contratlivraisonirrevocables('', 'nivo_' + document.getElementById('type_validateur1').value);
+}else if(document.getElementById('type_validateur2').checked == true){
+ouvre_contratlivraisonirrevocables('', 'nivo_' + document.getElementById('type_validateur2').value);
+}else if(document.getElementById('type_validateur3').checked == true){
+ouvre_contratlivraisonirrevocables('', 'nivo_' + document.getElementById('type_validateur3').value);
+}
+
+if(document.getElementById(type_validateur).checked == true){
+ouvre_contratlivraisonirrevocables(document.getElementById(type_validateur).value, 'nivo_' + document.getElementById(type_validateur).value);
+}
+
+}
+
+</script>
+<p class="MsoNoSpacing" align="center" style="text-align:center;"><strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">CONTRAT DE LIVRAISON IRREVOCABLE CONTRE OPI</span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Entre les soussignées&nbsp;:</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:justify;line-height:normal;text-autospace:none;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; color:black; ">&nbsp;</span></p>
+
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur1" value="personne_physique" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  Mme / M.
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_personne_physique"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur2" value="etablissement" required onclick="ouvre_contratlivraisonirrevocables(this.value);"> 
+  Etablissement
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_etablissement"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur3" value="maison" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  Maison/Villa/Immeuble
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_maison"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur4" value="collectivite" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  Collectivité
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_collectivite"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur5" value="association" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  L’Association
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_association"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur6" value="ong" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  L’ONG
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_ong"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur7" value="groupement" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  Le Groupement
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_groupement"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur8" value="cooperative" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  La Coopérative
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_cooperative"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur9" value="union" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  L’Union
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_union"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur10" value="federation" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  La Fédération
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_federation"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur11" value="confederation" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  La Confédération
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_confederation"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur12" value="reseau" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  Le Réseau
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_reseau"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur13" value="faitiere" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  La Faitière
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_faitiere"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur14" value="confession_religieuse" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  Confession religieuse
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_confession_religieuse"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur15" value="ets_public_administratif" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  L’Etablissement Public Administratif
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_ets_public_administratif"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur16" value="ets_public_industriel_commercial" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  L’Etablissement Public Industriel Commercial
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_ets_public_industriel_commercial"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur17" value="organisation_internationale" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  L’Organisation Internationale
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_organisation_internationale"></div>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="type_validateur" id="type_validateur18" value="societe" required onclick="ouvre_contratlivraisonirrevocables(this.value);">
+  La Société
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<div id="nivo_societe"></div>
+
+<div id="nivo3"></div>
+
+
+<!--
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">
+<select class="input-mini" name="civilite" id="civilite">
+            <option value="M">M.</option>
+            <option value="Mme">Mme</option>
+        </select> 
+<select class="input-mini" name="type_maison" id="type_maison">
+            <option value="Maison">Maison</option>
+            <option value="Villa">Villa</option>
+            <option value="Immeuble">Immeuble</option>
+        </select> 
+
+<input class="input-xlarge" type="text" name="nom" id="nom" placeholder="Nom">
+</span>
+</p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">
+Situé  (e) à <select class="input-mini" name="situation" id="situation">
+            <option value="ville">Ville</option>
+            <option value="village">Village</option>
+        </select> 
+<input class="input-large" type="text" name="libelle_situation" id="libelle_situation" placeholder="Situé à"></span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">
+Rue  <input class="input-large" type="text" name="rue" id="rue" placeholder="Rue"></span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+<p class="MsoNoSpacing" style="margin-left:-14.2pt;text-indent:14.2pt;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">
+Ayant pour numéro du  récépissé/d'enregistrement/du registre des coopératives <input class="input-large" type="text" name="numero_recipice" id="numero_recipice" placeholder="Registre ou récépissé"> ,</span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+<p class="MsoNoSpacing" style="margin-left:-14.2pt;text-indent:14.2pt;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">
+Immatriculée au RCCM sous le numéro <input class="input-large" type="text" name="matricule_rccm" id="matricule_rccm" placeholder="Matricule RCCM"> ,</span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">
+dont  le siège social est <input class="input-large" type="text" name="siege" id="siege" placeholder="Siège">,</span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">
+Représentée  par <select class="input-mini" name="civilite_representant" id="civilite_representant">
+            <option value="M">M.</option>
+            <option value="Mme">Mme</option>
+        </select> 
+<input class="input-large" type="text" name="nom_representant" id="nom_representant" placeholder="Représentant"></span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">
+Demeurant  à  <select class="input-mini" name="demeure" id="demeure">
+            <option value="ville">Ville</option>
+            <option value="village">Village</option>
+        </select>  
+<input class="input-large" type="text" name="libelle_demeure" id="libelle_demeure" placeholder="Demeurant">  
+(Quartier)  <input class="input-large" type="text" name="quartier" id="quartier" placeholder="Quartier"></span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">
+(BP)  <input class="input-large" type="text" name="boite_postale" id="boite_postale" placeholder="BP"> 
+(Tél) <input class="input-large" type="number" name="telephone" id="telephone" placeholder="Tél"></span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">
+Numéro de la carte d’Opérateur Economique  <input class="input-large" type="text" name="carte_operateur" id="carte_operateur" placeholder="Carte d’Opérateur Economique"></span></p>
+
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p> -->
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Ci-après dénommé (e) le <strong>«&nbsp;VENDEUR&nbsp;»</strong>,</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">D&rsquo;une part</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Et  </span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; color:#7030A0; ">ESMC</span><span style="font-family:'Cambria','serif'; font-size:12.0pt; "> (Entreprise Sociale de Marché Commun) société  à responsabilité limitée unipersonnelle au capital social de 1 000 000 de  francs CFA dont le siège social est sis à Wuiti-Atchati, Angle rue Sagouda  &amp; Kiyéou, BP : 30038 Lomé-Togo ; Tél : + 228 22 19 32 71 / 22 26 60 09,  Immatriculée au registre du Commerce et du Crédit Mobilier de Lomé sous le  numéro : TG-LOM 2014 B 514, représentée par son Gérant, Monsieur SAMA  Essohamlon.</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; color:red; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Ci-après dénommée l&rsquo;<strong>«&nbsp;ESMC&nbsp;SARLU »</strong> ou l&rsquo;<strong>«&nbsp;ACQUEREUR&nbsp;»</strong> ou l&rsquo;&nbsp;<strong>«&nbsp;ACHETEUR&nbsp;»</strong>.</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">D&rsquo;autre part</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Il a été convenu et arrêté ce qui suit&nbsp;:</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Article  1 - Objet du Contrat</span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><span style="text-decoration:none; ">&nbsp;</span></span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Le présent contrat intervient dans le cadre de  l&rsquo;exécution de la &rsquo;&rsquo;Convention de collaboration entre l&rsquo;ESMC et les  Fournisseurs de biens, produits et services : Utilisateurs, Fournisseurs  Spécifiques et Fournisseurs Externes pour la réalisation par le marché des 17  Objectifs de Développement Durable&lsquo;&rsquo;.</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Il a pour objet de définir les modalités  d'acquisition des produits vendus par le VENDEUR. </span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Le  VENDEUR vend à l'ACQUEREUR qui l'accepte, 
+
+
+
+<?php $a = 1;?>
+<div id="nivdetail<?php echo $a;?>">
+<input class="input-xxlarge" type="text" name="libelle_produit[]" id="libelle_produit<?php echo $a;?>" placeholder="Libellé Produit" >
+<input class="input-medium" type="number" name="montant_produit[]" id="montant_produit<?php echo $a;?>" placeholder="Montant Produit" onblur="montantcontrat();" >
+
+<a class="btn btn-mini" onclick="document.getElementById('nivdetail<?php echo $a;?>').style.display='none';document.getElementById('nbre').value = Number(document.getElementById('nbre').value) - 1;"><i class="icon-minus"></i></a>
+<a class="btn btn-mini" onclick="ouvre_detailcontrats('<?php echo $a + 1;?>','nivdetail<?php echo $a + 1;?>');document.getElementById('nbre').value = Number(document.getElementById('nbre').value) + 1;"><i class="icon-plus"></i></a><br />
+&nbsp;
+</div>
+<div id="nivdetail<?php echo $a + 1;?>"></div>
+
+<!--<textarea name="libelle_produit" class="input-xxlarge" id="libelle_produit" placeholder="Libellé produit" required></textarea>-->
+
+</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Article  2 - Prix de vente</span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;">&nbsp;</p>
+<p class="MsoNoSpacing"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Les  biens sont vendus hors taxe au prix de <input class="input-large" type="number" name="montant_produits" id="montant_produits" placeholder="Montant de la vente" required readonly></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Article  3 - Paiement </span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Le montant convenu sera payé au VENDEUR par l&rsquo;ACHETEUR  suivant douze (12) ordres de prélèvement irrévocables (OPI) minimum, selon  qu&rsquo;il s&rsquo;agit&nbsp;des produits ordinaires ou des produits dont la mise en  valeur s&rsquo;effectue à moyen et à long terme tels que&nbsp;: les immeubles, les  matériels industriels, les équipements industriels, de l&rsquo;infrastructure et de  la logistique …  </span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Le VENDEUR fera usage des OPI selon les quatre  (04) modes prévues à l&rsquo;article 5.2.6 de la convention de collaboration sus  visée. </span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">L&rsquo;émission anticipée des OPI exclut aussi bien à  l&rsquo;ACHETEUR qu&rsquo;au VENDEUR, toute exigence d&rsquo;aval d&rsquo;escompte, de gage ou d&rsquo;autres  garanties. </span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Article  4 - La délivrance du &lsquo;&rsquo;BON DE LIVRAISON IRREVOCABLE&rsquo;&rsquo;</span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><span style="text-decoration:none; ">&nbsp;</span></span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Contre les OPI reçus, le VENDEUR est tenu de mettre  à la disposition de l&rsquo;ACHETEUR le document intitulé &lsquo;&rsquo;BON DE LIVRAISON  IRREVOCABLE&rsquo;&rsquo;.  <strong><u></u></strong></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><span style="text-decoration:none; ">&nbsp;</span></span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Article  5 - La livraison des produits</span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">            <u>5.1 - La livraison des produits  à l&rsquo;ACHETEUR</u></span></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Selon la volonté exprimée par l&rsquo;ACHETEUR, la  livraison peut s&rsquo;effectuer dans l&rsquo;immédiat ou par échelonnement.</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">L&rsquo;ACHETEUR s'engage à prendre livraison des  produits vendus dans la période convenue. </span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">L&rsquo;ACHETEUR prendra livraison des produits dans  les magasins du VENDEUR situés sur toute l&rsquo;étendue du territoire togolais. </span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Le VENDEUR s'engage à livrer les produits vendus  à l'ACQUEREUR, à la date (ou aux dates) de livraison convenue (s).</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Tout enlèvement de produit par l&rsquo;ACHETEUR est  subordonné à la présentation d&rsquo;une copie du &lsquo;&rsquo;BON DE LIVRAISON IRREVOCABLE&rsquo;&rsquo; et  d&rsquo;une reconnaissance de la quantité enlevée.  </span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">            <u>5.2 - La livraison des produits  aux clients du VENDEUR</u></span></strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; "> </span></u></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">L&rsquo;ACHETEUR peut décider que tous les produits (ou  une quantité) soient enlevés par ses clients. Le cas échéant, le VENDEUR est  tenu de livrer les produits auxdits clients, pourvu qu&rsquo;ils lui présentent un &lsquo;&rsquo;BON  DE LIVRAISON&rsquo;&rsquo; émanant de l&rsquo;ESMC, spécifiant la quantité à leur livrer.   </span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Le VENDEUR gardera une copie du &lsquo;&rsquo;BON DE  LIVRAISON&rsquo;&rsquo; déchargée par le client, contre livraison de la quantité  correspondante.</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Article  6 - La garde des produits</span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Les produits vendus seront sous la garde du VENDEUR  jusqu&rsquo;à livraison entière.</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Sous réserve de l&rsquo;entente entre le VENDEUR et  l&rsquo;ACHETEUR, les produits ne peuvent être gardés au-delà de la période de <input class="input-large" type="number" name="periode_garde" id="periode_garde" placeholder="Période de garde" required>  mois. </span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Les produits livrés sur commande ne sont pas  frappés par ce délai.</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Si l&rsquo;ACHETEUR n&rsquo;enlève pas ou ne fait pas  enlever les produits dans le délai et les modalités prévus par le présent  contrat, deux situations peuvent se présenter&nbsp;: </span></p>
+<p class="MsoNoSpacing" style="margin-left:35.4pt;text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">. Au cas où le VENDEUR  n&rsquo;a utilisé qu&rsquo;une partie des OPI, il est en droit de procéder à la résiliation  du présent contrat dans les proportions de son utilisation des OPI objets de la  vente.</span></p>
+<p class="MsoNoSpacing" style="margin-left:35.4pt;text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">. Au cas où le VENDEUR a  déjà utilisé tous les OPI, il doit mettre en demeure l&rsquo;ACHETEUR d&rsquo;enlever les  produits dans un délai d&rsquo;un (01) mois, à défaut il sera contraint de les revendre  à l&rsquo;effet de verser leur prix à l&rsquo;ACHETEUR, après avoir déduit les frais  occasionnés par lesdites ventes. La vente doit s&rsquo;effectuer au vu et au su de  l&rsquo;ACHETEUR ou de son représentant. La mise en demeure peut se faire par acte  d&rsquo;huissier, par lettre recommandée avec accusé de réception ou par simple  lettre.</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">En cas de difficultés à remplir son obligation  de livraison des produits de façon autonome, conformément à l&rsquo;article 7.3  alinéa 5 de la convention de collaboration sus visée, le VENDEUR peut recourir  à la Production Commune sur la plateforme <span style="color:#7030A0; ">ESMC</span>.  En tout état de cause, aussi longtemps que le VENDEUR aura la capacité de remplir  ses engagements en nature, l&rsquo;ACHETEUR ne pourra exiger sa créance en espèce. </span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Si à la demande de l&rsquo;ACHETEUR ou de ses clients,  le VENDEUR qui n&rsquo;est pas en mesure de livrer les produits, refuse de recourir à  l&rsquo;alternative prévue à cet effet par l&rsquo;alinéa précédent, l&rsquo;ACHETEUR est en  droit de déclencher des poursuites pénales contre lui. </span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Le VENDEUR s&rsquo;expose aux poursuites pénales s&rsquo;il se  dépossède des produits sans l&rsquo;accord de l&rsquo;ACHETEUR. </span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Article  7 – La couverture des produits d&rsquo;une assurance </span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">En couverture des produits dont le stock est connu,  le VENDEUR souscrira à une police d&rsquo;assurance multirisque, aux frais de l&rsquo;ACHETEUR. <strong><u></u></strong></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><span style="text-decoration:none; ">&nbsp;</span></span></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Article  8 - Le chargement des produits </span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="chargement_produit" id="chargement_produit1" value="VENDEUR" required>
+  Le chargement sera assuré par le VENDEUR à ses frais et sous sa responsabilité
+</label></span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><label class="radio">
+  <input type="radio" name="chargement_produit" id="chargement_produit2" value="ACHETEUR" required>
+  Le chargement sera assuré par l’ACHETEUR (ou ses clients) à ses (leur) frais et sous sa (ou leur) responsabilité
+</label></span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Au cas où le chargement des produits est assuré  par le VENDEUR, les frais seront incorporés au prix de vente.</span></p>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><span style="font-family:'Cambria','serif'; font-size:12.0pt; "><span style="text-decoration:none; ">&nbsp;</span></span></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Article  9 – L&rsquo;enregistrement </span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Le présent contrat sera enregistré aux frais de  l&rsquo;ACQUEREUR.  </span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Tous pouvoirs sont conférés au porteur d&rsquo;un  original ou d&rsquo;une copie du présent contrat afin d&rsquo;accomplir la formalité  d&rsquo;enregistrement.</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><strong><u><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Article  10 – L&rsquo;entrée en vigueur</span></u></strong></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">Le présent contrat prend effet à compter de la  date de sa validation sur le site internet de l&rsquo;<span style="color:#7030A0; ">ESMC</span> ou de sa signature en cas de besoin.</span></p>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+<p class="MsoNoSpacing" style="text-align:justify;"><span style="font-family:'Cambria','serif'; font-size:12.0pt; ">&nbsp;</span></p>
+
+
+<div class="form-actions">
+<input name="nbre" type="hidden" id="nbre" value="1" />
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Etablir le contrat de livraison irrévocable</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

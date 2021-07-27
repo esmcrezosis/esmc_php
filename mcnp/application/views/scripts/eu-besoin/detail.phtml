@@ -1,0 +1,27 @@
+<div id="view-content">
+    <table id="tbl-objet"></table>
+    <div id="pg-objet"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-objet").jqGrid({
+        url:'/eu-besoin/mdetail?besoin=0',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Désignation','Quantité'],
+        height:'100%', width:827,
+        colModel:[
+            {name:'design_objet',index:'design_objet', width: 100, align:"left", editable: true},
+            {name:'qte_objet',index:'qte_objet', width: 150, align:"left", editable: true}
+        ],
+        rowNum:10,
+        rowList:[20,30,40],
+        pager: '#pg-objet',
+        sortname:"id_besoin",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Besoin"
+    });
+    $("#tbl-objet").jqGrid('navGrid','#pg-objet',{edit:false,add:false,del:false,search:true});
+    
+</script>

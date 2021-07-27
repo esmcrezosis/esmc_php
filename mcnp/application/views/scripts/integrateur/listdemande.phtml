@@ -1,0 +1,106 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" charset="utf-8">
+			
+	$(document).ready(function() {
+    $('#example').dataTable({
+      "sPaginationType": "full_numbers",
+	  "aaSorting": []
+     });
+    });
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+<blockquote><p>Liste des demandes de paiement des commissions</p></blockquote>
+<?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error!="") { ?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+    </div>
+<?php } ?>
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+
+<?php if(count($this->entries) > 0) {?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="">
+	   <thead>
+			 <tr>
+			     <th>Date</th>
+				 <th>Code Membre</th>
+			     <th>Nom & prénom(s) / Raison Sociale</th>
+		         <th>Montant prestation</th>
+             <th>Type de commission</th>
+             <th>Quinzaine</th>
+				 <th>Actions</th>
+			 </tr>
+		</thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+	  <td><?php echo datejourfr($entry->date_demande_paiement); ?></td>
+	  <td><?php echo $entry->code_membre_employeur; ?></td>
+      <td>
+         <?php if (substr($entry->code_membre_employeur, -1) == "P") {
+$membreM = new Application_Model_EuMembreMapper();
+$membre = new Application_Model_EuMembre();
+$membreM->find($entry->code_membre_employeur, $membre);?>
+<?php echo htmlentities($membre->nom_membre); ?> <?php echo htmlentities($membre->prenom_membre); ?>
+<?php } else if (substr($entry->code_membre_employeur, -1) == "M") {
+$membremoraleM = new Application_Model_EuMembreMoraleMapper();
+$membremorale = new Application_Model_EuMembreMorale();
+$membremoraleM->find($entry->code_membre_employeur, $membremorale);?>
+<?php echo htmlentities($membremorale->raison_sociale);?>
+<?php } ?>
+	  </td>
+      <td><?php echo $entry->montant_demande_paiement; ?></td>
+      <td><?php echo datefr2($entry->date_debut); ?> - <?php echo datefr2($entry->date_fin); ?></td>
+      <td><?php if($entry->type_demande == "BAn"){echo "Approvisionnement BAn";}else{echo $entry->type_demande;} ?></td>
+      <td>
+	     <div align="center">
+	         <a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/integrateur/detaildemande/id/<?php echo $entry->id_demande_paiement; ?>"><i class="icon-info-sign icon-white"></i>Détails</a>&nbsp;
+         </div>
+	   </td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucune demande  enregistrée 
+</div>
+<?php  } ?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

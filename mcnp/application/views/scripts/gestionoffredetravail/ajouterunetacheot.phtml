@@ -1,0 +1,196 @@
+<style>
+
+#btn_add_next_ot{
+
+	width: 100%;
+
+    height: 364px;
+
+    border-style: dashed;
+
+    line-height: 364px;
+}
+
+#utilisateur_taches_ot_badges{
+
+	position:relative;
+
+	display:block;
+
+	width:70%;
+
+	padding:0px;
+
+	border-radius:3px;
+
+	-webkit-border-radius:3px;
+
+	-moz-border-radius:3px;
+
+	-o-border-radius:3px;
+
+	text-align:center;
+
+	background-color:#f4a206;
+
+	color:#FFF;
+
+	font-weight:bold;
+
+	margin-bottom:6px
+
+}
+
+#utilisateur_taches_ot_badges_close{
+
+	position: absolute;
+
+    right: 5px;
+    
+	color: #000;
+    
+	top: -2px;
+
+	cursor:pointer
+}
+
+/**
+		   <span id="utilisateur_taches_ot_badges"> BABA Rodrigue Jean-luc Kwamivi <input type="hidden" value="BABA Rodrigue Jean-luc Kwamivi" name="utilisateur_taches_ot[]"><input type="hidden" value="" name="user_parent_roles[]">	 <span id="utilisateur_taches_ot_badges_close">x</span></span>
+
+ */
+
+
+</style>
+
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+<div class="alert alert-danger">
+
+  <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+</div>
+
+<?php unset($_SESSION['validationerrors']); endif ?>
+
+<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+<div class="alert alert-success">
+
+  <strong><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></strong>
+
+</div>
+
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+<blockquote>INTERFACE D'AJOUT DE TACHES</blockquote>
+
+
+
+<form action="#" method="post" class="form-horizontal">
+
+<div class="span12" id="parent_taches_container_ot">
+
+<div class="span4">
+
+<div class="control-group">
+
+     <label class="control-label" for="libellé de la tâche" style="font-weight:bold">
+
+	        Libellé de la tache *:
+
+	 </label>
+
+	 <div class="controls">
+
+	    <input type="text" name="libelle_taches_ot[]" class="input-block-level libelle_taches_ot" placeholder="Mettre ici le libellé de la tache" required="required"/>
+	      
+	 </div>
+
+</div>
+
+<div class="control-group">
+
+     <label class="control-label" for="libellé de la tâche" style="font-weight:bold">
+
+	        Personnes ressource chargée de la tache *:
+
+	 </label>
+
+	 <div class="controls">
+
+	    <input type="text" name="user_search_ot[]" class="input-block-level" id="utilisateur_taches_ot" data-user ="<?php echo $this->id_utilisateur ?>" placeholder="Rechercher la personne ressource à affecter au projet"/>
+	    
+		<div id="utilisateur_taches_ot_badges_container">
+			 
+	     </div>
+
+	 </div>
+
+</div>
+
+<div class="control-group">
+
+     <label class="control-label" for="Date de début de la tache ot" style="font-weight:bold">
+
+	        Date de début de la tâche *:
+
+	 </label>
+
+	 <div class="controls">
+
+	    <input type="text" name="date_debut_tache_ot[]" class="input-block-level libelle_taches_ot datepicker" placeholder="Mettre ici la date de début de la tache" required="required" date-provide="datepicker"/>
+	      
+	 </div>
+
+</div>
+
+<div class="control-group">
+
+     <label class="control-label" for="Date de fin de la tache ot" style="font-weight:bold">
+
+	        Date de fin de la tâche *:
+
+	 </label>
+
+	 <div class="controls">
+
+	    <input type="text" name="date_fin_tache_ot[]" class="input-block-level date_fin_tache_ot datepicker" placeholder="Mettre ici la date de début de la tache" required="required" date-provide="datepicker"/>
+	      
+	 </div>
+
+</div>
+
+<label class="checkbox">
+
+	<input type="checkbox" name="online_tache_ot[]" id="online_tache_ot" value="0">
+
+	<span style="inline-block;font-size:1.2em;font-style:italic;font-weight:bold;">Activer ?</span>
+
+</label>
+
+</div>
+
+<div class="span4">
+
+<a href ="#" class="btn btn-large btn-primary" id="add_clone_taches_ot" style="position:relative">
+   
+     Ajouter une tâche
+
+</a>
+
+</div>
+
+<div class="control-group" style="clear:both">
+
+<button type="submit" class="btn btn-large btn-primary" style="position:relative">
+   
+    Enrégistrer les tâches
+
+</button>
+
+</div>
+
+</div>
+
+</form>

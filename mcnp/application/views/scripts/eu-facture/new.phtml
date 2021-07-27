@@ -1,0 +1,56 @@
+<div id="view-content">
+    <div class="cntError">
+        <?php
+          // echo $this->message;
+        ?>
+    </div>
+    <div style="margin-bottom: 3px;">
+        <input id="facture" type="button" value="Facturation" class="ui-widget button"/>     
+    </div>
+    <table id="tbl-facture"></table>
+    <div id="pg-facture"></div>
+</div>
+
+<script type="text/javascript">
+    jQuery("#tbl-facture").jqGrid({ 
+        url:'<?php echo $this->url(array('action' => 'listcom')); ?>', 
+        datatype: "json", 
+        colNames:['Date commande','Numero commande','Facture proforma','Adresse de livraison'], 
+        height:220, width:828,
+        colModel:[
+            {name:'date_commande',index:'date_commande', width: 130, align:"left", editable: true},
+            {name:'code_commande',index:'code_commande', width: 150, editable: true,align:"left"},
+            {name:'code_proforma',index:'code_proforma', width: 150, editable: true,align:"left"},
+            {name:'adresse_livre',index:'adresse_livre', width: 400, align:"left", editable: true}, 
+        ], 
+        rowNum:100000,
+        rowList:[100000,200000,300000],
+        pager: '#pg-facture',
+        sortname:"date_commande",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Liste des commandes"
+    });
+    $("#tbl-facture").jqGrid('navGrid','#pg-facture',{edit:false,add:false,del:false,search:false});
+    
+    
+    $('#facture').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-facture").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+                $.get('/eu-facture/commande',{
+                    code_commande:rowsel
+                },function success(data) {
+                    $("#content").html(data);
+                }); 
+        }
+        else 
+        {
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#facture').button();
+     
+</script>    

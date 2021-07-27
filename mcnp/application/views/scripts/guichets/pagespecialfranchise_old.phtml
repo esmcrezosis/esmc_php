@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Document</title>
+
+    <link rel="stylesheet" href="/designfranchise/css/bootstrap.css" type="text/css" />
+    
+    <link rel="stylesheet" href = "/designfranchise/css/style.css" type="text/css"/>
+
+    <link rel="stylesheet" href="/designfranchise/css/font-icons.css" type="text/css" />
+    
+	<link rel="stylesheet" href="/designfranchise/css/animate.css" type="text/css" />
+
+
+    <style>
+
+   body {
+
+       margin:0;
+
+      font-family: "Franklin Gothic Heavy";
+
+   }
+
+   #header_franchise {
+       
+       height: 500px;
+
+       margin: 0;
+
+       background-color: #9b0e36;
+
+       position: relative;
+   }
+
+   #header_franchise_center {
+
+    display: flex;
+
+    flex-direction: row;
+
+    justify-content: center;
+
+    width: auto;
+
+    height: 250px;
+
+    align-items: flex-end;
+
+    box-shadow: 0px -1px 30px #FFF inset ;
+
+
+   }
+
+   #header_franchise_center img {
+
+       width: 300px;
+
+       border: 15px solid #FFF;
+
+       border-radius: 2px;
+
+       opacity: 0.9;
+
+       position:relative;
+
+       z-index: 12;
+
+   }
+
+   #text_center {
+
+    position:relative;
+
+    text-align: center;
+
+    color: #FFF;
+
+
+    font-weight: bold;
+
+    font-style: italic;
+
+    font-size: 2.8rem;
+
+    text-transform: uppercase;
+
+   }
+
+    #text_center::before {
+
+        position: absolute;
+
+        content:"";
+
+        width:370px;
+
+        height:1px;
+
+        background-color: #FFF;
+
+        top:24px;
+
+        left:0px;
+    }
+
+    #text_center::after {
+
+        position: absolute;
+
+        content:"";
+
+        width:370px;
+
+        height:1px;
+
+        background-color: #FFF;
+
+        top:24px;
+
+        right:0px;
+    }
+
+
+  #franchise_navigation {
+    
+    display: flex;
+
+    flex-direction: row;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    margin:60px;
+    
+    width: auto;
+  }
+
+  #wrap_image_container{
+
+      padding:10px;
+
+      border: 4px dotted #FF0054;
+
+      margin-left:35px;
+
+      margin-top:35px
+
+  }
+  #wrap_image_container img {
+
+      width: 500px;
+
+  }
+
+  #header_menu_franchise {
+
+      position:relative;
+
+      height:64px;
+
+      background-color: #FFF;
+
+      clear:both
+
+  }
+
+  #header_menu_franchise li {
+
+    float: left;
+
+    text-decoration: none;
+
+    width: 100px;
+
+    text-align: center;
+
+    list-style: none;
+
+    font-weight: bold;
+
+
+  }
+
+    </style>
+</head>
+
+<body>
+
+
+
+    <header id="header_franchise">
+
+        <div id="header_franchise_center">
+
+            <img src="/designfranchise/img/partenaire_odd.jpg" alt="">
+
+        </div>
+
+        <div style="text-align: center;">
+
+        <h1 id="text_center">Interface communauté</h1>
+
+        </div>
+
+        <img src="/designfranchise/img/backgroun-image.PNG" alt="" style="position:absolute;left:45px;opacity: 0.5;width:50px;height:50px;top:10px">
+
+        <img src="/designfranchise/img/backgroun-image.PNG" alt="" style="position:absolute;left:437px;opacity: 0.1;width:90px;height:175px;transform:rotate(130deg);top:10px;z-index: 10;">
+
+
+        <img src="/designfranchise/img/odd.jpg" width = "75px" height= "75px" alt="" style="position: absolute;right:45px;border-radius:45px;">
+
+        <img src="/assets/img/logo_esmc.png" style="width:120px;position: absolute;left:45px;">
+
+
+
+    </header>
+
+     <section id="franchise_navigation">
+
+        <div id="wrap_image_container">
+
+            <img src="/designfranchise/img/guichet_unique_interface_utilisateurs_pbf.jpg" alt="">
+
+        </div>
+
+        <div id="wrap_image_container">
+
+           <img src="/designfranchise/img/guichet_unique_utilisateurs_bps.jpg" alt="">
+
+        </div>
+
+        <div id="wrap_image_container">
+
+           <img src="/designfranchise/img/guichet_unique_interface_partenaire_odd.jpg" alt="">
+
+        </div>
+
+        <div id="wrap_image_container">
+
+            <img src="/designfranchise/img/guichet_unique_interface_communaute.jpg" alt="">
+ 
+         </div>
+
+         <div id="wrap_image_container">
+
+            <img src="/designfranchise/img/guichet_unique_communauté.jpg" alt="">
+
+         </div>
+
+         <div id="wrap_image_container">
+
+             <img src="/designfranchise/img/guichet_unique _utilisateurs_pbf.jpg" alt="">
+
+         </div>
+
+         <div id="wrap_image_container">
+
+            <img src="/designfranchise/img/guichet_unique_odd.jpg" alt="">
+
+         </div>
+
+         <div id="wrap_image_container">
+
+            <img src="/designfranchise/img/guichet_unique_utilisateurs_bps.jpg" alt="">
+         </div>
+
+     </section>
+
+
+<script src="/designfranchise/js/jquery.js" defer></script>
+
+    
+</body>
+</html>

@@ -1,0 +1,126 @@
+<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+  <blockquote><p class="text-info">Relevé RPG/I Ancien Membre</p></blockquote>
+
+<div class="">
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="ancienpp">
+  <?php if(isset($sessionmcnp->errorlogin) && $sessionmcnp->errorlogin!=""){?>
+  <div class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->errorlogin; $sessionmcnp->errorlogin = ""; ?>
+    </div>
+  <?php }?>
+  <?php if(isset($this->message) && $this->message!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->message; ?>
+    </div>
+  <?php }?>
+  
+  <legend>Relevé RPG/I Ancien Membre</legend>
+  
+  
+  <div class="control-group">
+  <label class="control-label" for="code_membre">Ancien Code Membre *</label>
+  <div class="controls">
+  <input type="text" name="code_membre" id="code_membre" placeholder="Ancien Code Membre" value="<?php echo $this->code_membre; ?>" required>
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<!--<button type="reset" class="btn">Annuler</button>-->
+<button type="submit" class="btn btn-primary">Afficher le relevé</button>
+<?php if (isset($_POST['code_membre']) && $_POST['code_membre']!="" && ($this->relevedeja == 0)) {?>
+<a target="_blank" class="btn btn-danger" href="<?php echo $this->baseUrl(); ?>/index/relevecreditpdf/code/<?php echo $_POST['code_membre']; ?>">Générer le PDF du relevé</a>
+<?php }else if($this->relevedeja == 1){?>
+<span class="alert alert-success">Relevé déja demandé</span>
+<?php }?>
+  </div>
+  </div>
+  
+
+</form>
+
+<?php 
+  if (isset($_POST['ok']) && $_POST['ok']=="ok") {
+  if (isset($_POST['code_membre']) && $_POST['code_membre']!="") {
+?>
+
+  <blockquote>Compte RPG et I</blockquote>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+    <thead>
+        <tr>
+            <th><div align="left">Compte</div></th>
+            <th><div align="center">Produit</div></th>
+            <th><div align="right">Montant CAPA</div></th>
+            <th><div align="right">Montant Revenu</div></th>
+            <th><div align="center">Date Début</div></th>
+            <th><div align="center">Date Fin</div></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php $montantplace = 0;?>
+    <?php $montantcredit = 0;?>
+<?php foreach ($this->creditrpgi as $entry): ?>
+        <tr>
+          <td><div align="left"><?php echo $entry->code_compte;?></div></td>
+          <td><div align="center"><?php echo $entry->code_produit;?></div></td>
+          <td><div align="right"><strong><?php echo number_format($entry->montant_place,0,',',' ');?></strong></div></td>
+          <td><div align="right"><strong><?php echo number_format($entry->montant_credit,0,',',' ');?></strong></div></td>
+          <?php $date_deb = new Zend_Date($entry->datedeb);?>
+          <td><div align="center"><?php echo $date_deb->toString('dd/MM/yyyy');?></div></td>
+          <?php $date_fin = new Zend_Date($entry->datefin);?>
+          <td><div align="center"><?php echo $date_fin->toString('dd/MM/yyyy');?></div></td>
+        </tr>
+    <?php $montantplace += $entry->montant_place;?>
+    <?php $montantcredit += $entry->montant_credit;?>
+<?php endforeach; ?>
+        <tr>
+          <td><div align="left">&nbsp;</div></td>
+          <td><div align="right"><strong>Totaux</strong></div></td>
+          <td><div align="right"><strong><?php echo number_format($montantplace,0,',',' ');?></strong></div></td>
+          <td><div align="right"><strong><?php echo number_format($montantcredit,0,',',' ');?></strong></div></td>
+          <td><div align="center">&nbsp;</div></td>
+          <td><div align="center">&nbsp;</div></td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+&nbsp;
+
+<?php }?>
+<?php }?>
+</div>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

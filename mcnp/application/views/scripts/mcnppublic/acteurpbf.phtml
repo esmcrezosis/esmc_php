@@ -1,0 +1,81 @@
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+  <blockquote><p class="text-info">Les Acteurs PBF et DSMS</p>
+  <small>Les Partenaires Bancaires et Financiers, les Distributeurs de codes SMS</small></blockquote>
+
+
+<?php if(count($this->entries)>0){?>  
+<div class="accordion" id="accordion2">
+<?php foreach ($this->entries as $entry): ?>
+<?php $acteurM = new Application_Model_EuActeur();
+$acteur = $acteurM->findByActeur2($entry->code_membre_morale);
+?>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $acteur->id_acteur; ?>">
+        <i class="icon-arrow-right"></i> <?php echo htmlentities($entry->raison_sociale); ?>, <span style="color:#666; font-size:11px; text-decoration:inherit;"><?php echo htmlentities($entry->domaine_activite); ?></span>
+      </a>
+    </div>
+    <div id="collapse<?php echo $acteur->id_acteur; ?>" class="accordion-body collapse" align="left">
+      <div class="accordion-inner">
+
+<div class="">
+  <div class="span8">
+  
+<blockquote>
+<p>
+  <i class="icon-home"></i> <strong><?php echo htmlentities($entry->raison_sociale); ?></strong>
+</p>
+<small>
+  <?php echo htmlentities($entry->domaine_activite); ?> - 
+  <abbr title="Quartier">Qt:</abbr> <?php echo htmlentities($entry->quartier_membre); ?> - <abbr title="Ville">Ville:</abbr> <?php echo htmlentities($entry->ville_membre); ?>
+</small>
+<small>
+  <abbr title="Boite Postale">BP:</abbr> <?php echo $entry->bp_membre; ?> - 
+  <abbr title="Téléphone">Tel:</abbr> <?php echo $entry->tel_membre; ?> - 
+  <abbr title="Portable">Cel:</abbr> <?php echo $entry->portable_membre; ?> - 
+  <abbr title="E-mail">E-mail:</abbr> <a href="mailto:<?php echo $entry->email_membre; ?>"><?php echo $entry->email_membre; ?></a>
+</small>
+</blockquote>
+  
+  </div>
+  
+  
+  <div class="span4">
+  
+<!--<blockquote>-->
+<a href="<?php echo $this->baseUrl();?>/index/codesms/id/<?php echo $acteur->id_acteur; ?>" class="btn btn-large btn-block btn-info" type="button"><i class="icon-shopping-cart icon-white"></i> Acheter <br /> <strong><i class="icon-envelope icon-white"></i> Code SMS</strong><br /><small><i class="icon-home icon-white"></i> <?php echo htmlentities($entry->raison_sociale); ?></small></a>
+<!--</blockquote>-->
+
+  </div>
+</div>
+
+
+
+      </div>
+    </div>
+  </div>
+<?php endforeach; ?>
+</div>
+<?php }?>
+
+
+
+
+
+
+</div>
+<div class="span3">
+	<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

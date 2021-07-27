@@ -1,0 +1,55 @@
+<div id="view-content" style="font-size:11px">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-region"></table>
+    <div id="pg-region"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-region").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['ID','Nom','Pays'],
+        height:400, width:827,
+        colModel:[
+            {name:'id_region',index:'id_region', width:140, sorttype:"int", editable: true,align:"right"},
+            {name:'nom_region',index:'nom_region', width: 250, editable: true,align:"left"},
+            {name:'id_pays',index:'id_pays', width: 150, editable: true,align:"left"}
+        ],
+        rowNum:20,
+        rowList:[20,30,50],
+        rownumbers:true,
+        pager: '#pg-region',
+        sortname:"id_region",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des régions"
+    });
+  
+    $("#tbl-region").jqGrid('navGrid','#pg-region',{edit:false,add:false,del:false,search:true});
+    
+	$(function() {
+      $('#view-content').puipanel();
+    });
+	
+	
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-region").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-region").jqGrid('getRowData',rowsel);
+            $.get('/eu-region/edit',{
+                id_region:data.id_region
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+</script>

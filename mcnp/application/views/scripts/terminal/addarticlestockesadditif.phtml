@@ -1,0 +1,75 @@
+<?php $sessionterminal = new Zend_Session_Namespace('terminal');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuterminal.phtml"); ?>
+
+  <blockquote><p>Ajouter un additif d'article</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addarticle_stockes_additif">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+
+<div class="control-group">
+<label class="control-label" for="reference">L'article *</label>
+<div class="controls">
+<select id="reference" name="reference" required>
+  <option value="">Choisir l'article</option>
+<?php 
+        $article_stockes_m = new Application_Model_EuArticleStockesMapper();
+        $entries = $article_stockes_m->fetchAllByVendeur($sessionterminal->code_membre);
+if(count($entries) > 0){?>
+<?php foreach ($entries as $value) { ?>
+  <option value="<?php echo $value->reference; ?>"><?php echo $value->designation; ?></option>
+<?php } ?>
+<?php }?>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="nom_article_stockes_additif">Nom de l'additif *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="nom_article_stockes_additif" id="nom_article_stockes_additif" placeholder="Nom de l'additif" required>
+</div>
+</div>
+
+
+
+<div class="form-actions">
+<input name="code_membre_morale" type="hidden" id="code_membre_morale" value="<?php echo $sessionterminal->code_membre; ?>" />  
+<input name="etat" type="hidden" id="etat" value="1" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter l'additif de l'article</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

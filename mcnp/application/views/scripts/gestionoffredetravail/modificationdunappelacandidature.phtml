@@ -1,0 +1,219 @@
+<style>
+ 
+  article#article_candidature_ot {
+
+    text-align:justify;font-size:1.3em
+
+  }
+
+  h1 {
+
+    text-align:center;
+    
+  }
+
+  h1{
+    
+    text-shadow:1px 1px 1px, 0px 2px 2px, 2px 3px 0px; 
+    
+    margin-top:15px; 
+    
+    margin-bottom:45px
+
+  }
+
+  h3{
+      text-shadow:1px 1px 1px, 0px 2px 2px, 2px 1px 0px
+  }
+
+  section {
+
+    margin:10px 0 10px 0
+
+  }
+
+  .search_post_candidature{
+
+
+  }
+
+  .search_number_poste{
+
+      display:inline-block;
+
+      width:30% 
+
+  }
+
+
+</style>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+<div class="alert alert-danger">
+
+  <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+</div>
+
+<?php unset($_SESSION['validationerrors']); endif ?>
+
+<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+<div class="alert alert-success">
+
+  <strong><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></strong>
+
+</div>
+
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+<form method="post" class="form-horizontal">
+
+<article id="article_candidature_ot">
+
+     <h1>APPEL A CANDIDATURE POUR LES OFFREURS DE TRAVAIL (OT)</h1>
+
+     <section>
+
+         Dans le cadre de la réalisation des recommandations de l’Organisation des Nations Unies (ONU) en ce qui concerne les attentes de l’article 25 de la Déclaration Universelle des Droits de l’Homme (DUDH) et des 17 Objectifs de Développement Durable (ODD) répondant au PND du Togo et aux défis de l’économie sociale de marché commun, le Groupement d’Intérêt Economique dénommé Economie Sociale de Marché Commun (GIE ESMC), pour la mise en place de son premier centre communal, lance un appel à tout Offreur de Travail (Hauts cadres et assimilés) pouvant exercer en toute autonomie sur sa plateforme.
+     
+     </section>
+
+     <section>
+
+         L’Offreur de Travail (OT) est un prestataire de services, un auto-entrepreneur, un employé indépendant avec présence physique au poste qui offre du travail, c’est-à-dire qui propose des prestations à la Production Commune sur la plateforme GIE ESMC. Cet OT adhère au GIE ESMC et devient membre, agent de la Production Commune sur la plateforme du GIE.
+     
+     </section>
+
+     <h3>Connaissances et Aptitudes </h3>
+
+     <div class="control-group">
+
+        <label class="control-label" for="Diplômes et compétences" style="font-weight:bold">
+
+             Diplômes et compétences *:
+
+        </label>
+
+        <div class="controls">
+          
+           <textarea name="diplome_competence_modification" class="input-block-level" id="diplome_competence" cols="30" rows="10" required="required"><?php echo $this->candidaturesamodifier[0]['competences'] ;?></textarea>
+
+        </div>
+
+      </div>
+
+      <div class="control-group">
+
+        <label class="control-label" for="Diplômes et compétences" style="font-weight:bold">
+
+             Nombre d'année d'expérience*:
+
+        </label>
+
+        <div class="controls">
+
+            <textarea name="nbre_annee_experience_modification" class="input-block-level" id="nbre_annee_experience" cols="30" rows="10" required="required"><?php echo $this->candidaturesamodifier[0]['annee_experience'] ?></textarea>
+
+        </div>
+
+      </div>
+
+      <ul>
+      
+          <li>	Bonne aptitude à travailler en équipe et sous pression ; </li>
+
+          <li>	Bonne expression écrite et orale et parfaite connaissance de la langue française ; </li>
+
+          <li>	Parfaite connaissance des langues officielles dans les zones de couverture de la Structure ESMC ;</li>
+
+          <li>	Disposer de son Kit de Solvabilité Universelle (KSU) d’une valeur de soixante-dix mille francs (70.000 F CFA) sur la plateforme du GIE ESMC, pour ses rémunérations.</li>
+      
+      </ul>
+
+     <h3>Mode de rémunération de l’Offre de Travail </h3>
+
+     <section>
+       
+     L’Agent OT est rémunéré par Bons de Livraison numérique (BL) ESMC échangeables, au besoin, sous réserve des conditions y afférentes, en monnaie bancaire auprès des Acteurs OBPSD (Offreurs de Biens, Produits et services Dématérialisés) qui sont des banques partenaires du GIE ESMC.
+     
+     </section>
+
+     <h3>Les différents postes de l’OT</h3>
+
+     <section>
+        
+     Le personnel communal du groupement est désigné par le terme « Agent » qui, par les présents, ne peuvent être salariés, mais des Prestataires de la Production Commune du GIE ESMC, Acteurs ou Fournisseurs Offreurs de Travail (Travailleurs Indépendants ou Employés Autonomes).
+     
+     </section>
+
+     <div class="controls" style="margin-bottom:20px">
+
+        <input type="text" name="search_post_modification" class="input-block-level search_post_candidature"  placeholder="Rechercher le poste à ajouter à la candidature" style="display:inline-block;width:33%">
+
+        <input type="number" name="nombre_maximal_modification" class ="search_number_poste" placeholder="le nombre de personnes demandées pour ce post" style="display:inline-block;width:30%">
+
+        <button type="submit" class="btn btn-large btn-danger" style="position:relative">
+
+          Ajouter le poste à la candidature
+
+        </button>
+
+     </div>
+
+     <div class="liste_postes_candidature_container" style="clear:both;margin-top:20px;margin-bottom:20px">
+
+       <?php foreach ($this->selectcandidatureposteamodifier as $key => $value):?>
+
+        <div id="liste_postes_candidature_content" name="poste_candidature_container" style="display:inline-block;position:relative;padding:3px;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;-o-border-radius:5px;background-color:#35ceb1;width:21rem;margin-top:10px;margin-bottom:10px">
+                      
+           <div id="libelle_poste_candidature" style="width:90%;">
+
+               <input type="text" value="<?php echo $value['libelle_roles'] ?>" style="padding: 3px;width: 310px;border: none;background-color: transparent;font-size: 1rem;color:#000" readonly>  
+
+               <input type="hidden" value="<?php echo $value['id_roles'] ?>" name="id_poste_candidature_modification[]">
+               
+           </div>
+
+           <div id="label_nbre_personne_candidature" style="position: absolute;top: -27px;left: -13px;background-color: #c40707;border-radius: 100px;box-shadow: 2px 0px 9px #000;color: #FFF;font-weight: bold;text-shadow: 0px 1px 1px;width: 34px;height: 34px;line-height: 32px;text-align: center;"> 
+           
+                 <input type="text" value="<?php echo $value['nbre_personnes']?>" name="label_nbre_personne_candidature_modification[]" style="width: 34px;padding: 0;color: #FFF;background-color: transparent;border: 0;line-height: 34px;text-align: center;font-weight: bold;text-shadow: 0px 1px 1px;font-size:1rem" readonly>  
+           
+           </div>
+        
+          <input type="hidden" value="<?php echo $value['id_candidature_postes']?>" name="id_candidature_modification_poste[]" >
+
+           <div id="candidature_close" style="position:absolute;top:-1px;right:0;margin-right:10px;cursor:pointer;color:#05564f;text-shadow:0px 1px 1px, 1px 2px 2px"> x </div>
+        
+        </div>
+
+
+        <?php endforeach ?>
+     
+     </div>
+
+     <div class="control-group" style="clear:both">
+
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+             
+              Modifier cette candidature
+
+          </button>
+
+      </div>
+     <!-- Système de recherche de Poste et la fonctionnalité d'ajout de poste et du nombre de personnes demandés pour le poste souhaité
+     
+     Système de controle pour vérifier si ce sera une demande de l'élément selectionner et son parent direct ou ses parents distants(Préciser le nombre)
+
+     Système de controle pour vérifier si ce sera une demande de l'élément selectionné et son enfant direct ou ses enfants distants (Préciser le nombre)
+     
+     Interdir l'ajout de doublons dans la liste des postes
+
+     La liste des postes est éssentiellement composée du poste et du nombre de poste
+     
+     -->
+
+</article>
+
+</form>

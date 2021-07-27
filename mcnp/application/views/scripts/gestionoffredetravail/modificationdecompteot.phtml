@@ -1,0 +1,90 @@
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<div class="row-fluid">
+
+     <blockquote> <strong>INTERFACE DE CREATION DE COMPTE UTILISATEUR OT </strong></blockquote>
+
+     <?php if (isset($_SESSION["validationerrors"])): ?>
+
+     <div class="alert alert-danger">
+
+         <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+     </div>
+
+     <?php unset($_SESSION['validationerrors']); endif ?>
+
+     <?php if (isset($_SESSION["validationsuccess"])): ?>
+
+     <div class="alert alert-success">
+
+         <li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+
+     </div>
+
+     <?php unset($_SESSION['validationsuccess']); endif ?>
+
+     <form method="post" action="#" id="affecterunutilisateuraunroleot">
+
+     
+	    <div class="control-group">
+
+	      <label class="control-label" for="rechercher un membre" style="font-weight:bold">
+
+	        Code membre *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="modification_code_membreot" class="input-block-level modifierunutilisateuraunroleot" placeholder="Mettre ici votre code membre" required="required"/>
+	      
+		  </div>
+
+	   </div>
+
+       <div class="control-group">
+
+	      <label class="control-label" for="login de l'agent" style="font-weight:bold">
+
+	        Login de l'agent*:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="modification_login_ot" class="input-block-level modification_membre_login" placeholder="Veuillez saisir le login de l'agent" required="required"/>
+	      
+		  </div>
+
+	   </div>
+     
+
+        <div class="control-group" >
+
+             <button type="submit" class="btn btn-large btn-primary" style="position:relative" id ="btncreatebtnot">
+
+                    Modifier les informations de compte
+
+             </button>
+
+         </div>
+     
+     </form>
+
+
+
+</div>
+
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+
+<script src="/outil-qr.js"></script>
+
+<script type="text/javascript">
+
+     outilqr('addeli');
+
+     outilqrformobligatoire("affecterunutilisateuraunroleot","btncreatebtnot");
+
+</script>

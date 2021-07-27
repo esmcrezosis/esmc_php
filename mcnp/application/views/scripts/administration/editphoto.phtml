@@ -1,0 +1,84 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification de photo</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addfichier">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+<div class="control-group">
+<legend> Galerie de photos </legend>
+<div class="control-group">
+<label class="control-label">Galerie *</label>
+<div class="controls">
+<select  id="id_galerie" name="id_galerie" required>
+<option value="">Choisir une galerie</option>
+<?php foreach ($this->entries as $value) { ?>
+<option
+  value="<?php echo $value->id_galerie; ?>" <?php if($this->photo->id_galerie == $value->id_galerie) {?> selected="selected"<?php }?>> <?php echo htmlentities($value->titre); ?>
+</option>                         
+<?php } ?>
+</select>
+</div>
+</div>
+
+<legend></legend>
+    
+<div class="control-group" id="display_galerie">
+        <label class="control-label" for="photo">Photo * </label>
+	    <div class="controls">
+	         <table id="tab_photo">
+             <tr>
+                <td>
+					<input type="text" id="titre" name="titre" value="<?php echo $this->photo->libelle; ?>"  placeholder="Libelle de la Photo" class="input-large" required />
+			    </td>
+				
+                <td>					 
+					<input id="photo" type="file" name="photo"  class="input-xxlarge"  /> 
+			    </td>
+			  </tr>
+              </table>			
+	      </div>
+</div>   
+    
+
+
+<div class="form-actions">
+<input name="id_photo_galerie" type="hidden" id="id_photo_galerie" value="<?php echo $this->photo->id_photo_galerie; ?>" />  
+<input name="photo_url_old" type="hidden" id="photo_url_old" value="<?php echo $this->photo->photo; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier </button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

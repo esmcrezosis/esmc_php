@@ -1,0 +1,213 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/typequittances.js"></script>
+<script>
+function actionchoix(choix){
+	if(choix == 1){
+		document.getElementById('candidat_nationalite').removeAttribute('required');
+		document.getElementById('candidat_nationalite_label').style.display = 'none';
+	}else if(choix == 7){
+		document.getElementById('candidat_nationalite').setAttribute('required', true);
+		document.getElementById('candidat_nationalite_label').style.display = 'block';
+	}else{
+		document.getElementById('candidat_nationalite').setAttribute('required', true);
+		document.getElementById('candidat_nationalite_label').style.display = 'block';
+	}
+	}
+</script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+
+  <blockquote><p>Soumission à l'appel à candidature</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addappeloffres">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<!--<div class="control-group">
+<label class="control-label" for="id_document">Document canevas de l'appel à candidature *</label>
+<div class="controls">
+
+</div>
+</div>
+-->
+<fieldset>
+<?php if(isset($this->type) && $this->type == 7){?>
+<legend>Formulaire de Curriculum Vitae (CV) DU CANDIDAT FONTIONNAIRE COMMUNAUTAIRE (FC)</legend>
+<?php }else{?>
+<legend>Formulaire de Curriculum Vitae (CV) DU CANDIDAT CMFH/CAPS/GAC</legend>
+<?php }?>
+
+<blockquote>
+  <p><?php 
+$documentM = new Application_Model_EuDocumentMapper();
+$document = new Application_Model_EuDocument();
+$documentM->find($this->document->id_document, $document);
+?><?php echo ($document->nom_document); ?></p>
+</blockquote>  
+  
+<?php if(isset($this->type) && $this->type == 7){?>
+<input name="id_type_candidat" type="hidden" id="id_type_candidat" value="7" />
+<?php }else{?>
+<div class="control-group">
+<label class="control-label" for="id_type_candidat">Type de la candidature *</label>
+<div class="controls">
+<select name="id_type_candidat" id="id_type_candidat" required onchange="actionchoix(this.value);">
+        <?php $typecandidat = new Application_Model_DbTable_EuTypeCandidat();
+        $results = $typecandidat->fetchAll();?>
+  <option value="">Choisir le type de la candidature</option>
+    <?php foreach ($results as $type_candidat): ?>
+               <option value="<?php echo $type_candidat->id_type_candidat; ?>"><?php echo ($type_candidat->libelle_type_candidat); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+<?php }?>
+
+<div class="control-group">
+<label class="control-label" for="candidat_nom">Nom et prénom(s) du candidat CMFH *</label>
+<div class="controls">
+<input type="text" name="candidat_nom" id="candidat_nom" placeholder="Nom et prénom(s) du candidat CMFH" class="input-xxlarge" required />
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="candidat_poste">Poste du candidat CMFH *</label>
+<div class="controls">
+<input type="text" name="candidat_poste" id="candidat_poste" placeholder="Poste du candidat CMFH" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_datenaiss">Date de naissance  *</label>
+<div class="controls">
+<input type="date" name="candidat_datenaiss" id="candidat_datenaiss" placeholder="Date de naissance" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_nationalite">Nationalité  <span id="candidat_nationalite_label">*</span></label>
+<div class="controls">
+<input type="text" name="candidat_nationalite" id="candidat_nationalite" placeholder="Nationalité" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_education">Education/Formation/Cursus  *</label>
+<div class="controls">
+  <textarea name="candidat_education" class="input-xxlarge" id="candidat_education" placeholder="Education/Formation/Cursus" required></textarea>
+  <span class="help-block">Indiquer les études universitaires et autres études spécialisées du candidat CMFH/CAPS/GAC ainsi que les noms des institutions fréquentées, les diplômes obtenus et les dates auxquelles ils l’ont été</span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_affiliation">Affiliation à des associations/groupements professionnels   </label>
+<div class="controls">
+  <textarea name="candidat_affiliation" class="input-xxlarge" id="candidat_affiliation" placeholder="Affiliation à des associations/groupements professionnels"></textarea>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_formation">Autres formations   </label>
+<div class="controls">
+  <textarea name="candidat_formation" class="input-xxlarge" id="candidat_formation" placeholder="Autres formations"></textarea>
+  <span class="help-block">Indiquer toute autre formation reçue depuis le point 5 ci-dessus</span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_pays">Pays  où le candidat CMFH/CAPS/GAC a travaillé *   </label>
+<div class="controls">
+<input type="text" name="candidat_pays" id="candidat_pays" placeholder="Pays  où le candidat CMFH/CAPS/GAC a travaillé" class="input-xxlarge" required />
+  <span class="help-block">Donner la liste des pays où le candidat CMFH/CAPS/GAC  a travaillé au cours des 10 dernières années</span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_langue">Langues   *</label>
+<div class="controls">
+  <textarea name="candidat_langue" class="input-xxlarge" id="candidat_langue" placeholder="Langues" required></textarea>
+  <span class="help-block">Indiquer pour chacune le degré de connaissance : bon, moyen, médiocre pour ce qui est de la langue parlée, lue et écrite</span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_experience">Expérience professionnelle    </label>
+<div class="controls">
+  <textarea name="candidat_experience" class="input-xxlarge" id="candidat_experience" placeholder="Expérience professionnelle"></textarea>
+  <span class="help-block">En commençant par son poste actuel, donner la liste par ordre chronologique inverse de tous les emplois exercés par le candidat CMFH/CAPS/GAC  depuis la fin de ses études. Pour chaque emploi (voir le formulaire ci-dessous), donner les dates, le nom du candidat CMFH/CAPS/GAC , le poste occupé et le nom, titre et téléphone de la personne de référence.</span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_tache">Détail des tâches exécutées   </label>
+<div class="controls">
+  <textarea name="candidat_tache" class="input-xxlarge" id="candidat_tache" placeholder="Détail des tâches exécutées"></textarea>
+  <span class="help-block">Indiquer toutes les tâches exécutées pour chaque mission</span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_competence">Expérience du candidat CMFH/CAPS/GAC  qui illustre le mieux sa compétence   </label>
+<div class="controls">
+  <textarea name="candidat_competence" class="input-xxlarge" id="candidat_competence" placeholder="Expérience du candidat CMFH/CAPS/GAC  qui illustre le mieux sa compétence"></textarea>
+  <span class="help-block">Donner notamment les informations suivantes qui illustrent au mieux la compétence professionnelle du candidat CMFH/CAPS/GAC </span>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_attestation">Attestation  *  </label>
+<div class="controls">
+<label class="checkbox">
+<input name="candidat_attestation" type="checkbox" id="candidat_attestation" value="1" required /> Je, soussigné, certifie, en toute conscience, que les renseignements ci-dessus rendent fidèlement compte de ma situation, de mes qualifications et de mon expérience. J’accepte que toute fausse déclaration volontaire puisse entraîner ma disqualification de la présente procédure de demande de propositions ou la résiliation du contrat que j’obtiendrais.
+</label>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="candidat_date">Date signature  *</label>
+<div class="controls">
+<input type="date" name="candidat_date" id="candidat_date" placeholder="Date signature" class="input-xxlarge" required />
+</div>
+</div>
+
+</fieldset> 
+   
+    
+    
+
+<div class="form-actions">
+<input name="candidat_document" type="hidden" id="candidat_document" value="<?php echo $this->document->id_document; ?>" />
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,31 @@
+<div id="view-content">
+    <table id="tbl-gamme"></table>
+    <div id="pg-gamme"></div>
+</div>
+<script type="text/javascript">
+    
+    $("#tbl-gamme").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Désignation','Membre'],
+        height:440, width:827,
+        colModel:[
+            {name:'code_gamme',index:'code_gamme', width:200,editable:true,align:"left"},
+            {name:'design_gamme',index:'design_gamme', width: 450, editable: true,align:"left"},
+            {name:'membre',index:'membre', width: 250, editable: true,align:"left"},
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        pager: '#pg-gamme',
+        sortname:"code_gamme",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des gammes de produits disponibles sur le réseau "
+    });
+  
+    $("#tbl-gamme").jqGrid('navGrid','#pg-gamme',{edit:false,add:false,del:false,search:false});
+
+    
+</script>
+

@@ -1,0 +1,407 @@
+﻿<div id="view-content" title="Identification:Ancien Membre Personne Physique" class="ui-widget" style="font-size: 11px">
+     <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+          <form id="fm_membre" action="/eu-membre-ancien/ncmpmcnp" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+                <input type="hidden" name="ancien_code_membre"  value="<?php echo $this->ancien_code_membre ?>"/>
+                <fieldset>
+                <legend>Etat civil</legend>
+                <table>
+                      <tr><td>Nom *</td><td><input name="nom_membre"  id="nom_membre" class="validate[required]" value="<?php echo $this->nom ?>" /></td> <td>Prénoms *</td><td><input name="prenom_membre" id="prenom_membre"  class="validate[required]"  value="<?php echo $this->prenom ?>"/></td>
+					  </tr>
+                      <tr><td>Genre *</td>
+                      <td>
+					      <select name="sexe_membre" id="sexe_membre" class="validate[required]" value="<?php echo $this->sexe ?>">
+						  <input type="hidden" name="sexe" id="sexe" value="<?php echo $this->sexe ?>" />
+                      </td> 
+						<td>Date de naissance *</td>
+                        <td><input name="date_nais_membre" id="date_nais_membre" class="validate[required]" value="<?php echo $this->datenais ?>"/></td>
+					  </tr>
+                      <tr>
+                      <td>Nationalité *</td>
+					  <td>
+						<select id="nationalite_membre" name="nationalite_membre" class="validate[required]" value="<?php echo $this->id_pays ?>"/>
+					    <input type="hidden" name="nation" id="nation" value="<?php echo $this->id_pays ?>" />
+					  </td> 
+                        <td>Lieu de naissance *</td><td><input name="lieu_nais_membre" id="lieu_nais_membre" class="validate[required]" value="<?php echo $this->lieu_nais ?>"></td>
+					  </tr>
+                      <tr><td>Nom du père</td><td><input name="pere_membre"  id="pere_membre"  value="<?php echo $this->pere ?>"/></td> <td>Nom de la mère</td><td><input name="mere_membre"  id="mere_membre"  value="<?php echo $this->mere ?>"></td>
+					  </tr>
+
+                      <tr><td>Situation matrimoniale *</td>
+                      <td>
+					      <select name="sitfam_membre" id="sitfam_membre" class="validate[required]" value="<?php echo $this->sitmatr ?>" >
+						  <input type="hidden" name="sitfam" id="sitfam" value="<?php echo $this->sitmatr ?>" />
+					  </td> 
+                      <td>Nombre d'enfant *</td><td><input name="nbr_enf_membre" id="nbr_enf_membre"  maxlength="2" class="validate[required,custom[onlyNumberSp]]" value="<?php echo $this->nbre_enf ?>"></td></tr>
+                </table>
+            </fieldset>
+			
+            <fieldset>
+                <legend>Adresse</legend>
+                <table>
+                    <tr>
+                        <td>Quartier *</td>
+                        <td><input name="quartier_membre" id="quartier_membre" value="<?php echo $this->quartier_membre ?>"/></td> 
+                        <td>Ville *</td>
+                        <td><input name="ville_membre"  id="ville_membre" class="validate[required]" value="<?php echo $this->ville ?>"/></td>
+                    </tr>
+                    <tr>
+                      <td>BP</td>
+                      <td><input name="bp_membre" id="bp_membre" value="<?php echo $this->bp ?>"/></td> <td>Téléphone </td>
+                      <td><input name="tel_membre" id="tel_membre" class="validate[custom[onlyNumberSp]]" value="<?php echo $this->tel ?>"/></td>
+                    </tr>
+                    <tr>
+                        <td>Adresse électronique</td>
+                        <td><input name="email_membre" id="email_membre"  class="validate[custom[email]]" value="<?php echo $this->email ?>"/></td> 
+                        <td>Téléphone portable *</td><td><input name="portable_membre"  class="validate[required,custom[onlyNumberSp]]"  id="portable_membre" value="<?php echo $this->portable ?>"></td>
+                    </tr>
+                </table>
+            </fieldset>
+			
+            <fieldset>
+                <legend>Autres informations</legend>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Profession *</td>
+                            <td><input name="profession_membre" id="profession_membre" class="validate[required]" value="<?php echo $this->prof ?>"/></td> 
+                            <td>Formation</td>
+                            <td><input name="formation" id="formation" value="<?php echo $this->formation ?>"></td>
+                            <td>Religion *</td>
+                            <td>
+							<select id="religion_membre" name="religion_membre" class="validate[required]"  value="<?php echo $this->id_religion ?>"></select>
+							<input type="hidden" name="religion" id="religion" value="<?php echo $this->id_religion ?>" />
+							</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+			
+			<fieldset style="margin-bottom: 2px;">
+            <legend>Acteurs</legend>
+			<table>
+                <tbody>
+                    <tr>
+					    <td><input type="checkbox" id="actcmfh" name="actcmfh" value="CMFH"></td>
+					    <td>CMFH ( Conseiller Membre Fondateur d'Honneur ) </td>
+						<!--<td width="180px"></td>
+						<td><input type="checkbox" id="actenro" name="actenro" value="DSMS"></td>
+						<td>Enrôleur</td>-->
+					</tr>
+				</tbody>	
+			</table>
+		    </fieldset>
+			
+            <fieldset>
+                <legend>Comptes bancaires</legend>
+                <table id="tab_banque">
+                    <thead>
+                    <th>Banque</th><th>Nom</th><th>Numéro du Compte</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><select id="code_banque1" type="text" name="code_banque1" value="" /></td>
+                            <td><input id="nom_banque1" type="text" name="nom_banque1" value="" size="40" readonly="true"/></td>
+                            <td><input id="num_compte1" type="text" name="num_compte1" value="" size="30" /></td>
+                            <td><input id="add" type="button" value="+" onclick="addRow('tab_banque')"/><input id="remove" type="button" value="-" onclick="deleteRow('tab_banque')"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            <div style="margin-top: 10px;">
+			<input name="codesecret" type="hidden" id="codesecret" value="<?php echo $this->codesecret; ?>" />
+                <input type="submit" value="Valider" id="valider"   />
+                <input type="reset" value="Rafraichir" id="refresh"   />
+                <input id="t_annuler" type="button" value="Annuler" />
+            </div>
+        </form>
+</div>
+    <script type="text/javascript">
+	
+        $(document).ready(function () {
+		 $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+          });
+				         
+          $(function(){
+            var pickerOpts = {
+                    dateFormat: "dd/mm/yy",
+                    changeMonth:true,
+                    changeYear:true,
+                    showOtherMonths: true,
+					maxDate: $(this).datepicker('getDate')
+            };
+            $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+            $("#date_nais_membre").datepicker(pickerOpts);
+		   // $("#date_nais_membre").inputmask("d/m/y").datepicker(pickerOpts);
+          });
+			
+            $("#fm_membre").validationEngine();
+            $('#valider').button();
+            $('#refresh').button();
+            $('#t_annuler').button();
+            $('#add').button();
+            $('#remove').button();
+			$('#nom_membre').puiinputtext();
+			$('#prenom_membre').puiinputtext();
+			$('#sexe_membre').puiinputtext();
+			$('#date_nais_membre').puiinputtext();
+			$('#nationalite_membre').puiinputtext();
+			$('#lieu_nais_membre').puiinputtext();
+			$('#pere_membre').puiinputtext();
+			$('#mere_membre').puiinputtext();
+			$('#sitfam_membre').puiinputtext();
+			$('#nbr_enf_membre').puiinputtext();
+			$('#quartier_membre').puiinputtext();
+			$('#ville_membre').puiinputtext();
+			$('#bp_membre').puiinputtext();
+			$('#tel_membre').puiinputtext();
+			$('#email_membre').puiinputtext();
+			$('#portable_membre').puiinputtext();
+			$('#profession_membre').puiinputtext();
+			$('#formation').puiinputtext();
+			$('#religion_membre').puiinputtext();
+			$('#quartier_membre').puiinputtext();
+			$('#bp_membre').puiinputtext();
+			
+			
+			//$("#tel_membre").inputmask({"mask": "99 99 99 99"});
+            //$("#portable_membre").inputmask({"mask": "99 99 99 99"});
+			
+			
+			$('#actcmfh').change(function() {
+            if(document.getElementById('actcmfh').checked) {
+              $('#actenro').attr('disabled',true);} else {
+			  $('#actenro').attr('disabled',false);
+			}
+            });
+								
+		    $('#actenro').change(function() {
+             if(document.getElementById('actenro').checked) {
+             $('#actcmfh').attr('disabled',true);} else {
+			 $('#actcmfh').attr('disabled',false);
+			}
+            });
+			
+			
+			
+            
+            $.get( "/eu-membre/compte",
+            function success(data)
+            {
+                var options = '<option/>';
+                for( var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+                }
+                $('select#code_banque1').html(options);
+            });
+            
+			var nation = $('#nation').val();
+            $.get( "/eu-membre/nation",
+            function success(data)
+            {
+                var options = '<option/>';
+                for( var i = 0; i < data.length; i++) {
+				    if(nation == data[i][0]) {
+                        options += '<option value="' + data[i][0] + '" selected>' + data[i][1] +' </option>';
+					} else {
+					    options += '<option value="' + data[i][0] + '">' + data[i][1] +' </option>';
+					}	
+                }
+                $('select#nationalite_membre').html(options);
+            });
+            
+			
+			var religion = $('#religion').val();
+            $.get( "/eu-membre/religion",
+            function success(data){
+              var options = '<option/>';
+              for( var i = 0; i < data.length; i++) {
+			     if(religion == data[i][0]) {
+                    options += '<option value="' + data[i][0] + '" selected>' + data[i][1] +' </option>';
+				 } else {
+				    options += '<option value="' + data[i][0] + '">' + data[i][1] +' </option>';
+				 }	
+              }
+              $('select#religion_membre').html(options);
+           });
+			
+                var options = '<option/>';
+				var t=[];
+				var t1=[];
+				t[0]='M';
+				t[1]='F';
+				t1[0]='Masculin';
+				t1[1]='Féminin';
+				
+				var sexe = $('#sexe').val();
+                for( var i = 0; i < 2; i++) {
+				      if(sexe == t[i]) {
+                         options += '<option value="' + t[i] + '" selected>' + t1[i] +' </option>';
+					  } else {
+					      options += '<option value="' + t[i] + '">' + t1[i] +' </option>';
+					  }	 
+                }
+                $('select#sexe_membre').html(options);
+				
+				var options = '<option/>';
+				var tab=[];
+				var tab1=[];
+				tab[0]='C';
+				tab[1]='D';
+				tab[2]='M';
+				tab[3]='V';
+				tab1[0]='Célibataire';
+				tab1[1]='Divorcé(e)';
+				tab1[2]='Marié(e)';
+				tab1[3]='Veuf(ve)';
+				
+				var sitfam = $('#sitfam').val();
+                for( var i = 0; i < 4; i++) {
+				   if(sitfam == tab[i]) {
+                      options += '<option value="' + tab[i] + '" selected>' + tab1[i] +' </option>';
+				   }else {
+				      options += '<option value="' + tab[i] + '">' + tab1[i] +' </option>';
+				   }	  
+						 
+                }
+                $('select#sitfam_membre').html(options);
+           
+            $('#code_banque1').change(function(e)
+            {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-membre/nomcompte',
+                    {
+                        code: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        if(data != false){
+                            $('#nom_banque1').val(data);
+                        }else{
+                            alert('Pas de banque correspondant à ce code');
+                        }
+                        
+                    });
+                }
+                e.preventDefault();
+            });
+        });
+        
+        $('#code_sms').blur(function(e)
+        {
+            if($(this).val() != '')
+            {
+                $.get(
+                '/eu-membre/codesms',
+                {
+                    code: $(this).val()
+                },
+                function success(data)
+                {
+                    if(data[0] == 0){
+                        alert('Ce code est invalide')
+                    }else{
+                        if(data[0] != $('#frais_identification').val()){
+                            alert("La valeur de ce code :"+ data[0]+" "+data[1]+" ne correspond pas à la valeur du FS");
+                        }
+                    }
+                    
+                    
+                });
+            }
+            e.preventDefault();
+        });
+		
+		
+        $('#code_banque1').puiinputtext();
+		$('#nom_banque1').puiinputtext();
+		$('#num_compte1').puiinputtext();
+		
+		
+        var compteur = 1;
+        function addRow(tableID) {
+            var table = document.getElementById(tableID);
+            var rowCount = table.rows.length;
+            var cpte = rowCount;
+            var row = table.insertRow(rowCount);
+            
+            var cell1 = row.insertCell(0);
+            var element0 = document.createElement("select");
+            element0.setAttribute("id","code_banque" + cpte);
+            element0.setAttribute("name","code_banque" + cpte);
+            cell1.appendChild(element0);
+			$('#code_banque'+ cpte).puiinputtext();
+
+            var cell2 = row.insertCell(1);
+            var element1 = document.createElement("input");
+            element1.type = "text";
+            element1.setAttribute("id","nom_banque" + cpte);
+            element1.setAttribute("name","nom_banque" + cpte);
+            element1.setAttribute("size","40");
+            element1.setAttribute("readonly","true");
+            cell2.appendChild(element1);
+			$('#nom_banque'+ cpte).puiinputtext();
+
+            var cell3 = row.insertCell(2);
+            var element2 = document.createElement("input");
+            element2.type = "text";
+            element2.setAttribute("id","num_compte" + cpte);
+            element2.setAttribute("name","num_compte" + cpte);
+            element2.setAttribute("size","30");
+            cell3.appendChild(element2);
+			$('#num_compte'+ cpte).puiinputtext();
+            
+            $.get( "/eu-membre/compte",
+            function success(data)
+            {
+                var options = '<option/>';
+                for( var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+                }
+                $('select#code_banque'+cpte).html(options);
+            });
+            
+            $('#code_banque' + cpte).change(function(e)
+            {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-membre/nomcompte',
+                    {
+                        code: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        if(data != false){
+                            $('#nom_banque' + cpte).val(data);
+                        }
+                        else{
+                            alert('Pas de banque correspondant à ce code');
+                        }
+                    });
+                }
+                e.preventDefault();
+            });
+            compteur = compteur + 1;
+            document.getElementById("cpteur").setAttribute('value',compteur);
+        }
+
+        function deleteRow(tableID) {
+            try {
+                var table = document.getElementById(tableID);
+                var rowCount = table.rows.length - 1;
+                if(rowCount > 1){
+                    table.deleteRow(rowCount);
+                    compteur = compteur - 1;
+                    document.getElementById("cpteur").setAttribute('value',compteur);
+                }
+            }catch(e) {
+                alert(e);
+            }
+        }
+    </script>
+</div>

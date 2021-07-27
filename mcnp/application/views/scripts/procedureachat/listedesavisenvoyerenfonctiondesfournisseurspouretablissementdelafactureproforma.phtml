@@ -1,0 +1,49 @@
+<?php
+
+$month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+$true_month = "";
+$ex_date = explode('-',$this->listedesavisparfournisseur[0]->date_choix);
+
+foreach ($month as $key => $value) {
+  if($ex_date[1] == $key){
+    $true_month = $value;
+  }
+}
+$next_ex_date = explode(' ', $ex_date[2]);
+$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+
+?>
+
+<h3>Liste des avis envoyés par le comité de selection des fournisseurs</h3>
+
+<?php if(count($this->listedesavisparfournisseur) > 0){?>
+
+<table class="table table-stripped">
+ 	<tr>
+		<th>Référence de la demande d'achat</th>
+		<th>Libellé de la demande d'achat</th>
+		<th>Date de l'envoi</th>    
+		<th>Actions</th>
+        
+ 	</tr>
+   </thead>
+   <tbody>
+   	  <?php foreach ($this->listedesavisparfournisseur as $key => $value): ?>
+         <tr class="primary">
+            <td> <?php echo $value->code_membre ?> </td>
+            <td> <?php echo $value->reference_demande_achat ?> </td>
+            <td> <?php echo $value->libelle_demande_achat ?> </td>
+            <td> <?php echo $true_date ?> </td>
+            
+            <td> <a href="/procedureachat/editiondelafactureproformaenfonctiondelademandeachat/id/<?php echo $value->id_demande_achat ?>">Details</a> </td>         
+         </tr>
+
+ 	  <?php endforeach ?>       
+   
+    </tbody>
+</table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucune Demande d'achat n'a été encore émise
+</div>
+<?php }?>

@@ -1,0 +1,509 @@
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/detailprojets.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+
+<div class="row-fluid">
+
+  <div class="span12">
+
+       <blockquote>INTERFACE DE VENTE DES ASPECTS DE PROJETS</blockquote>
+
+       <i class="icon-ok"></i>
+
+     <?php if (isset($_SESSION["validationerrors"])): ?>
+
+		 <div class="alert alert-danger">
+
+			<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+		 </div>
+
+		 <?php unset($_SESSION['validationerrors']); endif ?>
+         
+		 <?php if (isset($_SESSION["validationsuccess"])): ?>
+
+		     <div class="alert alert-success">
+
+				<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+
+			 </div>
+
+	 <?php unset($_SESSION['validationsuccess']); endif ?>
+
+    <form action="#" method="post" class="form-horizontal" enctype="multipart/form-data">
+
+    	<div class="control-group">
+
+	      <label class="control-label" for="libelle_projet" style="font-weight:bold">
+
+              Libelle du projet*:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="op_libelle_projet" class="input-block-level op_libelle_projet" placeholder="Mettre ici le libelle du projet" required="required"/>
+	      
+          </div>
+
+	   </div>
+
+       <div class="control-group">
+
+	       <label class="control-label" for="op_description_projet" style="font-weight:bold;text-align:left">
+
+	          Bref Description du projet *:
+
+	       </label>
+
+	       <div class="controls" >
+
+              <textarea name="op_description_projet" rows="8" class="input-block-level" placeholder="Décriver brievement le contenu de projet" required="required"></textarea>
+
+	       </div>
+
+	    </div>
+
+        <div class="control-group">
+
+			<label class="control-label" for="type de centrale" style="font-weight:bold;float:left;text-align:left">
+
+				Type de centrale *: 
+
+            </label>
+
+			<select class="input-block-level" name="op_type_centrale" id="input_op_type_centrale">
+
+				<option value>Choisir le type de centrale</option>
+
+				<?php foreach ($this->listdestypesdecentrales as $key => $value): ?>
+
+					<option value="<?php echo $value->id_type_centrales ?>"><?php echo $value->libelle_type_centrales ?></option>
+
+				<?php endforeach; ?>
+                
+			</select>
+
+		</div>
+
+
+<div id="global-check">
+
+        <blockquote style = "clear:both">
+
+            <label for="" class="checkbox" style="display:inline-block">
+
+            <input type="hidden" name="op_espace" id="op_projet" value="0">
+
+            <input type="checkbox" name="op_espace" id="op_projet" value="1">
+
+                 <strong style ="display:block;text-decoration:underline">ASPECT ESPACE DU PROJET </strong>
+
+                 <i style="font-size:1em">(Espace de réalisation du projet)</i>
+
+           </label>
+
+        </blockquote>
+
+	<div id="global-check-deploy" style ="display:none">
+		
+		<div class="control-group" >
+
+	      <label class="control-label" for="libelle_espace" style="font-weight:bold">
+
+              Libelle de l'espace *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="op_libelle_espace" class="input-block-level op_libelle_espace" placeholder="Mettre ici le libelle de l'espace"/>
+	      
+          </div>
+	   
+       </div>
+
+	   <div class="control-group">
+       
+	      <label class="control-label" for="Superficie de l'espace" style="font-weight:bold">
+
+              Superficie de l'espace (m2)*:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="number" name="op_superficie_espace" class="input-block-level op_superficie_espace" placeholder="Mettre ici la superficie de l'espace"/>
+	      
+          </div>
+
+	   </div>
+
+	   <div class="control-group">
+
+	      <label class="control-label" for="Description de l'espace" style="font-weight:bold">
+
+              Description de l'espace *:
+
+	      </label>
+
+	      <div class="controls" name="op_description_espace" class="input-block-level op_description_espace">
+
+		     <Textarea name="op_description_espace" class="input-block-level op_description_espace" placeholder = "Mettre ici les details de l'espace de réalisation du projet"></Textarea>
+	      
+          </div>
+
+	   </div>
+
+       <div class="control-group">
+
+	      <label class="control-label" for="op_montant_vente_espace" style="font-weight:bold">
+
+              Montant de vente/location de l'espace *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="number" name="op_montant_vente_espace" class="input-block-level op_montant_vente_espace" placeholder="Mettre ici le montant de vente de l'espace"/>
+	      
+          </div>
+
+	   </div>
+
+       <legend>Document liés à l'aspect espace </legend>
+
+	   	<table class="table table-bordered" id = "tabs_realisation_projet">
+
+			<thead>
+
+				<tr>
+					  
+					<th>Nom du document/espace</th>
+
+					<th>Fichier de l'espace</th>
+
+					<th>Actions</th>
+
+				</tr>
+
+			</thead>
+
+				   
+			<tbody>
+
+				      <tr id="line_file_espace_op">
+
+					     <td>
+
+						     <input class="input-xlarge" type="text" name="espace_libelle_document_fichier[]" id="espace_libelle_document_fichier" placeholder="Nom du document/" >
+                         </td>
+
+						 <td>
+						     
+							  <input name="detail_espace_fichier[]" type="file" id="espace_fichier" class="input-xxlarge"/>  
+							  
+						 </td>
+
+						 <td>
+						   
+						     <button class="btn btn-primary" id = "clone_file_espace">Ajouter</button>
+							 
+						 </td>
+
+					  </tr>
+
+			</tbody>
+
+		</table>
+
+	</div>
+
+</div>
+
+<div id="global-check">
+
+<blockquote>   
+
+     <label for="" class="checkbox" >
+
+    	 <input type="hidden" name="op_materiel" id="op_projet" value ="0">
+
+         <input type="checkbox" name="op_materiel" id="op_projet" value ="1">
+
+         <strong style = "display:block;text-decoration:underline">ASPECT MATERIELS </strong>
+
+         <i>(Matériels pour la réalisation du projet)</i>
+
+     </label>
+
+</blockquote>
+
+<div class="control-group" id="global-check-deploy" style="display:none">
+
+			   <table class="table table-bordered" id = "tabs_realisation_projet">
+
+				   <thead>
+
+				      <tr>
+					  
+					     <th>Libellé du matériel</th>
+
+					     <th>Quantité disponible du matériel</th>
+
+					     <th>Prix de vente du matériel</th>
+
+						 <th>Actions</th>
+
+					  </tr>
+
+				   </thead>
+
+				   <tbody>
+
+				      <tr id="line_materiel_op">
+
+					     <td><input type="text" id = "op_libelle_materiel_realisation" name = "op_libelle_materiel_realisation[]"></td>
+
+						 <td><input type="number" id = "op_quantite_materiel_realisation" name = "op_quantite_materiel_realisation[]"></td>
+
+						 <td><input type="number" id = "op_prix_materiel_realisation" name = "op_prix_materiel_realisation[]"></td>
+
+						 <td><button class="btn btn-primary" id="clone_materiel_projet">Ajouter</button></td>
+
+					  </tr>
+
+				   </tbody>
+
+				</table>
+
+				<table class="table table-bordered" id = "tabs_proforma_materiels">
+
+			<thead>
+
+				<tr>
+					  
+					<th>Nom du document</th>
+
+					<th>Fichier du document</th>
+
+				</tr>
+
+			</thead>
+				   
+			<tbody>
+
+				      <tr id="line_file_materiel_op">
+
+					     <td>
+						  
+						    Facture proforma
+
+						 </td>
+
+						 <td>
+						     
+							  <input  type="file" name="materiel_file" id="materiel_file" class="input-xxlarge"/>  
+							  
+						 </td>
+					  </tr>
+
+			</tbody>
+
+		</table>
+</div>
+
+</div>
+
+
+<div id="global-check">
+
+        <blockquote style = "clear:both">
+
+            <label for="" class="checkbox">
+
+    	         <input type="hidden" name="op_outils" id="op_projet" value ="0">
+
+                 <input type="checkbox" name="op_outils" id="op_projet" value ="1">
+
+                 <strong style ="display:block;text-decoration:underline">ASPECT OUTILS </strong>
+
+                 <i style="font-size:1em">(Autres documents ayant rapport avec le projet)</i>
+
+           </label>
+
+        </blockquote>
+
+	 <div id="global-check-deploy" style="display:none">
+	 
+	   	<table class="table table-bordered" id = "tabs_outils">
+
+			<thead>
+
+				<tr>
+					  
+					<th>Nom du document</th>
+
+					<th>Fichier du document</th>
+
+					<th>Actions</th>
+
+				</tr>
+
+			</thead>
+
+				   
+			<tbody>
+
+				      <tr id="line_file_outils_op">
+
+					     <td>
+
+						     <input type="text" class="input-xlarge" name="outils_libelle_document_fichier[]" id="espace_libelle_document_fichier" placeholder="Nom du document/" >
+                         </td>
+
+						 <td>
+						     
+							  <input  type="file" name="detail_outils_fichier[]" id="outils_fichier" class="input-xxlarge"/>  
+							  
+						 </td>
+
+						 <td>
+						   
+						     <button class="btn btn-primary" id = "clone_file_outils">Ajouter</button>
+							 
+						 </td>
+
+					  </tr>
+
+			</tbody>
+
+		</table>
+
+		<div class="control-group">
+
+	      <label class="control-label" for="op_montant_vente_espace" style="font-weight:bold">
+
+              Montant de vente de l'outils *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="number" name="op_montant_vent_outils" class="input-block-level op_montant_vent_outils" placeholder="Mettre ici le montant de vente de l'outils"/>
+	      
+          </div>
+
+	   </div>
+
+	</div>
+
+</div>
+
+
+<div id="global-check">
+
+<blockquote style="clear:both">   
+
+<label for="" class="checkbox">
+
+    		 <input type="hidden" name="op_rh" id="op_projet" value="0">
+
+             <input type="checkbox" name="op_rh" id="op_projet" value="1">
+
+             <strong style ="display:block;text-decoration:underline">ASPECT RESSOURCES HUMAINES</strong>
+
+</label>
+
+</blockquote>
+
+ <div class="control-group" id="global-check-deploy"  style="display:none">
+
+        <table class="table table-bordered" id = "tabs_rh_projet">
+
+				   <thead>
+
+				      <tr>
+
+					     <th>Libelle du post</th>
+
+					     <th>Responsabilités </th>
+
+					     <th>Rémunération de prestation</th>
+
+						 <th>Actions</th>
+
+					  </tr>
+
+				   </thead>
+
+				   <tbody>
+
+				      <tr id="line_rh">
+
+					     <td><input type="text" id = "op_libelle_post" name = "op_libelle_post[]"></td>
+
+						 <td><textarea  id="op_responsabilite_post" name="op_responsabilite_post[]"></textarea></td>
+
+						 <td><input type="number" id="op_salaire_dispo" name = "op_salaire_post[]"></td>
+
+						 <td><button class="btn btn-primary" id="clone_article_rh" name = "clone_rhinfo">Ajouter</button></td>
+
+					  </tr>
+
+				   </tbody>
+
+		</table>
+
+		<div class="control-group">
+
+	        <label class="control-label" for="op_rh_montant_vente" style="font-weight:bold">
+
+                Montant de vente de l'aspect RH *:
+
+	        </label>
+
+	        <div class="controls">
+
+		        <input type="number" name="op_rh_montant_vente" class="input-block-level op_rh_montant_vente" placeholder="Mettre ici le montant de vente"/>
+
+	        </div>
+				 
+	    </div>
+		<div class="control-group">
+
+	             <label class="control-label" for="op_rh_total_employe" style="font-weight:bold">
+
+                     Nombre total d'employé *:
+
+	             </label>
+
+	             <div class="controls">
+
+		             <input type="number" name="op_rh_total_employe" class="input-block-level op_rh_total_employe" placeholder="Mettre ici le nombre d'employé"/>
+
+	             </div>
+
+	    </div>
+ 
+    </div>
+
+ </div>
+
+
+       <div class="control-group" >
+
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+
+          Valider le formulaire
+
+          </button>
+
+      </div>
+    
+    </form>
+
+</div>
+
+</div>

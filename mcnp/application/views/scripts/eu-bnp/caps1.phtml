@@ -1,0 +1,110 @@
+<div id="view-content" style="font-size: 12px;min-height: 520px;" title="Enrolement CAPS">
+    <form id="caps_form" method="Post" action="/eu-bnp/docaps">
+          <table style="margin-left:auto;margin-right: auto;margin-top: 10px;" id="tab_fl">
+            <tbody>
+                <tr>
+                    <td colspan="2">
+                        <fieldset>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td><label>Mode de paiement :</label></td>
+                                        <td>
+                                            <select id="sel_mode_fin">
+                                               <option value="SMS">Code SMS </option>
+                                               <option value="NN">Numerique noir</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+								</tbody>
+                            </table>
+                        </fieldset>
+                    </td> 
+                </tr>
+				<tr>
+                    <td colspan="2">
+                        <div id="nn_table" style="display: none;">
+                            <fieldset>
+                                <table>
+                                    <tbody>
+									    <tr>
+                                        <td><label>Type membre apporteur :</label></td>
+                                        <td>
+										    <select id="type_mf" name="type_mf">
+                                                <option></option>
+                                                <option value="TMF107">Membre Fondateur MF107</option>
+                                                <option value="TMF11000">Membre Fondateur MF11000</option>
+                                                <option  value="TMFL">Membre Fondateur Licence</option>
+                                            </select>
+										
+										</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </div>
+					</td>
+                </tr>
+				
+                <tr>
+                    <td colspan="2">
+                        <div id="sms_table">
+                            <fieldset>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                <td><label>Code SMS *</label></td>
+                                <td><?php echo $this->form->getElement("code_sms"); ?></td>
+                            </tr>
+							<tr>
+                                <td><label>Montant *</label></td>
+                                <td><input id="montant" name="montant"  required="true"/></td>
+                            </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td></td>
+                    <td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script>
+        $(document).ready(function() {
+            $('#val').button();
+            $('#reset').button();
+            $(function() {
+              $('#view-content').puipanel();
+              $('fieldset').puifieldset();
+              $("#caps_form").validationEngine();
+            });
+			
+			$('form#caps_form').submit(function(e) {
+               $.ajax({
+                url: $('form').attr("action"),
+                data: $('form').serialize(),
+                type: 'post',
+                success: processServerResponse
+               });
+               e.preventDefault();
+            });
+			
+			
+			
+		})	
+
+
+
+
+</script>
+
+
+
+
+

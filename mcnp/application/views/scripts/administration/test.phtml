@@ -1,0 +1,98 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<?php /*?><?php $ordre = 0; $ordre2 = 4255;
+foreach ($this->entries as $entry): 
+if($entry->souscription_ordre == $ordre){
+echo $entry->souscription_id." - ";
+echo $entry->souscription_mobile." - ";
+echo $entry->souscription_ordre."<br />";
+
+
+
+								$souscription2 = new Application_Model_EuSouscription();
+								$souscription2M = new Application_Model_EuSouscriptionMapper();
+								$souscription2M->find($entry->souscription_id, $souscription2);
+								
+								$souscription2->setSouscription_ordre($ordre2);
+								$souscription2M->update($souscription2);
+								
+								
+								
+$compteur = Util_Utils::findConuter() + 1;
+Util_Utils::addSms($compteur, $entry->souscription_mobile, "Le numéro de votre quittance de souscription ESMC a été modifié. Au lieu de ".$entry->souscription_ordre.", veuillez considérer dès maintenant celui ci: ".$ordre2."");        
+								
+								
+								
+$ordre2++;
+}
+$ordre = $entry->souscription_ordre;
+endforeach; 
+?>
+<?php */?>
+<?php /*?>
+<?php 
+$souscr = "";
+foreach ($this->entries as $entry): 
+$test = $entry->souscription_nom
+.$entry->souscription_prenom
+.$entry->souscription_mobile
+.$entry->souscription_membreasso
+.$entry->souscription_email
+.$entry->souscription_raison
+.$entry->souscription_numero
+.$entry->souscription_date_numero
+.$entry->souscription_type
+.$entry->souscription_banque
+.$entry->souscription_date
+.$entry->souscription_personne
+.$entry->souscription_montant
+.$entry->souscription_nombre
+.$entry->souscription_programme
+.$entry->souscription_type_candidat
+.$entry->souscription_filiere
+.$entry->souscription_vignette
+.$entry->code_type_acteur
+.$entry->code_statut
+.$entry->code_activite
+.$entry->id_metier
+.$entry->id_competence
+.$entry->souscription_ville
+.$entry->souscription_quartier
+.$entry->souscription_login
+.$entry->souscription_passe;
+
+if($souscr != $test){
+	$souscr = $test;
+	}else{
+echo $entry->souscription_id.' '.$entry->souscription_nom.' '.$entry->souscription_prenom.' '.$entry->souscription_mobile.'<br />';
+		}
+
+endforeach; 
+
+
+?>
+
+
+<?php */?>
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,74 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<blockquote><p>Formulaire exemple d'intégration de QR <Code></Code></p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addnotification">
+  <?php if(isset($this->error) && $this->error!="") {  ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php }  ?>
+
+
+<div class="control-group">
+<label class="control-label" for="to">Code membre</label>
+<div class="controls">
+<input type="text" name="code_membre" class="input-xxlarge" id="code_membre" placeholder="Code membre" required />
+</div>
+</div>
+
+<style>
+    #swirl_icon{width: 60px;height: 60px;}
+</style>
+
+
+
+<div class="control-group">
+<label class="control-label" for="titre">Nom </label>
+<div class="controls">
+<input type="text" name="nom_membre" class="input-xxlarge" id="nom_membre" placeholder="Nom" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="message">Prenom</label>
+<div class="controls">
+  <textarea name="prenom_membre" class="input-xxlarge" id="prenom_membre" placeholder="Prenom" required></textarea>
+</div>
+</div>
+
+<div id="qrcaptcha"></div>
+
+<br/><br/>
+<div class="form-actions">
+<input name="statut" type="hidden" id="statut" value="0" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary" id="bouton_envoi">Ajouter une notification</button>
+</div>
+
+</form>
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr.js"></script>
+<script type="text/javascript">
+outil_confirmation_biometrique_personelle('addnotification', 'qrcaptcha', 'bouton_envoi', 'Confirmer la vente Test ?', '0010010010010000001M');
+document.getElementById('code_membre_qr_auth').value = "CODE_MEMBRE";
+</script>
+
+
+
+
+

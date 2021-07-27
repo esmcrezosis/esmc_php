@@ -1,0 +1,149 @@
+
+<style>
+	.form-horizontal .control-label{
+		width: 160px;
+	}
+		.mcnp_loader{
+		width: 30px;
+		height: 30px;
+		display: inline-block;
+		vertical-align: middle;
+		position: relative;
+		margin-left: 25px;
+	}
+	.mcnp_loader_quart{
+
+      border-radius: 30px;
+      border:6px solid #e29090;
+	}
+
+	.mcnp_loader_quart::after{
+       content: "";
+       position: absolute;
+       top: -6px;
+       left: -6px;
+       bottom: -6px;
+       right: -6px;
+       border-radius: 30px;
+       border: 6px solid transparent;
+
+       border-top-color: #000;
+       -webit-animation : spin 1s linear infinite;
+       -moz-animation : spin 1s linear infinite;
+       -o-animation : spin 1s linear infinite;
+
+       animation : spin 1s linear infinite;
+	}
+
+	.mcnp_loader_circles{
+		border-radius: 30px;
+		-webkit-border-radius: 30px;
+		-moz-border-radius: 30px;
+		-o-border-radius: 30px;
+
+        border: 3px solid transparent;
+        border-top-color: #000;
+        -webit-animation : spin 1s linear infinite;
+       -moz-animation : spin 1s linear infinite;
+       -o-animation : spin 1s linear infinite;
+
+       animation : spin 1s infinite;
+	}
+    .mcnp_loader_circles::after{
+       position: absolute;
+       content: "";
+       top: 5px;
+       left: 5px;
+       bottom: 5px;
+       right: 5px;
+       border-radius: 30px;
+		-webkit-border-radius: 30px;
+		-moz-border-radius: 30px;
+		-o-border-radius: 30px;
+	   border:2px solid transparent;
+        border-top-color: #000;
+        opacity: 0.8;
+        -webit-animation : spin 5s linear infinite;
+       -moz-animation : spin 5s linear infinite;
+       -o-animation : spin 5s linear infinite;
+
+       animation : spin 5s infinite;
+    }
+    .mcnp_loader_circles::before{
+       position: absolute;
+       content: "";
+       top: 8px;
+       left: 8px;
+       bottom: 8px;
+       right:8px;
+       border-radius: 30px;
+		-webkit-border-radius: 30px;
+		-moz-border-radius: 30px;
+		-o-border-radius: 30px;
+	   border:3px solid transparent;
+        border-top-color: #000;
+        opacity: 0.6;
+        -webit-animation : spin 10s linear infinite;
+       -moz-animation : spin 10s linear infinite;
+       -o-animation : spin 10s linear infinite;
+
+       animation : spin 10s infinite;
+    }
+	@-webkit-keyframes spin{
+		0%{ -webkit-transform:rotate(0deg); -moz-transform:rotate(0deg); -o-transform:rotate(0deg);transform:rotate(0deg); }
+		100%{ -webkit-transform:rotate(360deg); -moz-transform:rotate(360deg); -o-transform:rotate(360deg); -ms-transform:rotate(360deg); transform:rotate(360deg); }
+	}
+
+	@-moz-keyframes spin{
+		0%{ -webkit-transform:rotate(0deg); -moz-transform:rotate(0deg); -o-transform:rotate(0deg);transform:rotate(0deg); }
+		100%{ -webkit-transform:rotate(360deg); -moz-transform:rotate(360deg); -o-transform:rotate(360deg); -ms-transform:rotate(360deg); transform:rotate(360deg); }
+	}
+	@-o-keyframes spin{
+		0%{ -webkit-transform:rotate(0deg); -moz-transform:rotate(0deg); -o-transform:rotate(0deg);transform:rotate(0deg); }
+		100%{ -webkit-transform:rotate(360deg); -moz-transform:rotate(360deg); -o-transform:rotate(360deg); -ms-transform:rotate(360deg); transform:rotate(360deg); }
+	}
+
+	@keyframes spin{
+		0%{ -webkit-transform:rotate(0deg); -moz-transform:rotate(0deg); -o-transform:rotate(0deg);transform:rotate(0deg); }
+		100%{ -webkit-transform:rotate(360deg); -moz-transform:rotate(360deg); -o-transform:rotate(360deg); -ms-transform:rotate(360deg); transform:rotate(360deg); }
+	}
+</style>
+ <legend>Formulaire d'affectation de Salaires pour les employés déclarés</legend>
+          <?php if (array_key_exists("validationerrors", $_SESSION)): ?>
+            <div class="alert alert-danger">
+              <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+            </div>
+          <?php unset($_SESSION['validationerrors']); endif ?>
+
+<form method="Post" action="" class="form-horizontal" id="form_declare_salaire_emp">
+ 	   <div class="control-group">
+	      <label class="control-label" for="integrateur_souscription_ordre">
+	        Code membre de l'employeur *
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="member_moral_salarial"  id="member_morale_employeur" placeholder="Mettre ici votre code Membre" class="input-block-level member_moral_salarial"  required="required"/>
+	      </div>
+	   </div>
+	   <div class="control-group">
+	      <label class="control-label" for="integrateur_souscription_ordre">
+	         Raison Sociale(voici la raison sociale de votre entreprise ?)*
+	      </label>
+	      <div class="controls">
+		    <input type="text" name="member_morale_raison"  class="input-block-level member_salarial_raison" required="required" disabled=true/>
+	      </div>
+	   </div>
+	   <div class="control-group">
+	      <label class="control-label" for="integrateur_souscription_ordre">
+	         Salaire (Voici le solde disponible sur votre compte)
+	      </label>
+	      <div class="controls">
+		    <input type="text" name="member_solde_compte"  id="member_salarial_dispo" class="input-block-level " required="required" disabled=true/>
+	      </div>
+	   </div>
+	   <div class="control-group">
+         <button type="submit" class="btn btn-large btn-primary" id="declare_btn_list">
+         Affichez la liste des employes declares
+          </button>
+          <span class="mcnp_loader mcnp_loader_circles" style="display:none"></span>
+       </div>
+</form>

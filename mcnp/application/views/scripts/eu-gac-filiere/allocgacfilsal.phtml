@@ -1,0 +1,137 @@
+<div id="view-content" class="ui-widget">
+    <div  class="cntError">
+        <?php
+        echo $this->message;
+        ?>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Allocation de salaire aux acteurs</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <fieldset>
+            <legend style=" font-weight:bold">Recherche</legend>
+            <table align="center">
+                <tr>
+                    <td>Code membre</td><td><input type="text" id="code_membre" name="code_membre" size="30"/></td>
+                    <td>Date demande</td><td><input type="text" id="date_demande" name="date_demande" size="12"/></td>
+                    <td><input id="ok" type="button" value="Chercher" /></td>
+                </tr>
+                <tr>
+                    <td>Nom membre</td><td colspan="4"><input type="text" id="nom_membre" name="nom_membre" size="60" readonly="true"/></td>
+                </tr>
+            </table>
+        </fieldset>
+        <div style="font-size: 11px">
+            <table id="tbl-smcipn"></table>
+            <div id="pg-smcipn"></div>
+        </div>
+        <p><input id="allouer" type="button" value="Allouer"></p>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-smcipn").jqGrid({
+        url:'/eu-gac-filiere/listsmcipnfilsal?code_membre='+''+'&date_demande='+'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Code membre','Nom filière','Date','Salaire','Investissement','Total'],
+        height:'100%', width:817,
+        colModel:[
+            {name:'code_demand',index:'code_demand', width:85, align:"left", hidden:true},
+            {name:'lib_demand',index:'lib_demand', width: 300, align:"left", editable: true},
+            {name:'num_membre',index:'num_membre', width: 150, editable: true,align:"left"},
+            {name:'nom_fil',index:'nom_fil', width: 170, editable: true,align:"left"},
+            {name:'date_demand',index:'date_demand', width: 110, align:"left", editable: false},
+            {name:'mt_salaire',index:'mt_salaire', width: 120, align:"right",sorttype:'number',formatter:'number',summaryType:'sum'},
+            {name:'mt_investis',index:'mt_investis', width: 145, align:"right",sorttype:'number',formatter:'number',summaryType:'sum', hidden:true},
+            {name:'total',index:'total', width: 100, align:"right", sorttype:'number',formatter:'number', hidden:true},
+        ],
+        rowNum:50,
+        rowList:[50,100,300],
+        rownumbers:true,
+        pager: '#pg-smcipn',
+        sortname:"date_demand",
+        viewrecords: true,
+        multiselect:true,
+        sortorder: "desc",
+        caption:"Liste des demandes de salaire de la GAC",
+        grouping: true,
+        groupingView : {
+            groupField : ['nom_fil'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [true],
+            groupDataSorted : true
+        },
+        footerrow: true,
+        userDataOnFooter: true
+    });
+  
+    $("#tbl-smcipn").jqGrid('navGrid','#pg-smcipn',{edit:false,add:false,del:false,search:true});
+        
+    $(document).ready(function ()
+    {
+        $('#ok').click(function()
+        {
+            jQuery("#tbl-smcipn").jqGrid('setGridParam',{url:"/eu-gac-filiere/listsmcipnfilsal?code_membre="+$('#code_membre').val()+"&date_demande="+$('#date_demande').val()}).trigger('reloadGrid');
+        });
+        $('#valider').button();
+        $('#annuler').button();
+        $('#allouer').button();
+    });
+    
+    $('#code_membre').blur(function(e)
+    {
+        e.preventDefault();
+        if($(this).val() != '')
+        {
+            $.get(
+            '/eu-gac-filiere/recupnom',
+            {
+                num_membre: $(this).val()
+            },
+            function success(data)
+            {
+                $("#nom_membre").val(data);
+            });
+        }
+    });
+         
+    $.get( "/eu-gac-filiere/changemoral",
+    function success(data)           
+    {
+        $("input#code_membre").autocomplete({"source":data});                  
+    });
+    
+    $('#allouer').click(
+    function(){
+        var sel;
+        sel = jQuery("#tbl-smcipn").jqGrid('getGridParam','selarrrow');
+        if(sel!=0)
+        {
+            $.get('/eu-gac-filiere/allouersal', {
+                lignes:sel
+            },
+            function success(data){
+                if(data == 'sal'){
+                    alert('Le salaire disponible est insuffisant');
+                }
+                else if(data == 'compte_gacs'){
+                    alert('Pas de salaire disponible sur votre compte de subvention');
+                }
+                else if(data == 'alloc_s'){
+                    alert('Le salaire est supérieur à celui de votre compte');
+                }
+                else if(data == 'good'){
+                    jQuery("#tbl-smcipn").jqGrid('setGridParam',{url:"/eu-gac-filiere/listsmcipnfilsal?code_membre="+$('#code_membre').val()+"&date_demande="+$('#date_demande').val()}).trigger('reloadGrid');
+                    alert('Transmission du salaire effectuée avec succès');
+                }
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+        
+</script>
+

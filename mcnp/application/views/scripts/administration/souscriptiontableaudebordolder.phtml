@@ -1,0 +1,280 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+    <script type="text/javascript" charset="utf-8">
+      /*$(document).ready(function() {
+        $('#example').dataTable();
+      } );*/
+      $(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+    "aaSorting": []
+    } );
+} );
+    </script>
+       
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Effectifs des tableaux de bord </p></blockquote>
+
+
+<table class="table table-striped table-bordered table-hover table-condensed">
+<tfoot>
+<tr>
+      <td><strong>Nombre Total des Membres PP</strong> :</td>
+      <td><strong><?php echo ($this->entries_membre); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des Membres PP Auto-Enrolés Nouveaux</strong> :</td>
+      <td><strong><?php echo ($this->entries_membre2); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des Membres PP Auto-Enrolés Anciens</strong> :</td>
+      <td><strong><?php echo ($this->entries_membre4); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des Membres PP pour Tiers</strong> :</td>
+      <td><strong><?php echo ($this->entries_membre3); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des Membres PM</strong> :</td>
+      <td><strong><?php echo ($this->entries_membremorale); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des Membres PM Auto-Enrolés Nouveaux</strong> :</td>
+      <td><strong><?php echo ($this->entries_membremorale2); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des Membres PM Auto-Enrolés Anciens</strong> :</td>
+      <td><strong><?php echo ($this->entries_membremorale4); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des Intégrateurs</strong> :</td>
+      <td><strong><?php echo ($this->entries_integrateur); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des Offreurs de Projets</strong> :</td>
+      <td><strong><?php echo ($this->entries_offreur_projet); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des BAn</strong> :</td>
+      <td><strong><?php echo ($this->entries_bon_neutre_detail); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+
+
+
+
+<tr>
+      <td><strong>Nombre Total des souscriptions</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des souscriptions payées</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_payant); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des souscriptions PP</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_pp); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des souscriptions PM</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_pm); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des souscriptions KACM</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_kacm); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des souscriptions CMFH</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_cmfh); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des souscriptions non activées</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_activer0); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des souscriptions activées 1er niveau</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_activer1); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des souscriptions activées 2e niveau</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_activer2); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des souscriptions activées 3e niveau</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_activer3); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des réactivations MCNP</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_reactivation_mcnp); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des réactivations MCNP PP</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_reactivation_mcnp_pp); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des réactivations MCNP PM</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_reactivation_mcnp_pm); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des réactivations ReDeMaRe</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_reactivation_redemare); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des réactivations ReDeMaRe PP</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_reactivation_redemare_pp); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+<tr>
+      <td><strong>Nombre Total des réactivations ReDeMaRe PM</strong> :</td>
+      <td><strong><?php echo ($this->souscription_total_reactivation_redemare_pm); ?></strong></td>
+</tr>
+<tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+</tr>
+</tfoot>
+            </table>
+                      <br />
+
+
+<br />
+<br />
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,321 @@
+<div class="row-fluid">
+	<div class="span9">
+      <legend>Formulaire de Ticket de Support</legend>
+			<?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+				</div>
+			<?php unset($_SESSION['validationpertesuccess']); endif ?>
+
+	  <form action="#" enctype="multipart/form-data" method="post" class="form-horizontal">
+	   <div class="control-group">
+	      <label class="control-label" for="integrateur_demandeur_ticket_support" style="font-weight:bold">
+	        Demandeur (Nom et Prenoms ou Raison social) *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="integrateur_demandeur_ticket_support" class="input-block-level integrateur_demandeur_ticket_support" placeholder="Mettre ici le nom et prenoms du demandeur" required="required"/>
+	      </div>
+	   </div>
+	   <div class="control-group">
+	      <label class="control-label" for="integrateur_telephone_ticket_support" style="font-weight:bold">
+	         Telephone (pour vous contacter):
+	      </label>
+	      <div class="controls">
+		    <input type="text" name="integrateur_telephone_ticket_support" placeholder="Mettre ici le numero de téléphone du demandeur" class="input-block-level integrateur_telephone_ticket_support" required="required"/>
+	      </div>
+	   </div>
+		 <div class="control-group">
+			<label class="control-label" for="integrateur_email_code_membre_ticket_support" style="font-weight:bold">
+				Le Code Membre du Demandeur:
+			</label>
+			<div class="controls">
+			<input type="text" name="integrateur_code_membre_ticket_support" placeholder="Mettre ici le code membre du demandeur" class="input-block-level integrateur_email_ticket_support" required="required"/>
+       <div class="alert alert-danger">
+       	  <strong>veuillez mettre un code membre correct pour éviter tout désagrément:</strong>
+       </div>
+			</div>
+	 </div>
+        <div class="control-group">
+	       <label class="control-label" for="integrateur_email_ticket_support" style="font-weight:bold" >
+	         Email du Demandeur (pour vous contacter):
+	       </label>
+	       <div class="controls">
+		     <input type="email" name="integrateur_email_ticket_support" placeholder="Mettre ici l'email du demandeur" class="input-block-level integrateur_email_ticket_support" required="required"/>
+	       </div>
+	    </div>
+      <div class="control-group">
+       <label class="control-label" for="integrateur_lieu_demandeur_ticket_support" style="font-weight:bold">
+         Lieu de Souscription:
+       </label>
+       <div class="controls">
+       <input type="text" name="integrateur_lieu_demandeur_ticket_support" placeholder="Mettre ici le lieu de Souscription" class="input-block-level integrateur_lieu_demandeur_ticket_support"/>
+       </div>
+    </div>
+	    <div class="control-group">
+	       <label class="control-label" for="integrateur_addresse" style="font-weight:bold">
+	         Adresse integrateur: </label>
+	       <div class="controls">
+		     <input type="text" name="integrateur_addresse" placeholder="Mettre ici l'Adresse de l'integrateur" class="input-block-level integrateur_addresse_integrateur"/>
+	       </div>
+	    </div>
+			<div style="text-align:left"><strong style="text-decoration:underline;display:block;margin-bottom: 0px;">NB:</strong><p style="margin-left:10px;display:inline-block;margin-bottom: 0px" ><span style="display:inline-block;font-size:20px;font-weight:bold;position: relative;top: 5px;left: -10px;">*</span><span style="display:inline-block;margin-left:15px;margin-bottom:-10px">Si la demande concerne des modifications de :</span></p><span style="display:block;margin-left:25px"><span style="font-weight:bold;font-size:2.4em">.</span> nom, prénoms, email, date de naissance, nationalité, profession: veuillez joindre les pièces d'identités ou toutes pieces justificatives à ce ticket</span><br/>
+		<span style="display:block;margin-left:25px;margin-top:-18px"><span style="font-weight:bold;font-size:2.4em">.</span> Télephone: veullez joindre les codes membres et les pièces d'identités à ce ticket</span><br/><p style="margin-left:10px;margin-top:-9px"><span style="display:inline-block;font-size:20px;font-weight:bold;position: relative;top: 5px;left: -10px;">*</span><span style="display:inline-block;margin-left:8px;">Si la demande concerne les codes (membre, secret, d'activation), veuillez joindre les pièces d'identités à ce ticket.</span></p><p style="margin-left:10px"> <span style="display:inline-block;font-size:20px;font-weight:bold;position: relative;top: 5px;left: -10px;">*</span><span style="display:inline-block;margin-left:15px;margin-top: -19px;">Si la demande concerne une restitution de BAn pour cause d'erreur de nom sur le recu de versement bancaire: souscrire au BAn avec le reçu erroné puis joindre une lettre reconnaissance écrite de celui qui fait la restitution</span></p><div style="width:100%;padding:10px 0px 10px 10px;border:1px solid #000;font-style:italic;"> Ex: je sousigné....................(Code membre......) demande la restitution de ..... à .......</div><p style="margin-left:10px"> Si la demande concerne une concession de BAn pour tiers, joindre une lettre de reconnaissance écrite de celui qui concède.</p><div style="width:100%;padding:10px 0px 10px 10px;border:1px solid #000;margin-bottom:10px;font-style:italic;"> Ex: je sousigné....................(Code membre......) demande la concession de ..... à ....... </div></div>
+		<div class="alert alert-danger">
+			<strong>NB:Soumettre les tickets de support par problème. A chaque problème ou demande, son ticket de support.Tout cela dans le but de faciliter le traitement </strong>
+		</div>
+			<div class="control-group">
+	       <label class="control-label" for="integrateur_description_probleme" style="font-weight:bold;text-align:left">
+	          Description du problème *:
+	       </label>
+	       <div class="controls">
+              <textarea name="integrateur_description_probleme" rows="8" cols="40" class="input-xxlarge" style="width:674px" required="required"></textarea>
+	       </div>
+	    </div>
+
+			<blockquote style="text-transform:uppercase;font-weight:bold;font-size:1.3em;text-align:left">
+				AJOUT DE PIECES JUSTIFICATIVES
+			</blockquote>
+			<div class="control-group">
+					<label class="radio">
+						 <input type="radio" name="piece_perte_personne" id="piece_perte_personne" value="0">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:bold;">Je suis une personne ayant perdu sa pièce justificative</span>
+					</label>
+					<label class="radio">
+						 <input type="radio" name="piece_perte_personne" id="piece_innexistant_personne" value="-1">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:bold;">Je suis une personne n’ayant pas de pièce justificative</span>
+					</label>
+					<label class="radio">
+						 <input type="radio" name="piece_perte_personne" id="piece_existant_personne" value="1">
+						 <span style="inline-block;font-size:1.2em;font-style:italic;font-weight:bold">Je veux joindre des pièces justificatives</span>
+					</label>
+            </div>
+			<div class="control-group" id="piece_existance_justificative" style="display:none">
+				<label class="control-label" for="integrateur_description_probleme" style="font-weight:bold">
+					 Joindre les pieces justificatives
+				</label>
+			 <div class="controls">
+				 <input type="file" name="ticket_multiple_upload_file[]" multiple="multiple" style="position:relative">
+				 <div class="alert alert-danger">
+           <strong>Seul les formats jpg, png et jpeg sont supportés. Vous avez la possibilité de selectionner plusieurs pieces justificatives en même temps:</strong>
+				 </div>
+			</div>
+			</div>
+			<div class="row" style="margin-left:-1px;display:none" id="renseignement_piece_justificative" >
+        <div class="span12">
+					<blockquote style="text-transform:uppercase;font-weight:bold;font-size:1.2em">
+						FICHE DE RENSEIGNEMENT(A REMPLIR HONNETEMENT)
+					</blockquote>
+        </div>
+				<div class="span12">
+				 <div class="span6">
+				 <div class="control-group">
+	 	       <label for="nom_perte" style="font-weight:bold;float:left">
+	 	         Nom*: </label>
+	 		       <input type="text" name="nom_perte" placeholder="Mettre ici Votre nom" class="input-block-level input_nom_perte"/>
+	 	    </div>
+				<div class="control-group">
+					<label  for="prenom_perte" style="font-weight:bold;float:left">
+						Prenoms*: </label>
+					<input type="text" name="prenom_perte" placeholder="Mettre ici Votre prenom" class="input-block-level input_prenom_perte"/>
+			 </div>
+			 <div class="control-group">
+				 <label for="sexe_perte" style="font-weight:bold;float:left">
+					 Sexe*: </label>
+					 <select class="input-block-level input_sexe_perte" name="sexe_perte" >
+             <option value="Masculin">Masculin</option>
+						 <option value="Feminin">Feminin</option>
+					 </select>
+			</div>
+			<div class="control-group">
+				<label for="nationalite_perte" style="font-weight:bold;float:left">
+					Nationalite*: </label>
+				<input type="text" name="nationalite_perte" placeholder="Mettre ici Votre nationalite" class="input-block-level input_nationalite_perte"/>
+		 </div>
+		 <div class="control-group">
+			 <label for="nom_pere_perte" style="font-weight:bold;float:left">
+				 Nom et Prenoms du père*: </label>
+			 <input type="text" name="nom_pere_perte" placeholder="Mettre ici Le nom de Votre pere" class="input-block-level input_nom_pere_perte"/>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="nom_mère_perte" style="width:100%;font-weight:bold;float:left;text-align:left">
+				Nom et Prenoms de la mère*: </label>
+			<input type="text" name="nom_mère_perte" placeholder="Mettre ici Le nom de Votre mère" class="input-block-level input_nom_mère_perte"/>
+	 </div>
+	 <div class="control-group">
+		 <label for="situation_matrimoniale_perte" style="font-weight:bold;float:left">
+			 Situation matrimoniale*: </label>
+			   <select class="input-block-level input_situation_matrimoniale_perte" name="situation_matrimoniale_perte">
+          <option value>Choisir votre situation matrimoniale</option>
+			  	<option value="celibataire">Celibataire</option>
+			  	<option value="marié(e)">Marié(e)</option>
+			  	<option value="divorcé(e)">Divorcé(e)</option>
+			  	<option value="fiancé(e)">Fiancé(e)</option>
+			  	<option value="voeuf(ve)">Voeuf(ve)</option>
+			   </select>
+	</div>
+	<div class="control-group">
+		<label for="date_naissance_perte" style="font-weight:bold;float:left">
+			Date de naissance*: </label>
+		<input type="text" name="date_naissance_perte" placeholder="Mettre ici Le nom de Votre mère" class="input-block-level input_date_naissance_perte datepicker" date-provide="datepicker"/>
+ </div>
+ <div class="control-group">
+	 <label for="lieu_naissance_perte" style="font-weight:bold;float:left">
+		 Lieu de naissance*: </label>
+	 <input type="text" name="lieu_naissance_perte" placeholder="Mettre ici Votre lieu de naissance" class="input-block-level input_lieu_naissance_perte"/>
+ </div>
+  <div class="control-group">
+      <label  for="nombre_enfant_perte" style="font-weight:bold;float:left">
+	      Nombre d'enfant*: </label>
+         <input type="text" name="nombre_enfant_perte" placeholder="Mettre ici Le nombre d'enfant" class="input-block-level input_nombre_enfant_perte"   />
+   </div>
+	<div class="control-group">
+			<label for="adresse_perte" style="font-weight:bold;float:left">
+				Adresse*: </label>
+				<textarea name="adresse_perte" class="input-block-level input_adresse_perte" placeholder="Mettre ici votre adresse" rows="8" cols="40"></textarea>
+	 </div>
+	</div>
+       <div class="span6">
+				 <div class="control-group">
+						 <label for="zone_monetaire_perte" style="font-weight:bold;float:left">
+							 Zone Monétaire*: </label>
+								 <select class="input-block-level input_zone_monetaire_perte" name="zone_monetaire_perte">
+									<option value>Choisir votre zone monétaire</option>
+									<option value="CFA">Zone CFA</option>
+									<option value="NAIRA">Zone Naira</option>
+									<option value="DOLLAR">Zone Dollar</option>
+									<option value="EURO">Zone Euro</option>
+								 </select>
+					</div>
+				 <div class="control-group"> 
+						 <label for="region_perte" style="font-weight:bold;float:left">
+							 Region*: </label>
+							 <select class="input-block-level" name="region_perte" id="input_region_perte">
+ 								<option value>Choisir votre region </option>
+ 								 <?php foreach ($this->re_all_entry as $key => $value): ?>
+ 									<option value="<?php echo $value->id_region ?>" data-idpays="<?php echo $value->id_pays ?>"><?php echo $value->nom_region ?></option>
+ 								 <?php endforeach; ?>
+ 							</select>
+					</div>
+				 <div class="control-group">
+			 			<label for="ville_perte" style="font-weight:bold;float:left">
+			 				Ville*: </label>
+			 				 <input type="text" name="ville_perte" placeholder="Mettre ici votre ville" class="input-block-level input_ville_perte" />
+			 	 </div>
+				 <div class="control-group">
+						<label for="email_perte" style="font-weight:bold;float:left">
+							Email*: </label>
+						<input type="text" name="email_perte" placeholder="Mettre ici votre email" class="input-block-level input_email_perte"/>
+				 </div>
+				 <div class="control-group">
+						<label for="cellulaire_perte" style="font-weight:bold;float:left">
+							Cellulaire*: </label>
+							 <input type="text" name="cellulaire_perte" placeholder="Mettre ici votre cellulaire" class="input-block-level input_cellulaire_perte"   />
+				 </div>
+				 <div class="control-group">
+						<label for="telephone_perte" style="font-weight:bold;float:left">
+							Telephone Fixe: </label>
+							 <input type="text" name="telephone_perte" placeholder="Mettre ici votre telephone" class="input-block-level input_telephone_perte"/>
+				 </div>
+				 <div class="control-group">
+						<label for="profession_perte" style="font-weight:bold;float:left">
+							Profession*: </label>
+							 <input type="text" name="profession_perte" placeholder="Mettre ici votre profession" class="input-block-level input_profession_perte"   />
+				 </div>
+				 <div class="control-group">
+						<label for="religion_perte" style="font-weight:bold;float:left">
+							Religion*: </label>
+							<select class="input-block-level" name="religion_perte" id="input_religion_perte"   >
+								<option value>Choisir votre religion</option>
+								 <?php foreach ($this->rel_all_entry as $key => $value): ?>
+									<option value="<?php echo $value->id_religion_membre ?>"><?php echo $value->libelle_religion ?></option>
+								 <?php endforeach; ?>
+							</select>
+						</div>
+				 <div class="control-group">
+						<label for="quartier_perte" style="font-weight:bold;float:left">
+							Quartier*: </label>
+							 <input type="text" name="quartier_perte" placeholder="Mettre ici votre quartier" class="input-block-level input_quartier_perte"/>
+				 </div>
+				 <div class="control-group">
+						<label for="canton_perte" style="font-weight:bold;float:left">
+							Cantons*: </label>
+							<select class="input-block-level" name="canton_perte" id="input_canton_perte"   >
+								<option value>Choisir votre canton</option>
+								 <?php foreach ($this->can_all_entry as $key => $value): ?>
+									<option value="<?php echo $value->id_canton ?>" data-idprefecture="<?php echo $value->id_prefecture ?>"><?php echo $value->nom_canton ?></option>
+								 <?php endforeach; ?>
+							</select>
+				 </div>
+				 <div class="control-group">
+						<label for="bp_perte" style="font-weight:bold;float:left">
+							BP: </label>
+							 <input type="text" name="bp_perte" placeholder="Mettre ici votre bp" class="input-block-level input_bp_perte"/>
+				 </div>
+				 <div class="control-group">
+						<label class="control-label" for="pays_perte" style="font-weight:bold;float:left;text-align:left">
+							Pays*: </label>
+							<select class="input-block-level" name="pays_perte" id="input_pays_perte"   >
+								<option value>Choisir votre pays</option>
+								 <?php foreach ($this->pa_all_entry as $key => $value): ?>
+									<option value="<?php echo $value->id_pays ?>"><?php echo $value->libelle_pays ?></option>
+								 <?php endforeach; ?>
+							</select>
+				 </div>
+				 <div class="control-group">
+						<label for="prefecture_perte" style="font-weight:bold;float:left">
+							Prefecture*: </label>
+						<select class="input-block-level" name="prefecture_perte" id="input_prefecture_perte"   >
+							<option value>Choisir votre prefecture</option>
+              <?php foreach ($this->pre_all_entry as $key => $value): ?>
+								<option value="<?php echo $value->id_prefecture ?>" data-idregion="<?php echo $value->id_region ?>"><?php echo $value->nom_prefecture ?></option>
+              <?php endforeach; ?>
+						</select>
+				 </div>
+       </div>
+		 </div>
+	 </div>
+	 <div id="responsabilite_information" style="display:none">
+	 <blockquote style="text-transform:uppercase;text-decoration:underline;font-weight:bold;font-size:1.3em">Responsabilité de la véracité des informations fournies(très important)</blockquote>
+		 <div class="control-group">
+			 <label style="font-weight:bold;float:left" for="">Qualité du Responsable</label>
+				<select class="input-block-level input_qualite_responsable_perte" name="qualite_responsable_perte"   >
+						 <option value>Choisir la qualite du responsable</option>
+						 <option value="parent">Parent</option>
+						 <option value="tuteur">Tuteur</option>
+						 <option value="moi-même">Moi-même</option>
+				</select>
+		 </div>
+		 <div class="control-group">
+				<label for="" style="font-weight:bold;float:left">Nom et Prénoms du Responsable *</label>
+			 <input type="text" name="nom_responsable_personne_perte" placeholder="Mettre ici votre nom" class="input-block-level input_nom_responsable_perte"/>
+		 </div>
+		 <div class="control-group">
+				<label for="" style="font-weight:bold;float:left">Numero de Telephone du Responsable *</label>
+			 <input type="text" name="numero_responsable_telephone_personne_perte" placeholder="Mettre ici votre numero de telephone" class="input-block-level input_numero_telephone_perte"   />
+		 </div>
+		 <div class="control-group">
+				<label for="" style="font-weight:bold;float:left">Code Membre du Responsable *</label>
+			 <input type="text" name="code_membre_responsable_personne_perte" placeholder="Mettre ici votre code membre" class="input-block-level input_code_membre_perte"   />
+		 </div>
+		 <div class="control-group">
+			 <label for="attention" style="font-weight:bold;float:left">NB :   *   Mention obligatoire</label>
+		 </div>
+	 </div>
+
+      <div class="control-group" >
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+          Valider le formulaire
+          </button>
+      </div>
+
+</form>
+	</div>
+	<div class="span3">
+		<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+	</div>
+</div>

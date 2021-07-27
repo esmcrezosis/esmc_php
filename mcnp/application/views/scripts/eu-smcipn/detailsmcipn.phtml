@@ -1,0 +1,274 @@
+<style>
+    #container { height:auto;}
+</style>
+
+<div id="view-content" class="ui-widget">
+    <div style="text-align: center; padding-bottom: 5px">
+        <input id="relancer" type="button" value="Relancer">&nbsp;
+        <input id="cancel" type="button" value="Retour">
+        <br>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 10px; padding-left: 7px;">
+        <h3>Détail de la SMCIPN</h3>
+    </div>
+    <div id="container" class="ui-widget-content ui-corner-bottom">
+        <div id="accordeon">
+            <h2><a href="#">Informations sur la SMCIPN</a></h2>
+            <div id="smcipn" style="font-size:12px">
+                <table>
+                    <tr><td>Code SMCIPN</td><td><input id="code_demand" value="<?php echo $this->smcipn->code_smcipn; ?>" readonly="true" size="26"/></td>
+                        <td>Libellé SMCIPN</td><td><input id="lib_demand" value="<?php echo $this->smcipn->lib_demande; ?>" readonly="true" size="42"/></td>
+                    </tr>
+                    <tr><td>Code membre</td><td><input id="num_membre" value="<?php echo $this->smcipn->code_membre; ?>" readonly="true" size="26"/></td>
+                        <td>Nom membre</td><td><input id="nom_membre" value="<?php echo ucfirst($this->smcipn->nom_membre) . " " . ucfirst($this->smcipn->prenom_membre); ?>" readonly="true" size="42"/></td>
+                    </tr>
+                    <tr>
+                        <td>Durée du projet</td><td><input id="dvm_demand" value="<?php
+echo ceil(($this->smcipn->dvm_demande) * 30);
+echo' (jours)';
+?>" readonly="true"/></td>
+                        <td>Date demande</td><td><input id="date_demand" value="<?php
+                                                           $dd = explode("-", $this->smcipn->date_demande);
+                                                           echo $dd[2] . '/' . $dd[1] . '/' . $dd[0];
+?>" readonly="true"/></td>
+                    </tr>
+                    <tr><td>Montant salaire</td><td><input id="mt_salaire" value="<?php echo $this->smcipn->montant_salaire; ?>" readonly="true" style="text-align: right"/></td>
+                        <td>Montant investissement</td><td><input id="mt_investis" value="<?php echo $this->smcipn->montant_investis; ?>" readonly="true" style="text-align: right"/></td>
+                    </tr>
+                    <tr>
+                        <td>Date début</td><td><input id="date_deb" value="<?php
+                                                           $dd = explode("-", $this->smcipn->date_deb);
+                                                           echo $dd[2] . '/' . $dd[1] . '/' . $dd[0];
+?>" readonly="true"/></td>
+                        <td>Date fin</td><td><input id="date_fin" value="<?php
+                            $dd = explode("-", $this->smcipn->date_fin);
+                            echo $dd[2] . '/' . $dd[1] . '/' . $dd[0];
+?>" readonly="true"/></td>
+                    </tr>
+                    <tr>
+                        <td>Type de demande</td><td><input id="type_smcipn" value="<?php echo $this->smcipn->type_smcipn; ?>" readonly="true"/></td>
+                        <td>Description</td><td>
+                            <textarea id="desc_demande" readonly="true" cols="50" rows="5" style="text-align:left">
+<?php echo $this->smcipn->desc_demande; ?>
+                            </textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Remarques</td>
+                        <td colspan="3" height="100">
+                            <textarea id="id_req" cols="50" rows="10"><?php
+$rq = explode('--', $this->smcipn->req_demande);
+for ($i = 0; $i < count($rq); $i++) {
+    print( $rq[$i] . "\n");
+}
+?>
+                            </textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <h2><a href="#">Informations sur la domiciliation</a></h2>
+            <div id="domiciliation" style="font-size:11px">
+                <table>
+<?php if (count($this->domici) == 1 and count($this->benef) == 1 and count($this->ass) == 1) { ?>
+                        <tr><td>Code membre bénéficiaire</td><td><input id="num_benef" value="<?php echo $this->domici->code_membre_beneficiaire; ?>" readonly="true" size="27"/></td>
+                            <td>Nom bénéficiaire</td><td><input id="nom_benef" value="<?php echo ucfirst($this->benef->raison_sociale); ?>" readonly="true" size="35"/></td>
+                        </tr>
+                        <tr><td>Code membre assureur</td><td><input id="num_assureur" value="<?php echo $this->domici->code_membre_assureur; ?>" readonly="true" size="27"/></td>
+                            <td>Nom assureur</td><td><input id="nom_assureur" value="<?php echo ucfirst($this->ass->raison_sociale); ?>" readonly="true" size="35"/></td>
+                        </tr>
+                        <tr><td>Catégorie ressource</td><td><input id="cat_ressource" value="<?php
+                            $cat = $this->domici->cat_ressource;
+                            if ($cat == 'nr') {
+                                echo 'Non réccurent';
+                            } else {
+                                echo 'Réccurent';
+                            }
+                            ?>" readonly="true"/></td>
+                            <td>Montant subvention</td><td><input id="mt_subvent" value="<?php echo $this->domici->montant_subvent; ?>" readonly="true" style="text-align: right"/></td>
+                        </tr>
+                        <tr>
+                            <td>Montant domiciliation</td><td><input id="mt_domici" value="<?php echo $this->domici->montant_domicilier; ?>" readonly="true" style="text-align: right"/></td>
+                            <td>Etat domiciliation</td>
+                            <td><input id="domicilier" value="<?php
+                            $dom = $this->domici->domicilier;
+                            if ($dom == 'N') {
+                                echo 'En cours';
+                            } else {
+                                echo 'Terminer';
+                            }
+    ?>" readonly="true"/></td>
+                        </tr>
+                        <tr><td>Date domiciliation</td><td><input id="date_domici" value="<?php
+                            $dd = explode("-", $this->domici->date_domiciliation);
+                            echo $dd[2] . '/' . $dd[1] . '/' . $dd[0];
+                            ?>" readonly="true"/></td>
+                            <td>Date échue</td><td><input id="date_echue" value="<?php
+                            $dd = explode("-", $this->domici->date_echue);
+                            echo $dd[2] . '/' . $dd[1] . '/' . $dd[0];
+                            ?>" readonly="true"/></td>
+                        </tr>
+                        <tr>
+                            <td>Code SMCIPN</td><td colspan="3"><input id="code_smcipn" value="<?php echo $this->domici->code_smcipn; ?>" readonly="true" size="35"/></td>
+                        <input id="code_domicilier" value="<?php echo $this->domici->code_domicilier; ?>" readonly="true" hidden="true"/>
+                        </tr>
+<?php } ?>
+                </table>
+                </br>
+                <table id="tbl-credit"></table>
+                <div id="pg-credit"></div>
+            </div>
+            <h2><a href="#">Informations sur le budget salaire</a></h2>
+            <div id="salaire" style="font-size:11px">
+                <table>
+                    <tr><td>Montant salaire SMCIPN</td><td><input id="mt_salaire1" value="<?php echo $this->smcipn->montant_salaire; ?>" readonly="true" style="text-align: right"/></td>
+                        <td>Montant budget salaire</td><td><input id="mt_budgetsal" value="<?php echo $this->sal; ?>" readonly="true" style="text-align: right"/></td>
+                    </tr>
+                </table>
+                </br>
+                <table id="tbl-salaire"></table>
+                <div id="pg-salaire"></div>
+            </div>
+            <h2><a href="#">Informations sur le budget investissement</a></h2>
+            <div id="investissement" style="font-size:11px">
+                <table>
+                    <tr><td>Montant investissement SMCIPN</td><td><input id="mt_investis1" value="<?php echo $this->smcipn->montant_investis; ?>" readonly="true" style="text-align: right"/></td>
+                        <td>Montant budget investissement</td><td><input id="mt_budgetinves" value="<?php echo $this->investis; ?>" readonly="true" style="text-align: right"/></td>
+                    </tr>
+                </table>
+                </br>
+                <table id="tbl-investis"></table>
+                <div id="pg-investis"></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        jQuery(function() {
+            $("#accordeon").accordion();
+        });
+        $("#tbl-salaire").jqGrid({
+            url:"/eu-smcipn/listsalaire?code_demand="+$('#code_demand').val(),
+            datatype: "json",
+            mtype: 'GET',
+            colNames:['Numéro','Nom','Prénoms','Salaire'],
+            height:'100%', width:780,
+            colModel:[
+                {name:'num_membre',index:'num_membre', width: 120, align:"left"},
+                {name:'nom_membre',index:'nom_membre', width: 140, align:"left"},
+                {name:'prenom_membre',index:'prenom_membre', width: 150, align:"left"},
+                {name:'salaire',index:'salaire', width: 120, align:"right",formatter:'number'}
+            ],
+            rowNum:10,
+            rowList:[10,20,30],
+            rownumbers:true,
+            pager: '#pg-salaire',
+            sortname:"membre",
+            viewrecords: true,
+            multiselect:false,
+            sortorder: "ASC",
+            caption:"Listes des salariés",
+            grouping:false,
+            groupingView : {
+                groupField : ['num_membre'],
+                groupColumnShow : [true],
+                groupText : ['<b>{0}</b>'],
+                groupCollapse : false,
+                groupOrder: ['asc'],
+                groupSummary : [true],
+                groupDataSorted : true
+            },
+            footerrow: true,
+            userDataOnFooter: true
+        });
+        $("#tbl-salaire").jqGrid('navGrid','#pg-salaire',{edit:false,add:false,del:false,search:true});
+        
+        
+        $("#tbl-investis").jqGrid({
+            url:"/eu-smcipn/listinvestis?dema="+$('#code_demand').val()+"&investis="+$('#mt_investis').val(),
+            datatype: "json",
+            mtype: 'GET',
+            colNames:['Num proforma','Code produit','Libellé produit','PU produit','Quantité','Remise','Total','Code'],
+            height:'auto', width:780,
+            colModel:[
+                {name:'num_pforma',index:'num_pforma', width: 150, editable: false,align:"left"},
+                {name:'code_objet',index:'code_objet', width: 120, align:"left",summaryType:'count', summaryTpl : '({0}) total'},
+                {name:'design_objet',index:'design_objet', width: 250, align:"left", editable: false},
+                {name:'pu_objet',index:'pu_objet', width: 120, align:"right",sorttype:'number',formatter:'number',summaryType:'sum',formatter:'number'},
+                {name:'qte_objet',index:'qte_objet', width: 100, align:"right", sorttype:'number',summaryType:'sum'},
+                {name:'remise',index:'remise', width: 100, align:"right", sorttype:'number',summaryType:'sum'},
+                {name:'total',index:'total', width: 100, align:"right", sorttype:'number',summaryType:'sum',formatter:'number'},
+                {name:'code_dem',index:'code_dem', width: 100, align:"right", hidden:true},
+            ],
+            rowNum:10,
+            rowList:[10,20,30],
+            rownumbers:true,
+            pager: '#pg-investis',
+            sortname:"num_pforma",
+            viewrecords: true,
+            multiselect:false,
+            sortorder: "ASC",
+            caption:"Budget investissement",
+            grouping: true,
+            groupingView : {
+                groupField : ['num_pforma'],
+                groupColumnShow : [true],
+                groupText : ['<b>{0}</b>'],
+                groupCollapse : false,
+                groupOrder: ['asc'],
+                groupSummary : [true],
+                groupDataSorted : true
+            },
+            footerrow: true,
+            userDataOnFooter: true
+        });
+        $("#tbl-investis").jqGrid('navGrid','#pg-investis',{edit:false,add:false,del:false,search:true});
+        
+        $("#tbl-credit").jqGrid({
+            url:"/eu-smcipn/listcredits?code_domicil="+$('#code_domicilier').val(),
+            datatype: "json",
+            mtype: 'GET',
+            colNames:['Membre','Ressource','Mt placé','Mt crédit','Mt domicilié','Date dépôt'],
+            height:'100%', width:780,
+            colModel:[
+                {name:'code_membre',index:'code_membre', width: 170, editable: false,align:"left"},
+                {name:'produit',index:'produit', width: 100, align:"left", editable: false},
+                {name:'mt_place',index:'mt_place', width: 150, align:"right", editable: false,formatter:'number'},
+                {name:'mt_credit',index:'mt_credit', width: 150, align:"right", editable: false,formatter:'number'},
+                {name:'mt_domici',index:'mt_domici', width: 150, align:"right", editable: false,formatter:'number'},
+                {name:'date_depot',index:'date_depot', width: 120, align:"left", editable: false}
+            ],
+            rowNum:30,
+            rowList:[30,50,100],
+            rownumbers:true,
+            pager: '#pg-credit',
+            sortname:"datefin",
+            viewrecords: true,
+            sortorder: "ASC",
+            caption:"Comptes des crédits de la domiciliation"
+        });
+        $("#tbl-credit").jqGrid('navGrid','#pg-credit',{edit:false,add:false,del:false,search:true});
+        
+        $('#cancel').click(function(){
+            $.get('/eu-smcipn/smcipnrejeter',function(data){
+                $("#view-content").html(data);
+            });
+        });
+        $('#cancel').button();
+        
+        $('#relancer').click(function()
+        {
+            $.get('/eu-smcipn/relancersmcipn?code='+$('#code_demand').val(), {
+            },
+            function success(data){
+                if(data == true){
+                    alert('Renvoie de la subvention effectué avec succès');
+                    
+                }else{
+                    alert("Echec de l'opération");
+                }
+                window.location="/eu-smcipn";
+            });         
+        });
+        $('#relancer').button();
+    </script>
+</div>

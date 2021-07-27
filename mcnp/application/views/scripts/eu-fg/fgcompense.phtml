@@ -1,0 +1,58 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 10px; padding-left: 5px;">
+        <h3>FGFN Compensé</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form id="gcp_form" method="POST" action="/eu-fg/rappro">
+            <input type="hidden" id="type" value="<?php echo $this->type ?>"/>
+            <h5 style="margin-left: 30px;">Date Début<input id="date_cnp_deb" name="date_cnp" type="text" />
+                Date Fin  <input id="date_cnp_fin" name="date_cnp" type="text" />
+                <input type="submit" id="val_cnp" value="OK"/></h5>
+        </form>
+        <br/>
+        <table id="tbl-compens"></table>
+        <div id="pg-compens"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-compens").jqGrid({
+        url:'/eu-fg/rappro?type='+ $('#type').val(),
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['ID','Date','Membre PBF','PBF Compensé','Montant'],
+        height:500, width:815,
+        colModel:[
+            {name:'id_gcp_compense',index:'id_gcp_compense', width: 120, align:"right", editable: true},
+            {name:'date_compens',index:'date_compens', width: 120, sorttype:"date", formatter:"date",align:"left", editable: true},
+            {name:'code_fgfn',index:'code_fgfn', width: 170, align:"left", editable: true},
+            {name:'type_capa_fgfn',index:'type_capa_fgfn', width: 150, align:"left", editable: true},
+            {name:'mont_fgfn_sortie',index:'mont_fgfn_sortie', width: 150, editable: true,align:"right",sorttype:"float", formatter:"number"}
+        ],
+        rowNum:20,
+        rowList:[20,30,40],
+        pager: '#pg-compens',
+        sortname:"id_gcp_compense",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"FGFN Compensé"
+    });
+    $("#tbl-compens").jqGrid('navGrid','#pg-compens',{edit:false,add:false,del:false,search:true});
+        
+    $(document).ready(function() {
+        var pickerOpts = {
+            dateFormat:"dd/mm/yy",
+            changeMonth:true,
+            changeYear:true,
+            selectOtherMonths: true,
+            showButtonPanel: true
+        };
+        $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+        $("#date_cnp_deb").datepicker(pickerOpts);
+        $("#date_cnp_fin").datepicker(pickerOpts);
+        $('#val_cnp').button().click(function(e)
+        {
+            jQuery("#tbl_compens").jqGrid('setGridParam',{url:"/eu-fg/rappro?type=Ir&date_deb="+$('#date_cnp_deb').val()+"&date_fin="+$('#date_cnp_fin').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+    });
+</script>

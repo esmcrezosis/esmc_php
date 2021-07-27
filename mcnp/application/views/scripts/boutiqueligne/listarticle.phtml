@@ -1,0 +1,106 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Liste de mes articles</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:9px;">
+						  <thead>
+							  <tr>
+								  <th>Image</th>
+								  <th>Réference</th>
+								  <th>Désignation</th>
+								  <th>Prix</th>
+								  <th>Catégorie</th>
+								  <th>Classification</th>
+								  <th>Type</th>
+								  <th>Quantité</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php if($entry->imageArticle != ""){?><img src="<?php echo $this->baseUrl(); ?>/<?php echo $entry->imageArticle; ?>" class="img-polaroid" style="width:100px; height:100px;" /><?php }?></td>
+      <td><?php echo $entry->reference; ?></td>
+      <td><?php echo $entry->designation; ?></td>
+      <td><?php echo $entry->prix; ?></td>
+      <td><?php $tegcM = new Application_Model_EuTegcMapper();
+$tegc = new Application_Model_EuTegc();
+$tegcM->find($entry->categorie, $tegc);?>
+<?php echo $tegc->nom_tegc; ?> - <?php echo ($tegc->nom_produit);?>
+</td>
+      <td><?php $categorieM = new Application_Model_EuArticleStockesCategorieMapper();
+$categorie = new Application_Model_EuArticleStockesCategorie();
+$categorieM->find($entry->article_stockes_categorie, $categorie);?>
+<?php echo $categorie->nom_article_stockes_categorie; ?>
+</td>
+      <td><?php if($entry->type == "bp"){echo "Biens et Produits";}else{echo "Services";} ?></td>
+      <td><?php echo $entry->vendu; ?></td>
+      <td><div align="center"><?php if($entry->publier == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/boutiqueligne/publierarticle/id/<?php echo $entry->id_article_stockes; ?>/publier/0"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/boutiqueligne/publierarticle/id/<?php echo $entry->id_article_stockes; ?>/publier/1"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>&nbsp;
+      
+<?php 
+    $article_stockes_designation_M = new Application_Model_EuArticleStockesMapper();
+    $article_stockes_designation = $article_stockes_designation_M->fetchAllByDesignation($article_stockes->reference);
+if(count($article_stockes_designation) == 1){
+?>
+<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/boutiqueligne/editarticleone/id/<?php echo $entry->id_article_stockes; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>
+<?php }else if(count($article_stockes_designation) > 1){?>
+<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/boutiqueligne/editarticle/id/<?php echo $entry->id_article_stockes; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>
+<?php }?>
+
+			<?php /*?><a class="btn btn-mini btn-danger"  onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/boutiqueligne/supparticle/id/<?php echo $entry->id_article_stockes; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a><?php */?></div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun article enregistré 
+</div>
+<?php }?>
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

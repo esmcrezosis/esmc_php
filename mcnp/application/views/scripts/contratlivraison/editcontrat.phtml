@@ -1,0 +1,131 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Modification du contrat de livraison irrévocable</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="editcontrat">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<div class="control-group">
+<label class="control-label" for="code_membre">Code Membre *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="code_membre" id="code_membre" placeholder="Code Membre" value="<?php echo $this->contrat->code_membre; ?>" required readonly>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="designation">Désignation *</label>
+<div class="controls">
+<input class="input-xxlarge" type="text" name="designation" id="designation" placeholder="Désignation" value="<?php echo $this->contrat->designation; ?>" required>
+</div>
+</div>
+    
+
+<div class="control-group">
+    <label class="control-label">Type de régistre *</label>
+    <div class="controls">
+    <label class="radio">
+  <input type="radio" name="type_registre" id="type_registre1" value="STE" <?php if($this->contrat->type_registre == "STE"){echo 'checked="checked"';} ?> required>
+  N° du Registre du Commerce et du Crédit Mobilier (RCCM) pour les sociétés
+</label>
+<label class="radio">
+  <input type="radio" name="type_registre" id="type_registre2" value="ASSO" <?php if($this->contrat->type_registre == "ASSO"){echo 'checked="checked"';} ?> required>
+  N° d’enregistrement ou de récépissé pour les associations
+</label>
+<label class="radio">
+  <input type="radio" name="type_registre" id="type_registre3" value="COOP" <?php if($this->contrat->type_registre == "COOP"){echo 'checked="checked"';} ?> required>
+  N° du Registre des Sociétés Coopératives (RSC) pour les coopératives
+</label>
+<label class="radio">
+  <input type="radio" name="type_registre" id="type_registre4" value="OPE" <?php if($this->contrat->type_registre == "OPE"){echo 'checked="checked"';} ?> required>
+  N° de la carte d’opérateur économique en cas d’exercice individuel
+</label>
+    </div>
+  </div>
+
+<div class="control-group">
+<label class="control-label" for="numero_registre">Régistre *</label>
+<div class="controls">
+<input class="input-xxlarge" type="text" name="numero_registre" id="numero_registre" placeholder="Régistre" value="<?php echo $this->contrat->numero_registre; ?>" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="libelle_produit">Libellé produit du contrat *</label>
+<div class="controls">
+<input class="input-xxlarge" type="text" name="libelle_produit" id="libelle_produit" placeholder="Libellé produit du contrat" value="<?php echo $this->contrat->libelle_produit; ?>" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="montant_produit">Montant produit du contrat *</label>
+<div class="controls">
+<div class="input-append">
+<input class="input-xxlarge" type="number" name="montant_produit" id="montant_produit" placeholder="Montant produit du contrat" value="<?php echo $this->contrat->montant_produit; ?>" required>
+  <span class="add-on">XOF</span>
+</div>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="periode_garde">Période de garde des produits *</label>
+<div class="controls">
+<div class="input-append">
+<input class="input-xxlarge" type="number" name="periode_garde" id="periode_garde" placeholder="Période de garde des produits" value="<?php echo $this->contrat->periode_garde; ?>" required>
+  <span class="add-on">mois</span>
+</div>
+</div>
+</div>
+
+
+<div class="control-group">
+    <label class="control-label">Chargement des produits * </label>
+    <div class="controls">
+    <label class="radio">
+  <input type="radio" name="chargement_produit" id="chargement_produit1" value="VENDEUR" <?php if($this->contrat->chargement_produit == "VENDEUR"){echo 'checked="checked"';} ?>  required>
+  Le chargement sera assuré par le VENDEUR à ses frais et sous sa responsabilité
+</label>
+<label class="radio">
+  <input type="radio" name="chargement_produit" id="chargement_produit2" value="ACHETEUR" <?php if($this->contrat->chargement_produit == "ACHETEUR"){echo 'checked="checked"';} ?> required>
+  Le chargement sera assuré par l’ACHETEUR (ou ses clients) à ses (leur) frais et sous sa (ou leur) responsabilité
+</label>
+    </div>
+  </div>
+
+
+
+<div class="form-actions">
+<input name="id_contrat" type="hidden" id="id_contrat" value="<?php echo $this->contrat->id_contrat; ?>" />
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier le contrat de livraison irrévocable</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

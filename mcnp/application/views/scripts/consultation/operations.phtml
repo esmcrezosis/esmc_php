@@ -1,0 +1,107 @@
+<div id="view-content" title="Consultation des opérations" style="font-size: 12px;min-height: 520px;">
+    <form id="rech_bnp" method="Post" action="">
+        <fieldset style="margin-bottom: 3px;"> <legend>Recherche des opérations effectuées</legend>
+            <table>
+                <tbody>
+                    <tr>
+                        <td><label>Types Opérations</label></td>
+                        <td><select id="rech_type_compte" type="text" name="rech_type_compte" >
+                                <option value=""></option>
+                                <option value="APA">APA</option>
+                                <option value="Conso">Consommation</option>
+                                <option value="Echange">Echange</option>
+                                <option value="ERL">Enrôlement</option>
+                                <option value="Escompte">Escompte</option>
+                                <option value="AR">Allocation de ressources</option>
+                            </select>
+                        </td><td><label>Date Opération</label></td><td><input id="date_deb" type="text" name="date_deb"/></td>
+                    </tr>
+                    <tr>
+                        <td><label>N° membre</label></td><td><input id="rech_membre" type="text" name="rech_membre" size="30"/></td>
+                        <td><label>Cartes Numériques</label></td>
+                        <td><select id="rech_num_compte" type="text" name="rech_num_compte"></select></td>
+                        <td><label>Compte</label></td>
+                        <td><select id="rech_produit" type="text" name="rech_produit"></select></td>
+                    </tr>
+                    <tr><td></td><td><input id="bt_rech_compte" type="submit" value="Valider"/><input id="reset_compte" type="reset" value="Annuler"/></td></tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </form>
+    <table id="tbl-operations"></table>
+    <div id="pg-operations"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-operations").jqGrid({
+        url:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Date','Type','N° Membre','Libellé','Cartes numériques','Compte','Montant'],
+        height:500, width:817,
+        colModel:[
+            {name:'date_op',index:'date_op', width: 90, align:"left", editable: true},
+            {name:'type_op',index:'type_op', width: 70, editable: true,align:"left"},
+            {name:'code_membre',index:'code_membre', width: 180, align:"left", editable: true},
+            {name:'lib_op',index:'lib_op', width: 200, align:"left", editable: true,hidden : true},
+            {name:'code_cat',index:'code_cat', width: 190, editable: true,align:"left"},
+            {name:'code_produit',index:'code_produit', width: 90, editable: true,align:"left"},
+            {name:'montant_op',index:'montant_op', width: 140, editable: true,align:"left"}
+        ],
+        rowNum:20,
+        rowList:[20,30,40],
+        pager: '#pg-operations',
+        sortname:"id_operation",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des opérations"
+    });
+    $("#tbl-operations").jqGrid('navGrid','#pg-operations',{edit:false,add:false,del:false,search:true});
+    $('#bt_rech_compte').button().click(function(e)
+    {
+        jQuery("#tbl-operations").jqGrid('setGridParam',{url:"/consultation/data?type="+$('#rech_type_compte').val()+"&compte="
+                +$('#rech_num_compte').val()+"&membre="+$('#rech_membre').val()+"&produit="+$('#rech_produit').val()+"&date_deb="+$('#date_deb').val()}).trigger('reloadGrid');
+        e.preventDefault();
+    });
+    
+    $(function(){
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+        var pickerOpts = {
+            dateFormat: "dd/mm/yy",
+            changeMonth:true,
+            changeYear:true,
+            showOtherMonths: true
+        };
+        $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+        $("#date_deb").datepicker(pickerOpts);
+        $("#date_fin").datepicker(pickerOpts);
+    });
+    $('#reset_compte').button();
+    $.get( "/consultation/membre",
+    function success(data)
+    {
+        $('#rech_membre').autocomplete({"source":data});
+    });
+    
+    $.get(
+    '/consultation/cat',
+    function success(data)
+    {
+        var options = '<option value=""></option>';
+        for( var i = 0; i < data.length; i++) {
+            options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+        }
+        $('select#rech_produit').html(options);
+    });
+    $.get(
+    '/consultation/catcompte',
+    function success(data)
+    {
+        var options = '<option value=""></option>';
+        for( var i = 0; i < data.length; i++) {
+            options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+        }
+        $('select#rech_num_compte').html(options);
+    });
+</script>

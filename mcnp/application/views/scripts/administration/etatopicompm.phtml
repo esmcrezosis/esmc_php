@@ -1,0 +1,213 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+
+
+<script type="text/javascript" charset="utf-8">		
+$(document).ready(function() {
+  $('#example').dataTable({
+    "sPaginationType": "full_numbers",
+    "aaSorting": [],
+	"iDisplayLength": 12,
+    "aLengthMenu": [[12, 24, 36, -1], [12, 24,36, "All"]]
+  }); 
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align: left">
+    <?php include("../application/layouts/scripts/menuadmin.phtml");?>
+	
+	<blockquote>
+        <p> <strong> Tableau des Etats des OPI Commissions des Guichets Uniques Universels d'Intégration (GUUI) </strong> </p>
+    </blockquote>
+	
+	<div>
+	     <form method="post" id="frm_opifrs" action="" class="form-horizontal">
+		      <?php if (isset($this->message) && $this->message != "") { ?>
+              <div class="alert alert-error">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <?php
+              echo $this->message;$this->message = "";
+              ?>
+               </div>
+              <?php } ?>
+			  
+			  <div class="well">
+				<div class="row-fluid">
+				     <div class="span4">
+                        <div class="control-group">
+                            <label class="control-label span4">Code Membre</label>
+                            <div class="controls span7">
+                                <input type="text" name="code_membre" id="code_membre"  class="input-large"  placeholder="Code Membre" />    
+                            </div>
+                        </div>
+                     </div>
+					 
+					 <div class="span4">
+                        <div class="control-group">
+                            <label class="control-label span4">Date début</label>
+                            <div class="controls span7">
+                                <input type="text" name="date_debut" id="date_debut"  class="input-large datepicker" data-provide="datepicker"  placeholder="Date début" />    
+                            </div>
+                        </div>
+                    </div>
+							
+				    <div class="span4">
+                        <div class="control-group">
+                            <label class="control-label span4">Date fin</label>
+                            <div class="controls span7">
+                                <input type="text" name="date_fin" id="date_fin"  class="input-large datepicker" data-provide="datepicker"  placeholder="Date fin"/>        
+                            </div>
+                        </div>
+                    </div>
+					 
+					
+					<br/><br/>
+							
+					 <div class="controls">
+                          <button id="btn_valider"   class="btn btn-primary">Valider</button>
+                          <button type="reset" class="btn">Annuler</button>
+						
+						  <?php if(isset($_POST['code_membre'])) { ?>
+                              <a target="_blank" class="btn btn-success" href="<?php echo $this->baseUrl(); ?>/administration/etatopicompmexcel/code_membre/<?php echo $_POST['code_membre']; ?>/date_debut/<?php echo $_POST['date_debut']; ?>/date_fin/<?php echo $_POST['date_fin'];?>">Exporter en Excel</a>
+						  <?php }  ?>
+                     </div>
+                </div>   
+			</div>
+         </form>		  
+	</div>
+	
+	
+	
+	<?php 
+	    if(count($this->entries) > 0) { 
+			$ttmontant = 0;
+		    $date_id = new Zend_Date(Zend_Date::ISO_8601);
+    ?>
+	
+	<table class="table table-bordered table-condensed" id="example" style="font-size:11px;">
+	    <thead>
+		    <tr>
+			    <th>O.P.I n°</th>
+				<th>ECHEANCE</th>
+				<th>CODE MEMBRE</th>
+				<th>BENEFICIAIRE</th>
+				<th>CONTACT</th>
+				<th>BANQUE</th>
+				<th>COMPTE BANCAIRE</th>
+				<th>MONTANT</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+		    <?php 
+			  foreach($this->entries as $entry) : 
+				
+				if($entry->mode_paiement == "FAIP") {
+					$numero_opi = substr($entry->code_membre, 9, -1).$entry->traite_id;
+				} else {
+				    $numero_opi = substr($entry->code_membre, 9, -1).$entry->traite_id."/".Util_Utils::ajoute1zero($entry->traiter)."-".$entry->ntf."/".
+				            substr($entry->date_deb, 8, 2)."-".substr($entry->date_deb, 5, 2)."-".substr($entry->date_deb, 0, 4);
+				}
+				
+                $designation_membre = "";
+                $portable = "";				
+				if(substr($entry->code_membre, -1) == "P") {
+                    $membre = new Application_Model_EuMembre();
+                    $membreM = new Application_Model_EuMembreMapper();
+                    $membreM->find($entry->code_membre, $membre);
+                    $designation_membre = $membre->nom_membre." ".$membre->prenom_membre;
+					$portable = $membre->portable_membre;
+                } else if (substr($entry->code_membre, -1) == "M") {
+                    $membre = new Application_Model_EuMembreMorale();
+                    $membreM = new Application_Model_EuMembreMoraleMapper();
+                    $membreM->find($entry->code_membre, $membre);
+                    $designation_membre = $membre->raison_sociale;
+					$portable = $membre->portable_membre;
+                }
+				
+				
+				$telephoneM = new Application_Model_EuTelephoneMapper();
+                $telephone = $telephoneM->fetchAllByCodeMembre($entry->code_membre);
+                $portable_membre = "";
+                if(count($telephone) > 0) {
+                   foreach ($telephone as $telephonevalue) {
+                     $portable_membre .= $telephonevalue->numero_telephone." / ";
+                   }
+                   $portable_membre = substr($portable_membre, 0, -3);
+                }
+				
+				$t_gcpprelever = new Application_Model_DbTable_EuGcpPrelever();
+	            $select = $t_gcpprelever->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
+				$select->setIntegrityCheck(false);
+	            $select->join('eu_tpagcp', 'eu_tpagcp.id_tpagcp = eu_gcp_prelever.id_tpagcp');
+				$select->join('eu_gcp', 'eu_gcp.id_gcp = eu_gcp_prelever.id_gcp');
+				$select->where('eu_gcp.type_gcp like ?',"COM");
+				$select->where('eu_tpagcp.id_tpagcp = ?',$entry->id_tpagcp);
+				
+				$results = $t_gcpprelever->fetchAll($select);
+				if(count($results) > 0) {
+				   
+			?>
+            
+			   
+		   
+			<tr <?php if($entry->traite_date_fin <= $date_id->toString('yyyy-MM-dd')) { ?> style="background-color: rgba(95, 189, 95, 0.69);"<?php } ?>>
+			    <td><div><?php  echo $numero_opi;  ?></div></td>
+				<td><div><?php  echo datefr($entry->traite_date_fin); ?></div></td>
+				<td><div><?php  echo $entry->code_membre; ?></div></td>
+				<td><div><?php  echo $designation_membre; ?></div></td>
+                <td><div><?php  echo $portable; ?></div></td>
+				<td><div><?php  echo $entry->mode_paiement; ?></div></td>
+                <td><div><?php  echo $entry->reference_paiement; ?></div></td>
+                <td><div align="right"><?php echo number_format($entry->traite_montant,0,',',' ').''; ?></div></td>
+                				
+            </tr>	
+			<?php
+			    $ttmontant += $entry->traite_montant;
+            	}	
+			    endforeach;
+             				
+			?>			
+	      
+		</tbody>
+		
+		<tfoot>
+		    <tr>
+			    <td colspan="7">&nbsp;</td>
+			</tr>
+		    <tr>
+                <td colspan="6"><div align="right" style="font-size:14px;"><strong>Total</strong></div></td>
+				<td><div align="right" style="font-size:14px;"><strong><?php echo number_format($ttmontant,0,',',' ');?></strong></div></td>
+			</tr>	
+		</tfoot>
+		
+	</table>
+	<?php   }  else {  ?>
+
+	    <div class="alert alert-info">
+            Aucun enregistrement d'OPI 
+        </div>
+	
+    <?php }  ?>
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>

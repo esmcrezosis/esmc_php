@@ -1,0 +1,21 @@
+
+</style>
+
+<h2>GUICHETS UNIQUES D’INTEGRATION UNIVERSELLE INTERFACE UTILISATEUR (GUIUIU)</h2>
+
+
+<div>
+
+<?PHP
+	   if ($_SERVER["HTTP_X_FORWARDED_HOST"] == NULL) {
+        $src_file = "http://webfiles.gacsource.net/procedure_guichet_unique_integration_universelle_interface_utilisateur";
+?>    
+                      <a href="<?PHP echo $src_file;?>/38.pdf">Telecharger ce fichier</a>
+       
+       <?PHP        
+      }else{
+        $src_file = "http://webfiles.esmcgacsource.com/procedure_guichet_unique_integration_universelle_interface_utilisateur";
+        ?>
+        <a href="<?PHP echo $src_file;?>/38.pdf">Telecharger ce fichier</a>
+<?PHP  } ?>
+</div>

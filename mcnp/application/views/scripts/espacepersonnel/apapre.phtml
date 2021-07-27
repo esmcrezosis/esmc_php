@@ -1,0 +1,91 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capas.js"></script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+<?php 
+$type = $sessionmembre->type;
+$desctype = $sessionmembre->desctype;
+?>
+                        
+  <blockquote>
+    <p>APA - <strong><?php echo $type; ?> nrPRE </strong><small>Achat du Pouvoir d'Achat - <?php echo $desctype; ?> <strong>non récurrent Période  de Reconstitution  Effective</strong></small></p></blockquote>
+<form method="post" enctype="multipart/form-data" class="well form-horizontal" id="apa">
+    <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin != ""){?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+	</div>
+	<?php }?>
+  <div class="control-group">
+    <label class="control-label" for="duree_inv">Durée de la PRE *</label>
+    <div class="controls">
+      <input type="text" name="duree_inv" id="duree_inv" placeholder="Durée de la PRE" class="input-mini" required>
+      <span class="help-inline"> supérieur à 8 fois</span>
+    </div>
+  </div> 
+  <div class="control-group">
+    <label class="control-label" for="mont_capa">Montant Total NN-CAPA *</label>
+    <div class="controls">
+      <input type="hidden" name="mont_capa" id="mont_capa" placeholder="Montant Total NN-CAPA" <?php if(isset($this->compte_solde) && $this->compte_solde!=""){?> value="<?php echo $this->compte_solde; ?>"<?php }?>>
+      <input type="text" name="mont_capa1" id="mont_capa1" placeholder="Montant Total NN-CAPA" readonly <?php if(isset($this->compte_solde) && $this->compte_solde!=""){?> value="<?php echo $this->compte_solde; ?>"<?php }?>>
+    </div>
+  </div>
+
+<div class="control-group">
+    <label class="control-label" for="mont_inv">Montant Investissement *</label>
+    <div class="controls">
+<div class="input-append">
+      <input type="text" name="mont_inv" id="mont_inv" placeholder="Montant Investissement" required>
+  <a class="btn" onclick="document.getElementById('mont_credit').value = Math.round(document.getElementById('mont_inv').value / document.getElementById('duree_inv').value);document.getElementById('mont_credit2').value = Math.round(document.getElementById('mont_credit').value * <?php echo $pck = Util_Utils::getParametre('pck', 'r'); ?>);">Calculer CAPA et Crédit</a>
+</div>
+    </div>
+  </div>  
+
+  <div class="control-group">
+    <label class="control-label" for="mont_credit2">Montant  du CAPA *</label>
+    <div class="controls">
+      <input type="text" name="mont_credit2" id="mont_credit2" placeholder="Montant  du CAPA" value="" readonly>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="mont_credit">Montant  du crédit périodique *</label>
+    <div class="controls">
+      <input type="text" name="mont_credit" id="mont_credit" placeholder="Montant  du crédit périodique" value="" readonly>
+    </div>
+  </div>
+  
+<input name="dev_capa" type="hidden" id="dev_capa" value="XOF" />
+<input name="type_credit" type="hidden" id="type_credit" value="" />
+  
+<div class="form-actions">
+              <input name="ok" type="hidden" value="ok" />
+  <button type="reset" class="btn">Annuler</button>
+      <button type="submit" class="btn btn-primary">Acheter APA nrPRE</button>
+</div>  
+</form>
+
+
+
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

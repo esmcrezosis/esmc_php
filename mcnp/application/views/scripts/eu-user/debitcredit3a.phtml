@@ -1,0 +1,53 @@
+<?php 
+/*$ssgrp = (string)$this->_request->getParam('ssgrp');
+$table = new Application_Model_DbTable_EuUserGroupSous();
+                $select = $table->select();
+                $select->where('code_groupe_sous = ?', $ssgrp);
+                $Rows = $table->fetchRow($select);*/
+ ?>
+<div id="view-content" title="<?php //Tableau de bord de echo $Rows->libelle_groupe_sous; ?>" style="font-size: 12px;min-height: 520px;">
+    <table id="tbl-user"></table>
+    <div id="pg-user"></div>
+</div>
+
+<script type="text/javascript">
+$("#tbl-user").jqGrid({
+    url:'<?php echo $this->url(array('action' => 'datadebitcredit')); ?>',
+    datatype: "json",
+    mtype: 'GET',
+        colNames:['ID','Compte Source','Code SMS','Type','Entrée','Sortie','Solde'],
+        height:500, width:827,
+        colModel:[
+            {name:'neng',index:'neng', width: 100, align:"left", editable: true,visible:false},
+            {name:'code_compte',index:'code_compte', width:280, align:"left", editable: true},
+            {name:'creditcode',index:'creditcode', width:100, align:"left", editable: true},
+            {name:'motif',index:'motif', width: 100, editable: true,align:"left"},
+            {name:'montant_entrer',index:'montant_entrer', width: 120, editable: true,align:"left"},
+			{name:'montant_sortie',index:'montant_sortie', width: 120, editable: true,align:"left"},
+			{name:'solde',index:'solde', width: 120, editable: true,align:"left"},
+            
+        ],
+     rowNum:100,
+     rowList:[100,200,300],
+     rownumbers:true,
+     pager: '#pg-user',
+        sortname:"neng",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"<?php //Tableau de bord de echo $Rows->libelle_groupe_sous; ?>",
+		grouping:true,
+        groupingView : {
+            groupField : ['motif'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [true],
+            groupDataSorted : true
+        },       
+        footerrow: true,
+        userDataOnFooter: true
+    });
+    $("#tbl-user").jqGrid('navGrid','#pg-user',{edit:false,add:false,del:false,search:true});    
+    
+</script>    

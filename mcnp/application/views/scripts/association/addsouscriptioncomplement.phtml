@@ -1,0 +1,185 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+  <blockquote><p>Formulaire du complément de souscription </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addrecubancaire">
+  <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error != ""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+    </div>
+  <?php }?>
+  
+ <div class="">
+  
+<div class="span6">
+ 
+<fieldset>
+<legend>Rappel de la souscription </legend>
+
+
+<div class="control-group">
+  <label class="control-label" for="ancien_recubancaire_type">Ancien Type de payement *</label>
+  <div class="controls">
+  <label for="ancien_recubancaire_type_banque" class="radio">
+  <input name="ancien_recubancaire_type" type="radio" required id="ancien_recubancaire_type_banque" onclick="document.getElementById('ancien_banque').style.display='block';  document.getElementById('ancien_banque2').style.display='block'; document.getElementById('ancien_flooz').style.display='none';document.getElementById('ancien_recubancaire_vignette').setAttribute('required', true);" value="Banque">
+  Banque</label>
+		
+  <label for="ancien_recubancaire_type_flooz" class="radio">
+  <input type="radio" name="ancien_recubancaire_type" id="ancien_recubancaire_type_flooz" value="Flooz" required onclick="document.getElementById('ancien_banque').style.display='none'; document.getElementById('ancien_banque2').style.display='none';  document.getElementById('ancien_flooz').style.display='block';document.getElementById('ancien_recubancaire_vignette').removeAttribute('required');">
+  Flooz</label>
+  
+  </div>
+  </div>
+  
+  <div id="ancien_banque" style="display:none;">
+<div class="control-group">
+<label class="control-label" for="ancien_recubancaire_banque">Ancienne Banque </label>
+<div class="controls">
+<select name="ancien_recubancaire_banque" id="ancien_recubancaire_banque" >
+        <?php $tbanque = new Application_Model_DbTable_EuBanque();
+        $results = $tbanque->fetchAll();?>
+  <option value="">Choisir la banque</option>
+    <?php foreach ($results as $banque): ?>
+               <option value="<?php echo $banque->code_banque; ?>"><?php echo ($banque->libelle_banque); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+</div>
+
+  <div id="ancien_flooz" style="display:none;">
+</div>
+
+  <div class="control-group">
+<label class="control-label" for="ancien_recubancaire_numero">Ancien Numéro de reçu de banque ou Numéro de transation Flooz  * </label>
+<div class="controls">
+  <input type="text" name="ancien_recubancaire_numero" id="ancien_recubancaire_numero" placeholder="Numero de reçu de banque ou Numéro de transation Flooz" class="input-large" required />
+</div>
+</div>
+
+
+  <div class="control-group">
+<label class="control-label" for="ancien_recubancaire_date_numero">Ancienne Date de reçu de banque ou de transation Flooz  * </label>
+<div class="controls">
+  <input type="text" name="ancien_recubancaire_date_numero" id="ancien_recubancaire_date_numero" placeholder="Date de reçu de banque ou de transation Flooz" class="input-large datepicker" data-provide="datepicker" required />
+</div>
+</div>
+
+
+
+</fieldset> 
+</div>   
+  
+<div class="span6">
+    
+<fieldset>
+<legend>Complément de souscription </legend>
+
+
+<div class="control-group">
+  <label class="control-label" for="recubancaire_type">Type de payement *</label>
+  <div class="controls">
+  <label for="recubancaire_type_banque" class="radio">
+  <input name="recubancaire_type" type="radio" required id="recubancaire_type_banque" onclick="document.getElementById('banque').style.display='block';  document.getElementById('banque2').style.display='block'; document.getElementById('flooz').style.display='none';document.getElementById('recubancaire_vignette').setAttribute('required', true);" value="Banque">
+  Banque</label>
+		
+  <label for="recubancaire_type_flooz" class="radio">
+  <input type="radio" name="recubancaire_type" id="recubancaire_type_flooz" value="Flooz" required onclick="document.getElementById('banque').style.display='none'; document.getElementById('banque2').style.display='none';  document.getElementById('flooz').style.display='block';document.getElementById('recubancaire_vignette').removeAttribute('required');">
+  Flooz</label>
+  
+  </div>
+  </div>
+  
+  <div id="banque" style="display:none;">
+<div class="control-group">
+<label class="control-label" for="recubancaire_banque">Banque </label>
+<div class="controls">
+<select name="recubancaire_banque" id="recubancaire_banque" >
+        <?php $tbanque = new Application_Model_DbTable_EuBanque();
+        $results = $tbanque->fetchAll();?>
+  <option value="">Choisir la banque</option>
+    <?php foreach ($results as $banque): ?>
+               <option value="<?php echo $banque->code_banque; ?>"><?php echo ($banque->libelle_banque); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+</div>
+
+  <div id="flooz" style="display:none;">
+</div>
+
+  <div class="control-group">
+<label class="control-label" for="recubancaire_numero">Numéro de reçu de banque ou Numéro de transation Flooz  * </label>
+<div class="controls">
+  <input type="text" name="recubancaire_numero" id="recubancaire_numero" placeholder="Numero de reçu de banque ou Numéro de transation Flooz" class="input-large" required />
+</div>
+</div>
+
+
+  <div class="control-group">
+<label class="control-label" for="recubancaire_date_numero">Date de reçu de banque ou de transation Flooz  * </label>
+<div class="controls">
+  <input type="text" name="recubancaire_date_numero" id="recubancaire_date_numero" placeholder="Date de reçu de banque ou de transation Flooz" class="input-large datepicker" data-provide="datepicker" required />
+</div>
+</div>
+
+  <div id="banque2" style="display:none;">
+<div class="control-group">
+<label class="control-label" for="recubancaire_vignette">Scanne du reçu  </label>
+<div class="controls">
+  <input type="file" name="recubancaire_vignette" id="recubancaire_vignette" class="input-large" />
+<span class="help-block"><p class="text-error">JPEG, JPG, PNG et PDF sont les extentions autorisées</p></span>
+</div>
+</div>
+</div>
+  
+  <div class="control-group">
+<label class="control-label" for="recubancaire_montant">Montant  * </label>
+<div class="controls">
+  <input type="text" name="recubancaire_montant" id="recubancaire_montant" placeholder="Montant " class="input-large" required />
+</div>
+</div>
+
+
+
+</fieldset>    
+</div>
+  <legend></legend>
+
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+ 
+</div>
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

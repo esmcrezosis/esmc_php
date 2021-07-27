@@ -1,0 +1,81 @@
+<div id="view-content" title="Liste des ventes de licences" style="font-size: 12px;min-height: 520px;">
+    <fieldset id="carte_field" style="margin-bottom: 2px;"><legend>Recherche</legend>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="text-align: right;"><label>Date</label></td>
+                    <td>
+                        <input type="text" id="date_licence" name="date_licence"/>
+                    </td>
+					<td style="text-align: right;"><label>Code membre</label></td>
+                    <td>
+                        <input type="text" id="licence_membre" name="licence_membre" size="27"/>
+                    </td>
+                    <td><button id="bt_show">Afficher</button></td>
+                </tr>
+              
+                    
+            </tbody>
+        </table>
+    </fieldset>
+    <table id="tbl-licence"></table>
+    <div id="pg-licence"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-licence").jqGrid({
+        url: '/eu-carte/datalicence',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code Frais de Licence','Membre','Date ','Prix'],
+        height: 270, width: 817,
+        colModel: [
+            {name: 'code_fl', index: 'code_fl', width: 270, editable: false, align: "left"},
+            {name: 'code_membre', index: 'code_membre', width: 160, editable: false, align: "left"},
+            {name: 'date_fl', index: 'date_fl', width: 165, align: "left", editable: false},
+            {name: 'mont_fl', index: 'mont_fl', width: 100, align: "left", editable: false}
+        ],
+        rowNum: 100,
+        rowList: [100, 200, 300],
+        pager: '#pg-licence',
+        sortname: "code_fl",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Souscription aux frais de licence"
+    });
+    $("#tbl-licence").jqGrid('navGrid', '#pg-licence', {edit: false, add: false, del: false, search: true});
+    
+	
+	$('#bt_show').button().click(function(e)
+    {
+        e.preventDefault();
+        jQuery("#tbl-licence").jqGrid('setGridParam', {url: "/eu-carte/datalicence?membre=" + $('#licence_membre').val() + "&date=" + $('#date_licence').val()}).trigger('reloadGrid');
+    });
+	
+	
+    var pickerOpts = {
+        dateFormat: "dd/mm/yy",
+        changeMonth: true,
+        changeYear: true,
+        showOtherMonths: true
+    };
+    $(function() {
+        $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+        $("#date_licence").datepicker(pickerOpts);
+    });
+
+    $.get(
+    '/eu-carte/licencecode',
+    function success(data)
+    {
+        $('#licence_membre').autocomplete({"source": data});
+    });
+	
+	$(document).ready(function() {
+	   $(function() {
+       $('#view-content').puipanel();
+       $('fieldset').puifieldset();
+       });
+	})   
+	
+	
+</script>

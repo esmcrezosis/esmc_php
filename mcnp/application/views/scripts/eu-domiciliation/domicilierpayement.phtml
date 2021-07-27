@@ -1,0 +1,282 @@
+﻿<div id="view-content" class="ui-widget" style="font-size:12px">
+     <div class="ui-widget-header ui-corner-top" style="height: 25px; padding-bottom: 7px; padding-left: 7px;">
+          <h3>Domiciliation nrPRE de remboursement de la <font color="red">SMCIPN</font>w<font color="blue">i</font>/<font color="red">SMCIP</font>p</h3></div>
+	 <div id="formdiv" class="ui-widget-content ui-corner-bottom">	  
+	 	  <form action="/eu-domiciliation/domicilierpayement" name="fm_domicil" method="POST" id="fm_domicil">
+		        <fieldset>
+				    <legend>Informations sur le bénéficiaire</legend>
+					<table>
+                         <tr>
+				         <td> Type SMCIPN *</td>
+                         <td>
+                         <select id="type_domi" type="text" name="type_domi" required="true"/>
+                              <option value=""></option>
+                              <option value="SMCIPNP">SMCIPNp</option>
+                              <option value="SMCIPNWI">SMCIPNwi</option>
+                          </select>	  
+                          </td>
+					      </tr>
+					</table>
+					<table style="display:none;"id="pre1">
+					       <tr>
+						      <td>Montant à payer *</td>
+							  <td>
+							      <input name="mt_payer" id="mt_payer" class="validate[required,custom[onlyNumberSp]]" size=21/>                                  <select class="validate[required]" type="text" id="dev_capa" name="dev_capa" value=""></select>
+							  </td>
+					       </tr>
+						   <tr>
+						       <td>Numéro Document Appel Offre *</td>
+							   <td><input name="numero_dao" id="numero_dao" size=30/></td>
+						   </tr>
+						   <tr>
+						       <td>Code membre Bénéficiaire *</td>
+							   <td><input name="membre_benef" id="membre_benef" size=30 readonly=true/></td>
+						   </tr>
+						   <tr>
+						       <td>Raison sociale Bénéficiaire *</td>
+							   <td><input name="raison_benef" id="raison_benef" size=30 readonly=true/></td>
+						   </tr>
+					</table>
+					<table style="display:none;"id="pre2">
+					<tr>
+                       <td>Code membre bénéficiaire *</td>
+					   <td><input name="num_benef" id="num_benef" class="validate[required]" value="<?php echo $this->num_benef ?>" size=30/>
+					   </td>
+					   <td>Raison sociale</td><td><input name="raison_sociale" id="raison_sociale" class="" readonly="readonly" size=35/></td>  
+					</tr>
+					<tr>   
+					   <td>Montant à payer *</td>
+					   <td>
+						   <input name="mt_payer2" id="mt_payer2" class="validate[required,custom[onlyNumberSp]]" size=21/>                           <select class="validate[required]" type="text" id="dev_capa" name="dev_capa" value=""></select>
+					   </td>
+					</tr>	  
+					</table>	  
+				</fieldset>
+				<fieldset style="margin-top: 5px;">
+				     <legend>Informations sur les crédits apporteur</legend>
+					 <div align="center" style="margin-bottom: 5px;">
+					 <table border="1" id="tab_salaire">
+						    <thead><th>Code membre</th><th>Nom</th></thead>
+						    <tbody>
+						    <tr>
+                                <td><input id="num_membre" type="text" name="num_membre" value="<?php echo $this->code_membre  ?>" required="true" size="28" class="validate[required]" style="text-align: left"/></td>
+                                <td><input id="nom" type="text" name="nom" value="<?php echo $this->nom ?>" size="43" readonly="true"/></td>
+                            </tr>
+							</tbody>
+				      </table>
+					  </div>
+					  <table>
+                        <div align="center">
+                             <input type='button' value="Afficher" name="afficher" id="afficher"/>
+                             <input type="reset" value="Rafraichir" name="refresh" id="refresh"/>
+                        </div>
+                    </table>
+					<div align="center" style="margin-top: 5px;">
+                         <table id="tbl-credit"></table>
+                         <div id="pg-credit"></div>
+                    </div>
+				</fieldset>
+				<div style="margin-left: 105px; margin-top: 5px">
+                     <input type="button" value="Valider" name="valider" id="valider"/>
+                     <input type="reset" value="Rafraichir" name="refresh" id="refresh"/>
+                     <input id="t_annuler" type="button" value="Annuler"/>
+                </div>
+		  </form>
+     </div>
+</div>
+
+<script type="text/javascript">
+        $("#tbl-credit").jqGrid({
+        url: '<?php echo $this->url(array('action' => 'creditspayement')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code membre', 'Produit', 'Montant placé', 'Montant crédit','Date dépôt','Type Bnp', 'Code crédit'],
+        height: '100%', width: 775,
+        colModel: [
+            {name: 'code_membre', index: 'code_membre',width: 226, editable: false, align: "left"},
+            {name: 'produit', index: 'produit', width: 95, align: "left", editable: false},
+            {name: 'mt_place', index: 'mt_place', width: 172, align: "right", editable: false, formatter: 'number'},
+            {name: 'mt_credit', index: 'mt_credit', width: 172, align: "right", editable: false, formatter: 'number'},
+            {name: 'date_depot', index: 'date_depot', width: 150, align: "left", editable: false},
+			{name: 'type_bnp', index: 'type_bnp', width:170, align: "left", editable: false},
+            {name: 'code_credit', index: 'code_credit', width: 50, align: "left", editable: false, hidden: true}
+        ],
+        rowNum: 30,
+        rowList: [30, 50, 100],
+        rownumbers: true,
+        pager: '#pg-credit',
+        sortname: "date_octroi",
+        viewrecords: true,
+        multiselect: true,
+        sortorder: "ASC",
+        caption: "Comptes des crédits des membres",
+        forceFit: true,
+        cellEdit: true,
+        cellsubmit: 'clientArray',
+        afterSaveCell: function(rowid, name, val, iRow, iCol) {
+            if (name == 'reste_duree') {
+               var amtval = jQuery("#tbl-credit").jqGrid('getCell', rowid, iCol - 1);
+               jQuery("#tbl-credit").jqGrid('setRowData', rowid, {total: parseFloat(val) * parseFloat(amtval)});
+            }
+        }
+    });
+    $("#tbl-credit").jqGrid('navGrid','#pg-credit',{edit: false, add: false, del: false, search: true});
+	
+	
+    $(document).ready(function() {
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+	  
+	    $("#type_domi").change(function(e) {
+            e.preventDefault();
+            if ($(this).val() == 'SMCIPNWI') {
+               $('#pre1').css('display','block');
+			   $('#pre2').css('display','none');
+            }
+            else if ($(this).val() == 'SMCIPNP') {
+			   $('#pre1').css('display','none');
+               $('#pre2').css('display','block');
+            }
+        });
+	    
+		$.get(
+             '/eu-domiciliation/devise',
+             function success(data) {
+               var options = '';
+               for (var i = 0; i < data.length; i++) {
+                   if (data[i] === 'XOF') {
+                      options += '<option value="' + data[i] + '" selected>' + data[i] + ' </option>';
+                   } else {
+                      options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                   }
+              }
+              $('select#dev_capa').html(options);
+        });
+	  
+	    
+		
+	  
+	    $('#t_annuler').click(function() {
+         window.location = "/eu-domiciliation/";
+        });
+		
+		$('#afficher').click(function() {
+            jQuery("#tbl-credit").jqGrid('setGridParam', {url: "/eu-domiciliation/creditspayement?code_membre="+$('#num_membre').val()}).trigger('reloadGrid');
+        });
+		
+		$.get("/eu-domiciliation/changemoral",
+          function success(data) {
+            $("input#num_benef").autocomplete({"source": data});
+        });
+		
+		$('#valider').click(
+		function() {
+		   var sel;
+           sel = jQuery("#tbl-credit").jqGrid('getGridParam', 'selarrrow');
+           var tab = new Array();
+           var rowsel;
+           rowsel = jQuery("#tbl-credit").jqGrid('getGridParam', 'selrow');
+           for (var i = 0; i < sel.length; i++) {
+               tab[i] = jQuery("#tbl-credit").jqGrid('getRowData', sel[i]);
+           };
+		   
+
+           if ($('#type_domi').val() == '') {
+              alert('Renseignez les champs obligatoires');
+           } 
+           else if ($('#type_domi').val() == 'SMCIPNP' && $('#num_benef').val() == '') {
+              alert('Veuillez saisir le membre bénéficiaire');
+           } 
+           else if ($('#type_domi').val() == 'SMCIPNP' && $('#mt_payer2').val() == '') {
+              alert('Veuillez saisir le montant à payer');
+           } 
+           else if ($('#type_domi').val() == 'SMCIPNWI' && $('#mt_payer').val() == '') {
+              alert('Veuillez saisir le montant à payer');
+           } 
+           else if ($('#type_domi').val() == 'SMCIPNWI' && $('#numero_dao').val() == '') {
+              alert('Veuillez saisir le numero d\'appel d\'offre');
+           } 
+           else if ($('#type_domi').val() == 'SMCIPNWI' && $('#membre_benef').val() == '') {
+              alert('Veuillez saisir le membre beneficiaire');
+           }
+           else if ($('#type_domi').val() == 'SMCIPNWI' && $('#raison_benef').val() == '') {
+              alert('Veuillez saisir la raison sociale beneficiaire');
+           }
+           else {
+	      if ((rowsel) && ($('#type_domi').val() == 'SMCIPNWI')) {
+              $.get('/eu-domiciliation/createpayement?type_domi='+$('#type_domi').val()+'&numero_dao='+$('#numero_dao').val()+'&mt_payer='+$('#mt_payer').val()+'&dev_capa='+$('#dev_capa').val(),{
+lignes: tab
+},function success(data) {
+if (data == 'good') {
+   alert('Opération effectuée avec succès');
+   $(location).attr("href", "/eu-domiciliation/index");
+}
+else if (data == 'bad') {
+     alert("Echec de l'opération");
+} else if (data == 'insuff') {
+     alert("Les credits domiciliés ne peuvent pas rembourser le montant de la formation");
+}
+});
+} else if((rowsel) && ($('#type_domi').val() == 'SMCIPNP')) { 
+$.get('/eu-domiciliation/createpayement?num_benef='+$('#num_benef').val()+'&type_domi='+$('#type_domi').val()+'&mt_payer='+$('#mt_payer2').val()+'&dev_capa='+$('#dev_capa').val(),{
+lignes: tab
+},function success(data) {
+if (data == 'good') {
+      alert('Opération effectuée avec succès');
+      $(location).attr("href", "/eu-domiciliation/index");
+}
+else if (data == 'bad') {
+      alert("Echec de l'opération");
+}else if (data == 'insuff') {
+     alert("Les credits domiciliés ne peuvent pas rembourser le montant de la formation");
+}
+});				  
+				  
+} else {
+      alert('Aucune ligne de crédit sélectionnée');
+}
+}
+		
+});
+
+$('#membre_benef').focus(function() {
+     if ($('#numero_dao').val() != '') {
+	     $.get(
+           '/eu-domiciliation/recupbenef',{
+           numero_dao: $('#numero_dao').val()
+         },
+         function success(data) {
+           if (data !== '') {
+              $('#membre_benef').val(data[0]);
+		      $('#raison_benef').val(data[1]);
+           }else {
+		      $('#membre_benef').val('');
+		      $('#raison_benef').val('');
+		   } 
+           }); 	 
+	 } else {
+	        alert('Veuillez saisir le numero appel offre!!!'); 
+	 }
+
+});
+
+
+
+
+$('#num_benef').blur(function() {
+            if ($(this).val() != '') {
+                $.get(
+                '/eu-domiciliation/recupnom',{
+                 num_membre: $(this).val(), type_membre: 'M'
+                },
+                function success(data) {
+                    if (data !== '') {
+                        $('#raison_sociale').val(data[1]);
+                    } else {
+                        alert('Ce membre n\existe pas!!!');
+                    }
+                });
+            }
+        });
+});
+</script>

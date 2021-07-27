@@ -1,0 +1,84 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur'); ?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p> Etablissement de la Fiche d'Imputation </p></blockquote>
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="imputation">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error !="") { ?>
+  <div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+  <?php } ?>
+
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+
+  
+<div class="control-group">
+<label class="control-label" for="libelle_imputation"> Libelle imputation *</label>
+<div class="controls">
+<input type="text" name="libelle_imputation" id="libelle_imputation" class="input-xxlarge" placeholder="Libelle imputation" value="<?php if(isset($this->facture)) echo $this->facture->libelle_facture_prestation;?>" />
+<input type="hidden" name="id_facture_prestation" id="id_facture_prestation" value="<?php if(isset($this->facture)) echo $this->facture->id_facture_prestation;?>" />
+<input type="hidden" name="type_operation" id="type_operation" value="<?php if(isset($this->operation)) echo $this->operation;?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="montant_imputation"> Montant imputation *</label>
+<div class="controls">
+<input type="text" name="montant_imputation" id="montant_imputation" class="input-xxlarge" placeholder="Montant Imputation" value="<?php if(isset($this->facture)) echo $this->facture->montant_facture_prestation;?>"  readonly />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="debit1"> N° COMPTE DEBIT 1 *</label>
+<div class="controls">
+<input type="text" name="debit1" id="debit1" class="input-xxlarge" placeholder="Numéro de Compte Débit" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="credit1"> N° COMPTE CREDIT 1 *</label>
+<div class="controls">
+<input type="text" name="credit1" id="credit1" class="input-xxlarge" placeholder="Numéro de Compte Crédit" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="debit2"> N° COMPTE DEBIT 2 </label>
+<div class="controls">
+<input type="text" name="debit2" id="debit2" class="input-xxlarge" placeholder="Numéro de Compte Débit" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="credit2"> N° COMPTE CREDIT 2 *</label>
+<div class="controls">
+<input type="text" name="credit2" id="credit2" class="input-xxlarge" placeholder="Numéro de Compte Crédit" />
+</div>
+</div>
+
+  
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-success">Enregistrer</button>
+</div>  
+</form>
+
+</div>
+</div>
+</div>

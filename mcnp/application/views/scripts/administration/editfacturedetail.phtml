@@ -1,0 +1,86 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification du détail de la facture</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addfacture_detail">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+        
+
+    
+
+
+<div class="control-group">
+<label class="control-label" for="facture_detail_libelle">Libellé du détail *</label>
+<div class="controls">
+<input type="text" name="facture_detail_libelle" id="facture_detail_libelle" placeholder="Libellé du détail" class="input-xxlarge" value="<?php echo $this->facture_detail->facture_detail_libelle; ?>" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="facture_detail_reference">Réference du détail *</label>
+<div class="controls">
+<input type="text" name="facture_detail_reference" id="facture_detail_reference" placeholder="Réference du détail" class="input-xxlarge" value="<?php echo $this->facture_detail->facture_detail_reference; ?>" required />
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="facture_detail_quantite">Quantité du détail *</label>
+<div class="controls">
+<input type="number" name="facture_detail_quantite" id="facture_detail_quantite" placeholder="Quantité du détail" class="input-xxlarge" value="<?php echo $this->facture_detail->facture_detail_quantite; ?>" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="facture_detail_prix_unitaire">Prix unitaire du détail *</label>
+<div class="controls">
+<input type="number" name="facture_detail_prix_unitaire" id="facture_detail_prix_unitaire" placeholder="Prix unitaire du détail" class="input-xxlarge" value="<?php echo $this->facture_detail->facture_detail_prix_unitaire; ?>" required />
+</div>
+</div>
+
+
+    
+
+
+<div class="form-actions">
+<input name="facture_id" type="hidden" id="facture_id" value="<?php echo $this->facture_detail->facture_id; ?>" />  
+<input name="facture_detail_id" type="hidden" id="facture_detail_id" value="<?php echo $this->facture_detail->facture_detail_id; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier le détail de la facture</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

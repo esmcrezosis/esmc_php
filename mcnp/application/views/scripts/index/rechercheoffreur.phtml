@@ -1,0 +1,135 @@
+<div class="well3">
+    <div class="row-fluid">
+        <div class="span9" style="text-align: left">
+
+            <blockquote>
+                <p>Recherche des Offreurs de Projets</p>
+            </blockquote>
+
+            <div>
+                <form method="post" id="frm_rech_offreur"
+                      action="<?php echo $this->baseUrl(); ?>/index/listoffreur"
+                      class="form-horizontal">
+                          <?php if (isset($this->message) && $this->message != "") { ?>
+                    <div class="alert alert-error">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <?php
+                            echo $this->message;
+                            $this->message = "";
+                            ?>
+                                </div>
+                        <?php } ?>
+                        <div class="well">
+                            <div class="row-fluid">
+                                <div class="span4">
+                                    <div class="control-group">
+                                        <label class="control-label span4">Type </label>
+                                        <div class="controls span8">
+                                            <select class="input-block-level" id="type_offreur" name="type_offreur">
+                                                <option value="">Choisir un type offreur</option>
+                                                <?php foreach ($this->type_offreurs as $value) { ?>
+                                                    <option
+                                                        value="<?php echo $value->id_type_offreur_projet; ?>"><?php echo $value->libelle_type_offreur_projet; ?></option>                         
+                                                    <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="span4">
+                                    <div class="control-group">
+                                        <label class="control-label span4">Zone M.</label>
+                                        <div class="controls span8">
+                                            <select class="input-block-level" id="code_zone" name="code_zone">
+                                                <option value="">Choisir une zone monétaire</option>
+                                                <?php foreach ($this->zones as $value) { ?>
+                                                    <option
+                                                        value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+                                                    <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="span4">
+                                    <div class="control-group">
+                                        <label class="control-label span4">Pays</label>
+                                        <div class="controls span8">
+                                            <select class="input-block-level" id="id_pays" name="id_pays">
+                                                <option value="">Choisir un pays</option>
+                                                <?php foreach ($this->pays as $value) { ?>
+                                                    <option
+                                                        value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+                                                    <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span4">
+                                    <div class="control-group">
+                                        <label class="control-label span4">Régions</label>
+                                        <div class="controls span8">
+                                            <select class="input-block-level" id="id_region" name="id_region">
+                                                <option value="">Choisir une région</option>
+                                                <?php foreach ($this->regions as $value) { ?>
+                                                    <option
+                                                        value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+                                                    <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="span4">
+                                    <div class="control-group">
+                                        <label class="control-label span4">Préfectures</label>
+                                        <div class="controls span8">
+                                            <select class="input-block-level" id="id_prefecture" name="id_prefecture">
+                                                <option value="">Choisir une préfecture</option>
+                                                <?php foreach ($this->prefectures as $value) { ?>
+                                                    <option
+                                                        value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+                                                    <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="span4">
+                                    <div class="control-group">
+                                        <label class="control-label span4">Cantons</label>
+                                        <div class="controls span8">
+                                            <select class="input-block-level" id="id_canton" name="id_canton">
+                                                <option value="">Choisir un canton</option>
+                                                <?php foreach ($this->cantons as $value) { ?>
+                                                    <option
+                                                        value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>                         
+                                                    <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="controls">
+                                <button id="btn-rech-offreur" type="submit" class="btn btn-primary">Valider</button>
+                                <button type="reset" class="btn">Annuler</button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+
+            <div class="well3">
+                <div id="tbl-offreur"></div>
+            </div>
+            <br /> <br /> <br /> <br />
+
+        </div>
+        <div class="span3">
+            <?php include("../application/layouts/scripts/droite.phtml"); ?>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

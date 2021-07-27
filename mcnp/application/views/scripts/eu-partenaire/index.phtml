@@ -1,0 +1,38 @@
+<div id="view-content">
+    <table id="tbl-partenaire"></table>
+    <div id="pg-partenaire"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-partenaire").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        gridview:true,
+        postData: {oper:'oper'},
+        colNames:['Code','Type','Nom','Téléphone','BP','Fax','Email','Représentant'],
+        height:440, width:720,
+        colModel:[
+            {name:'code_partenaire',index:'code_partenaire', width:180, sorttype:"int", editable: true,align:"left"},
+            {name:'type_partenaire',index:'type_partenaire', width: 200, align:"left", editable: true,
+                edittype: 'select', editoptions: {value: "commercial:Commercial; financier:Financier"}},
+            {name:'nom_partenaire',index:'nom_partenaire', width: 300, editable: true,align:"left",
+                edittype: 'text', editoptions: { size: 35}},
+            {name:'tel_partenaire',index:'tel_partenaire', width: 150, editable: true,align:"left"},
+            {name:'bp_partenaire',index:'bp_partenaire', width: 150,align:"left", editable: true, hidden:true,editrules: { edithidden: true }},
+            {name:'fax_partenaire',index:'bp_partenaire', width: 150,align:"left", editable: true, hidden:true,editrules: { edithidden: true }},
+            {name:'email_partenaire',index:'bp_partenaire', width: 150,align:"left", editable: true, hidden:true,editrules: { edithidden: true }},
+            {name:'interlocuteur',index:'interlocuteur', width: 150, align:"left", 
+                editable: true, edittype: 'text', editoptions: { size: 40}},
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        pager: '#pg-partenaire',
+        sortname:"code_partenaire",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des partenaires"
+    });
+  
+    $("#tbl-partenaire").jqGrid('navGrid','#pg-partenaire',{edit:true,add:true,del:false,search:true});
+</script>

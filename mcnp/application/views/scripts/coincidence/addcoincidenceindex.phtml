@@ -1,0 +1,420 @@
+<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+
+
+
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+
+<script type="text/javascript">
+function bonchoix_apporteur(){
+if(document.getElementById('type_bon_apporteur').value == "BAn"){
+document.getElementById('cat_produit_apporteur1').style.display='none';
+document.getElementById('code_tegc_apporteur1').style.display='none';
+document.getElementById('type_compte_apporteur1').style.display='none';
+document.getElementById('type_compte_apporteur2').style.display='none';
+
+}else if(document.getElementById('type_bon_apporteur').value == "BAi"){
+document.getElementById('cat_produit_apporteur1').style.display='none';
+document.getElementById('code_tegc_apporteur1').style.display='none';
+document.getElementById('type_compte_apporteur1').style.display='none';
+document.getElementById('type_compte_apporteur2').style.display='block';
+
+}else if(document.getElementById('type_bon_apporteur').value == "BCnr"){
+document.getElementById('cat_produit_apporteur1').style.display='block';
+document.getElementById('code_tegc_apporteur1').style.display='none';
+document.getElementById('type_compte_apporteur1').style.display='none';
+document.getElementById('type_compte_apporteur2').style.display='none';
+
+}else if(document.getElementById('type_bon_apporteur').value == "BCr"){
+document.getElementById('cat_produit_apporteur1').style.display='block';
+document.getElementById('code_tegc_apporteur1').style.display='none';
+document.getElementById('type_compte_apporteur1').style.display='none';
+document.getElementById('type_compte_apporteur2').style.display='none';
+
+}else if(document.getElementById('type_bon_apporteur').value == "BL"){
+document.getElementById('cat_produit_apporteur1').style.display='none';
+document.getElementById('code_tegc_apporteur1').style.display='block';
+document.getElementById('type_compte_apporteur1').style.display='none';
+document.getElementById('type_compte_apporteur2').style.display='none';
+
+}else if(document.getElementById('type_bon_apporteur').value == "BS"){
+document.getElementById('cat_produit_apporteur1').style.display='none';
+document.getElementById('code_tegc_apporteur1').style.display='none';
+document.getElementById('type_compte_apporteur1').style.display='block';
+document.getElementById('type_compte_apporteur2').style.display='none';
+
+}
+}
+</script>
+
+<script type="text/javascript">
+function bonchoix_beneficiaire(){
+if(document.getElementById('type_bon_beneficiaire').value == "BAn"){
+document.getElementById('cat_produit_beneficiaire1').style.display='none';
+document.getElementById('code_tegc_beneficiaire1').style.display='none';
+document.getElementById('type_compte_beneficiaire1').style.display='none';
+document.getElementById('type_compte_beneficiaire2').style.display='none';
+
+}else if(document.getElementById('type_bon_beneficiaire').value == "BAi"){
+document.getElementById('cat_produit_beneficiaire1').style.display='none';
+document.getElementById('code_tegc_beneficiaire1').style.display='none';
+document.getElementById('type_compte_beneficiaire1').style.display='none';
+document.getElementById('type_compte_beneficiaire2').style.display='block';
+
+}else if(document.getElementById('type_bon_beneficiaire').value == "BCnr"){
+document.getElementById('cat_produit_beneficiaire1').style.display='block';
+document.getElementById('code_tegc_beneficiaire1').style.display='none';
+document.getElementById('type_compte_beneficiaire1').style.display='none';
+document.getElementById('type_compte_beneficiaire2').style.display='none';
+
+}else if(document.getElementById('type_bon_beneficiaire').value == "BCr"){
+document.getElementById('cat_produit_beneficiaire1').style.display='block';
+document.getElementById('code_tegc_beneficiaire1').style.display='none';
+document.getElementById('type_compte_beneficiaire1').style.display='none';
+document.getElementById('type_compte_beneficiaire2').style.display='none';
+
+}else if(document.getElementById('type_bon_beneficiaire').value == "BL"){
+document.getElementById('cat_produit_beneficiaire1').style.display='none';
+document.getElementById('code_tegc_beneficiaire1').style.display='block';
+document.getElementById('type_compte_beneficiaire1').style.display='none';
+document.getElementById('type_compte_beneficiaire2').style.display='none';
+
+}else if(document.getElementById('type_bon_beneficiaire').value == "BS"){
+document.getElementById('cat_produit_beneficiaire1').style.display='none';
+document.getElementById('code_tegc_beneficiaire1').style.display='none';
+document.getElementById('type_compte_beneficiaire1').style.display='block';
+document.getElementById('type_compte_beneficiaire2').style.display='none';
+
+}
+}
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#code_membre_apporteur').blur(function(e) {
+	  if($(this).val() !== '') {
+            $.get('/souscriptionbon/recupnom',{
+                 code_membre: $(this).val()
+            },
+            function success(data) {
+	     if(data !== '') {
+               $("#design_membre_apporteur").val(data[1]);
+             } else {
+               alert('Ce membre n\existe pas!!!');
+             }
+	  })
+         } else {
+               $("#design_membre_apporteur").val("");
+         }		   
+	});
+
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#code_membre_beneficiaire').blur(function(e) {
+    if($(this).val() !== '') {
+            $.get('/souscriptionbon/recupnom',{
+                 code_membre: $(this).val()
+            },
+            function success(data) {
+       if(data !== '') {
+               $("#design_membre_beneficiaire").val(data[1]);
+             } else {
+               alert('Ce membre n\existe pas!!!');
+             }
+    })
+         } else {
+               $("#design_membre_beneficiaire").val("");
+         }       
+  });
+
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+     $('#code_membre_apporteur').blur(function(e) {      
+        $.get('/souscriptionbon/codetegc',{
+          code_membre : $(this).val()
+        },
+        function success(data)  {
+           var options = '';
+           for (var i = 0; i < data.length; i++) {
+               options += '<option value="' + data[i][0] + '" selected>' + data[i][1] + ' </option>';
+           }       
+           $('select#code_tegc_apporteur').html(options);               
+        });
+        e.preventDefault();    
+     });
+})
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+     $('#code_membre_beneficiaire').blur(function(e) {      
+        $.get('/souscriptionbon/codetegc',{
+          code_membre : $(this).val()
+        },
+        function success(data)  {
+           var options = '';
+           for (var i = 0; i < data.length; i++) {
+               options += '<option value="' + data[i][0] + '" selected>' + data[i][1] + ' </option>';
+           }       
+           $('select#code_tegc_beneficiaire').html(options);               
+        });
+        e.preventDefault();    
+     });
+})
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+<blockquote><p>Coincidence entre les bons</p></blockquote>
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+  <?php } ?>
+
+    
+
+              <blockquote>Remplir le formulaire</blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription1" name="addsouscription1">
+<fieldset>
+
+<legend>Apporteur </legend>
+
+<div class="control-group">
+<label class="control-label" for="type_bon_apporteur">Type de bon de l'offreur *</label>
+<div class="controls">
+<select name="type_bon_apporteur" id="type_bon_apporteur" onchange="bonchoix_apporteur();" required>
+  <option value="">Choisir un type de bon</option>
+   <option value="BAn">Bon d'Achat neutre - BAn</option>
+   <option value="BAi">Bon d'Achat interne - BAi</option>
+   <option value="BCnr">Bon de Consommation non récurrente - BCnr</option>
+   <option value="BCr">Bon de Consommation récurrente - BCr</option>
+   <option value="BL">Bon de Livraison - BL</option>
+   <option value="BS">Bon de Salaire - BS</option>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_membre_apporteur">Code Membre de l'offreur  *</label>
+<div class="controls">
+  <input type="text" name="code_membre_apporteur" id="code_membre_apporteur" placeholder="Code Membre de l'offreur" class="input-xxlarge" required />
+<span class="help-block"><p class="text-error">Veuillez saisir le <strong>Code Membre</strong> de l'offreur </p></span>
+</div>
+</div>
+
+
+<div class="control-group">
+     <label class="control-label" for="design_membre_apporteur">Désignation de l'offreur * </label>
+     <div class="controls">
+          <input type="text" name="design_membre_apporteur" id="design_membre_apporteur" placeholder="" readonly    class="input-xxlarge"  required="required" />
+     </div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="montant_apporteur">Montant de l'offreur * </label>
+<div class="controls">
+  <input type="number" name="montant_apporteur" id="montant_apporteur" placeholder="Montant de l'offreur" class="input-xxlarge"  required />
+<span class="help-block"><p class="text-error">Veuillez saisir le montant de l'offreur</p></span>
+</div>
+</div>
+
+
+<div class="control-group" id="cat_produit_apporteur1" style="display:none;">
+<label class="control-label" for="cat_produit_apporteur">Catégorie produit de l'offreur</label>
+<div class="controls">
+<select name="cat_produit_apporteur" id="cat_produit_apporteur" >
+     <option value="">Choisir une catégorie de produit</option>
+   <option value="nr">Non Récurrent</option>
+   <option value="r">Récurrent</option>
+</select>
+</div>
+</div>
+
+
+<div class="control-group" id="code_tegc_apporteur1" style="display:none;">
+<label class="control-label" for="code_tegc_apporteur">Terminal d'Echange de l'offreur </label>
+<div class="controls">
+    <select  id="code_tegc_apporteur" name="code_tegc_apporteur" class="input-xxlarge">
+        <option value=""> Choisir un terminal de l'offreur</option>
+    </select>
+     <span class="help-block"><p class="text-error"> Veuillez choisir un terminal de l'offreur</p></span>   
+</div>
+</div>
+
+
+<div class="control-group" id="type_compte_apporteur1" style="display:none;">
+<label class="control-label" for="type_compte_apporteur1"> Compte de l'offreur </label>
+<div class="controls">
+     <select name="type_compte_apporteur1" id="type_compte_apporteur11" >
+        <option value="">Choisir un compte de l'offreur</option>
+      <option value="TCNCS">TCNCS</option>
+      <option value="TPN">TPN</option>
+     </select>
+     <span class="help-block"><p class="text-error"> Veuillez choisir un type de compte <strong> salaire </strong> </p></span>   
+</div>
+</div>
+
+
+<div class="control-group" id="type_compte_apporteur2" style="display:none;">
+<label class="control-label" for="type_compte_apporteur2">Compte de l'offreur </label>
+<div class="controls">
+<select name="type_compte_apporteur2" id="type_compte_apporteur22" class="input-xxlarge">
+<option value="">Choisir un compte de l'offreur</option>
+<option value="CNCS">Salaire</option>
+<option value="GCP">Recette</option>
+<option value="RPG">Revenu</option>
+<option value="I">Investissement</option>
+<option value="MF11000">Contribution Membre Fondateur 11000 </option>
+<option value="MF107">Contribution Membre Fondateur 107 </option>
+
+<!--<option value="BC">Consommation</option>-->
+<!--<option value="PaR">Part de Remboursement</option>-->
+
+</select>
+</div>
+</div>
+
+
+
+
+<legend>Bénéficiaire </legend>
+
+<div class="control-group">
+<label class="control-label" for="type_bon_beneficiaire">Type de bon du demandeur *</label>
+<div class="controls">
+<select name="type_bon_beneficiaire" id="type_bon_beneficiaire" onchange="bonchoix_beneficiaire();" required>
+  <option value="">Choisir un type de bon</option>
+   <option value="BAn">Bon d'Achat neutre - BAn</option>
+   <option value="BAi">Bon d'Achat interne - BAi</option>
+   <option value="BCnr">Bon de Consommation non récurrente - BCnr</option>
+   <option value="BCr">Bon de Consommation récurrente - BCr</option>
+   <option value="BL">Bon de Livraison - BL</option>
+   <option value="BS">Bon de Salaire - BS</option>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_membre_beneficiaire">Code Membre du demandeur  *</label>
+<div class="controls">
+  <input type="text" name="code_membre_beneficiaire" id="code_membre_beneficiaire" placeholder="Code Membre du demandeur" class="input-xxlarge" required />
+<span class="help-block"><p class="text-error">Veuillez saisir le <strong>Code Membre</strong> du demandeur </p></span>
+</div>
+</div>
+
+
+<div class="control-group">
+     <label class="control-label" for="design_membre_beneficiaire">Désignation du demandeur * </label>
+     <div class="controls">
+          <input type="text" name="design_membre_beneficiaire" id="design_membre_beneficiaire" placeholder="" readonly    class="input-xxlarge"  required="required" />
+     </div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="montant_beneficiaire">Montant du demandeur * </label>
+<div class="controls">
+  <input type="number" name="montant_beneficiaire" id="montant_beneficiaire" placeholder="Montant du demandeur" class="input-xxlarge"  required />
+<span class="help-block"><p class="text-error">Veuillez saisir le montant du demandeur</p></span>
+</div>
+</div>
+
+
+<div class="control-group" id="cat_produit_beneficiaire1" style="display:none;">
+<label class="control-label" for="cat_produit_beneficiaire">Catégorie produit du demandeur</label>
+<div class="controls">
+<select name="cat_produit_beneficiaire" id="cat_produit_beneficiaire" >
+     <option value="">Choisir une catégorie de produit</option>
+   <option value="nr">Non Récurrent</option>
+   <option value="r">Récurrent</option>
+</select>
+</div>
+</div>
+
+
+<div class="control-group" id="code_tegc_beneficiaire1" style="display:none;">
+<label class="control-label" for="code_tegc_beneficiaire">Terminal d'Echange du demandeur </label>
+<div class="controls">
+    <select  id="code_tegc_beneficiaire" name="code_tegc_beneficiaire" class="input-xxlarge">
+        <option value=""> Choisir un terminal du demandeur</option>
+    </select>
+     <span class="help-block"><p class="text-error"> Veuillez choisir un terminal du demandeur</p></span>   
+</div>
+</div>
+
+
+<div class="control-group" id="type_compte_beneficiaire1" style="display:none;">
+<label class="control-label" for="type_compte_beneficiaire1"> Compte du demandeur </label>
+<div class="controls">
+     <select name="type_compte_beneficiaire1" id="type_compte_beneficiaire11" >
+        <option value="">Choisir un compte du demandeur</option>
+      <option value="TCNCS">TCNCS</option>
+      <option value="TPN">TPN</option>
+     </select>
+     <span class="help-block"><p class="text-error"> Veuillez choisir un type de compte <strong> salaire </strong> </p></span>   
+</div>
+</div>
+
+
+<div class="control-group" id="type_compte_beneficiaire2" style="display:none;">
+<label class="control-label" for="type_compte_beneficiaire2">Compte du demandeur </label>
+<div class="controls">
+<select name="type_compte_beneficiaire2" id="type_compte_beneficiaire22"  class="input-xxlarge">
+<option value="">Choisir un compte du demandeur</option>
+<option value="CNCS">Salaire</option>
+<option value="GCP">Recette</option>
+<option value="RPG">Revenu</option>
+<option value="I">Investissement</option>
+<option value="MF11000">Contribution Membre Fondateur 11000 </option>
+<option value="MF107">Contribution Membre Fondateur 107 </option>
+
+<!--<option value="BC">Consommation</option>-->
+<!--<option value="PaR">Part de Remboursement</option>-->
+
+</select>
+</div>
+</div>
+
+
+
+
+</fieldset>
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input name="confirmation" type="hidden" id="confirmation" value="1" />
+<?php /*?><button type="reset" class="btn">Annuler</button><?php */?>
+<button type="submit" class="btn btn-primary">Envoi du code de confirmation </button>
+</div>
+
+
+
+</form>
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>

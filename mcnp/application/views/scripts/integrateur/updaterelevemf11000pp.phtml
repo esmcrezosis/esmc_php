@@ -1,0 +1,71 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+    $('#code_membre').blur(function(e) {
+	    if($(this).val() !== '') {
+            $.get('/integrateur/recupnom',{
+                code_membre: $(this).val()
+            },
+            function success(data) {
+               $("#membre").val(data);
+            })
+        } else {
+            $("#membre").val("");
+        }		   
+	});
+});
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+<blockquote><p>Mise à jour de la ligne de releve MF11000 du membre  <?php echo $this->membre->nom." ".$this->membre->prenom; ?> </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="update">
+      <?php if(isset($sessionmembreasso->errorlogin) && $sessionmembreasso->errorlogin!="") { ?>
+      <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $sessionmembreasso->errorlogin; $sessionmembreasso->errorlogin = ""; ?>
+      </div>
+      <?php } ?>
+
+        <?php if(isset($this->error) && $this->error!="") { ?>
+        <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <?php echo $this->error; ?>
+        </div>
+        <?php } ?>
+
+        <div class="control-group">
+        <label class="control-label">Code Membre ESMC *</label>
+        <div class="controls">
+	       <input type="text" required name="code_membre" id="code_membre" class="input-xxlarge" placeholder="Entrer Le Code Membre ESMC">
+		   <input type="hidden" name="id_releve" id="id_releve" value="<?php if(isset($this->releve)) echo $this->releve->releve_id;?>">
+	    </div>
+	    </div>
+
+		
+        <div class="control-group">
+        <label class="control-label" for="code_membre">Nom&&Prénom / Raison Sociale</label>
+	    <div class="controls">
+        <input type="text" name="membre" id="membre" placeholder="" readonly    class="input-xxlarge"  required="required" />
+        </div>
+        </div>
+        		
+
+        <div class="form-actions">
+        <input name="ok" type="hidden" id="ok" value="ok" />
+        <button type="reset" class="btn">Annuler</button>
+        <button type="submit" class="btn btn-primary">Modifier</button>
+        </div>	  
+	  
+</form>
+</div>
+</div>
+</div>

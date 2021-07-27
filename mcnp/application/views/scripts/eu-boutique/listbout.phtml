@@ -1,0 +1,70 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="detail" type="button" value="Afficher" class="ui-widget button"/>
+    </div>
+    <table id="tbl-boutique"></table>
+    <div id="pg-boutique"></div>
+</div>
+
+<script type="text/javascript">
+    
+    $("#tbl-boutique").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'listboutique')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Raison sociale','Telephone','Adresse','Responsable'],
+        height:440, width:827,
+        colModel:[
+            {name:'code_bout',index:'code_bout', width:150,editable:true,align:"left"},
+            {name:'design_bout',index:'design_bout', width: 300, editable: true,align:"left"},
+            {name:'telephone',index:'telephone', width: 150, align:"left", editable: true},
+            {name:'adresse',index:'adresse', width:250, editable: true,align:"rigth"},
+            {name:'responsable',index:'responsable', width:180, editable: true,align:"rigth"},
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        pager: '#pg-boutique',
+        sortname:"code_bout",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste de mes boutiques"
+    });
+  
+    $("#tbl-boutique").jqGrid('navGrid','#pg-boutique',{edit:false,add:false,del:false,search:true});
+
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-boutique").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-boutique/edit',{
+                bout:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    }); 
+    
+    $('#detail').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-boutique").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+                $.get('/eu-boutique/detail',{
+                    bout:rowsel
+                },function success(data){
+                    $("#content").html(data);
+                }); 
+        }
+        else {
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+    $('#detail').button();
+    
+</script>

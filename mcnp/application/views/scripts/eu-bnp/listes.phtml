@@ -1,0 +1,413 @@
+<div id="view-content" title="Vue des BNP" style="font-size: 11px;min-height: 520px;">
+    <div id="bnp_tab">
+        <ul>  
+            <li><a href="#tab_caps">CAPS</a></li>  
+            <li><a href="#tab_autres">Autres</a></li> 
+        </ul>  
+        <div>  
+            <div id="tab_caps">  
+                <form id="rech_bnp" method="Post" action="/eu-bnp/listes">
+                    <fieldset id="bnp_rech" style="margin-bottom: 2px;"> <legend>Recherche de BNP</legend>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label>Date</label></td><td><input id="rech_date_caps" type="text" name="rech_date_caps" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label>N° apporteur</label></td><td><input id="rech_apport_caps" type="text" name="rech_apport_caps" size="30"/></td>
+                                    <td><label>N° bénéficiaire</label></td><td><input id="rech_benef_caps" type="text" name="rech_benef_caps" size="30"/></td>
+                                    <td></td><td><input id="bt_rech_bnp_caps" type="submit" value="OK"/><input id="reset_bnp_caps" type="reset" value="Annuler"/></td></tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </form>
+                <table id="tbl-bnp_caps"></table>
+                <div id="pg-bnp_caps"></div> 
+            </div>  
+            <div id="tab_autres">  
+                <form id="rech_bnp" method="Post" action="/eu-bnp/listes">
+                    <fieldset id="bnp_rech" style="margin-bottom: 2px;"> <legend>Recherche de BNP</legend>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label>Type BNP</label></td><td><select id="rech_type_bnp" type="text" name="rech_type_bnp">
+
+                                        </select></td>
+                                    <td><label>Date</label></td><td><input id="rech_date" type="text" name="rech_date" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label>N° apporteur</label></td><td><input id="rech_apport" type="text" name="rech_apport" size="30"/></td>
+                                    <td><label>N° bénéficiaire</label></td><td><input id="rech_benef" type="text" name="rech_benef" size="30"/></td>
+                                    <td></td><td><input id="bt_rech_bnp" type="submit" value="OK"/><input id="reset_bnp" type="reset" value="Annuler"/></td></tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </form>
+                <button style="margin-bottom: 2px;" id="bt_bnp_detail">Détail</button><button id="bt_tbl_bnp">Tableau du BNP</button>
+                <table id="tbl-bnp"></table>
+                <div id="pg-bnp"></div>
+                <div id="bnpdialog">
+                    <form>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="hidden" id="code_bnp" name="code_bnp" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>Type BNP :</label></td>
+                                                    <td><input type="text" id="type_bnp" name="type_bnp" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>Apporteur :</label></td>
+                                                    <td><input type="text" id="apport_bnp" name="apport_bnp" size="30"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>Bénéficiaire :</label></td>
+                                                    <td><input type="text" id="benef_bnp" name="benef_bnp" size="30"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>Montant :</label></td>
+                                                    <td><input type="text" id="montant_bnp" name="montant_bnp" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>Crédit :</label></td>
+                                                    <td><input type="text" id="credit_bnp" name="credit_bnp" /></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><label>Période</label></td><td><input id="periode_bnp" name="periode_bnp" type="text"</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>Total ConUs</label></td><td><input id="total_conus" name="total_conus" type="text"</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>Total PaR</label></td><td><input id="total_par" name="total_par" type="text"</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>Total PaNu</label></td><td><input id="total_panu" name="total_panu" type="text"</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>Total FS</label></td><td><input id="total_fs" name="total_fs" type="text"</td>
+                                                </tr>
+                                            </tbody>
+                                        </table> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <table id="tbl-bnp_comptes"></table>
+                                        <div id="pg-bnp_comptes"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div id="dg_tbl_bnp">
+                    <table>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label>Type BNP :</label></td>
+                                    <td><input type="text" id="tbl_type" name="tbl_type" /></td>
+                                    <td><label>Montant :</label></td>
+                                    <td><input type="text" id="tbl_montant" name="tbl_montant" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Apporteur :</label></td>
+                                    <td><input type="text" id="tbl_apport" name="tbl_apport" size="30"/></td>
+                                    <td><label>Bénéficiaire :</label></td>
+                                    <td><input type="text" id="tbl_benef" name="tbl_benef" size="30"/></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <table id="tbl-bnp_credits"></table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <table id="tbl-bnp_detail"></table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </table>
+                </div>
+            </div> 
+        </div>  
+    </div>
+
+</div>
+<script type="text/javascript">
+    $("#tbl-bnp").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code', 'Type', 'Apporteur', 'Bénéficiaire', 'Montant', 'Crédit', 'T ConUs', 'T PaR', 'T PaNu', 'Periode'],
+        height: 270, width: 770,
+        colModel: [
+            {name: 'code_bnp', index: 'code_bnp', width: 200, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'code_type_bnp', index: 'code_type_bnp', width: 75, sorttype: "int", editable: false, align: "left"},
+            {name: 'code_membre_app', index: 'code_membre_app', width: 150, editable: false, align: "left"},
+            {name: 'code_membre_benef', index: 'code_membre_benef', width: 150, editable: false, align: "left"},
+            {name: 'montant_bnp', index: 'montant_bnp', width: 110, align: "left", editable: false},
+            {name: 'mont_credit', index: 'mont_credit', width: 110, align: "left", editable: false},
+            {name: 'mont_conus', index: 'mont_conus', width: 75, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'mont_par', index: 'mont_par', width: 150, editable: false, align: "left", hidden: true},
+            {name: 'mont_panu', index: 'mont_panu', width: 150, editable: false, align: "left", hidden: true},
+            {name: 'periode', index: 'periode', width: 65, sorttype: "int", editable: false, align: "left"}
+        ],
+        rowNum: 10,
+        rowList: [10, 20, 30],
+        pager: '#pg-bnp',
+        sortname: "id_bnp",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Comptes liés au BNP"
+    });
+
+    $("#tbl-bnp").jqGrid('navGrid', '#pg-bnp', {edit: false, add: false, del: false, search: true});
+    
+    $("#tbl-bnp_caps").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code', 'Type', 'Apporteur', 'Bénéficiaire', 'Montant CAPS', 'Total FS','T PaNu', 'Periode','Date'],
+        height: 270, width: 770,
+        colModel: [
+            {name: 'code_caps', index: 'code_caps', width: 200, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'type_caps', index: 'type_caps', width: 75, sorttype: "int", editable: false, align: "left"},
+            {name: 'code_membre_app', index: 'code_membre_app', width: 150, editable: false, align: "left"},
+            {name: 'code_membre_benef', index: 'code_membre_benef', width: 150, editable: false, align: "left"},
+            {name: 'mont_caps', index: 'mont_caps', width: 110, align: "left", editable: false},
+            {name: 'mont_fs', index: 'mont_fs', width: 110, align: "left", editable: false},
+            {name: 'mont_panu_fs', index: 'mont_panu_fs', width: 75, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'periode', index: 'periode', width: 65, sorttype: "int", editable: false, align: "left"},
+            {name: 'date_op', index: 'date_op', width: 65, sorttype: "int", editable: false, align: "left"}
+        ],
+        rowNum: 1000,
+        rowList: [1000, 2000, 3000],
+        pager: '#pg-bnp_caps',
+        sortname: "code_caps",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste des BNP CAPS"
+    });
+
+    $("#tbl-bnp_caps").jqGrid('navGrid', '#pg-bnp_caps', {edit: false, add: false, del: false, search: true});
+
+    $("#tbl-bnp_credits").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code BNP', 'Code', 'Compte', 'CAPA', 'Crédit', 'ConUs', 'PaR', 'PaNu', 'FS', 'Periode'],
+        height: 100, width: 967,
+        colModel: [
+            {name: 'code_bnp', index: 'code_bnp', width: 75, editable: false, align: "left", hidden: true},
+            {name: 'code_credit', index: 'code_credit', width: 75, sorttype: "int", editable: false, align: "right"},
+            {name: 'code_produit', index: 'code_produit', width: 75, editable: false, align: "left"},
+            {name: 'montant_place', index: 'montant_place', width: 120, align: "right", editable: false},
+            {name: 'mont_credit', index: 'credit', width: 100, align: "right", editable: false},
+            {name: 'mont_conus', index: 'mont_conus', width: 100, sorttype: "float", editable: false, align: "left"},
+            {name: 'mont_par', index: 'mont_par', width: 100, editable: false, align: "right"},
+            {name: 'mont_panu', index: 'mont_panu', width: 100, editable: false, align: "right"},
+            {name: 'mont_fs', index: 'mont_fs', width: 100, align: "right", editable: true},
+            {name: 'periode', index: 'periode', width: 75, sorttype: "int", editable: false, align: "right"}
+        ],
+        rowNum: 10,
+        rowList: [10],
+        sortname: "code_bnp",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Crédits liés du BNP",
+        onSelectRow: function(id) {
+            if (id !== 0 || id !== null) {
+                var data = jQuery('#tbl-bnp_credits').jqGrid('getRowData', id);
+                jQuery("#tbl-bnp_detail").jqGrid('setGridParam', {url: "/eu-bnp/bnpdetail?code=" + data.code_bnp + "&credit=" + data.code_credit}).trigger('reloadGrid');
+            }
+        }
+    });
+
+    $("#tbl-bnp_detail").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['ID', 'Code BNP', 'Code', 'Période', 'CAPA', 'Crédit', 'ConUs', 'PaR', 'PaNu', 'FS'],
+        height: 220, width: 927,
+        colModel: [
+            {name: 'id_detail', index: 'id_detail', width: 40, editable: false, align: "left", hidden: true},
+            {name: 'code_bnp', index: 'code_bnp', width: 80, editable: false, align: "left", hidden: true},
+            {name: 'id_credit', index: 'id_credit', width: 60, sorttype: "int", editable: false, align: "right", hidden: true},
+            {name: 'periode', index: 'periode', width: 75, sorttype: "int", editable: false, align: "right"},
+            {name: 'mont_capa', index: 'mont_capa', width: 100, formatter: "number", align: "right", editable: false},
+            {name: 'mont_credit', index: 'mont_credit', width: 100, formatter: "number", align: "right", editable: false},
+            {name: 'mont_conus', index: 'mont_conus', width: 100, align: "right", sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'mont_par', index: 'mont_par', width: 100, align: "right", sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'mont_panu', index: 'mont_panu', width: 100, align: "right", sorttype: "float", formatter: "number", summaryType: 'sum'},
+            {name: 'mont_fs', index: 'mont_fs', width: 100, align: "right", sorttype: "float", formatter: "number", summaryType: 'sum'}
+        ],
+        rowNum: 105,
+        rowList: [105],
+        sortname: "periode",
+        viewrecords: true,
+        sortorder: "ASC",
+        grouping: true,
+        groupingView: {groupField: ['id_credit'], groupSummary: [true], groupColumnShow: [true], groupText: ['<b>{0}</b>'], groupCollapse: false, groupOrder: ['asc']},
+        caption: "Tableau du BNP"
+    });
+
+    $("#tbl-bnp_comptes").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code', 'N° Membre', 'Compte', 'Montant', 'Crédit'],
+        height: 140, width: 790,
+        colModel: [
+            {name: 'code_compte', index: 'code_compte', width: 190, sorttype: "int", editable: false, align: "left"},
+            {name: 'code_membre', index: 'code_membre', width: 120, sorttype: "int", editable: false, align: "left"},
+            {name: 'code_produit', index: 'code_produit', width: 80, editable: false, align: "left"},
+            {name: 'montant_place', index: 'montant_place', width: 100, align: "right", editable: false},
+            {name: 'montant_credit', index: 'montant_credit', width: 100, align: "right", editable: false}
+        ],
+        rowNum: 10,
+        rowList: [10, 20, 30],
+        pager: '#pg-bnp_comptes',
+        sortname: "codecredi",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Les Comptes BNP"
+    });
+
+    $("#tbl-bnp_comptes").jqGrid('navGrid', '#pg-bnp_comptes', {edit: false, add: false, del: false, search: true});
+
+    $(document).ready(function() {
+        $('#bt_rech_bnp').button().click(function(e)
+        {
+            jQuery("#tbl-bnp").jqGrid('setGridParam', {url: "/eu-bnp/bnp?apporteur=" + $('#rech_apport').val() + "&benef=" + $('#rech_benef').val() + "&type_bnp=" + $('#rech_type_bnp').val() + "&date=" + $('#rech_date').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+        
+        $('#bt_rech_bnp_caps').button().click(function(e)
+        {
+            jQuery("#tbl-bnp_caps").jqGrid('setGridParam', {url: "/eu-bnp/bnpcaps?apporteur=" + $('#rech_apport_caps').val() + "&benef=" + $('#rech_benef_caps').val() + "&type_bnp=" + "&date=" + $('#rech_date_caps').val()}).trigger('reloadGrid');
+            e.preventDefault();
+        });
+
+        $("#bt_tbl_bnp").button().click(function() {
+            var sel;
+            sel = jQuery("#tbl-bnp").jqGrid('getGridParam', 'selrow');
+            data = jQuery("#tbl-bnp").jqGrid('getRowData', sel);
+            //        if ( sel > 0 ) {
+            $('#tbl_type').val(data.code_type_bnp);
+            $('#tbl_apport').val(data.code_membre_app);
+            $('#tbl_benef').val(data.code_membre_benef);
+            $('#tbl_montant').val(data.montant_bnp);
+            jQuery("#tbl-bnp_credits").jqGrid('setGridParam', {url: "/eu-bnp/bnpcredit?code=" + data.code_bnp}).trigger('reloadGrid');
+            $("#dg_tbl_bnp").dialog("open");
+            //        }else{
+            //            alert('Il faut sélectionner une ligne');
+            //        }
+        });
+
+        $("#bt_bnp_detail").button().click(function() {
+            var sel;
+            sel = jQuery("#tbl-bnp").jqGrid('getGridParam', 'selrow');
+            data = jQuery("#tbl-bnp").jqGrid('getRowData', sel);
+            //        if ( sel > 0 ) {
+            $('#code_bnp').val(data.code_bnp);
+            $('#type_bnp').val(data.code_type_bnp);
+            $('#apport_bnp').val(data.code_membre_app);
+            $('#benef_bnp').val(data.code_membre_benef);
+            $('#montant_bnp').val(data.montant_bnp);
+            $('#credit_bnp').val(data.mont_credit);
+            $('#total_conus').val(data.mont_conus);
+            $('#total_par').val(data.mont_par);
+            $('#total_panu').val(data.mont_panu);
+            $('#total_fs').val(data.mont_fs);
+            $('#periode_bnp').val(data.periode);
+            jQuery("#tbl-bnp_comptes").jqGrid('setGridParam', {url: "/eu-bnp/comptes?code=" + data.code_bnp}).trigger('reloadGrid');
+            $("#bnpdialog").dialog("open");
+            //        }else{
+            //            alert('Il faut sélectionner une ligne');
+            //        }
+        });
+
+        $.get(
+                '/eu-bnp/types',
+                function success(data)
+                {
+                    var options = '<option></option>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+                    }
+                    $('select#rech_type_bnp').html(options);
+                });
+                
+        $.get('/eu-bnp/membre',
+                {type: '%'},
+        function success(data)
+        {
+            $('#rech_apport').autocomplete({"source": data,minLength: 5});
+            $('#rech_benef').autocomplete({"source": data,minLength: 5});
+            $('#rech_apport_caps').autocomplete({"source": data,minLength: 5});
+            $('#rech_benef_caps').autocomplete({"source": data,minLength: 5});
+        });
+
+        $(function() {
+            $("#bnpdialog").dialog({
+                autoOpen: false,
+                height: 580,
+                title: 'Détail du BNP:',
+                width: 837,
+                modal: true,
+                buttons: {
+                    "Fermer": function() {
+                        $(this).dialog("close");
+                    }
+                },
+                close: function() {
+                    //allFields.val( "" ).removeClass( "ui-state-error" );
+                }
+            }
+            );
+            $("#dg_tbl_bnp").dialog({
+                autoOpen: false,
+                height: 657,
+                title: 'Détail du BNP:',
+                width: 1000,
+                modal: true,
+                buttons: {
+                    "Fermer": function() {
+                        $(this).dialog("close");
+                    }
+                },
+                close: function() {
+                    //allFields.val( "" ).removeClass( "ui-state-error" );
+                }
+            }
+            );
+            $('#bnp_tab').puitabview();  
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+            var pickerOpts = {
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+            $("#rech_date").datepicker(pickerOpts);
+            $("#rech_date_caps").datepicker(pickerOpts);
+        });
+        $('#reset_bnp').button();
+    });
+</script>

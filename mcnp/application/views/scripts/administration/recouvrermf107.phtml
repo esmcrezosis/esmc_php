@@ -1,0 +1,136 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+$(document).ready(function() {
+ $('#example').dataTable({
+     "sPaginationType": "full_numbers",
+     "aaSorting": []
+  });
+});
+</script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+<blockquote><p class="text-info">Faire le recouvrement des unités MF107</p></blockquote>
+
+<div class="">
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="ancienpp">
+    <?php if(isset($sessionutilisateur->errorlogin) && $sessionutilisateur->errorlogin!="") { ?>
+    <div class="alert alert-success">
+         <button type="button" class="close" data-dismiss="alert">&times;</button>
+         <?php echo $sessionutilisateur->errorlogin; $sessionutilisateur->errorlogin = ""; ?>
+    </div>
+      <?php } ?>
+      <?php if(isset($this->message) && $this->message!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $this->message; ?>
+      </div>
+    <?php } ?>
+	
+	<legend>Faire le recouvrement des unités MF107</legend>
+	<div class="control-group">
+	<?php if (isset($_POST['code_membre']) && $_POST['code_membre']!="" && isset($this->code_membre)) { 
+	  $x =1;
+          $compteur = 0;
+	?>
+	<label class="control-label" for="code_membre">Ancien code Membre *</label>
+    <div class="controls">
+        <input type="text" name="code_membre" id="code_membre" placeholder="Ancien Code Membre" value="<?php echo $this->code_membre; ?>" readonly required>
+	</div>
+    <br/>
+    <br/>	
+	<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+	    <thead>
+            <tr>
+			    <th>#</th>
+				<th>Propriétaire MF107</th>
+				<th><div align="left">Part en (%)</div></th>
+				<th>Apporteur</th>
+				<th><div align="left">Part en (%)</div></th>
+				<th><div align="left">Produit</div></th>
+				<th><div align="left">Montant Apporté</div></th>
+			</tr>
+	    </thead>
+	    <tbody>
+		    
+	        <?php 
+			    $mf107  = new Application_Model_EuMembreFondateur107();
+			    $mmf107 = new Application_Model_EuMembreFondateur107Mapper();
+			    foreach ($this->mf107 as $entry):
+                    $findmf107 = $mmf107->find($entry->numident,$mf107);
+				    $code_proprio = $mf107->getCode_membre();				
+			        if($entry->mont_apport > 0) {
+			?>
+			<tr>
+			    <td>
+				    <div>
+                    <input type="checkbox" name="<?php echo "num".$x ?>" id="<?php echo "num".$x ?>" value="<?php echo $entry->id_mf107;?>"/>           
+                    </div>
+				</td>
+				<td><div align="left"><?php echo $code_proprio; ?></div></td>
+				<td><div align="left"><?php echo $entry->pourcentage; ?></div></td>
+				<td><div align="left"><?php echo $entry->code_membre; ?></div></td>
+				<td><div align="left"><?php echo (100 - $entry->pourcentage); ?></div></td>
+				<!--<td>
+				<div align="left">
+				   <input type="text" class="input-mini" name="<?php echo "pourcentage".$x ?>" id="<?php echo "pourcentage".$x ?>" value="<?php echo (100 - $entry->pourcentage);?>"/>
+				</div>
+				</td>-->
+			    <td><div align="left">MF107</div></td>
+				<td><div align="left"><strong><?php echo number_format($entry->mont_apport,0,',',' ');?></strong></div></td>
+								
+			</tr>
+			<?php 
+			    }
+			    $x++;
+				$compteur++;
+				endforeach;			
+			?>
+			<tr>
+			    <td colspan="6">
+		            <div align="center">
+                           <input type="hidden" name="compteur" value="<?php echo $compteur ?>"/>
+                           <input name="ok1" type="hidden" id="ok1" value="ok1"/>
+                           <button type="submit" class="btn btn-success">Recouvrer</button>
+		            </div>
+			    </td>   
+		   	</tr>	 
+	    </tbody>
+	</table>
+	<?php } else { ?>
+        <label class="control-label" for="code_membre">Ancien Code membre *</label>
+        <div class="controls">
+             <input  type="text"   name="code_membre" id="code_membre" placeholder="Ancien Code Membre" value="<?php echo $this->code_membre; ?>" required>
+             <input  name="ok"     type="hidden" id="ok" value="ok" />
+             <button type="submit" class="btn btn-primary">Valider</button>
+        </div>
+	<?php } ?>	
+		
+    </div>
+</form>
+</div>
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,127 @@
+<?php $sessionsouscription = new Zend_Session_Namespace('souscription');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menutiers.phtml"); ?>
+<legend style="text-align:center"> 
+    <strong> MODIFICATION DU BON DE SORTIE (INTERNE) </strong>
+</legend>
+  
+
+
+<form action="#" method="post" class="form-horizontal">
+     	
+     	<div class="control-group">
+	    	<div class="controls">
+	    	<input type="hidden" name="id_bon_sortie_interne" value="<?php echo $this->detailbonsortie[0]->id_bon_sortie_interne; ?>" />
+	    	</div>
+	    </div>
+     	<div class="control-group">
+	     	<label class="control-label" for="date_bon_sortie_interne" style="font-weight:bold"> 
+	      	Date de remise du bon :
+	   		</label>
+	    	<div class="controls">
+	    	<input type="text" name="date_bon_sortie_interne" class="input-block-level date_bon_sortie_interne datepicker"  date-provide="datepicker"  value="<?php echo $this->detailbonsortie[0]->date_bon_sortie_interne; ?>" placeholder="Selectionner la date de remise du bon" required="required"/>	
+	    	</div>
+	    </div>
+		<div class="control-group">
+	    	<label class="control-label" for="nature_article" style="font-weight:bold">
+	        Nature de l'article :
+	     	</label>
+	      	<div class="controls">
+	    	<input type="text" name="nature_article" class="input-block-level nature_article" value="<?php echo $this->detailbonsortie[0]->nature_article; ?>" placeholder="Mettre ici la nature de l'article" required="required"/>
+	  		</div>
+	    </div>	    
+
+	    <div class="control-group">
+	    	<label class="control-label" for="quantite_article" style="font-weight:bold">
+	        Quantite :
+	    	</label>
+	    	<div class="controls"> 
+	        <input type="number" name="quantite_article" onblur="total();" onchange="total();" class="input-block-level objet_bon_sortie" value="<?php echo $this->detailbonsortie[0]->quantite_article; ?>" placeholder="" id="quantite_article" required="required"/>
+	    	</div>
+	    </div>
+
+	    <div class="control-group">
+	    	<label class="control-label" for="objet_bon_sortie" style="font-weight:bold">
+	        Objet/Motif :
+	    	</label>
+	    	<div class="controls"> 
+	        <input type="text" name="objet_bon_sortie" class="input-block-level objet_bon_sortie" value="<?php echo $this->detailbonsortie[0]->objet_bon_sortie; ?>" placeholder="Mettre ici l'objet de sortie de l'article" required="required"/>
+	    	</div>
+	    </div>
+
+	    <div class="control-group">
+	    	<label class="control-label" for="prix_unitaire" style="font-weight:bold">
+	        Prix unitaire :
+	    	</label>
+	    	<div class="controls"> 
+	        <input type="number" name="prix_unitaire" onblur="total();" onchange="total();" class="input-block-level prix_unitaire" value="<?php echo $this->detailbonsortie[0]->prix_unitaire; ?>" placeholder="" id="prix_unitaire" required="required" />
+	    	</div>
+	    </div>
+
+
+	    <div class="control-group">
+	    	<label class="control-label" for="montant_total_bon_sortie_interne" style="font-weight:bold">
+	        Cout total :
+	    	</label>
+	      	<div class="controls">
+	        <input type="text" name="montant_total_bon_sortie_interne" class="input-block-level montant_total_bon_sortie_interne" value="<?php echo $this->detailbonsortie[0]->montant_total_bon_sortie_interne; ?>" placeholder="" id="montant_total_bon_sortie_interne" readonly="readonly" required="required"/>
+	    	</div>
+	    </div>
+
+	    <div class="control-group">
+	    	<label class="control-label" for="imputation" style="font-weight:bold">
+	        Imputation :
+	    	</label>
+	      	<div class="controls">
+	        <input type="text" name="imputation" class="input-block-level imputation" value="<?php echo $this->detailbonsortie[0]->imputation; ?>" placeholder="Mettre ici l'imputation" required="required"/>
+	    	</div>
+	    </div>
+
+	    <div class="control-group">
+	    	<label class="control-label" for="nom_beneficiaire" style="font-weight:bold">
+	        Nom bénéficiaire :
+	    	</label>
+	      	<div class="controls">
+			<input type="text" name="nom_beneficiaire" class="input-block-level nom_beneficiaire" value="<?php echo $this->detailbonsortie[0]->nom_beneficiaire; ?>" placeholder="Mettre ici le nom du bénéficiaire" required="required"/>
+			</div>
+	    </div>
+
+	    <div class="control-group">
+	    	<label class="control-label" for="no_vehicule" style="font-weight:bold">
+	        Numéro véhicule :
+	    	</label>
+	      	<div class="controls">
+	        <input type="text" name="no_vehicule" class="input-block-level no_vehicule" value="<?php echo $this->detailbonsortie[0]->no_vehicule; ?>" placeholder="Mettre ici le numero du vehicule" required="required"/>
+	    	</div>
+	    </div>
+        
+        <div class="control-group">
+	    	<label class="control-label" for="date_livraison" style="font-weight:bold">
+	        Date de livraison :
+	    	</label>
+	      	<div class="control-group">
+	        <input type="text" name="date_livraison" class="input-block-level date_livraison datepicker" date-provide="datepicker" value="<?php echo $this->detailbonsortie[0]->date_livraison; ?>" placeholder="Selectionner la date de livraison" required="required"/>
+	    	</div>
+	   	</div>
+ 	    <div class="control-group">
+	      	<div class="controls">
+	        <button class="btn btn-danger" style="width:133px">Modifier</button>
+	        <button class="btn btn-primary" style="width:133px"><a href="/bonsortieinterne/listbonsortieinterne">Retour</a></button>
+	    	</div>
+	    </div>     
+
+     </form>
+
+</div>
+</div>
+</div>    
+
+
+
+
+
+
+

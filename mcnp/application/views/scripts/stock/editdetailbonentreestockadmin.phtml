@@ -1,0 +1,127 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modifier  un detail d'un bon d'entree de stock</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="editeli">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = "";?>
+    </div>
+  <?php }?>
+  
+
+
+
+<div class="control-group">
+<label class="control-label" for="id_bon_entree_stock">Bon d'entree de stock * </label>
+<div class="controls">
+<?php 
+$bon_entree_stock_m = new Application_Model_EuBonEntreeStockMapper();
+$bon_entree_stock = $bon_entree_stock_m->fetchAll();
+if(count($bon_entree_stock) > 0){?>
+<select name="id_bon_entree_stock" id="id_bon_entree_stock" required >
+<option value="">Choisir le bon </option>
+<?php foreach ($bon_entree_stock as $value) { ?>
+<option value="<?php echo $value->id_bon_entree_stock; ?>" <?php if($this->bon_entree_stock->id_bon_entree_stock == $value->id_bon_entree_stock){?> selected="selected"<?php }?>><?php echo $value->libelle_bon_entree_stock;?></option>
+<?php } ?>
+</select>
+<?php } ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="reference_articles">Reference Article *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="reference_articles" id="reference_articles" placeholder="Reference Article" value="<?php echo $this->bon_entree_stock->reference_articles;?>" required>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="designation_articles">Designation Article *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="designation_articles" id="designation_articles" placeholder="Designation Article" value="<?php echo $this->bon_entree_stock->designation_articles;?>" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="unite_comptage">Unite de comptage  </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="unite_comptage" id="unite_comptage" placeholder="Unite de comptage " value="<?php echo $this->bon_entree_stock->unite_comptage;?>" >
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="quantite">Quantite  </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="quantite" id="quantite" placeholder="Quantite " value="<?php echo $this->bon_entree_stock->quantite;?>" >
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="prix_unitaire">Prix Unitaire  </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="prix_unitaire" id="prix_unitaire" placeholder="Prix Unitaire" value="<?php echo $this->bon_entree_stock->prix_unitaire;?>" >
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="montant">Montant </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="montant" id="montant" placeholder="Montant" value="<?php echo $this->bon_entree_stock->montant;?>" >
+</div>
+</div>
+  
+
+<div class="control-group">
+<label class="control-label" for="observations">Observations  </label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="observations" id="observations" placeholder="Observations " value="<?php echo $this->bon_entree_stock->observations;?>" >
+</div>
+</div>
+
+  
+
+
+
+
+
+
+
+<div class="form-actions">
+<input name="id_detail_bon_entree_stock" type="hidden" id="id_detail_bon_entree_stock" value="<?php echo $this->bon_entree_stock->id_detail_bon_entree_stock; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier le detail du bon d'entree de stock</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

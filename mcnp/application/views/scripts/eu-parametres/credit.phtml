@@ -1,0 +1,55 @@
+<div id="view-content" title="Fiche des paramètres" style="font-size: 12px;min-height: 520px;">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-prk"></table>
+    <div id="pg-prk"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-prk").jqGrid({
+        url: '/eu-parametres/credits',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['ID','Type Credit', 'Type Acteur', 'Valeur'],
+        height: '100%', width: 805,
+        rownumbers: true,
+        colModel: [
+            {name: 'id_prk', index: 'id_prk', width: 40, align: "left", editable: true},
+            {name: 'code_type_credit', index: 'code_param', width: 30, align: "left", editable: true},
+            {name: 'id_type_acteur', index: 'id_type_acteur', width: 40, align: "left", editable: true},
+            {name: 'valeur', index: 'valeur', width: 20, align: "right", editable: true}
+        ],
+        rowNum: 200,
+        rowList: [200, 300, 400],
+        pager: '#pg-prk',
+        sortname: "id_prk",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste des PRK"
+    });
+    $("#tbl-prk").jqGrid('navGrid', '#pg-prk', {edit: false, add: false, del: false, search: true});
+    $(document).ready(function()
+    {
+        $('#view-content').puipanel();
+        
+        $('#editer').button().click(function()
+        {
+            var rowsel;
+            rowsel = jQuery("#tbl-prk").jqGrid('getGridParam', 'selrow');
+            if (rowsel)
+            {
+                data = jQuery("#tbl-prk").jqGrid('getRowData', rowsel);
+                $.get('/eu-parametres/editprk', {
+                    id_prk :data.id_prk, code_type_credit: data.code_type_credit, id_type_acteur: data.id_type_acteur, valeur: data.valeur
+                }, function success(data) {
+                    $("#content").html(data);
+                });
+            }
+            else
+            {
+                alert('Aucune ligne sélectionnée');
+            }
+        });
+    });
+</script>

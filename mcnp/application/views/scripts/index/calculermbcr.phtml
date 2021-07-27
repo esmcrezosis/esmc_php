@@ -1,0 +1,161 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<script type="text/javascript">
+
+    function annuler() {
+        //document.getElementById('produit').value = "";
+        document.getElementById('mont_bc').value = "";
+    }
+
+
+    function annuler1() {
+        //document.getElementById('produit').value = "";
+        document.getElementById('mont_bc').value = "";
+    }
+   
+    function annuler2() {
+        //document.getElementById('produit').value = "";
+        document.getElementById('mont_bc').value = "";
+    }
+   
+    function annulation1() {
+        //document.getElementById('periode').style.display = 'block';
+	    //document.getElementById('produit').value = "";
+        document.getElementById('mont_bc').value = "";
+	    //document.getElementById('periode1').checked = false;
+	    //document.getElementById('periode2').checked = false;
+    }
+   
+    function annulation2() {
+        //document.getElementById('produit').value = "";
+        document.getElementById('mont_bc').value = "";
+	    //document.getElementById('periode1').checked = false;
+	    //document.getElementById('periode2').checked = false;
+        //document.getElementById('periode').style.display  = 'none';
+    }
+   
+    function calculmontant() {
+        //if((document.getElementById('type_recurrent1').checked) && (document.getElementById('periode1').checked))  {
+	    //document.getElementById('mont_bc').value = Math.floor((document.getElementById('mont_msbcr').value / document.getElementById('msbcrlpm').value));
+        //}else 
+			
+		if((document.getElementById('type_recurrent1').checked)) {
+	        document.getElementById('mont_bc').value = Math.round((document.getElementById('mont_msbcr').value / document.getElementById('msbcrlps').value));
+        } 
+        else if(document.getElementById('type_recurrent2').checked) {
+	        document.getElementById('mont_bc').value = Math.floor((document.getElementById('mont_msbcr').value / document.getElementById('msbcrips').value));
+        }
+    }
+   
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p>Calcul du Montant du Bon de Consommation Récurrente ( BCr )</p></blockquote>
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+
+
+<blockquote></blockquote>
+<form  action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="" name="">
+
+<fieldset>
+
+<legend> Montant du Bon de Consommation Récurrente (BCr) </legend>
+
+<div class="control-group">
+<label class="control-label" for="mont_bc">Montant de Souscription au Bon de Consommation Récurrente *</label>
+<div class="controls">
+<input type="text" name="mont_msbcr" id="mont_msbcr" placeholder="Montant de Souscription au Bon de Consommation Récurrente" class="input-xxlarge" onblur="annuler();"  required="required" />
+</div>
+</div>
+
+<br/><br/>
+
+<div class="control-group" id="type" >
+     <label class="control-label">Type récurrent *</label>
+	 <div class="controls"> 
+		  <input type="radio" checked="checked" name="type_recurrent" id="type_recurrent1" value="limite" onclick="annulation1()"/>
+          LIMITE	&nbsp;&nbsp;&nbsp;&nbsp;			  
+		  <input type="radio"  name="type_recurrent" id="type_recurrent2" value="illimite"  onclick="annulation2()" />
+		  ILLIMITE
+     </div>
+</div>
+
+<!--
+
+<br/><br/>
+
+<div  class="control-group" id="periode">
+      <label class="control-label">Période *</label>
+      <div class="controls">
+	      <input type="radio"  name="periode" id="periode1" value="22.4" onclick="annuler1();" />
+          22.4	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;			  
+	      <input type="radio"  name="periode" id="periode2" value="11.2" onclick="annuler2();"/> 
+	      11.2
+      </div> 
+</div>
+
+-->
+
+<br/><br/>
+
+<!--
+<div class="control-group">
+<label class="control-label" for="id_prk">Produit à souscrire * </label>
+<div class="controls">
+     <select name="produit" id="produit" class="input-xxlarge" required="required" onchange="calculmontant();">
+     <option value="">Choisir un produit </option>
+     <?php //foreach ($this->produits as $produit) { ?>
+           <option value="<?php //echo $produit->type_produit; ?>"> <?php //echo ucfirst(utf8_encode($produit->lib_type_credit));?> </option>
+     <?php //} ?>
+     </select>
+</div>
+</div>
+
+<br/><br/>
+-->
+
+<div class="control-group">
+<label class="control-label" for="mont_bc">Montant du Bon de Consommation Récurrente *</label>
+<div class="controls">
+     <input type="text" name="mont_bc" id="mont_bc" placeholder="Montant du Bon de Consommation Récurrente" class="input-xxlarge" readonly="true" />
+
+     <input  type="hidden"  name="msbcripo"  id="msbcripo"  placeholder="msbcripo"  readonly="true"  value="<?php echo $this->msbcripo ; ?>" /> 
+     <input  type="hidden"  name="msbcrips"  id="msbcrips"  placeholder="msbcrips"  readonly="true"  value="<?php echo $this->msbcrips ; ?>" />
+     <input  type="hidden"  name="msbcrlpm"  id="msbcrlpm"  placeholder="msbcrlpm"  readonly="true"  value="<?php echo $this->msbcrlpm ; ?>" />
+     <input  type="hidden"  name="msbcrlpo"  id="msbcrlpo"  placeholder="msbcrlpo"  readonly="true"  value="<?php echo $this->msbcrlpo ; ?>" />
+     <input  type="hidden"  name="msbcrlps"  id="msbcrlps"  placeholder="msbcrlps"  readonly="true"  value="<?php echo $this->msbcrlps ; ?>" />  
+
+</div>
+</div>
+
+</fieldset>
+<div class="form-actions">
+    <button type="reset" class="btn">Annuler</button>
+	<button type="button" class="btn btn-primary" onclick="calculmontant();">Calculer </button>
+</div>  
+</form>
+</div>
+
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php /*?><?php */?>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+

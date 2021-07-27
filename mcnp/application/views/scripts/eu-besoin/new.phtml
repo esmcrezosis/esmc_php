@@ -1,0 +1,65 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Faites exprimer vos besoins sur le système</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form action="/eu-besoin/new" name="fm_besoin" method="POST" id="fm_besoin" onsubmit="return controle()">	
+            <table>
+                <tr><td>Libellé du besoin *</td><td><input  class="validate[required]"  name="lib_besoin" id="lib_besoin" /></td></tr>
+                <tr><td>Date de validité </td><td><input    class="validate[required]"  maxlength="100" name="date_valide" id="date_valide"/></td></tr>
+                <tr><td>Saisir le nombre de type produits *</td>
+                    <td><input  class="validate[required]" maxlength="6" name="nbre" id="nbre" />
+                    </td><td><input type="button" value="Ajouter" name="ajouter" id="ajouter"/></td>
+                <tr><td height="15"></td></tr>
+            </table>
+            <fieldset style="border-color:#000"><legend>Expression des besoins</legend>
+                <table id="tabb"></table>  
+            </fieldset>                
+            <br>
+            <div align="left">
+                <input type="submit" value="Valider" name="valider" id="valider" class="valider"/>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {   
+            $(function(){
+                var pickerOpts = {
+                    dateFormat: "dd-mm-yy",
+                    changeMonth:true,
+                    changeYear:true,
+                    showOtherMonths: true
+                };
+                $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+                $("#date_valide").datepicker(pickerOpts);
+            }); 
+            
+            $("#ajouter").click(function(){								   
+                var nbre=$("#nbre").val();
+                var tab=[];
+                var tabb=[];
+                tabb[1]="";
+                tab[1]="<tr><td>Unité:</td><td><select name='unite0' class='validate[required]'><option value=''></option><option value='litres'>Litre</option><option value='mètres'>Mètre</option><option value='kilogrammes'>Kilogramme</option><option value='tonnes'>Tonne</option><option value='autres'>Autres</option></select></td><td>Produit :</td><td><input type='text' name='objet_besoin0' class='validate[required]'   id='objet_besoin' size=40></td><td>Quantité :</td><td><input type='text' name='qte_objet0'  class='validate[required,custom[onlyNumberSp]]' size=6></td><td>Type produit :</td><td><select  name='cat_objet0' class='validate[required]'>\n\
+                     <option value=''></option><option value='fixe'>Fixe</option><option value='circulant'>Circulant</option></select></td></tr>";
+                for(var i=1;i<=nbre;i++){
+                    tabb[1]=tabb[1] + tab[1];
+                    tab[1]="<tr><td>Unité:</td><td><select name='unite"+i+"' class='validate[required]'><option value=''></option></option><option value='litres'>Litre</option><option value='mètres'>Mètre</option><option value='kilogrammes'>Kilogramme</option><option value='tonnes'>Tonne</option><<option value='autres'>Autres</option></select></td><td>Produit :</td><td><input type='text' name='objet_besoin"+i+"' class='validate[required]'  id='objet_besoin' size=40></td><td>Quantité :</td><td><input type='text' name='qte_objet"+i+"'  class='validate[required,custom[onlyNumberSp]]' size=6 ></td><td>Type produit :</td><td><select  name='cat_objet"+i+"' class='validate[required]'>\n\
+                     <option value=''></option><option value='fixe'>Fixe</option><option value='circulant'>Circulant</option></select></td></tr>";           
+                }
+                tabb[1]=tabb[1]+"<tr><td><input type='hidden' name='compteur' value='"+nbre+"'></td></tr>"
+                
+                $('#tabb').html(tabb[1]); 
+                $.get( "/eu-besoin/change",
+                function success(data){
+                    $("input#objet_besoin").autocomplete({"source":data});
+                });
+            });  
+        });
+        $('#valider').button();
+        $('#ajouter').button();
+        $("#fm_besoin").validationEngine(); 
+
+    </script>    
+</div>

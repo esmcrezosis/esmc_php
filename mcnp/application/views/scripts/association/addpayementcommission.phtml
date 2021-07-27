@@ -1,0 +1,133 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+  <blockquote><p>Demande de payement de commission</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addpayementcommission">
+  <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; ?>
+    </div>
+  <?php }?>
+  
+<fieldset>
+<legend>Formulaire de demande de payement de commission</legend>
+    
+
+<div class="control-group">
+<label class="control-label" for="periode">Quinzaine  *</label>
+<div class="controls">
+<select name="periode" id="periode" required>
+<?php         
+		$partagea = new Application_Model_EuPartageaMapper();
+        $entries = $partagea->findMoisAnneeAssociation($sessionmembreasso->membreasso_association);
+?>
+
+  <option value="">Choisir la periode</option>
+
+<?php foreach ($entries as $entry): ?>
+<?php 
+// Configuration du fuseau horaire. Disponible depuis PHP 5.1
+date_default_timezone_set('Europe/London');
+
+$mois = $entry['MOIS'];
+$annee = $entry['ANNEE'];
+
+$lastday = strftime("%Y%m%d",mktime(0,0,0,$mois+1,0,$annee));
+$firstday = strftime("%Y%m%d",mktime(0,0,0,$mois,1,$annee));
+
+$mois15 = strftime("%Y%m%d",mktime(0,0,0,$mois,15,$annee));
+
+$jour1 = 01;
+$jour15 = 15;
+$jour16 = 16;
+$jourlast = strftime("%d",mktime(0,0,0,$mois+1,0,$annee));
+?>
+               <option value="<?php echo $annee; ?>-<?php echo ajoute1zero($mois); ?>-0<?php echo $jour1; ?>/<?php echo $annee; ?>-<?php echo ajoute1zero($mois); ?>-<?php echo $jour15; ?>" <?php if(isset($_POST['periode']) && $_POST['periode'] == $annee."-".ajoute1zero($mois)."-0".$jour1."/".$annee."-".ajoute1zero($mois)."-".$jour15){?> selected="selected"<?php }?>>Du 0<?php echo $jour1; ?> au <?php echo ($jour15); ?> <?php echo moisfr($mois); ?> <?php echo ($annee); ?></option>
+
+               <option value="<?php echo $annee; ?>-<?php echo ajoute1zero($mois); ?>-<?php echo $jour16; ?>/<?php echo $annee; ?>-<?php echo ajoute1zero($mois); ?>-<?php echo $jourlast; ?>" <?php if(isset($_POST['periode']) && $_POST['periode'] == $annee."-".ajoute1zero($mois)."-".$jour16."/".$annee."-".ajoute1zero($mois)."-".$jourlast){?> selected="selected"<?php }?>>Du <?php echo $jour16; ?> au <?php echo ($jourlast); ?> <?php echo moisfr($mois); ?> <?php echo ($annee); ?></option>
+
+<?php endforeach; ?>
+               
+</select>
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="payement_commission_montant">Montant  *</label>
+<div class="controls">
+<input type="text" name="payement_commission_montant" id="payement_commission_montant" placeholder="Montant " class="input-block-level" required />
+</div>
+</div>
+
+
+<div class="control-group">
+  <label class="control-label" for="id_type_commission">Type de commission *</label>
+  <div class="controls">
+  <select  class="input-block-level" name="id_type_commission" id="id_type_commission" required >
+       <?php  $typecommission2 = new Application_Model_EuTypeCommissionMapper();
+		$selecttypecommission2 = $typecommission2->fetchAll();?>
+               <option value="">Choisir un type</option>
+    <?php foreach ($selecttypecommission2 as $selecttypecommission): ?>
+               <option value="<?php echo $selecttypecommission->id_type_commission; ?>" <?php /*?><?php if($selecttypecommission->id_type_commission == $typecommission->id_type_commission){echo ' selected="selected"';}?><?php */?>><?php echo ($selecttypecommission->libelle_type_commission); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+
+<div class="control-group">
+  <label class="control-label" for="id_mode_payement">Mode de payement *</label>
+  <div class="controls">
+  <select  class="input-block-level" name="id_mode_payement" id="id_mode_payement" required >
+       <?php  $modepayement2 = new Application_Model_EuModePayementMapper();
+		$selectmodepayement2 = $modepayement2->fetchAll();?>
+               <option value="">Choisir un mode</option>
+    <?php foreach ($selectmodepayement2 as $selectmodepayement): ?>
+               <option value="<?php echo $selectmodepayement->id_mode_payement; ?>" <?php /*?><?php if($selectmodepayement->id_mode_payement == $modepayement->id_mode_payement){echo ' selected="selected"';}?><?php */?>><?php echo ($selectmodepayement->libelle_mode_payement); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+
+
+
+
+
+</fieldset> 
+   
+    
+    
+
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

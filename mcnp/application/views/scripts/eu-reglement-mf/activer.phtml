@@ -1,0 +1,240 @@
+<div id="view-content" title="" style="font-size:11px;min-height: 520px;">
+     <form id="new_mf_form" method="post" action="/eu-reglement-mf/doactiver">
+	       <fieldset style="margin-bottom: 2px;">
+		   <legend>Activation des ressources</legend>
+           <table>
+				<tr>
+				    <td> 
+					 <div>
+					     <table>
+                                             <tbody>
+						 <tr>
+						<td><label>Mode de r&egrave;glements *: </label></td>
+					        <td>
+							<select id="mode_fin" name="mode_fin">
+				                <option value=""></option>
+					            <option value="bon">Par bon</option>
+					            <option value="autre">Autre</option>
+				            </select></td> 
+						 </tr></tbody></table> 
+						 </div>
+				    </td>
+				  
+				  <td> 
+					 <div>
+						 <table><tbody>
+						 <tr>
+				                 <td width=180px><label>Compte du Membre *: </label></td>
+					         <td>
+                                 <select name="type_mf" id="type_mf"  required="true">
+					 <option value=""></option>
+					 <option value="MF11000">MF11000</option>
+                                         <option value="MF107">MF107</option>
+                                         <!--<option value="GCP">GCP</option>-->
+                                         <option value="RPGr">RPGr</option>
+                                         <option value="RPGnr">RPGnr</option>
+                                         <option value="Ir">Ir</option>
+                                         <option value="Inr">Inr</option>
+                                 </select>
+                             </td> 
+				  </tr></tbody></table> 
+				  </div>
+				  </td>
+				  </tr>
+				  <tr>
+				       <td> 
+					   <div id="div_bon" style="display:none">
+						    <table><tbody>
+						    <tr>
+						    <td width=135px><label>Num&eacute;ro du bon  *</label></td>
+					            <td><input id="num_bon" type="text" name="num_bon" size="25"/></td> 
+						    </tr>
+							</tbody></table> 
+						</div>
+					    </td>
+				  </tr>
+				  
+				  
+				  <tr>
+				       <td> 
+					   <div id="div_membre" style="display:none">
+						    <table><tbody>
+							<tr>
+							    <td><label>Ancien code membre *</label></td>
+					            <td><input id="ancien_code_membre" type="text" name="ancien_code_membre" size="25"/></td>								 
+						    </tr>
+							</tbody></table> 
+						</div>
+					    </td>
+						<td>
+						<div id="div_design" style="display:none">
+						    <table><tbody>
+							<tr>
+							    <td width=180px><label>Designation ancien membre *</label></td>
+					            <td><input id="ancien_membre" type="text" name="ancien_membre"  size="25" /></td>								 
+						    </tr> 
+							</tbody></table>
+						</div>
+						</td>	
+				  </tr>	
+				  
+				  <tr>
+				       <td> 
+					   <div>
+						    <table><tbody>
+							<tr>
+							    <td><label>Code membre actuel  *</label></td>
+					            <td><input id="code_membre" type="text" name="code_membre" size="25" required="true"/></td> 
+						    </tr>
+							</tbody></table> 
+						</div>
+					    </td>
+						<td>
+						<div>
+						    <table><tbody>
+							<tr>
+							    <td width=180px><label>Designation membre actuel *</label></td>
+					            <td><input id="membre" type="text" name="membre"  size="25" required="true" /></td>								 
+						    </tr> 
+							</tbody></table>
+						</div>
+						</td>
+				  </tr>	  
+		   </table>
+		   </fieldset>
+		   <div style="margin-left:140px;margin-top:10px">
+                <input type="submit" value="Valider" id="valider"/>
+                <input type="reset" value="Rafraichir" id="refresh"/>
+           </div>
+     </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+       $('#view-content').puipanel();
+       $('fieldset').puifieldset();
+	   $("#new_mf_form").validationEngine();
+    })	  
+    
+	$("#mode_fin").change(function(e) {
+	    e.preventDefault();
+		$('#type_mf').val('');
+		$('#num_bon').val('');
+		$('#ancien_code_membre').val('');
+		$('#ancien_membre').val('');
+		$('#code_membre').val('');
+		$('#membre').val('');
+	});
+	
+	
+    $("#type_mf option[value='MF107']").attr('disabled',true);
+    $("#type_mf option[value='GCP']").attr('disabled',true);
+    $("#type_mf option[value='RPGr']").attr('disabled',true);
+    $("#type_mf option[value='RPGnr']").attr('disabled',true);
+    $("#type_mf option[value='Ir']").attr('disabled',true);
+    $("#type_mf option[value='Inr']").attr('disabled',true);
+		$("#num_bon").attr('required',true);
+		$('#mode_fin').change(function() {
+            var mode = $(this).val();
+			if (mode === 'bon')  {
+			   $('#div_bon').show();
+			   $('#div_membre').hide();
+			   $('#div_design').hide();
+			   $("#num_bon").attr('required',true);
+			   $("#type_mf option[value='MF107']").attr('disabled',true);
+                           $("#type_mf option[value='GCP']").attr('disabled',true);
+                           $("#type_mf option[value='RPGr']").attr('disabled',true);
+                           $("#type_mf option[value='RPGnr']").attr('disabled',true);
+                           $("#type_mf option[value='Ir']").attr('disabled',true);
+                           $("#type_mf option[value='Inr']").attr('disabled',true);
+			   $("#type_mf option[value='MF11000']").attr('selected','selected');
+			   $("#ancien_code_membre").attr('required',false);
+			   $("#ancien_membre").attr('required',false);
+            }              else  if (mode === 'bon' &&  $('#type_mf').val() == 'MF11000')  {
+                           $('#div_bon').show();
+			   $('#div_membre').hide();
+			   $('#div_design').hide();
+			   $("#num_bon").attr('required',true);
+			   $("#ancien_code_membre").attr('required',false);
+			   $("#ancien_membre").attr('required',false);
+			   $("#type_mf option[value='MF107']").attr('disabled',true);
+                           $("#type_mf option[value='GCP']").attr('disabled',true);
+                           $("#type_mf option[value='RPGr']").attr('disabled',true);
+                           $("#type_mf option[value='RPGnr']").attr('disabled',true);
+                           $("#type_mf option[value='Ir']").attr('disabled',true);
+                           $("#type_mf option[value='Inr']").attr('disabled',true);	
+            } 
+			else if (mode === 'autre') {
+               $('#div_bon').hide();
+			   $('#div_membre').show();
+			   $('#div_design').show();
+			   $("#ancien_code_membre").attr('required',true);
+			   $("#ancien_membre").attr('required',true);
+			   $("#num_bon").attr('required',false);
+			   $("#type_mf option[value='MF107']").attr('disabled',false);
+                           $("#type_mf option[value='GCP']").attr('disabled',false);
+                           $("#type_mf option[value='RPGr']").attr('disabled',false);
+                           $("#type_mf option[value='RPGnr']").attr('disabled',false);
+                           $("#type_mf option[value='Ir']").attr('disabled',false);
+                           $("#type_mf option[value='Inr']").attr('disabled',false);
+            }
+        });
+		
+		$('#code_membre').blur(function(e) {
+            if ($(this).val() !== '') {
+               $.get(
+               '/eu-reglement-mf/recupraison',{
+                 num_membre: $(this).val(),
+               },
+               function success(data) {
+                if (data !== '') {
+                   $("#membre").val(data[0]);
+                } else {
+                   alert('Ce membre n\existe pas!!!');
+                }
+            });
+        }
+            e.preventDefault();
+        });
+		
+	    $('#ancien_code_membre').blur(function(e) {
+            if ($(this).val() !== '')  {
+               $.get(
+               '/eu-reglement-mf/ancienrecup',{
+               num_membre: $(this).val(),
+               },
+               function success(data) {
+                if (data !== '') {
+                   $("#ancien_membre").val(data[0]);
+                } else {
+                   alert('Ce membre n\existe pas!!!');
+		   $("#ancien_membre").val("");
+                }
+            });
+            }
+            e.preventDefault();
+            });
+		
+		
+	    $('form#new_mf_form').submit(function(e) {
+            $.ajax({
+            url: $('form').attr("action"),
+            data: $('form').serialize(),
+            type: 'post',
+            success: processServerResponse
+        });
+            e.preventDefault();
+        });
+	
+        function processServerResponse(data) {
+           if (data === 'good'){
+              alert('Enregistrement effectue avec succes ');
+              $(location).attr("href", "/eu-reglement-mf/listreglt");
+        } else if (data === 'erreur') {
+            alert('Echec operation');
+            $(location).attr("href", "/eu-reglement-mf/activer");
+        } else {
+            alert(data);
+        }
+  };
+</script>

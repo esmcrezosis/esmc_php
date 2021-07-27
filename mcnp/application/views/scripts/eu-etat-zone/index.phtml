@@ -1,0 +1,35 @@
+<div id="view-content">
+    <table id="tbl-gac"></table>
+    <div id="pg-gac"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-gac").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Numéro','Nom','Code membre','Zone','Nom gestionnaire','Type GAC','Téléphone','Date création'],
+        height:440, width:827,
+        colModel:[
+            {name:'num_gac',index:'num_gac', width:130, sorttype:"int", editable: true,align:"left", hidden:true},
+            {name:'nom_gac',index:'nom_gac', width: 300, align:"left", editable: true},
+            {name:'membre',index:'membre', width: 200, editable: true,align:"left"},
+            {name:'zone',index:'zone', width: 100, editable: true,align:"left"},
+            {name:'nom_gestion',index:'nom_gestion', width: 260, align:"left", editable: true},
+            {name:'groupe',index:'groupe', width: 130, editable: true,align:"left"},
+            {name:'tel_gestion',index:'tel_gestion', width: 110, editable: true,align:"left"},
+            {name:'date_creation',index:'date_creation', width: 160, align:"left", editable: false},
+        ],
+        rowNum:100,
+        rowList:[100,200,300],
+        rownumbers:true,
+        pager: '#pg-gac',
+        sortname:"num_gac",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des GAC centrales"
+    });
+  
+    $("#tbl-gac").jqGrid('navGrid','#pg-gac',{edit:false,add:false,del:false,search:true});
+    
+</script>

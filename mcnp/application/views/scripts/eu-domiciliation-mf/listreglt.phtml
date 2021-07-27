@@ -1,0 +1,84 @@
+<div id="view-content">
+    <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:12px">
+        <div style="margin-bottom: 3px; width: 820px">
+            <fieldset>
+                <legend style=" font-weight:bold">Recherche</legend>
+                <table align="center">
+                    <tr>
+                        <td>Code membre</td><td><input name="code_membre" id="code_membre" size="30" /></td>
+                        <td>Date début</td><td><input type="text" id="date_debut" name="date_debut" size="12"/></td>
+                        <td>Date fin</td><td><input type="text" id="date_fin" name="date_fin" size="12"/></td>
+                        <td><input id="ok" type="button" value="OK" /></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <form action="/eu-pdf-reglt/mf" name="" method="POST" target="_blank">
+            <input id="apercu" type="submit" value="Aperçu" class="ui-widget button"/> 
+            <input type="hidden" id="id_reglt" name="id_reglt"/>
+            <input type="hidden" id="code_membre" name="code_membre"/>
+        </form>                
+        <table id="tbl-reglement"></table>
+        <div id="pg-reglement"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-reglement").jqGrid({
+        url: '/eu-domiciliation-mf/listingreglt?date_deb='+''+'&date_fin='+''+'&code_membre='+'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Numéro', 'Bénéficiaire', 'Date règlement', 'Montant règlement'],
+        height: 450, width: 818,
+        colModel: [
+            {name: 'id_reglt_mf', index: 'numero', width:100, sorttype: "int", editable: true, align: "left"},
+            {name: 'code_membre', index: 'code_membre', width:300, editable: true, align: "left"},  
+            {name: 'date_reglt_mf', index: 'date_reglt_mf', width: 200, align: "left", editable: true},
+            {name: 'mont_reglt_mf', index: 'mont_reglt_mf', width:220, align: "right",editable: false,formatter:'number'},
+        ],
+        rowNum: 200000,
+        rowList: [200000, 400000, 600000],
+        pager: '#pg-reglement',
+        sortname: "id_reglt_mf",
+        viewrecords: true,
+        rownumbers:true,
+        sortorder: "ASC",
+        caption: "Liste des règlements" 
+    });
+    $("#tbl-reglement").jqGrid('navGrid','#pg-reglement', {edit: false, add: false, del: false, search: true});   
+    
+    $(document).ready(function ()
+    { 
+        $.get( "/eu-domiciliation-mf/membre",
+        function success(data)
+        {
+            $("#code_membre").autocomplete({"source":data});
+        });
+        $(function(){
+            var pickerOpts = {
+                dateFormat: "dd/mm/yy",
+                changeMonth:true,
+                changeYear:true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+            $("#date_debut").datepicker(pickerOpts);
+            $("#date_fin").datepicker(pickerOpts);
+        });
+        $('#ok').button();
+        $('#ok').click(function()
+        {
+            jQuery("#tbl-reglement").jqGrid('setGridParam',{url: "/eu-domiciliation-mf/listingreglt?date_deb="+$('#date_debut').val()+"&date_fin="+$('#date_fin').val()+"&code_membre="+$('#code_membre').val()}).trigger('reloadGrid');      
+        }) 
+    })
+      
+    $("#apercu").click(function() {
+        var sel;
+        sel = jQuery("#tbl-reglement").jqGrid('getGridParam','selrow');
+        
+        data = jQuery("#tbl-reglement").jqGrid('getRowData',sel);
+        $('#id_reglt').val(data.id_reglt_mf);
+        $('#code_membre').val(data.code_membre);
+    });
+    $("#apercu").button();  
+      
+</script> 

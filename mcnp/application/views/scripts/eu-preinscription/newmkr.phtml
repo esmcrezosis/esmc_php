@@ -1,0 +1,136 @@
+<div id="view-content" style="margin-bottom: 3px; width: 827px;font-size:11px" class="ui-widget-content ui-corner-all">
+    <div>
+        <fieldset>
+            <legend style="font-weight:bold">Recherche</legend>
+            <h5>
+                Date inscription <input type="text" id="date_ins" name="date_ins"/>
+                Raison sociale <input type="text" id="raison_sociale" name="raison_sociale" size="25"/>
+                <input id="ok" type="button" value="Ok"/>
+            </h5> 
+        </fieldset>
+     </div>
+     <div style="margin-bottom: 3px;">
+          <input id = "ncm" type = "button" value = "Activer CM"  class="ui-widget button" />
+     </div>
+     <table id="tbl-morale"></table>
+     <div id="pg-morale"></div>
+</div>
+
+
+<script type="text/javascript">
+    $("#tbl-morale").jqGrid({
+        url: "/eu-preinscription/datacreneau",
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Numero','Raison sociale','Quartier','Ville','Bp','T&eacute;l','Date identification','','','','','','','','','','','','','','',''],
+        height:410, width:827,
+        colModel:[
+           {name:'id_preinscription_morale',index:'id_preinscription_morale', width:150, sorttype:"int", editable: true,align:"left"},
+           {name:'raison_sociale',index:'raison_sociale', width: 150, editable: true,align:"left"},
+           {name:'quartier_membre',index:'quartier_membre', width:120, editable: true,align:"left"},
+           {name:'ville_membre',index:'ville_membre', width: 150, align:"left", editable: true},
+           {name:'bp_membre',index:'bp_membre', width: 75, align:"left", editable: true},
+           {name:'tel_membre',index:'tel_membre', width:75, align:"left", editable: true},
+           {name:'date_identification',index:'date_identification', width: 150, align:"left", editable: true},
+		   {name:'portable_membre',index:'portable_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'email_membre',index:'email_membre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'site_web',index:'site_web', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'num_registre',index:'num_registre', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'numero_agrement_filiere',index:'numero_agrement_filiere', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'numero_agrement_acnev',index:'numero_agrement_acnev', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'numero_agrement_technopole',index:'numero_agrement_technopole', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'code_fs',index:'code_fs', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'code_fl',index:'code_fl', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'code_rep',index:'code_rep', width: 150, editable: true,align:"left",hidden:true},
+		   {name:'code_fkps',index:'code_fkps', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'domaine_activite',index:'domaine_activite', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'code_type_acteur',index:'code_type_acteur', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'code_statut',index:'code_statut', width: 150, align:"left", editable: true,hidden:true},
+		   {name:'id_pays',index:'id_pays', width: 150, align:"left", editable: true,hidden:true}
+        ],
+        rowNum:100000,
+        rowList:[100000,300000,500000],
+        pager: '#pg-morale',
+        sortname:"id_preinscription_morale",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Membres Morales Pre-inscrits"
+    });
+    $("#tbl-morale").jqGrid('navGrid','#pg-morale',{edit:false,add:false,del:false,search:true});
+   
+    $(function() {    
+        var pickerOpts = {
+        dateFormat: "dd/mm/yy",
+        changeMonth:true,
+        changeYear:true,
+        showOtherMonths: true,
+		maxDate: $(this).datepicker('getDate')
+        };
+        $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+        $("#date_ins").datepicker(pickerOpts);
+    });
+   
+   
+    $.get( "/eu-preinscription/changemmcnp",
+        function success(data) {
+        $("input#code_membre").autocomplete({"source":data});
+    }); 
+           
+    $.get( "/eu-preinscription/nommmcnp",
+        function success(data) {
+         $("input#raison_sociale").autocomplete({"source":data});
+    });       
+    
+    $('#ok').click(function() {
+       code_membre = $('#code_membre').val();
+       raison_sociale = $('#raison_sociale').val();            		
+       jQuery("#tbl-morale").jqGrid('setGridParam',{url:"/eu-preinscription/datacreneau?code_membre="+code_membre+"&raison_sociale="+raison_sociale}).trigger('reloadGrid');		
+    });
+	 
+    $('#m_detail').click(function() {
+        var rowsel;
+        rowsel = jQuery("#tbl-morale").jqGrid('getGridParam','selrow');
+        if(rowsel){
+            $.get('/eu-preinscription/mdetail',{
+                membre:rowsel
+            },function success(data) {
+                $("#content").html(data);
+            });
+        } else{
+            alert('Aucune ligne selectionnee');
+        }
+    });
+    
+    $('#ncm').click(function() {
+        var rowsel;
+        rowsel = jQuery("#tbl-morale").jqGrid('getGridParam','selrow');
+        if(rowsel) { 
+            seldata = jQuery("#tbl-morale").jqGrid('getRowData',rowsel);
+            $.get('/eu-preinscription/ncmmmcreneau',{
+	          code_membre:seldata.ancien_code_membre,raison_sociale:seldata.raison_sociale,
+		      ville_membre:seldata.ville_membre,tel_membre:seldata.tel_membre,portable_membre:seldata.portable_membre,
+		      email_membre:seldata.email_membre,site_web:seldata.site_web,quartier_membre:seldata.quartier_membre,bp_membre:seldata.bp_membre,
+		      code_fs:seldata.code_fs,code_fl:seldata.code_fl,code_fkps:seldata.code_fkps ,num_registre:seldata.num_registre,code_rep:seldata.code_rep
+		      ,numero_agrement_filiere:seldata.numero_agrement_filiere
+			  ,numero_agrement_acnev:seldata.numero_agrement_acnev
+			  ,numero_agrement_technopole:seldata.numero_agrement_technopole
+			  ,domaine_activite:seldata.domaine_activite ,code_type_acteur:seldata.code_type_acteur
+		      ,code_statut:seldata.code_statut,id_pays:seldata.id_pays
+           },
+           function success(data) {
+            $("#content").html(data);
+           }); 
+        }
+        else {
+          alert('Aucune ligne selectionnee');
+        }
+    });
+    
+	$(function() {
+      $('#view-content').puipanel();
+	  $('fieldset').puifieldset();
+    });
+	
+    $('#ncm').button();
+    $('#ok').button()  
+</script>

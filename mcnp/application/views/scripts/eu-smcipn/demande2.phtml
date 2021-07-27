@@ -1,0 +1,57 @@
+<div id="view-content" style="font-size:11px">
+    <div style="margin-bottom: 3px; font-size:13px">
+        <input id="verifier" type="button" value="Vérifier" class="ui-widget button"/>
+    </div>
+    <table id="tbl-smcipn"></table>
+    <div id="pg-smcipn"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-smcipn").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'listdemand')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Libellé','Code membre','Durée projet','Salaire','Investissement','Date','Heure','Visas'],
+        height:'100%', width:827,
+        colModel:[
+            {name:'code_demand',index:'code_demand', width:135, sorttype:"int", editable: true,align:"left",hidden:true},
+            {name:'lib_demand',index:'lib_demand', width: 300, align:"left", editable: true},
+            {name:'num_membre',index:'num_membre', width: 195, editable: true,align:"left"},
+            {name:'dvm_demand',index:'dvm_demand', width: 120, editable: true,align:"left"},
+            {name:'mt_salaire',index:'mt_salaire', width: 150, align:"right", editable: true,formatter:'number'},
+            {name:'mt_investis',index:'mt_investis', width: 150, editable: true,align:"right",formatter:'number'},
+            {name:'date_demand',index:'date_demand', width: 100, editable: true,align:"left"},
+            {name:'heure_demand',index:'heure_demand', width: 65, align:"left", editable: false,hidden:true},
+            {name:'visa_filiere',index:'visa_filiere', width: 60, align:"left", editable: false},
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        rownumbers:true,
+        pager: '#pg-smcipn',
+        sortname:"code_demand",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des demandes de la SMCIPN en attente de validation"
+    });
+  
+    $("#tbl-smcipn").jqGrid('navGrid','#pg-smcipn',{edit:false,add:false,del:false,search:true});
+    
+    $('#verifier').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-smcipn").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            $.get('/eu-smcipn/verifsmcipn',{
+                code_demand:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#verifier').button();
+    
+</script>

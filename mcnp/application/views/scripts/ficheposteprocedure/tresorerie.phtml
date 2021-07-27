@@ -1,0 +1,65 @@
+<?php $sessionmembre = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+
+
+
+<h3 id="page_title">TITRE DU POSTE : <?php echo $this->pagetitle ;?></h3>
+
+<div id="page_direction_container">
+
+  <div id="page_direction_container_left">
+
+    <h3>SUPERIEUR HIERARCHIQUE : <?php echo $this->postehierarchique ;?></h3>
+  
+  </div>
+
+  <div id="page_direction_container_right">
+
+    <h3>COLLABORATEURS : Tout le reste du personnel</h3>
+    
+  </div>
+</div>
+
+
+<blockquote>  PRINCIPALES TACHES :</blockquote>
+
+<ol>
+    <li>Gestion des Caisses </li>
+    <li>Gestion des Comptes Bancaires Courants</li>
+    <li>Gestion des Comptes Bancaires DAT</li>
+    <li>Gestion des Comptes Bancaires Ligne d’Avale d’Escompte</li>
+    <li>Gestion des Comptes Bancaires Ligne de Découvert</li>
+    <li>Gestion des Comptes Bancaires Ligne de Cautions</li>
+</ol>
+
+<h3>PROCEDURE FINANCIERE DE GESTION DE LA TRESORERIE A UTILISER</h3>
+
+<ol>
+  <li>PROCEDURE : GESTION DES COMPTES BANCAIRES</li>
+  <li>PROCEDURE : REGLEMENT DES FACTURES PAR BANQUE</li>
+  <li>PROCEDURE : GESTION DE LA CAISSE DE MENUES DEPENSES</li>
+  <li>PROCEDURE : APPROVISIONNEMENT DE CAISSE DE MENUES DEPENSES</li>
+  <li>PROCEDURE : REGLEMENT DES FACTURES PAR CAISSE</li>
+  <li>PROCEDURE : AVANCES DE FONDS A JUSTIFIER</li>
+</ol>

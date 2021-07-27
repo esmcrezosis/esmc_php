@@ -1,0 +1,1054 @@
+<style>
+
+   section {
+
+      margin-top:35px;
+
+      margin-bottom:35px
+   }
+
+   #header_general_title, #header_title, #header_sub_title{
+
+       font-size:1.5rem;
+
+       text-align:center;
+
+       font-weight:bold;
+
+       padding-top:15px;
+
+       padding-bottom:15px;
+
+       margin-top:25px;
+
+       margin-bottom:25px;
+
+       box-shadow:1px 3px 7px;
+
+       -o-box-shadow:1px 3px 7px;
+
+       -moz-box-shadow:1px 3px 7px;
+
+       -ms-box-shadow:1px 3px 7px;
+
+       -webkit-box-shadow:1px 3px 7px;
+
+   }
+
+   #section_sommaire_children, #section_sommaire_title, #section_panel_header {
+    
+       font-size:1.2rem;
+
+       text-align:center;
+
+       font-weight:bold;
+
+       padding-top:10px;
+
+       padding-bottom:10px;
+
+       margin-top:25px;
+
+       margin-bottom:25px;
+
+       box-shadow:1px 3px 7px;
+
+       -o-box-shadow:1px 3px 7px;
+
+       -moz-box-shadow:1px 3px 7px;
+
+       -ms-box-shadow:1px 3px 7px;
+
+       -webkit-box-shadow:1px 3px 7px;
+
+   }
+
+   #section_sommaire_container a{
+
+       display:block;
+
+       text-decoration:none;
+
+       color: #000
+   }
+
+   #section_sommaire_container {
+
+       width:75vh;
+
+       margin-left:50px;
+   }
+
+   .blue_glass_linear_gradient{
+
+       background-image:linear-gradient(#9bb4ff2e, #0650db6b);
+
+       border:1px solid #0e0488;
+
+   }
+
+   .orange_glass_linear_gradient {
+
+       background-image:linear-gradient(#ffca9b2e, #f9700c80);
+
+       border:1px solid #ff5f005e;
+   }
+
+   .green_glass_linear_gradient {
+
+       background-image:linear-gradient(#9bffab2e, #54ee1d7a);
+
+       border:1px solid #68c10f;
+   }
+
+   #section_panel_body {
+
+         position:relative;
+
+         border: 1px solid #68c10f;
+
+         padding: 15px;
+
+         background-color: #9deca269;
+
+         box-shadow: 1px 3px 3px #7a8e7c69;
+
+         -webkit-box-shadow: 1px 3px 3px #7a8e7c69;
+
+         -moz-box-shadow: 1px 3px 3px #7a8e7c69;
+
+         -ms-box-shadow: 1px 3px 3px #7a8e7c69;
+
+         -o-box-shadow: 1px 3px 3px #7a8e7c69;
+   }
+
+   #section_panel_body_container{
+
+       position:relative;
+
+       width:100%;
+
+       height: 200px;
+
+       margin-top: 20px;
+
+       margin-bottom: 20px;
+   }
+
+   #section_panel_body_container_content{
+
+     float:left;
+
+     margin-left:20px;
+
+     margin-right:20px;
+
+     padding:20px;
+
+     width:200px;
+
+     font-size:1rem;
+
+     font-weight:bold;
+
+     text-align:center;
+
+   }
+
+   .section_panel_body_container_content_arrow {
+
+     position:relative;
+
+     float:left;
+
+     width:0;
+
+     height:0;
+
+     border-width:13px;
+
+     border-style:solid;
+
+     border-bottom-color:transparent;
+
+     border-left-color:transparent;
+
+     margin:15px;
+
+     top:14px;
+
+     margin-left:7px;
+   }
+
+   .arrow-left{
+
+    transform:rotate(45deg);
+
+   }
+
+   .arrow-down{
+
+     transform:rotate(135deg);
+
+   }
+
+   .arrow-right{
+
+     transform:rotate(-135deg);
+
+   }
+
+   .section_panel_body_container_content_arrow::before{
+
+      content:"";
+
+      position:absolute;
+     
+      right:0;
+
+      top:-10px;
+
+      height:15px;
+      
+      box-shadow:inset 0 0 0 32px;
+
+      transform:rotate(-45deg);
+
+      width:35px;
+
+      transform-origin:right top;
+   }
+
+   #section_panel_body_container_content:first-child{
+
+       margin-left:0;
+
+   }
+
+   #section_panel_body_container_content:last-child{
+
+       margin-right:0;
+   }
+   #arrow_separator_panel_content{
+
+       position:absolute;
+   }
+
+   #section_panel_header{
+
+       margin-bottom:0;
+   }
+
+   #section_panel_body_container_special_content{
+
+     position:relative;
+
+     float:left;
+
+     margin-left:20px;
+
+     margin-right:20px;
+
+     padding:20px;
+
+     width:265px;
+
+     font-size:1rem;
+
+     font-weight:bold;
+
+
+   }
+
+   #section_panel_body_container_special_content_header{
+
+      position:absolute;
+
+      text-align:center;
+
+      width:100%;
+
+      border-bottom:1px solid #0e0488;
+
+      padding-bottom:15px;
+
+      left:0;
+
+      line-height:10px;
+
+   }
+
+   #section_panel_body_container_special_content_body {
+
+      margin-top:34px;
+
+
+   }
+
+   #section_panel_body_container_special_content_body span{
+
+      display:block;
+
+      position:relative;
+
+      width:100%;
+
+
+   }
+
+
+</style>
+
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<article>
+
+   <header id="header_general_title" class="blue_glass_linear_gradient">MANUEL D’UTILISATEUR : PROCEDURE TETE DE DIVISION FILIERE</header>
+
+   <section id="section_sommaire">
+
+       <div id="section_sommaire_title" class="blue_glass_linear_gradient">RUBRIQUE</div>
+
+       <div id="section_sommaire_container">
+       
+            <a id="section_sommaire_children" href="#" class="orange_glass_linear_gradient">FILIERE BUDGET</a>
+
+            <a id="section_sommaire_children" href="#" class="orange_glass_linear_gradient">FILIERE MOBILISATION DES RESSOURCES</a>
+
+            <a id="section_sommaire_children" href="#" class="orange_glass_linear_gradient">FILIERE COMPTABILITE</a>
+
+            <a id="section_sommaire_children" href="#" class="orange_glass_linear_gradient">FILIERE CONTROLE ET AUDIT</a>
+
+            <a id="section_sommaire_children" href="#" class="orange_glass_linear_gradient">FILIERE PROTECTION ASSURANCE ET GARANTIES</a>
+
+       </div>
+   
+   </section>
+
+   <section id="section_page_one">
+   
+   <div id="section_sommaire_title" class="orange_glass_linear_gradient">FILIERE BUDGET</div>
+
+   <div id="section_panel">
+   
+     <div id="section_panel_header" class="green_glass_linear_gradient">
+
+             ELABORATION ET APPROBATION DES PLANS D’ACTIONS ET BUDGETS ANNUELS
+
+     </div>
+
+     <div id="section_panel_body">
+
+        <div id="section_panel_body_container">
+         
+            <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+               PLANIFICATION DU PROCESSUS
+            
+            </div>
+
+            <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+            <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+            ELABORATION DES PROGRAMMES D’ACTIVITES ET DES BUDGETS ASSOCIES
+            
+            </div>
+
+            <i class="section_panel_body_container_content_arrow arrow-left"></i>
+            
+            <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+            DEBATS BUDGETAIRES
+            
+            </div>
+
+            <i class="section_panel_body_container_content_arrow arrow-left"></i>
+            
+            <div id="section_panel_body_container_content" class="blue_glass_linear_gradient" style="position:relative;top:-55px;right:-44px;">
+
+            AMENDEMENT DES PROGRAMMES D’ACTIVITES ET DES BUDGETS
+            
+            </div>
+
+            <i class="section_panel_body_container_content_arrow arrow-down" style="position:absolute;float:right;right:78px;top:170px"></i> 
+
+
+        </div>
+
+        <div id="section_panel_body_container">
+        
+            <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+            ELABORATION DE LA VERSION FINALE DES PABA
+            
+            </div>
+
+            <i class="section_panel_body_container_content_arrow arrow-right"></i>
+
+            <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+            EXAMEN ET ADOPTION DU PABA par L’Agent Division Général ou l’Agent Division Général Adjoint
+            
+            </div>
+
+            <i class="section_panel_body_container_content_arrow arrow-right"></i>
+
+
+            <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                        EXAMEN ET ADOPTION DES PABA par le comité d’examen et de suivi
+            
+            </div>
+
+            <i class="section_panel_body_container_content_arrow arrow-right"></i>
+
+
+            <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+            CONSOLIDATION DES PROGRAMMES D’ACTIVITES ET DES BUDGETS/ ELABORATION DU PABA
+            
+            </div>
+
+        </div>
+
+        <div id="section_panel_body_container" style="height:113px;margin-bottom:0">
+        
+            <i class="section_panel_body_container_content_arrow arrow-down" style="position:absolute;top:-63px;left:48px"></i> 
+
+            <div id="section_panel_body_container_content" class="blue_glass_linear_gradient" style="margin-left:0px">
+
+            DIFFUSION DU PABA ADOPTE
+
+            </div>
+            
+            <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+
+            <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                MISE EN ŒUVRE DES ACTIVITES
+            
+            </div>
+        
+        </div>
+     
+     
+     </div>
+
+
+     <div id="section_panel">
+   
+          <div id="section_panel_header" class="green_glass_linear_gradient">
+
+          CONTROLE DES ENGAGEMENTS ET SUIVI BUDGETAIRE/ANALYTIQUE SOUS LE LOGICIEL
+
+          </div>
+
+          <div id="section_panel_body">
+
+               <div id="section_panel_body_container">
+         
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                    SUIVI QUOTIDIEN
+            
+                  </div>
+
+                   <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                  SUIVI MENSUEL
+            
+                  </div>
+
+                  <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                  <div id="section_panel_body_container_special_content" class="blue_glass_linear_gradient">
+                    
+                       <div id="section_panel_body_container_special_content_header">SUIVI TRIMESTRIEL</div>
+
+                       <div id="section_panel_body_container_special_content_body">
+                        
+                          <span>a.	Mécanisme de suivi</span>
+
+                          <span>b.	Rédaction des rapports</span>
+                       
+                          <span>c.	Rapports contractuels ESMC et Acteurs /Partenaires de la PC</span>
+
+                       </div>
+                  
+                  </div>
+
+              </div>
+
+          </div>
+
+      </div>
+
+
+    </section>
+
+     
+  <section id="section_page_two">
+
+      <div id="section_sommaire_title" class="orange_glass_linear_gradient">FILIERE MOBILISATION DES RESSOURCES</div>
+
+       <div id="section_panel">
+   
+          <div id="section_panel_header" class="green_glass_linear_gradient">
+
+          APPROVISIONNEMENT INITIAL
+
+          </div>
+
+          <div id="section_panel_body">
+
+               <div id="section_panel_body_container">
+         
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                  ELABORATION DES DEPENSES PREVISIONNELLES
+            
+                  </div>
+
+                   <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                  APPROVISIONNEMENT DE BAn
+            
+                  </div>
+
+                  <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                           
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                  ELABORATION DU DOSSIER DE LA DEMANDE DE FORMATION DE DAT ET DE LA MISE EN PLACE DES LIGNES DE CREDITS DOCUMENTAIRES
+            
+                  </div>
+
+                  <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient" style="position:relative;top:-55px;right:-44px;">
+
+                  VALIDATION DE LA DEMANDE DE FORMATION DE DAT ET DE LA MISE EN PLACE DES LIGNES DE CREDITS DOCUMENTAIRES
+            
+                   </div>
+
+                  <i class="section_panel_body_container_content_arrow arrow-down" style="position:absolute;float:right;right:78px;top:193px"></i> 
+
+
+              </div>
+
+              <div id="section_panel_body_container" style="padding-left:284px">
+        
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                      RECEPTION ET ENREGISTREMENT DES AVIS DES LIGNES DE CREDITS DOCUMENTAIRES
+            
+                  </div>
+
+                  <i class="section_panel_body_container_content_arrow arrow-right"></i>
+
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                     RECEPTION DES ACCORDS
+            
+                  </div>
+
+                  <i class="section_panel_body_container_content_arrow arrow-right"></i>
+
+                  
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                     TRANSMISSION DU DOSSIER AUX ACTEURS OBPSD
+            
+                  </div>
+
+              </div>
+
+        </div>
+
+        <div id="section_panel">
+   
+          <div id="section_panel_header" class="green_glass_linear_gradient">
+
+          REAPPROVISIONNEMENT DES COMPTES DAT
+
+          </div>
+
+          <div id="section_panel_body">
+
+               <div id="section_panel_body_container">
+
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                       ELABORATION DE L’ETAT DES OPI EXPRIMES
+            
+                  </div>
+
+                   <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                   
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                       EXAMEN ET APPROBATION DE L’ETAT DES OPI EXPRIMES
+            
+                  </div>
+
+                   <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                       DETERMINATION DU RELIQUAT DES LIGNES ANTERIEURES
+            
+                  </div>
+
+                   <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                   
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient" style="position: relative;top: -56px;right: -41px;">
+
+                       ELABORATION DU DOSSIER DE REAPPROVISIONNEMENT
+            
+                  </div>
+
+                  <i class="section_panel_body_container_content_arrow arrow-down" style="position:absolute;float:right;right:78px;top:147px"></i> 
+
+               </div>
+
+               <div id="section_panel_body_container" style="padding-left:284px">
+        
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                      RECEPTION DES AVIS
+            
+                  </div>
+
+                  <i class="section_panel_body_container_content_arrow arrow-right"></i>
+
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                  TRANSMISSION DU DOSSIER DE REAPPROVISIONNEMENT AUX ACTEURS OBPSD
+            
+                  </div>
+
+                  <i class="section_panel_body_container_content_arrow arrow-right"></i>
+
+                  
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                  EXAMEN ET VALIDATION DU DOSSIER DE REAPPROVISIONNEMENT
+            
+                  </div>
+
+              </div>
+
+          </div>
+
+      </div>
+
+      <div id="section_panel">
+   
+          <div id="section_panel_header" class="green_glass_linear_gradient">
+
+          PAIEMENT DES OPI COUVERTS PAR DES LIGNES DE CREDITS DOCUMENTAIRES
+
+          </div>
+
+          <div id="section_panel_body">
+
+               <div id="section_panel_body_container">
+
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                       PREPARATION DE LA LAP
+            
+                  </div>
+
+                   <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                       CONTROLE ET CERTIFICATION DE LA LAP
+            
+                  </div>
+
+                   <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                       TRANSMISSION DE LA LAP
+            
+                  </div>
+
+                   <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                   
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient" style="position: relative;top: -57px;right: -50px;">
+
+                       ENREGISTREMENT DU PAIEMENT
+            
+                  </div>
+
+                  <i class="section_panel_body_container_content_arrow arrow-down" style="position:absolute;float:right;right:78px;top:147px"></i> 
+
+
+              </div>
+
+              <div id="section_panel_body_container" style="padding-left:583px">
+
+                  <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                  FEED BACK DE L’ACTEUR OBPSD
+            
+                  </div>
+
+                   <i class="section_panel_body_container_content_arrow arrow-right"></i>
+
+                   <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                       FEED BACK DE L’ACTEUR OBPSD
+
+                   </div>
+            </div>
+    
+      </div>
+
+      <div id="section_panel">
+   
+          <div id="section_panel_header" class="green_glass_linear_gradient">
+
+          JUSTIFICATION DES MONTANTS DE SOUSCRIPTION ET DES OPI EMIS AUX FOURNISSEURS
+
+          </div>
+
+          <div id="section_panel_body">
+
+            <div id="section_panel_body_container" style="height:220px">
+
+              <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+              ELABORATION DU DOSSIER JUSTIFICATIF DE L’UTILISATION DES MONTANTS DE SOUSCRIPTION ENCAISSES ET DES OPI EMIS AUX FOURNISSEURS
+            
+              </div>
+
+              <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+              <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+              TRANSMISSION AUX ACTEURS OBPSD DU DOSSIER JUSTIFICATIF DES MONTANTS DE SOUSCRIPTION ENCAISSES ET DES OPI EMIS AUX FOURNISSEURS
+            
+              </div>
+
+              <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+              <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+              CLASSEMENT D’UNE COPIE DU DOSSIER JUSTIFICATIF
+            
+              </div>
+
+              <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+              <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+              FEED BACK DE L’ACTEUR OBPSD
+            
+              </div>
+
+          </div>
+
+          </div>
+
+       </div>
+    
+   </section>
+
+
+  <section id="section_page_three">
+
+    <div id="section_sommaire_title" class="orange_glass_linear_gradient">FILIERE TRESORERIE</div>
+
+       <div id="section_panel">
+   
+          <div id="section_panel_header" class="green_glass_linear_gradient">
+
+          GESTION DES COMPTES BANCAIRES
+
+          </div>
+
+          <div id="section_panel_body">
+
+             <div id="section_panel_body_container">
+         
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                ETABLISSEMENT DES CHEQUES
+            
+                </div>
+
+              <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+         
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                CONTROLE DU BROUILLARD DE BANQUE
+            
+                </div>
+
+              <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                       
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                CONTROLE DES ETATS DE RAPPROCHEMENT BANCAIRES
+            
+                </div>
+
+              <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+              <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+              PRESENTATION DE LA SITUATION HEBDOMADAIRE DE LA TRESORERIE
+            
+              </div> 
+
+       </div>
+
+    </div>
+
+    <div id="section_panel">
+   
+          <div id="section_panel_header" class="green_glass_linear_gradient">
+
+          REGLEMENT DES FACTURES PAR BANQUE
+
+          </div>
+
+          <div id="section_panel_body">
+
+             <div id="section_panel_body_container" style="height:260px">
+         
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                POINT DES FACTURES EN INSTANCE
+            
+                </div>
+
+                <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                CHOIX DES FACTURES A PAYER
+            
+                </div>
+
+                <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                ETABLISSEMENT DES OPI/OVI/ CHEQUES
+            
+                </div>
+
+                <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient" style="position:relative;top:-55px;right:-47px">
+
+                SIGNATURE DES OPI/OVI/CHEQUES PAR L’AGENT DIVISION GENERAL OU AGENT DIVISION GENERAL ADJOINT OU AGENT GENERAL SELON LA ZONE DE DECOUPAGE GEOGRAPHIQUE CONCERNEE
+            
+                </div>
+
+                <i class="section_panel_body_container_content_arrow arrow-right" style="position: absolute;top: 175px;right: 224px;"></i>
+
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient" style="position: absolute;top: 164px;right: 289px;">
+
+                ETABLISSEMENT DES OPI/OVI/ CHEQUES
+            
+                </div>
+
+             </div>
+
+          </div>
+
+    </div>
+
+    <div id="section_panel">
+   
+          <div id="section_panel_header" class="green_glass_linear_gradient">
+
+          APPROVISIONNEMENT DE CAISSE DE MENUES DEPENSES
+
+          </div>
+
+          <div id="section_panel_body">
+
+             <div id="section_panel_body_container">
+         
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                ARRETE DE CAISSE
+            
+                </div>
+
+                <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                CONTROLE DES PIECES
+            
+                </div>
+
+                <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                ETABLISSEMENT DU CHEQUE DE RE - APPROVISIONNEMENT
+            
+                </div>
+
+                <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                ENCAISSEMENT
+            
+                </div>
+
+              </div>
+          
+          </div>
+
+    </div>
+
+    <div id="section_panel">
+   
+          <div id="section_panel_header" class="green_glass_linear_gradient">
+
+          REGLEMENT DES FACTURES PAR CAISSE
+
+          </div>
+
+          <div id="section_panel_body">
+
+             <div id="section_panel_body_container">
+         
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                REGROUPEMENT DES FACTURES
+            
+                </div>
+
+                <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                CONTROLER LES FACTURES
+            
+                </div>
+
+                <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                PAIEMENT DES FOURNISSEURS
+            
+                </div>
+
+            </div>
+         
+          </div>
+         
+    </div>
+
+    <div id="section_panel">
+   
+         <div id="section_panel_header" class="green_glass_linear_gradient">
+
+             AVANCES DE FONDS A JUSTIFIER
+
+         </div>
+
+         <div id="section_panel_body">
+
+             <div id="section_panel_body_container">
+  
+                 <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                     DEMANDE D’AVANCE DE FONDS (DAF)
+     
+                </div>
+
+                 <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+                <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                     APPROBATION DU DECAISSEMENT
+     
+                </div>
+
+                 <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+            <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+                 MISE A DISPOSITION DES FONDS
+     
+            </div>
+
+                <i class="section_panel_body_container_content_arrow arrow-left"></i>
+
+            <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+            JUSTIFICATION DES FONDS
+     
+            </div>
+
+         </div>
+  
+     </div>
+  
+   </div>
+
+</section>
+
+<section id="section_page_three">
+
+<div id="section_sommaire_title" class="orange_glass_linear_gradient">FILIERE TRESORERIE</div>
+
+   <div id="section_panel">
+
+      <div id="section_panel_header" class="green_glass_linear_gradient">
+
+      FILIERE COMPTABILITE
+
+      </div>
+
+      <div id="section_panel_body">
+
+         <div id="section_panel_body_container">
+
+             <i class="section_panel_body_container_content_arrow arrow-down"></i>
+            
+     
+            <div id="section_panel_body_container_content" class="blue_glass_linear_gradient">
+
+            DESCRIPTION DU FONCTIONNEMENT DU SYSTEME COMPTABLE
+        
+            </div>
+
+        
+        </div>
+    
+     </div>
+    
+    </div>
+
+</div>
+
+       
+</article>

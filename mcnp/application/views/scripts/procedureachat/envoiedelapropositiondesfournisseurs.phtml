@@ -1,0 +1,58 @@
+<div class="row-fluid">
+	<div class="span9">
+      <legend>Formulaire d'envoi de proforma</legend>
+			<?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+				</div>
+			<?php unset($_SESSION['validationpertesuccess']); endif ?>
+
+	  <form action="#" enctype="multipart/form-data" method="post" class="form-horizontal">
+	   <div class="control-group">
+	      <label class="control-label" for="libellé du proforma" style="font-weight:bold">
+	        Libellé du proforma *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="libelle_proforma_procedure" class="input-block-level proforma_procedure" placeholder="Mettre ici le libellé du proforma" required="required"/>
+	      </div>
+	   </div>
+
+       	<div class="control-group">
+	      <label class="control-label" for="référence du proforma" style="font-weight:bold">
+	        Référence du proforma *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="reference_proforma_procedure" class="input-block-level proforma_procedure" placeholder="Mettre ici le libellé du proforma" required="required"/>
+	      </div>
+	   </div>
+	   <div class="control-group">
+	      <label class="control-label" for="contenu_proforma_procedure" style="font-weight:bold">
+	         Contenu du proforma:
+	      </label>
+	      <div class="controls">
+		    <input type="text" name="integrateur_telephone_ticket_support" placeholder="Mettre ici le numero de téléphone du demandeur" class="input-block-level integrateur_telephone_ticket_support" required="required"/>
+	      </div>
+	   </div>
+       <div class="control-group" id="piece_existance_justificative" style="display:none">
+			<label class="control-label" for="piece justificative de la facture proforma" style="font-weight:bold">
+					 Joindre ici la facture proforma 
+			</label>
+			 <div class="controls">
+				 <input type="file" name="piece_justificative_proforma" style="position:relative">
+				 <div class="alert alert-danger">
+                <strong>Seul les formats jpg, png, jpeg et pdf sont supportés.</strong>
+				 </div>
+		</div>
+
+        <div class="control-group" >
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+          Valider le formulaire
+          </button>
+      </div>
+
+</form>

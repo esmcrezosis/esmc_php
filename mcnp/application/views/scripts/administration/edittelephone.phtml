@@ -1,0 +1,87 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/paystelephones.js"></script>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification d'un numéro de téléphone</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addtelephone">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    <?php 
+    $code_telephonique = substr($this->telephone->numero_telephone, 0, -8);
+    $numero_telephone = substr($this->telephone->numero_telephone, -8);
+     ?>
+
+<div class="control-group">
+<label class="control-label" for="id_pays">Pays  *</label>
+<div class="controls">
+<select  name ="id_pays" id="id_pays"  required="required" onchange="ouvre_paystelephones(this.value);">
+     <?php  $pays_mapper = new Application_Model_EuPaysMapper();
+		    $selectpayss = $pays_mapper->fetchAll();?>
+            <option value="">Choisir le pays </option>
+            <?php foreach ($selectpayss as $selectpays): ?>
+            <option value="<?php echo $selectpays->id_pays; ?>" <?php if ($selectpays->code_telephonique == $code_telephonique) {echo 'selected="selected"';}?>><?php echo $selectpays->libelle_pays; ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div id="nivo2">
+
+<input name="code_telephonique" type="hidden" id="code_telephonique" value="<?php echo $code_telephonique; ?>" />  
+
+<div class="control-group">
+<label class="control-label" for="numero_telephone">Numéro de téléphone *</label>
+<div class="controls">
+<div class="input-prepend">
+<span class="add-on"><?php echo $code_telephonique; ?></span>
+<input type="number" name="numero_telephone" id="numero_telephone" placeholder="Numéro de téléphone" required value="<?php echo $numero_telephone; ?>">
+<span class="help-block">Veuillez saisir votre numéro de téléphone  </span>
+</div>
+</div>
+</div>
+
+	
+</div>
+
+
+
+<div class="form-actions">
+<input name="id_telephone" type="hidden" id="id_telephone" value="<?php echo $this->telephone->id_telephone; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier un numéro de téléphone</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

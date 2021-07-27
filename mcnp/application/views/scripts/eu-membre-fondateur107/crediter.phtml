@@ -1,0 +1,233 @@
+<div id="view-content" class="ui-widget" style="font-size: 12px">
+     <div id="c_header" class="ui-widget-header ui-corner-top" style="padding-left: 5px; height: 35px;">
+          <h4>  Créditer un compte marchand  </h4>
+     </div>
+     <div class="ui-widget-content ui-corner-bottom" style="height: 500px;">
+          <form id="new_credit_form" method="post" action="/eu-membre-fondateur107/crediter">
+              <table id="tab_mf" style="width:800px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+                 <tr>
+                     <td><label>N° Membre apporteur *</label></td>
+                     <td>
+                         <input class="validate[required]" type="text" id="code_membre" name="code_membre" value="<?php echo $this->code_membre; ?>" size="30" />
+                     </td>
+                     <td><div id="msm" style="width: 150px; color:red;"></div></td>
+                 </tr>
+                 <tr>
+                     <td height="5"></td>
+                 </tr>
+                 <tr>
+                     <td><label>Nom Membre * :</label></td>
+                     <td>
+                         <input class="validate[required]" type="text" id="nom_membre" name="nom_membre" value="<?php echo $this->nom_membre; ?>" size="30" readonly autocomplete="off"/>
+                     </td>
+                     <td><label>Prénoms  * :</label>
+                         <input class="validate[required]" type="text" id="prenom_membre" name="prenom_membre" value="<?php echo $this->prenom_membre; ?>" size="30" readonly autocomplete="off"/>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td height="5"></td>
+                 </tr>
+                 <tr>
+                     <td><label style="color: red;">Code SMS *</label></td>
+                     <td><input id="code_sms" class="validate[required number]"  type="text"  name="code_sms" value="" /></td>
+                     <td><div id="id_message" style="width: 150px; color:red;"></div></td>
+                 </tr>
+                 <tr>
+                     <td height="5"></td>
+                 </tr>
+                 <tr>
+                     <td><label for="val_nat">Montant apporté *:</label></td>
+                     <td>
+                        <input class="validate[required, number]" type="text" id="mont_apport" name="mont_apport" value="<?php echo $this->mont_apport; ?>" readonly="true" size="30" autocomplete="off"/>
+                     </td>
+                     <td>
+                        <select class="validate[required]" type="text" id="dev_apport" name="dev_apport" value=""></select>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td height="5"></td>
+                 </tr>
+                 <tr>
+                     <td><label>N° Membre propriétaire du compte *</label></td>
+                     <td>
+                         <input class="validate[required]" type="text" id="membre" name="membre" value="<?php echo $this->membre; ?>" size="30"/>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td height="5"></td>
+                 </tr>
+                 <tr>
+                     <td><label>Numero identité * :</label></td>
+                     <td>
+                         <input class="validate[required]" type="text" id="numero" name="numero" value="<?php echo $this->numero; ?>" size="10" readonly autocomplete="off"/>
+					   <label>Nom && Prénom * :</label>	 
+                     </td>
+                     <td>
+                         <input class="validate[required]" type="text" id="nom" name="nom" value="<?php echo $this->nom; ?>" size="30" readonly autocomplete="off"/>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td height="5"></td>
+                 </tr>
+                
+                 <tr>
+                     <td><label>Pourcentage du propriétaire*</label></td>
+                     <td>
+                         <input class="validate[required]" type="text" id="pp" name="pp" size="15"/>
+                         <input type="text"  value="%" size="1"/>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td height="5"></td>
+                 </tr>
+                 <tr>
+                     <td></td>
+                     <td>
+                         <input type="submit" id="val" value="Valider"/>
+                         <input type="reset" id="reset" value="Annuler"/>
+                     </td>
+                 </tr> 
+              </table>     
+          </form>  
+     </div>  
+</div>
+<script>
+    $(document).ready(function ()
+    { 
+      $("#new_credit_form").validationEngine();
+      $('#val').button();
+      $('#reset').button();
+      
+      
+      
+      $.get("/eu-membre-fondateur107/mf",
+      function success(data)
+      {
+        $('#membre').autocomplete({"source": data,change:displayItems});
+      });
+
+
+
+      function displayItems()
+      {
+         if ($(this).val() !== '')
+         {
+           $.get(
+           '/eu-membre-fondateur107/recupmf',
+           {
+            num_membre: $(this).val()
+           },
+           function success(data)
+           {
+              $("#numero").val(data[0]);
+              $("#nom").val(data[1]);
+           });
+         }
+      }
+
+
+
+      $.get("/eu-membre-fondateur107/membre",
+      function success(data)
+      {
+            $('#code_membre').autocomplete({"source": data,
+                change: displayItem});
+      });
+   
+
+      function displayItem()
+      {
+        if ($(this).val() !== '')
+        {
+          $.get(
+          '/eu-membre-fondateur107/recupnom',
+          {
+            num_membre: $(this).val()
+          },
+          function success(data)
+          {
+             $("#nom_membre").val(data[0]);
+             $("#prenom_membre").val(data[1]);
+          });
+        }
+      }
+      
+      
+      $('#code_sms').blur(function(e)
+      {
+        if($(this).val() != '')
+        {
+                $.get(
+                '/eu-membre-fondateur107/codesms',
+                {
+                    code: $(this).val()
+                },
+                function success(data)
+                {
+                    if(data != 0){
+                        $('#mont_apport').val(data);
+                        $('#mont_apport').attr('readonly', true);
+                    }
+                    else {
+                         $('#mont_apport').attr('readonly',true);
+                         $('#mont_apport').val('');
+                         $("#id_message").html("<label>Ce code est invalide</label>");
+                    } 
+                });
+         }
+         else {
+             $('#mont_apport').attr('readonly',true);
+             $('#mont_apport').val('');
+         }
+         e.preventDefault();
+        });
+        
+        $('#reset').click(function(){
+            dev = 'XOF';
+        });
+        
+        
+        $.get(
+        '/eu-membre-fondateur107/devise',
+        function success(data)
+        {
+            var options = '';
+            for( var i = 0; i < data.length; i++) {
+                if(data[i] == 'XOF'){
+                    options += '<option value="' + data[i] + '" selected>' + data[i] +' </option>'; 
+                }
+                else{
+                    options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+                }   
+            }
+            $('select#dev_apport').html(options);
+         });
+          
+          
+         var  dev = 'XOF';
+         $('#dev_apport').change(function()
+         {
+            var  dev1 = $('#dev_apport').val();
+            if(dev != dev1){
+                if($('#mont_apport').val() != '' && parseInt($('#mont_apport').val()) > 0){
+                    $.get(
+                    '/eu-membre-fondateur107/convertir',
+                    {
+                        montant: $('#mont_apport').val(),dev:dev,dev1 : dev1
+                    },
+                    function success(data)
+                    {
+                        if(data != false){
+                            $('#mont_apport').val(data);
+                            dev = dev1;
+                        }else{
+                            alert('Ce cours n\'est pas défini: '+ dev+'-'+dev1);
+                            $('#dev_apport').val(dev);
+                        }
+                    });
+                }
+            }
+        });
+              
+ });
+</script>

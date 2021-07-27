@@ -1,0 +1,46 @@
+<div id="view-content">
+    <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    <table id="tbl-stand"></table>
+    <div id="pg-stand"></div>
+</div>
+<script type="text/javascript">
+     $("#tbl-stand").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Désignation produit','Désignation stand','Nom de la filiere'],
+        height:440, width:827,
+        colModel:[
+            {name:'design_produit',index:'design_produit', width:200, editable: true,align:"left"},
+            {name:'design_stand',index:'design_stand', width:300, editable: true,align:"left"},
+            {name:'nom_filiere',index:'nom_filiere', width:300, editable: true,align:"left"}, 
+        ],
+        rowNum:100,
+        rowList:[100,200,300],
+        rownumbers:true,
+        pager: '#pg-stand',
+        sortname:"id_produit",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Liste des produits disponibles dans les stands "
+    });
+    $("#tbl-stand").jqGrid('navGrid','#pg-stand',{edit:false,add:false,del:false,search:false});
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-stand").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+           $.get('/eu-stand-produit/edit',{
+             id_produit:rowsel
+           },function success(data){
+             $("#content").html(data);
+           }); 
+        }
+        else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();  
+</script>    

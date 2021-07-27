@@ -1,0 +1,86 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modifier un detail du budget</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="editdetail_forms_budget_nature">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = "";?>
+    </div>
+  <?php }?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="bps_demande">Biens/Produits/Services *</label>
+<div class="controls">
+<input class="input-xlarge" type="text" name="bps_demande" id="bps_demande" placeholder="Biens/Produits/Services" required value="<?php echo $this->detail_forms_budget_nature->bps_demande;?>">
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="qte_budget_nature">Quantité *</label>
+<div class="controls">
+<input class="input-xlarge" type="number" name="qte_budget_nature" id="qte_budget_nature" placeholder="Quantité" required value="<?php echo $this->detail_forms_budget_nature->qte_budget_nature;?>">
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="prix_unitaire_budget_nature">Prix Unitaire *</label>
+<div class="controls">
+<input class="input-xlarge" type="number" name="prix_unitaire_budget_nature" id="prix_unitaire_budget_nature" placeholder="Prix Unitaire" required value="<?php echo $this->detail_forms_budget_nature->prix_unitaire_budget_nature;?>">
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="disponible_budget_nature"> Disponible </label>
+<div class="controls">
+<select id="disponible_budget_nature" name="disponible_budget_nature" class="input-xxlarge">
+<option value="">Choisir </option>
+<option value="0" <?php if($this->detail_forms_budget_nature->disponible_budget_nature == "0"){?> selected="selected"<?php }?>>Non</option>
+<option value="1" <?php if($this->detail_forms_budget_nature->disponible_budget_nature == "1"){?> selected="selected"<?php }?>>Oui</option>
+</select>     
+</div>     
+</div>
+
+
+
+
+
+<div class="form-actions">
+<input name="id_forms_detail_budget_nature" type="hidden" id="id_forms_detail_budget_nature" value="<?php echo $this->detail_forms_budget_nature->id_forms_detail_budget_nature; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier le detail du budget</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

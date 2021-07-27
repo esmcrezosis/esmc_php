@@ -1,0 +1,76 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+  <div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p> Details Expression de Besoins </p></blockquote>
+  
+    
+<div class="control-group">
+<label class="control-label" for="code_identification" style="font-weight:bold"> Désignation du Besoin </label>
+<div class="controls">
+<?php echo $this->fiche->designation_besoin; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="code_membre_demandeur" style="font-weight:bold"> Code membre demandeur </label>
+<div class="controls">
+<?php echo $this->fiche->code_membre_demandeur; ?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="debut_periode_besoin" style="font-weight:bold"> Date Entretien ou panne </label>
+<div class="controls">
+<?php echo $this->fiche->debut_periode_besoin; ?>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="debut_periode_besoin" style="font-weight:bold"> Immobilisations concernées </label>
+
+</div>
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;"> 
+<thead>
+   <tr>
+	   <th>CODE IMMOBILISATION</th>
+   </tr>
+</thead>
+
+<tbody>
+<?php foreach ($this->entries as $entry): ?>
+   <tr>
+	   <td><?php echo ($entry->code_identification); ?></td>
+   </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+</div>
+<div class="span3">
+<?php //include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

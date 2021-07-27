@@ -1,0 +1,483 @@
+<div id="view-content" class="ui-widget" title="Identification:Membre Personne Morale Pre-inscrite" style="font-size: 12px;min-height: 520px;">
+     <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+            <form id="fmm_membre" action="/eu-preinscription/ncmmmfiliere" method="POST">
+                <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+		        <input type="hidden" name="cpte" id="cpte" value="1"/>
+                <input type="hidden" name="id_preinscription_morale"  value="<?php echo $this->id_preinscription_morale ?>"/>
+                <div id="hidden">
+				<?php
+			        $auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin'));
+			        $user = $auth->getIdentity(); 	
+		        ?>
+				 
+				<?php  
+		              if($user->code_groupe == 'filiere') {
+		        ?>
+		        <fieldset style="margin-bottom: 2px;"><legend>Numéro Contrat Filiere</legend>
+		        <table id="tab_dao" >
+                   <tr>
+				       <td>Numéro Contrat Filière *</td>
+					   <td><input name="numero_offre" id="numero_offre" class="validate[required]" value="<?php echo $this->numero_contrat; ?>" size="50"></td>
+				   </tr>
+                </table>			
+		        </fieldset>
+		        <?php } 
+		           if($user->code_groupe == 'scmacnev') {
+		        ?>
+		        <fieldset style="margin-bottom: 2px;"><legend>Numéro Contrat ACNEV</legend>
+		            <table id="tab_dao" >
+                    <tr>
+				       <td>Numéro Contrat ACNEV *</td>
+					   <td><input name="numero_offre" id="numero_offre" class="validate[required]" value="<?php echo $this->numero_contrat; ?>" size="50"></td>
+				    </tr>
+                    </table>			
+		        </fieldset>
+		        <?php } 
+		          if($user->code_groupe == 'technopole') {
+		        ?>
+		        <fieldset style="margin-bottom: 2px;"><legend>Numéro Contrat Technopole</legend>
+		            <table id="tab_dao" >
+                    <tr>
+				       <td>Numéro Contrat Technopole *</td>
+					   <td><input name="numero_offre" id="numero_offre"  readonly="true"  class="validate[required]" value="<?php echo $this->numero_contrat; ?>" size="50"></td>
+				    </tr>
+                    </table>			
+		        </fieldset>
+		        <?php } ?> 
+				
+                <fieldset>
+				    <legend>Code KACM</legend>
+		            <table>
+			               <tr>
+				               <td>Code FS </td>
+					           <td><input name="code_fs" id="code_fs" readonly="true" class="validate[required]" value="<?php echo $this->code_fs ; ?>"  size="15"></td>
+				           </tr>
+					       <tr>
+				               <td>Code FL </td>
+					           <td><input name="code_fl" id="code_fl" readonly="true"  value="<?php echo $this->code_fl; ?>" size="15"></td>
+				           </tr>
+					       <tr>
+				               <td>Code FKPS </td>
+					           <td><input name="code_fkps" id="code_fkps"  readonly="true"   value="<?php echo $this->code_fkps; ?>" size="15"></td>
+				            </tr>
+			        </table>
+		        </fieldset>
+
+				
+                <fieldset><legend>Informations personnes morales</legend>
+                     <table>
+                           <tr>
+                              <td>Type Membre morale *</td>
+                              <td>
+                                 <!--<select name="type_acteur" id="type_acteur" class="validate[required]" value="<?php echo $this->type_acteur ?>">-->
+								 <input id="type_acteur" name="type_acteur"  readonly="true"  readonly="true" value="<?php echo $this->type_acteur ?>"/>
+                              </td>
+                              <td>
+                                 <label id="label_statut" for="statut_juridique">Statut juridique *</label>
+                              </td>
+                              <td>
+                                <!--<select id="statut_juridique" name="statut_juridique" class="validate[required]" value="<?php echo $this->statut_juridique ?>"></select></td>-->
+                                <input id="statut_juridique"  readonly="true"  name="statut_juridique" readonly="true" value="<?php echo $this->statut_juridique ?>"/>
+							  </td>  
+							 </tr>
+                             <tr><td>Raison sociale *</td><td><input name="raison_sociale"  readonly="true"  id="raison_sociale" class="validate[required]" value="<?php echo $this->raison_sociale ?>" /></td>
+                             <td>Domaine d'activité</td><td><input name="domaine_activite"  readonly="true"  id="domaine_activite" value="<?php echo $this->domaine_activite ?>"/></td></tr>
+                           <tr>
+                            <td><label id="label_registre" for="num_registre">N° RCCM *</label></td><td><input name="num_registre"  readonly="true"  id="num_registre" class="validate[required]" value="<?php echo $this->num_registre ?>"/></td>
+                            <td>Site web</td><td><input id="site_web" name="site_web" readonly="true" value="<?php echo $this->site_web ?>"/></td>
+                        </tr>
+                    </table>
+                </fieldset>
+                <fieldset>
+                    <legend>Représentant</legend>
+                      <table>
+                          <tr>
+					        <td>Code membre *</td><td><input size="30" readonly="true"  name="code_rep" id="code_rep"  class="validate[required]" value="<?php echo $this->code_rep ?>"/> </td>
+                            </tr>
+				     </table>
+                </fieldset>
+				
+            </div>
+            <fieldset>
+                <legend>Adresse</legend>
+                <table>
+                    <tr>
+					    <td>Quartier *</td><td><input name="quartier_membre"  readonly="true"  id="quartier_membre" class="validate[required]" value="<?php echo $this->quartier_membre ?>"/></td>
+                        <td>Ville *</td><td><input name="ville_membre"  readonly="true"  id="ville_membre" class="validate[required]" value="<?php echo $this->ville ?>"></td>
+						<td></td>
+						<td>
+						    <!--<select id="id_pays"  type="text" name="id_pays" class="validate[required]" value=""/>-->
+							<input id="id_pays" name="id_pays"  type="hidden"  readonly="true" value="<?php echo $this->id_pays ?>"/>
+						</td>
+			        </tr>    
+					<tr><td>BP</td><td><input name="bp_membre"  readonly="true"  id="bp_membre"  value="<?php echo $this->bp ?>"/></td> 
+                        <td>Téléphone </td><td><input name="tel_membre"  readonly="true"   id="tel_membre"  class="validate[custom[onlyNumberSp]]"  value="<?php echo $this->tel ?>"/></td></tr>
+                    <tr><td>Adresse email</td><td><input name="email_membre" id="email_membre"  class="validate[custom[email]]" value="<?php echo $this->email ?>"/></td>
+                        <td>Téléphone portable</td><td><input name="portable_membre"  readonly="true"   class="validate[custom[onlyNumberSp]]"  id="portable_membre" value="<?php echo $this->portable ?>" /></td></tr>
+                </table>
+            </fieldset>
+             
+            <div style="margin-top: 10px;">
+			    <input name="codesecret" type="hidden" id="codesecret" value="<?php echo $this->codesecret; ?>" />
+                <input type="submit" value="Valider" name="valider" id="valider"   />
+                <input type="reset" value="Rafraichir" name="refresh" id="refresh"   />
+                <input id="t_annuler" type="button" value="Annuler" />
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+		    $(function() {
+              $('#view-content').puipanel();
+              $('fieldset').puifieldset();
+            });
+		
+            jQuery(document).ready(function(){
+              // binds form submission and fields to the validation engine
+              jQuery("#fmm_membre").validationEngine();
+            });
+            
+			$('#id_pays').puiinputtext();			
+            $('#valider').button();
+            $('#t_annuler').button();
+            $('#refresh').button();
+            $('#add').button();
+            $('#remove').button();
+			$('#type_acteur').puiinputtext();
+			$('#statut_juridique').puiinputtext();
+			$('#raison_sociale').puiinputtext();
+			$('#domaine_activite').puiinputtext();
+			$('#num_registre').puiinputtext();
+			$('#site_web').puiinputtext();
+			$('#code_rep').puiinputtext();
+			$('#nom_rep').puiinputtext();
+			$('#code_fond1').puiinputtext();
+			$('#nom_fond1').puiinputtext();
+			$('#titre1').puiinputtext();
+			$('#quartier_membre').puiinputtext();
+			$('#ville_membre').puiinputtext();
+			$('#tel_membre').puiinputtext();
+			$('#portable_membre').puiinputtext();
+			$('#bp_membre').puiinputtext();
+			$('#email_membre').puiinputtext();
+			$('#code_banque1').puiinputtext();
+			$('#nom_banque1').puiinputtext();
+			$('#num_compte1').puiinputtext();
+			$('#agrement_filiere').puiinputtext();
+			$('#agrement_acnev').puiinputtext();
+			$('#agrement_technopole').puiinputtext();
+			$('#numero_offre').puiinputtext();
+			$('#code_fs').puiinputtext();
+			$('#code_fl').puiinputtext();
+			$('#code_fkps').puiinputtext();
+			$('#add').button();
+			$('#remove').button();
+			
+			var options = '<option/>';
+		    var tab=[];
+			var tab1=[];
+			tab[0]='EI';
+				//tab[1]='OSE';
+				//tab[1]='PEI';
+				//tab[3]='POSE';
+			tab1[0]='EI';
+				//tab1[1]='OSE';
+				//tab1[1]='PEI';
+				//tab1[3]='POSE';
+				
+            for( var i = 0; i < 1; i++) {
+               options += '<option value="' + tab[i] + '">' + tab1[i] +' </option>';			 
+            }
+            $('select#type_acteur').html(options);
+			
+            $("#type_acteur").change(function(e) {
+                var code = $(this).val();
+                if($(this).val() == 'OSE' || $(this).val() == 'POSE') {
+                    $("#label_registre").text('N° Récipissé');
+                    code = 'OSE';
+                } else {
+                    $("#label_registre").text('N° Registre');
+                    code = 'EI';
+                }
+                $.get( "/eu-membre/statut",{type:code},
+                function success(data) {
+                    var options = '<option/>';
+                    for( var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+                    }
+                    $('select#statut_juridique').html(options);
+                });
+                e.preventDefault();
+            })
+			
+			$.get("/eu-membre/pays",
+                function success(data) {
+                    var options = '<option/>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                $('select#id_pays').html(options);
+            });
+			
+			$.get( "/eu-membre/membrephys",
+                                 function success(data) {
+                                 $("#code_rep").autocomplete({"source":data});
+                            });
+							
+							
+							$('#code_rep').blur(function(e) {
+                               if($(this).val() !== '')
+                            {
+                                  $.get(
+                                     '/eu-membre/recupnom',{
+                                     num_membre: $(this).val()
+                                  },
+                                  function success(data)
+                                  {
+                                    $("#nom_rep").val(data);
+                                  });
+                            }
+                                  e.preventDefault();
+                           });
+			
+            $.get( "/eu-membre/membrephys",
+                                 function success(data) {
+                                 $("#code_fond1").autocomplete({"source":data});
+                            });
+							
+							
+							$('#code_fond1').blur(function(e) {
+                               if($(this).val() !== '')
+                            {
+                                  $.get(
+                                     '/eu-membre/recupnom',{
+                                     num_membre: $(this).val()
+                                  },
+                                  function success(data)
+                                  {
+                                    $("#nom_fond1").val(data);
+                                  });
+                            }
+                                  e.preventDefault();
+                           });			
+		    
+
+
+            
+			
+            //$("#tel_membre").inputmask({"mask": "99 99 99 99"});
+            //$("#portable_membre").inputmask({"mask": "99 99 99 99"});
+			
+            $.get( "/eu-membre/compte",
+            function success(data)
+            {
+                var options = '<option/>';
+                for( var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+                }
+                $('select#code_banque1').html(options);
+            });
+            
+            $.get( "/eu-membre/statut",{type:''},
+            function success(data)
+            {
+                var options = '<option/>';
+                for( var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+                }
+                $('select#statut_juridique').html(options);
+            });
+            
+            $('#code_banque1').change(function(e)
+            {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-membre/nomcompte',
+                    {
+                        code: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        if(data != false){
+                            $('#nom_banque1').val(data);
+                        }else{
+                            alert('Pas de banque correspondant à ce code');
+                        }
+                        
+                    });
+                }
+                e.preventDefault();
+            });
+        });
+		
+		var compt = 1;
+		function addRowfond(tableID) {				    
+		    var table = document.getElementById(tableID);
+            var rowCount = table.rows.length;
+            var cpte = rowCount;
+            var row = table.insertRow(rowCount);
+			var cell1 = row.insertCell(0);
+            var element0 = document.createElement("input");
+            element0.type = "text";
+			element0.setAttribute("class", "validate[required]");
+            element0.setAttribute("id", "code_fond" + cpte);
+            element0.setAttribute("name", "code_fond" + cpte);
+            element0.setAttribute("size", "32");
+            cell1.appendChild(element0);
+			$('#code_fond'+ cpte).puiinputtext();
+								
+								
+								var cell2 = row.insertCell(1);
+                                var element1 = document.createElement("input");
+                                element1.type = "text";
+								element1.setAttribute("class", "validate[required]");
+                                element1.setAttribute("id", "nom_fond" + cpte);
+                                element1.setAttribute("name", "nom_fond" + cpte);
+                                element1.setAttribute("size", "25");
+                                element1.setAttribute("readonly", "true");
+                                cell2.appendChild(element1);
+								$('#nom_fond'+ cpte).puiinputtext();
+
+                                var cell3 = row.insertCell(2);
+                                var element2 = document.createElement("input");
+                                element2.type = "text";
+								element2.setAttribute("class", "validate[required]");
+                                element2.setAttribute("id", "titre" + cpte);
+                                element2.setAttribute("name", "titre" + cpte);
+                                element2.setAttribute("size", "20");
+                                cell3.appendChild(element2);
+								$('#titre'+ cpte).puiinputtext();
+								
+								$.get( "/eu-membre/membrephys",
+                                  function success(data) {
+                                  $("#code_fond"+ cpte).autocomplete({"source":data});
+                               });
+							
+							
+							$('#code_fond'+ cpte).blur(function(e) {
+                               if($(this).val() !== '')
+                            {
+                                  $.get(
+                                     '/eu-membre/recupnom',{
+                                     num_membre: $(this).val()
+                                  },
+                                  function success(data)
+                                  {
+                                    $("#nom_fond"+ cpte).val(data);
+                                  });
+                            }
+                                  e.preventDefault();
+                           });
+								compt = compt + 1;
+                                document.getElementById("cpte").setAttribute('value', compt);
+							}
+							
+							function deleteRowfond(tableID) {
+                                try {
+                                    var table = document.getElementById(tableID);
+                                    var rowCount = table.rows.length - 1;
+                                    if (rowCount > 1) {
+                                        table.deleteRow(rowCount);
+                                        compt = compt - 1;
+                                        document.getElementById("cpte").setAttribute('value', compt);
+                                    }
+                                } catch (e) {
+                                    alert(e);
+                                }
+                            }
+		
+		
+		
+		
+		
+        
+        var compteur = 1;
+        function addRow(tableID) {
+
+            var table = document.getElementById(tableID);
+            var rowCount = table.rows.length;
+            var cpte = rowCount;
+            var row = table.insertRow(rowCount);
+            
+            var cell1 = row.insertCell(0);
+            var element0 = document.createElement("select");
+            element0.setAttribute("id","code_banque" + cpte);
+            element0.setAttribute("name","code_banque" + cpte);
+            //element0.setAttribute("class","class=\"validate[required]\"");
+            cell1.appendChild(element0);
+			$('#code_banque'+ cpte).puiinputtext();
+
+			
+            var cell2 = row.insertCell(1);
+            var element1 = document.createElement("input");
+            element1.type = "text";
+            element1.setAttribute("id","nom_banque" + cpte);
+            element1.setAttribute("name","nom_banque" + cpte);
+            element1.setAttribute("size","40");
+            element1.setAttribute("readonly","true");
+            cell2.appendChild(element1);
+			$('#nom_banque'+ cpte).puiinputtext();
+
+			
+            var cell3 = row.insertCell(2);
+            var element2 = document.createElement("input");
+            element2.type = "text";
+            element2.setAttribute("id","num_compte" + cpte);
+            element2.setAttribute("name","num_compte" + cpte);
+            element2.setAttribute("size","30");
+            //element2.setAttribute("class", "class=\"validate[required]\"");
+            cell3.appendChild(element2);
+			$('#num_compte'+ cpte).puiinputtext();
+            
+			
+            $.get( "/eu-membre/compte",
+            function success(data)
+            {
+                var options = '<option/>';
+                for( var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+                }
+                $('select#code_banque'+cpte).html(options);
+            });
+            
+            $('#code_banque' + cpte).change(function(e)
+            {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-membre/nomcompte',
+                    {
+                        code: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        if(data != false){
+                            $('#nom_banque' + cpte).val(data);
+                        }
+                        else{
+                            alert('Pas de banque correspondant à ce code');
+                        }
+                    });
+                }
+                e.preventDefault();
+            });
+            compteur = compteur + 1;
+            document.getElementById("cpteur").setAttribute('value',compteur);
+        }
+
+        function deleteRow(tableID) {
+            try {
+                var table = document.getElementById(tableID);
+                var rowCount = table.rows.length - 1;
+                if(rowCount > 1){
+                    table.deleteRow(rowCount);
+                    compteur = compteur - 1;
+                    document.getElementById("cpteur").setAttribute('value',compteur);
+                }
+            }catch(e) {
+                alert(e);
+            }
+        }
+    </script>
+</div>

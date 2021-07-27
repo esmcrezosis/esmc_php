@@ -1,0 +1,52 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+  <blockquote>
+  <p>
+      <strong>Agrément OSE/OE</strong> 
+  <small>Espace de l'agrément OSE/OE du site</small>
+  </p>
+  </blockquote>
+<br />
+
+<?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error!="") { ?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+    </div>
+  <?php } ?>
+
+<?php if($sessionmembreasso->souscription_id > 0){?>
+<?php }else{?>
+<div class="alert alert-error">    
+    <a href="<?php echo $this->baseUrl();?>/integrateur/editmembreassosouscription">Veuillez mettre à jour votre profil utilisateur ici.</a><br /><br />
+
+N'oubliez pas de postuler aux postes d'intégrateurs pour vous mème.
+</div>
+<?php }?>
+<br />
+<br />
+<br />
+<br />
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

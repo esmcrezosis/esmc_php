@@ -1,0 +1,64 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p>Modification d'une sous division </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="update">
+<?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin!="") { ?>
+<div class="alert alert-success">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+</div>
+<?php } ?>
+
+<?php if(isset($this->error) && $this->error!="") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $this->error; ?>
+</div>
+<?php } ?>
+
+<legend>Divisions</legend>  
+<div class="control-group">
+<label class="control-label" for="nom">Nom Sous Division *</label>
+<div class="controls">
+<input type="text" name="nom_sousdivision" id="nom_sousdivision" placeholder="Nom de la sous division" value="<?php if(isset($this->sousdivision)) echo $this->sousdivision->nom_sous_division;?>" required />
+<input type="hidden" name="id_sousdivision" id="id_sousdivision" value="<?php if(isset($this->sousdivision)) echo $this->sousdivision->id_sous_division;?>">
+</div>
+</div>
+	  
+<div class="control-group">
+<label class="control-label">Division *</label>
+<div class="controls">
+<select  id="id_division" name="id_division" required>
+<option value="">Choisir une division</option>
+<?php foreach ($this->divisions as $value) { ?>
+<option
+  value="<?php echo $value->id_division; ?>" <?php if($this->sousdivision->id_division == $value->id_division) {echo 'selected="selected"';}?> ><?php echo $value->nom_division; ?>
+</option>                         
+<?php } ?>
+</select>
+</div>
+</div>
+	  
+<div class="control-group">
+<label class="control-label" for="nom">Description</label>
+<div class="controls">
+<textarea name="desc" id="desc"><?php if(isset($this->sousdivision)) echo $this->sousdivision->desc_sous_division;?></textarea>
+</div>
+</div>	  
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok"/>
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier</button>
+</div>
+	  	  
+</form>
+</div>
+</div>
+</div>

@@ -1,0 +1,92 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des articles du blog</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Image</th>
+								  <th>Date</th>
+								  <th>Titre</th>
+								  <th>Thème</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php if($entry->blog_vignette != ""){?><img src="<?php echo $this->baseUrl(); ?>/<?php echo $entry->blog_vignette; ?>" class="img-polaroid" style="width:100px; height:100px;" /><?php }?></td>
+      <td><?php echo ($entry->blog_date); ?></td>
+      <td><?php echo ($entry->blog_titre); ?><br /><?php echo ($entry->blog_resume); ?></td>
+      <td><?php if($entry->id_type_blog > 0){
+$type_blogM = new Application_Model_EuTypeBlogMapper();
+$type_blog = new Application_Model_EuTypeBlog();
+$type_blogM->find($entry->id_type_blog, $type_blog);
+echo ($type_blog->libelle_type_blog);} ?></td>
+      <td><div align="center"><?php if($entry->publier == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/publierblog/id/<?php echo $entry->blog_id; ?>/publier/0"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/publierblog/id/<?php echo $entry->blog_id; ?>/publier/1"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+
+<?php if($entry->spotlight == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/spotlightblog/id/<?php echo $entry->blog_id; ?>/spotlight/0"><i class="icon-ok icon-white"></i> Activé Spotlight</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/spotlightblog/id/<?php echo $entry->blog_id; ?>/spotlight/1"><i class="icon-off icon-white"></i> Désactivé Spotlight</a>&nbsp;
+<?php }?>
+
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/editblog/id/<?php echo $entry->blog_id; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+
+			<a class="btn btn-mini btn-danger" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/administration/suppblog/id/<?php echo $entry->blog_id; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a></div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun article du blog enrégistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

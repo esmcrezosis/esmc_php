@@ -1,0 +1,158 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<?php ini_set('memory_limit', '1024M');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+        
+<script type="text/javascript">
+function checkAllInput(form, action)
+{
+   var i = document.forms[form].getElementsByTagName("input"); 
+    for ( var cpt = 0; cpt < i.length; cpt++) 
+                              i[cpt].checked = (action)? true : false ;
+}
+
+//onclick="checkAllInput('form1', true);" //coche
+//onclick="checkAllInput('form1', false);" //decoche
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des souscriptions validées avec quittance à imprimer</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+                                    <form method="post" enctype="multipart/form-data" role="form" name="souscription" id="souscription" action="<?php echo $this->baseUrl();?>/administration/publiersouscription">
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+						  <thead>
+							  <tr>
+								  <th>OSE/OE</th>
+								  <th>Date</th>
+								  <th>Nom & prénom(s) / Raison sociale</th>
+								  <th>Cellulaire</th>
+								  <th>Type</th>
+								  <th>Numero</th>
+								  <th>Date Numero</th>
+								  <th>Programme</th>
+								  <th>Nombre</th>
+								  <th>Montant</th>
+								  <th>Actions</th>
+								  <?php /*?><th><input name="all" id="all" type="checkbox" value="1" onClick="if(document.souscription.all.checked){checkAllInput('souscription', true);} else {checkAllInput('souscription', false);}" /></th><?php */?>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr <?php if($entry->souscription_ancien_membre != ""){?> class="info"<?php }?>>
+      <td><?php 
+        $membreasso = new Application_Model_EuMembreasso();
+        $membreassoM = new Application_Model_EuMembreassoMapper();
+        $membreassoM->find($entry->souscription_membreasso, $membreasso);
+	  
+        $association = new Application_Model_EuAssociation();
+        $associationM = new Application_Model_EuAssociationMapper();
+        $associationM->find($membreasso->membreasso_association, $association);
+	  echo $association->association_nom;?></td>
+      <td><?php echo datejourfr($entry->souscription_date); ?></td>
+      <td><?php if($entry->souscription_personne == "PP"){?><?php echo ($entry->souscription_nom); ?> <?php echo ($entry->souscription_prenom); ?><?php }else{?><?php echo ($entry->souscription_raison); ?><?php }?></td>
+      <td><?php echo ($entry->souscription_mobile); ?></td>
+      <td><?php echo ($entry->souscription_type); ?></td>
+      <td><?php echo ($entry->souscription_numero); ?></td>
+      <td><?php echo ($entry->souscription_date_numero); ?></td>
+      <td><?php echo ($entry->souscription_programme); ?></td>
+      <td><?php echo ($entry->souscription_nombre); ?></td>
+      <td><?php echo ($entry->souscription_montant); ?></td>
+      <td><div align="center">
+	  <?php /*?><?php if($entry->publier == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/association/publiersouscription/id/<?php echo $entry->souscription_id; ?>/publier/0"><i class="icon-ok icon-white"></i>  Publier</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/association/publiersouscription/id/<?php echo $entry->souscription_id; ?>/publier/1"><i class="icon-off icon-white"></i>  Pas Publier</a>&nbsp;
+<?php }?><?php */?>
+	  
+<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/detailssouscription/id/<?php echo $entry->souscription_id; ?>"><i class="icon-search icon-white"></i>  Détails</a>&nbsp;
+
+<?php /*?><a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/listmembretiers/id/<?php echo $entry->souscription_id; ?>"><i class="icon-edit icon-white"></i>  Tiers</a><?php */?>
+
+	  <?php /*?><a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/association/editsouscription/id/<?php echo $entry->souscription_id; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+
+			<a class="btn btn-mini btn-danger" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/association/suppsouscription/id/<?php echo $entry->souscription_id; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a><?php */?>
+<?php /*?><?php 
+    $dir = "../../webfiles/pdf_souscription/";
+    $findme = "SOUSCRIPTION_".$entry->souscription_id."_.pdf";
+    if (is_dir($dir)) {
+        if ($dh = opendir($dir)) {
+            while (($file = readdir($dh)) !== false) {
+			    $nomfile = basename($file).PHP_EOL;
+			    if(stripos($nomfile, $findme) !== false && stripos($nomfile, ".pdf") !== false) {
+			       $releve = $dir.$file;
+			       break;
+			    } else {
+			       $releve = "";
+				}
+            }
+            closedir($dh);
+        }
+	}
+?>          
+<?php if($releve != "") { ?>
+<a class="btn btn-mini btn-success" href="<?php echo str_replace('../../webfiles/', 'http://webfiles.gacsource.net/', $releve); ?>" target="_blank"><i class="icon-download icon-white"></i>PDF</a>
+<?php } ?><?php */?>
+<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/pdfsouscription/id/<?php echo $entry->souscription_id; ?>" target="_blank"><i class="icon-download icon-white"></i>  PDF</a>
+            </div></td>
+      <?php /*?><td><input name="publier<?php echo $entry->souscription_id; ?>" id="publier<?php echo $entry->souscription_id; ?>" type="checkbox" value="5"  /></td><?php */?>
+      
+    </tr>
+<?php endforeach; ?>
+
+</tbody>
+					  </table>
+                      <br />
+
+                                    <?php /*?><input name="id" type="hidden" id="id" value="5" />
+                                    <input name="ok" type="hidden" id="ok" value="ok" />
+<button type="submit" class="btn btn-primary" style="float:right;">Imprimer Quittance</button>
+<br /><?php */?>
+
+<br />
+<br />
+</form>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun membre enrégistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

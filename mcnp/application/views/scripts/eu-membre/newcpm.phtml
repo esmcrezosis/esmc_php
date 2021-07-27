@@ -1,0 +1,131 @@
+<div id="view-content">
+     <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 5px; padding-left: 5px;">
+        <h3>Edition d'un contrat</h3>
+     </div>
+     <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+     <form action="/eu-contrat/new" name="fm_contrat" method="POST" id="fm_contrat">
+     <fieldset><legend>Contrat</legend>
+     <table>
+           <tr style="text-align: right;">
+              <td colspan="1">Code membre</td><td style="text-align: left;"><input type="text" name="code_membre" value="<?php echo $this->code_membre; ?>" readonly="true"></td>
+           </tr>
+           <tr><td colspan="4" style=" height:10px"></td></tr>
+           <tr>
+               <td colspan="1">Type contrat *</td>
+               <td>
+                   <select name="type_contrat" id="type_contrat" class="validate[required]"></select>
+               </td>
+               <td colspan="1">Type creneau </td>
+               <td>
+                  <select name="type_creneau" id="type_creneau" class="validate[required]"></select>
+               </td>
+           </tr>
+           <tr><td colspan="8" style=" height:10px"></td></tr>
+           <tr>
+              <td colspan="1">Type acteur </td>
+              <td>
+                  <select name="type_acteur" id="type_acteur" ></select>
+              </td>
+              <td colspan="1">Pays *</td>
+              <td><select name="pays" id="pays" class="validate[required]"></select></td>
+           </tr>
+         </table>
+         </fieldset>
+         <br><br>
+         <div>
+              <input type="submit" value="Valider" id="valider"/>
+              <input type="reset" value="Annuler" id="t_annuler"/>
+         </div>   
+    </form>  
+    </div>
+</div>
+<script>
+    
+$(document).ready(function ()
+{
+   document.getElementById('type_creneau').disabled=true; 
+   document.getElementById('type_acteur').disabled=true;
+   
+   $('#t_annuler').click(function()
+   {
+   document.getElementById('type_creneau').disabled=true; 
+   document.getElementById('type_acteur').disabled=true;    
+   });
+   
+   $.get(
+        '/eu-contrat/typecontrat',
+        function success(data)
+        {
+          var options = '<option value=""></option>';
+          for( var i = 0; i < data.length; i++) {
+          options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+          }
+          $('select#type_contrat').html(options);
+        });
+        
+     $.get(
+        '/eu-contrat/typecreneau',
+        function success(data)
+        {
+             var options = '<option value=""></option>';
+             for( var i = 0; i < data.length; i++) {
+             options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+             }
+             $('select#type_creneau').html(options);
+        });  
+        
+     $.get(
+        '/eu-contrat/typeacteur',
+        function success(data)
+        {
+             var options = '<option value=""></option>';
+             for( var i = 0; i < data.length; i++) {
+             options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+             }
+             $('select#type_acteur').html(options);
+        });  
+        
+        $.get(
+        '/eu-contrat/pays',
+        function success(data)
+        {
+             var options = '<option value=""></option>';
+             for( var i = 0; i < data.length; i++) {
+             options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+             }
+             $('select#pays').html(options);
+        });
+   
+   
+   
+   $('#type_contrat').change(function()
+   {
+         if($('select#type_contrat').val()=='3') {
+           document.getElementById('type_creneau').disabled=false;
+        }
+        else 
+        {
+          document.getElementById('type_creneau').disabled=true;
+          $('#type_creneau').val('');
+          document.getElementById('type_acteur').disabled=true;
+          $('#type_acteur').val('');
+        }
+   })
+     
+   $('#type_creneau').change(function()
+   {
+        if( $('select#type_creneau').val() !='' ) {
+          document.getElementById('type_acteur').disabled=false;
+        }
+        else 
+        {
+          document.getElementById('type_acteur').disabled=true;
+        }
+   })
+})
+    $('#submit').button();
+    $('#cancel').button();
+    $('#valider').button();
+    $('#t_annuler').button();
+    $("#fm_contrat").validationEngine(); 
+</script>    

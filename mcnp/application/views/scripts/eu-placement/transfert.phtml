@@ -1,0 +1,201 @@
+<div id="view-content" title="Transfert de code SMS" style="font-size: 12px;min-height: 520px;">
+    <form id="new_capa_form" method="post" action="/eu-placement/new">
+        <table id="tab_capa" style="width: 670px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+            <tr>
+                <td colspan="2">
+                    <fieldset>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label>Type de transfert</label></td>
+                                    <td>
+                                        <select id="type_transfert" name="type_transfert">
+                                            <option value="CAPA">CAPA</option>
+                                            <option value="CPS">CPS</option>
+                                            <option value="FL">Frais de licences</option>
+                                            <option value="FKIT">Frais de kits</option>
+                                            <option value="MF107">Membres Fondateurs 107</option>
+                                            <option value="MF11000">Membres Fondateurs 11000</option>
+                                            <option value="Autes">Autres Frais</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label>Numéro Reçu </label></td>
+                                    <td><input id="num_recu" name="num_recu" value="" required="true" size="30"/></td>
+                                    <td>
+                                        <select class="validate[required]" type="text" id="dev_capa" name="dev_capa" value=""></select>
+                                    </td>
+                                </tr>
+                                <tr><td><label>Montant du transfert</label></td><td><input id="mont_transfert" name="mont_transfert" value="" required="true" size="30"/></td></tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <fieldset>
+                        <legend>Destinataire</legend>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label>Code membre</label></td><td><input id="membre_dest" name="membre_dest" value="" size="30"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="nom_membre">Nom Membre * :</label></td>
+                                    <td>
+                                        <input readonly="true" class="validate[required]" type="text" id="nom_membre" name="nom_membre" value="<?php echo $this->nom_membre; ?>" size="30"/>
+                                    </td>
+                                    <td><label for="prenom_membre">Prénoms  * :</label>
+                                        <input readonly="true" class="validate[required]" type="text" id="prenom_membre" name="prenom_membre" value="<?php echo $this->prenom_membre; ?>" size="30"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label>Numéro Téléphone</label></td><td><input id="tel_dest" name="tel_dest" value="" size="30" required="true"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <fieldset>
+                        <legend>Compte de transfert</legend>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label>Code Compte</label></td><td><input id="compte_transfert" name="compte_transfert" value="<?php echo $this->code_compte; ?>" disabled="true" size="35"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Solde</label></td><td><input id="solde_transfert" name="solde_transfert" value="<?php echo $this->solde; ?>" disabled="" size="35"/></td><td><button id="addTransfert" name="addTransfert">+</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+            <tr><td></td><td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td></tr>
+        </table>
+    </form>
+    <div id="pdialog">
+        <form>
+            <table>
+                <tbody>
+                    <tr>
+                        <td><label>Type de transfert :</label></td>
+                        <td><input type="text" id="type_trans" name="type_trans" readonly="true"/></td>
+                    </tr>
+                    <tr>
+                        <td><label>Montant :</label></td>
+                        <td><input type="text" id="mont_trans" name="mont_trans" readonly="true"/></td>
+                    </tr>
+                    <tr>
+                        <td><label>Numéro Téléphone :</label></td>
+                        <td><input type="text" size="30" id="tel" name="tel" readonly="true"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+            $("#pdialog").dialog({
+                autoOpen: false,
+                height: 250,
+                width: 450,
+                title: 'Confirmez-vous cette opération ?',
+                modal: true,
+                buttons: {
+                    "OUI": function() {
+                        $.get('/eu-placement/dotransfert', {
+                            tel_dest: $('#tel_dest').val(),
+                            mont_transfert: $('#mont_transfert').val(),
+                            code_recu:$('#num_recu').val(),
+                            type_transfert:$('#type_transfert').val(),
+                            num_recu:$('#num_recu').val(),
+                            code_envoi: $('#compte_transfert').val(),
+                            code_dev : $('#dev_capa').val()
+                        },
+                        function success(data) {
+                            if (data === true) {
+                                alert('Opération effectuée avec succes');
+                                $(location).attr("href", "/eu-placement/transfert");
+                            } else {
+                                $('#message').html(data);
+                            }
+                        });
+                        $(this).dialog("close");
+                    },
+                    "NON": function() {
+                        $(this).dialog("close");
+                    }
+                },
+                close: function() {
+                    //allFields.val( "" ).removeClass( "ui-state-error" );
+                }
+            }
+        );
+        });
+        
+        $("#val").button().click(function(e) {
+            e.preventDefault();       
+            if($('#mont_transfert').val() !== '' && $('#tel_dest').val() !== ''){
+                $('#tel').val($('#tel_dest').val());
+                $('#mont_trans').val($('#mont_transfert').val());
+                $('#type_trans').val($('#type_transfert').val());
+                $("#pdialog").dialog("open");
+            }else{
+                alert('Renseignez les champs Téléphone et Montant transfert');
+            }
+        });
+        
+        $.get('/eu-placement/membre',
+        {type: '%'},
+        function success(data)
+        {
+            $('#membre_dest').autocomplete({"source": data,
+                change: displayItem});
+        });
+
+        function displayItem()
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                '/eu-placement/recuptel',
+                {
+                    num_membre: $(this).val()
+                },
+                function success(data)
+                {
+                    $("#nom_membre").val(data['nom']);
+                    $("#prenom_membre").val(data['prenom']);
+                    $("#pl_raison").val(data['raison']);
+                    $("#tel_dest").val(data['cel']);
+                });
+            }
+        }
+        
+        $.get(
+        '/eu-placement/devise',
+        function success(data)
+        {
+            var options = '';
+            for( var i = 0; i < data.length; i++) {
+                if(data[i] === 'XOF'){
+                    options += '<option value="' + data[i] + '" selected>' + data[i] +' </option>'; 
+                }else{
+                    options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+                }
+                
+            }
+            $('select#dev_capa').html(options);
+        });
+    });
+</script>

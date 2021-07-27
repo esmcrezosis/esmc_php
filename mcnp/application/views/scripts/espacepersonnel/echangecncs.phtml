@@ -1,0 +1,82 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capas.js"></script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+<?php 
+$type = $sessionmembre->type;
+$desctype = $sessionmembre->desctype;
+?>
+                        
+                        
+  <blockquote>
+    <p>Echange - <strong>CNCS - RPG</strong></p></blockquote>
+<form method="post" enctype="multipart/form-data" class="well form-horizontal" id="apa">
+    <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin != ""){?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+	</div>
+	<?php }?>
+  
+<div class="controls">
+    <label class="radio inline">
+  <input type="radio" name="compte" id="compter" value="CNCSr"  required>
+  CNCSr
+</label>
+<label class="radio inline">
+  <input type="radio" name="compte" id="comptenr" value="CNCSnr" required>
+  CNCSnr
+</label>
+    </div>
+    
+      <div class="control-group">
+    <label class="control-label" for="solde">Solde *</label>
+    <div class="controls">
+      <input type="hidden" name="solde" id="solde" <?php if(isset($this->compte_solde) && $this->compte_solde!=""){?> value="<?php echo $this->compte_solde; ?>"<?php }?>>
+      <input type="text" name="solde1" id="solde1" placeholder="Solde" readonly <?php if(isset($this->compte_solde) && $this->compte_solde!=""){?> value="<?php echo $this->compte_solde; ?>"<?php }?>>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="membre_benef">Bénéficiaire *</label>
+    <div class="controls">
+      <input type="text" name="membre_benef" id="membre_benef" placeholder="Code Membre Bénéficiaire" required>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="montant">Montant à échanger *</label>
+    <div class="controls">
+      <input type="text" name="montant" id="montant" placeholder="Montant à échanger" required>
+    </div>
+  </div>
+  
+<div class="form-actions">
+              <input name="ok" type="hidden" value="ok" />
+  <button type="reset" class="btn">Annuler</button>
+      <button type="submit" class="btn btn-primary">Echanger</button>
+</div>  
+</form>
+
+
+
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

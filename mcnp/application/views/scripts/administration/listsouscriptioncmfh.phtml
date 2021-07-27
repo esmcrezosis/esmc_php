@@ -1,0 +1,111 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des souscriptions CMFH : <?php $type_candidatM = new Application_Model_DbTable_EuTypeCandidat();
+        $type_candidat = $type_candidatM->find($this->type);
+		$row = $type_candidat->current();
+echo $row->libelle_type_candidat;?></p></blockquote>
+
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+						  <thead>
+							  <tr>
+								  <th>Date</th>
+								  <th>Nom & prénom(s) / Raison sociale</th>
+								  <th>Cellulaire</th>
+								  <th>E-mail</th>
+								  <th>Programme</th>
+								  <th>Nombre</th>
+								  <th>Montant</th>
+								  <th>Domaine</th>
+								  <th>Métier</th>
+								  <th>Compétence</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php echo ($entry->souscription_date); ?></td>
+      <td><?php if($entry->souscription_personne == "PP"){?><?php echo ($entry->souscription_nom); ?> <?php echo ($entry->souscription_prenom); ?><?php }else{?><?php echo ($entry->souscription_raison); ?><?php }?></td>
+      <td><?php echo ($entry->souscription_mobile); ?></td>
+      <td><?php echo ($entry->souscription_email); ?></td>
+      <td><?php echo ($entry->souscription_programme); ?></td>
+      <td><?php echo ($entry->souscription_nombre); ?></td>
+      <td><?php echo ($entry->souscription_montant); ?></td>
+      <td><?php if($entry->code_activite > 0){
+        $activiteM = new Application_Model_DbTable_EuActivite();
+        $activite = $activiteM->find($entry->code_activite);
+		$row = $activite->current();
+echo $row->nom_activite;} ?></td>
+      <td><?php if($entry->id_metier > 0){
+        $metierM = new Application_Model_DbTable_EuMetier();
+        $metier = $metierM->find($entry->id_metier);
+		$row = $metier->current();
+echo $row->libelle_metier;} ?></td>
+      <td><?php if($entry->id_competence > 0){
+        $competenceM = new Application_Model_DbTable_EuCompetence();
+        $competence = $competenceM->find($entry->id_competence);
+		$row = $competence->current();
+echo $row->libelle_competence;} ?></td>
+      <td><div align="center">
+<?php if($this->type == 9){?>
+<?php 
+        $integrateurM = new Application_Model_EuIntegrateurMapper();
+        $integrateur = $integrateurM->fetchAllBySouscription($entry->souscription_id);
+if($integrateur->integrateur_document != ""){?>
+<!--<a href="<?php echo $this->baseUrl();?>/<?php echo $integrateur->integrateur_document;?>"><button type="button" class="btn">CV</button></a>-->
+<?php } ?>
+<?php } ?>
+      </div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune souscription enrégistrée 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

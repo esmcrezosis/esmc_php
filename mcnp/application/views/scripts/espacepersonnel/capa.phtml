@@ -1,0 +1,35 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capas.js"></script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Création du CAPA <small> Création du Capital Achat du Pouvoir d'Achat </small></p></blockquote>
+    <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin != "") { ?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+	</div>
+	<?php } ?>
+    
+<form action="" method="post" class="well form-inline" id="capa">
+	  Code SMS  
+      <input name="creditcode" type="text" id="creditcode" placeholder="Entrer le Code SMS reçu" class="input-large">
+      <span id="niv2"><button type="button" class="btn btn-info" onclick="ouvre_capas(document.getElementById('creditcode').value);">Vérifier</button></span>             
+</form>
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

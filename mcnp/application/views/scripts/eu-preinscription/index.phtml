@@ -1,0 +1,91 @@
+<div id="view-content" title="Membres" style="font-size:11px;min-height: 520px;">
+	 <div style="margin-bottom: 3px;">
+        <form action="/eu-preinscription/index" method="POST" enctype="multipart/form-data">
+            <input id="p_editer" type="button" value="Editer" class="ui-widget button"/>
+            <input id="p_detail" type="button" value="Afficher" class="ui-widget button"/>
+            <input type="text" id="membrep" name="membrep" size="35"/>
+            <input id="recherchep" type="button" value="Recherche"/>
+        </form>  
+    </div>
+    <table id="tbl-membre"></table>
+    <div id="pg-membre"></div>  
+</div>
+<script type="text/javascript">
+$(function() {
+  $('#view-content').puipanel();
+});
+$("#tbl-membre").jqGrid({
+        url: "/eu-preinscription/datap",
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Numero','Nom', 'Prenom', 'Sexe', 'Profession', 'Telephone', 'Ville'],
+        height:400, width: 815,
+        colModel: [
+            {name: 'code_membre', index: 'code_membre', width: 240, sorttype: "int", editable: true, align: "left"},
+            {name: 'nom_membre', index: 'nom_membre', width: 200, editable: true, align: "left"},
+            {name: 'prenom_membre', index: 'prenom_membre', width: 200, align: "left", editable: true},
+            {name: 'sexe_membre', index: 'sexe_membre', width: 70, editable: true, align: "left"},
+            {name: 'profession_membre', index: 'profession_membre', width: 150, align: "left", editable: true},
+            {name: 'tel_membre', index: 'tel_membre', width: 120, align: "left", editable: true},
+            {name: 'ville_membre', index: 'ville_membre', width: 140, align: "left", editable: true}
+        ],
+        rowNum: 200000,
+        rowList: [200000, 400000, 600000],
+        pager: '#pg-membre',
+        sortname: "code_membre",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste des membres personnes physiques preinscrits enroles",
+        onSelectRow: function(id) {
+            if (id) {
+                var data = jQuery('#tbl-membre').getRowData(id);
+                $('#code_membre').val(data.code_membre);
+                lastSel = id;
+            }
+            ;
+        }
+    });
+    $("#tbl-membre").jqGrid('navGrid', '#pg-membre', {edit: false, add: false, del: false, search: true});
+    
+	$('#p_editer').button();
+    $('#p_detail').button();
+    $('#recherchep').button();
+    $('#membrep').button();
+	
+	 
+	$('#p_editer').click(function() {
+        var rowsel;
+        rowsel = jQuery("#tbl-membre").jqGrid('getGridParam','selrow');
+        if(rowsel) {
+            $.get('/eu-preinscription/pedit',{
+                membre:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        } else {
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+	
+	$('#recherchep').click(function() {
+       membre=$('#membrep').val(); 
+       jQuery("#tbl-membre").jqGrid('setGridParam',{url:"/eu-preinscription/datap?membre="+membre}).trigger('reloadGrid');
+    });
+	
+	
+    $('#p_detail').click(function() {
+        var rowsel;
+        rowsel = jQuery("#tbl-membre").jqGrid('getGridParam','selrow');
+        if(rowsel) {
+            $.get('/eu-preinscription/detail',{
+                membre:rowsel
+            },function success(data){
+                $("#content").html(data);
+            });
+        } else {
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+	
+</script>

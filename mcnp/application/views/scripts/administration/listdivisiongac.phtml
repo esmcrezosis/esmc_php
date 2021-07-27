@@ -1,0 +1,89 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur'); ?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des têtes de division pour la gestion d'actions communes </p></blockquote>
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error !="") { ?>
+  <div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+  <?php } ?>
+
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+<?php if(count($this->entries) > 0) { ?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:9px;">
+						  <thead>
+							  <tr>
+							      <th>Code Membre Tete de Division</th>
+								  <th>Désignation Tête de Division</th>
+								  <th>Libelle Division</th>
+								  <th>Type Division</th>
+								  <th>Nom Gac</th>
+							  </tr>
+						  </thead>  
+<tbody>
+<?php foreach($this->entries as $entry): 
+$gac = new Application_Model_EuGac();
+$gac_mapper = new Application_Model_EuGacMapper();
+$gac_mapper->find($entry->code_gac,$gac);
+?>
+    <tr>
+      <td><?php echo $entry->code_membre; ?></td>
+      <td><?php echo $entry->nom_division; ?></td>
+      <td><?php echo $entry->libelle_division; ?></td>
+      <td><?php echo $entry->type_division; ?></td>
+      <td><?php echo $gac->nom_gac;?></td>	  
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucune division de gac enregistrée
+</div>
+<?php } ?>
+
+
+
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

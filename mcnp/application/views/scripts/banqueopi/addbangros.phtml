@@ -1,0 +1,143 @@
+<?php $sessionbanqueopi = new Zend_Session_Namespace('banqueopi');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/decoupage1.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bsics.js"></script>
+            
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques2.js"></script>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/fondateurs.js"></script><?php */?>
+<?php /*?><script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capasenrolement.js"></script><?php */?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banquespays.js"></script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+<?php include("../application/layouts/scripts/menubanqueopi.phtml"); ?>
+
+<?php 
+$banque = new Application_Model_EuBanque();
+$banque_mapper = new Application_Model_EuBanqueMapper();
+$banque_mapper->find($sessionbanqueopi->code_banque, $banque);
+          
+$membre_morale = new Application_Model_EuMembreMorale();
+$membre_morale_mapper = new Application_Model_EuMembreMoraleMapper();
+$membre_morale_mapper->find($banque->code_membre_morale, $membre_morale);
+
+
+ ?>
+
+<blockquote><p>Souscription au Bon d'Achat neutre (BAn) en gros</p></blockquote>
+  <?php if(isset($sessionbanqueopi->error) && $sessionbanqueopi->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionbanqueopi->error; $sessionbanqueopi->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+    <?php if(isset($sessionbanqueopi->code_BAn) && $sessionbanqueopi->code_BAn != "") { ?>
+<blockquote>
+  <a href="/souscriptionbon/bonachatneutrepdf/code/<?php echo $sessionbanqueopi->code_BAn; ?>" target="_blank"><span style="color:#800080;">Télécharger votre Bon d'Achat neutre (<strong>BAn</strong>)</span></a> <br /><br />
+
+  <?php $sessionbanqueopi->code_BAn = "";?>
+</blockquote>
+  <?php } ?>
+
+  <?php if(!isset($sessionbanqueopi->code_BAn) || $sessionbanqueopi->code_BAn == "") { ?>
+              <blockquote>Informations concernant le versement à la banque</blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsouscription1" name="addsouscription1">
+<fieldset>
+<legend>Remplir le formulaire : Le versement à la banque</legend>
+  
+<div class="control-group">
+<label class="control-label" for="bon_neutre_banque">Moyen de payement *</label>
+<div class="controls">
+<select name="bon_neutre_banque" id="bon_neutre_banque"  required="required">
+        <?php $tbanque = new Application_Model_DbTable_EuBanque();
+        $select = $tbanque->select();
+        $select->where('code_membre_morale IS NOT NULL');
+        $select->where("code_membre_morale != ''");
+        $results = $tbanque->fetchAll($select);
+        ?>
+  <option value="">Choisir le moyen</option>
+    <?php foreach ($results as $banque): ?>
+               <option value="<?php echo $banque->code_banque; ?>"><?php echo ($banque->libelle_banque); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_numero">Numéro de reçu de banque ou Numéro de transaction  * </label>
+<div class="controls">
+  <input type="text" name="bon_neutre_numero" id="bon_neutre_numero" placeholder="Numero de reçu de banque ou Numéro de transaction" class="input-xxlarge"  required="required" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_date_numero">Date de reçu de banque ou de transaction  * </label>
+<div class="controls">
+  <input type="text" name="bon_neutre_date_numero" id="bon_neutre_date_numero" placeholder="Date de reçu de banque ou de transaction" class="input-xxlarge datepicker" data-provide="datepicker"  required="required" readonly />
+<span class="help-block"><p class="text-error">Cliquez dans le champ pour choisir la date du reçu de banque ou de transaction</p></span>
+</div>
+</div>
+  
+  <div class="control-group">
+<label class="control-label" for="bon_neutre_montant">Montant du versement à la banque ou de la transaction * </label>
+<div class="controls">
+  <input type="number" name="bon_neutre_montant" id="bon_neutre_montant" placeholder="Montant du versement à la banque ou de la transaction" class="input-xxlarge"  required="required" />
+<span class="help-block"><p class="text-error">Veuillez saisir le montant de votre reçu de banque ou de la transaction</p></span>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="caution">Avec ou Sans Caution *</label>
+<div class="controls">
+<select name="caution" id="caution"  required="required">
+  <option value="">Choisir </option>
+  <option value="SansCommission">Avec Caution</option>
+  <option value="AvecCommission">Avec Commission</option>
+</select>
+</div>
+</div>
+
+
+</fieldset>
+<div class="form-actions">
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer la souscription au Bon d'Achat neutre BAn en gros</button>
+</div>
+ 
+                            
+  
+</form>
+  <?php } ?>
+
+    
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

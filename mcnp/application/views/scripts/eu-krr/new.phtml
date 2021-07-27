@@ -1,0 +1,90 @@
+<div id="view-content" title="Rconstitution du CAPA" style="font-size: 12px;min-height: 520px;">
+    <form action="<?php echo $this->url(); ?>" method="<?php echo $this->form->getMethod(); ?>" enctype="<?php echo $this->form->getEnctype(); ?>" > 
+        <fieldset style="margin-bottom: 2px;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td><label>Type Crédit :</label></td>
+                        <td><?php echo $this->form->getElement("code_produit"); ?></td>
+                        <td><label>Code membre :</label></td>
+                        <td><input readonly="true" size="30" name="code_membre" id="code_membre" value="<?php 
+						    $auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin'));
+		                    $user = $auth->getIdentity(); 
+						    echo $user->code_membre; ?>"/> 
+						</td>
+                        <td><?php echo $this->form->getElement("val"); ?></td>
+                        <td><?php echo $this->form->getElement("annuler"); ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </form>
+    <input id="ajouter" type="button" value="Ajouter" style="margin-bottom: 4px;">
+    <table id="tbl-credit"></table>
+    <div id="pg-credit"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-credit").jqGrid({
+        url: '<?php echo $this->url(array('action' => 'demande')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['','Membre', 'Produit', 'Montant', 'Crédit', 'Date Fin'],
+        height: 250, width: 800,
+        colModel: [
+		    {name: 'id_credit', index: 'id_credit', width: 15, editable: false, align: "left",hidden:true},
+            {name: 'code_membre', index: 'code_membre', width: 180, editable: false, align: "left"},
+            {name: 'code_produit', index: 'code_produit', width: 120, align: "left", editable: false},
+            {name: 'montant_place', index: 'montant_place', width: 150, align: "left", editable: false},
+            {name: 'montant_credit', index: 'montant_credit', width: 150, align: "left", editable: false},
+            {name: 'datefin', index: 'datefin', width: 120, align: "left", editable: false}
+        ],
+        rowNum: 1000,
+        rowList: [1000, 2000, 3000],
+        rownumbers: true,
+        pager: '#pg-credit',
+        sortname: "datefin",
+        viewrecords: true,
+        multiselect: true,
+        sortorder: "ASC",
+        caption: "Compte des crédits"
+    });
+    $("#tbl-credit").jqGrid('navGrid', '#pg-credit', {edit: false, add: false, del: false, search: true});
+
+    $(document).ready(function() {
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+        $('#val').click(function()
+        {
+            jQuery("#tbl-credit").jqGrid('setGridParam', {url: "/eu-krr/demande?membre=" + $('#code_membre').val() + "&produit=" + $('#code_produit').val()}).trigger('reloadGrid');
+        });
+    });
+    $('#ajouter').click(
+            function() {
+                var sel;
+                sel = jQuery("#tbl-credit").jqGrid('getGridParam', 'selarrrow');
+				var tab = new Array();
+				var rowsel;
+                rowsel = jQuery("#tbl-credit").jqGrid('getGridParam','selrow');
+				for(var i=0; i <sel.length; i++) {
+                    tab[i]=jQuery("#tbl-credit").jqGrid('getRowData',sel[i]);   
+                };
+				if(rowsel) { 
+                   $.get('/eu-krr/create', {
+                     lignes:tab
+                   },
+                    function success(data) {
+                      if (data === true) {
+                         alert('Opération effectuée avec succes');
+						 $(location).attr("href", "/eu-krr/index");
+                      } else {
+                         alert("Echec de l'opération");
+                      }
+                    });
+				} else {
+                   alert('Aucun crédit  sélectionné');
+                }
+            }
+    );
+
+</script>

@@ -1,0 +1,164 @@
+<div id="view-content" title="Vue des unités MF107" style="font-size: 10px">
+    <div id="tab_mf" style="padding: 1px;">
+        <ul>
+			<li><a href="#tab_mf_detail">Détails Unités MF107</a></li>
+        </ul>
+		
+		<div id="tab_mf_detail" style="padding: 1px;">
+		    <div id="tab_detail" style="padding: 1px;">
+                <ul>
+				    <li><a href="#detail_recap">Récapitulatif</a></li>
+                    <li><a href="#detail_mf107">Détails MF107</a></li>					
+                </ul>
+				
+				<div id="detail_recap" style="padding: 3px;">
+                    <form id="mf107_form" method="POST" action="/consultation/mf107">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre</label></td>
+									<td><input id="code_membre_recap" name="code_membre_recap" type="text" size="25" value="<?php echo $this->code_membre; ?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_recap" name="design_membre_recap" type="text" size="25" value="<?php echo $this->designation;?>" /></td>
+									<td></td><td><input type="submit" id="val_recap" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+					<br>
+					<table border="1" width="200" style="margin-right: auto;margin-left: auto; margin-bottom: 3px;">
+                            <thead>
+				            <tr>
+                              <th><label style="text-align: center;width: 280px; font-size: 9px;font-family:Arial Black">Solde MF107</label></th>							  
+                            </tr>
+				            </thead>   
+                            <tbody>
+                            <tr>
+                              <td><label><?php echo number_format($this->soldemf107,0,',',' ');?></label></td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+				
+				<div id="detail_mf107" style="padding: 3px;">
+                    <form id="mf107_form" method="POST" action="">
+                        <table style="margin-left: 80px;">
+                            <thead/>
+                            <tbody>
+								<tr>
+								    <td><label style="text-align: right">Code membre </label></td>
+									<td><input id="code_membre_mf107" name="code_membre_mf107" type="text" size="25" value="<?php echo $this->code_membre;?>"/></td>
+									<td><label style="text-align: right">Désignation membre</label></td>
+									<td><input id="design_membre_mf107" name="design_membre_mf107" type="text" size="25" value="<?php echo $this->designation;?>"/></td>
+									<td></td><td><input type="submit" id="val_mf107" value="valider"/></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <table id="tbl-mf107"></table>
+                    <div id="pg-mf107"></div>
+                </div>
+            </div>    
+		</div>
+		
+    </div>
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $("#tab_mf").tabs();
+    $("#tab_detail").tabs();
+	$('#view-content').puipanel();
+	
+	
+	$.get("/consultation/membre",
+        function success(data) {
+        $('#code_membre_recap').autocomplete({"source": data,change: displayItem});
+    });
+	
+	
+	function displayItem() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_recap").val(data[0]);
+            });
+        }
+    }
+	
+	
+	$.get("/consultation/membre",
+        function success(data) {
+        $('#code_membre_mf107').autocomplete({"source": data , change: displayItemmf107});
+    });
+	
+	
+	function displayItemmf107() {
+        if ($(this).val() !== '') {
+            $.get(
+            '/consultation/recupnom',{
+                num_membre: $(this).val()
+            },
+            function success(data) {
+                $("#design_membre_mf107").val(data[0]);
+            });
+        }
+    }
+	
+	
+	$('#val_mf107').click(function(e) {
+      jQuery("#tbl-mf107").jqGrid('setGridParam',{url: "/consultation/detailmf107?code_membre=" + $('#code_membre_mf107').val()}).trigger('reloadGrid');
+      e.preventDefault();
+    });
+});
+
+
+$("#tbl-mf107").jqGrid({
+    url: '',
+    datatype: "json",
+    mtype: 'GET',
+    colNames: ['','Apporteur','Type','Montant apporté','% Perçu','Montant reçu','Montant utilisé','Solde'],
+    height: 320, width: 800,
+    colModel: [
+	  {name: 'id_rep',index:'id_rep',width:60,editable:false,align:"left",hidden: true},
+      {name: 'code_membre', index: 'code_membre', width: 160, align: "left", editable: false},
+      {name: 'origine_sms', index: 'origine_sms', width: 60, align: "left", editable: false},
+	  {name: 'mont_apport', index: 'mont_apport', width: 110, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+	  {name: 'pourcentage', index: 'pourcentage', width: 60, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+      {name: 'mont_rep', index: 'mont_rep', width: 110, align: "left", editable: false, formatter:"number", summaryType:'sum'},
+	  {name: 'mont_reglt', index: 'mont_reglt', width: 110, align: "left", editable: false, formatter:"number",summaryType:'sum'},
+	  {name: 'solde_rep', index: 'solde_rep', width: 100, align: "left", editable: false, formatter:"number",summaryType:'sum'}
+    ],
+    rowNum: 100000,
+    rowList: [100000, 2000000, 3000000],
+    rownumbers: true,
+    pager: '#pg-mf107',
+    sortname: "id_rep",
+    viewrecords: true,
+    sortorder: "ASC",
+    footerrow: true, userDataOnFooter: true,
+    grouping: true, 
+    caption: "Détails Unités MF107"
+});
+$("#tbl-mf107").jqGrid('navGrid','#pg-mf107',{edit:false,add:false,del:false,search:true});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

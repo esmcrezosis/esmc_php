@@ -1,0 +1,301 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<style> 
+    /* CUSTOMIZE THE CAROUSEL
+    -------------------------------------------------- */
+
+    /* Carousel base class */
+    .carousel {
+      margin-bottom: 20px;
+    }
+
+    .carousel .container {
+      position: relative;
+      z-index: 9;
+    }
+
+    .carousel-control {
+      /*height: 80px;*/
+      margin-top: 0;
+      /*font-size: 120px;*/
+      text-shadow: 0 1px 1px rgba(0,0,0,.4);
+      /*background-color: transparent;*/
+      border: 0;
+      z-index: 10;
+    }
+    .carousel .item {
+      height: 350px;
+        width: auto;
+    }
+    .carousel img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      height: 350px;
+        width: auto;
+    }
+
+    .carousel-caption {
+		background: rgba(0, 0, 0, 0.75);
+      /*background-color: transparent;*/
+      /*position: static;*/
+      /*max-width: 250px;*/
+      padding: 0 20px;
+      margin-top: 0px;
+    }
+
+    .carousel-caption h4,
+    .carousel-caption .lead p {
+      margin: 0;
+      line-height: 1.25;
+      color: #fff;
+      text-shadow: 0 1px 1px rgba(0,0,0,.4);
+    }
+    .carousel-caption .btn {
+      margin-top: 0px;
+    }
+
+
+/*
+*/
+
+
+
+    /* MARKETING CONTENT
+    -------------------------------------------------- */
+
+    /* Center align the text within the three columns below the carousel */
+    .marketing .span4 {
+      text-align: center;
+    }
+    .marketing h2 {
+      font-weight: normal;
+    }
+    .marketing .span4 p {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+
+    /* Featurettes
+    ------------------------- */
+
+    .featurette-divider {
+      margin: 40px 0; /* Space out the Bootstrap <hr> more */
+    }
+    .featurette {
+      padding-top: 30px; /* Vertically center images part 1: add padding above and below text. */
+      overflow: hidden; /* Vertically center images part 2: clear their floats. */
+    }
+    .featurette-image {
+      margin-top: -30px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
+    }
+
+    /* Give some space on the sides of the floated elements so text doesn't run right into it. */
+    .featurette-image.pull-left {
+      margin-right: 30px;
+    }
+    .featurette-image.pull-right {
+      margin-left: 30px;
+    }
+
+    /* Thin out the marketing headings */
+    .featurette-heading {
+      font-size: 30px;
+      font-weight: 200;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+
+
+
+</style>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+	<?php /////////////////PUB BOX////////////////
+$date = Zend_Date::now();
+$publicite = new Application_Model_EuPubliciteMapper();
+$entries = $publicite->fetchAll5(1, 1);
+if(count($entries) > 0){?>
+      <div id="myCarousel" class="carousel slid">
+                <ol class="carousel-indicators">
+				<?php for ($i = 0; $i < count($entries); $i++){?>
+                  <li data-target="#myCarousel" data-slide-to="<?php echo $i; ?>" <?php if($i == 0){?> class="active"<?php }?>></li>
+				  <?php }?>
+                </ol>
+                <div class="carousel-inner">
+                <?php $a = 0;?>
+<?php foreach ($entries as $value) {?>
+<?php $a++;?>
+<?php 
+/*$datedebut = $value->date_publicite;
+$datefin = $date->toString('yyyy-MM-dd');
+
+list($datedebut,$heure) = explode(' ', $datedebut);
+
+list($annee1,$mois1,$jour1) = explode('-', $datedebut);
+switch(strtolower($mois1)) { 
+    case 'jan': $mois1 = '01'; break; 
+    case 'feb': $mois1 = '02'; break; 
+    case 'mar': $mois1 = '03'; break; 
+    case 'apr': $mois1 = '04'; break; 
+    case 'may': $mois1 = '05'; break; 
+    case 'jun': $mois1 = '06'; break; 
+    case 'jul': $mois1 = '07'; break; 
+    case 'aug': $mois1 = "08"; break; 
+    case 'sep': $mois1 = "09"; break; 
+    case 'sept': $mois1 = "09"; break; 
+    case 'oct': $mois1 = '10'; break; 
+    case 'nov': $mois1 = '11'; break; 
+    case 'dec': $mois1 = '12'; break; 
+  } 
+$datedebut = date("Y-m-d", mktime(0, 0, 0, $mois1, $jour1, $annee1));
+ 
+list($annee1,$mois1,$jour1) = explode('-', $datedebut);
+list($annee2,$mois2,$jour2) = explode('-', $datefin);
+
+$timestamp1 = mktime(0,0,0,$mois1,$jour1,$annee1); 
+$timestamp2 = mktime(0,0,0,$mois2,$jour2,$annee2); 
+$duree = intval(abs($timestamp2 - $timestamp1)/86400); 
+
+if($duree <= $value->duree_publicite){*/
+?>
+                  <div class="item  <?php if($a == 1){?> active<?php }?>">
+                    <a href="http://<?php echo ($value->lien_publicite); ?>" target="_blank"><img src="<?php echo $this->baseUrl(); ?>/<?php echo ($value->desc_publicite); ?>" alt="<?php echo ($value->libelle_publicite); ?>" width="1170" height="350" /></a>
+                    <div class="carousel-caption">
+                      <h4><a href="http://<?php echo ($value->lien_publicite); ?>" target="_blank"><?php echo ($value->libelle_publicite); ?></a></h4>
+                    </div>
+                  </div>
+<?php //}?>
+<?php }?>
+                </div>
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+              </div>
+
+      <hr />
+<?php }?>
+</div>
+
+  <div class="span3">
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+  <br />
+
+<div class="thumbnail" id="box12">
+    <div class="boxicone"><span class="icon"><i class="icon-globe" style="margin-top:9px;"></i></span></div>
+<?php if(substr($sessionmembre->code_membre, -1) == "P"){?>
+      <h4 id="box13"><a href="<?php echo $this->baseUrl();?>/espacepersonnel">Espace Personnel</a></h4>
+<?php }else if(substr($sessionmembre->code_membre, -1) == "M"){?>
+      <h4 id="box13"><a href="<?php echo $this->baseUrl();?>/espacepersonnel">Espace Professionnel</a></h4>
+<?php }else{?>  
+      <h4 id="box13">Connexion</h4>
+<?php }?>  
+    <?php if(isset($sessionmembre->code_membre) && $sessionmembre->code_membre != ""){?>
+    <br />
+<small>
+<address>
+<?php if(substr($sessionmembre->code_membre, -1) == "P"){?>
+  <i class="icon-user"></i> <strong><?php echo htmlentities($sessionmembre->nom_membre); ?> <?php echo htmlentities($sessionmembre->prenom_membre); ?></strong><br /><br />
+<span class="label label-info"><?php echo $sessionmembre->code_membre; ?></span><br /><br />
+  Né le <?php echo $sessionmembre->date_nais_membre; ?> à <?php echo htmlentities($sessionmembre->lieu_nais_membre); ?><br />
+  <?php echo htmlentities($sessionmembre->profession_membre); ?><br />
+  
+<?php }else if(substr($sessionmembre->code_membre, -1) == "M"){?>
+
+  <i class="icon-home"></i> <strong><?php echo htmlentities($sessionmembre->raison_sociale); ?></strong><br />
+<span class="label label-info"><?php echo $sessionmembre->code_membre; ?></span><br />
+  <?php echo htmlentities($sessionmembre->domaine_activite); ?><br />
+
+<?php }?>  
+
+  <?php echo htmlentities($sessionmembre->quartier_membre); ?> - <?php echo htmlentities($sessionmembre->ville_membre); ?><br />
+  <abbr title="Boite Postale">BP:</abbr> <?php echo $sessionmembre->bp_membre; ?><br />
+  <abbr title="Téléphone">Tel:</abbr> <?php echo $sessionmembre->tel_membre; ?><br />
+  <abbr title="Portable">Cel:</abbr> <?php echo $sessionmembre->portable_membre; ?><br />
+  <abbr title="E-mail">E-mail:</abbr> <a href="mailto:<?php echo $sessionmembre->email_membre; ?>"><?php echo $sessionmembre->email_membre; ?></a>
+</address>
+ </small>
+<p></p>
+	<?php } else {?>
+<br />
+Pour accéder à votre <strong>Espace Personnel</strong>, veuillez saisir votre <strong>Code Membre</strong> et votre <strong>Code Secret</strong> puis cliquer sur <strong>Connexion</strong>.
+<br />
+
+<br />
+<form method="post" id="connexion" action="<?php echo $this->baseUrl();?>/espacepersonnel/login2">
+    <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin != ""){?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+	</div>
+	<?php }?>
+    <div class="controls">
+      <input name="code_membre" type="text" id="code_membre" placeholder="Votre Code Membre" />
+    </div>
+    <div class="controls">
+      <input name="codesecret" type="password" id="codesecret" placeholder="Votre Code Secret" />
+    </div>
+    <div class="controls">
+<br />
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <button type="submit" class="btn">Connexion</button>
+    </div>
+</form>
+<?php }?>
+    </div>  
+</div>
+
+</div>
+    <?php /*?><div class="alert alert-error">
+    <h2>La plateforme ESMC est momentanément en maintenance de 07h30 jusqu'à 12h00.</h2></div><?php */?>
+
+
+        <?php 
+        $page = new Application_Model_EuPageMapper();
+        $entriespage = $page->fetchAll4();
+	?>
+<?php if(count($entriespage)>0){?> 
+      <!-- Example row of columns -->
+<div class="container marketing">
+
+      <!-- Three columns of text below the carousel -->
+      <div class="row">
+<?php foreach ($entriespage as $entrypage): ?>
+        <div class="span4">
+          <?php if($entrypage->vignette != ""){?><img class="img-circle" src="<?php echo $this->baseUrl();?>/timthumb.php?src=<?php echo $this->baseUrl();?>/<?php echo ($entrypage->vignette); ?>&w=150&h=150&zc=1&q=100" /><?php }?>
+          <?php /*?><?php $menusous = new Application_Model_EuMenuSous();
+        $menusousM = new Application_Model_EuMenuSousMapper();
+        $menusousM->find($entrypage->menusous, $menusous);?>
+          <h2><?php echo ($menusous->menusous_libelle); ?></h2><?php */?>
+          <?php /*?><p><?php echo ($entrypage->resume); ?></p><?php */?>
+          <p><?php echo ($entrypage->description); ?></p>
+          <?php /*?><p><a class="link" href="<?php echo $this->baseUrl();?>/index/pageesmc/id/<?php echo $entrypage->id_page; ?>">Voir plus &raquo;</a></p><?php */?>
+        </div><!-- /.span4 -->
+<?php endforeach; ?>
+      </div><!-- /.row -->
+
+
+
+      <hr class="featurette-divider" />
+
+
+    </div>
+		<?php }?>
+
+<div class="span12">
+        <?php 
+$pageM = new Application_Model_EuPageMapper();
+$page = new Application_Model_EuPage();
+if($pageM->find(66, $page)){
+	?>
+    <p><?php echo ($page->description); ?></p>
+<?php }?>
+	<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+      <hr class="featurette-divider" />
+</div>
+
+</div>
+
+

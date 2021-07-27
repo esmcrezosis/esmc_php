@@ -1,0 +1,46 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Detail d'une tâche : <?php echo ($this->tache_type->tache_type_libelle); ?></p></blockquote>
+  
+    
+  <blockquote><?php echo $this->tache->tache_libelle; ?> 
+  <small><?php 
+$associationM = new Application_Model_EuAssociationMapper();
+$association = new Application_Model_EuAssociation();
+$associationM->find($this->tache->tache_asso, $association);
+?><?php echo ($association->association_nom); ?></small></blockquote>
+
+<div>
+<?php echo $this->tache->tache_description; ?>
+</div>
+
+<div>
+<?php //echo $this->tache->tache_url; ?>
+</div>
+
+
+<?php /*?><div>
+<a href="<?php echo $this->baseUrl();?>/<?php echo $this->tache->tache_url; ?>">Télécharger</a>
+</div><?php */?>
+
+
+
+</div>
+<?php /*?><div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div><?php */?>
+</div>
+</div>
+
+
+
+
+
+
+
+

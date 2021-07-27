@@ -1,0 +1,84 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p> Initier une lettre de restitution </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addlettre">
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error != "") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+  <?php } ?>
+
+<div class="control-group">
+<label class="control-label" for="code_membre"> Code Membre Fournisseur *</label>
+<div class="controls">
+<input class="input-block-level" type="text" name="code_membre" id="code_membre" placeholder="Code Membre" required />
+</div>
+</div> 
+  
+<div class="control-group">
+<label class="control-label" for="code_identification"> Code Immobilisation *</label>
+<div class="controls">
+<input value="<?php echo $this->fiche->code_identification; ?>" class="input-block-level" type="text" name="code_identification" id="code_identification" placeholder="Code Identification" readonly />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="code_membre"> Désignation Immobilisation *</label>
+<div class="controls">
+<input value="<?php echo $this->fiche->designation_immobilisation; ?>" class="input-block-level" type="text" name="designation_immobilisation" id="designation_immobilisation" placeholder="Désignation Immobilisation" readonly />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="code_membre"> Montant acquisition *</label>
+<div class="controls">
+<input value="<?php echo $this->fiche->valeur_acquisition; ?>" class="input-block-level" type="text" name="valeur_acquisition" id="valeur_acquisition" placeholder="Valeur Acquisition" readonly />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="motif">Contenu de la lettre * </label>
+<div class="controls">
+<textarea  name="motif" id="motif" placeholder="Contenu de la lettre" class="ckeditor" required></textarea>
+</div>
+</div>
+  
+ 
+<div class="form-actions">  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input type="hidden" name="id_fiche_immobilisation" id="id_fiche_immobilisation" placeholder="" value="<?php echo $this->fiche->id_fiche_immobilisation; ?>" />
+<button type="reset" class="btn"> Annuler </button>
+<button type="submit" id="submit" class="btn btn-primary"> Valider </button>
+</div>                           
+  
+</form>
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr.js"></script>
+<script type="text/javascript">
+outilqrformobligatoire("addlettre","submit");
+</script>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

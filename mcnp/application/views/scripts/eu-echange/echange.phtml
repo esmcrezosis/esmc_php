@@ -1,0 +1,184 @@
+<div id="view-content" title="Echange <?php echo $this->cat; ?>" style="font-size: 12px;min-height: 520px;">
+    <form id="echange_form" method="Post" action="/eu-echange/ech">
+        <table width="350" style="margin-left: 5px; margin-top: 10px;">
+            <tr>
+                <td style="text-align: right;"><label for="cat_echange">Echange du :</label></td>
+                <td><input type="text" id="cat_echange" name="cat_echange" value="<?php echo $this->type ?>" readonly="true"/></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="compte">Compte :</label></td>
+                <td>
+                    <select  id="compte" name="compte" value="<?php echo $this->compte ?>">
+                        <?php if ($this->cat == 'I') { ?>
+                            <option value="Inr">Inr</option>
+                        <?php } elseif ($this->cat == 'FS') { ?>
+                            <option value="FS">FS</option>
+                        <?php } elseif ($this->cat == 'PaNu') { ?>
+                            <option value="PaNu">PaNu</option>
+                        <?php } elseif ($this->cat == 'PaR') { ?>
+                            <option value="PaR">PaR</option>
+                        <?php } elseif ($this->cat == 'RPG') { ?>
+                            <option value="RPGnr">RPGnr</option>
+                        <?php } ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="e_membre">Membre :</label></td>
+                <td><input type="text" id="e_membre" name="e_membre" size="30" value="<?php echo $this->e_membre ?>" required="true"/></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="raison_membre">Raison sociale :</label></td>
+                <td><input type="text" id="raison_membre" name="raison_membre" size="30" value="<?php echo $this->raison_membre ?>" readonly="true"/></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="e_membre">Nom Membre :</label></td>
+                <td>
+                    <input size="30" type="text" id="nom_membre" name="nom_membre" value="<?php echo $this->nom_membre ?>" readonly="true"/>
+                    <input size="30" type="text" id="prenom_membre" name="prenom_membre" value="<?php echo $this->prenom_prenom ?>" readonly="true"/>
+                    <button id="afficher" >Afficher</button>
+                </td>
+            </tr>
+            <tr><td colspan="2">
+                    <table id="rpg_table"></table>
+                    <div id="rpg_div"></div>
+                </td>
+            </tr>
+            <tr><td style="text-align: right;"><label for="montant">Montant :</label></td><td><input type="text" id="montant" name="montant" value="<?php echo $this->montant ?>" required="true"/></td></tr>
+            <tr><td></td><td><input type="submit" id="val"/><input type="reset" id="reset"/></td></tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $("#rpg_table").jqGrid({
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code', 'Membre', 'Compte', 'Produit', 'Montant', 'Source'],
+        height: 200, width: 805,
+        colModel: [
+            {name: 'id_credit', index: 'id_credit', sorttype: "int", editable: true, align: "left", hidden: true},
+            {name: 'code_membre', index: 'code_membre', width: 105, editable: true, align: "left"},
+            {name: 'code_compte', index: 'code_compte', width: 170, editable: true, align: "left"},
+            {name: 'code_produit', index: 'code_produit', width: 40, editable: false, align: "left"},
+            {name: 'montant_credit', index: 'montant_credit', width: 70, formatter: "number", align: "right", editable: true},
+            {name: 'compte_source', index: 'compte_source', width: 120, editable: true, align: "left"},
+        ],
+        rowNum: 10,
+        rowList: [10, 20, 30],
+        rownumbers: true,
+        pager: '#rpg-div',
+        sortname: "id_credit",
+        multiselect: true,
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste des RPGnr disponibles",
+        onSelectRow: function(id, status) {
+            if (id !== 0 || id !== null) {
+                var montant = $('#montant').val();
+                var data = jQuery('#rpg_table').jqGrid('getRowData', id);
+                var value = 0;
+                var tranche = data.montant_credit;
+                if (montant === '') {
+                    montant = 0;
+                } else {
+                    montant = parseInt(montant, 10);
+                }
+                if (status === true) {
+                    value = montant + parseInt(tranche);
+                    $('#montant').val(value);
+                } else {
+                    value = montant - tranche;
+                    $('#montant').val(value);
+                }
+                lastsel = id;
+            }
+        },
+        onSelectAll: function(ids, status) {
+            if (status) {
+                var montant = 0;
+                for (var i = 0; i < ids.length; i++) {
+                    var id = ids[i];
+                    var data = jQuery('#rpg_table').jqGrid('getRowData', id);
+                    var tranche = data.montant_credit;
+                    montant = montant + parseInt(tranche);
+                }
+                $('#montant').val(montant);
+            } else {
+                $('#montant').val(0);
+            }
+        }
+    });
+
+    $("#rpg_table").jqGrid('navGrid', '#rpg_div', {edit: true, add: true, del: false, search: true});
+    $(document).ready(function()
+    {
+        $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+        });
+        $("#val").button();
+        $("#reset").button();
+        var produit = $('#compte').val();
+        var type = '';
+        if (produit === 'RPGnr') {
+            type = 'P';
+        } else {
+            type = 'M';
+        }
+        $.get("/eu-echange/membre?type=" + type,
+                function success(data)
+                {
+                    $('#e_membre').autocomplete({"source": data});
+                });
+
+                $('#e_membre').blur(function(e)
+                {
+                    e.preventDefault();
+                    if ($(this).val() !== '')
+                    {
+                        $.get(
+                                '/eu-echange/recupnom',
+                                {
+                                    num_membre: $(this).val()
+                                },
+                        function success(data)
+                        {
+                            $("#nom_membre").val(data[0]);
+                            $("#prenom_membre").val(data[1]);
+                            $("#raison_membre").val(data[2]);
+                        });
+                    }
+                });
+
+                $('#afficher').button().click(function(e)
+                {
+                    if ($('#e_membre').val() !== '') {
+                        jQuery("#rpg_table").jqGrid('setGridParam', {url: "/eu-echange/credits?membre=" + $('#e_membre').val() + "&produit=" + $('#compte').val()}).trigger('reloadGrid');
+                    } else {
+                        alert('Il faut entrer un numero de membre');
+                    }
+                    e.preventDefault();
+                });
+
+                $('form#echange_form').submit(function(event) {
+                    event.preventDefault();
+                    var sel = jQuery("#rpg_table").jqGrid('getGridParam', 'selarrrow');
+                    $.post('/eu-echange/ech',
+                            {
+                                credits: sel,
+                                cat_echange: $('#cat_echange').val(),
+                                compte: $('#compte').val(),
+                                e_membre: $('#e_membre').val(),
+                                montant: $('#montant').val()
+                            }
+                    , function(data) {
+                        if (data === true) {
+                            alert('Opération effectuée avec succes');
+                            $(location).attr("href", "/eu-echange/index");
+                        } else {
+                            alert(data);
+                        }
+                    });
+                });
+            });
+</script>

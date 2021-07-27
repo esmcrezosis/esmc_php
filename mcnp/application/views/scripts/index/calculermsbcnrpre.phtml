@@ -1,0 +1,97 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<script type="text/javascript">
+
+   function calculermsbcnrpre() {
+     if((document.getElementById('duree_projet').value > 8) && (document.getElementById('duree_projet').value <= 22.4)) {
+        document.getElementById('mont_msbcnrpre').value = Math.floor(((document.getElementById('mont_projet').value * 5.6) / document.getElementById('duree_projet').value));
+	    document.getElementById('mont_bc').value = Math.floor(((document.getElementById('mont_projet').value * 1) / document.getElementById('duree_projet').value)); 
+	 }
+	 document.getElementById('mont_msbcnrpre').readOnly = true;
+   }
+
+   function annuler() {
+      document.getElementById('duree_projet').value = "";
+      document.getElementById('mont_msbcnrpre').value = "";
+      document.getElementById('mont_bc').value = "";
+   }   
+     
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p>Calcul du Montant de Souscription au Bon de Consommation Non Récurrente Période de Renouvellement Effective( BCnrPRE ) </p></blockquote>
+  <?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+    </div>
+  <?php } ?>
+  
+
+
+<blockquote></blockquote>
+<form  action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="" name="">
+
+<fieldset>
+<legend> Montant de Souscription au Bon de Consommation Non Récurrente Période de Renouvellement Effective (MSBCnrPRE)  </legend>
+
+<div class="control-group">
+<label class="control-label" for="mont_bc">Montant Global du Projet (Coût de la marchandise) *</label>
+<div class="controls">
+<input type="text" name="mont_projet" id="mont_projet" placeholder="Montant Global du Projet" class="input-xxlarge" onblur="annuler();"  required="required" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="mont_bc">Durée du projet (en mois)  *</label>
+<div class="controls">
+<input type="text" name="duree_projet" id="duree_projet" placeholder="Durée du projet" class="input-xxlarge"   required="required" />
+<span class="help-block"><p class="text-error">Veuillez saisir une durée comprise entre 9 et 22.4 </p></span>
+</div>
+</div>
+ 
+<div class="control-group">
+<label class="control-label" for="bon_neutre_raison">Montant du Bon de Consommation par Période *</label>
+<div class="controls">
+     <input type="text" name="mont_bc" id="mont_bc" placeholder="Montant du Bon de Consommation par Période" class="input-xxlarge" readonly="true" />
+</div>
+</div> 
+
+<div class="control-group">
+<label class="control-label" for="bon_neutre_raison">Montant à Souscrire *</label>
+<div class="controls">
+     <input type="text" name="mont_msbcnrpre" id="mont_msbcnrpre" placeholder="Montant à Souscrire" class="input-large" readonly="true" />
+     <a class="btn" onclick="calculermsbcnrpre()"> Calculer le MSBCnrPRE </a>
+</div>
+</div>
+</fieldset>
+
+<div class="form-actions">
+     <input name="ok" type="hidden" id="ok" value="ok" />
+     <button type="reset" class="btn">Annuler</button>
+</div>
+ 
+                            
+  
+</form>
+
+    
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

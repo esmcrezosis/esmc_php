@@ -1,0 +1,82 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<br />
+
+  <blockquote><p>Formulaire de contact</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addcontact">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<div class="control-group">
+<label class="control-label" for="contact_nom">Nom *</label>
+<div class="controls">
+<input type="text" name="contact_nom" class="input-xxlarge" id="contact_nom" placeholder="Nom" required />
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="contact_email">E-mail *</label>
+<div class="controls">
+<input type="text" name="contact_email" class="input-xxlarge" id="contact_email" placeholder="E-mail" required />
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="contact_sujet">Sujet *</label>
+<div class="controls">
+<input type="text" name="contact_sujet" class="input-xxlarge" id="contact_sujet" placeholder="Sujet" required />
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="contact_message">Message *</label>
+<div class="controls">
+  <textarea name="contact_message" class="input-xxlarge" id="contact_message" placeholder="Message" required></textarea>
+</div>
+</div>
+    
+    
+<div class="control-group">
+<label class="control-label" for="calcul">Calculer * (1 + 1)</label>
+<div class="controls">
+<input type="text" name="calcul" class="input-xxlarge" id="calcul" placeholder="Calculer" required />
+</div>
+</div>
+    
+    
+<div class="form-actions">
+<input name="publier" type="hidden" id="publier" value="0" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Envoyer le message</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

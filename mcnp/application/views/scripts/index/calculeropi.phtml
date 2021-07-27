@@ -1,0 +1,84 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+
+<script type="text/javascript">
+    function calculeropi()   {
+	    var pck = document.getElementById('pck').value;
+	    var prk = document.getElementById('id_prk').value;
+	    var taux = document.getElementById('tauxescompte').value;
+		
+		var msbcnr = document.getElementById('msbcnr').value;
+		var serie = document.getElementById('serie').value;
+		
+		var diviser = ((pck * 100) + (taux * pck))/100;
+	    var mont_bc = Math.floor((prk * msbcnr) / diviser);
+		var montant_global = Math.floor((prk * mont_bc) / diviser);
+		var montant_opi = Math.floor(montant_global / serie);
+		
+		document.getElementById('montant_global').value = montant_global;
+		document.getElementById('montant_opi').value = montant_opi;
+    
+	}
+	
+	
+	
+	function annuler() {
+        document.getElementById('montant_global').value = "";
+        document.getElementById('montant_opi').value = "";
+    }
+	
+	
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+    <blockquote><p>Calcul du montant d'OPI Acheteur-Revendeur</p></blockquote>
+    <form  action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="" name="">
+	    <fieldset>    
+            <legend>Montant d'OPI Acheteur-Revendeur</legend>
+			<div class="control-group">
+            <label class="control-label" for="msbcnr">Montant de Souscription au Bon de Consommation Non Récurrente *</label>
+            <div class="controls">
+                <input type="text" name="msbcnr" id="msbcnr" placeholder="Montant de Souscription au Bon de Consommation Non Récurrente" class="input-xxlarge" onchange="annuler();" required="required" />
+            </div>
+            </div>
+			
+			<br/><br/>
+			
+			<div class="control-group">
+            <label class="control-label" for="montant_global">Montant Global des OPI</label>
+            <div class="controls">
+                <input type="text" name="montant_global" id="montant_global" placeholder="Montant Global des OPI" class="input-xxlarge" readonly />
+            </div>
+            </div>
+			
+			<br/><br/>
+			
+			<div class="control-group">
+            <label class="control-label" for="montant_global">Montant d'OPI / période </label>
+            <div class="controls">
+                <input type="text" name="montant_opi" id="montant_opi" placeholder="Montant d'OPI par période" class="input-xxlarge" readonly />
+				<input  type="hidden"  name="tauxescompte"  id="tauxescompte"  placeholder="Taux Escompte"  readonly="true"  value="<?php echo $this->tauxescompte ; ?>" />
+	            <input  type="hidden"  name="serie"  id="serie"  placeholder="Serie"  readonly="true"  value="<?php echo $this->serie ; ?>" />
+				<input  type="hidden"  name="id_prk"  id="id_prk"  placeholder="PRK"  readonly="true"  value="<?php echo $this->prk; ?>" />
+				<input  type="hidden"  name="pck"  id="pck"  placeholder="PCK"  readonly="true"  value="<?php echo $this->pck; ?>" />
+				<input  type="hidden"  name="bnpmpsfs"  id="bnpmpsfs"  placeholder="bnpmpsfs"  readonly="true"  value="<?php echo $this->bnpmpsfs; ?>" />
+				<input  type="hidden"  name="tpanupp"   id="tpanupp"   placeholder="tpanupp"   readonly="true"  value="<?php echo $this->tpanupp; ?>" />
+            </div>
+            </div>
+	    </fieldset>
+		<br/><br/>
+		<div class="form-actions">
+            <button type="reset" class="btn">Annuler</button>
+			<a class="btn btn-primary" onclick="calculeropi()">Calculer</a>
+        </div>
+		
+	</form>
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>

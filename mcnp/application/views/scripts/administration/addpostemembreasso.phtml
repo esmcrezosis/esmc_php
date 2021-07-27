@@ -1,0 +1,90 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/tachemembreassos.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout du poste guichet</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addposte">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+    
+
+
+<div class="control-group">
+<label class="control-label" for="poste_membreasso">Utilisateur du poste *</label>
+<div class="controls">
+<?php 
+$membreasso = new Application_Model_EuMembreassoMapper();
+$entries = $membreasso->fetchAllByMembreasso(1);
+if(count($entries) > 0){?>
+<select id="poste_membreasso" name="poste_membreasso" required onchange="ouvre_tachemembreassos(this.value + '_' + document.getElementById('tache_type').value);">
+  <option value="">Choisir l'utilisateur</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->membreasso_id; ?>"><?php echo $value->membreasso_nom; ?> <?php echo $value->membreasso_prenom; ?> - <?php echo $value->membreasso_login; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="tache_type">Type *</label>
+<div class="controls">
+<?php 
+$tache_type = new Application_Model_EuTacheTypeMapper();
+$entries = $tache_type->fetchAll();
+if(count($entries) > 0){?>
+<select id="tache_type" name="tache_type" required onchange="ouvre_tachemembreassos(document.getElementById('tache_type').value + '_' + this.value);">
+  <option value="">Choisir le type</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->tache_type_id; ?>"><?php echo $value->tache_type_libelle; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+  
+
+<div id="nivotache">
+
+</div>
+
+
+    
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Ajouter le poste guichet</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

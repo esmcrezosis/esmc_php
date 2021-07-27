@@ -1,0 +1,123 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript" charset="utf-8">		
+$(document).ready(function() {
+  $('#example').dataTable({
+    "sPaginationType": "full_numbers",
+    "aaSorting": []
+  }); 
+});
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+<?php include("../application/layouts/scripts/menuadmin.phtml");?>
+
+    <blockquote>
+      <p><strong>Tableau du niveau de solvabilit&eacute;</strong></p>
+    </blockquote>
+
+	<div class="span12">
+	    <blockquote><span style="color:#00F;"><strong>Consommations des produits pr&eacute;financ&eacute;s</strong></span></blockquote>
+        <table class="table table-striped table-bordered table-hover table-condensed">
+        <thead>
+        <tr>
+            <th><div align="right">Voici la situation globale des <span style="color:#00F;">Consommations des produits pr&eacute;financ&eacute;s</span></div></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+		  <td><div align="right"><strong><label>Solde <font color="red">( e )</font></label></strong></div></td>
+          <td><div align="right"><strong> <?php echo number_format($this->solde_gcnrb,0,',',' '); ?> </strong></div></td>
+        </tr>
+        </tbody>
+        </table>
+		
+		<blockquote><span style="color:#F00;"><strong>Subventions  accord&eacute;es</strong></span></blockquote>
+		<table class="table table-striped table-bordered table-hover table-condensed">
+        <thead>
+        <tr>
+            <th><div align="right">Voici la situation globale des <span style="color:#F00;">subventions accord&eacute;es</span></div></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+		  <td><div align="right"><strong><label>Solde <font color="red">( d )</font></label></strong></div></td>
+          <td><div align="right"><strong> <?php echo number_format($this->subvention,0,',',' '); ?> </strong></div></td>
+        </tr>
+        </tbody>
+        </table>
+		
+		<blockquote><span style="color:#F00;"><strong>Consommations des produits subventionn&eacute;s</strong></span></blockquote>
+		<table class="table table-striped table-bordered table-hover table-condensed">
+        <thead>
+        <tr>
+            <th><div align="right">Voici la situation globale des <span style="color:#F00;">Consommations des produits subventionn&eacute;s</span></div></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+		  <td><div align="right"><strong><label>Solde <font color="red">( c )</font></label></strong></div></td>
+          <td><div align="right"><strong> <?php echo number_format($this->solde_gcnrr,0,',',' '); ?> </strong></div></td>
+        </tr>
+        </tbody>
+        </table>
+		
+		<blockquote><span style="color:#000;"><strong>Fonds de Garantie de Financement en Nature (FGFN) </strong></span></blockquote>
+		<table class="table table-striped table-bordered table-hover table-condensed">
+        <thead>
+        <tr>
+            <th><div align="right"> Voici la situation globale du Fonds de Garantie de Financement en Nature </div></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+		    <td><div align="right"><strong><label>Solde <font color="red">( b )</font></label></strong></div></td>
+            <td><div align="right"><strong><?php echo number_format($this->solde_fgfn,0,',',' ');?> </strong></div></td>
+        </tr>
+        </tbody>
+        </table>
+		
+		<blockquote><span style="color:#000;"><strong>Les d&eacute;penses effectu&eacute;es</strong></span></blockquote>
+		<table class="table table-striped table-bordered table-hover table-condensed">
+        <thead>
+        <tr>
+            <th><div align="right"> Voici la situation globale de vos d&eacute;penses effectu&eacute;es</div></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+		    <td><div align="right"><strong><label>Solde <font color="red">( a )</font></label></strong></div></td>
+            <td><div align="right"><strong><?php echo number_format($this->sorties,0,',',' ');?> </strong></div></td>
+        </tr>
+        </tbody>
+        </table>
+		
+		<blockquote><span style="color:#F00;"><strong>Rapprochement</strong></span></blockquote>
+		<table class="table table-striped table-bordered table-hover table-condensed">
+		    <thead>
+                <tr>
+                    <th><div align="left">D&eacute;ficit &nbsp;  <font color="red"></font></div></th>
+			        <th><div align="right">Exc&eacute;dent &nbsp; <font color="red"></font></div></th>
+                </tr>
+            </thead>
+			<tbody>
+                <tr>
+                    <td><div align="left"><strong><?php echo number_format($this->deficit,0,',',' '); ?></strong></div></td>
+			        <td><div align="right"><strong><?php echo number_format($this->excedent,0,',',' '); ?></strong></div></td>
+                </tr>
+            </tbody>
+		</table>
+	</div>
+	
+	
+
+</div>
+</div>
+</div>
+

@@ -1,0 +1,76 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p>Ajout d'une filière</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addsousdivision">
+      
+      <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $sessionutilisateur->error; ?>
+      </div>
+      <?php } ?>
+
+      <?php if(isset($this->error) && $this->error!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $this->error; ?>
+      </div>
+      <?php } ?>	  
+	   
+	
+      <legend>Filières</legend>  
+      <div class="control-group">
+      <label class="control-label" for="nom">Nom de la filière *</label>
+      <div class="controls">
+      <input type="text" name="nom_filiere" id="nom_filiere" placeholder="Nom de la filière" required />
+      </div>
+      </div>
+	  
+	  <div class="control-group">
+      <label class="control-label">Sous-Division *</label>
+      <div class="controls">
+      <select  id="id_sousdivision" name="id_sousdivision" required>
+      <option value="">Choisir une sous-division</option>
+      <?php foreach ($this->sousdivisions as $value) { ?>
+      <option
+          value="<?php echo $value->id_sous_division; ?>"><?php echo $value->nom_sous_division; ?>
+	  </option>                         
+      <?php } ?>
+      </select>
+      </div>
+      </div>
+	  
+	  <div class="control-group">
+	  <label class="control-label" for="desc">Description</label>
+	  <div class="controls">
+	  <textarea name="desc" id="desc"></textarea>
+	  </div>
+	  </div>
+
+      <div class="form-actions">  
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <button type="reset" class="btn">Annuler</button>
+      <button type="submit" class="btn btn-primary">Enrégistrer</button>
+      </div>
+  
+</form>
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

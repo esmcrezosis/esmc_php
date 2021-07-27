@@ -1,0 +1,155 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p>Ajout d'acteur intérimaire PBF </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addacteurinterim">
+      
+      <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $sessionutilisateur->error; ?>
+      </div>
+      <?php } ?>
+
+      <?php if(isset($this->error) && $this->error!="") { ?>
+      <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <?php echo $this->error; ?>
+      </div>
+      <?php } ?>	  
+	   
+      <div class="control-group">
+      <label class="control-label" for="code_membre">Code Membre *</label>
+      <div class="controls">
+      <input type="text" name="code_membre" id="code_membre" placeholder="Code Membre" value="<?php echo $this->code_membre; ?>"  required />
+      </div>
+      </div>
+	  
+	  <div class="control-group">
+      <label class="control-label" for="id_type_acteur">Type Acteur *</label>
+      <div class="controls">
+	       <?php 
+		     $i = 1;
+		     foreach ($this->typeacteurs as $typeacteur) {  
+		       if($typeacteur->id_type_acteur != 4) {
+		   ?>
+	       <label class="radio inline" for="id_type_acteur<?php echo $i; ?>">     
+		   <input type="radio" id="id_type_acteur<?php echo $i; ?>" name="id_type_acteur" value="<?php echo $typeacteur->id_type_acteur; ?>" required /> <?php echo $typeacteur->lib_type_acteur; ?></label>
+		   <?php } $i++; }  ?>
+	  </div>
+      </div>
+	  
+	  <div class="control-group">
+      <label class="control-label" for="code_banque">Banque *</label>
+      <div class="controls">
+      <select name="code_banque" id="code_banque" required>
+           <option value=""> Choisir une banque </option>
+           <?php foreach ($this->banques as $value) { ?>
+           <option value="<?php echo $value->code_banque; ?>"><?php echo $value->libelle_banque; ?></option>
+           <?php } ?>
+      </select>
+      </div>
+      </div>
+	  
+	  
+	  <div class="control-group">
+           <label class="control-label" for="id_filiere">Filière *</label>
+           <div class="controls">
+           <select id="id_filiere" name="id_filiere" required>
+		      <option value=""> Choisir une filière </option>
+              <?php foreach ($this->filieres as $filiere) { ?>
+                    <option value="<?php echo $filiere->id_filiere; ?>"><?php echo $filiere->nom_filiere; ?></option>
+              <?php } ?>
+           </select>
+           </div>
+      </div>
+	  
+	  <div class="control-group">
+      <label class="control-label" for="code_zone">Zone Monétaire *</label>
+      <div class="controls">
+      <select name="code_zone" id="code_zone" required>
+      <option value="">Choisir une zone monétaire</option>
+      <?php foreach ($this->zones as $value) { ?>
+      <option
+         value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?>
+      </option>
+      <?php } ?>
+      </select>
+      </div>
+      </div>
+	  
+	  <div class="control-group">
+      <label class="control-label" for="id_pays">Pays *</label>
+      <div class="controls">
+      <select name="id_pays" id="id_pays" required>
+           <option value="">Choisir un pays</option>
+           <?php foreach ($this->pays as $value) { ?>
+           <option value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>
+           <?php } ?>
+      </select>
+      </div>
+      </div>
+	  
+	  <div class="control-group">
+      <label class="control-label" for="id_region">Régions *</label>
+      <div class="controls">
+      <select name="id_region" id="id_region"  required>
+         <option value="">Choisir une région</option>
+         <?php foreach ($this->regions as $value) { ?>
+         <option value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>
+         <?php } ?>
+      </select>
+      </div>
+      </div>
+
+      <div class="control-group">
+      <label class="control-label" for="id_prefecture">Préfectures *</label>
+      <div class="controls">
+      <select name="id_prefecture" id="id_prefecture"  required>
+      <option value="">Choisir une préfecture</option>
+      <?php foreach ($this->prefectures as $value) { ?>
+            <option value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>
+      <?php } ?>
+      </select>
+      </div>
+      </div>
+
+      <div class="control-group">
+      <label class="control-label" for="id_canton">Canton *</label>
+      <div class="controls">
+      <select name="id_canton" id="id_canton"   required>
+      <option value="">Choisir un canton</option>
+      <?php foreach ($this->cantons as $value) {?>
+      <option value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>
+      <?php } ?>
+      </select>
+      </div>
+      </div>
+	  
+	  
+	  <div class="form-actions">  
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <button type="reset" class="btn">Annuler</button>
+      <button type="submit" class="btn btn-primary">Ajouter l'acteur</button>
+      </div>
+  
+</form>
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

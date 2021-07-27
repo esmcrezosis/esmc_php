@@ -1,0 +1,133 @@
+<?php $sessionmembre = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+<style media="screen">
+.table tbody tr.level-seven > td{
+	background-color:#06065a;color: #FFF;
+
+}
+.table tbody tr.level-seven > td:hover{
+	background-color:#06065a;color: #FFF;
+
+}
+.table tbody tr.level-seven > td{
+	background-color:#06065a;color: #FFF;
+
+}
+</style>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+	<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+<?php if(count($this->entries) > 0){?>
+	<blockquote><p>Liste des Tickets de Support archivés</p></blockquote>
+	<div class="controls" style="position: relative;left: 0;float: left;text-align: left;margin-right: 45px;"><label for="" style="text-align:left;display:inline-block;font-weight:bold">Jours:</label>
+	<select id="days-tickets" name="">
+		<?php foreach ($days as $kd => $vd): ?>
+			<option value="<?php echo $kd ?>"><?php echo $vd ?></option>
+		<?php endforeach; ?>
+	</select>
+	</div>
+	<div class="controls" style="display: block;position: relative;left: 0;text-align: left;float:left;margin-right:45px">
+	<label for="" style="text-align:left;display:inline-block;font-weight:bold">Mois:</label>
+	<select id="months-tickets" name="">
+		<?php foreach ($months as $km => $vm): ?>
+			<option value="<?php echo $km ?>"><?php echo $vm ?></option>
+		<?php endforeach; ?>
+	</select>
+	</div>
+	<div class="controls" style="display: block;position: relative;left: 0;text-align: left;float:left">
+	<label for="" style="text-align:left;display:inline-block;font-weight:bold">Année:</label>
+	<select id="years-tickets" name="">
+		<?php foreach ($years as $ky => $vy): ?>
+			<option value="<?php echo $ky ?>"><?php echo $vy ?></option>
+		<?php endforeach; ?>
+	</select>
+	</div>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+   <thead>
+ 	<tr>
+ 		<th>Reference</th>
+ 		<th>Telecharger le Ticket</th>
+		<th>Telecharger cette piece jointe</th>
+    <th>Date d'émission du ticket de support</th>
+		<th>Date d'archivage</th>
+ 	</tr>
+   </thead>
+   <tbody>
+   	 	<?php foreach ($this->entries as $key => $value): ?>
+        <tr class="level-seven">
+        	<td ><?php echo $value->numero_demandeur; ?></td>
+          <td>
+            <a class="btn btn-mini btn-primary" href="/ticketsupport/pdfticketarchive/id/<?php echo $value->id_ticket; ?>"><i class="icon-cog icon-white"></i>Telecharger ce ticket de Support </a>
+          </td>
+					<td>
+						<?php if ($value->file_name !== null): ?>
+							<a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/pdf_upload/<?php echo $value->file_name; ?>"><i class="icon-cog icon-white"></i> Telecharger cette piece jointe</a>
+            <?php elseif($value->renseignement_id > 0): ?>
+							<a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/ticketsupport/fileedit/id/<?php echo $value->renseignement_id; ?>"><i class="icon-cog icon-white"></i> Telecharger cette piece jointe</a>
+            <?php else: ?>
+							<span>Aucune pièce jointe pour ce ticket</span>
+						<?php endif; ?>
+					</td>
+					<?php
+					$months = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+					$true_month = "";
+					$true_archive_month = "";
+					$ex_date = explode('-',$value->created);
+					$ex_archive_date = explode('-',$value->date_validation);
+
+
+							foreach ($months as $ky => $vad) {
+								if($ex_archive_date[1] == $ky){
+									$true_archive_month = $vad;
+								}
+								if($ex_date[1] == $ky){
+									$true_month = $vad;
+								}
+							}
+						 $next_ex_date = explode(' ', $ex_date[2]);
+						 $next_ex_archivage_date = explode(' ', $ex_archive_date[2]);
+	 				   $true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0]." à ".$next_ex_date[1];
+	 					 $true_archivage_date = $next_ex_archivage_date[0]." ".$true_archive_month." ".$ex_archive_date[0]." à ".$next_ex_archivage_date[1];
+
+					 ?>
+
+          <td>
+						<?php echo $true_date ;?>
+          </td>
+					<td>
+						<?php
+						 echo $true_archivage_date;
+						 ?>
+					</td>
+        </tr>
+
+ 	<?php endforeach ?>
+   </tbody>
+
+ </table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucun Ticket de Support n'a été encore enregistré
+</div>
+<?php }?>
+</div>
+
+</div>
+</div>

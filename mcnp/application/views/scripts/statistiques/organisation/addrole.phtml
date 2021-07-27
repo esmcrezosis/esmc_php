@@ -1,0 +1,79 @@
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<div class="role-fluid">
+     <legend>Ajouter un rôle</legend>
+			<?php if (isset($_SESSION["validationerrors"])): ?>
+				<div class="alert alert-danger">
+					<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+				</div>
+			<?php unset($_SESSION['validationerrors']); endif ?>
+			<?php if (isset($_SESSION["validationsuccess"])): ?>
+				<div class="alert alert-success">
+					<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+				</div>
+			<?php unset($_SESSION['validationpertesuccess']); endif ?>
+    <form action="#"  method="post" class="form-horizontal">
+        <div class="control-group">
+	      <label class="control-label" for="organisateur_code_roles" style="font-weight:bold">
+	        Code du rôle *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="organisateur_code_roles" class="input-block-level organisateur_roles" placeholder="Mettre ici le code du rôle" required="required"/>
+	      </div>
+	   </div>
+       <div class="control-group">
+	      <label class="control-label" for="organisateur_description_roles" style="font-weight:bold">
+              Description du roles *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="organisateur_description_roles" class="input-block-level organisateur_roles" placeholder="Mettre ici la description du role" required="required"/>
+	      </div>
+	   </div>
+       <div class="control-group"> 
+				<label for="roles_groupes" style="font-weight:bold;float:left">
+					Groupe de Rôles*: </label>
+					<select class="input-block-level" name="roles_groupes" id="input_roles_groupes">
+ 					<option value>Choisir le groupe de rôles </option>
+ 						<?php foreach ($this->listdesgroupesderoles as $key => $value): ?>
+ 						<option value="<?php echo $value->id_groupe_roles ?>" data-idgrouperoles="<?php echo $value->id_groupe_roles ?>"><?php echo $value->libelle_groupe_roles ?></option>
+ 						<?php endforeach; ?>
+ 				</select>
+		</div>
+        <?php if ($this->countlistdesroles != 0): ?>
+
+        <div class="control-group"> 
+
+				<label for="roles_parent" style="font-weight:bold;float:left">
+
+					Parent de roles*: 
+					
+				</label>
+				
+				<?php foreach ($this->listdesroles as $key => $value): ?>
+				  
+				  <div class="span4" style="height:200px">
+				      
+					    <div class="control-group">
+						
+						     <label class="radio">
+
+                                 <input type="checkbox" name="roles_parent[]" id="input_roles_parents" value="<?php echo $value->id_roles ?>" data-idtypeguichet="<?php echo $value->id_type_guichet ?>">
+								 
+						         <span style="font-weight:bold;font-size:1.2em"><?php echo $value->libelle_roles ?></span>
+					         
+							 </label>
+						</div>
+				  
+				  </div>
+
+				<?php endforeach; ?>
+		</div>
+        <?php endif ;?>
+      <div class="control-group" style="clear:both">
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+          Valider le formulaire
+          </button>
+      </div>
+    
+    </form>
+</div>

@@ -1,0 +1,55 @@
+<div id="view-content" title="Edition d'un membre" style="font-size: 12px;">
+    <form action="<?php echo $this->url(); ?>" method="<?php echo $this->form->getMethod(); ?>" enctype="<?php echo $this->form->getEnctype(); ?>" >
+        <div style="margin: 3px;">
+             <?php $this->form->getElement("submit")->setLabel("Modifier"); ?>
+             <?php  echo $this->form->getElement("submit"); ?>
+             <?php  echo $this->form->getElement("cancel"); ?>
+        </div>
+        <div id="accordeon">
+            <h2><a href="#">Etat civil</a></h2>
+            <div id="etat_civil">
+                <table>
+                    <tr><td>Nom</td><td><?php echo $this->form->getElement("nom_membre"); ?></td> <td>Prenoms</td><td><?php echo $this->form->getElement("prenom_membre"); ?></td></tr>
+                    <tr><td>Sexe</td><td><?php echo $this->form->getElement("sexe_membre"); ?></td> <td>Date de naissance</td><td><?php echo $this->form->getElement("date_nais_membre"); ?></td></tr>
+                    <tr><td>Nationalité</td><td><?php echo $this->form->getElement("id_pays"); ?></td> <td>Lieu de naissance</td><td><?php echo $this->form->getElement("lieu_nais_membre"); ?></td></tr>
+                    <tr><td>Nom du père</td><td><?php echo $this->form->getElement("pere_membre"); ?></td> <td>Nom de la mère</td><td><?php echo $this->form->getElement("mere_membre"); ?></td></tr>
+                    <tr><td>Situation familiale</td><td><?php echo $this->form->getElement("sitfam_membre"); ?></td> <td>Nombre d'enfant</td><td><?php echo $this->form->getElement("nbr_enf_membre"); ?></td></tr>
+                </table>
+            </div>
+            <h2><a href="#">Coordonnées</a></h2>
+            <div id="coordonnees">
+                <table>
+                    <tr><td>Quartier</td><td><?php echo $this->form->getElement("quartier_membre"); ?></td></tr>
+                    <tr><td>Ville</td><td><?php echo $this->form->getElement("ville_membre"); ?></td></tr>
+                    <tr><td>BP</td><td><?php echo $this->form->getElement("bp_membre"); ?></td></tr>
+                    <tr><td>Téléphone</td><td><?php echo $this->form->getElement("tel_membre"); ?></td> <td>Téléphone portable</td><td><?php echo $this->form->getElement("portable_membre"); ?></td></tr>
+                    <tr><td>Adresse email</td><td><?php echo $this->form->getElement("email_membre"); ?></td></tr>
+                </table>
+            </div>
+            <h2><a href="#">Autres informations</a></h2>
+            <div id="autres">
+                <table>
+                    <tr><td>Profession</td><td><?php echo $this->form->getElement("profession_membre"); ?></td></tr>
+                    <tr> <td>Formation</td><td><?php echo $this->form->getElement("formation"); ?></td></tr>
+                    <tr><td>Religion</td><td><?php echo $this->form->getElement("id_religion_membre"); ?></td></tr>
+                </table>
+            </div>
+            <h2><a href="#">Identité</a></h2>
+            <div id="identite">
+                <table>
+                    <tr><td>Numéro</td><td><?php echo $this->form->getElement("code_membre"); ?></td></tr>
+                </table>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#accordeon").accordion();
+            $("#submit").button();
+            $("#cancel").button();
+            $(function(){
+                $('#view-content').puipanel();
+            });
+        });
+    </script>
+</div>

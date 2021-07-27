@@ -1,0 +1,99 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8">
+			
+$(document).ready(function() {
+  $('#example').dataTable( {
+    "sPaginationType": "full_numbers",
+    "aaSorting": []
+  });
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+            
+            
+<?php 
+     $gcp = new Application_Model_EuGcp();
+     $gcpM = new Application_Model_EuGcpMapper();
+	 
+	 $cc = new Application_Model_EuCompteCredit();
+     $ccM = new Application_Model_EuCompteCreditMapper();
+	 
+     if(count($this->resultats) > 0)  { 
+	 
+	 ?> 
+     <blockquote><p>Details Bon de commande</p></blockquote>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+							      <th>Distributeur</th>
+								  <th>Acheteur</th>
+								  <th>Date Consommation</th>
+								  <th>Montant Consommé</th>
+								  <th>Compte Origine</th>
+								  <th>Produit</th>
+								  <th>Montant Prélevé</th>
+								  <th>Date Prélèvement</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->resultats as $row) : 
+        $gcpM->find($row->id_gcp,$gcp);
+		$ccM->find($gcp->id_credit,$cc);
+          
+?>
+   <tr>
+	  <td> <?php echo $gcp->code_membre;?> </td>
+      <td> <?php echo $cc->code_membre;?> </td>
+      <td> <?php echo datefr($gcp->date_conso);?></td>
+      <td> <?php echo $gcp->mont_gcp; ?></td>
+      <td> <?php echo $cc->compte_source; ?></td>
+      <td> <?php echo $cc->code_produit; ?></td>
+      <td> <?php echo $row->mont_prelever; ?></td>
+      <td> <?php echo datefr($row->date_prelevement);?> </td> 
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun detail enrégistré pour ce bon de commande 
+</div>
+<?php } ?>
+<br/> <br/>
+<table align="right">
+    <tbody>
+    <tr>
+		<td colspan="2"></td>
+	    <td><p><a class="link" href="<?php echo $this->baseUrl();?>/administration/listtraite1">Retour</a></p></td>
+	</tr>
+    </tbody>
+</table>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

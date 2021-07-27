@@ -1,0 +1,77 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+  <blockquote><p> Emettre une demande de paiement des commissions des approvisionnements intégrateurs de BAn</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addpostepointage">
+
+  <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error!="") { ?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+    </div>
+  <?php } ?>
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+  <label for="periode">Quinzaine *</label>
+  <select name="periode" id="periode" required>
+     <?php         
+		$m_bon_neutre_appro = new Application_Model_EuBonNeutreApproMapper();
+        $entries = $m_bon_neutre_appro->findMoisAnnee();
+     ?>
+
+     <option value="">Choisir la periode</option>
+     <?php foreach ($entries as $entry): ?>
+	 <?php
+	      // Configuration du fuseau horaire. Disponible depuis PHP 5.1
+          date_default_timezone_set('Europe/London');
+		  $mois = $entry['MOIS'];
+          $annee = $entry['ANNEE'];
+		  
+		  $mois15 = strftime("%Y%m%d",mktime(0,0,0,$mois,15,$annee));
+           
+		  $jour1 = 01;
+          $jour15 = 15;
+          $jour16 = 16;
+          $jourlast = strftime("%d",mktime(0,0,0,$mois+1,0,$annee)); 
+          		  
+	 ?>
+	 
+	 <option value="<?php echo $annee; ?>-<?php echo ajoute1zero($mois); ?>-0<?php echo $jour1; ?>/<?php echo $annee; ?>-<?php echo ajoute1zero($mois); ?>-<?php echo $jour15; ?>">Du 0<?php echo $jour1; ?> au <?php echo ($jour15); ?> <?php echo moisfr($mois); ?> <?php echo ($annee); ?></option>
+	 
+	 <option value="<?php echo $annee; ?>-<?php echo ajoute1zero($mois); ?>-<?php echo $jour16; ?>/<?php echo $annee; ?>-<?php echo ajoute1zero($mois); ?>-<?php echo $jourlast; ?>">Du <?php echo $jour16; ?> au <?php echo ($jourlast); ?> <?php echo moisfr($mois); ?> <?php echo ($annee); ?></option>
+	 
+	 <?php endforeach; ?>
+    </select> 
+ 
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="submit" class="btn btn-primary" >Emettre une demande de payement des commissions des approvisionnements intégrateurs de BAn</button> 
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

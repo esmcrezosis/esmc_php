@@ -1,0 +1,65 @@
+<div id="view-content" class="ui-widget">
+    <div id="cont_header" class="ui-widget-header ui-corner-top" style="padding-left: 5px;padding-bottom: 5px; height: 30px;">
+        <h3>
+            Paramétrage du MDV du TE
+        </h3>
+    </div>
+    <div class="ui-widget-content ui-corner-bottom" style="height: 500px;">
+        <form id="bnp_cacb" method="post" action="/eu-consommation/tegc">
+            <table style="width: 300px; margin-left: auto;margin-right: auto;">
+                <tbody>
+                    <tr>
+                        <td><label style="text-align: right;">Distributeur *:</label></td>
+                        <td><input type="text" id="te_distributeur" readonly="true" name="te_distributeur" value="<?php echo $this->dist; ?>" required="true"/></td>
+                    </tr>
+                    <tr>
+                        <td ><label style="text-align: right;">GAC Filière:</label></td>
+                        <td>
+                            <select id="te_gac_filiere" name="te_gac_filiere" value="<?php echo $this->gac; ?>" required="true">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label style="text-align: right;">MDV *:</label></td>
+                        <td><input type="text" id="te_mdv" name="te_mdv" value="<?php echo $this->mdv; ?>" required="true" readonly="true"/></td>
+                    </tr>
+                    <tr>
+                        <td></td><td>
+                            <input type="submit" id="te_submit" value="Valider"/>
+                            <input type="reset" id="te_reset" value="Annuler" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            $.get( "/eu-consommation/gacfiliere",
+            function success(data)
+            {
+                var options = '<option value=""></option>';
+                for( var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i][0] + '">' + data[i][1] +'</option>';
+                }
+                $('select#te_gac_filiere').html(options);
+            });
+            
+            $('#te_gac_filiere').change(function(e){
+                if($(this).val() != ''){
+                    $.get( "/eu-consommation/mdv",
+                    {filiere:$(this).val()},
+                    function success(data)
+                    {
+                        $('#te_mdv').val(data);  
+                    });
+                }else{
+                     $('#te_mdv').val('');
+                }
+                e.preventDefault();
+            });
+            
+        });
+    </script>
+</div>

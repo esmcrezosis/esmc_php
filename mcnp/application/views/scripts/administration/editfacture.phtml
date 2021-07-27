@@ -1,0 +1,83 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification de la facture</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addfacture">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+        
+
+    
+
+
+    
+
+<div class="control-group">
+<label class="control-label" for="facture_code_membre">Code Membre *</label>
+<div class="controls">
+<input type="text" name="facture_code_membre" id="facture_code_membre" placeholder="Code Membre" class="input-xxlarge" value="<?php echo $this->facture->facture_code_membre; ?>" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="facture_numero">Numéro du facture *</label>
+<div class="controls">
+<input type="text" name="facture_numero" id="facture_numero" placeholder="Numéro du facture" class="input-xxlarge" value="<?php echo $this->facture->facture_numero; ?>" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="facture_montant">Montant du facture *</label>
+<div class="controls">
+<input type="number" name="facture_montant" id="facture_montant" placeholder="Montant du facture" class="input-xxlarge" value="<?php echo $this->facture->facture_montant; ?>" required />
+</div>
+</div>
+
+    
+
+   
+    
+
+
+<div class="form-actions">
+<input name="facture_id" type="hidden" id="facture_id" value="<?php echo $this->facture->facture_id; ?>" />  
+<input name="facture_utilisateur" type="hidden" id="facture_utilisateur" value="<?php echo $sessionutilisateur->id_utilisateur; ?>" />  
+<input name="publier" type="hidden" id="publier" value="0" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier la facture</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

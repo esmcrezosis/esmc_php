@@ -1,0 +1,66 @@
+
+<style>
+
+    #article_fiche_poste{
+        font-size: 1.2em;
+        text-align:justify
+    }
+</style>
+
+<?php $sessionmembre = new Zend_Session_Namespace('utilisateur');?>
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<article  id="article_fiche_poste">
+
+<h3 id="page_title">TITRE DU POSTE : <?php echo $this->pagetitle ;?></h3>
+
+<div id="page_direction_container">
+
+  <div id="page_direction_container_left">
+
+    <h3>SUPERIEUR HIERARCHIQUE : <?php echo $this->postehierarchique ;?></h3>
+  
+  </div>
+
+  <div id="page_direction_container_right">
+
+    <h3>COLLABORATEURS : Tout le reste du personnel</h3>
+    
+  </div>
+</div>
+
+
+<blockquote>  PRINCIPALES TACHES :</blockquote>
+
+<ol>
+    <li>Constitution des Bases des Données,</li>
+    <li>Passation de contrats des fournisseurs,</li>
+    <li>Achat de petits Matériels Fournitures et services de Faibles valeurs,</li>
+    <li>Suivi des Délais de Livraisons des Commandes,</li>
+    <li>Suivi des Contrats,</li>
+    <li>Réception d’une Livraison,</li>
+    <li>Traitement d’une facture fournisseur,</li>
+    <li>Elaboration des Demandes d’Achat,</li>
+    <li>Elaboration d’offres techniques,</li>
+    <li>Elaboration d’offres financières,</li>
+    <li>Elaboration des plans d’exécution,</li>
+    <li>Veille au suivi et</li>
+    <li>Veille à l’évaluation.</li>
+    
+</ol>
+
+
+<h3>PROCEDURES A UTILISER</h3>
+
+<ul>
+    <li><a href="/administration/detailstachemembreasso/id/1" target= "_blanc">PROCEDURE : ACHAT DE PETITS MATERIELS FOURNITURES ET SERVICES DONT LE MONTANT EST INFERIEUR A 50 000 FCFA</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/4" target= "_blanc">PROCEDURE : RECEPTION D’UNE LIVRAISON</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/5" target= "_blanc">PROCEDURE : SUIVI DES DELAIS DE LIVRAISON DES COMMANDES</a> </li>
+    <li><a href="/administration/detailstachemembreasso/id/6" target= "_blanc">PROCEDURE : GESTION DE CARBURANT</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/21" target= "_blanc">PROCEDURE : GESTION DES AUTRES FOURNITURES ET CONSOMMABLES</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/7" target= "_blanc">PROCEDURE : PASSATION DE CONTRATS DE FOURNISSEURS</a></li>
+    <li><a href="/administration/detailstachemembreasso/id/8" target= "_blanc">PROCEDURE : SUIVI DES CONTRATS</a></li>
+</ul>
+
+</article>

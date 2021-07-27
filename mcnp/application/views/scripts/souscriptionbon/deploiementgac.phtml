@@ -1,0 +1,206 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/banques2.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<blockquote><p> Création de la Gestion d'Action Commune (GAC) </p></blockquote>
+
+<?php if(isset($sessionmcnp->error) && $sessionmcnp->error != "") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $sessionmcnp->error; $sessionmcnp->error = ""; ?>
+</div>
+<?php } ?>
+
+
+
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="deploiementgac" name="deploiementgac">
+ <fieldset>     
+	  <legend>Gestion d'Action Commune</legend>
+	  <div class="control-group">
+	  <label class="control-label" for="designation">Désignation Gac *</label>
+          <div class="controls">
+               <input name="designation_gac" type="text" id="designation_gac" class="input-xlarge" placeholder="Désignation Gac" />
+          </div>
+          </div>
+
+           
+	  
+	  <div class="control-group">
+	       <label class="control-label" for="code_membre">Code membre Représentant Gac *</label>
+           <div class="controls">
+               <input name="code_membre" type="text" id="code_membre" class="input-xlarge" placeholder="Code membre" />
+           </div>
+           </div>
+	  
+	  <div class="control-group">
+	  <label class="control-label" for="type_gac"> Type Gac * </label> 
+          <div class="controls">
+	  <select name="type_gac" id="type_gac" required >
+                   <option value="">Choisir le type de gac </option>
+                   <option value="GAC_DETENTRICE">Détentrice</option>
+                   <option value="GAC_SURVEILLANCE">Surveillance</option>
+		   <option value="GAC_EXECUTANTE">Exécutance</option>
+          </select>
+	  </div>
+	  </div>
+	  
+	  <div class="control-group">
+	       <label class="control-label" for="niveau_gac">Appartenance Gac *</label> 
+               <div class="controls">
+	       <select name="niveau_gac" id="niveau_gac" required>
+                  <option value="">Choisir l'appartenance </option>
+                  <option value="SOURCE">Source</option>
+                  <option value="MONDE">Monde</option>
+		              <option value="ZONE">Zone</option>
+                  <option value="PAYS">Pays</option>
+            		  <option value="REGION">Région</option>
+            		  <option value="PREFECTURE">Préfecture</option>
+            		  <option value="CANTON">Canton</option>
+                </select>
+		</div>
+	  </div>
+	  
+	  <div class="control-group">
+	       <label class="control-label" for="code_agence">Agence Gac *</label>
+           <div class="controls">
+           <select name="code_agence" id="code_agence"  required="required">
+           <?php 
+		     $tagence = new Application_Model_DbTable_EuAgence();
+	         $select = $tagence->select();
+             $results = $tagence->fetchAll($select);
+           ?>
+           <option value="">Choisir l'agence</option>
+           <?php foreach ($results as $agence): ?>
+           <option value="<?php echo $agence->code_agence; ?>"><?php echo ($agence->libelle_agence); ?></option>
+           <?php endforeach; ?>
+           </select>
+           </div>
+	   </div>
+	  
+	  <div class="control-group">
+      <label class="control-label" for="gac_login"> Login Gac * </label>
+      <div class="controls">
+           <input type="text" name="gac_login" id="gac_login" placeholder="Login Gac " class="input-xxlarge" required />
+      </div>
+      </div>
+	  
+	  <div class="control-group">
+      <label class="control-label" for="integrateur_passe"> Mot de passe Gac *  </label>
+      <div class="controls">
+           <input type="password" name="gac_passe" id="gac_passe" placeholder="Mot de passe Gac" class="input-xxlarge" required />
+      </div>
+      </div>
+	  
+	  <div class="control-group">
+      <label class="control-label" for="confirme">Confirmer Mot de passe Gac  * </label>
+      <div class="controls">
+      <input type="password" name="confirme" id="confirme" placeholder="Confirmer Mot de passe gac" class="input-xxlarge" required />
+      </div>
+      </div>
+	  
+	   
+	  <legend> Localités </legend>
+	  <div class="row-fluid">
+            <div class="span4">
+                 <div class="control-group">
+                 <label class="control-label span4">Zone M.</label>
+                 <div class="controls span8">
+                 <select class="input-block-level" id="code_zone" name="code_zone">
+                 <option value="">Choisir une zone monétaire</option>
+                 <?php foreach ($this->zones as $value) { ?>
+                 <option
+                       value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+                 <?php } ?>
+                 </select>
+                 </div>
+                 </div>                   
+            </div>
+            <div class="span4">
+                 <div class="control-group">
+                 <label class="control-label span4">Pays *</label>
+                 <div class="controls span8">
+                 <select class="input-block-level" id="id_pays" name="id_pays" required="required" >
+                 <option value="">Choisir un pays</option>
+                 <?php foreach ($this->pays as $value) { ?>
+                 <option
+                 value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+                 <?php } ?>
+                 </select>
+                 </div>
+                 </div>
+            </div>
+        </div>
+		
+		<div class="row-fluid">
+             <div class="span4">
+                  <div class="control-group">
+                  <label class="control-label span4">Régions</label>
+                  <div class="controls span8">
+                  <select class="input-block-level" id="id_region" name="id_region">
+                  <option value="">Choisir une région</option>
+                  <?php foreach ($this->regions as $value) { ?>
+                  <option
+                       value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+                  <?php } ?>
+                  </select>
+                  </div>
+                  </div>
+             </div>
+			 
+             <div class="span4">
+                  <div class="control-group">
+                       <label class="control-label span4">Préfectures</label>
+                       <div class="controls span8">
+                       <select class="input-block-level" id="id_prefecture" name="id_prefecture">
+                       <option value="">Choisir une préfecture</option>
+                       <?php foreach ($this->prefectures as $value) { ?>
+                       <option
+                           value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+                       <?php } ?>
+                       </select>
+                       </div>
+                  </div>
+             </div>
+             <div class="span4">
+                  <div class="control-group">
+                  <label class="control-label span4">Cantons *</label>
+                  <div class="controls span8">
+                       <select class="input-block-level" id="id_canton" name="id_canton" required="required">
+                       <option value="">Choisir un canton</option>
+                       <?php foreach ($this->cantons as $value) { ?>
+                       <option
+                             value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>                         
+                            <?php } ?>
+                       </select>
+                       </div>
+                   </div>
+              </div>
+         </div>	  
+</fieldset>
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+</form>
+</div>
+
+<div class="span3">
+<?php include("../application/layouts/scripts/droite_esmc.phtml"); ?>
+</div>
+
+</div>
+</div>

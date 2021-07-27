@@ -1,0 +1,315 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3>Domiciliation PRK du remboursement de la SMCIPN</h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form action="/eu-domiciliation/domicilier" name="fm_domicil" method="POST" id="fm_domicil">
+            <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+            <div>
+                <fieldset>
+                    <legend>Informations sur la domiciliation</legend>
+                    <table>
+                        <tr>
+                            <td style="width: 146px">Code membre bénéficiaire *</td><td><input name="num_benef" id="num_benef" class="validate[required]" value="<?php echo $this->num_benef ?>" size=25/></td>
+                            <td  colspan="2">Date fin domiciliation *</td><td colspan="2"><input name="date_fin" id="date_fin" class="validate[required]" value="<?php echo $this->date_fin ?>" size="12"/></td>
+                        </tr>
+                        <tr>
+                            <td>Code SMCIPN *</td>
+                            <td colspan="5">
+                                <select id="code_demand" name="code_demand" class="validate[required]" value="<?php echo $this->code_demand ?>"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Montant subvention *</td><td><input name="mt_subvent" id="mt_subvent" class="validate[required,custom[onlyNumberSp]]" value="<?php echo $this->mt_subvent ?>" readonly="readonly"/></td>
+                            <td>Durée du projet (jours)</td><td><input name="dvm_demand" id="dvm_demand" class="validate[required]" value="<?php echo $this->dvm_demand ?>" readonly="readonly" size=5/></td>
+                            <td>Type de ressource *</td>
+                            <td>
+                                <select id="type_ressource" name="type_ressource" class="validate[required]" value="">
+                                    <option value="r">Récurrent</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <table border="1" style="margin: 5px;" id="tab_salaire">
+                        <thead>
+                            <tr style="text-align: left;">
+                                <th style="width: 170px;">Code membre</th><th style="width: 250px;">Nom</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input id="num_membre1" type="text" name="num_membre1" value="" required="true" style="width: 170px;"/></td>
+                                <td><input id="nom1" type="text" name="nom1" value="" style="width: 260px;" readonly="readonly"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <div align="center">
+                            <input id="add" type="button" value="Ajouter" onclick="addRow('tab_salaire')"/>
+                            <input id="remove" type="button" value="Supprimer" onclick="deleteRow('tab_salaire')"/> 
+                            <input type='button' value="Afficher" name="afficher" id="afficher" />
+                            <input type="reset" value="Rafraichir" name="refresh" id="refresh"   />
+                        </div>
+                    </table>
+                </fieldset>
+            </div>
+            <table id="tbl-credit"></table>
+            <div id="pg-credit"></div>
+            <br>
+            <div style="margin-left: 150px">
+                <input type="button" value="Valider" name="valider" id="valider"   />
+                <input id="t_annuler" type="button" value="Annuler" />
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $("#tbl-credit").jqGrid({
+            url:'<?php echo $this->url(array('action' => 'credits')); ?>',
+            datatype: "json",
+            mtype: 'GET',
+            colNames:['Numéro membre','Ressource','Montant placé','Montant crédit','Montant utilisé','Date dépôt','Code crédit'],
+            height:'100%', width:810,
+            colModel:[
+                {name:'num_membre',index:'num_membre', width: 150, editable: false,align:"left"},
+                {name:'produit',index:'produit', width: 150, align:"left", editable: false},
+                {name:'mt_place',index:'mt_place', width: 150, align:"right", editable: false,formatter:'number'},
+                {name:'mt_credit',index:'mt_credit', width: 150, align:"right", editable: false,formatter:'number'},
+                {name:'mt_utilise',index:'mt_utilise', width: 150, align:"right", editable: true,formatter:'number'},
+                {name:'date_depot',index:'date_depot', width: 120, align:"left", editable: false},
+                {name:'code_credit',index:'code_credit', width: 50, align:"left", editable: false, hidden:true}
+            ],
+            rowNum:30,
+            rowList:[30,50,100],
+            rownumbers:true,
+            pager: '#pg-credit',
+            sortname:"date_octroi",
+            viewrecords: true,
+            multiselect:true,
+            sortorder: "ASC",
+            caption:"Comptes des crédits des membres",
+            forceFit : true, 
+            cellEdit: true, 
+            cellsubmit: 'clientArray'
+        });
+        $("#tbl-credit").jqGrid('navGrid','#pg-credit',{edit:false,add:false,del:false,search:true});
+        
+        $(document).ready(function () {
+            $('#refresh').button();
+            $('#valider').button();
+            $('#t_annuler').button();
+            $('#add').button();
+            $('#remove').button();
+            $('#afficher').button();
+                        
+            $('#t_annuler').click(function()
+            {
+                window.location="/eu-domiciliation/";
+            }); 
+            
+            $(function(){
+                var pickerOpts = {
+                    dateFormat: "dd/mm/yy",
+                    changeMonth:true,
+                    changeYear:true,
+                    showOtherMonths: true
+                };
+                $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+                $("#date_fin").datepicker(pickerOpts);
+            });
+            
+            $.get( "/eu-domiciliation/changemoral",
+            function success(data)
+            {
+                $("input#num_benef").autocomplete({"source":data});
+            });
+            
+            $('#num_benef').blur(function()
+            {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-domiciliation/benefchange',
+                    {
+                        benef: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        var options = '<option value=""></option>';
+                        for( var i = 0; i < data.length; i++) {
+                            options += '<option value="' + data[i][1] + '">' + data[i][2] +' </option>';
+                        }
+                        $('select#code_demand').html(options);
+                    });
+                }
+            });
+            
+            $('#code_demand').change(function() {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-domiciliation/subvention',
+                    {
+                        code: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        $('#mt_subvent').val(data[0]);
+                        $('#dvm_demand').val(data[1]);
+                    });
+                }else{
+                    $('#mt_subvent').val('');
+                    $('#dvm_demand').val('');
+                }
+            });
+        
+            $('#num_membre1').blur(function(e) {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-domiciliation/recupnom',
+                    {
+                        num_membre: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        $("#nom1").val(data);
+                    });
+                }
+                e.preventDefault();
+            });     
+
+            $.get( "/eu-domiciliation/change",
+            function success(data)           
+            {
+                $("input#num_membre1").autocomplete({"source":data});                  
+            });
+            
+            $('#afficher').click(function(){
+                var tab=new Array();
+                for(var i=1;i<=compteur;i++)
+                {
+                    tab[i-1]=$('#num_membre' + i).val();           
+                }
+                jQuery("#tbl-credit").jqGrid('setGridParam',{url:"/eu-domiciliation/credits?ress="+$('#type_ressource').val()+"&lignes="+tab}).trigger('reloadGrid');
+            });
+        });
+        
+        var compteur = 1;
+        function addRow(tableID) {
+
+            var table = document.getElementById(tableID);
+            var rowCount = table.rows.length;
+            var cpte = rowCount;
+            var row = table.insertRow(rowCount);
+            
+            var cell1 = row.insertCell(0);
+            var element0 = document.createElement("input");
+            element0.type = "text";
+            element0.setAttribute("id","num_membre" + cpte);
+            element0.setAttribute("name","num_membre" + cpte); 
+            element0.setAttribute("style","width:170px;");
+            cell1.appendChild(element0);
+
+            var cell2 = row.insertCell(1);
+            var element1 = document.createElement("input");
+            element1.type = "text";
+            element1.setAttribute("id","nom" + cpte);
+            element1.setAttribute("name","nom" + cpte);
+            element1.setAttribute("style","width:260px;");
+            element1.setAttribute("readonly","true");
+            cell2.appendChild(element1);
+            
+            $.get( "/eu-domiciliation/change",
+            function success(data)
+            {
+                $("#num_membre"+ cpte).autocomplete({"source":data});
+            });
+            
+            $('#num_membre' + cpte).blur(function(e)
+            {
+                if($(this).val() != '')
+                {
+                    $.get(
+                    '/eu-domiciliation/recupnom',
+                    {
+                        num_membre: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        $("#nom"+cpte).val(data);
+                    });
+                }
+                e.preventDefault();
+            });
+            
+            compteur = compteur + 1;
+            document.getElementById("cpteur").setAttribute('value',compteur);
+        }
+
+        function deleteRow(tableID) {
+            try {
+                var table = document.getElementById(tableID);
+                var rowCount = table.rows.length - 1;
+                if(rowCount>1){
+                    table.deleteRow(rowCount);
+                }
+                compteur = compteur - 1;
+                document.getElementById("cpteur").setAttribute('value',compteur);
+            }catch(e) {
+                alert(e);
+            }
+        }
+        
+        $('#valider').click(
+        function(){
+            var sel;
+            sel = jQuery("#tbl-credit").jqGrid('getGridParam','selarrrow');
+            var tab=new Array();  
+            var rowsel;
+            rowsel = jQuery("#tbl-credit").jqGrid('getGridParam','selrow');
+            for(var i=0; i<sel.length; i++) {
+                tab[i]=jQuery("#tbl-credit").jqGrid('getRowData',sel[i]);   
+            };
+            if($('#mt_subvent').val()==''){
+                alert('Préciser le montant à domicilier');
+            } else if($('#date_fin').val()==''){
+                alert('Préciser la date de fin de la domiciliation');
+            } else {
+                if(rowsel)
+                {
+                    $.get('/eu-domiciliation/create?benef='+$('#num_benef').val()+'&demand='+$('#code_demand').val()+'&ress='+$('#type_ressource').val()+'&mt_domi='+$('#mt_subvent').val()+'&date_fin='+$('#date_fin').val(),{
+                        lignes:tab
+                    },
+                    function success(data) {
+                        var tab=new Array();
+                        for(var i=1;i<=10;i++) {
+                            tab[i-1]=$('#textbox' + i).val();           
+                        }
+                        if(data == 'good'){
+                            jQuery("#tbl-credit").jqGrid('setGridParam',{url:"/eu-domiciliation/credits?ress="+$('#type_ressource').val()+"&lignes="+tab}).trigger('reloadGrid');
+                            alert('Opération effectuée avec succes');
+                        }
+                        else if(data=="cool"){
+                            alert("Ce client à déjà domicilié son payement");
+                        }
+                        else if(data=="bad_domi"){
+                            alert("Ce crédit a été domicilié déjà et la domiciliation est en cours.");
+                        }
+                        else if(data == 'bad'){
+                            alert("Echec de l'opération");
+                        }
+                        else if(data == "err_domici"){
+                            alert("Le montant du crédit est inférieur à celui de la domiciliation");
+                        }
+                        else if(data == "no_demand"){
+                            alert("Préciser le code de la demande de subvention");
+                        }
+                    });
+                }else{
+                    alert('Aucune ligne de crédit sélectionnée');
+                }                
+            }
+
+        });
+    </script>
+</div>

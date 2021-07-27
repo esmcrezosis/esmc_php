@@ -1,0 +1,213 @@
+<?php $sessionbanqueopi = new Zend_Session_Namespace('banqueopi');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/traitepayer.js"></script>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+    <script type="text/javascript" charset="utf-8">
+      /*$(document).ready(function() {
+        $('#example').dataTable();
+      } );*/
+      $(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+    "aaSorting": []
+    } );
+} );
+    </script>
+        
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menubanqueopi.phtml"); ?>
+                        
+
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addtelephone">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+<div class="control-group">
+<label class="control-label" for="date_debut">Date *</label>
+<div class="controls">
+<input type="date" name="date_debut" id="date_debut" placeholder="Date" class="input-xlarge datepicker" data-provide="datepicker" required />
+</div>
+</div>
+    
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Trier par date</button>
+</div>
+ 
+                            
+  
+</form>
+
+            
+<?php if(isset($this->traites) && count($this->traites)>0){?> 
+
+
+  <blockquote><p>Liste des traites effectuées par date</p></blockquote>
+  <a target="_blank" class="btn btn-success" href="<?php echo $this->baseUrl(); ?>/banqueopi/detailstraiteexcel/id/2">Exporter en Excel</a>
+<form action="<?php echo $this->baseUrl(); ?>/banqueopi/detailstraitepayer2" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addpayer" name="addpayer">
+<table class="table table-bordered table-hover table-condensed" style="font-size:12px;"><!-- id="example"-->
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>O.P.I. n°</th>
+                  <th>ECHEANCE</th>
+                  <th>BENEFICIAIRE</th>
+                  <th>CONTACT</th>
+                  <th>BANQUE</th>
+                  <th>CPTE BANCAIRE</th>
+                  <th>MONTANT</th>
+                  <th>Impression</th>
+                  <th>Payer</th>
+                </tr>
+              </thead>  
+                    <tbody>
+<?php foreach ($this->traites as $entry): ?>
+<?php 
+$date_id = new Zend_Date(Zend_Date::ISO_8601);
+   
+        $tpagcp = new Application_Model_DbTable_EuTpagcp();
+        $select = $tpagcp->select();//Zend_Db_Table::SELECT_WITH_FROM_PART
+        //$select->setIntegrityCheck(false);
+        //$select->join('eu_membre_morale', 'eu_membre_morale.code_membre_morale = eu_tpagcp.code_membre',array('eu_tpagcp.*','eu_membre_morale.*'));
+        $select->where('eu_tpagcp.id_tpagcp = ?', $entry->traite_tegcp); 
+        $data = $tpagcp->fetchRow($select);
+        $donnees = $data;
+
+          if (substr($donnees->code_membre, -1) == "P") {
+          $membre = new Application_Model_EuMembre();
+           $membreM = new Application_Model_EuMembreMapper();
+           $membreM->find($donnees->code_membre, $membre);
+}else{
+          $membremorale = new Application_Model_EuMembreMorale();
+           $membremoraleM = new Application_Model_EuMembreMoraleMapper();
+           $membremoraleM->find($donnees->code_membre, $membremorale);
+}
+           $banque = new Application_Model_EuBanque();
+           $banqueM = new Application_Model_EuBanqueMapper();
+           $banqueM->find($entry->traite_code_banque, $banque);
+
+        $date_id = new Zend_Date(Zend_Date::ISO_8601);
+            $date_traite = new Zend_Date(Zend_Date::ISO_8601);
+            $date_deb = new Zend_Date($entry->traite_date_debut,Zend_Date::ISO_8601);
+            $date_fin = new Zend_Date($entry->traite_date_fin,Zend_Date::ISO_8601);
+            $periodes = Util_Utils::getParametre('periode', 'valeur');
+
+$bon = new Application_Model_EuBon();
+           $bonM = new Application_Model_EuBonMapper();
+           $bonM->find($entry->bon_id, $bon);
+
+$numero_opi = substr($donnees->code_membre, 9, -1).'0'.$entry->traiter.$entry->traite_id;
+    $numero_opi2 = substr($donnees->code_membre, 9, -1).$entry->traite_id."/".Util_Utils::ajoute1zero($entry->traiter)."-".$donnees->ntf."/".substr($donnees->date_deb, 8, 2)."-".substr($donnees->date_deb, 5, 2)."-".substr($donnees->date_deb, 0, 4);
+
+$telephoneM = new Application_Model_EuTelephoneMapper();
+$telephone = $telephoneM->fetchAllByCodeMembre($donnees->code_membre);
+$portable_membre = "";
+if(count($telephone) > 0){
+foreach ($telephone as $telephonevalue) {
+$portable_membre .= $telephonevalue->numero_telephone." / ";
+}
+$portable_membre = substr($portable_membre, 0, -3);
+}
+
+?>
+    <tr 
+    <?php if($entry->traite_date_fin <= $date_id->toString('yyyy-MM-dd') && $entry->traite_imprimer == 1) {// class="success"?>
+    <?php }else if($entry->traite_date_fin <= $date_id->toString('yyyy-MM-dd') && $entry->traite_imprimer == 0) {// class="success"?> style="background-color: rgba(95, 189, 95, 0.69);"
+    <?php }else if($entry->traite_disponible == 1) { // class="info"?> style="background-color: rgba(73, 175, 205, 0.74);"
+    <?php }else if($entry->traite_avant_vte == 1)  { // class="error"?> style="background-color: rgba(189, 54, 47, 0.68);"
+    <?php } ?>
+    >
+      <td>
+        <input type="checkbox" name="payer[]" id="payer<?php echo $entry->traite_id; ?>" value="1" />
+        <input name="traite_id[]" type="hidden" id="traite_id<?php echo $entry->traite_id; ?>" value="<?php echo $entry->traite_id; ?>" />
+      </td>
+      <td><?php echo $numero_opi2; ?></td>
+      <td><?php echo datefr($entry->traite_date_fin); ?></td>
+      <td><?php if (substr($donnees->code_membre, -1) == "P") {echo $membre->nom_membre." ".$membre->prenom_membre;}else{echo $membremorale->raison_sociale;} ?></td>
+      <td><?php echo $portable_membre; ?></td>
+      <td><?php echo $entry->mode_paiement; ?></td>
+      <td><?php echo $entry->reference_paiement; ?></td>
+      <td><?php echo number_format($donnees->mont_tranche,0,',',' ').''; ?></td>
+      <td><?php //if($entry->bon_id > 0 && $entry->traite_disponible == 1 && $entry->traite_imprimer == 1 && $entry->traite_date_fin < $date_id->toString('yyyy-MM-dd')){//$entry->traite_imprimer > 1?>
+      <a title="Pour imprimer un OPI" class="btn btn-mini btn-success" target="_blank" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir imprimer cet OPI?')) location='<?php echo $this->baseUrl(); ?>/opi/pdftraite/id/<?php echo $entry->traite_id; ?>'"><i class="icon-cog icon-white"></i> PDF</a><br /> 
+      <?php //}?>
+      </td>
+      <?php /*?><td><div align="center">
+        <?php if($entry->traite_payer == 1) { ?>
+        <a class="btn btn-mini btn-success" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir enlever la mention Payé à cet OPI ?')) location='<?php echo $this->baseUrl(); ?>/banqueopi/payertraite/id/<?php echo $entry->traite_id; ?>/payer/0'"> <i class="icon-ok icon-white">  </i> Payé </a>&nbsp;
+                    <?php } else { ?>
+        <a class="btn btn-mini btn-warning" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir mettre la mention Payé à cet OPI ?')) location='<?php echo $this->baseUrl(); ?>/banqueopi/payertraite/id/<?php echo $entry->traite_id; ?>/payer/1'"> <i class="icon-off icon-white"> </i> Non Payé </a>&nbsp;
+                    <?php } ?></div></td><?php */?>
+      <td><div align="center">
+        <div id="nivo<?php echo $entry->traite_id; ?>">
+          <?php if($entry->traite_payer == 1) { ?>
+        <a class="btn btn-mini btn-success" onclick="ouvre_traitepayer('<?php echo $entry->traite_id; ?>_0', 'nivo<?php echo $entry->traite_id; ?>');"><i class="icon-ok icon-white"></i>  Payé</a>&nbsp;
+          <?php }else{?>
+        <a class="btn btn-mini btn-warning" onclick="ouvre_traitepayer('<?php echo $entry->traite_id; ?>_1', 'nivo<?php echo $entry->traite_id; ?>');"><i class="icon-off icon-white"></i>  Non Payé</a>&nbsp;
+          <?php } ?>
+                  </div><?php /*?><?php */?>
+                </div></td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+<tfooter>
+<tr>
+  <td colspan="2">
+    <input name="ok" type="hidden" id="ok" value="ok" />
+<button id="submit1" type="submit" class="btn btn-primary">Valider</button>
+</td>
+  <!--<td></td>-->
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  </tr>
+</tfooter>
+            </table>
+            </form>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune traite  
+</div>
+<?php }?>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

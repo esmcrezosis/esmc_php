@@ -1,0 +1,132 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+<blockquote><p>Cr&eacute;ation des Terminaux de Vente</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="adduser">
+  <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin!="") { ?>
+  <div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+  </div>
+  <?php } ?>
+
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="nom">Raison Sociale *</label>
+<div class="controls">
+<input type="text" name="nom" id="nom" placeholder="Raison Sociale" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Division *</label>
+<div class="controls">
+     <select  id="id_filiere" name="id_filiere" required>
+     <option value="">Choisir une division</option>
+     <?php foreach ($this->divisions as $value) { ?>
+     <option
+          value="<?php echo $value->id_filiere; ?>"><?php echo $value->nom_filiere; ?></option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="nom">Nom du Produit *</label>
+<div class="controls">
+<input type="text" name="nom_produit" id="nom_produit" placeholder="Nom du Produit" required />
+</div>
+</div>
+
+
+
+
+<div class="control-group">
+<label class="control-label">PRK </label>
+<div class="controls">
+     <?php $x =1;$compteur=0; ?>
+	 
+	 <?php foreach ($this->typeprks as $value) : ?>
+	       <input type="checkbox" name="<?php echo "prk".$x ?>" id="<?php echo "prk".$x ?>" value="<?php echo $value->valeur_prk; ?>"/>
+		   <?php echo $value->valeur_prk; ?> &nbsp;&nbsp;
+	 <?php $x++;$compteur++;endforeach; ?>
+
+     <!--
+	 <input type="checkbox" name="prk6" id="prk6" value="6"/> 6 &nbsp;&nbsp;
+	 <input type="checkbox" name="prk65" id="prk65" value="6.5"/> 6.5 &nbsp;&nbsp;
+	 <input type="checkbox" name="prk7" id="prk7" value="7"/> 7 &nbsp;&nbsp;
+	 <input type="checkbox" name="prk75" id="prk75" value="7.5"/> 7.5 &nbsp;&nbsp;
+	 <input type="checkbox" name="prk8" id="prk8" value="8"/> 8
+	 -->
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label">Produit </label>
+<div class="controls">
+     <input type="checkbox"  name="produit1" id="produit1" value="ri"/>
+     R&eacute;current Illimit&eacute; &nbsp;&nbsp;				                         
+     <input type="checkbox"  name="produit2" id="produit2" value="rl"/>
+     R&eacute;current limit&eacute; &nbsp;&nbsp;				 
+     <input type="checkbox"  name="produit3" id="produit3" value="nr"/>
+     Non R&eacute;current				                               
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label">P&eacute;riode </label>
+<div class="controls">
+     <input type="checkbox"  name="periode1" id="periode1" value="11.2"/>
+     11.2 &nbsp;&nbsp;				                     
+	 <input type="checkbox"  name="periode2" id="periode2" value="22.4" />
+     22.4				 
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Cat&eacute;gorie </label>
+<div class="controls">
+     <input type="checkbox"  name="categorie1" id="categorie1" value="special"/>
+     Sp&eacute;cial	&nbsp;&nbsp;			                        
+	 <input type="checkbox"  name="categorie2" id="categorie2" value="ordinaire"/>
+     Ordinaire				 				 
+</div>
+</div>
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input type="hidden" name="compteur" value="<?php echo $compteur ?>"/>
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-success">Enr&eacute;gistrer</button>
+</div>
+   
+</form>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

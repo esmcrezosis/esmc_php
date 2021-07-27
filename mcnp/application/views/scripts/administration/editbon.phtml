@@ -1,0 +1,105 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification de d'bon</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addbon">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+
+        
+
+    
+
+
+<div class="control-group">
+<label class="control-label" for="bon_zppe">Zppe du bon *</label>
+<div class="controls">
+<?php 
+$zppe = new Application_Model_EuZppeMapper();
+$entries = $zppe->fetchAll2();
+if(count($entries) > 0){?>
+<select id="bon_zppe" name="bon_zppe" required>
+  <option value="">Choisir la zppe</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->zppe_id; ?>" <?php if($value->zppe_id == $this->bon->bon_zppe){echo ' selected="selected"';}?>><?php echo $value->zppe_libelle; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+    
+
+<div class="control-group">
+<label class="control-label" for="bon_code_membre">Code Membre *</label>
+<div class="controls">
+<input type="text" name="bon_code_membre" id="bon_code_membre" placeholder="Code Membre" class="input-xxlarge" value="<?php echo $this->bon->bon_code_membre; ?>" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="bon_numero">Numéro du bon *</label>
+<div class="controls">
+<input type="text" name="bon_numero" id="bon_numero" placeholder="Numéro du bon" class="input-xxlarge" value="<?php echo $this->bon->bon_numero; ?>" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="bon_montant">Montant du bon *</label>
+<div class="controls">
+<input type="number" name="bon_montant" id="bon_montant" placeholder="Montant du bon" class="input-xxlarge" value="<?php echo $this->bon->bon_montant; ?>" required />
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="bon_montant_credit">Montant credit du bon *</label>
+<div class="controls">
+<input type="number" name="bon_montant_credit" id="bon_montant_credit" placeholder="Montant credit du bon" class="input-xxlarge" value="<?php echo $this->bon->bon_montant_credit; ?>" required />
+</div>
+</div>
+
+   
+    
+
+
+<div class="form-actions">
+<input name="bon_id" type="hidden" id="bon_id" value="<?php echo $this->bon->bon_id; ?>" />  
+<input name="bon_utilisateur" type="hidden" id="bon_utilisateur" value="<?php echo $sessionutilisateur->id_utilisateur; ?>" />  
+<input name="publier" type="hidden" id="publier" value="0" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier le bon</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

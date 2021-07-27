@@ -1,0 +1,40 @@
+<div id="view-content" style="font-size: 12px;min-height: 520px;" title="Ajout d'activités">
+    <form method="POST" action="/eu-activite/new" id="act_form">
+        <table style="margin-left: 15px;">
+            <tbody>
+                <tr>
+                    <td><label>Code Activité *</label></td><td><input id="code_activite" name="code_activite" value="<?php echo $this->code_activite; ?>" required="true"></td>
+                </tr>
+                <tr>
+                    <td><label>Nom Activité *</label></td><td><input id="nom_activite" name="nom_activite" value="<?php echo $this->nom_activite; ?>" required="true"></td>
+                </tr> 
+                <tr> 
+                    <td><label>Filière *</label></td>
+                    <td>
+                        <select id="id_filiere" name="id_filiere" required="true"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td><td><input id="act_val" type="submit" value="Valider"/><input id="act_reset" type="reset" value="Annuler"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function(){
+        $(function(){
+            $('#view-content').puipanel();
+        });
+         $.get(
+        '/eu-activite/filiere',
+        function success(data)
+        {
+            var options = '<option></option>';;
+            for(var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i][0] + '">' + data[i][1] +' </option>'; 
+            }
+            $('select#id_filiere').html(options);
+        });
+    });
+</script>

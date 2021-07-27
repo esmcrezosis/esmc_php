@@ -1,0 +1,161 @@
+<?php $sessionmembre = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+		<style media="screen">
+			.table tbody tr.primary > td{
+				background-color: #96d1e2;
+			}
+
+			.table tbody tr.dangerous > td{
+				background-color: #e296a1
+			}
+
+			.table tbody tr.marron > td{
+				    background-color: #dc942d;
+			}
+			.table tbody tr.marron > td{
+				    background-color: #dc942d;
+			}
+
+			.table tbody tr.level-fifth > td{
+				background-color: #ea9a4b;
+			}
+
+			.level-container{
+				text-align: left
+			}
+			.table tbody tr.level-one > td{
+				background-color: #7d7777;
+				color: #FFF;
+			}
+			.table tbody tr.level-six > td{
+				background-color:#7b4cca;
+				color: #FFF;
+			}
+      .table tbody tr.level-seven > td{
+        background-color:#d82883;color: #FFF;
+			}
+      .table tbody tr.level-heigh > td{
+        background-color:#06065a;color: #FFF;
+			}
+			.table tbody tr.level-nine > td{
+				background-color:#ad1f41;
+				color: #FFF;
+			}
+		</style>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+<?php if(count($this->entries) > 0){?>
+	<blockquote><p>Historique des tickets de support</p></blockquote>
+
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="margin-top:44px">
+   <thead>
+ 	<tr>
+ 		<th>Reference</th>
+		<th>Telecharger cette piece jointe</th>
+		<th>Date d'émission du ticket</th>
+    <th>Date de dispatching</th>
+		<th>Date du traitement</th>
+    <th>Statut</th>
+ 	</tr>
+   </thead>
+   <tbody>
+   	 	<?php foreach ($this->entries as $key => $value): ?>
+        <?php foreach ($this->ticket as $kt => $vt): ?>
+          <?php if ($value->id_ticket === $vt->id_ticket): ?>
+        <tr class="dangerous">
+        	<td >
+              <?php echo $vt->numero_demandeur; ?>
+          </td>
+
+					<td>
+						<?php if ($vt->file_name !== null): ?>
+							<a class="btn btn-mini btn-primary" href="/pdf_upload/<?php echo $valticket->file_name; ?>"><i class="icon-cog icon-white"></i> Telecharger cette piece jointe</a>
+            <?php elseif($vt->renseignement_id > 0): ?>
+							<a class="btn btn-mini btn-primary" href="fileedit/id/<?php echo $valticket->renseignement_id; ?>"><i class="icon-cog icon-white"></i> Telecharger cette piece jointe</a>
+            <?php else: ?>
+							<span>Aucune pièce jointe pour ce ticket</span>
+						<?php endif; ?>
+					</td>
+					<?php
+							$month = array('01'=>'Janvier','02'=>'Février','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+							$true_month = "";
+							$true_val_month = "";
+
+							$ex_date = explode('-',$vt->created);
+							$ex_val_date = explode('-',$value->date_observation);
+              $ex_dispatch_date = explode('-',$value->date_dispatch);
+
+
+							foreach ($month as $ky => $vad) {
+								if($ex_date[1] == $ky){
+									$true_month = $vad;
+								}
+								if($ex_val_date[1] == $ky){
+									$true_val_month = $vad;
+								}
+                if($ex_dispatch_date[1] == $ky){
+                  $true_dispatch_month = $vad;
+                }
+							}
+							$next_ex_date = explode(' ', $ex_date[2]);
+							$next_ex_val_date = explode(' ', $ex_val_date[2]);
+              $next_ex_dispatch_date = explode(' ', $ex_dispatch_date[2]);
+
+
+							$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0]." à ".$next_ex_date[1];
+							$true_val_date = $next_ex_val_date[0]." ".$true_val_month." ".$ex_val_date[0]." à ".$next_ex_val_date[1];
+              $true_dispatch_date = $next_ex_dispatch_date[0]." ".$true_dispatch_month." ".$ex_dispatch_date[0]." à ".$next_ex_dispatch_date[1];
+
+					 ?>
+					<td>
+						 <?php echo $true_date ?>
+					</td>
+          <td>
+             <?php echo $true_dispatch_date ?>
+          </td>
+					<td>
+						 <?php echo $true_val_date ?>
+					</td>
+
+          <td>
+             <?php echo $value->statut ?>
+          </td>
+        </tr>
+      <?php endif; ?>
+    <?php endforeach; ?>
+
+      <?php endforeach; ?>
+   </tbody>
+
+ </table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucun Historique disponible pour les tickets de support
+</div>
+<?php }?>
+</div>
+
+</div>
+</div>

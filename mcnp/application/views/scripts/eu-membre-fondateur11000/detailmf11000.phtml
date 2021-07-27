@@ -1,0 +1,74 @@
+<div id="view-content">
+    <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:12px">
+        <div style="margin-bottom: 3px; width: 820px">
+            <fieldset>
+                <legend style=" font-weight:bold">Recherche</legend>
+                <table align="center">
+                    <tr>
+                        <td>Code membre</td><td><input type="text" id="code_membre" name="code_membre" size="22"/></td>
+                        <td>Numéro Bon<td><input type="text" id="bon" name="bon" size="8"/></td>
+                        <td>Date début</td><td><input type="text" id="date_debut" name="date_debut" size="10"/></td>
+                        <td>Date fin</td><td><input type="text" id="date_fin" name="date_fin" size="10"/></td>
+                        <td><input id="ok" type="button" value="OK" /></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <table id="tbl-detmf"></table>
+        <div id="pg-detmf"></div>   
+    </div>
+</div> 
+<script type="text/javascript">
+    $("#tbl-detmf").jqGrid({
+        url: '/eu-membre-fondateur11000/mfdetail?date_deb='+''+'&date_fin='+''+'&code_membre='+''+'&bon='+'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Numéro bon','Code membre','Téléphone','Date apport','Montant apporté','Quota en %'],
+        height: 410, width: 827,
+        colModel: [
+            {name: 'numbon', index: 'numbon', width:150, editable: true, align: "left"},
+            {name: 'code_membre', index: 'code_membre', width:200, sorttype: "int", editable: true, align: "left"},
+            {name: 'cel', index: 'cel', width: 100, editable: true, align: "left"},
+            {name: 'date', index: 'date', width: 80, align: "left", editable: true},
+            {name: 'mont_apport', index: 'mont_apport', width:150, editable: true, align: "right",formatter:'number'},
+            {name: 'quota', index: 'quota', width:100, editable: true, align: "right"}  
+        ],
+        rowNum: 1000,
+        rowList: [1000, 5000, 20000],
+        pager: '#pg-detmf',
+        sortname: "numbon",
+        viewrecords: true,
+        rownumbers: true,
+        sortorder: "ASC",
+        caption: "Détail des placements  sur les comptes marchands MF11000" 
+    });
+    $("#tbl-detmf").jqGrid('navGrid', '#pg-detmf', {edit: false, add: false, del: false, search: true});  
+     $(document).ready(function ()
+    { 
+        $.get( "/eu-membre-fondateur11000/membre",
+        function success(data)
+        {
+            $("#code_membre").autocomplete({"source":data});
+        });
+        $.get( "/eu-membre-fondateur11000/numero",
+        function success(data)
+        {
+            $("#bon").autocomplete({"source":data});
+        });
+        $(function(){
+            var pickerOpts = {
+                dateFormat: "dd/mm/yy",
+                changeMonth:true,
+                changeYear:true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+            $("#date_debut").datepicker(pickerOpts);
+            $("#date_fin").datepicker(pickerOpts);
+        });
+        $('#ok').button();
+        $('#ok').click(function(){
+            jQuery("#tbl-detmf").jqGrid('setGridParam',{url:"/eu-membre-fondateur11000/mfdetail?date_deb="+$('#date_debut').val()+"&date_fin="+$('#date_fin').val()+"&code_membre="+$('#code_membre').val()+"&bon="+$('#bon').val()}).trigger('reloadGrid');
+        });  
+    })
+</script> 

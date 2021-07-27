@@ -1,0 +1,59 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left" charset="utf-8">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p> Modification d'une zone </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="update">
+<?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin!="") { ?>
+<div class="alert alert-success">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+</div>
+<?php } ?>
+
+<?php if(isset($this->error) && $this->error!="") { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $this->error; ?>
+</div>
+<?php } ?>
+
+<legend>Zone</legend>  
+<div class="control-group">
+<label class="control-label" for="nom">Nom de la zone *</label>
+<div class="controls">
+<input type="text" name="nom_zone" id="nom_zone" placeholder="Nom de la zone" value="<?php if(isset($this->zone)) echo $this->zone->nom_zone;?>" required />
+<input type="hidden" name="code_zone" id="code_zone" value="<?php if(isset($this->zone)) echo $this->zone->code_zone;?>">
+</div>
+</div>
+
+	  
+<div class="control-group">
+<label class="control-label">Devise</label>
+<div class="controls">
+<select  id="code_dev" name="code_dev" >
+<option value="">Choisir une devise</option>
+<?php foreach ($this->devises as $value) { ?>
+<option
+  value="<?php echo $value->code_dev; ?>" <?php if($this->zone->code_dev == $value->code_dev) {echo 'selected="selected"';}?> > <?php echo $value->lib_dev; ?>
+</option>                         
+<?php } ?>
+</select>
+</div>
+</div>	  
+
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok"/>
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier</button>
+</div>
+	  	  
+</form>
+</div>
+</div>
+</div>

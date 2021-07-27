@@ -1,0 +1,145 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+  <blockquote><p>Liste des propositions</p></blockquote>
+<?php //echo $sessionmembre->id_canton;?> 
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Date</th>
+								  <th>TDR</th>
+								  <th>Type proposition</th>
+								  <th>Libelle</th>
+                  <!--<th>Acteurs</th>
+								  <th>Utilisateur</th>
+								  <th>Validation</th>-->
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php echo $entry->datecreation; ?></td>
+<?php 
+        $tdr = new Application_Model_EuTdr();
+        $tdrM = new Application_Model_EuTdrMapper();
+        $tdrM->find($entry->id_tdr, $tdr);
+?>
+      <td><?php echo $tdr->libelle; ?></td>
+      <td><?php if($entry->type_propo > 0){
+        $tdr = new Application_Model_DbTable_EuTypePropo();
+        $tdr->find($entry->type_propo);
+        $row = $result->current();
+        echo $row->libelle_type_propo;
+      } ?></td>
+      <td><?php echo $entry->libelle; ?></td>
+<?php /*?><?php 
+        $membremorale = new Application_Model_EuMembreMorale();
+        $membremoraleM = new Application_Model_EuMembreMoraleMapper();
+        $membremoraleM->find($entry->code_membre, $membremorale);
+?>
+      <td><?php echo $membremorale->raison_sociale; ?></td>
+<?php 
+        $utilisateur = new Application_Model_EuUtilisateur();
+        $utilisateurM = new Application_Model_EuUtilisateurMapper();
+        $utilisateurM->find($entry->id_utilisateur, $utilisateur);
+?>
+      <td><?php echo $utilisateur->nom_utilisateur; ?> <?php echo $utilisateur->prenom_utilisateur; ?></td>
+      <td><div align="center">
+<?php 
+        $a_formulaireM = new Application_Model_EuAttributionUserGroupFormulaireMapper();
+        $a_formulaire = $a_formulaireM->fetchAllByNom("listtdrpropoadmin");
+
+        $formulaire = new Application_Model_EuFormulaire();
+        $formulaireM = new Application_Model_EuFormulaireMapper();
+        $formulaireM->find($entry->formulaire_id, $formulaire);
+
+        $attribution_user_group_formulaireM = new Application_Model_EuAttributionUserGroupFormulaireMapper();
+        $attribution_user_group_formulaire2 = $attribution_user_group_formulaireM->fetchAllByFormulaireDepart($formulaire->formulaire_id, $sessionmembre->code_groupe);
+$attribution_user_group_formulaire = $attribution_user_group_formulaire2[0];
+
+        $attribution_user_group_formulaire1M = new Application_Model_EuAttributionUserGroupFormulaireMapper();
+        $attribution_user_group_formulaire12 = $attribution_user_group_formulaire1M->fetchAllByFormulaireDepartAutre($formulaire->formulaire_id, $sessionmembre->code_groupe, $sessionmembre->code_groupe);
+$attribution_user_group_formulaire1 = $attribution_user_group_formulaire12[0];
+?>
+
+<?php if(count($attribution_user_group_formulaire2[0]) > 0){?>
+<?php if($entry->valid == $attribution_user_group_formulaire2[0]->code_groupe_depart){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/tdr/validtdrpropoadmin/id/<?php echo $entry->id_tdr_propo; ?>/valid/<?php echo $attribution_user_group_formulaire2[0]->code_groupe_depart; ?>"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/tdr/validtdrpropoadmin/id/<?php echo $entry->id_tdr_propo; ?>/valid/<?php echo $attribution_user_group_formulaire2[0]->code_groupe_depart; ?>"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+<?php }?>
+<?php if(count($attribution_user_group_formulaire12[0]) > 0){?>
+<?php if($entry->valid == $attribution_user_group_formulaire12[0]->code_groupe_depart){?>
+			<a class="btn btn-mini btn-success"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+<?php }?>
+
+			</div></td><?php */?>
+      <td><div align="center">
+<?php if($entry->etat == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/tdr/etattdrpropo/id/<?php echo $entry->id_tdr_propo; ?>/etat/0"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/tdr/etattdrpropo/id/<?php echo $entry->id_tdr_propo; ?>/etat/1"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/tdr/detailtdrpropo/id/<?php echo $entry->id_tdr_propo; ?>"><i class="icon-edit icon-white"></i>  Details</a>&nbsp;
+
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/tdr/edittdrpropo/id/<?php echo $entry->id_tdr_propo; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+
+			</div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune proposition  enregistrée 
+</div>
+<?php }?>
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php /*?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,205 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+		
+        /* $('#code_activite').change(function(e) {
+		    $.get("/espacepersonnel/metier",{
+                code1 : $(this).val()
+            },
+            function success(data) {
+				if(data !== "") {
+                    var options = '<option><option/>';
+                    for(var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                    }
+                    $('select#id_metier').html(options);
+				}
+			});
+			
+			/*$.get("/espacepersonnel/competence",{
+                code2 : $(this).val()
+            },
+            function success(data) {
+				if(data !== "") {
+                var options = '<option><option/>';
+                for(var i = 0; i < data.length; i++) {
+                options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                }
+                $('select#id_competence').html(options);
+				}
+			});*/
+	        //e.preventDefault();
+			
+		//});
+		
+		/*
+		
+		$('#code_activite').change(function(e) {
+		    $.get('/espacepersonnel/competence',{
+                code_activite : $(this).val()
+            },
+            function success(data) {
+                var options = '<option/>';
+                for (var i = 0; i < data.length; i++) {
+                options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+                }
+                $('select#id_competence').html(options);
+			});
+	        e.preventDefault();
+		});
+		*/
+
+    });
+</script>
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+
+  <blockquote><p>Modification de la situation géographique et la compétence du CMFH</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="adddemande">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php } ?>
+  
+
+  
+<div class="control-group">
+<label class="control-label" for="code_activite">Domaine d'activité  *</label>
+<div class="controls">
+<select  name ="code_activite" id="code_activite"  required="required" class="input-xxlarge" onchange="ouvre_competences(this.value);">
+    <option value="">Choisir une domaine d'activité </option>
+    <?php foreach ($this->activites as $value): ?>
+    <option value="<?php echo $value->code_activite; ?>" <?php if($value->code_activite == $this->code_activite) echo 'selected="selected"'; ?>><?php echo $value->nom_activite; ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div id="niv2">
+<div class="control-group">
+    <label class="control-label" for="id_metier">Métiers </label>
+    <div class="controls">
+        <select name="id_metier" id="id_metier" >
+            <option value="">Choisir le métier</option>
+        </select>
+    </div>
+</div>
+
+
+<div class="control-group">
+    <label class="control-label" for="id_competence">Compétence </label>
+    <div class="controls">
+    <select name="id_competence" id="id_competence" >
+          <option value="">Choisir la compétence</option>
+    </select>
+    </div>
+</div>
+</div>
+  
+    
+<div class="control-group">
+<label class="control-label" for="code_banque">Zone  *</label>
+<div class="controls">
+<select  name ="code_zone" id="code_zone"  required="required" class="input-xxlarge">
+    <option value="">Choisir une zone </option>
+    <?php foreach ($this->zones as $value): ?>
+    <option value="<?php echo $value->code_zone; ?>" <?php if($value->code_zone == $this->code_zone) echo 'selected="selected"'; ?>><?php echo $value->nom_zone; ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_banque">Pays  *</label>
+<div class="controls">
+<select  name ="id_pays" id="id_pays"  required="required" class="input-xxlarge">
+    <option value="">Choisir un pays </option>
+    <?php foreach ($this->pays as $value): ?>
+    <option value="<?php echo $value->id_pays; ?>" <?php if($value->id_pays == $this->id_pays) echo 'selected="selected"'; ?>><?php echo $value->libelle_pays; ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_banque">Région  *</label>
+<div class="controls">
+<select  name ="id_region" id="id_region"  required="required" class="input-xxlarge">
+    <option value="">Choisir une région </option>
+    <?php foreach ($this->regions as $value): ?>
+    <option value="<?php echo $value->id_region; ?>" <?php if($value->id_region == $this->id_region) echo 'selected="selected"'; ?>><?php echo $value->nom_region; ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_banque">Préfecture  *</label>
+<div class="controls">
+<select  name ="id_prefecture" id="id_prefecture"  required="required" class="input-xxlarge">
+    <option value=""> Choisir une préfecture </option>
+    <?php foreach ($this->prefectures as $value): ?>
+    <option value="<?php echo $value->id_prefecture; ?>" <?php if($value->id_prefecture == $this->id_prefecture) echo 'selected="selected"'; ?>><?php echo $value->nom_prefecture; ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_banque">Canton  *</label>
+<div class="controls">
+<select  name ="id_canton" id="id_canton"  required="required" class="input-xxlarge">
+    <option value=""> Choisir un canton </option>
+    <?php foreach ($this->cantons as $value): ?>
+    <option value="<?php echo $value->id_canton; ?>" <?php if($value->id_canton == $this->id_canton) echo 'selected="selected"'; ?>><?php echo $value->nom_canton; ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+<div class="form-actions">
+<input name="souscription_id" type="hidden" id="souscription_id" value="<?php echo $this->souscription->souscription_id; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

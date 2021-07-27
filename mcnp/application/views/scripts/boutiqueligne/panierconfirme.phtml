@@ -1,0 +1,42 @@
+<?php $sessionpanier = new Zend_Session_Namespace('panier');?>
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<div class="card3">
+<div class="row">
+<div class="col-xl-12" style="text-align:left">
+
+  <blockquote class="blockquote"><p>Formulaire de confirmation de la commande encours</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-inline" id="addmembre">
+  <?php if(isset($sessionmcnp->errorlogin) && $sessionmcnp->errorlogin!=""){?>
+  <div class="alert alert-danger" role="alert">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->errorlogin; $sessionmcnp->errorlogin = ""; ?>
+    </div>
+  <?php }?>
+
+Veuillez saisir le code de confirmation dans le formulaire. Merci
+<br />
+<br />
+
+<div class="control-group">
+<label class="control-label" for="code_confirmation">Code de confirmation *</label>
+<div class="controls">
+<input class="form-control" type="text" name="code_confirmation" id="code_confirmation" placeholder="Code de confirmation" required>
+<input name="ok" type="hidden" id="ok" value="ok" />
+<!--<button type="reset" class="btn">Annuler</button>-->
+<button type="submit" class="btn btn-success">Confirmer</button>
+</div>
+</div>
+
+
+</form>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+

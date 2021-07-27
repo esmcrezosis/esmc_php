@@ -1,0 +1,106 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/cartes.js"></script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+<?php 
+$type = $sessionmembre->type;
+$desctype = $sessionmembre->desctype;
+?>
+                        
+  <blockquote>
+    <p>Cartes <small>Achat de cartes </small></p></blockquote>
+<form method="post" enctype="multipart/form-data" class="well form-horizontal" id="apa">
+    <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin != ""){?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+	</div>
+	<?php }?>
+    
+  <legend>Code SMS</legend>
+  <div class="control-group">
+  <label class="control-label" for="creditcode">Code SMS *</label>
+  <div class="controls">
+  <input name="creditcode" type="text" id="creditcode" placeholder="Entrer le Code SMS reçu" required>
+	<span id="niv2"><button type="button" class="btn btn-info" onclick="ouvre_cartes(document.getElementById('creditcode').value);">Vérifier</button></span>
+  </div>
+  </div>
+  
+  
+<?php 
+$categoriecompteM = new Application_Model_EuCategorieCompteMapper();
+$categoriecompte = new Application_Model_EuCategorieCompte();
+$entries = $categoriecompteM->findByTypeMembre($sessionmembre->typepernonne);
+?>
+<?php if(count($entries)>0){?> 
+  
+<div class="control-group">
+  <label class="control-label" for="carte">Cartes *</label>
+  <div class="controls">
+<?php $a = 1;?>
+<?php foreach ($entries as $entry): ?>
+<?php 
+$tabcartes = array("TPAGCI", "TCNCSEI", "TPN", "TI", "TPAGCP", "TSCI", "TR", "TPAGCRPG", "TCNCS", "TPaNu", "TPaR");
+if(in_array($entry->code_cat, $tabcartes)){
+?>
+<?php 
+if($entry->code_type_compte == "NB"){
+$color = "#00F";
+$btncolor = "primary";
+}else if($entry->code_type_compte == "NR"){
+$color = "#F00";
+$btncolor = "danger";
+}else if($entry->code_type_compte == "NN"){
+$color = "#000";
+$btncolor = "inverse";
+}
+?>
+<?php $table = new Application_Model_DbTable_EuCartes();
+        $select = $table->select()
+						->where('code_compte = ?', $entry->code_type_compte."-".$entry->code_cat."-".$sessionmembre->code_membre);
+        $result = $table->fetchRow($select);
+?>
+  <label for="carte<?php echo $a;?>" class="checkbox" style="color:<?php echo $color; ?>; <?php if ($result != FALSE) {?> text-decoration:line-through;<?php }?>">
+  <input type="checkbox" name="carte[]" id="carte<?php echo $a;?>" value="<?php echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat; ?>" <?php if ($result != FALSE) {?> disabled<?php }?>>
+<strong><?php echo $entry->code_type_compte; ?>-<?php echo $entry->code_cat; ?></strong> <small><?php echo $entry->lib_cat; ?> (<strong><?php echo $entry->desc_cat; ?></strong>)</small></label>
+
+<input name="prix[]" id="prix<?php echo $a;?>" type="hidden" value="<?php echo $entry->desc_cat; ?>" />
+
+<?php $a++;?>
+<?php }?>
+<?php endforeach; ?>
+  </div>
+  </div>  
+<?php }?>
+  
+<div class="form-actions">
+              <input name="ok" type="hidden" value="ok" />
+  <button type="reset" class="btn">Annuler</button>
+      <button type="submit" class="btn btn-primary">Acheter Cartes</button>
+</div>  
+</form>
+
+
+
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

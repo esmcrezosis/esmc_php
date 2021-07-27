@@ -1,0 +1,88 @@
+<div id="view-content">
+     <div style="margin-bottom: 3px;">
+          <form action="" method="post">
+               <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+               <input id="detail" type="button" value="Afficher" class="ui-widget button"/>
+               <input type="hidden" name="code_membre" id="code_membre" />
+               <input type="text" id="membre" name="membre" size="35"/>
+               <input id="recherche" type="button" value="Recherche"/>
+          </form> 
+     </div>
+     <table id="tbl-maison"></table>
+     <div id="pg-maison"></div>
+</div>
+<script type="text/javascript">
+        $("#tbl-maison").jqGrid({
+        url: "/eu-maison/data",
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Numero', 'Code membre','Type acteur', 'Désignation', 'Type de maison', 'Quartier'],
+        height: 410, width: 827,
+        colModel: [
+            {name: 'numero', index: 'numero', width:80, editable: true, align: "left"},
+            {name: 'code_membre', index: 'code_membre', width: 170, align: "left", editable: true},
+			{name: 'type_acteur', index: 'type_acteur', width: 80, align: "left", editable: true},
+            {name: 'designation', index: 'designation', width:150, align: "left", editable: true},
+            {name: 'type_maison', index: 'type_maison', width: 150, editable: true, align: "left"},
+            {name: 'quartier', index: 'quartier', width: 150, align: "left", editable: true}
+        ],
+        rowNum: 200000,
+        rowList: [200000, 400000, 600000],
+        pager: '#pg-maison',
+        sortname: "id_maison",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Membres morales immobiliers" 
+    });
+    $("#tbl-maison").jqGrid('navGrid', '#pg-maison', {edit: false, add: false, del: false, search: true});
+    
+    $('#recherche').click(function()
+    {
+      membre = $('#membre').val();
+      jQuery("#tbl-maison").jqGrid('setGridParam', {url: "/eu-maison/data?membre=" + membre}).trigger('reloadGrid');
+    });
+    
+    $.get( "/eu-maison/membre",
+    function success(data) {
+      $("#membre").autocomplete({"source":data});
+    });
+    
+    $('#editer').button();
+    $('#detail').button();
+    $('#recherche').button();
+    $('input').button();
+    
+    
+    $('#editer').click(function()
+    {
+      var rowsel;
+      rowsel = jQuery("#tbl-maison").jqGrid('getGridParam', 'selrow');
+      if (rowsel){
+         $.get('/eu-maison/edit', {
+         membre: rowsel
+        }, function success(data) {
+           $("#content").html(data);
+        });    
+      }else {
+          alert('Aucune ligne sélectionnée');
+      }  
+    })
+    
+    
+	
+    $('#detail').click(function() {
+       var rowsel;
+       rowsel = jQuery("#tbl-maison").jqGrid('getGridParam', 'selrow');
+       if (rowsel){ 
+       $.get('/eu-maison/mdetail', {
+          membre: rowsel
+       }, function success(data) {
+          $("#content").html(data);
+       }); 
+      }
+      else {
+          alert('Aucune ligne sélectionnée');
+      }
+  });
+      
+</script>

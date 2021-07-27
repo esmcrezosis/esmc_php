@@ -1,0 +1,48 @@
+
+
+<?php if(count($this->searchbondecommandeaviserparlatechnopoleapreslegerant) > 0){?>
+
+<h3>Liste des bons de commandes à valider par la technopole après la validation du gerant </h3>
+
+<table class="table table-stripped">
+ 	<tr>
+		<th>Référence du bon de commande</th>
+		<th>Montant du bon de commande</th>
+		<th>Date d'établissement du bon de commande</th>
+		<th>Actions</th>
+        
+ 	</tr>
+   </thead>
+   <tbody>
+   	  <?php foreach ($this->searchbondecommandeaviserparlatechnopoleapreslegerant as $key => $value): ?>
+         <tr class="primary">
+            <td> <?php echo $value->reference_bon_commande ;?> </td>
+            <td> <?php echo $value->montant_bon_commande ;?> </td>
+            <?php
+
+$month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+$true_month = "";
+$ex_date = explode('-',$value->date_bon_commande);
+
+foreach ($month as $key => $valdate) {
+  if($ex_date[1] == $key){
+    $true_month = $valdate;
+  }
+}
+$next_ex_date = explode(' ', $ex_date[2]);
+$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+
+?>
+            <td> <?php echo $true_date ?> </td>
+             <td> <a href="/procedureachat/editvaliderlebondecommandeparlatechnopoleapreslegerant/id/<?php echo $value->id_bon_commande ?>">Transmission vers le gerant</a> </td>     
+         </tr>
+
+ 	  <?php endforeach ?>       
+   
+    </tbody>
+</table>
+<?php } else {?>
+<div class="alert alert-info">
+Aucun bon de commande n'a encore été établit
+</div>
+<?php }?>

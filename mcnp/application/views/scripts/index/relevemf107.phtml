@@ -1,0 +1,179 @@
+﻿<?php $sessionmcnp = new Zend_Session_Namespace('mcnp');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": [],
+        "iDisplayLength": 32,
+        "aLengthMenu": [[32, 64, 96, -1], [32, 64, 96, "All"]]
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+  <blockquote><p class="text-info">Relevé des unités MF107 Ancien Membre</p></blockquote>
+
+<div class="">
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="ancienpp">
+  <?php if(isset($sessionmcnp->errorlogin) && $sessionmcnp->errorlogin!=""){?>
+  <div class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmcnp->errorlogin; $sessionmcnp->errorlogin = ""; ?>
+    </div>
+  <?php }?>
+  <?php if(isset($this->message) && $this->message!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->message; ?>
+    </div>
+  <?php }?>
+  
+  <legend>Relevé des unités MF107 Ancien Membre</legend>
+  
+  
+  <div class="control-group">
+  <label class="control-label" for="code_membre">Ancien Code Membre *</label>
+  <div class="controls">
+  <input type="text" name="code_membre" id="code_membre" placeholder="Ancien Code Membre" value="<?php echo $this->code_membre; ?>" required>
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<!--<button type="reset" class="btn">Annuler</button>-->
+<button type="submit" class="btn btn-primary">Afficher le relevé</button>
+<?php if (isset($_POST['code_membre']) && $_POST['code_membre']!="" && ($this->relevedeja == 0)) {?>
+<a target="_blank" class="btn btn-danger" href="<?php echo $this->baseUrl(); ?>/index/relevemf107pdf/code/<?php echo $_POST['code_membre']; ?>">Générer le PDF du relevé</a>
+<?php }else if($this->relevedeja == 1){?>
+<span class="alert alert-success">Relevé déja demandé</span>
+<?php }?>
+  </div>
+  </div>
+  
+
+</form>
+
+<?php 
+  if (isset($_POST['ok']) && $_POST['ok']=="ok") {
+  if (isset($_POST['code_membre']) && $_POST['code_membre']!="") {
+?>
+
+  <blockquote>Récapitulatif</blockquote>
+<table class="table table-striped table-bordered table-hover table-condensed">
+    <thead>
+        <tr>
+            <th><div align="right">Solde MF107</div></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><div align="right"><strong><?php echo number_format($this->soldemf107,0,',',' ');?></strong></div></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<br />
+<br />
+
+
+  <blockquote>Détails MF107</blockquote>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+    <thead>
+        <tr>
+            <!--<th><div align="left"></div></th>-->
+            <th><div align="left">Apporteur</div></th>
+            <th><div align="center">Type</div></th>
+            <th><div align="right">Montant apporté</div></th>
+            <th><div align="right">% Perçu</div></th>
+            <th><div align="right">Montant reçu</div></th>
+            <th><div align="right">Montant utilisé</div></th>
+            <th><div align="right">Solde</div></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php 
+			   $code_membre = $_POST['code_membre'];
+			   $tot_apport = 0;
+			   $tot_pourcentage = 0;
+			   $tot_entrees = 0;
+			   $tot_sorties = 0;
+			   $tot_solde = 0;
+	?>
+<?php foreach ($this->detailmf107 as $entry): ?>
+<?php 
+			$mf107  = new Application_Model_EuMembreFondateur107();
+			$mmf107 = new Application_Model_EuMembreFondateur107Mapper();
+			    $findmf107 = $mmf107->find($entry->numident,$mf107);
+				$code_proprio = $mf107->getCode_membre();
+				if(($code_proprio == $code_membre) && ($entry->code_membre == $code_membre)) {
+				  $pourcentage = 100;
+				}
+			    elseif($code_proprio == $code_membre) {
+				  $pourcentage = $entry->pourcentage;
+				} elseif($entry->code_membre == $code_membre) {
+				  $pourcentage = 100.00 - $entry->pourcentage;
+				}
+?>
+        <tr>
+          <?php /*?><td><div align="left"><?php echo $entry->id_rep;?></div></td><?php */?>
+          <td><div align="left"><?php echo $entry->code_membre;?></div></td>
+          <td><div align="center"><?php echo 'MF107';?></div></td>
+          <td><div align="right"><strong><?php echo number_format($entry->mont_apport,0,',',' ');?></strong></div></td>
+          <td><div align="right"><strong><?php echo number_format($pourcentage,2,',',' ');?></strong></div></td>
+          <td><div align="right"><strong><?php echo number_format($entry->mont_rep,0,',',' ');?></strong></div></td>
+          <td><div align="right"><strong><?php echo number_format($entry->mont_reglt,0,',',' ');?></strong></div></td>
+          <td><div align="right"><strong><?php echo number_format($entry->solde_rep,0,',',' ');?></strong></div></td>
+        </tr>
+    <?php 
+				$tot_apport += $entry->mont_apport;
+				//$tot_pourcentage += $entry->pourcentage;
+			    $tot_entrees += $entry->mont_rep;
+			    $tot_sorties += $entry->mont_reglt;
+			    $tot_solde += $entry->solde_rep;
+	?>
+<?php endforeach; ?>
+        <tr>
+          <?php /*?><td><div align="left">&nbsp;</div></td><?php */?>
+          <td><div align="left">&nbsp;</div></td>
+          <td><div align="right"><strong>Total</strong></div></td>
+          <td><div align="right"><strong><?php echo number_format($tot_apport,0,',',' ');?></strong></div></td>
+          <td><div align="left">&nbsp;</div></td>
+          <td><div align="right"><strong><?php echo number_format($tot_entrees,0,',',' ');?></strong></div></td>
+          <td><div align="right"><strong><?php echo number_format($tot_sorties,0,',',' ');?></strong></div></td>
+          <td><div align="right"><strong><?php echo number_format($tot_solde,0,',',' ');?></strong></div></td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<br />
+<br />
+&nbsp;
+
+<?php }?>
+<?php }?>
+</div>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

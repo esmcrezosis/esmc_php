@@ -1,0 +1,60 @@
+<div id="view-content">
+     <div style="margin-bottom: 3px;">
+        <input id="lister" type="button" value="Liste" class="ui-widget button"/>
+     </div>
+    <div id="accordeon">
+        <h2><a href="#">Etat civil</a></h2>
+        <div id="etat_civil">
+            <table>
+                <tr><td>Nom</td><td><input id="nom_membre" value="<?php echo $this->membre['nom_membre']; ?>" readonly="true"/></td> <td>Prénoms</td><td><input id="prenom_membre" value="<?php echo $this->membre['prenom_membre'];?>" readonly="true"/></td></tr>
+                <tr><td>Sexe</td><td><input id="sexe_membre" value="<?php if($this->membre['sexe_membre'] == 'F') { echo 'Féminin';}else {echo'Masculin';} ?>" readonly="true"/></td> 
+				<td>Date de naissance</td><td><input name="date_nais_membre" id="date_nais_membre" value="<?php $datenais = new Zend_Date($this->membre['date_nais_membre'],Zend_Date::ISO_8601); echo $datenais->toString('dd/MM/yyyy'); ?>" readonly="true"/></td></tr>
+                <tr><td>Nationalité</td><td><input name="nationalite_membre"  id="nationalite_membre" value="<?php echo $this->membre['nationalite']; ?>" readonly="true"/></td> <td>Lieu de naissance</td><td><input name="lieu_nais_membre" id="lieu_nais_membre" value="<?php echo $this->membre['lieu_nais_membre']; ?>" readonly="true"/></td></tr>
+                <tr><td>Nom du père</td><td><input name="pere_membre" value="<?php echo $this->membre['pere_membre']; ?>" readonly="true"/></td> <td>Nom de la mère</td><td><input name="mere_membre" value="<?php echo $this->membre['mere_membre']; ?>" readonly="true"/></td></tr>
+                <tr><td>Situation matrimoniale</td><td>
+				<input name="sitfam_membre" value="<?php if(($this->membre['sitfam_membre'] == 'M') && ($this->membre['sexe_membre'] == 'F')) {echo 'Mariée';} 
+				elseif(($this->membre['sitfam_membre'] == 'M') && ($this->membre['sexe_membre'] == 'M')) {echo 'Marié';} elseif($this->membre['sitfam_membre'] == 'C') {echo 'Célibataire';} 
+				elseif(($this->membre['sitfam_membre'] == 'V') && ($this->membre['sexe_membre'] == 'M')) {echo 'Veuf';} elseif(($this->membre['sitfam_membre'] == 'V') && ($this->membre['sexe_membre'] == 'F')) {echo 'Veuve';} 
+				elseif(($this->membre['sitfam_membre'] == 'D') && ($this->membre['sexe_membre'] == 'M')) {echo 'Divorcé';} elseif(($this->membre['sitfam_membre'] == 'D') && ($this->membre['sexe_membre'] == 'F')) {echo 'Divorcée';}?>" readonly="true"/>
+				</td> <td>Nombre d'enfant</td><td><input name="nbr_enf_membre" value="<?php echo $this->membre['nbr_enf_membre']; ?>" maxlength="2" readonly="true" /></td></tr>
+            </table>
+            <!--<div>
+                <img src="<?php echo APPLICATION_PATH . '\\photos\\' . $this->membre->code_membre . '.jpg'; ?>" alt="Ma PHOTO" height=65 width=66>
+            </div>
+			-->
+        </div>
+        <h2><a href="#">Coordonnées</a></h2>
+        <div id="coordonnees">
+            <table>
+                <tr><td>Quartier</td><td><input name="quartier_membre" value="<?php echo $this->membre['quartier_membre']; ?>" readonly="true"/></td></tr>
+                <tr><td>Ville</td><td><input name="ville_membre" id="ville_membre" value="<?php echo $this->membre['ville_membre']; ?>" readonly="true"></td></tr>
+                <tr><td>BP</td><td><input name="bp_membre" value="<?php echo $this->membre['bp_membre']; ?>" readonly="true"/></td></tr>
+                <tr><td>Téléphone</td><td><input name="tel_membre" value="<?php echo $this->membre['tel_membre']; ?>" readonly="true"/></td> <td>Téléphone portable</td><td><input name="portable_membre" id="portable_membre" value="<?php echo $this->membre['portable_membre']; ?>" readonly="true"/></td></tr>
+                <tr><td>Adresse email</td><td><input name="email_membre" value="<?php echo $this->membre['email_membre']; ?>" readonly="true"/></td></tr>
+            </table>
+        </div>
+        <h2><a href="#">Autres informations</a></h2>
+        <div id="autres">
+            <table>
+                <tr><td>Profession</td><td><input name="profession_membre" value="<?php echo $this->membre['profession_membre']; ?>" readonly="true"/></td></tr>
+                <tr> <td>Formation</td><td><input name="formation" value="<?php echo $this->membre['formation']; ?>" readonly="true" /></td></tr>
+                <tr><td>Religion</td><td><input name="religion_membre"  value="<?php echo $this->membre['libelle_religion']; ?>" readonly="true"/></td></tr>
+            </table>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(function() {
+                $("#accordeon").accordion();
+            });
+        
+		    
+		
+            $('#lister').button().click(function() {
+                $.get('/eu-membre-ancien/index',function(data){
+                    $("#view-content").html(data);
+                });
+            });
+        });
+    </script>
+</div>

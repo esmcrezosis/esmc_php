@@ -1,0 +1,102 @@
+﻿<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+
+<script type="text/javascript" charset="utf-8">		
+$(document).ready(function() {
+  $('#example').dataTable( {
+   "sPaginationType": "full_numbers",
+   "aaSorting": []
+  });
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p>Liste des terminaux de vente</p></blockquote>
+
+<?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error !="") { ?>
+  <div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+  <?php } ?>
+
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+
+
+
+<?php if(count($this->entries)>0) { ?>
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">
+       <thead>
+			 <tr>
+				<th>Code TE</th>
+				<th>Nom TE</th>
+				<th>Code Membre</th>
+				<th>Raison Sociale</th>
+				<th>Actions</th>
+			 </tr>
+		</thead>
+		<tbody>
+            <?php foreach ($this->entries as $entry):
+                $membre = new Application_Model_EuMembre();
+	            $m_map  = new Application_Model_EuMembreMapper();
+			    $membremoral = new Application_Model_EuMembreMorale();
+	            $m_mapmoral  = new Application_Model_EuMembreMoraleMapper();
+                
+                if(substr($entry->code_membre_physique,19,1) == 'P')  {
+				  $findmembre = $m_map->find($entry->code_membre_physique,$membre);
+                } else {
+                  $findmembre = $m_mapmoral->find($entry->code_membre,$membremoral);
+                }				
+			  
+			?>
+                    <tr>
+					    <td><?php echo $entry->code_tegc; ?></td>
+                        <td><?php echo $entry->nom_tegc; ?></td>
+                        <td><?php if(substr($entry->code_membre_physique,19,1) == 'P') { echo $entry->code_membre_physique; } else {echo $entry->code_membre;} ?></td>
+		                <td>
+						    <?php if(substr($entry->code_membre_physique,19,1) == 'P')  { echo $membre->nom_membre." ".$membre->prenom_membre; } 
+							    else { echo $membremoral->raison_sociale;}
+							?>
+						</td>
+						<td>
+						    <div align="center">
+	                            <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/editte/id/<?php echo $entry->code_tegc; ?>"><i class="icon-edit icon-white"></i>Parametrer</a>&nbsp;	   
+                                <a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/detailte/id/<?php echo $entry->code_tegc; ?>"><i class="icon-info-sign icon-white"></i>Détails</a>&nbsp;
+                                <a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/addprk/id/<?php echo $entry->code_tegc; ?>">Ajouter Produit</a>&nbsp;
+							</div>
+						</td>
+					</tr>
+			  <?php endforeach; ?>
+        </tbody>
+</table>
+<?php } else { ?>
+<div class="alert alert-info">
+  Aucun enrégistrement 
+</div>
+<?php } ?>
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>

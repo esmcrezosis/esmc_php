@@ -1,0 +1,187 @@
+<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript" charset="utf-8">		
+$(document).ready(function() {
+  $('#example').dataTable({
+    "sPaginationType": "full_numbers",
+    "aaSorting": []
+  }); 
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align: left">
+    <?php include("../application/layouts/scripts/menuadmin.phtml");?>
+	
+	<blockquote>
+        <p> <strong> Tableau des OPI matures utilis&eacute;s pour faire des Bons d'Achat neutre (BAn) </strong> </p>
+    </blockquote>
+	
+	<div>
+	    <form method="post" id="frm_rech_bankacm" action="" class="form-horizontal">
+			<?php if (isset($this->message) && $this->message != "") { ?>
+                <div class="alert alert-error">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <?php
+                echo $this->message;$this->message = "";
+            ?>
+            </div>
+            <?php } ?>
+	    <div class="well">
+				<div class="row-fluid">
+                    <div class="span5">
+                        <div class="control-group">
+                            <label class="control-label span4">Date d&eacute;but &eacute;ch&eacute;ance</label>
+                            <div class="controls span4">
+                                <input type="text" name="date_debut" id="date_debut"  class="input-large datepicker" data-provide="datepicker"  placeholder="Date d&eacute;but" />    
+                            </div>
+                        </div>
+                    </div>
+							
+				    <div class="span4">
+                        <div class="control-group">
+                            <label class="control-label span4">Date fin &eacute;ch&eacute;ance</label>
+                            <div class="controls span4">
+                                <input type="text" name="date_fin" id="date_fin"  class="input-large datepicker" data-provide="datepicker"  placeholder="Date fin"/>        
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="span4">
+                        <div class="control-group">
+                            <label class="control-label span4">TE </label>
+                            <div class="controls span4">
+                            <select  id="code_tegc" name="code_tegc" >
+                            <option value=""> Choisir un terminal</option>
+                            <?php foreach ($this->tes as $value) { ?>
+                            <option
+                            value="<?php echo $value->code_tegc; ?>">
+	                        <?php echo $value->nom_tegc; ?>
+	                       </option>                         
+                           <?php } ?>
+                           </select>        
+                           </div>
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="row-fluid">
+                    <div class="controls">
+                        <button id="btn_valider"   class="btn btn-primary">Valider</button>
+                        <button type="reset" class="btn">Annuler</button>
+
+<?php if (isset($_POST['date_debut'])) {?>
+<a target="_blank" class="btn btn-success" href="<?php echo $this->baseUrl(); ?>/administration/etatqopibanexcel/date_debut/<?php echo $_POST['date_debut']; ?>/date_fin/<?php echo $_POST['date_fin']; ?>/code_tegc/<?php echo $_POST['code_tegc']; ?>">Exporter en Excel</a>
+<?php }?>
+                    </div>
+                </div>    				
+		</div>
+		</form>
+	</div>
+	
+	<?php if(count($this->entries) > 0) { 
+			    $ttmontant = 0;
+				$date_id = new Zend_Date(Zend_Date::ISO_8601);
+    ?>
+	
+	<table class="table table-bordered table-condensed" id="example" style="font-size:11px;">
+	    <thead>
+		    <tr>
+			    <th>F/sseurs ou Prestataire</th>
+				<th>Type TE</th>
+				<th>Banque</th>
+				<th>Num&eacute;ro OPI</th>
+				<th>Montant OPI</th>
+				<th>Date d&eacute;but</th>
+				<th>Date fin</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+		    <?php foreach($this->entries as $entry) :  
+			    $eutpagcpd = new Application_Model_DbTable_EuDetailTpagcp();
+				$select = $eutpagcpd->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
+                $select->setIntegrityCheck(false);
+		        $select->join('eu_tegc', 'eu_tegc.code_tegc = eu_detail_tpagcp.code_tegc');
+				$select->where('eu_detail_tpagcp.id_tpagcp = ?',$entry->id_tpagcp);
+				
+				$select->limit(1);
+                $rowseu = $eutpagcpd->fetchRow($select);
+				
+				if(!empty($this->code_tegc) && ($this->code_tegc == $rowseu->code_tegc))  {
+			
+			?>
+            <tr>
+			    <td><div><?php if(count($rowseu) > 0) echo $rowseu->nom_tegc; ?></div></td>
+				<td><div><?php if(count($rowseu) > 0) echo $rowseu->type_tegc;?></div></td>
+                <td><div><?php echo $entry->traite_code_banque; ?></div></td>
+                <td><div><?php echo $entry->traite_numero; ?></div></td>
+                <td><div align="right"><?php echo number_format($entry->mont_tranche,0,',',' ').''; ?></div></td>
+                <td><div><?php echo datefr($entry->traite_date_debut); ?></div></td>
+                <td><div><?php echo datefr($entry->traite_date_fin); ?></div></td>				
+            </tr>
+			
+            <?php 
+				$ttmontant += $entry->mont_tranche;
+				} elseif(empty($this->code_tegc)) {
+			?>
+			    
+			<tr>
+			    <td><div><?php if(count($rowseu) > 0) echo $rowseu->nom_tegc;  ?></div></td>
+				<td><div><?php if(count($rowseu) > 0) echo $rowseu->type_tegc;?></div></td>
+                <td><div><?php echo $entry->traite_code_banque; ?></div></td>
+                <td><div><?php echo $entry->traite_numero; ?></div></td>
+                <td><div align="right"><?php echo number_format($entry->mont_tranche,0,',',' ').''; ?></div></td>
+                <td><div><?php echo datefr($entry->traite_date_debut); ?></div></td>
+                <td><div><?php echo datefr($entry->traite_date_fin); ?></div></td>				
+            </tr>
+					
+            <?php
+                $ttmontant += $entry->mont_tranche;
+                }			
+				endforeach; 
+			?>			
+	      
+		</tbody>
+		
+		<tfoot>
+		    <tr>
+			    <td colspan="7">&nbsp;</td>
+			</tr>
+		    <tr>
+                <td colspan="4"><div align="right" style="font-size:14px;"><strong>Total</strong></div></td>
+				<td><div align="right" style="font-size:14px;"><strong><?php echo number_format($ttmontant,0,',',' ');?></strong></div></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>	
+		</tfoot>
+		
+	</table>
+	<?php   }  else {  ?>
+
+	    <div class="alert alert-info">
+            Aucun enregistrement d'OPI 
+        </div>
+	
+    <?php }  ?>
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>

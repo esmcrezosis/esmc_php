@@ -1,0 +1,87 @@
+<?php $sessionmembre = new Zend_Session_Namespace('utilisateur');?>
+
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+<style media="screen">
+.table tbody tr.marron > td{
+	    background-color: #dc942d;
+}
+.table tbody tr.marron > td:hover{
+	    background-color: #dc942d;
+}
+
+.table tbody tr.marron:hover > td{
+	    background-color: #dc942d;
+}
+</style>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<?php if(count($this->entries) > 0){?>
+	<blockquote><p>Liste des Tickets de Support traités par les differentes sections</p></blockquote>
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+   <thead>
+ 	<tr>
+ 		<th>Reference</th>
+		<th>Telecharger cette piece jointe</th>
+		<th>observation </th>
+    <th>Actions</th>
+ 	</tr>
+   </thead>
+   <tbody>
+     <?php foreach ($this->assoc as $key => $value): ?>
+      <?php foreach ($this->entries as $kentry => $valentry): ?>
+         <?php if ($valentry->id_ticket == $value->id_ticket && $value->statut == "en cours"): ?>
+        <tr class="marron">
+        	<td ><?php echo $valentry->numero_demandeur; ?></td>
+					<td>
+						<?php if ($valentry->file_name !== null): ?>
+							<a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/pdf_upload/<?php echo $valentry->file_name; ?>"><i class="icon-cog icon-white"></i> Telecharger cette piece jointe</a>
+            <?php elseif($valentry->renseignement_id > 0): ?>
+							<a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/ticketsupport/fileedit/id/<?php echo $valentry->renseignement_id; ?>"><i class="icon-cog icon-white"></i> Telecharger cette piece jointe</a>
+            <?php else: ?>
+							<span>Aucune pièce jointe pour ce ticket</span>
+						<?php endif; ?>
+					</td>
+          <td>
+            <span><?php echo $value->observation; ?></span>
+          </td>
+          <td>
+            <a class="btn btn-mini btn-primary " href="<?php echo $this->baseUrl(); ?>/ticketsupport/editticketredispatching/id/<?php echo $valentry->id_ticket; ?>"><i class="icon-cog icon-white"></i> Lire ce ticket</a>
+          </td>
+        </tr>
+
+      <?php endif; ?>
+   <?php endforeach; ?>
+ 	<?php endforeach ?>
+   </tbody>
+
+ </table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucun Ticket de Support n'a été encore enregistré
+</div>
+<?php }?>
+
+</div>
+</div>
+</div>

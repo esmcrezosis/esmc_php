@@ -1,0 +1,121 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+            
+            
+<?php if(count($this->traites)>0){?> 
+  <blockquote><p>Liste des OPI traités</p></blockquote>
+
+<table class="table table-bordered table-hover table-condensed" id="example" style="font-size:10px;">
+						  <thead>
+							  <tr>
+								  <?php /*?><th>#</th>
+								  <th>Compte</th><?php */?>
+								  <th>Membre</th>
+								  <th>Début</th>
+								  <th>Fin</th>
+								  <th>Montant GCP</th>
+								  <th>Montant Tranche</th>
+								  <th>Montant Echu</th>
+								  <th>Montant Solde</th>
+								  <th>Reste Tranche</th>
+								  <th>Type Bon</th>
+								  <th>Numéro Bon</th>
+								  <th>Re-injection</th>
+								  <th>Nombre à ré-injecter</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->traites as $row): ?>
+
+<?php 
+  if (substr($row->code_membre, -1) == "P") {
+$membre = new Application_Model_EuMembre();
+$membreM = new Application_Model_EuMembreMapper();
+$membreM->find($row->code_membre, $membre);
+$designation_membre = $membre->nom_membre." ".$membre->prenom_membre;
+  } else if (substr($row->code_membre, -1) == "M") {
+$membre = new Application_Model_EuMembreMorale();
+$membreM = new Application_Model_EuMembreMoraleMapper();
+$membreM->find($row->code_membre, $membre);
+$designation_membre = $membre->raison_sociale;
+  }
+
+
+           $nomtegc = $designation_membre;
+ 
+        $date_id = new Zend_Date(Zend_Date::ISO_8601);
+           $traiteM = new Application_Model_EuTraiteMapper();
+           $traite = $traiteM->fetchAllByEchu($row->id_tpagcp, $date_id->toString('yyyy-MM-dd'));
+?>
+    <tr <?php if(count($traite)>0) {// class="success"?> style="background-color: rgba(95, 189, 95, 0.69);"<?php } ?>>
+      <?php /*?><td><?php echo $row->id_tpagcp; ?></td>
+      <td><?php echo $row->code_compte; ?></td><?php */?>
+      <td><?php echo $nomtegc; ?></td>
+      <td><?php echo datefr($row->date_deb); ?></td>
+      <td><?php echo datefr($row->date_fin); ?></td>
+      <td><?php echo $row->mont_gcp; ?></td>
+      <td><?php echo $row->mont_tranche; ?></td>
+      <td><?php echo $row->mont_echu; ?></td>
+      <td><?php echo $row->solde; ?></td>
+      <td><?php echo $row->reste_ntf; ?></td>
+      <td><?php echo $row->type_bl; ?></td>
+      <td><?php echo $row->numero_bl; ?></td>
+      <td><?php echo $row->reinjecter; ?></td>
+      <td><?php echo $row->nbre_injection; ?></td>
+      <td><div align="center">
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/detailstraite/id/<?php echo $row->id_tpagcp; ?>"><i class="icon-search icon-white"></i>  Détails</a>&nbsp;
+</div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune traite  
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

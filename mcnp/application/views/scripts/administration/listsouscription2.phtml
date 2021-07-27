@@ -1,0 +1,188 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+        
+<script type="text/javascript">
+function checkAllInput(form, action)
+{
+   var i = document.forms[form].getElementsByTagName("input"); 
+    for ( var cpt = 0; cpt < i.length; cpt++) 
+        i[cpt].checked = (action)? true : false ;
+}
+
+//onclick="checkAllInput('form1', true);" //coche
+//onclick="checkAllInput('form1', false);" //decoche
+
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des souscriptions vérifiées à valider</p></blockquote>
+  
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+    </div>
+  <?php }?>
+  
+<?php if(count($this->entries)>0){?> 
+  <form method="post" enctype="multipart/form-data" role="form" name="souscription" id="souscription" action="<?php echo $this->baseUrl();?>/administration/publiersouscription">
+
+<div class="accordion" id="accordion2">
+<?php foreach ($this->entries as $entry_agence): ?>
+
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<?php echo $entry_agence->code_agence; ?>">
+        <i class="icon-arrow-right"></i> <?php echo ($entry_agence->libelle_agence); ?>
+      </a>
+    </div>
+    <div id="collapse<?php echo $entry_agence->code_agence; ?>" class="accordion-body collapse in" align="left">
+      <div class="accordion-inner">
+
+<?php 
+        $souscription = new Application_Model_EuSouscriptionMapper();
+        if($sessionutilisateur->code_agence != "001001001001"){
+        $entriessouscription = $souscription->fetchAllByPublier(1, $sessionutilisateur->code_agence);
+      }else{
+        $entriessouscription = $souscription->fetchAllByPublier(1, "");
+        }
+?>
+<?php if(count($entriessouscription)>0){?> 
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:12px;">
+						  <thead>
+							  <tr>
+								  <th>OSE/OE</th>
+								  <th>Date</th>
+								  <th>Nom & prénom(s) / Raison sociale</th>
+								  <th>Cellulaire</th>
+								  <th>Type</th>
+								  <th>Numero</th>
+								  <th>Date Numero</th>
+								  <th>Programme</th>
+								  <th>Nombre</th>
+								  <th>Montant</th>
+								  <th>Vérifié</th>
+								  <th>Actions</th>
+								  <th><!--<input name="all" id="all" type="checkbox" value="1" onClick="if(document.souscription.all.checked){checkAllInput('souscription', true);} else {checkAllInput('souscription', false);}" />--></th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($entriessouscription as $entry): ?>
+    <tr <?php if($entry->souscription_ancien_membre != ""){?> class="info"<?php }?>>
+      <td><?php 
+        $membreasso = new Application_Model_EuMembreasso();
+        $membreassoM = new Application_Model_EuMembreassoMapper();
+        $membreassoM->find($entry->souscription_membreasso, $membreasso);
+	  
+        $association = new Application_Model_EuAssociation();
+        $associationM = new Application_Model_EuAssociationMapper();
+        $associationM->find($membreasso->membreasso_association, $association);
+	  echo $association->association_nom;?></td>
+      <td><?php echo datejourfr($entry->souscription_date); ?></td>
+      <td><?php if($entry->souscription_personne == "PP"){?><?php echo ($entry->souscription_nom); ?> <?php echo ($entry->souscription_prenom); ?><?php }else{?><?php echo ($entry->souscription_raison); ?><?php }?></td>
+      <td><?php echo ($entry->souscription_mobile); ?></td>
+      <td><?php echo ($entry->souscription_type); ?></td>
+      <td><?php echo ($entry->souscription_numero); ?></td>
+      <td><?php echo ($entry->souscription_date_numero); ?></td>
+      <td><?php echo ($entry->souscription_programme); ?></td>
+      <td><?php echo ($entry->souscription_nombre); ?></td>
+      <td><?php echo ($entry->souscription_montant); ?></td>
+      <td>
+    <?php 
+        $relevebancairedetailM = new Application_Model_EuRelevebancairedetailMapper();
+        if($relevebancairedetail = $relevebancairedetailM->fetchAllByBanqueNumeroDate($entry->souscription_banque, $entry->souscription_numero, $entry->souscription_date_numero)){
+    ?>
+      <?php $banque = new Application_Model_EuBanque();
+        $banqueM = new Application_Model_EuBanqueMapper();
+        $banqueM->find($entry->souscription_banque, $banque); ?>
+        <a class="btn" onclick="alert('=> Banque : <?php echo $banque->libelle_banque;?> \n=> Date : <?php echo $relevebancairedetail->relevebancairedetail_date; ?> \n=> Numéro : <?php echo $relevebancairedetail->relevebancairedetail_numero; ?> \n=> Libellé : <?php echo $relevebancairedetail->relevebancairedetail_libelle; ?> \n=> Montant : <?php echo $relevebancairedetail->relevebancairedetail_montant; ?>');"><i class="icon-ok"></i> Vérifié</a>
+    <?php }?>
+      </td>
+      <td><div align="center">
+	  <?php /*?><?php if($entry->publier == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/publiersouscription/id/<?php echo $entry->souscription_id; ?>/publier/0"><i class="icon-ok icon-white"></i>  Publier</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/publiersouscription/id/<?php echo $entry->souscription_id; ?>/publier/1"><i class="icon-off icon-white"></i>  Pas Publier</a>&nbsp;
+<?php }?><?php */?>
+	  
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/detailssouscription/id/<?php echo $entry->souscription_id; ?>"><i class="icon-search icon-white"></i>  Détails</a>&nbsp;
+
+<?php if($entry->erreur == 1){?>
+			<a class="btn btn-mini btn-danger" href="<?php echo $this->baseUrl(); ?>/administration/erreursouscription/id/<?php echo $entry->souscription_id; ?>/erreur/0"><i class="icon-off icon-white"></i>  Corriger Erreur</a>&nbsp;
+<?php }else if($entry->erreur == 2){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/erreursouscription/id/<?php echo $entry->souscription_id; ?>/erreur/1"><i class="icon-ok icon-white"></i>  Erreur Corrigé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/erreursouscription/id/<?php echo $entry->souscription_id; ?>/erreur/1"><i class="icon-ok icon-white"></i>  Signaler Erreur</a>&nbsp;
+<?php }?>
+
+<?php /*?><a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/listmembretiers/id/<?php echo $entry->souscription_id; ?>"><i class="icon-edit icon-white"></i>  Tiers</a><?php */?>
+
+	  <?php /*?><a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/association/editsouscription/id/<?php echo $entry->souscription_id; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+
+			<a class="btn btn-mini btn-danger" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/administration/suppsouscription/id/<?php echo $entry->souscription_id; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a><?php */?>
+            </div></td>
+      <td><input name="publier<?php echo $entry->souscription_id; ?>" id="publier<?php echo $entry->souscription_id; ?>" type="checkbox" value="2" /></td>
+      
+    </tr>
+<?php endforeach; ?>
+
+</tbody>
+		</table>
+  <?php }else{?>
+<div class="alert alert-info">
+  Aucun membre enregistré 
+</div>
+<?php }?>
+      </div>
+    </div>
+  </div>
+<?php endforeach; ?>
+</div>
+      <br />
+   <input name="id" type="hidden" id="id" value="2" />
+    <input name="ok" type="hidden" id="ok" value="ok" />
+<button type="submit" class="btn btn-primary" style="float:right;">Valider</button>
+</form>
+<br />
+<br />
+<br />
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

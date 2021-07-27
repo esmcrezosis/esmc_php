@@ -1,0 +1,100 @@
+<div id="view-content" style="font-size: 12px;min-height: 520px;" title="Vente de licences">
+    <div class="ui-widget-content ui-corner-bottom" style="height: 500px;">
+        <form id="affecte_form" method="Post" action="/eu-carte/newl">
+            <table style="margin-left:auto;margin-right: auto;margin-top: 10px;" id="tab_salaire">
+                <tbody>
+                    <tr>
+                        <td>Devise</td>
+                        <td>
+                            <select class="validate[required]" type="text" id="dev_capa" name="dev_capa" value=""></select>
+                        </td>
+                    </tr>
+                    <tr><td>Code Membre    : </td> <td><input id="code_membre" type="text" name="code_membre" value="" required="true" style="width: 170px;"/></td></tr>
+                    <tr><td>Nom et Prénoms : </td><td><input id="nom_membre" type="text" name="nom_membre" value="" style="width: 200px;" readonly="readonly"/></td></tr>
+                    <tr><td>Raison sociale : </td><td><input id="raison_memb" type="text" name="raison_memb" value="" style="width: 200px;" readonly="readonly"/></td></tr>
+                    <tr>
+                        <td>Prix     :</td>    <td><input id="prix" type="text" name="prix" value="<?php echo $this->fl; ?>" style="width: 120px; text-align:right;" class="validate[required,custom[onlyNumberSp]]"/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Réinitialiser"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <script>
+        
+        var compteur = 1;
+        $(document).ready(function ()
+        {
+            $('#val').button();
+            $('#reset').button();
+            $(function() {
+                $('#view-content').puipanel();
+            });
+            $.get( "/eu-carte/membre",
+            function success(data)
+            {
+                $("#code_membre").autocomplete({"source":data});
+            });
+            
+            $('#code_sms').blur(function(e)
+            {
+                if($(this).val() !== '')
+                {
+                    $.get(
+                    '/eu-carte/codesms',
+                    {
+                        code: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        if(data !== 0){
+                            $('#prix').val(data);
+                        }else{
+                            $("#id_message").html("<label>Ce code est invalide</label>");
+                        }
+                    
+                    });
+                }
+                e.preventDefault();
+            });
+            
+            $('#code_membre').blur(function(e)
+            {
+                if($(this).val() !== '')
+                {
+                    $.get(
+                    '/eu-carte/recupnom',
+                    {
+                        num_membre: $(this).val()
+                    },
+                    function success(data)
+                    {
+                        $("#nom_membre").val(data);
+                    });
+                }
+                e.preventDefault();
+            });
+			
+            $.get(
+            '/eu-carte/devise',
+            function success(data)
+            {
+                var options = '';
+                for( var i = 0; i < data.length; i++) {
+                    if(data[i] === 'XOF'){
+                        options += '<option value="' + data[i] + '" selected>' + data[i] +' </option>'; 
+                    }else{
+                        options += '<option value="' + data[i] + '">' + data[i] +' </option>';
+                    }
+                
+                }
+                $('select#dev_capa').html(options);
+            });    
+        });
+        
+        
+    </script>
+</div>	

@@ -1,0 +1,76 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+        <input id="user" type="button" value="Utilisateur" class="ui-widget button"/>
+    </div>
+    <table id="tbl-acteur-creneau"></table>
+    <div id="pg-acteur-creneau"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-acteur-creneau").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Nom','Code membre','Type acteur','Gestionnaire','Créneau /Gac Filère','Date création','Code gac filiere'],
+        height:440, width:827,
+        colModel:[
+          {name:'code_acteur',index:'code_acteur', width:120, editable: true,align:"left",hidden:true},
+          {name:'nom_acteur',index:'nom_acteur', width: 280, editable: true,align:"left"},
+          {name:'code_membre',index:'code_membre', width: 218, editable: true,align:"left"},
+          {name:'id_type_acteur',index:'id_type_acteur', width: 145, editable: true,align:"left",
+          edittype: 'select', editoptions: {value: "grossiste:Grossiste; semi-grossiste:Semi-grossiste; détaillant:Détaillant"}},
+          {name:'nom_gestion',index:'nom_gestion', width: 190, align:"left", editable: true},
+          {name:'code_creneau',index:'code_creneau', width: 190, editable: true,align:"left"},
+          {name:'date_creation',index:'date_creation', width: 145, editable: true,align:"fase"},
+          {name:'code_gac_filiere',index:'code_gac_filiere', width:80, editable: true,align:"left",hidden:true},
+        ],
+        rowNum:100,
+        rowList:[100,200,300],
+        rownumbers:true,
+        pager: '#pg-acteur-creneau',
+        sortname:"code_acteur",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des acteurs des créneaux d'activités"
+    });
+  
+    $("#tbl-acteur-creneau").jqGrid('navGrid','#pg-acteur-creneau',{edit:false,add:false,del:false,search:true});
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-acteur-creneau").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-acteur-creneau").jqGrid('getRowData',rowsel);
+            $.get('/eu-acteur-creneau/edit',{
+                gac_act:data.code_acteur,gac_act1:data.num_creneau
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+    $('#user').button();
+    
+    $('#user').click(function()
+    {
+     var rowsel;
+     rowsel = jQuery("#tbl-acteur-creneau").jqGrid('getGridParam','selrow');
+     if(rowsel)
+     {
+       data=jQuery("#tbl-acteur-creneau").jqGrid('getRowData',rowsel);  
+       $.get('/eu-user/adduser',{
+       gac_act:data.code_acteur,gac_fil:data.code_gac_filiere
+       },function success(data){
+                $("#content").html(data);
+       });             
+     }else{
+         alert('Aucune ligne sélectionnée');
+     }
+    });
+    
+</script>

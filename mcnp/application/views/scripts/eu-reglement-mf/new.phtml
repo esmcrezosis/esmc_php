@@ -1,0 +1,162 @@
+﻿<div id="view-content"  style="font-size:11px;min-height: 520px;">
+     <div style="margin-bottom:3px; width:820px">
+	    <form id="rachat_form" method="Post" action="/eu-reglement-mf/donewrachat">
+            <fieldset>
+	    <legend>Rachat des ressources MF</legend>
+            <div style="margin-bottom:3px;">
+			    <table style="margin-top: 20px;margin-left: 10px;">
+				<tbody>
+					  <tr>
+					    <td><label>Compte Apporteur *</label></td>
+                        <td>
+                        <select name="type_mf" id="type_mf" required=true >
+					        <option value=""></option>
+					        <!--<option value="MF11000">MF11000</option>
+                                                <option value="MF107">MF107</option>-->
+                            <option value="TSRE">Transfert </option>
+                        </select>
+                        </td>
+					    </tr>
+						
+			<!--<tr>
+					    <td><label>Categorie de MF *</label></td>
+                        <td>
+                        <select name="cat_mf" id="cat_mf" required=true >
+					        <option value=""></option>
+					        <option value="CMFH">CMFH</option>
+                            <option value="NONCMFH">Autre</option>
+                        </select>
+                        </td>
+			</tr>-->
+						
+					    <tr>
+					       <td><label>Code Membre Apporteur *</label></td>
+                           <td><input id="apporteur" type="text" name="apporteur"  size="25"   required=true/></td>	
+					    </tr>
+						
+						<tr>
+					       <td><label>Désignation du Membre Apporteur *</label></td>
+                           <td><input id="nom_apporteur" type="text" name="nom_apporteur"  size="25" class="validate[required]"  readonly=true/></td>	
+						   <td><label>Solde du compte *</label></td>
+                           <td><input id="solde_mf" type="text" name="solde_mf"  size="20" class="validate[required]"  readonly=true/></td>
+					    </tr>
+						
+						<tr>
+					       <td><label>Montant *</label></td>
+                           <td><input id="montant" type="text" name="montant"  size="25" class="validate[required,custom[onlyNumberSp]]"/></td>	
+					    </tr>
+						
+						<tr>
+					       <td><label>Code Membre Enrôleur *</label></td>
+                           <td><input id="code_membre_dist" type="text" name="code_membre_dist"  size="25" required=true /></td>	
+					    </tr>
+						
+						<tr>
+					       <td><label>Désignation Enrôleur *</label></td>
+                           <td><input id="nom_dist" type="text" name="nom_dist"  size="25" class="validate[required]" readonly=true /></td>	
+					    </tr>
+						<tr>
+						     <td colspan="2" height=5px></td>
+						</tr>
+						<tr>
+                           <td></td>
+                           <td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td>
+                        </tr>		
+				</tbody>	
+				</table>    
+            </div>
+            </fieldset>
+		</form>
+    </div> 
+</div>
+<script type="text/javascript">
+	$(function() {
+      $('#view-content').puipanel();
+      $('fieldset').puifieldset();
+	  $("#rachat_form").validationEngine();
+    });
+	
+	$("#type_mf").change(function(e) {
+	    e.preventDefault();
+		$('#apporteur').val('');
+		$('#nom_apporteur').val('');
+		$('#solde_mf').val('');
+		$('#montant').val('');
+		$('#code_membre_dist').val('');
+		$('#nom_dist').val('');
+	});
+	
+	$('#apporteur').blur(function(e) {
+        if ($(this).val() !== '') {
+            $.get(
+                '/eu-reglement-mf/recupnom',{
+                num_membre: $(this).val(),
+				type_mf : $('#type_mf').val()
+                },
+            function success(data) {
+                if (data !== '') {
+                   $("#nom_apporteur").val(data[0]);
+				   $("#solde_mf").val(data[1]);
+                } else {
+                   alert('Ce membre n\existe pas!!!');
+				   $("#nom_apporteur").val("");
+				   $("#solde_mf").val("");
+                }
+                });
+        }
+        e.preventDefault();
+    });
+	
+	
+	$('#code_membre_dist').blur(function(e) {
+        if ($(this).val() !== '') {
+            $.get(
+            '/eu-reglement-mf/recupraison',{
+            num_membre: $(this).val(),
+           },
+            function success(data) {
+            if (data !== '') {
+               $("#nom_dist").val(data[0]);
+            } else {
+               alert('Ce membre n\existe pas!!!');
+            }
+            });
+        }
+        e.preventDefault();
+    });
+	
+	
+	$('form#rachat_form').submit(function(event) {
+        event.preventDefault();
+        $.post('/eu-reglement-mf/donewrachat',{
+			type_mf: $('#type_mf').val(),
+			cat_mf: $('#cat_mf').val(),
+            code_membre_app: $('#apporteur').val(),
+            montant: $('#montant').val(),
+		    code_membre_dist: $('#code_membre_dist').val()
+        }
+        , function success(data) {
+            if (data == true) {
+               alert('Opération effectuée avec succes');
+               $(location).attr("href","/eu-reglement-mf/listreglt");
+            } else if(data == 'erreurapp') {
+               alert('Le compte du membre fondateur est inexistant ou insuffisant');
+            } else if(data == 'erreurdist') {
+               alert('Le membre distributeur sms ne dispose pas de compte de transfert');
+            } else if(data == 'erreurcmfh') {
+               alert('Le membre fondateur ne dispose pas de ressources consequente pour devenir CMFH');
+            } else if(data == 'erreuracteur') {
+               alert('Le membre enroleur doit etre un vendeur de code SMS');
+            } 
+            else if(data == 'erreurautre') {
+               alert('Le membre fondateur doit etre un CMFH');
+            }
+            else {
+              alert(data);
+            }
+            });
+        });
+    $('#payer').button();
+    $('#ok').button();
+	
+</script> 

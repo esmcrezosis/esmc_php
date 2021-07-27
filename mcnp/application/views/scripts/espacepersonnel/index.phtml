@@ -1,0 +1,44 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+<?php
+$type = $sessionmembre->type;
+$desctype = $sessionmembre->desctype;
+?>
+
+  <blockquote>
+  <p>
+<?php if(substr($sessionmembre->code_membre, -1) == "P") { ?>
+      <strong>Mon espace</strong>
+  <small>Espace Personnel</small>
+
+<?php }else if(substr($sessionmembre->code_membre, -1) == "M"){?>
+      <strong>Mon espace</strong>
+  <small>Espace Professionnel</small>
+<?php }?>
+  </p>
+  </blockquote>
+
+<?php if(isset($sessionmembre->error) && $sessionmembre->error!=""){?>
+  <div class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembre->error; $sessionmembre->error = ""; ?>
+    </div>
+  <?php }?>
+
+
+
+
+
+
+
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>

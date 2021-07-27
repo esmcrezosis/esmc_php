@@ -1,0 +1,33 @@
+<div id="view-content" title="Ajout d'activités" style="font-size: 12px;">
+    <table id="tbl-activite"></table>
+    <div id="pg-activite"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-activite").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Nom','Filière','Date'],
+        height:440, width:800,
+        colModel:[
+            {name:'code_activite',index:'code_activite', width:75, sorttype:"int", editable: true,align:"left"},
+            {name:'nom_activite',index:'nom_activite', width: 300, editable: true,align:"left"},
+            {name:'id_filiere',index:'id_filiere', width: 300, align:"left", editable: true},
+            {name:'date_creation',index:'date_creation', width: 100, align:"left", editable: false,sorttype:'date',formatter:'date' }
+        ],
+        rowNum:1000,
+        rowList:[1000,2000,3000],
+        pager: '#pg-activite',
+        sortname:"code_activite",
+        viewrecords: true,
+        sortorder: "ASC"
+    });
+  
+    $("#tbl-activite").jqGrid('navGrid','#pg-activite',{edit:false,add:false,del:false,search:true});
+    $(document).ready(function(){
+        $(function(){
+            $('#view-content').puipanel();
+        });
+    });
+</script>

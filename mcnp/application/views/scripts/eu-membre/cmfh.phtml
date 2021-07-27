@@ -1,0 +1,119 @@
+﻿<div id="view-content" title='CMFH' style="font-size: 12px;min-height: 520px;">
+    <form id="cmfh_membre" action="/eu-membre/docmfh" method="POST">
+        <br>    
+        <fieldset>
+		    <legend>Membres</legend>
+			<table>
+		        <tbody>
+				        <tr>
+                            <td><label>Code Membre    *: </label></td><td><input id="code_membre" type="text" name="code_membre" value="" required="true" size="30"/></td>
+                            <td><label>Nom et Prénoms : </label></td><td><input id="nom_membre" type="text" name="nom_membre" value="" style="width:200px;" readonly="readonly"/></td>
+						</tr>
+				</tbody>
+		    </table>
+		</fieldset>
+		<br>
+		<fieldset style="margin-bottom: 2px;">
+            <legend>Acteurs</legend>
+			<table>
+                <tbody>
+                    <tr>
+					    <td><input type="checkbox" id="actcmfh" name="actcmfh" value="CMFH" required="true"></td>
+					    <td><label>CMFH ( Conseiller Membre Fondateur d'Honneur ) </label></td>
+						<!--<td width="160px"></td>
+						<td><input type="checkbox" id="actenro" name="actenro" value="DSMS" required="true"></td>
+						<td>Enrôleur</td>-->
+					</tr>
+				</tbody>	
+			</table>
+		</fieldset>
+		
+        <div style="margin-top: 10px;" align="left">
+            <input type="submit" value="Valider" name="valider" id="valider"/>
+            <input type="reset" value="Rafraichir" name="refresh" id="refresh"/>
+        </div>
+		
+    </form>
+</div>
+<script type="text/javascript">
+        $(document).ready(function() {
+            $(function() {
+                $('#view-content').puipanel();
+                $('fieldset').puifieldset();
+            });	
+
+            $('#actcmfh').change(function() {
+              if(document.getElementById('actcmfh').checked) {
+                $('#actenro').attr('disabled',true);} 
+			  else {
+				$('#actenro').attr('disabled',false);
+			  }
+            });
+								
+		    $('#actenro').change(function() {
+               if(document.getElementById('actenro').checked) {
+                 $('#actcmfh').attr('disabled',true);} 
+			   else {
+				 $('#actcmfh').attr('disabled',false);
+			   }
+            });
+			
+			$('#refresh').click(function() {
+                $('#actcmfh').attr('disabled',false);
+			    $('#actenro').attr('disabled',false);
+			});
+			
+			$.get( "/eu-membre/membrephys",
+                function success(data) {
+                $("#code_membre").autocomplete({"source":data});
+            });
+							
+							
+			$('#code_membre').blur(function(e) {
+                if($(this).val() !== '') {
+                    $.get(
+                        '/eu-membre/recupnom',{
+                        num_membre: $(this).val()
+                },
+                function success(data) {
+                    $("#nom_membre").val(data);
+                });
+                }
+                e.preventDefault();
+            });
+			
+			
+			$('form#cmfh_membre').submit(function(e) {
+                $.ajax({
+                   url: $('form').attr("action"),
+                   data: $('form').serialize(),
+                   type: 'post',
+                   success: processServerResponse
+                });
+                e.preventDefault();
+            });
+			
+            function processServerResponse(data) {
+                if (data === true) {
+                    alert('Operation effectuée avec succès ');
+                    $(location).attr("href", "/eu-membre/cmfh");
+                } else {
+                  alert(data);
+				  //$(location).attr("href", "/eu-membre/cmfh");
+                }
+            };
+			
+            // binds form submission and fields to the validation engine
+            jQuery("#cmfh_membre").validationEngine();
+            $('#valider').button();
+            $('#t_annuler').button();
+            $('#refresh').button();
+            $('#add').button();
+            $('#remove').button();                        
+        
+		
+		
+		});
+							
+		
+</script>

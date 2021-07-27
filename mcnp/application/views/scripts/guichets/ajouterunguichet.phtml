@@ -1,0 +1,359 @@
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+<blockquote>
+
+   INTERFACE D'AJOUT DE GUICHETS
+   
+</blockquote>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+	<div class="alert alert-danger">
+
+		<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+	</div>
+
+	<?php unset($_SESSION['validationerrors']); endif ?>
+
+	<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+		<div class="alert alert-success">
+
+			<li><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></li>
+
+		</div>
+        
+	<?php unset($_SESSION['validationsuccess']); endif ?>
+
+
+<form action="#" method= "POST" id="ajouterunguichet">
+
+	<div class="control-group">
+
+      <label class="control-label" for="code_BAn">Code BAn *</label>
+
+      <div class="controls row">
+
+            <div class="span9">
+
+			     <input name="code_BAn" type="text" id="code_BAn" placeholder="Entrer le Code BAn" required="required" />
+			   			
+				 <span class="help-block"><p class="text-error" style="color:red"> Veuillez saisir le Code BAn affiché lors de la souscription BAn </p></span>
+
+			</div>
+
+			<div class="span3">
+			
+			     <span id="nivban"><button type="button" class="btn btn-info" onclick="ouvre_bonachatneutres(document.getElementById('code_BAn').value, 'nivban');">Vérifier</button></span>
+
+			</div>	         
+                  
+	  </div>
+	  
+    </div>
+
+    <div class="control-group">
+
+	      <label class="control-label" for="Code membre du responsable du guichet" style="font-weight:bold">
+
+	        Code membre du responsable du guichet *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="guichet_code_membre_responsable_guichet" class="input-block-level guichet_code_membre_responsable_guichet" placeholder="Renseigner grace au QrCode le code membre" required/>
+	      
+          </div>
+
+	</div>
+
+	<div class="control-group">
+
+		    <blockquote>CENTRES</blockquote>
+
+			<p><i>Cocher la case correspondante</i></p>
+	
+	        <?php foreach($this->listedestypescentres as $key => $vallistedestypescentres): ?>
+
+                <label class="radio">
+
+						 <input type="radio" name="type_centre_decentralisation" id="type_centre_decentralisation" value="<?php echo $vallistedestypescentres->id_type_centres?>">
+
+						 <span style="inline-block;font-size:1.2rem;font-weight:bold"><?php echo $vallistedestypescentres->libelle_type_centres?></span>
+
+			    </label>
+
+            <?php endforeach; ?>
+	
+	</div>
+
+    <div class="control-group">
+
+	        <blockquote>Agence ODD</blockquote>
+
+			<p><i>Cocher la case correspondante</i></p>
+	
+	        <?php foreach($this->listedesagencesbyodd as $k => $vlistedesagencesbyodd): ?>
+
+                <label class="radio">
+
+						 <input type="radio" name="type_agencesodd_decentralisation" id="type_agencesodd_decentralisation" value="<?php echo $vallistedestypescentres->id_odd?>">
+
+						 <span style="inline-block;font-size:1.2rem;font-weight:bold"><?php echo $vlistedesagencesbyodd->type_agence_odd?></span>
+
+			    </label>
+
+            <?php endforeach ?>
+
+
+	</div>
+
+    <?php if ($this->presencecentre == 1): ?>
+
+	 	<label class="control-label" for="Code membre du responsable du guichet" style="font-weight:bold">
+
+	        Code membre du responsable du guichet *:
+
+	      </label>
+
+		<select class="input-block-level" name="organisation_agence_odd_guichet" id="input_organisation_agence_odd">
+ 					
+					 <option value>Selectionner L'agence odd créatrice du guichet  </option>
+
+ 					 <?php foreach ($this->getallagencesbycentres as $key => $value): ?>
+
+ 					 <option value="<?php echo $value->id_agences_odd ?>" data-idagenceodd="<?php echo $value->id_agences_odd ?>"><?php echo $value->libelle_agences_odd ?></option>
+ 						
+					 <?php endforeach; ?>
+
+ 		</select>
+
+	<?php endif ?>
+
+
+	<div class="control-group">
+
+	      <label class="control-label" for="Code membre morale du guichet" style="font-weight:bold">
+
+	        Code membre morale du guichet *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="guichet_code_membre_morale" class="input-block-level guichet_code_membre_morale" placeholder="Saisir le code membre morale du guichet" required="required"/>
+	      
+          </div>
+
+	</div>
+	
+	<div class="control-group">
+
+	      <label class="control-label" for="Login du compte intégrateur lié le guichet" style="font-weight:bold">
+
+	        Login du compte intégrateur lié au type_guichet *:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="guichet_login_integrateur" class="input-block-level guichet_login" placeholder="Saisir le login du guichet" required="required"/>
+	      
+          </div>
+
+	</div>
+
+	<div class="control-group">
+
+	      <label class="control-label" for="Mot de passe du compte intégrateur lié le guichet" style="font-weight:bold">
+
+	        Mot de passe du compte intégrateur lié au type_guichet*:
+
+	      </label>
+
+	      <div class="controls">
+
+		     <input type="text" name="guichet_password_integrateur" class="input-block-level guichet_password" placeholder="Saisir le mot de passe du guichet" required="required"/>
+	      
+          </div>
+
+	</div>
+
+
+	<div class="control-group">
+
+		 <label for="situation_matrimoniale_perte" style="font-weight:bold;float:left">
+
+			 Type de franchisé*: 
+			 
+		 </label>
+
+		<select class="input-block-level type_franchise" name="situation_matrimoniale_perte">
+
+                <option value>Choisir votre type de franchise</option>
+
+			  	<option value="franchise_localite_base">Franchise localité de base</option>
+
+			  	<option value="franchise_implementation">Franchise d'implémentation</option>
+
+		</select>
+
+	</div>
+
+	
+	<div class="span4">
+                            <div class="control-group">
+                                    <label class="control-label span4">Zone M.</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="code_zone" name="code_zone">
+                                            <option value="">Choisir une zone monétaire</option>
+                                            <?php foreach ($this->zones as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                            </div>
+                    </div>
+                    <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Pays *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_pays" name="id_pays" required="required" onchange="ouvre_paystelephones2(this.value);">
+                                            <option value="">Choisir un pays</option>
+                                            <?php foreach ($this->pays as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                    </div>
+                    <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Régions</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_region" name="id_region">
+                                            <option value="">Choisir une région</option>
+                                            <?php foreach ($this->regions as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                    </div>
+                    <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Préfectures</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_prefecture" name="id_prefecture">
+                                            <option value="">Choisir une préfecture</option>
+                                            <?php foreach ($this->prefectures as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                    </div>
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label span4">Cantons *</label>
+                                    <div class="controls span8">
+                                        <select class="input-block-level" id="id_canton" name="id_canton" required="required">
+                                            <option value="">Choisir un canton</option>
+                                            <?php foreach ($this->cantons as $value) { ?>
+                                            <option
+                                                    value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>                         
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                    <?php endif ?>
+                    
+                </div>
+
+
+	<blockquote>
+	
+	         Document de conformité
+
+	</blockquote>
+
+		   	<table class="table table-bordered" id = "tabs_outils">
+
+			<thead>
+
+				<tr>
+					  
+					<th>Nom du document</th>
+
+					<th>Fichier du document</th>
+
+					<th>Actions</th>
+
+				</tr>
+
+			</thead>
+
+				   
+			<tbody>
+
+				<tr id="line_file_outils_op">
+
+					     <td>
+
+						     <input type="text" class="input-xlarge" name="outils_libelle_document_fichier[]" id="espace_libelle_document_fichier" placeholder="Nom du document/" >
+                         </td>
+
+						 <td>
+						     
+							  <input  type="file" name="detail_guichet_fichier[]" id="outils_fichier" class="input-xxlarge"/>  
+							  
+						 </td>
+
+						 <td>
+						   
+						     <button class="btn btn-primary" id = "clone_file_outils">Ajouter</button>
+							 
+						 </td>
+
+				</tr>
+
+			</tbody>
+
+		</table>
+
+	<div class="control-group" >
+
+          <button type="submit" class="btn btn-large btn-primary" id ="validguichet" style="position:relative">
+
+              Valider le formulaire
+
+          </button>
+
+    </div>
+
+</form>
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+
+<script src="/outil-qr.js"></script>
+
+<script type="text/javascript">
+
+//outilqr('addeli');
+//outilqrformobligatoire("ajouterunguichet","validguichet");
+
+</script>

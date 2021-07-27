@@ -1,0 +1,97 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des zppes</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Image</th>
+								  <th>Libellé</th>
+								  <th>Résume</th>
+								  <th>Portable</th>
+								  <th>E-mail</th>
+<?php if ($sessionutilisateur->code_groupe == "agregat"){?>
+								  <th>Login</th>
+<?php }?>
+								  <th>Code Membre</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php if($entry->zppe_vignette != ""){?><img src="<?php echo $this->baseUrl(); ?>/<?php echo $entry->zppe_vignette; ?>" class="img-polaroid" style="width:100px; height:100px;" /><?php }?></td>
+      <td><?php echo ($entry->zppe_libelle); ?></td>
+      <td><?php echo ($entry->zppe_resume); ?></td>
+      <td><?php echo ($entry->zppe_portable); ?></td>
+      <td><?php echo ($entry->zppe_email); ?></td>
+<?php if ($sessionutilisateur->code_groupe == "agregat"){?>
+      <td><?php echo ($entry->zppe_login); ?></td>
+<?php }?>
+      <td><?php echo ($entry->zppe_code_membre); ?></td>
+      <td><div align="center"><?php if($entry->publier == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/publierzppe/id/<?php echo $entry->zppe_id; ?>/publier/0"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/publierzppe/id/<?php echo $entry->zppe_id; ?>/publier/1"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+
+<?php if ($sessionutilisateur->code_groupe == "agregat"){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/excelzppe/id/<?php echo $entry->zppe_id; ?>"><i class="icon-plus icon-white"></i>  Excel</a>&nbsp;
+
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/editzppe/id/<?php echo $entry->zppe_id; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+
+			<a class="btn btn-mini btn-danger" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/administration/suppzppe/id/<?php echo $entry->zppe_id; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a>
+<?php }?>
+            </div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucune zppe enrégistrée 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

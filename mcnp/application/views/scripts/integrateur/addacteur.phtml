@@ -1,0 +1,535 @@
+﻿<?php $sessionmembreasso = new Zend_Session_Namespace('membreasso');?>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres2.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/bonachatneutres3.js"></script>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/loadbanque.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/loadte.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+		
+		$('#offreur_projet_type').change(function(e) {
+	    $.get('/integrateur/montantbc',{
+          integrateur_type : $(this).val()
+        },
+		function success(data)  {
+			$('#souscription_montant').val(parseInt(data,10));
+		});
+	    });
+		
+		$('#offreur_projet_type').change(function(e) {
+		if($('#offreur_projet_type').val() >= 4) {
+			$('#div_cap').css('display','block');
+		} else {
+			$('#div_cap').css('display','none');
+		}
+		
+		if($('#param').val() == 1) {
+		
+		if($('#offreur_projet_type').val() == 1) {
+			$('#div_vendre').css('display','block');
+			$('#div_stock').css('display','block');
+			$('#nom_entrepot').html("Nom de l'entrepôt *");
+			$('#adresse_entrepot').html("Adresse de l'entrepôt *");
+			$('#offreur_projet_nom_entrepot').attr("required",true);
+			$('#offreur_projet_adresse_entrepot').attr("required",true);
+		} else if($('#offreur_projet_type').val() == 2) {
+			$('#div_vendre').css('display','block');
+			$('#div_stock').css('display','block');
+			$('#nom_entrepot').html("Nom du magasin *");
+			$('#adresse_entrepot').html("Adresse du magasin *");
+			$('#offreur_projet_nom_entrepot').attr("required",true);
+			$('#offreur_projet_adresse_entrepot').attr("required",true);
+		} else if($('#offreur_projet_type').val() == 3) {
+			$('#div_vendre').css('display','block');
+			$('#div_stock').css('display','block');
+            $('#nom_entrepot').html("Nom de la boutique *");
+			$('#adresse_entrepot').html("Adresse de la boutique *");
+			$('#offreur_projet_nom_entrepot').attr("required",true);
+			$('#offreur_projet_adresse_entrepot').attr("required",true);
+		} else if($('#offreur_projet_type').val() == 4 || $('#offreur_projet_type').val() == 5 || $('#offreur_projet_type').val() == 6) {
+			$('#div_vendre').css('display','block');
+			$('#div_stock').css('display','block');
+			$('#nom_entrepot').html("Nom du lieu de transformation");
+			$('#adresse_entrepot').html("Adresse du lieu de transformation");
+			$('#offreur_projet_nom_entrepot').attr("required",true);
+			$('#offreur_projet_adresse_entrepot').attr("required",true);
+        } else if($('#offreur_projet_type').val() == 7 || $('#offreur_projet_type').val() == 8 || $('#offreur_projet_type').val() == 9) {
+			$('#div_vendre').css('display','block');
+			$('#div_stock').css('display','block');
+			$('#nom_entrepot').html("Nom du lieu de production");
+			$('#adresse_entrepot').html("Adresse du lieu de production");
+			$('#offreur_projet_nom_entrepot').attr("required",true);
+			$('#offreur_projet_adresse_entrepot').attr("required",true);
+	    } else {
+			$('#div_vendre').css('display','none');
+			$('#div_stock').css('display','none');
+		}
+		
+		}
+		
+		
+	});
+	
+	/*
+	$('#offreur_projet_membre').blur(function(e) {      
+        $.get('/integrateur/codetegc',{
+          code_membre : $(this).val()
+        },
+        function success(data)  {
+		  if(data != "") {
+		    $('#terminal').css('display','block');
+			$('#div_login').css('display','none');
+			$('#div_fournisseur').css('display','none');
+		    $('#offreur_projet_produit').attr("required",false);
+		    $('#offreur_projet_filiere').attr("required",false);
+			//$('#type_fournisseur').attr("required",false);
+			
+            var options = '<option></option>';
+            for(var i = 0; i < data.length; i++) {
+               options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+            }
+            $('#code_te').attr("required",true);       
+            $('select#code_te').html(options);
+			$('#code_te').attr("class","input-block-level");
+			
+          } else {
+		    var options = '<option></option>';
+            $('#terminal').css('display','none');
+			if($('#offreur_projet_membre').val() != "") {
+			    $('#div_login').css('display','block');
+				$('#div_fournisseur').css('display','block');
+				$('#offreur_projet_produit').attr("required",true);
+				$('#offreur_projet_filiere').attr("required",true);
+				//$('#type_fournisseur').attr("required",true);
+			}
+			$('#code_te').attr("required",false);
+			$('#code_te').attr("class","input-block-level");
+          }		  
+        });
+        e.preventDefault();		 
+        });
+		
+		*/
+		
+		
+		$('#type_souscription_cm').change(function(e) {
+	    if($(this).val() == "BPS") {
+			$('#div_banque').css('display','none');
+			$('#div_bps').css('display','block');
+			$('#code_banque').attr("required",false);
+			$('#num_compte').attr("required",false);
+			$('#bps_demande').attr("required",true);
+			$('#delai_souscription').attr("required",true);
+		} else {
+			$('#div_banque').css('display','block');
+			$('#div_bps').css('display','none');
+			$('#code_banque').attr("required",true);
+			$('#num_compte').attr("required",true);
+			$('#bps_demande').attr("required",false);
+			$('#delai_souscription').attr("required",false);
+		}
+        });
+	
+	    $('#type_souscription_bc').change(function(e) {
+	    if($(this).val() == "BPS") {
+			$('#div_banque').css('display','none');
+			$('#div_bps').css('display','block');
+			$('#code_banque').attr("required",false);
+			$('#num_compte').attr("required",false);
+			$('#bps_demande').attr("required",true);
+			$('#delai_souscription').attr("required",true);
+		}  else {
+			$('#div_banque').css('display','block');
+			$('#div_bps').css('display','none');
+			$('#code_banque').attr("required",true);
+			$('#num_compte').attr("required",true);
+			$('#bps_demande').attr("required",false);
+			$('#delai_souscription').attr("required",false);
+		}  
+        });
+	  
+
+        $('#id_pays').change(function(e) {      
+        $.get('/integrateur/listbanque',{
+          id_pays : $(this).val()
+        },
+        function success(data)  {
+           var options = '<option/>';
+           for (var i = 0; i < data.length; i++) {
+               options += '<option value="' + data[i][0] + '">' + data[i][1] + ' </option>';
+           }       
+           $('select#code_banque').html(options);               
+        });
+        e.preventDefault();		 
+        });
+	});
+	
+	
+	function souscrirekitsu()  {
+	   $('#div_formation').css('display','none');
+       $('#id_cycle_formation').attr("required",false);
+       $('#div_kit').css('display','none');
+	   $('#mont_bc').attr("required",false);	   
+	}
+	
+	
+	function souscrirekittech()  {
+	   $('#div_formation').css('display','block');
+	   $('#id_cycle_formation').attr("required",true);
+	}
+	
+	
+	function  findkit() {
+	  if(document.getElementById('kit_1').checked) {
+		$('#div_kit').css('display','block');
+		$('#mont_bc').attr("required",true);
+	  }
+    }
+	
+	
+	function  findnokit()  {
+	  $('#div_kit').css('display','none');
+	  $('#mont_bc').attr("required",false);
+    }
+	
+	
+	
+	
+</script>
+
+
+
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+<?php 
+
+$titre = "";
+if($this->param == 1) {
+	$titre = "Acteur Offreur de Bien,Produit ou Service (BPS)";
+} elseif($this->param == 2) {
+	$titre = "Acteur Partenaire Bancaire et Financier (PBF)";
+}
+
+?>
+  <?php include("../application/layouts/scripts/menuasso.phtml"); ?>
+
+  <blockquote><p><?php echo $titre." - Phase Souscription"; ?> </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addacteur">
+    <?php if(isset($sessionmembreasso->error) && $sessionmembreasso->error != "") { ?>
+    <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $sessionmembreasso->error; $sessionmembreasso->error = ""; ?>
+    </div>
+    <?php } ?>
+  
+    <?php if(isset($this->error) && $this->error !="") { ?>
+    <div class="alert alert-error">
+       <button type="button" class="close" data-dismiss="alert">&times;</button>
+       <?php echo $this->error; ?>
+    </div>
+    <?php } ?>
+  
+<fieldset>
+
+<legend>Code BAn</legend>
+<div align="right"><a href="<?php echo $this->baseUrl(); ?>/integrateur/addacteurpre/param_int/<?php echo $this->param;  ?>">Formulaire de phase Pré-Souscription</a> </div>
+<br/>
+<div class="control-group">
+  <label class="control-label" for="code_BAn">Code BAn *</label>
+  <div class="controls">
+  <input name="code_BAn" type="text" id="code_BAn" placeholder="Entrer le Code BAn" required="required" />
+	<span id="nivban"><button type="button" class="btn btn-info" onclick="ouvre_bonachatneutres(document.getElementById('code_BAn').value, 'nivban');">Vérifier</button></span>
+    <span class="help-block"><p class="text-error" style="color:red">Veuillez saisir le Code BAn affiché lors de la souscription BAn</p></span>
+  </div>
+</div>
+
+<legend>Programme Souscription </legend>
+<div class="control-group">
+            <label class="control-label" for="programme"></label>
+            <div class="controls">
+               <label for="programme_cm" class="radio">
+               <input name="programme" disabled  type="radio" id="programme_cm" value="CM" required 
+               onclick="document.getElementById('div_cm').style.display ='block'; document.getElementById('div_bc').style.display ='none'; document.getElementById('type_souscription_cm').required = true;document.getElementById('type_souscription_bc').required = false;" />
+                Compte Marchand (CM)
+               </label>
+
+               <label for="programme_bc" class="radio">
+               <input type="radio" name="programme" checked="checked" id="programme_bc" value="BC" required  
+			    onclick="document.getElementById('div_bc').style.display ='block';document.getElementById('div_cm').style.display ='none';document.getElementById('type_souscription_bc').required = true; document.getElementById('type_souscription_cm').required = false;" />
+               Bon de Consommation (BC)
+               </label>
+            </div>
+</div>
+
+
+<legend> Remplir les informations sur le Souscripteur </legend>
+<div class="control-group">
+     <label class="control-label" for="liste"> Voudriez-vous souscrire à quel type de KIT ? *</label>
+	 <div class="controls">
+		  <label for="kit_0" class="radio">
+          <input name="kit"  type="radio" id="kit_0" value="KITSU" checked="checked" required onclick="souscrirekitsu()"  />
+             Kit de Solvabilité Universelle
+          </label>
+
+          <label for="kit_1" class="radio">
+          <input type="radio" name="kit" id="kit_1" value="KITTECH" required onclick="souscrirekittech()" />
+             Kit Technopole
+          </label>
+	 </div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="liste">Avez-vous une liste de bénéficiaires de votre souscription *</label>
+<div class="controls">
+<label for="liste_0" class="radio">
+<input name="liste" type="radio" id="liste_0" value="SansListe" required onclick="findnokit()" />
+Non
+</label>
+
+<label for="liste_1" class="radio">
+<input type="radio" name="liste" id="liste_1" value="AvecListe" required onclick="findkit()" />
+Oui
+</label>
+</div>
+</div>
+
+
+ 
+<div class="control-group">
+<label class="control-label" for="integrateur_souscription_ordre">Code membre * </label>
+<div class="controls">
+     <input type="text" onblur="ouvre_loadte(this.value,'nivo_te');" name="code_membre" id="code_membre" placeholder="Code Membre Morale Souscripteur"  value="<?php echo $this->code_membre; ?>"  class="input-block-level"  readonly />
+</div>
+</div>
+
+<div id="nivo_te">
+
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_type">Type Souscripteur *</label>
+<div class="controls">
+<select  class="input-block-level" name="offreur_projet_type" id="offreur_projet_type" required="required">
+        <?php  
+	        $typeoffreur_projet2 = new Application_Model_EuTypeOffreurProjetMapper();
+		    //$selecttypeoffreur_projet2 = $typeoffreur_projet2->fetchAllByType($typeoffreur_projet->id_type_offreur_projet);
+		    $selecttypeoffreur_projet2 = $typeoffreur_projet2->fetchAll();
+		?>
+		
+        <option value=""> Choisir un type </option>
+        <?php foreach ($selecttypeoffreur_projet2 as $selecttypeoffreur_projet): ?>
+               <option value="<?php echo $selecttypeoffreur_projet->id_type_offreur_projet; ?>" <?php if($selecttypeoffreur_projet->id_type_offreur_projet == $typeoffreur_projet->id_type_offreur_projet){echo ' selected="selected"';}?>><?php echo ($selecttypeoffreur_projet->libelle_type_offreur_projet); ?></option>
+        <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="souscription_montant">Montant de la souscription * </label>
+<div class="controls">
+  <input type="number" name="souscription_montant" id="souscription_montant" required placeholder="Montant de la souscription pour tiers"  value="<?php echo $this->souscription_montant; ?>"  class="input-block-level"  required="required" />
+</div>
+</div>
+
+
+<div class="control-group" id="div_cm"  style="display:none;">
+    <label class="control-label" for="type_souscription_bc"> Type Souscription * </label>
+    <div class="controls">
+    <select name="type_souscription_cm" id="type_souscription_cm"  class="input-block-level" >
+        <option value=""> Choisir un type de souscription </option>
+        <option value="CAPS">Souscription pour Tiers de type CAPS</option>
+        <option value="BPS">Souscription pour Tiers contre BPS</option>
+    </select>
+    </div>
+</div>
+		
+	  
+<div class="control-group" id="div_bc"  style="display:block;">
+    <label class="control-label" for="type_souscription_bc"> Type Souscription * </label>
+    <div class="controls">
+    <select name="type_souscription_bc" id="type_souscription_bc"  class="input-block-level" >
+        <option value=""> Choisir un type de souscription </option>
+        <option value="CMIT">Souscription Marchande de type CMIT </option>
+        <option value="CAPU">Souscription Marchande de type CAPU </option>
+        <option value="CAIPC">Souscription Non Marchande de type CAIPC </option>
+	    <option value="BPS">Souscription pour Tiers contre BPS</option>
+    </select>
+    </div>
+</div>
+
+
+<div class="control-group" id="div_bps"  style="display:none;">
+	<div class="control-group">
+    <label class="control-label" for="bps_demande"> Bien, Produit ou Service à acquérir *</label>
+    <div class="controls">
+        <textarea name="bps_demande" class="input-block-level" id="bps_demande" placeholder="" required></textarea>
+    </div>
+    </div>
+		
+    <div class="control-group">
+    <label class="control-label" for="delai_souscription"> Nombre de Périodes d'Acquisition * </label>
+    <div class="controls">
+        <input type="text" name="delai_souscription" id="delai_souscription" placeholder="Nombre de Périodes d'Acquisition du Bien,Produit ou Service" required class="input-block-level" />
+    </div>
+    </div>
+</div>
+
+
+<div class="control-group" id="div_formation"  style="display:none;">
+     <label class="control-label" for="id_cycle_formation"> Cycle de formation * </label>
+     <div class="controls">
+     <select name="id_cycle_formation" id="id_cycle_formation" class="input-block-level" >
+     <option value=""> Choisir un cycle de formation </option>
+     <?php foreach ($this->formations as $value) { ?>
+     <option
+       value="<?php echo $value->id; ?>"><?php echo ucfirst(utf8_encode($value->nom_cycle_formation)); ?>
+     </option>
+     <?php } ?>
+     </select>
+     </div>
+</div>
+
+
+<div class="control-group" id="div_kit" style="display:none;">
+<div class="control-group">
+<label class="control-label" for="mont_bc"> Montant du BC / période * </label>
+<div class="controls">
+<input type="text" name="mont_bc" id="mont_bc" placeholder="Montant du Bon de Consommation (BC) par Période"  class="input-block-level" />
+</div>
+</div>
+</div>
+
+
+<div class="control-group">
+<div class="control-group">
+<label class="control-label" for="code_membre_mobilisateur"> Code Membre Mobilisateur </label>
+<div class="controls">
+<div class="input-group mb-3">
+<input type="text" name="code_membre_mobilisateur" id="code_membre_mobilisateur" placeholder="Code Membre Mobilisateur"  class="form-control" />
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_description_projet">Description du projet </label>
+<div class="controls">
+  <textarea name="offreur_projet_description_projet" class="input-block-level" id="offreur_projet_description_projet" placeholder="Description du projet"></textarea>
+</div>
+</div>
+
+<div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox" name="offreur_projet_operationnel" id="offreur_projet_operationnel" value="1"> Je suis opérationnel
+      </label>
+    </div>
+  </div>
+  
+  
+<?php if($this->param == 1 ) { ?>
+<div id="div_cap" style="display:none;">
+<div class="control-group">
+<label class="control-label" for="offreur_projet_capacite_production">Capacité de production </label>
+<div class="controls">
+<input type="text" name="offreur_projet_capacite_production" id="offreur_projet_capacite_production" placeholder="Capacité de production" class="input-block-level" />
+</div>
+</div>
+</div>
+
+
+<div id="div_stock" style="display:none;">
+<div class="control-group">
+<label class="control-label" for="offreur_projet_stock_disponible">Stock disponible </label>
+<div class="controls">
+<input type="text" name="offreur_projet_stock_disponible" id="offreur_projet_stock_disponible" placeholder="Stock disponible" class="input-block-level"  />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_qte_max">Quantité maximale </label>
+<div class="controls">
+<input type="text" name="offreur_projet_qte_max" id="offreur_projet_qte_max" placeholder="Quantité maximale" class="input-block-level"  />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_qte_moyen">Quantité moyenne </label>
+<div class="controls">
+<input type="text" name="offreur_projet_qte_moyen" id="offreur_projet_qte_moyen" placeholder="Quantité moyenne" class="input-block-level"  />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_qte_min">Quantité minimale </label>
+<div class="controls">
+<input type="text" name="offreur_projet_qte_min" id="offreur_projet_qte_min" placeholder="Quantité minimale" class="input-block-level"  />
+</div>
+</div>
+</div>
+
+<div id="div_vendre" style="display:none;">
+<div class="control-group">
+<label class="control-label" id="nom_entrepot">Nom Entreprise </label>
+<div class="controls">
+<input type="text" name="offreur_projet_nom_entrepot" id="offreur_projet_nom_entrepot" placeholder="" class="input-block-level" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" id="adresse_entrepot">Adresse Entreprise </label>
+<div class="controls">
+  <textarea name="offreur_projet_adresse_entrepot" class="input-block-level" id="offreur_projet_adresse_entrepot" placeholder=""></textarea>
+</div>
+</div>
+</div>
+<?php } ?>
+
+<div class="control-group">
+<label class="control-label" for="offreur_projet_attestation">Attestation  *  </label>
+<div class="controls">
+<label class="checkbox">
+<input name="offreur_projet_attestation" type="checkbox" id="offreur_projet_attestation" value="1" required /> Je, soussigné, certifie, en toute conscience, que les renseignements ci-dessus rendent fidèlement compte de ma situation, de mes qualifications et de mon expérience. J’accepte que toute fausse déclaration volontaire puisse entraîner ma disqualification de la présente procédure.
+</label>
+</div>
+</div>
+
+</fieldset> 
+
+<div class="form-actions">
+<input name="publier" type="hidden" id="publier" value="0" />
+<input name="param" type="hidden" id="param" value="<?php echo $this->param; ?>" />
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" id="submit" class="btn btn-primary">Enregistrer</button>
+</div> 
+</form>
+
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr.js"></script>
+<script type="text/javascript">
+//outilqr('addeli');
+outilqrformobligatoire("addacteur","submit");
+</script>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

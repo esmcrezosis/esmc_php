@@ -1,0 +1,44 @@
+<div id="view-content" title="" style="font-size: 12px;min-height: 520px;">
+    <table id="tbl-user"></table>
+    <div id="pg-user"></div>
+</div>
+<script type="text/javascript">
+$("#tbl-user").jqGrid({
+    url:'<?php echo $this->url(array('action' => 'dataechange')); ?>',
+    datatype: "json",
+    mtype: 'GET',
+        colNames:['Date','Code à échanger','Entrée','Sortie','Objet échangé','Solde','Total Entrée/Sortie'],
+        height:500, width:827,
+        colModel:[
+            {name:'dateechange', index:'dateechange', width: 110, editable: true, align:"center"},
+            {name:'code', index:'code', width:100, editable: true, align:"center"},
+            {name:'montant_entrer', index:'montant_entrer', width: 110, editable: true, align:"right", sorttype: "float", formatter: "number"},
+			{name:'montant_sortie', index:'montant_sortie', width: 110, editable: true, align:"right", sorttype: "float", formatter: "number"},
+            {name:'type', index:'type', width:100, editable: true, align:"center"},
+			{name:'solde', index:'solde', width: 110, editable: true, align:"right", sorttype: "float", formatter: "number"},
+            {name:'total', index:'total', width: 110, editable: true, align:"right", sorttype: "float", formatter: "number"},
+        ],
+     rowNum:100,
+     rowList:[100,200,300],
+     rownumbers:true,
+     pager: '#pg-user',
+        sortname:"dateechange",
+        viewrecords: true,
+        sortorder: "DESC",
+        caption:"Tableau de bord des echanges",
+		grouping:true,
+        groupingView : {
+            groupField : ['code'],
+            groupColumnShow : [true],
+            groupText : ['<b>{0}</b>'],
+            groupCollapse : false,
+            groupOrder: ['asc'],
+            groupSummary : [true],
+            groupDataSorted : true
+        },       
+        footerrow: true,
+        userDataOnFooter: true
+    });
+    $("#tbl-user").jqGrid('navGrid','#pg-user',{edit:false,add:false,del:false,search:true});    
+    
+</script>    

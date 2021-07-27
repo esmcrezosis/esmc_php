@@ -1,0 +1,85 @@
+<?php $sessionbanqueopi = new Zend_Session_Namespace('banqueopi');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menubanqueopi.phtml"); ?>
+
+  <blockquote><p>Liste des fichiers</p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Libellé</th>
+								  <th>PBF</th>
+								  <th>Télécharger</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php echo ($entry->fichier_libelle); ?></td>
+      <td><div align="center"><?php 
+$fichiercode = new Application_Model_EuBanque();
+$fichiercodeM = new Application_Model_EuBanqueMapper();
+$fichiercodeM->find($entry->fichier_banque, $fichiercode);
+?><?php echo ($fichiercode->libelle_banque); ?></div></td>
+      <td><a class="btn btn-mini btn-primary" href="<?php echo $this->baseUrl(); ?>/<?php echo $entry->fichier_url; ?>" target="_blank"><i class="icon-download icon-white"></i>  Télécharger</a></td>
+      <td><div align="center"><?php if($entry->publier == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/banqueopi/publierfichier/id/<?php echo $entry->fichier_id; ?>/publier/0"><i class="icon-ok icon-white"></i>  Activé</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/banqueopi/publierfichier/id/<?php echo $entry->fichier_id; ?>/publier/1"><i class="icon-off icon-white"></i>  Désactivé</a>&nbsp;
+<?php }?>
+
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/banqueopi/editfichier/id/<?php echo $entry->fichier_id; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+
+			<!--<a class="btn btn-mini btn-danger" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/banqueopi/suppfichier/id/<?php echo $entry->fichier_id; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a>-->
+		</div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun fichier enrégistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

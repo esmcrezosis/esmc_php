@@ -1,0 +1,148 @@
+<div class="role-fluid">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+
+	<blockquote>CREER UNE CENTRALE</blockquote>
+
+	 <?php if (isset($_SESSION["validationerrors"])): ?>
+
+		 <div class="alert alert-danger">
+
+			 <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+		 </div>
+
+	 <?php unset($_SESSION['validationerrors']); endif ?>
+
+	 <?php if (isset($_SESSION["validationpertesuccess"])): ?>
+
+		 <div class="alert alert-success">
+
+			 <li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+
+		 </div>
+
+	 <?php unset($_SESSION['validationpertesuccess']); endif ?>
+
+
+
+    <form action="#" method="post" class="form-horizontal" id="ajouterunecentrale">
+
+	    <div class="control-group">
+
+	               <label class="control-label" for="Code membre" style="font-weight:bold">
+
+	                 Code membre du responsable *:
+
+	               </label>
+
+	               <div class="controls">
+
+		              <input type="text" name="responsable_code_membre_centrale" class="input-block-level responsable_code_membre" id="code_membre_qr_auth" placeholder="Mettre ici votre code membre" required="required"/>
+
+	               </div>
+
+	    </div>
+
+        <div class="control-group">
+
+	        <label class="control-label" for="organisateur_libelle_centrale" style="font-weight:bold">
+
+	            Nom de la centrale *:
+
+	        </label>
+
+	        <div class="controls">
+
+		        <input type="text" name="organisateur_libelle_centrale" class="input-block-level organisateur_libelle_centrale" placeholder="Mettre ici le nom de la centrale" required="required"/>
+
+	        </div>
+
+	    </div>
+
+		<?php if($this->countcentre != 0): ?>
+
+        <div class="control-group">
+
+	        <label class="control-label" for="organisation_agencesodd_centre" style="font-weight:bold">
+
+	            La liste des agences de mon centre *:
+
+	        </label>
+
+            <select class="input-block-level" name="organisation_agencesodd_centre" id="organisation_agencesodd_centre">
+
+ 					<option value>Selectionner l'agence odd</option>
+
+ 					<?php foreach ($this->listedesagencesodd as $key => $value): ?>
+
+ 					     <option value="<?php echo $value->id_agences_odd ?>" data-idagencesodd="<?php echo $value->id_agences_odd ?>"><?php echo $value->libelle_agences_odd ?></option>
+
+ 					<?php endforeach; ?>
+
+ 			</select>
+
+	    </div>		
+
+		<?php endif ?>
+
+        <div class="control-group">
+
+	        <label class="control-label" for="organisation_type_centrale" style="font-weight:bold">
+
+	            Le type de centrale *:
+
+	        </label>
+
+            <select class="input-block-level" name="organisation_type_centrale" id="organisation_type_centrale">
+
+ 					<option value>Selectionner le type de centrale</option>
+					 
+ 						<?php foreach ($this->listdestypesdecentrales as $key => $value): ?>
+ 						<option value="<?php echo $value->id_type_centrales ?>" data-idcentrale="<?php echo $value->id_type_centrales ?>"><?php echo $value->libelle_type_centrales ?></option>
+ 						<?php endforeach; ?>
+ 			</select>
+	    </div>
+
+		<blockquote style="font-weight:bold"> RESPONSABILITE </blockquote>
+                <div class="control-group">
+	               <label class="control-label" for="login de l'utilisateur responsable du centre" style="font-weight:bold">
+	                 Login du responsable*:
+	               </label>
+	               <div class="controls">
+		              <input type="text" name="responsable_membre_login_centrale" class="input-block-level responsable_membre_login" placeholder="Veuillez saisir le login du responsable" required="required"/>
+	               </div>
+	            </div>
+                <div class="control-group">
+	            <label class="control-label" for="Mot de passe de l'utilisateur" style="font-weight:bold">
+	                Mot de passe du responsable *:
+	            </label>
+	            <div class="controls">
+		            <input type="text" name="responsable_membre_password_centrale" class="input-block-level responsable_membre_password" placeholder="Veuillez saisir le mot de passe du responsable" required="required"/>
+	            </div>
+	            </div>
+                <div class="control-group">
+	            <label class="control-label" for="Confirmation du mot de passe de utilisateur" style="font-weight:bold">
+	                Confirmation du Mot de passe du responsable*:
+	            </label>
+	            <div class="controls">
+		            <input type="text" name="responsable_membre_confirmpassword_centrale" class="input-block-level responsable_membre_confirmpassword" placeholder="Veuillez confirmer le mot de passe saisi" required="required"/>
+	            </div>
+	            </div>
+
+        <div class="control-group" >
+                  <button type="submit" class="btn btn-large btn-primary" id="centrale_valid" style="position:relative">
+                    Valider le formulaire
+                  </button>
+        </div>
+
+    
+    </form>
+	<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+    <script src="/outil-qr.js"></script>
+    <script type="text/javascript">
+         //outilqr('addeli');
+       outilqrformobligatoire("ajouterunecentrale","centrale_valid");
+    </script>
+</div>

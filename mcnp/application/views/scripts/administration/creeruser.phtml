@@ -1,0 +1,159 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p> Cr&eacute;ation des utilisateurs pour exploitation </p></blockquote>
+  <form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="adduser">
+  <?php if(isset($sessionutilisateur->errorlogin) && $sessionutilisateur->errorlogin!="") { ?>
+  <div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->errorlogin;$sessionutilisateur->errorlogin = ""; ?>
+  </div>
+  <?php } ?>
+
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="nom">Nom utilisateur *</label>
+<div class="controls">
+<input type="text" name="nom" id="nom" placeholder="Nom utilisateur" class="input-xxlarge" required>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="prenom">Pr&eacute;nom utilisateur *</label>
+<div class="controls">
+<input type="text" name="prenom" id="prenom" placeholder="Prenom utilisateur" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="login">Login utilisateur *</label>
+<div class="controls">
+<input type="text" name="login" id="login" placeholder="Login utilisateur" class="input-xxlarge" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="pwd">Mot de passe *</label>
+<div class="controls">
+<input type="password" name="pwd" id="pwd" placeholder="Mot de passe" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="pwd">Confirmer Mot de passe *</label>
+<div class="controls">
+<input type="password" name="pwd1" id="pwd1" placeholder="Confirmer le mot de passe" class="input-xxlarge" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="pwd">Code Membre *</label>
+<div class="controls">
+<input type="text" name="code_membre" id="code_membre" placeholder="Code Membre" class="input-xxlarge" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label">Zone Mon&eacute;taire *</label>
+<div class="controls">
+     <select  id="code_zone" name="code_zone" required class="input-xxlarge">
+     <option value="">Choisir une zone mon&eacute;taire</option>
+     <?php foreach ($this->zones as $value) { ?>
+     <option
+          value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?>
+     </option>                         
+     <?php } ?>
+     </select>
+     </div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label">Pays *</label>
+<div class="controls">
+     <select  id="id_pays" name="id_pays" required class="input-xxlarge">
+     <option value="">Choisir un pays</option>
+     <?php foreach ($this->pays as $value) { ?>
+     <option
+          value="<?php echo $value->id_pays; ?>"><?php echo $value->libelle_pays; ?>
+     </option>                         
+     <?php } ?>
+     </select>
+     </div>
+</div>
+
+<div class="control-group">
+<label class="control-label">R&eacute;gions *</label>
+<div class="controls">
+     <select  id="id_region" name="id_region" required class="input-xxlarge">
+     <option value="">Choisir une r&eacute;gion</option>
+     <?php foreach ($this->regions as $value) { ?>
+     <option
+          value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+     <?php } ?>
+     </select>
+     </div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Pr&eacute;fectures *</label>
+<div class="controls">
+     <select  id="id_prefecture" name="id_prefecture" required class="input-xxlarge">
+     <option value="">Choisir une pr&eacute;fecture</option>
+     <?php foreach ($this->prefectures as $value) { ?>
+     <option
+          value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+     <?php } ?>
+     </select>
+     </div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Cantons *</label>
+<div class="controls">
+     <select  id="id_canton" name="id_canton" required class="input-xxlarge">
+     <option value="">Choisir un canton</option>
+     <?php foreach ($this->cantons as $value) { ?>
+     <option
+          value="<?php echo $value->id_canton; ?>"><?php echo $value->nom_canton; ?></option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-success">Enregistrer</button>
+</div>
+   
+</form>
+
+</div>
+<div class="span3">
+<?php //include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

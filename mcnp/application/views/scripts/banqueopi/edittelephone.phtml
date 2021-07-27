@@ -1,0 +1,56 @@
+<?php $sessionbanqueopi = new Zend_Session_Namespace('banqueopi');?> 
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menubanqueopi.phtml"); ?>
+
+  <blockquote><p>Modification du telephone</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addtelephone">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+        
+
+<div class="control-group">
+<label class="control-label" for="telephone">Numéro de telephone *</label>
+<div class="controls">
+<input type="text" name="telephone" id="telephone" placeholder="Numéro de telephone" class="input-xlarge" value="<?php echo $this->banque_telephone->telephone; ?>" required />
+</div>
+</div>
+   
+    
+
+<div class="form-actions">
+<input name="id_telephone" type="hidden" id="id_telephone" value="<?php echo $this->banque_telephone->id_telephone; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modifier du numéro de telephone</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

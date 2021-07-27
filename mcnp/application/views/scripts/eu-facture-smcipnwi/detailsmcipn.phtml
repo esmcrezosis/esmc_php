@@ -1,0 +1,107 @@
+<style>
+    #container { height:auto;}
+</style>
+
+<div id="view-content" class="ui-widget">
+    <div style="margin-bottom: 3px;">
+         <a href=""><input id="retour" type="button" value="Retour" class="ui-widget button"/></a>
+    </div>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 10px; padding-left: 7px;">
+        <h3>Informations en détail sur le budget d'investissement</h3>
+    </div>
+    <div id="container" class="ui-widget-content ui-corner-bottom">
+         <div id="accordeon">
+              <h2><a href="#">Informations sur le budget</a></h2>
+              <div id="investis" style="font-size:11px;">
+                  <table style="height:300px;">
+                         <tr>
+                             <td>Code investissement</td><td><input id="id_investissement"  value="<?php echo $this->data[0][1]; ?>" readonly="true"/></td>
+                             <td>Montant investissement</td><td><input value="<?php echo number_format($this->data[0][2],3,',',' '); ?>" readonly="true"/></td>
+                         </tr>
+                         <tr>
+                             <td>Type investissement</td><td><input value="<?php echo $this->data[0][3]; ?>" readonly="true"/></td>
+                             <td>Date investissement</td><td><input value="<?php echo $this->data[0][4]; ?>" readonly="true"/></td>
+                         </tr>
+                         <tr>
+                             <td>Libellé besoin</td><td><input value="<?php echo $this->data[0][5]; ?>" readonly="true"/></td>
+                             <td></td><td></td>
+                         </tr>
+                         <tr>
+                             <td colspan="16" style=" height:200px"></td>
+                         </tr>
+                  </table>
+              </div> 
+              <h2><a href="#">Liste des produits liés à cet investissement</a></h2>
+              <div id="pforma" style="font-size:11px;">
+                   <table id="tbl-investis"></table>
+                   <div id="pg-investis"></div>
+              </div>
+              <h2><a href="#">Autres demandes</a></h2>
+              <div id="circulant" style="font-size:11px;">
+                   <table>
+                      <thead>
+                              <?php if (isset($this->data1[0][3])) { ?>
+                              <tr style="text-align: left;">
+                                 <th>Libellé besoin</th><th>Montant</th>
+                              </tr>
+                              <?php for ($i = 0; $i < count($this->data1); $i++) {    
+                              if ($this->data1[$i][2] != 0) {?>
+                              <tr>
+                                 <td><input value="<?php echo $this->data1[$i][1]; ?>" readonly="true"/></td>
+                                 <td><input value="<?php echo number_format($this->data1[$i][2],3,',',' '); ?>" readonly="true"/></td>
+                              </tr>
+                              <?php }}} ?> 
+                        </thead>
+                   </table> 
+              </div>
+         </div>
+    </div>  
+</div>
+<script type="text/javascript">
+     jQuery(function() {
+            $("#accordeon").accordion();
+        });
+        
+     $("#tbl-investis").jqGrid({
+         
+            url:"/eu-budget/listinvestis?id_investissement="+$('#id_investissement').val(),
+            datatype: "json",
+            mtype: 'GET',
+            colNames:['Code proforma','Code produit','Libellé produit','PU produit','Quantité','Remise','Total'],
+            height:'auto', width:780,
+            colModel:[
+               {name:'code_proforma',index:'code_proforma', width: 150, editable: false,align:"left"},
+               {name:'id_objet',index:'id_objet', width: 120, align:"left",summaryType:'count', summaryTpl : '({0}) total'},
+               {name:'design_objet',index:'design_objet', width: 250, align:"left", editable: false},
+               {name:'pu_objet',index:'pu_objet', width: 120, align:"right",sorttype:'number',formatter:'number',summaryType:'sum',formatter:'number'},
+               {name:'qte_objet',index:'qte_objet', width: 100, align:"right", sorttype:'number',summaryType:'sum'},
+               {name:'remise',index:'remise', width: 100, align:"right", sorttype:'number',summaryType:'sum'},
+               {name:'total',index:'total', width: 100, align:"right", sorttype:'number',summaryType:'sum',formatter:'number'},
+            ],
+            rowNum:100000,
+            rowList:[100000,200000,300000],
+            rownumbers:true,
+            pager: '#pg-investis',
+            sortname:"code_proforma",
+            viewrecords: true,
+            multiselect:false,
+            sortorder: "ASC",
+            caption:"Budget investissement",
+            grouping: true,
+            groupingView : {
+                groupField : ['code_proforma'],
+                groupColumnShow : [true],
+                groupText : ['<b>{0}</b>'],
+                groupCollapse : false,
+                groupOrder: ['asc'],
+                groupSummary : [true],
+                groupDataSorted : true
+            },
+            footerrow: true,
+            userDataOnFooter: true
+        });
+        
+        $("#tbl-investis").jqGrid('navGrid','#pg-investis',{edit:false,add:false,del:false,search:true});
+        $('#retour').button();
+        
+ </script>    

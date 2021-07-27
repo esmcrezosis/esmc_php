@@ -1,0 +1,384 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Modification du compte marchand</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addmembre">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<?php if (substr($this->code_membre, -1) == "P") { ?>
+
+<fieldset>  
+
+<legend>Etat civil</legend>
+<div class="">  
+<div class="span6">
+  <div class="control-group">
+  <label class="control-label" for="nom_membre">Nom *</label>
+  <div class="controls">
+  <input type="text" name="nom_membre" id="nom_membre" placeholder="Nom" value="<?php echo $this->membre->nom_membre; ?>" required disabled="disabled"  />
+  <input type="hidden" name="code_membre" id="code_membre" placeholder="Code membre" value="<?php echo $this->membre->code_membre; ?>" required>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="sexe_membre">Genre *</label>
+  <div class="controls">
+  <select name="sexe_membre" id="sexe_membre" required>
+  <option value="">Choisir le genre</option>
+  <option value="M" <?php if($this->membre->sexe_membre == 'M'){echo ' selected="selected"';}?>>Masculin</option>
+  <option value="F" <?php if($this->membre->sexe_membre == 'F'){echo ' selected="selected"';}?>>Féminin</option>
+  </select>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="nationalite_membre">Nationalité *</label>
+  <div class="controls">
+  <select name="nationalite_membre" id="nationalite_membre" required>
+       <?php  $pays = new Application_Model_EuPaysMapper();
+		$selectpays = $pays->fetchAll();?>
+               <option value="">Choisir une nationalité</option>
+    <?php foreach ($selectpays as $selectpays): ?>
+               <option value="<?php echo $selectpays->id_pays; ?>" <?php if($this->membre->id_pays == $selectpays->id_pays){echo ' selected="selected"';}?>><?php echo htmlentities($selectpays->nationalite); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="pere_membre">Nom du père </label>
+  <div class="controls">
+  <input type="text" name="pere_membre" id="pere_membre" value="<?php echo $this->membre->pere_membre; ?>" placeholder="Nom du père">
+  </div>
+  </div>
+ 
+  <div class="control-group">
+  <label class="control-label" for="sitfam_membre">Situation matrimoniale *</label>
+  <div class="controls">
+  <select name="sitfam_membre" id="sitfam_membre"  required="required">
+     <option value="">Choisir situation</option>
+     <option value="C" <?php if($this->membre->sitfam_membre == 'C'){echo ' selected="selected"';}?>>Célibataire</option>
+     <option value="D" <?php if($this->membre->sitfam_membre == 'D'){echo ' selected="selected"';}?>>Divorcé(e)</option>
+     <option value="M" <?php if($this->membre->sitfam_membre == 'M'){echo ' selected="selected"';}?>>Marié(e)</option>
+     <option value="V" <?php if($this->membre->sitfam_membre == 'V'){echo ' selected="selected"';}?>>Veuf(ve)</option>
+  </select>
+  </div>
+  </div> 
+</div>
+
+<div class="span6">
+  <div class="control-group">
+  <label class="control-label" for="prenom_membre">Prénoms *</label>
+  <div class="controls">
+  <input type="text" name="prenom_membre" id="prenom_membre" value="<?php echo $this->membre->prenom_membre; ?>" placeholder="Prénoms" required disabled="disabled" />
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="date_nais_membre">Date de naissance *</label>
+  <div class="controls">
+  <input type="date" name="date_nais_membre" id="date_nais_membre" value="<?php echo $this->membre->date_nais_membre; ?>" placeholder="Date de naissance" class="input-large datepicker" data-provide="datepicker"  required>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="lieu_nais_membre">Lieu de naissance *</label>
+  <div class="controls">
+  <input type="text" name="lieu_nais_membre" id="lieu_nais_membre" value="<?php echo $this->membre->lieu_nais_membre; ?>" placeholder="Lieu de naissance" required>
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="mere_membre">Nom de la mère</label>
+  <div class="controls">
+  <input type="text" name="mere_membre" id="mere_membre" value="<?php echo $this->membre->mere_membre; ?>" placeholder="Nom de la mère">
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="nbr_enf_membre">Nombre d'enfant *</label>
+  <div class="controls">
+  <input type="text" name="nbr_enf_membre" id="nbr_enf_membre" value="<?php echo $this->membre->nbr_enf_membre; ?>" placeholder="Nombre d'enfant"  required="required" />
+  </div>
+  </div>
+</div>
+</div>
+
+
+<legend>Adresse</legend>
+<div class="">
+
+  <div class="span6">
+  <div class="control-group">
+  <label class="control-label" for="bp_membre">BP</label>
+  <div class="controls">
+  <input type="text" name="bp_membre" id="bp_membre" value="<?php echo $this->membre->bp_membre; ?>" placeholder="BP" />
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="quartier_membre">Quartier *</label>
+  <div class="controls">
+  <input type="text" name="quartier_membre" id="quartier_membre" value="<?php echo $this->membre->quartier_membre; ?>" placeholder="Quartier"  required="required" />
+  </div>
+  </div>
+
+
+  <div class="control-group">
+  <label class="control-label" for="ville_membre">Ville *</label>
+  <div class="controls">
+  <input type="text" name="ville_membre" id="ville_membre" value="<?php echo $this->membre->ville_membre; ?>" placeholder="Ville"  required="required" />
+  </div>
+  </div>
+
+  </div>
+<div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="email_membre">Email</label>
+  <div class="controls">
+<div class="input-prepend">
+      <span class="add-on"><i class="icon-envelope"></i></span>
+  <input type="email" name="email_membre" id="email_membre" value="<?php echo $this->membre->email_membre; ?>" placeholder="Email"  />
+  </div>
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="tel_membre">Téléphone</label>
+  <div class="controls">
+  <input type="number" name="tel_membre" id="tel_membre" value="<?php echo $this->membre->tel_membre; ?>" placeholder="Téléphone" />
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="portable_membre">Cellulaire *</label>
+  <div class="controls">
+  <input type="number" name="portable_membre" id="portable_membre" value="<?php echo $this->membre->portable_membre; ?>" placeholder="Cellulaire" required>
+<span class="help-block"><p class="text-error">Veuillez saisir votre numero de téléphone portable sans oublier l'indicatif du pays </p></span>
+  </div>
+  </div>
+
+    
+  <div class="control-group">
+  <label class="control-label" for=""></label>
+  <div class="controls">
+&nbsp;<br />&nbsp;
+  </div>
+  </div>
+
+
+  </div>
+  
+  </div>  
+  
+  <legend>Autres informations</legend>
+
+
+
+
+<div class="">
+
+  <div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="profession_membre">Profession *</label>
+  <div class="controls">
+  <input type="text" name="profession_membre" id="profession_membre" value="<?php echo $this->membre->profession_membre; ?>" placeholder="Profession"  required="required" />
+  </div>
+  </div>
+
+  </div>
+<div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="formation">Formation</label>
+  <div class="controls">
+  <input type="text" name="formation" id="formation" value="<?php echo $this->membre->formation; ?>" placeholder="Formation" />
+  </div>
+  </div>
+  
+</div>  
+
+  </div>  
+
+
+</fieldset>
+
+<?php } else  { ?>
+
+<fieldset>
+ 
+<legend>Informations membres morales</legend>
+<div class="">
+  
+  
+<div class="span6">
+    
+  <div class="control-group">
+  <label class="control-label" for="code_type_acteur">Type Membre morale *</label>
+  <div class="controls">
+  <select name="code_type_acteur" id="code_type_acteur" required>
+  <option value="">Choisir le type</option>
+    <option value="EI" <?php if($this->membre->code_type_acteur == 'EI'){echo ' selected="selected"';}?>>Entreprise Industrie</option>
+    <option value="OSE" <?php if($this->membre->code_type_acteur == 'OSE'){echo ' selected="selected"';}?>>Opérateur Socio-Economique</option>
+    <option value="PEI" <?php if($this->membre->code_type_acteur == 'PEI'){echo ' selected="selected"';}?>>Partenaire Entreprise Industrie</option>
+    <option value="POSE" <?php if($this->membre->code_type_acteur == 'POSE'){echo ' selected="selected"';}?>>Partenaire Opérateur Socio-Economique</option>
+  </select>
+  </div>
+  </div> 
+  
+  <div class="control-group">
+  <label class="control-label" for="num_registre_membre">N° RCCM *</label>
+  <div class="controls">
+  <input type="text" name="num_registre_membre" id="num_registre_membre" value="<?php echo $this->membre->num_registre_membre; ?>" placeholder="N° RCCM" required />
+  <input type="hidden" name="code_membre" id="code_membre" placeholder="Code membre" value="<?php echo $this->membre->code_membre_morale; ?>" required />
+  
+  </div>
+  </div>
+	
+  <div class="control-group">
+  <label class="control-label" for="domaine_activite">Domaine d'activité </label>
+  <div class="controls">
+  <input type="text" name="domaine_activite" id="domaine_activite" value="<?php echo $this->membre->domaine_activite; ?>" placeholder="Domaine d'activité" />
+  </div>
+  </div>
+   
+  
+</div>
+
+  
+  <div class="span6">
+  
+  <div class="control-group">
+  <label class="control-label" for="raison_sociale">Raison sociale *</label>
+  <div class="controls">
+  <input type="text" name="raison_sociale" id="raison_sociale" value="<?php echo $this->membre->raison_sociale; ?>" placeholder="Raison sociale" required disabled="disabled" />
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="code_statut">Statut juridique *</label>
+  <div class="controls">
+  <select class="input-large" name="code_statut" id="code_statut" required>
+       <?php  $statutjuridique = new Application_Model_EuStatutJuridiqueMapper();
+		$selectstatutjuridique = $statutjuridique->fetchAll();?>
+               <option value="">Choisir un statut juridique</option>
+    <?php foreach ($selectstatutjuridique as $selectstatutjuridique): ?>
+               <option value="<?php echo $selectstatutjuridique->code_statut; ?>"  <?php if($this->membre->code_statut == $selectstatutjuridique->code_statut){echo 'selected="selected"';}?>><?php echo htmlentities($selectstatutjuridique->libelle_statut); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="site_web">Site web</label>
+  <div class="controls">
+  <input type="text" name="site_web" id="site_web" value="<?php echo $this->membre->site_web; ?>" placeholder="Site web" />
+  </div>
+  </div>
+  </div>
+
+  </div>
+
+
+<legend>Adresse</legend>
+<div class="">
+
+  <div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="bp_membre">BP</label>
+  <div class="controls">
+  <input type="text" name="bp_membre" id="bp_membre" value="<?php echo $this->membre->bp_membre; ?>" placeholder="BP" />
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="quartier_membre">Quartier *</label>
+  <div class="controls">
+  <input type="text" name="quartier_membre" id="quartier_membre" value="<?php echo $this->membre->quartier_membre; ?>" placeholder="Quartier"  required="required" />
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="ville_membre">Ville *</label>
+  <div class="controls">
+  <input type="text" name="ville_membre" id="ville_membre" value="<?php echo $this->membre->ville_membre; ?>" placeholder="Ville"  required="required" />
+  </div>
+  </div>
+
+  </div>
+  <div class="span6">
+  <div class="control-group">
+  <label class="control-label" for="email_membre">Email *</label>
+  <div class="controls">
+<div class="input-prepend">
+      <span class="add-on"><i class="icon-envelope"></i></span>
+  <input type="text" name="email_membre" id="email_membre" value="<?php echo $this->membre->email_membre; ?>" placeholder="Email"  required="required" />
+  </div>
+  </div>
+  </div>
+ 
+  <div class="control-group">
+  <label class="control-label" for="tel_membre">Téléphone</label>
+  <div class="controls">
+  <input type="text" name="tel_membre" id="tel_membre" value="<?php echo $this->membre->tel_membre; ?>" placeholder="Téléphone" />
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="portable_membre">Cellulaire *</label>
+  <div class="controls">
+  <input type="text" name="portable_membre" id="portable_membre" value="<?php echo $this->membre->portable_membre;?>" placeholder="Cellulaire" required>
+  </div>
+  </div>
+         
+  <div class="control-group">
+  <label class="control-label" for=""></label>
+  <div class="controls">
+&nbsp;<br />&nbsp;
+  </div>
+  </div>
+  
+  </div>
+  
+  </div>  
+ 
+
+</fieldset> 
+
+
+
+<?php } ?>
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-success">Modifier le profil</button>
+</div>
+  
+</form>
+</div>
+<div class="span3">
+<?php //include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

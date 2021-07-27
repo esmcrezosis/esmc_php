@@ -1,0 +1,138 @@
+<div id="view-content" title="Vue des GCP PBF compensables" style="font-size: 11px">
+     <form id="repartition_form" method="Post" action="">
+	       <fieldset style="margin-bottom: 2px;">
+	                 <legend>Informations sur le membre</legend>
+					 <table>
+					       <tr>
+						       <td>Code membre * </td>
+							   <td><input name="code_membre" id="code_membre" size=30 /></td>
+							   <td>Raison sociale * </td>
+							   <td><input name="raison_sociale" id="raison_sociale" size=30 readonly=true/></td>
+						   </tr>
+					 </table>
+					 <br>
+					 <table>
+                        <div align="center">
+                             <input type='button' value="Afficher" name="afficher" id="afficher"/>
+                             <input type="reset" value="Rafraichir" name="refresh" id="refresh"/>
+                        </div>
+                    </table>
+	       </fieldset>
+     </form>
+	 <input id="legitimer" type="button" value="Legitimer" style="margin-bottom: 4px;">
+     <div id="tab_gcp" style="padding: 1px;">
+          <table id="tab-tpagcp"></table>
+		  <div id="pg-tpagcp"></div> 
+     </div>		  
+</div>
+
+<script type="text/javascript">
+  $("#tab-tpagcp").jqGrid({
+    url: '/eu-compensation/gcppbf',
+    datatype: "json",
+    mtype: 'GET',
+    colNames: ['Id', 'Membre', 'Compte','Date debut', 'Date fin','Montant','Montant Tranche','Montant Echu', 'Solde','Escompte'],
+    height: 300, width: 807,
+    colModel: [
+      {name: 'id_tpagcp', index: 'id_tpagcp', width: 120, editable: false, align: "left", hidden:true},
+      {name: 'membre', index: 'membre', width: 120, editable: false, align: "left", hidden: true},
+      {name: 'compte', index: 'compte', width: 150, align: "left", editable: false, hidden: true},
+      {name: 'date_deb', index: 'date_deb', width: 90, align: "left", editable: false},
+      {name: 'date_fin', index: 'date_fin', width: 90, align: "left", editable: false},
+      {name: 'mont_gcp', index: 'mont_gcp', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+      {name: 'mont_tranche', index: 'mont_tranche', width: 100, editable: false, align: "right", formatter:"number", summaryType:'sum'},
+      {name: 'mont_echu', index: 'mont_echu', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+	  {name: 'solde', index: 'solde', width: 100, align: "right", editable: false, formatter:"number", summaryType:'sum'},
+	  {name: 'escompte', index: 'escompte', width: 150, align: "left", editable: false, hidden: true}      
+    ],
+    rowNum: 1000,
+    rowList: [1000, 2000, 3000],
+    sortname: "date_deb",
+    rownumbers: true,
+    pager: '#pg-tpagcp',
+    viewrecords: true,
+	multiselect: true,
+    sortorder: "ASC",
+    footerrow: true, userDataOnFooter: true,
+    caption: "COMPTE GCP PBF",
+      
+  });
+  $("#tab-tpagcp").jqGrid('navGrid','#pg-tpagcp',{edit: false, add: false, del: false, search: true});
+	
+	
+	
+	
+    $(document).ready(function() {
+      $(function(){
+         $('#view-content').puipanel();
+		 $('fieldset').puifieldset();
+		 
+		 $('#afficher').click(
+		    function() {
+			if ($('#code_membre').val() == '') {
+               alert('Veuillez saisir le code membre de l\'acteur');
+            } else {
+			   jQuery("#tab-tpagcp").jqGrid('setGridParam',{url: "/eu-compensation/gcppbf?code_membre="+$('#code_membre').val()}).trigger('reloadGrid');
+			}
+		    
+		 });
+		
+		 $('#legitimer').click(
+		   function() {
+		      var sel;
+              sel = jQuery("#tab-tpagcp").jqGrid('getGridParam', 'selarrrow');
+              var tab = new Array();
+              var rowsel;
+              rowsel = jQuery("#tab-tpagcp").jqGrid('getGridParam', 'selrow');
+              for (var i = 0; i < sel.length; i++) {
+                  tab[i] = jQuery("#tab-tpagcp").jqGrid('getRowData', sel[i]);
+              };
+			  
+			  if (rowsel) {
+			     $.get('/eu-compensation/creategcppbf',{
+
+                 lignes: tab
+                 },function success(data) {
+		           if (data == 'good') {
+                       alert('Opération effectuée avec succès');
+                       $(location).attr("href", "/eu-compensation/index");
+                   }
+                   else if (data == 'bad') {
+                      alert("Echec de l'opération");
+                   }else if (data == 'alerte') {
+                      alert("Veuillez suivre la procedure hierarchique pouvant etablir l\'elligibilite des gcp ");
+                   }		   
+                 });
+			  } else {
+                    alert('Aucune ligne de crédit sélectionnée');
+              }	  	  
+		 });
+		
+		 $.get("/eu-compensation/changemoral",
+            function success(data) {
+            $("input#code_membre").autocomplete({"source": data});
+         });
+		 
+		 
+		 $('#code_membre').blur(function() {
+            if ($(this).val() != '') {
+                $.get(
+                '/eu-compensation/recupmoral',{
+                   num_membre: $(this).val()
+                },
+                function success(data) {
+                    if (data !== '') {
+                        $('#raison_sociale').val(data[0]);
+                    } else {
+                        alert('Ce membre n\existe pas!!!');
+                    }
+                });
+            }
+        });
+		 
+		
+		 
+      }); 			
+   })
+		
+</script>	

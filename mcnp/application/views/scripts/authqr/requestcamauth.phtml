@@ -1,0 +1,148 @@
+<div class="row-fluid">
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+
+<style>
+
+.cam_video
+{
+    width: 300px;
+    height: 300px;
+    background: #F3F3F3;
+    border: 1px solid #F3F3F3;
+}
+
+
+#connexion_cam
+{
+    display: none;
+}
+</style>
+
+	<div class="span12">
+    <div class="row">
+        <div class="col-8">
+            <h3>Comment authentifier un membre ?</h3>
+            <br/><br/>
+            <p>1. Demander au membre de Scanner le QRCode imprimé sur cet écran ou sur la pancarte à votre poste.</p>
+            <p>2. Le membre recevra une notification qui lui permettra d'authoriser l'accès à son compte en scannant ses données
+            biométriques (son empreinte digitale) ou en inscrivant le code de sécurité choisi au préalable, le cas échéant.</p>
+            <p>3. Une fois éffectuée, vous serai redirigé automatiquement dans le compte personnel du membre.</p>
+            <br/>
+            <small>N.B: Le client devra cloturer la session une fois terminée ou à tout moment. Le cas échéant, elle expirera automatiquement,
+            15 minutes après son ouverture</small>
+        </div>
+
+        <div class="col-4">
+            <center>
+                <div id="conteneur_loader">
+                <p>Veuillez mettre le code QR du membre en façe de votre Caméra afin de l'authentifier</p>
+                <video class="cam_video" autoplay></video>
+                </div>
+
+                  <div id="conteneur_2">
+
+  <form method="post" id="connexion_cam" action="<?php echo $this->baseUrl();?>/espacepersonnel/login">
+  <?php if(isset($sessionmembre->errorlogin) && $sessionmembre->errorlogin != ""){?>
+  <div class="alert alert-error" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+      <?php echo $sessionmembre->errorlogin; $sessionmembre->errorlogin = ""; ?>
+  </div>
+  <?php }?>
+
+    <div class="form-group" align="center">
+      <input class="form-control form-control-sm" name="code_membre" type="text" id="code_membre" placeholder="Code Membre" required="true" />
+    </div>
+    <div class="form-group" align="center">
+      <input class="form-control form-control-sm" name="codesecret" type="password" id="codesecret" placeholder="Code Secret" required="true" />
+    </div>
+    <div class="form-group" align="left">
+      <input name="ok" type="hidden" id="ok" value="ok" />
+      <button type="submit" class="btn btn-primary btn-sm">Connexion</button>
+    </div>
+
+</form>
+
+
+                    <div class="spinner"></div>
+
+                    <center>
+                    <button id="reset">Réinitialiser la Caméra</button>
+                    <button id="stop" >Démarrer/Arrêter la Caméra</button>
+                    </center>
+
+
+                </div>
+            </center>
+        </div>
+    </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+
+
+  (function () {
+    'use strict';
+
+    var qr = new QCodeDecoder();
+
+   // alert("Attente du QR CODE");
+
+
+    if (!(qr.isCanvasSupported() && qr.hasGetUserMedia())) {
+      alert('Your browser doesn\'t match the required specs.');
+      throw new Error('Canvas and getUserMedia are required');
+    }
+
+    var video = document.querySelector('video');
+    var reset = document.querySelector('#reset');
+    var stop = document.querySelector('#stop');
+
+
+    function resultHandler (err, result) {
+      if (err)
+        return console.log(err.message);
+        var str = result;
+        var infosqr = str.split(',');
+
+      //  alert("Code membre :"+infosqr[0]);
+       // alert("Code secret :"+infosqr[1]);
+
+        document.getElementById('code_membre').value = ''+infosqr[0];
+        document.getElementById('codesecret').value = ''+infosqr[1];
+
+        document.getElementById('connexion_cam').submit();
+
+
+      console.log(result);
+    }
+
+    // prepare a canvas element that will receive
+    // the image to decode, sets the callback for
+    // the result and then prepares the
+    // videoElement to send its source to the
+    // decoder.
+
+    qr.decodeFromCamera(video, resultHandler);
+
+
+    // attach some event handlers to reset and
+    // stop whenever we want.
+
+    reset.onclick = function () {
+      qr.decodeFromCamera(video, resultHandler);
+    };
+
+    stop.onclick = function () {
+      qr.stop();
+    };
+
+  })();
+  </script>
+
+</div>
+
+

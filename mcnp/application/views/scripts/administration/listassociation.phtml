@@ -1,0 +1,101 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+		</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Liste des agréments OSE/OE </p></blockquote>
+<?php if(count($this->entries)>0){?> 
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example">
+						  <thead>
+							  <tr>
+								  <th>Date</th>
+								  <th>Numero</th>
+								  <th>Raison sociale</th>
+								  <th>Cellulaire</th>
+								  <th>E-mail</th>
+								  <th>Agence</th>
+								  <th>Utilisateurs</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>  
+                    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+    <tr>
+      <td><?php echo ($entry->association_date_agrement); ?></td>
+      <td><?php echo ($entry->association_numero); ?></td>
+      <td><?php echo ($entry->association_nom); ?></td>
+      <td><?php echo ($entry->association_mobile); ?></td>
+      <td><?php echo ($entry->association_email); ?></td>
+      <td><?php 
+        $agenceM = new Application_Model_DbTable_EuAgence();
+        $agence = $agenceM->find($entry->code_agence);
+		$row = $agence->current();
+echo $row->libelle_agence; ?></td>
+      <td><a class="btn btn-mini btn-inverse" href="<?php echo $this->baseUrl(); ?>/administration/listmembreasso/id/<?php echo $entry->association_id; ?>"><i class="icon-user icon-white"></i>  Utilisateurs</a></td>
+      <td><div align="center">
+	  <?php if($entry->publier == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/publierassociation/id/<?php echo $entry->association_id; ?>/publier/0"><i class="icon-ok icon-white"></i>  Publier</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/publierassociation/id/<?php echo $entry->association_id; ?>/publier/1"><i class="icon-off icon-white"></i>  Pas Publier</a>&nbsp;
+<?php }?>
+<?php /*?><?php if($entry->guichet == 1){?>
+			<a class="btn btn-mini btn-success" href="<?php echo $this->baseUrl(); ?>/administration/guichetassociation/id/<?php echo $entry->association_id; ?>/guichet/0"><i class="icon-ok icon-white"></i>  Guichet</a>&nbsp;
+<?php }else{?>
+			<a class="btn btn-mini btn-warning" href="<?php echo $this->baseUrl(); ?>/administration/guichetassociation/id/<?php echo $entry->association_id; ?>/guichet/1"><i class="icon-off icon-white"></i>  Non Guichet</a>&nbsp;
+<?php }?><?php */?>	  
+	  <a class="btn btn-mini <?php if($entry->guichet == 1){?> btn-success <?php }else{?> btn-warning <?php }?>" href="<?php echo $this->baseUrl(); ?>/administration/editguichetassociation/id/<?php echo $entry->association_id; ?>"><i class="icon-edit icon-white"></i>  Guichet</a>&nbsp;
+
+			<a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/detailsassociation/id/<?php echo $entry->association_id; ?>"><i class="icon-search icon-white"></i>  Détails</a>&nbsp;
+
+	  <a class="btn btn-mini btn-info" href="<?php echo $this->baseUrl(); ?>/administration/editassociation/id/<?php echo $entry->association_id; ?>"><i class="icon-edit icon-white"></i>  Modifier</a>&nbsp;
+
+			<a class="btn btn-mini btn-danger" onClick="javascript: if (confirm('&Ecirc;tes vous s&ucirc;r de vouloir supprimer?')) location='<?php echo $this->baseUrl(); ?>/administration/suppassociation/id/<?php echo $entry->association_id; ?>'"><i class="icon-trash icon-white"></i>  Supprimer</a></div></td>
+      
+    </tr>
+<?php endforeach; ?>
+</tbody>
+					  </table>
+<?php }else{?>
+<div class="alert alert-info">
+  Aucun agrément OSE/OE enrégistré 
+</div>
+<?php }?>
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

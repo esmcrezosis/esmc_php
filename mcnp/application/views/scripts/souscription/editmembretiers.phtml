@@ -1,0 +1,166 @@
+<?php $sessionsouscription = new Zend_Session_Namespace('souscription');?>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/competences.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menutiers.phtml"); ?>
+
+  <blockquote><p>Modifier un membre tiers</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addappeloffres">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<fieldset>
+<legend>Formulaire de modification d'un membre tiers </legend>
+    
+<div class="control-group">
+<label class="control-label" for="membretiers_nom">Nom du souscripteur  *</label>
+<div class="controls">
+<input type="text" name="membretiers_nom" id="membretiers_nom" placeholder="Nom du souscripteur " class="input-xxlarge"  value="<?php echo $this->membretiers->membretiers_nom; ?>" />
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="membretiers_prenom">Prénom du souscripteur  *</label>
+<div class="controls">
+<input type="text" name="membretiers_prenom" id="membretiers_prenom" placeholder="Prénom du souscripteur " class="input-xxlarge"  value="<?php echo $this->membretiers->membretiers_prenom; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membretiers_mobile">Cellulaire du souscripteur  *</label>
+<div class="controls">
+<input type="number" name="membretiers_mobile" id="membretiers_mobile" placeholder="Cellulaire du souscripteur" class="input-xxlarge"  value="<?php echo $this->membretiers->membretiers_mobile; ?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="membretiers_email">E-mail du souscripteur  </label>
+<div class="controls">
+<input type="email" name="membretiers_email" id="membretiers_email" placeholder="E-mail du souscripteur" class="input-xxlarge"  value="<?php echo $this->membretiers->membretiers_email; ?>" />
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="membretiers_ville">Ville du souscripteur  </label>
+<div class="controls">
+<input type="text" name="membretiers_ville" id="membretiers_ville" placeholder="Ville du souscripteur " class="input-xxlarge" value="<?php echo $this->membretiers->membretiers_ville; ?>"  />
+</div>
+</div>
+    
+<div class="control-group">
+<label class="control-label" for="membretiers_quartier">Quartier du souscripteur  </label>
+<div class="controls">
+<input type="text" name="membretiers_quartier" id="membretiers_quartier" placeholder="Quartier du souscripteur " class="input-xxlarge" value="<?php echo $this->membretiers->membretiers_quartier; ?>"  />
+</div>
+</div>
+
+
+<?php /*?><div class="control-group">
+<label class="control-label" for="membretiers_filiere">Filière </label>
+<div class="controls">
+<select name="membretiers_filiere" id="membretiers_filiere"  class="input-xxlarge">
+        <?php $tfiliere = new Application_Model_DbTable_EuFiliere();
+        $results = $tfiliere->fetchAll();?>
+  <option value="">Choisir la filière</option>
+    <?php foreach ($results as $filiere): ?>
+               <option value="<?php echo $filiere->id_filiere; ?>" <?php if($this->membretiers->membretiers_filiere == $filiere->id_filiere){echo ' selected="selected"';}?>><?php echo ($filiere->nom_filiere); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div><?php */?>
+
+<div class="control-group">
+<label class="control-label" for="code_activite">Biens, Produits et Services  (BPS)</label>
+<div class="controls">
+<select name="code_activite" id="code_activite"  class="input-xxlarge"  onchange="ouvre_competences(this.value);">
+        <?php $tactivite = new Application_Model_DbTable_EuActivite();
+        $results = $tactivite->fetchAll();?>
+  <option value="">Choisir le BPS </option>
+    <?php foreach ($results as $activite): ?>
+               <option value="<?php echo $activite->code_activite; ?>" <?php if($this->membretiers->code_activite == $activite->code_activite){echo ' selected="selected"';}?>><?php echo ($activite->nom_activite); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div id="niv2">
+<div class="control-group">
+<label class="control-label" for="id_metier">Métier </label>
+<div class="controls">
+<select name="id_metier" id="id_metier"  class="input-xxlarge">
+        <?php $tmetier = new Application_Model_DbTable_EuMetier();
+        $select = $tmetier->select();
+		$select->where("code_activite = ? ", $this->membretiers->code_activite);
+        $results = $tmetier->fetchAll($select);
+		?>
+  <option value="">Choisir la métier</option>
+    <?php foreach ($results as $metier): ?>
+               <option value="<?php echo $metier->id_metier; ?>" <?php if($this->membretiers->id_metier == $metier->id_metier){echo ' selected="selected"';}?>><?php echo ($metier->libelle_metier); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="id_competence">Compétence </label>
+<div class="controls">
+<select name="id_competence" id="id_competence"  class="input-xxlarge">
+        <?php $tcompetence = new Application_Model_DbTable_EuCompetence();
+        $select = $tmetier->select();
+		$select->where("code_activite = ? ", $this->membretiers->code_activite);
+        $results = $tcompetence->fetchAll($select);
+		?>
+  <option value="">Choisir la compétence</option>
+    <?php foreach ($results as $competence): ?>
+               <option value="<?php echo $competence->id_competence; ?>" <?php if($this->membretiers->id_competence == $competence->id_competence){echo ' selected="selected"';}?>><?php echo ($competence->libelle_competence); ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+
+</div>
+
+
+
+</fieldset> 
+   
+    
+    
+
+<div class="form-actions">
+<input type="hidden" name="membretiers_id" id="membretiers_id" value="<?php echo $this->membretiers->membretiers_id; ?>" />
+
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

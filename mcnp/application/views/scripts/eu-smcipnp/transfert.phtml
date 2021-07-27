@@ -1,0 +1,61 @@
+<div id="view-content" class="ui-widget">
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 7px; padding-left: 7px;">
+        <h3> Transfert sur TI / TPN </h3>
+    </div>
+    <div id="formdiv" class="ui-widget-content ui-corner-bottom">
+        <form action="/eu-smcipnp/transfert" name="fm_transfert" method="POST" id="fm_transfert">
+            <div>
+                <fieldset>
+                    <legend>Informations</legend>
+                    <table style="margin-bottom: 5px;">
+                        <tr>
+                            <td>SMCIPNP reçues</td>
+                            <td><input id="smcipnp_percu" type="text" name="smcipnp_percu" value="" readonly="true" style="text-align:right"/></td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td>Type terminal *</td>
+                            <td>
+                                <select id="type_terminal" name="type_terminal" class="validate[required]" value="">
+                                    <option value=""></option>
+                                    <option value="TI">Terminal Investissement</option>
+                                    <option value="TPN">Terminal de la Production Nouvelle</option>
+                                </select>
+                            </td>
+                            <td width="70">
+                            </td>
+                            <td>Montant à transférer *</td> 
+                            <td><input name="mt_transfert" id="mt_transfert" class="validate[required,custom[onlyNumberSp]]" value=""/></td>
+                        </tr>  
+                    </table>
+            </div>
+            <br>
+            <div style="margin-left: 150px">
+                <input type="submit"  value="Valider" name="valider" id="valider"   />
+                <input id="t_annuler" type="button" value="Annuler" />
+            </div>
+        </form>      
+    </div>
+
+    <script type="text/javascript">
+        $('#t_annuler').click(function()
+        {
+            window.location="/eu-smcipnp/";
+        });
+    
+        $('#valider').button();
+        $('#t_annuler').button();
+        jQuery("#fm_transfert").validationEngine();
+        
+        $.get( "/eu-smcipnp/smcipnpdispo",
+        function success(data)
+        {
+            $("#smcipnp_percu").val(data);
+        });
+    
+    </script>
+
+
+
+

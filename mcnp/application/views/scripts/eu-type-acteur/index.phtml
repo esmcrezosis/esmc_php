@@ -1,0 +1,51 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-acteur"></table>
+    <table id="pg-acteur"></table>
+</div>
+
+<script type="text/javascript">
+    
+     $("#tbl-acteur").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'data')); ?>',
+        editurl:'<?php echo $this->url(array('action' => 'save')); ?>',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['','Désignation  type  acteur'],
+        height:'100%', width:800,
+        colModel:[
+                 {name:'id_type_acteur',index:'id_type_acteur', width:50, sorttype:"int", editable: true,align:"left",hidden:true},
+                 {name:'lib_type_acteur',index:'lib_type_acteur', width:500, editable: true,align:"left"}
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        rownumbers:true,
+        pager: '#pg-acteur',
+        sortname:"id_type_acteur",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des types d'acteurs"
+    });
+    
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-acteur").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-acteur").jqGrid('getRowData',rowsel);
+            $.get('/eu-type-acteur/edit',{
+                id_type_acteur:data.id_type_acteur
+            },function success(data){
+                $("#content").html(data);
+            });             
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    
+    $("#tbl-acteur").jqGrid('navGrid','#pg-acteur',{edit:false,add:false,del:false,search:false});
+    $('#editer').button();
+</script>

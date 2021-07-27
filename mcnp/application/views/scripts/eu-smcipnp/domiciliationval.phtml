@@ -1,0 +1,168 @@
+<div id="view-content">
+    <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:11px">
+        <div style="margin-bottom: 3px;">
+            <button id="bt_domi_detail">Détail</button>
+        </div>
+        <table id="tbl-domicilie"></table>
+        <div id="pg-domicilie"></div>
+        <br>
+        <div id="cptedialog">
+            <form>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><label>Numéro assureur :</label></td>
+                                            <td><input type="text" id="num_assureur" name="num_assureur" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Montant à domicilier :</label></td>
+                                            <td><input type="text" id="mt_subvent" name="mt_subvent" style="text-align: right"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Date Domiciliation :</label></td>
+                                            <td><input type="text" id="date_domici" name="date_domici" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Etat domiciliation :</label></td>
+                                            <td><input type="text" id="domicilier" name="domicilier"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><label>Catégorie ressource :</label></td>
+                                            <td><input type="text" id="cat_ressource" name="cat_ressource"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Montant domicilié :</label></td>
+                                            <td><input type="text" id="mt_domici" name="mt_domici" style="text-align: right"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Date fin :</label></td>
+                                            <td><input type="text" id="date_fin" name="date_fin" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Type domiciliation :</label></td>
+                                            <td><input type="text" id="type_domici" name="type_domici" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table id="tbl-credit"></table>
+                                <div id="pg-credit"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#bt_domi_detail').button();
+    $('#accorder').button();
+    $("#tbl-domicilie").jqGrid({
+        url:'<?php echo $this->url(array('action' => 'domicilistval')); ?>',
+        editurl:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code','Assureur','Ressource','Mt à domicilier','Mt domicilié','Date début','Date fin','Etat','Ress','Type'],
+        height:450, width:816,
+        colModel:[
+            {name:'code_domici',index:'code_domici', width: 160, align:"left", hidden:true},
+            {name:'num_assureur',index:'num_assureur', width: 160, editable: false,align:"left"},
+            {name:'cat_ressource',index:'cat_ressource', width: 150, editable: false,align:"left"},
+            {name:'mt_subvent',index:'mt_subvent', width: 150, align:"right", editable: false,formatter:'number'},
+            {name:'mt_domici',index:'mt_domici', width: 130, editable: false,align:"right",formatter:'number'},
+            {name:'date_domici',index:'date_domici', width: 110, align:"left", editable: false},
+            {name:'date_fin',index:'date_fin', width: 110, align:"left", editable: false},
+            {name:'domicilier',index:'domicilier', width:100, editable: false,align:"left"},
+            {name:'ress',index:'ress', width: 100, align:"right", hidden:true},
+            {name:'type_domici',index:'type_domici', width: 100, align:"right", hidden:true},
+        ],
+        rowNum:10,
+        rowList:[10,20,30],
+        pager: '#pg-domicilie',
+        sortname:"date_domici",
+        viewrecords: true,
+        sortorder: "desc",
+        caption:"Liste des domiciliations de paiements accordées"
+    });
+    $("#tbl-domicilie").jqGrid('navGrid','#pg-domicilie',{edit:false,add:false,del:false,search:true});
+    
+    $("#tbl-credit").jqGrid({
+        url:'/eu-smcipnp/listcredits?code_domicil=0',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Membre','Ressource','Mt placé','Mt crédit','Mt domicilié','Date dépôt'],
+        height:'100%', width:625,
+        colModel:[
+            {name:'code_membre',index:'code_membre', width: 150, editable: false,align:"left"},
+            {name:'produit',index:'produit', width: 120, align:"left", editable: false},
+            {name:'mt_place',index:'mt_place', width: 150, align:"right", editable: false,formatter:'number'},
+            {name:'mt_credit',index:'mt_credit', width: 150, align:"right", editable: false,formatter:'number'},
+            {name:'mt_domici',index:'mt_domici', width: 150, align:"right", editable: false,formatter:'number'},
+            {name:'date_depot',index:'date_depot', width: 120, align:"left", editable: false}
+        ],
+        rowNum:30,
+        rowList:[30,50,100],
+        rownumbers:true,
+        pager: '#pg-credit',
+        sortname:"datefin",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Comptes des crédits de la domiciliation"
+    });
+    $("#tbl-credit").jqGrid('navGrid','#pg-credit',{edit:false,add:false,del:false,search:true});
+    
+    $("#bt_domi_detail").button().click(function() {
+        var sel;
+        sel = jQuery("#tbl-domicilie").jqGrid('getGridParam','selrow');
+        data = jQuery("#tbl-domicilie").jqGrid('getRowData',sel);
+        if (sel) {
+            $('#num_assureur').val(data.num_assureur);
+            $('#cat_ressource').val(data.cat_ressource);
+            $('#mt_subvent').val(data.mt_subvent);
+            $('#mt_domici').val(data.mt_domici);
+            $('#date_domici').val(data.date_domici);
+            $('#date_fin').val(data.date_fin);
+            $('#domicilier').val(data.domicilier);
+            $('#type_domici').val(data.type_domici);
+            jQuery("#tbl-credit").jqGrid('setGridParam',{url:"/eu-smcipnp/listcredits?code_domicil=" + data.code_domici}).trigger('reloadGrid');
+            $( "#cptedialog" ).dialog( "open" );
+        }else{
+            alert('Il faut sélectionner une ligne');
+        }
+    });
+    
+    $(function() {
+        $( "#cptedialog" ).dialog({
+            autoOpen: false,
+            height: 450,
+            title : 'Détail de la domiciliation',
+            width: 660,
+            modal: true,
+            buttons: {
+                "Fermer": function() {
+                    $( this ).dialog( "close" );
+                }
+            },
+            close: function() {
+                //allFields.val( "" ).removeClass( "ui-state-error" );
+            }
+        }
+    );
+    });
+
+</script>

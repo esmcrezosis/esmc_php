@@ -1,0 +1,19 @@
+
+<h2>GUICHETS UNIQUES D’INTEGRATION UNIVERSELLE INTERFACE PARTENAIRES ODD (GUIUIPODD) </h2>
+
+
+<div>
+
+<?PHP
+	   if ($_SERVER["HTTP_X_FORWARDED_HOST"] == NULL) {
+        $src_file = "http://webfiles.gacsource.net/procedure_guichet_unique_integration_universelle_interface_partenaire_odd";
+?>    
+                      <a href="<?PHP echo $src_file;?>/39.pdf">Telecharger ce fichier</a>
+       
+       <?PHP        
+      }else{
+        $src_file = "http://webfiles.esmcgacsource.com/procedure_guichet_unique_integration_universelle_interface_partenaire_odd";
+        ?>
+        <a href="<?PHP echo $src_file;?>/39.pdf">Telecharger ce fichier</a>
+<?PHP  } ?>
+</div>

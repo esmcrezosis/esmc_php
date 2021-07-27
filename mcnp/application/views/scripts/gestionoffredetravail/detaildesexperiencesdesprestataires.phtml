@@ -1,0 +1,27 @@
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+		<script type="text/javascript" charset="utf-8">
+			/*$(document).ready(function() {
+				$('#example').dataTable();
+			} );*/
+			$(document).ready(function() {
+    $('#example').dataTable( {
+        "sPaginationType": "full_numbers",
+		"aaSorting": []
+    } );
+} );
+</script>
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote>  Détail des expériences professionnelles <?php echo $this->verifcontratprestataireexperience[0]->travailleur_libelle; ?> </blockquote>
+
+<p>  
+ 
+<?php echo $this->verifcontratprestataireexperience[0]->travailleur_experience; ?>
+
+</p>
+

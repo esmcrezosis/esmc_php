@@ -1,0 +1,280 @@
+<div id="view-content" title="Achat du Pouvoir d'Achat" style="font-size: 12px;min-height: 520px;">
+    <form id="pre_form" method="post" action="/eu-placement/dopre">
+        <table id="tab_capa" style="width: 700px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+            <tr>
+                <td></td><td>
+                    <input type="hidden" id="type" name="type" value="<?php echo $this->type; ?>"/></td>
+            </tr>
+            <tr>
+                <td><label for="code_membre">N° Membre * :</label></td>
+                <td>
+                    <input class="validate[required]" type="text" id="code_membre" name="code_membre" value="<?php echo $this->code_membre; ?>" readonly="true" size="30"/>
+                </td>
+            </tr>
+			<!--
+            <?php if ($this->type == 'I') { ?>
+                <tr>
+                    <td><label for="pl_raison">Raison sociale * :</label></td>
+                    <td>
+                        <input readonly="true" class="validate[required]" type="text" id="pl_raison" name="pl_raison" value="<?php echo $this->pl_raison; ?>" size="30"/>
+                    </td>
+                </tr>
+            <?php } else { ?>
+                <tr>
+                    <td><label for="nom_membre">Nom Membre * :</label></td>
+                    <td>
+                        <input class="validate[required]" type="text" id="nom_membre" name="nom_membre" value="<?php echo $this->nom_membre; ?>" size="30"/>
+                    </td>
+                    <td>
+                        <input class="validate[required]" type="text" id="prenom_membre" name="prenom_membre" value="<?php echo $this->prenom_membre; ?>" size="30"/>
+                    </td>
+                </tr>
+            <?php } ?>-->
+            <tr><td><label for="code_produit">Produit à souscrire *:</label></td>
+                <td>
+                    <select class="validate[required]" type="text" id="code_produit" name="code_produit" value="<?php echo $this->code_produit; ?>">
+                        <?php
+                        if ($this->type == 'I') {
+                            echo '<option value="I">Investissement</option>';
+                        } else if ($this->type == 'RPG') {
+                            echo '<option value="RPG">RPG</option>';
+                        }
+                        ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="mont_inv">Montant Investissement * :</label></td>
+                <td>
+                    <input class="validate[required,custom[number]]" type="text" id="mont_inv" name="mont_inv" value="<?php echo $this->mont_inv; ?>" size="30" style="text-align: right;"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="duree_inv">Durée Investissement  * :</label></td>
+                <td>
+                    <input class="validate[required,custom[number]]" type="text" id="duree_inv" name="duree_inv" value="<?php echo $this->duree_inv; ?>" size="5" style="text-align: right;"/>
+                    <label>Période de 30 j</label>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="pre">Durée de la PRE * :</label></td>
+                <td>
+                    <input class="validate[required]" type="text" id="pre" name="pre" value="<?php echo $this->pre; ?>" style="text-align: right;"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="val_nat">Montant du crédit périodique *:</label></td>
+                <td>
+                    <input readonly="true" class="validate[required,custom[number]] text-input" type="text" id="mont_credit" name="mont_credit" value="<?php echo $this->mont_credit; ?>" size="30" style="text-align: right;"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="val_nat">Montant CAPA *:</label></td>
+                <td>
+                    <input readonly="true" class="validate[required,custom[number]]" type="text" id="mont_capa" name="mont_capa" value="<?php echo $this->mont_capa; ?>" size="30" style="text-align: right;" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Mode de Financement</label>
+                </td>
+                <td>
+                    <select id="sel_mode_finance" name="mode_finance">
+                        <option value="SMS">Code SMS</option>
+                        <!--<option value="TCAPA">Compte de Recharge CAPA</option>
+                        <?php
+                        if ($this->type === 'I') {
+                            echo '<option value="TPAGCP">GCP Mature</option>';
+                        }
+                        ?>-->
+                    </select>
+                </td>
+            </tr>
+            <tr id="tr_sms">
+                <td><label style="color: red;">Code SMS *</label></td>
+                <td><input id="code_sms" class="validate[required]" name="code_sms" value="" /><div id="id_message" style="margin-left: 5px;width: 150px; color:red;"></div></td>
+            </tr>
+            <tr id="tr_mont_sms">
+                <td><label for="code_dev">Montant SMS * :</label></td>
+                <td>
+                    <input class="validate[required,custom[number]]" type="text" id="mont_sms" name="mont_sms" value="<?php echo $this->mont_sms; ?>" size="30" style="text-align: right;"/>
+                </td>
+                <td>
+                    <input class="validate[required]" type="text" id="dev_capa" name="dev_capa" value="" readonly="true"></input>
+                </td>
+            </tr>
+            <tr><td></td><td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td></tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function()
+    {
+        $(function() {
+            $('#view-content').puipanel();
+        });
+        $("#imm_form").validationEngine();
+        $('#val').button();
+        $('#reset').button();
+        var type = '';
+        if ($('#code_produit').val() === 'RPG') {
+            type = 'P';
+        } else {
+            type = 'M';
+        }
+        $.get('/eu-placement/membre',
+                {type: type},
+        function success(data)
+        {
+            $('#code_membre').autocomplete({"source": data,
+                change: displayItem});
+        });
+
+        $("form#pre_form").submit(function(event) {
+            event.preventDefault();
+            var form_values = $(this).serialize();
+            $.post('/eu-placement/dopre', form_values, function(data) {
+                if (data === true) {
+                    alert('Opération effectuée avec succes');
+                    $(location).attr("href", "/eu-placement/index");
+                } else {
+                    $('#message').html(data);
+                }
+            });
+        });
+
+        $("#sel_mode_finance").change(function() {
+            if ($(this).val() !== 'SMS') {
+                $("#tr_sms").hide();
+                $("#tr_mont_sms").hide();
+            } else {
+                $("#tr_sms").show();
+                $("#tr_mont_sms").show();
+            }
+        });
+
+        function displayItem()
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-placement/recupnom',
+                        {
+                            num_membre: $(this).val()
+                        },
+                function success(data)
+                {
+                    if (type === 'M') {
+                        $("#pl_raison").val(data[0]);
+                    } else {
+                        $("#nom_membre").val(data[0]);
+                        $("#prenom_membre").val(data[1]);
+                    }
+                });
+            }
+        }
+
+        $('#code_sms').blur(function(e)
+        {
+            if ($(this).val() !== '')
+            {
+                $.get(
+                        '/eu-placement/sms',
+                        {
+                            code: $(this).val(), cat: ''
+                        },
+                function success(data)
+                {
+                    if (data !== 0) {
+                        $('#mont_sms').val(data[0]);
+                        $('#dev_capa').val(data[2]);
+                        $('#mont_sms').attr('readonly', true);
+                    } else {
+                        $("#id_message").html("<label>Ce code est invalide</label>");
+                    }
+
+                });
+            } else
+            {
+                $('#mont_sms').attr('readonly', false);
+                $('#mont_sms').val('');
+            }
+            e.preventDefault();
+        });
+
+        $('#duree_inv').blur(function(e) {
+            e.preventDefault();
+            var pre = 0;
+            var duree = 0;
+            if ($(this).val() !== '') {
+                duree = parseInt($(this).val());
+                $.get('/eu-placement/pck', function success(data) {
+                    var prk = parseInt(data[0]);
+                    var pck = parseFloat(data[1]);
+                    if (duree > prk) {
+                        pre = duree;
+                        if ($('#mont_inv').val() !== '') {
+                            var mont_credit = parseFloat($('#mont_inv').val()) / pre;
+                            $('#mont_credit').val(Math.ceil(mont_credit));
+                            $('#mont_capa').val(Math.floor(mont_credit * pck));
+                        }
+                    } else {
+                        pre = prk;
+                        if ($('#mont_inv').val() !== '') {
+                            var mont_credit = parseFloat($('#mont_inv').val());
+                            $('#mont_credit').val(mont_credit);
+                            $('#mont_capa').val(Math.ceil((mont_credit * pck) / prk));
+                        }
+                    }
+                    $('#pre').val(pre);
+                });
+            }
+        });
+
+        var dev = 'XOF';
+        $('#dev_capa').change(function()
+        {
+            var dev1 = $('#dev_capa').val();
+            if (dev !== dev1) {
+                if ($('#mont_capa').val() !== '' && parseInt($('#mont_capa').val()) > 0 && $('#cat_produit').val() !== '') {
+                    $.get(
+                            '/eu-placement/convertir',
+                            {
+                                montant: $('#mont_capa').val(), cat: $('#cat_produit').val(), dev: dev, dev1: dev1, credit: ''
+                            },
+                    function success(data)
+                    {
+                        if (data !== false) {
+                            $('#mont_capa').val(data[0]);
+                            $('#mont_credit').val(data[1]);
+                            dev = dev1;
+                        } else {
+                            alert('Ce cours n\'est pas défini: ' + dev + '-' + dev1);
+                            $('#dev_capa').val(dev);
+                        }
+                    });
+                } else if ($('#mont_credit').val() !== '' && parseInt($('#mont_credit').val()) > 0 && $('#cat_produit').val() !== '') {
+                    $.get(
+                            '/eu-placement/convertir',{
+                                credit: $(this).val(), cat: $('#cat_produit').val(), dev: dev, dev1: dev1, montant: ''
+                            },
+                    function success(data)
+                    {
+                        if (data !== false) {
+                            $('#mont_capa').val(data[0]);
+                            $('#mont_credit').val(data[1]);
+                            dev = dev1;
+                        } else {
+                            alert('Ce cours n\'est pas défini: ' + dev + '-' + dev1);
+                            $('#dev_capa').val(dev);
+                        }
+                    });
+                }
+            }
+        });
+
+        $('#reset').click(function() {
+            dev = 'XOF';
+        });
+    });
+</script>

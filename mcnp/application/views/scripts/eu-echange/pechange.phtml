@@ -1,0 +1,103 @@
+<div id="view-content" title="Echange" style="font-size: 12px;min-height: 520px;">
+    <fieldset><legend>Recherche</legend>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="text-align: right;"><label>Date</label></td>
+                    <td>
+                        <input type="text" id="echange_date" name="echange_date"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><label>Membre</label></td>
+                    <td>
+                        <input type="text" size="30" id="echange_membre" name="echange_membre"/>
+                    </td>
+                    <td style="text-align: right;"><label>Compte</label></td>
+                    <td>
+                        <select id="echange_produit" name="echange_produit">
+                            <option value=""></option>
+                            <option value="GCP">GCP</option>
+                            <option value="I">I</option>
+                            <option value="RPG">RPG</option>
+                            <option value="TCNCS">TCNCS</option>
+                            <option value="TCNCSEI">TCNCSEI</option>
+                        </select>
+                    </td>
+                    <td></td><td><button id="bt_show">Afficher</button></td></tr>
+            </tbody>
+        </table>
+    </fieldset>
+		<div style="margin-top: 2px;margin-bottom: 2px;">
+        <form action="/eu-pdf-reglt/echange" name="" method="POST" target="_blank">
+               <input id="apercu" type="submit" value="Aperçu" class="ui-widget button"/> 
+               <input type="hidden" id="id_echange" name="id_echange"/>
+               <input type="hidden" id="code_membre" name="code_membre"/>
+        </form>
+        </div>
+    <table id="tbl-krr"></table>
+    <div id="pg-krr"></div>
+</div>
+<script type="text/javascript">
+    $("#tbl-krr").jqGrid({
+        url: '/eu-echange/pech',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['ID', 'Date', 'Membre', 'Compte', 'Montant', 'Régler', 'Date reglement'],
+        height: 300, width: 810,
+        colModel: [
+            {name: 'id_echange', index: 'id_echange', width: 50, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'date_echange', index: 'date_echange', width: 65, editable: false, align: "left"},
+            {name: 'code_membre', index: 'code_membre', width: 145, editable: false, align: "left"},
+            {name: 'code_compte_obt', index: 'code_compte_obt', width: 210, align: "left", editable: true},
+            {name: 'montant', index: 'montant', width: 100, align: "right", editable: false},
+            {name: 'regler', index: 'regler', width: 50, align: "left", editable: false},
+            {name: 'date_reglement', index: 'date_reglement', width: 95, align: "left", editable: false}
+        ],
+        rowNum: 10,
+        rowList: [10, 20, 30],
+        pager: '#pg-krr',
+        sortname: "id_echange",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Echanges réglés"
+    });
+
+    $("#tbl-krr").jqGrid('navGrid', '#pg-krr', {edit: false, add: false, del: false, search: true});
+
+    $("#apercu").click(function() {
+        var sel;
+        sel = jQuery("#tbl-krr").jqGrid('getGridParam','selrow');
+        
+              data = jQuery("#tbl-krr").jqGrid('getRowData',sel);
+              $('#id_echange').val(data.id_echange);
+              $('#code_membre').val(data.code_membre);
+    });
+
+    $('#bt_show').click(function(e)
+    {
+        jQuery("#tbl-krr").jqGrid('setGridParam', {url: "/eu-echange/pech?membre=" + $('#echange_membre').val() + "&compte=" + $('#echange_produit').val() + "&date=" + $('#echange_date').val()}).trigger('reloadGrid');
+        e.preventDefault();
+    });
+
+    $.get("/eu-echange/membre?type=%",
+            function success(data)
+            {
+                $('#echange_membre').autocomplete({"source": data});
+            });
+            $(document).ready(function()
+            {
+                $(function() {
+                    var pickerOpts = {
+                        dateFormat: "dd/mm/yy",
+                        changeMonth: true,
+                        changeYear: true,
+                        showOtherMonths: true
+                    };
+                    $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+                    $('#echange_date').datepicker(pickerOpts);
+                    $('#view-content').puipanel();
+                    $('fieldset').puifieldset();
+                });
+            });
+</script>

@@ -1,0 +1,43 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre');?>
+<link href="<?php echo $this->baseUrl();?>/bootstrap/dataTables/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl();?>/bootstrap/dataTables/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" charset="utf-8">		
+$(document).ready(function() {
+  $('#example').dataTable({
+     "sPaginationType": "full_numbers",
+     "aaSorting": []
+  });  
+});
+</script>
+
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+     <?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+     <blockquote><p class="text-info">Domiciliation nrPRE Kit Technopole</p></blockquote><br/>
+	 <form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="dominrprekittec">
+	 
+	 <div class="control-group">
+          <label class="control-label" for="type_domi">Type SMCIPN *</label>
+          <div class="controls">
+               <label for="type_smcipn" class="radio">
+               <input name="type_smcipn" type="radio" checked="checked"  id="type_smcipnp" value="SMCIPNP" onclick="document.getElementById('active').style.display ='none'; document.getElementById('code_autorisation').required = false;" />
+               SMCIPNp</label>
+
+               <label for="type_smcipn" class="radio">
+               <input type="radio" name="type_smcipn" id="type_smcipnwi" value="SMCIPNWI"    onclick="document.getElementById('active').style.display ='block'; document.getElementById('code_autorisation').required = true;" />
+               SMCIPN</label>
+          </div>
+     </div>
+	       
+	 
+	 </form> 
+</div>  
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml");?>
+</div>
+</div>
+</div>

@@ -1,0 +1,181 @@
+<div id="view-content" style="font-size:11px" class="ui-widget-content ui-corner-all" title="Liste des frais de surveillance">
+    <div style="margin-bottom: 3px; margin-top: 3px;font-size:13px">
+        <fieldset>
+            <legend>Recherche</legend>
+            <table align='center'>
+                <tr>
+                    <td>&nbsp;&nbsp;Appel d'offre&nbsp;</td><td><select id="id_frais" name="id_frais" class="validate[required]"></select></td>
+                    <td>&nbsp;&nbsp;Date d'établissement&nbsp;<td><input type="text" id="date_creation" name="date_creation" size="12"/></td>
+                    <td><input id="valider" type="button" value="Valider" /></td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+    <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+     <!--<input id="disponible" type="button" value="Rendre Disponible" class="ui-widget button"/> 
+     <input id="indisponible" type="button" value="Rendre Indisponible" class="ui-widget button"/>-->
+
+    <div style="margin-bottom: 3px; margin-top: 3px;font-size:11px">
+        <table id="tbl-frais"></table>
+    </div>
+    <div id="pg-frais"></div>
+</div>
+
+<script type="text/javascript">
+
+    $(function() {
+        $('#view-content').puipanel();
+        $('fieldset').puifieldset();
+    });
+
+    $(function() {
+        var pickerOpts = {
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true
+        };
+        $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+        $("#date_creation").inputmask("d/m/y").datepicker(pickerOpts);
+    });
+
+    $("#tbl-frais").jqGrid({
+        url: "<?php echo $this->url(array('action' => 'fraislist')); ?>?id_proposition=" + "&date=",
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['id', 'Id offre', 'Libellé appel d\'offre', 'Code membre', 'Date', 'Montant marché', 'Frais surveillance', 'Total','Disponibilité'],
+        height: 450, width: 815,
+        colModel: [
+            {name: 'id_frais', index: 'id_frais', width: 85, sorttype: "int", align: "left", hidden: true},
+            {name: 'id_proposition', index: 'id_proposition', width: 100, align: "left", editable: true, hidden: true},
+            {name: 'nom_appel_offre', index: 'nom_appel_offre', width: 220, align: "left", editable: true, summaryType: 'count', summaryTpl: 'Total ({0})'},
+            {name: 'code_membre', index: 'code_membre', width: 190, editable: true, align: "left"},
+            {name: 'date_creation', index: 'date_creation', width: 100, align: "left", editable: false},
+            {name: 'mt_marche', index: 'mt_marche', width: 120, align: "right", sorttype: 'number', formatter: 'number', summaryType: 'sum'},
+            {name: 'fais', index: 'fais', width: 130, align: "right", sorttype: 'number', formatter: 'number', summaryType: 'sum'},
+            {name: 'total', index: 'total', width: 100, align: "right", sorttype: 'number', formatter: 'number', summaryType: 'sum'},
+		     {name:'disponible',index:'disponible', width: 70, editable: true,align:"center"}, 
+        ],
+        rowNum: 1000,
+        rowList: [1000, 2000, 30000],
+        rownumbers: true,
+        pager: '#pg-frais',
+        sortname: "date_creation",
+        viewrecords: true,
+        multiselect: false,
+        sortorder: "desc",
+        //caption: "Liste des propositions financières en attentes",
+        footerrow: true,
+        userDataOnFooter: true
+    });
+    $("#tbl-frais").jqGrid('navGrid', '#pg-frais', {edit: false, add: false, del: false, search: true});
+
+    $.get('/eu-smcipn/fraischange',
+            function success(data)
+            {
+                var options = '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i][1] + '">' + data[i][2] + ' </option>';
+                }
+                $('select#id_frais').html(options);
+            });
+
+
+
+
+       
+     $('#disponible').button().click(function(e) {
+          e.preventDefault();
+          var rowsel;
+          var tab=[];
+          rowsel = jQuery("#tbl-frais").jqGrid('getGridParam','selrow');
+          if(rowsel)
+             {
+		  tab[0]=jQuery("#tbl-frais").jqGrid('getRowData',rowsel);
+              $.get('/eu-smcipn/disponible',{
+                   lignes:tab
+              },
+              function success(data) {
+                 if(data == 'good') {
+                    jQuery("#tbl-frais").jqGrid('setGridParam',{url:"/eu-smcipn/fraislist"}).trigger('reloadGrid');
+                    alert('Rendre disponible effectuée avec succes');
+              }
+              else {
+                    jQuery("#tbl-frais").jqGrid('setGridParam',{url:"/eu-smcipn/fraislist"}).trigger('reloadGrid');
+                    alert('Echec de l\'opération');
+              }
+           });
+        }
+        else
+        {
+          alert('Aucune ligne sélectionnée');
+        }   
+      });
+      
+      
+      $('#indisponible').button().click(function(e) {
+          e.preventDefault();
+          var rowsel;
+          var tab=[];
+          rowsel = jQuery("#tbl-frais").jqGrid('getGridParam','selrow');
+          if(rowsel)
+             {
+		  tab[0]=jQuery("#tbl-frais").jqGrid('getRowData',rowsel);
+              $.get('/eu-smcipn/indisponible',{
+                   lignes:tab
+              },
+              function success(data) {
+                 if(data == 'good') {
+                    jQuery("#tbl-frais").jqGrid('setGridParam',{url:"/eu-smcipn/fraislist"}).trigger('reloadGrid'); 
+                    alert('Rendre indisponible effectuée avec succes');
+                    
+                    
+              }
+              else {
+                   alert('Echec de l\'opération');
+                   jQuery("#tbl-frais").jqGrid('setGridParam',{url:"/eu-smcipn/fraislist"}).trigger('reloadGrid');
+                    
+              }
+           });
+        }
+        else
+        {
+          alert('Aucune ligne sélectionnée');
+        }   
+      });
+     
+     
+     
+     
+     
+
+
+
+
+
+
+
+
+    $('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-frais").jqGrid('getGridParam', 'selrow');
+        if (rowsel)
+        {
+            data = jQuery("#tbl-frais").jqGrid('getRowData', rowsel);
+            $.get('/eu-smcipn/editfrais', {
+                id_frais: data.id_frais, code_membre: data.code_membre, id_proposition: data.id_proposition
+            }, function success(data) {
+                $("#content").html(data);
+            });
+        } else {
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+    $('#editer').button();
+    $('#valider').button();
+    $('#valider').click(function() {
+        jQuery("#tbl-frais").jqGrid('setGridParam', {url: "/eu-smcipn/fraislist?id_frais=" + $('#id_frais').val() + "&date=" + $('#date_creation').val()+"&disponible="+$('#disponible').val()}).trigger('reloadGrid');
+    });
+
+</script>

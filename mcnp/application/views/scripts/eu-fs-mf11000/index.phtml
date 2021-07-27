@@ -1,0 +1,68 @@
+<div id="view-content">
+    <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:12px">
+        <div style="margin-bottom: 3px; width: 800px">
+            <fieldset>
+                <legend style=" font-weight:bold">Recherche</legend>
+                <table align="center">
+                    <tr>
+                        <td width="100">Date début</td><td width="150"><input type="text" id="date_debut" name="date_debut" size="12"/></td>
+                        <td width="80">Date fin</td><td width="140"><input type="text" id="date_fin" name="date_fin" size="12"/></td>
+                        <td><input id="ok" type="button" value="OK" /></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <table id="tbl-fs_mf11000"></table>
+        <div id="pg-fs_mf11000"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-fs_mf11000").jqGrid({
+        url:'/eu-fs-mf11000/data?date_deb='+''+'&date_fin='+'',
+        editurl:'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['Code membre','Type de ressources','Date de création','Heure de création','Montant créé'],
+        height:450, width:820,
+        colModel:[
+            {name:'distributeur',index:'distributeur', width: 140, editable: false,align:"left"},
+            {name:'code_type_compte',index:'code_type_compte', width: 100, editable: false,align:"left"},
+            {name:'date_op',index:'date_op', width: 110, align:"left", editable: false},
+            {name:'heure_op',index:'heure_op', width: 110, align:"left", editable: false},
+            {name:'mt_transfert',index:'mt_transfert', width: 130, align:"right",sorttype:'number',formatter:'number',summaryType:'sum'},
+        ],
+        rowNum:100,
+        rowList:[100,200,300],
+        rownumbers:true,
+        pager: '#pg-fs_mf11000',
+        sortname:"id_operation",
+        viewrecords: true,
+        sortorder: "asc",
+        caption:"Liste des ressources créées par la source",
+        footerrow: true,
+        userDataOnFooter: true
+    });
+    $("#tbl-fs_mf11000").jqGrid('navGrid','#pg-fs_mf11000',{edit:false,add:false,del:false,search:true});
+    
+    $(document).ready(function ()
+    { 
+        $(function(){
+            var pickerOpts = {
+                dateFormat: "dd/mm/yy",
+                changeMonth:true,
+                changeYear:true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+            $("#date_debut").datepicker(pickerOpts);
+            $("#date_fin").datepicker(pickerOpts);
+        });
+        $('#ok').button();
+        $('#ok').click(function(){
+            jQuery("#tbl-fs_mf11000").jqGrid('setGridParam',{url:"/eu-fs-mf11000/data?date_deb="+$('#date_debut').val()+"&date_fin="+$('#date_fin').val()}).trigger('reloadGrid');
+        });
+        
+    })
+    
+</script>

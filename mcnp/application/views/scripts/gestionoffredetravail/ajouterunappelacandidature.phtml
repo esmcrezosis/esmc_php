@@ -1,0 +1,156 @@
+<?php if (isset($_SESSION["validationerrors"])): ?>
+
+<div class="alert alert-danger">
+
+  <?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+
+</div>
+
+<?php unset($_SESSION['validationerrors']); endif ?>
+
+<?php if (isset($_SESSION["validationsuccess"])): ?>
+
+<div class="alert alert-success">
+
+  <strong><?php echo implode('<br>',$_SESSION['validationsuccess']) ?></strong>
+
+</div>
+
+<?php unset($_SESSION['validationsuccess']); endif ?>
+
+<form method="post" class="form-horizontal" enctype="multipart/form-data">
+
+<article id="article_candidature_ot" >
+
+     <h1>APPEL A CANDIDATURE POUR LES OFFREURS DE TRAVAIL (OT)</h1>
+
+     <section>
+
+         Dans le cadre de la réalisation des recommandations de l’Organisation des Nations Unies (ONU) en ce qui concerne les attentes de l’article 25 de la Déclaration Universelle des Droits de l’Homme (DUDH) et des 17 Objectifs de Développement Durable (ODD) répondant au PND du Togo et aux défis de l’économie sociale de marché commun, le Groupement d’Intérêt Economique dénommé Economie Sociale de Marché Commun (GIE ESMC), pour la mise en place de son premier centre communal, lance un appel à tout Offreur de Travail (Hauts cadres et assimilés) pouvant exercer en toute autonomie sur sa plateforme.
+     
+     </section>
+
+     <section>
+
+         L’Offreur de Travail (OT) est un prestataire de services, un auto-entrepreneur, un employé indépendant avec présence physique au poste qui offre du travail, c’est-à-dire qui propose des prestations à la Production Commune sur la plateforme GIE ESMC. Cet OT adhère au GIE ESMC et devient membre, agent de la Production Commune sur la plateforme du GIE.
+     
+     </section>
+
+     <h3>Connaissances et Aptitudes </h3>
+
+     <div class="control-group">
+
+        <label class="control-label" for="Diplômes et compétences" style="font-weight:bold">
+
+             Diplômes et compétences *:
+
+        </label>
+
+        <div class="controls">
+          
+           <textarea name="diplome_competence" class="input-block-level" id="diplome_competence" cols="30" rows="10" required="required"></textarea>
+
+        </div>
+
+      </div>
+
+      <div class="control-group">
+
+        <label class="control-label" for="Diplômes et compétences" style="font-weight:bold">
+
+             Nombre d'année d'expérience*:
+
+        </label>
+
+        <div class="controls">
+
+            <textarea name="nbre_annee_experience" class="input-block-level" id="nbre_annee_experience" cols="30" rows="10" required="required"></textarea>
+
+        </div>
+
+      </div>
+
+      <ul>
+      
+          <li>	Bonne aptitude à travailler en équipe et sous pression ; </li>
+
+          <li>	Bonne expression écrite et orale et parfaite connaissance de la langue française ; </li>
+
+          <li>	Parfaite connaissance des langues officielles dans les zones de couverture de la Structure ESMC ;</li>
+
+          <li>	Disposer de son Kit de Solvabilité Universelle (KSU) d’une valeur de soixante-dix mille francs (70.000 F CFA) sur la plateforme du GIE ESMC, pour ses rémunérations.</li>
+      
+      </ul>
+
+     <h3>Mode de rémunération de l’Offre de Travail </h3>
+
+     <section>
+       
+     L’Agent OT est rémunéré par Bons de Livraison numérique (BL) ESMC échangeables, au besoin, sous réserve des conditions y afférentes, en monnaie bancaire auprès des Acteurs OBPSD (Offreurs de Biens, Produits et services Dématérialisés) qui sont des banques partenaires du GIE ESMC.
+     
+     </section>
+
+     <h3>Les différents postes de l’OT</h3>
+
+     <section>
+        
+     Le personnel communal du groupement est désigné par le terme « Agent » qui, par les présents, ne peuvent être salariés, mais des Prestataires de la Production Commune du GIE ESMC, Acteurs ou Fournisseurs Offreurs de Travail (Travailleurs Indépendants ou Employés Autonomes).
+     
+     </section>
+
+     <div class="controls" id="addpost_ot_candidature" style="margin-bottom:20px" >
+
+        <div id="autocomplete_container">
+
+             <input type="text" name="search_post" id="search_post" class="input-block-level search_post_candidature"  placeholder="Rechercher le poste à ajouter à la candidature" style="display:block;width:500px">
+             
+             <input type="hidden" value="<?php echo $this->idrolesauthor[0]->id_roles ?>" id="id_roles_author">
+
+             <input type="hidden" value="<?php echo $this->idrolesauthor[0]->parent_roles_id ?>" id="id_rolesauthordirectparent">
+
+             <span id="id_autocompletecontentitemschildren"></span>
+
+             <div id="autocomplete_content" style="background-color:#000;display:none"></div>
+
+        </div>
+
+
+        <input type="number" name="nombre_maximal" id="nombre_maximal" class ="search_number_poste" placeholder="le nombre de personnes demandées pour ce post" style="display:inline-block;width:30%">
+
+
+        <button type="submit" class="btn btn-large btn-danger" id="post_add_roles" style="position:relative;display: inline-block;width: 23%;">
+
+          Ajouter le poste à la candidature
+
+        </button>
+
+     </div>
+
+     <div class="liste_postes_candidature_container" style="clear:both;margin-top:20px;margin-bottom:20px">        
+     
+     </div>
+
+     <div class="control-group" style="clear:both">
+
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+             
+              Enrégistrer la candidature
+
+          </button>
+
+      </div>
+     <!-- Système de recherche de Poste et la fonctionnalité d'ajout de poste et du nombre de personnes demandés pour le poste souhaité
+     
+     Système de controle pour vérifier si ce sera une demande de l'élément selectionner et son parent direct ou ses parents distants(Préciser le nombre)
+
+     Système de controle pour vérifier si ce sera une demande de l'élément selectionné et son enfant direct ou ses enfants distants (Préciser le nombre)
+     
+     Interdir l'ajout de doublons dans la liste des postes
+
+     La liste des postes est éssentiellement composée du poste et du nombre de poste
+     
+     -->
+
+</article>
+
+</form>

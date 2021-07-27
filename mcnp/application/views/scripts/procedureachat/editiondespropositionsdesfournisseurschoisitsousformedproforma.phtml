@@ -1,0 +1,160 @@
+<!--Mention Pro forma sur la facture
+Nom du demandeur
+Nom du fournisseur,
+Date d'emission de la demande d'achat
+Date d'emission de la facture proforma
+La reference de la facture proforma
+Les details des produits ainsi que leurs quantité
+Les totals Hors Taxes
+Les delais de paiements
+Les delais de livraison
+
+-->
+<h3>Formulaire d'établissement de la facture proforma</h3>
+
+<?php if (isset($_SESSION["validationerrors"])): ?>
+	<div class="alert alert-danger">
+		<?php echo implode('<br>', $_SESSION['validationerrors']) ?>
+	</div>
+<?php unset($_SESSION['validationerrors']); endif ?>
+<?php if (isset($_SESSION["validationpertesuccess"])): ?>
+	<div class="alert alert-success">
+		<li><?php echo implode('<br>',$_SESSION['validationpertesuccess']) ?></li>
+	</div>
+<?php unset($_SESSION['validationpertesuccess']); endif ?>
+<?php
+
+$month = array('01'=>'Janvier','02'=>'Fevrier','03'=>'Mars','04'=>'Avril','05'=>'Mai','06'=>'Juin','07'=>'Juillet','08'=>'Aout','09'=>'Septembre','10'=>'Octobre','11'=>'Novembre','12'=>'Decembre');
+$true_month = "";
+$true_month_choix = "";
+$true_month_visatechfiliere = "";
+$ex_date = explode('-',$this->detailsavisdedemandeachatenvoyeauxfournisseurs[0]->date_demande);
+$ex_date_choisit = explode('-',$this->detailsavisdedemandeachatenvoyeauxfournisseurs[0]->date_choix);
+$ex_date_visatechfiliere = explode('-',$this->detailsavisdedemandeachatenvoyeauxfournisseurs[0]->datevisatechfiliere);
+
+
+
+foreach ($month as $key => $value) {
+  if($ex_date[1] == $key){
+    $true_month = $value;
+  }
+
+  if($ex_date_choisit[1] == $key){
+    $true_month_choix = $value;
+  }
+
+  if($ex_date_visatechfiliere[1] == $key){
+    $true_month_visatechfiliere = $value;
+  }
+
+
+}
+/*** */
+$next_ex_date = explode(' ', $ex_date[2]);
+$true_date = $next_ex_date[0]." ".$true_month." ".$ex_date[0];
+
+$next_ex_date_choisit = explode(' ', $ex_date_choisit[2]);
+$true_date_choisit = $next_ex_date_choisit[0]." ".$true_month_choix." ".$ex_date_choisit[0];
+
+$next_ex_date_visatechfiliere = explode(' ', $ex_date_visatechfiliere[2]);
+$true_date_visatechfiliere = $next_ex_date[0]." ".$true_month_visatechfiliere." ".$ex_date_visatechfiliere[0];
+
+?>
+<form action="#" enctype="multipart/form-data" method="post" class="form-horizontal">
+
+
+<legend>DEMANDE D'ACHAT N° <?php echo $this->detailsavisdedemandeachatenvoyeauxfournisseurs[0]->reference_demande_achat ;?></legend>
+
+<p style="text-align: right;"><strong>Date d'émission de la demande d'achat:</strong><?php echo $true_date ;?></p>
+
+<p style="text-align: right;">Date d'envoie de l'avis:<strong><?php echo $true_date_choisit ;?></p>
+
+<table class="table table-stripped">
+    <thead>
+        <tr>
+			<th>Références</th>
+			<th>Désignation des Articles </th>
+			<th>Quantité </th>
+			<th>Prix Unitaire</th>
+			<th>TOTAL</th>
+		</tr> 
+    </thead>
+    <tbody>
+     <?php foreach ($this->detaildelademandeachatenvoyeauxfournisseurs as $key => $value): ?>
+     <?php
+       $quantite = $value->quantite;
+       $prix_unitaire = $value->prix_unitaire;
+       $total = $quantite * $prix_unitaire;
+      ?>
+      <tr>
+        
+        <td><?php echo $value->reference_article ;?></td>
+        <td><?php echo $value->designation_article ;?></td>
+        <td><?php echo $value->quantite;?></td>
+        <td><?php echo $value->prix_unitaire;?></td>
+        <td id="total_visa_demande_achat"><?php echo $total;?></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><label for="">Montant demande d’Achat</label></td>
+		<td id="montant_total_visa_demande_achat"><input type="text"  id="montant_demande_achat" name="montant_demande_achat" required="required"></td>			                     
+	 </tr>
+    </tbody>
+ 	<?php endforeach ?>
+</table>
+<div style="text-align:left;margin-bottom:5px;margin-top:5px;">
+  <strong ><i><span style="text-decoration:underline">NB</span>: Cadre reservé à la technopole/filière.</i></strong></div><div style="text-align:left;padding:5px;padding-top:20px;border:1px solid #000">
+  <strong style="margin-bottom:15px;"> Visa de la technopole/filiere <span style="border: none;outline: none;box-shadow: 0px 0px 0px #FFF;color: #000;width: 80%;height: 28px;font-size: 1.8em;font-family: Matura MT Script Capitals;text-transform:uppercase;margin-top: -29px;margin-left: 176px;background: transparent;padding: 0;"><?php echo $this->detailsavisdedemandeachatenvoyeauxfournisseurs[0]->visatechfiliere;?></span></strong>
+  <p style="text-align: right;font-weight: bold;">Date d'apposition du visa de la techopole/filière:<?php echo $true_date_visatechfiliere ;?></p>
+  </div>
+
+<div style="text-align:left;margin-bottom:5px;margin-top:5px;">
+  <strong ><i><span style="text-decoration:underline">NB</span>: Cadre reservé au fournisseur (Facture proforma).</i></strong>
+</div>
+
+
+	   <div class="control-group">
+	      <label class="control-label" for="libellé du proforma" style="font-weight:bold">
+	        Libellé du proforma *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="libelle_proforma_procedure" class="input-block-level proforma_procedure" placeholder="Mettre ici le libellé du proforma" required="required"/>
+	      </div>
+	   </div>
+
+       	<div class="control-group">
+	      <label class="control-label" for="référence du proforma" style="font-weight:bold">
+	        Référence de la facture proforma *:
+	      </label>
+	      <div class="controls">
+		     <input type="text" name="reference_proforma_procedure" class="input-block-level reference_proforma_procedure" placeholder="Mettre ici la référence de la facture" required="required"/>
+	      </div>
+	   </div>
+	   <div class="control-group">
+	      <label class="control-label" for="contenu_proforma_procedure" style="font-weight:bold">
+	         Contenu du proforma:
+	      </label>
+	      <div class="controls">
+            <textarea name="contenu_proforma_procedure" id="" placeholder="Mettre ici le contenu du proforma" cols="30" rows="10" required="required"></textarea>
+	      </div>
+	   </div>
+       <div class="control-group">
+			<label class="control-label" for="piece justificative de la facture proforma" style="font-weight:bold">
+					 Joindre ici la facture proforma 
+			</label>
+			 <div class="controls">
+				 <input type="file" name="piece_justificative_proforma" style="position:relative">
+				 <div class="alert alert-danger">
+                <strong>Seul les formats jpg, png, jpeg et pdf sont supportés.</strong>
+				 </div>
+		</div>
+
+        <div class="control-group" >
+          <button type="submit" class="btn btn-large btn-primary" style="position:relative">
+          Envoyer la proposition 
+          </button>
+      </div>
+
+</form>

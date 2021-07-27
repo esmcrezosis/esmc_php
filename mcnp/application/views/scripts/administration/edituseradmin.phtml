@@ -1,0 +1,397 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur'); ?>
+<script src="<?php echo $this->baseUrl();?>/bootstrap/js/jquery.js"></script>
+<script src="/qrcode-decoder/qcode-decoder.min.js"></script>
+<script src="/outil-qr8.js"></script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+	   $('#groupe').change(function(e) {
+		   if($(this).val() == "detentrice_technopole") {
+			   $('#div_technopole').css('display','block');
+			   $('#div_filiere').css('display','none');
+			   $('#div_acnev').css('display','none');
+			   
+			   $('select#section_technopole').attr("disabled",false);
+			   $('select#section_filiere').attr("disabled",true);
+			   $('select#section_acnev').attr("disabled",true);
+			   
+	       } else if($(this).val() == "surveillance_filiere") {
+			   $('#div_filiere').css('display','block');
+			   $('#div_technopole').css('display','none');
+			   $('#div_acnev').css('display','none');
+			   
+			   $('select#section_technopole').attr("disabled",true);
+			   $('select#section_filiere').attr("disabled",false);
+			   $('select#section_acnev').attr("disabled",true);
+			   
+		   } else if($(this).val() == "executante_acnev") {
+			   $('#div_acnev').css('display','block');
+			   $('#div_filiere').css('display','none');
+			   $('#div_technopole').css('display','none');
+			   
+			   $('select#section_technopole').attr("disabled",false);
+			   $('select#section_filiere').attr("disabled",false);
+			   $('select#section_acnev').attr("disabled",true);
+			   
+		   } else if($(this).val() == "technopole") {
+			   $('#div_technopole').css('display','block');
+			   $('#div_filiere').css('display','none');
+			   $('#div_acnev').css('display','none');
+			   
+			   $('select#section_technopole').attr("disabled",false);
+			   $('select#section_filiere').attr("disabled",true);
+			   $('select#section_acnev').attr("disabled",true);
+			   
+	       } else if($(this).val() == "filiere") {
+			   $('#div_filiere').css('display','block');
+			   $('#div_technopole').css('display','none');
+			   $('#div_acnev').css('display','none');
+			   
+			   $('select#section_technopole').attr("disabled",true);
+			   $('select#section_filiere').attr("disabled",false);
+			   $('select#section_acnev').attr("disabled",true);
+			   
+		   } else if($(this).val() == "acnev") {
+			   $('#div_acnev').css('display','block');
+			   $('#div_filiere').css('display','none');
+			   $('#div_technopole').css('display','none');
+			   
+			   $('select#section_technopole').attr("disabled",true);
+			   $('select#section_filiere').attr("disabled",true);
+			   $('select#section_acnev').attr("disabled",false);
+			   
+		   }
+		   else {
+			   $('#div_acnev').css('display','none');
+			   $('#div_filiere').css('display','none');
+			   $('#div_technopole').css('display','none');
+			   
+			   $('select#section_technopole').attr("disabled",true);
+			   $('select#section_filiere').attr("disabled",true);
+			   $('select#section_acnev').attr("disabled",true);
+		   }
+	   });
+	   
+   });
+
+</script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+<blockquote><p>Modification de l'utilisateur administratif </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="adduserpbf">
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error !="") { ?>
+  <div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+  <?php } ?>
+
+
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+    
+<div class="control-group">
+<label class="control-label" for="nom">Nom utilisateur *</label>
+<div class="controls">
+<input type="text" name="nom" id="nom" class="input-xxlarge" placeholder="Nom utilisateur" value="<?php if(isset($this->user)) echo $this->user->nom_utilisateur;?>"  required />
+<input type="hidden" name="id_utilisateur" id="id_utilisateur" value="<?php if(isset($this->user)) echo $this->user->id_utilisateur;?>" />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="prenom">Pr&eacute;nom utilisateur *</label>
+<div class="controls">
+<input type="text" name="prenom" id="prenom" class="input-xxlarge" placeholder="Prenom utilisateur" value="<?php if(isset($this->user)) echo $this->user->prenom_utilisateur;?>"  required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="login">Login utilisateur *</label>
+<div class="controls">
+<input type="text" name="login" id="login" class="input-xxlarge" placeholder="Login utilisateur" value="<?php if(isset($this->user)) echo $this->user->login ;?>" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="pwd">Ancien Mot de passe *</label>
+<div class="controls">
+<input type="password" name="pwdold" id="pwdold" class="input-xxlarge"  placeholder="Ancien Mot de passe" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="pwd">Nouveau Mot de passe *</label>
+<div class="controls">
+<input type="password" name="pwd" id="pwd" class="input-xxlarge"  placeholder="Mot de passe" required />
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="pwd">Confirmer Mot de passe *</label>
+<div class="controls">
+<input type="password" name="pwd1" id="pwd1" class="input-xxlarge"  placeholder="Confirmer le mot de passe" required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="code_membre"> Code Membre Utilisateur *</label>
+<div class="controls">
+<input type="text" name="code_membre" id="code_membre" placeholder="Code Membre Utilisateur" value="<?php if(isset($this->user)) echo $this->user->code_membre;?>"  required />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="pwd">Groupe *</label>
+<div class="controls">
+     <select  id="groupe" name="groupe" class="input-xxlarge"  required>
+     <option value=""> Choisir un groupe utilisateur </option>
+     <?php for($i = 0; $i < count($this->data); $i++) { ?>
+     <option
+        value="<?php echo $this->data[$i][0]; ?>" <?php //if($this->user->code_groupe == $this->data[$i][0]) {echo 'selected="selected"';}?>><?php echo $this->data[$i][1];?>
+	 </option>                         
+     <?php } ?>
+     </select>
+</div>
+</div>
+
+<div class="control-group">
+      <label class="control-label" for=""> Rôle * </label>
+	  <div class="controls">
+	       <select name="role" id="role" required="true" class="input-xxlarge" >
+             <option value="">Choisir un rôle </option>
+			 <option value="SOURCE" <?php if($this->user->role == "SOURCE") {echo 'selected="selected"';}?>> SOURCE </option>
+             <option value="FOADDIP" <?php if($this->user->role == "FOADDIP") {echo 'selected="selected"';}?>> FOADDIP </option>
+             <option value="ESMC" <?php if($this->user->role == "ESMC") {echo 'selected="selected"';}?>> ESMC </option>
+             <option value="CMFH" <?php if($this->user->role == "CMFH") {echo 'selected="selected"';}?>> CMFH </option>
+			 <option value="REMEDD" <?php if($this->user->role == "REMEDD") {echo 'selected="selected"';}?>> REMEDD </option>
+			 <option value="REE" <?php if($this->user->role == "REE") {echo 'selected="selected"';}?>> REE-PC </option>
+           </select>
+	  </div>
+      </div>
+	  
+	  
+	  <?php if($sessionutilisateur->role == "ESMC" ||  $sessionutilisateur->role == "CMFH") { ?>
+	  <div class="control-group">
+      <label class="control-label" for=""> Division * </label>
+	      <div class="controls">
+		  <select name="odd" id="odd" required="true" class="input-xxlarge" >
+		       <option value="">Choisir une division </option>
+			   <option value="div_1"  <?php if($this->user->odd == "div_1") {echo 'selected="selected"';}?>>  DIVISION1 </option>
+			   <option value="div_2"  <?php if($this->user->odd == "div_2") {echo 'selected="selected"';}?>>  DIVISION2 </option>
+			   <option value="div_3"  <?php if($this->user->odd == "div_3") {echo 'selected="selected"';}?>>  DIVISION3 </option>
+			   <option value="div_4"  <?php if($this->user->odd == "div_4") {echo 'selected="selected"';}?>>  DIVISION4 </option>
+			   <option value="div_5"  <?php if($this->user->odd == "div_5") {echo 'selected="selected"';}?>>  DIVISION5 </option>
+			   <option value="div_6"  <?php if($this->user->odd == "div_6") {echo 'selected="selected"';}?>>  DIVISION6 </option>
+			   <option value="div_7"  <?php if($this->user->odd == "div_7") {echo 'selected="selected"';}?>>  DIVISION7 </option>
+			   <option value="div_8"  <?php if($this->user->odd == "div_8") {echo 'selected="selected"';}?>>  DIVISION8 </option>
+			   <option value="div_9"  <?php if($this->user->odd == "div_9") {echo 'selected="selected"';}?>>  DIVISION9 </option>
+			   <option value="div_10" <?php if($this->user->odd == "div_10") {echo 'selected="selected"';}?>> DIVISION10 </option>
+			   <option value="div_11" <?php if($this->user->odd == "div_11") {echo 'selected="selected"';}?>> DIVISION11 </option>
+			   <option value="div_12" <?php if($this->user->odd == "div_12") {echo 'selected="selected"';}?>> DIVISION12 </option>
+			   <option value="div_13" <?php if($this->user->odd == "div_13") {echo 'selected="selected"';}?>> DIVISION13 </option>
+			   <option value="div_14" <?php if($this->user->odd == "div_14") {echo 'selected="selected"';}?>> DIVISION14 </option>
+			   <option value="div_15" <?php if($this->user->odd == "div_15") {echo 'selected="selected"';}?>> DIVISION15 </option>
+			   <option value="div_16" <?php if($this->user->odd == "div_16") {echo 'selected="selected"';}?>> DIVISION16 </option>
+			   <option value="div_17" <?php if($this->user->odd == "div_17") {echo 'selected="selected"';}?>> DIVISION17 </option>
+		  </select>
+	      </div>
+	  </div>
+	  <?php } else if($sessionutilisateur->role == "FOADDIP") { ?>
+	  <div class="control-group">
+      <label class="control-label" for=""> Commissariat * </label>
+	      <div class="controls">
+		  <select name="odd" id="odd" required="true" class="input-xxlarge" >
+		       <option value="">Choisir un commissariat </option>
+			   <option value="cat_1"  <?php if($this->user->odd == "cat_1") {echo 'selected="selected"';}?>>  COMMISSARIAT1 </option>
+			   <option value="cat_2"  <?php if($this->user->odd == "cat_2") {echo 'selected="selected"';}?>>  COMMISSARIAT2 </option>
+			   <option value="cat_3"  <?php if($this->user->odd == "cat_3") {echo 'selected="selected"';}?>>  COMMISSARIAT3 </option>
+			   <option value="cat_4"  <?php if($this->user->odd == "cat_4") {echo 'selected="selected"';}?>>  COMMISSARIAT4 </option>
+			   <option value="cat_5"  <?php if($this->user->odd == "cat_5") {echo 'selected="selected"';}?>>  COMMISSARIAT5 </option>
+			   <option value="cat_6"  <?php if($this->user->odd == "cat_6") {echo 'selected="selected"';}?>>  COMMISSARIAT6 </option>
+			   <option value="cat_7"  <?php if($this->user->odd == "cat_7") {echo 'selected="selected"';}?>>  COMMISSARIAT7 </option>
+			   <option value="cat_8"  <?php if($this->user->odd == "cat_8") {echo 'selected="selected"';}?>>  COMMISSARIAT8 </option>
+			   <option value="cat_9"  <?php if($this->user->odd == "cat_9") {echo 'selected="selected"';}?>>  COMMISSARIAT9 </option>
+			   <option value="cat_10" <?php if($this->user->odd == "cat_10") {echo 'selected="selected"';}?>> COMMISSARIAT10 </option>
+			   <option value="cat_11" <?php if($this->user->odd == "cat_11") {echo 'selected="selected"';}?>> COMMISSARIAT11 </option>
+			   <option value="cat_12" <?php if($this->user->odd == "cat_12") {echo 'selected="selected"';}?>> COMMISSARIAT12 </option>
+			   <option value="cat_13" <?php if($this->user->odd == "cat_13") {echo 'selected="selected"';}?>> COMMISSARIAT13 </option>
+			   <option value="cat_14" <?php if($this->user->odd == "cat_14") {echo 'selected="selected"';}?>> COMMISSARIAT14 </option>
+			   <option value="cat_15" <?php if($this->user->odd == "cat_15") {echo 'selected="selected"';}?>> COMMISSARIAT15 </option>
+			   <option value="cat_16" <?php if($this->user->odd == "cat_16") {echo 'selected="selected"';}?>> COMMISSARIAT16 </option>
+			   <option value="cat_17" <?php if($this->user->odd == "cat_17") {echo 'selected="selected"';}?>> COMMISSARIAT17 </option>
+		    </select>
+	      </div>
+	  </div>
+	          
+	  
+	  <?php } else if($sessionutilisateur->role == "REMEDD" ||  $sessionutilisateur->role == "REE") { ?>
+	  <div class="control-group">
+      <label class="control-label" for=""> ODD * </label>
+	      <div class="controls">
+		  <select name="odd" id="odd" required="true" class="input-xxlarge" >
+		       <option value="">Choisir un odd </option>
+			   <option value="odd_1"  <?php if($this->user->odd == "odd_1") {echo 'selected="selected"';}?>>  ODD1 </option>
+			   <option value="odd_2"  <?php if($this->user->odd == "odd_2") {echo 'selected="selected"';}?>>  ODD2 </option>
+			   <option value="odd_3"  <?php if($this->user->odd == "odd_3") {echo 'selected="selected"';}?>>  ODD3 </option>
+			   <option value="odd_4"  <?php if($this->user->odd == "odd_4") {echo 'selected="selected"';}?>>  ODD4 </option>
+			   <option value="odd_5"  <?php if($this->user->odd == "odd_5") {echo 'selected="selected"';}?>>  ODD5 </option>
+			   <option value="odd_6"  <?php if($this->user->odd == "odd_6") {echo 'selected="selected"';}?>>  ODD6 </option>
+			   <option value="odd_7"  <?php if($this->user->odd == "odd_7") {echo 'selected="selected"';}?>>  ODD7 </option>
+			   <option value="odd_8"  <?php if($this->user->odd == "odd_8") {echo 'selected="selected"';}?>>  ODD8 </option>
+			   <option value="odd_9"  <?php if($this->user->odd == "odd_9") {echo 'selected="selected"';}?>>  ODD9 </option>
+			   <option value="odd_10" <?php if($this->user->odd == "odd_10") {echo 'selected="selected"';}?>> ODD10 </option>
+			   <option value="odd_11" <?php if($this->user->odd == "odd_11") {echo 'selected="selected"';}?>> ODD11 </option>
+			   <option value="odd_12" <?php if($this->user->odd == "odd_12") {echo 'selected="selected"';}?>> ODD12 </option>
+			   <option value="odd_13" <?php if($this->user->odd == "odd_13") {echo 'selected="selected"';}?>> ODD13 </option>
+			   <option value="odd_14" <?php if($this->user->odd == "odd_14") {echo 'selected="selected"';}?>> ODD14 </option>
+			   <option value="odd_15" <?php if($this->user->odd == "odd_15") {echo 'selected="selected"';}?>> ODD15 </option>
+			   <option value="odd_16" <?php if($this->user->odd == "odd_16") {echo 'selected="selected"';}?>> ODD16 </option>
+			   <option value="odd_17" <?php if($this->user->odd == "odd_17") {echo 'selected="selected"';}?>> ODD17 </option>
+		  </select>
+	      </div>
+	  </div>
+	  <?php } ?>
+	  
+	  
+	  
+	  <div class="control-group" style="display:none;" id="div_technopole">
+      <label class="control-label" for=""> Section </label>
+	  <div class="controls">
+	       <select name="section" id="section_technopole" class="input-xxlarge" >
+             <option value="">Choisir une section </option>
+             <option value="ACHAT">Achat</option>
+			 <option value="STOCK">Stock</option>
+			 <option value="RH">Ressources Humaines</option>
+			 <option value="JURIDIQUE">Juridique</option>
+			 <option value="TDB">Tableau de Bord</option>
+           </select>
+	  </div>
+      </div>
+	  
+	  
+	  <div class="control-group" style="display:none;" id="div_acnev">
+      <label class="control-label" for=""> Section </label>
+	  <div class="controls">
+	       <select name="section" id="section_acnev" class="input-xxlarge" >
+             <option value="">Choisir une section </option>
+             <option value="SOUSCRIPTION">Souscription</option>
+             <option value="EXPRESSION">Expression</option>
+             <option value="REGLEMENT">Règlement</option>
+			 <option value="COMPENSATION">Compensation</option>
+			 <option value="ANNULATION">Annulation</option>
+			 <option value="ARCHIVAGE">Archivage</option>
+	         <option value="DESTRUCTION">Destruction</option>
+           </select>
+	  </div>
+      </div>
+	  
+	  <div class="control-group" style="display:none;" id="div_filiere">
+      <label class="control-label" for=""> Section </label>
+	  <div class="controls">
+	       <select name="section" id="section_filiere" class="input-xxlarge" >
+		       <option value=""> Choisir une section </option>
+               <option value="BUDGET">Budget</option>
+		       <option value="MOBILISATION">Mobilisation</option>
+		       <option value="TRESORERIE">Trésorerie</option>
+		       <option value="COMPTABILITE">Comptabilité</option>
+		       <option value="AUDIT">Audit Contrôle</option>
+           </select>
+	  </div>
+      </div>
+
+
+<div class="control-group">
+<label class="control-label">Zone Mon&eacute;taire *</label>
+<div class="controls">
+     <select  id="code_zone" name="code_zone" class="input-xxlarge" required>
+     <option value="">Choisir une zone mon&eacute;taire</option>
+     <?php foreach ($this->zones as $value) { ?>
+     <option
+          value="<?php echo $value->code_zone; ?>"><?php echo $value->nom_zone; ?></option>                         
+     <?php } ?>
+     </select>
+     </div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label">Pays *</label>
+<div class="controls">
+     <select  id="id_pays" name="id_pays" class="input-xxlarge" required>
+     <option value="">Choisir un pays</option>
+     <?php foreach ($this->pays as $value) { ?>
+     <option
+          value="<?php echo $value->id_pays; ?>" <?php if($this->user->id_pays == $value->id_pays) {echo 'selected="selected"';}?>><?php echo $value->libelle_pays; ?></option>                         
+     <?php } ?>
+     </select>
+     </div>
+</div>
+
+<div class="control-group">
+<label class="control-label">R&eacute;gions *</label>
+<div class="controls">
+     <select  id="id_region" name="id_region" class="input-xxlarge" required>
+     <option value="">Choisir une r&eacute;gion</option>
+     <?php foreach ($this->regions as $value) { ?>
+     <option
+          value="<?php echo $value->id_region; ?>"><?php echo $value->nom_region; ?></option>                         
+     <?php } ?>
+     </select>
+     </div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Pr&eacute;fectures *</label>
+<div class="controls">
+     <select  id="id_prefecture" name="id_prefecture" class="input-xxlarge" required>
+     <option value="">Choisir une pr&eacute;fecture</option>
+     <?php foreach ($this->prefectures as $value) { ?>
+     <option
+          value="<?php echo $value->id_prefecture; ?>"><?php echo $value->nom_prefecture; ?></option>                         
+     <?php } ?>
+     </select>
+     </div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Cantons *</label>
+<div class="controls">
+     <select  id="id_canton" name="id_canton" class="input-xxlarge" required>
+     <option value="">Choisir un canton</option>
+     <?php foreach ($this->cantons as $value) { ?>
+     <option
+          value="<?php echo $value->id_canton; ?>" <?php if($this->user->id_canton == $value->id_canton) { echo 'selected="selected"';}?>><?php echo $value->nom_canton; ?>  </option>                         
+     <?php } ?>
+     </select>
+     </div>
+</div>
+
+<div class="form-actions">
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-success">Enregistrer</button>
+</div>  
+</form>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

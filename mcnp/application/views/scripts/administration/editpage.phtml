@@ -1,0 +1,137 @@
+<?php $sessionutilisateur = new Zend_Session_Namespace('utilisateur');?>
+	<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/menus.js"></script>
+	<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuadmin.phtml"); ?>
+
+  <blockquote><p>Ajout de page</p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addpage">
+  <?php if(isset($this->error) && $this->error!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->error; ?>
+    </div>
+  <?php }?>
+  
+<div class="control-group">
+<label class="control-label" for="titre">Titre *</label>
+<div class="controls">
+<input type="text" name="titre" class="input-xxlarge" id="titre" placeholder="Titre" value="<?php echo $this->page->titre; ?>" required />
+</div>
+</div>
+    
+  
+<div class="control-group">
+<label class="control-label" for="titre_autre">Autre Titre </label>
+<div class="controls">
+<input type="text" name="titre_autre" class="input-xxlarge" id="titre_autre" placeholder="Autre Titre" value="<?php echo $this->page->titre_autre; ?>" />
+</div>
+</div>
+
+  
+<div class="control-group">
+<label class="control-label" for="titre_deroulant">Titre Déroulant</label>
+<div class="controls">
+<input type="text" name="titre_deroulant" class="input-xxlarge" id="titre_deroulant" placeholder="Titre Déroulant" value="<?php echo $this->page->titre_deroulant; ?>"  />
+</div>
+</div>
+
+  
+<div class="control-group">
+<label class="control-label" for="liendirect">Lien direct</label>
+<div class="controls">
+<input type="text" name="liendirect" class="input-xxlarge" id="liendirect" placeholder="Lien direct" value="<?php echo $this->page->liendirect; ?>"  />
+</div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label" for="resume">Résumé *</label>
+<div class="controls">
+  <textarea name="resume" class="input-xxlarge" id="resume" placeholder="Résumé" required><?php echo $this->page->resume; ?></textarea>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="menu">Menu </label>
+<div class="controls">
+<?php 
+$menu = new Application_Model_EuMenuMapper();
+$entries = $menu->fetchAll();
+if(count($entries) > 0){?>
+<select id="menu" name="menu" onchange="ouvre_menus(this.value);">
+  <option value="0">Choisir le menu</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->menu_id; ?>" <?php if($this->page->menu == $value->menu_id){?> selected="selected"<?php }?>><?php echo $value->menu_libelle; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="menusous">Sous Menu </label>
+<div class="controls" id="niv2">
+<?php 
+$menusous = new Application_Model_EuMenuSousMapper();
+$entries = $menusous->fetchAll4($this->page->menu);
+if(count($entries) > 0){?>
+<select id="menusous" name="menusous">
+  <option value="0">Choisir le sous menu</option>
+<?php foreach ($entries as $value) {?>
+  <option value="<?php echo $value->menusous_id; ?>" <?php if($this->page->menusous == $value->menusous_id){?> selected="selected"<?php }?>><?php echo $value->menusous_libelle; ?></option>
+<?php }?>
+</select>
+<?php }?>
+</div>
+</div>
+
+    
+<div class="control-group">
+<label class="control-label" for="vignette">Vignette </label>
+<div class="controls">
+<input name="vignette" type="file" id="vignette" class="input-xxlarge" />  
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="description">Description </label>
+<div class="controls">
+<textarea name="description" id="description" placeholder="Description" class="ckeditor"><?php echo $this->page->description; ?></textarea>
+</div>
+</div>
+    
+<div class="form-actions">
+<input name="id_page" type="hidden" id="id_page" value="<?php echo $this->page->id_page; ?>" />  
+<input name="vignetteold" type="hidden" id="vignetteold" value="<?php echo $this->page->vignette; ?>" />  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Modification d'une page</button>
+</div>
+ 
+                            
+  
+</form>
+
+
+
+
+
+<?php /*?></div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?><?php */?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

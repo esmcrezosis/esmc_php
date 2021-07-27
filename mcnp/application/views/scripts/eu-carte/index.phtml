@@ -1,0 +1,170 @@
+<div id="view-content" title="Liste des demandes de cartes" style="font-size: 12px;min-height: 520px;">
+    <fieldset id="carte_field" style="margin-bottom: 2px;"><legend>Recherche</legend>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="text-align: right;"><label>Date</label></td>
+                    <td>
+                        <input type="text" id="date_carte" name="date_date"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><label>Code membre</label></td>
+                    <td>
+                        <input type="text" id="carte_membre" name="carte_membre" size="27"/>
+                    </td>
+                    <!--<td style="text-align: right;"><label>Compte</label></td>
+                    <td>
+                        <select id="code_carte" value="" name="code_carte" >
+                        </select>
+                    </td>-->
+                    <td><button id="bt_show">Afficher</button></td></tr>
+            </tbody>
+        </table>
+    </fieldset>
+    <button style="margin-bottom: 3px;" id="livrer">Livrer</button>
+    <table id="tbl-cartes"></table>
+    <div id="pg-cartes"></div>
+    <div id="pdialog">
+        <form>
+            <input type="hidden" id="id_carte" name="id_carte" />
+            <table style="width: 600px; margin-top: 15px;margin-left: auto; margin-right: auto;">
+                <tbody>
+                    <tr>
+                        <td><label>Nom de la Carte :</label></td>
+                        <td><input type="text" id="ccarte" name="ccarte" /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Code du Membre :</label></td>
+                        <td><input type="text" id="cmembre" name="cmembre" size="30"/></td>
+                    </tr>
+                    <!--<tr>
+                        <td><label>Code du compte :</label></td>
+                        <td><input type="text" id="ccompte" name="ccompte" size="40"/></td>
+                    </tr>-->
+                    <tr>
+                        <td><label>Livrer :</label></td>
+                        <td><input type="checkbox" id="livrer" name="livrer" /></td>
+                    </tr>
+                    <tr>
+                        <td><label>Date Livraison :</label></td>
+                        <td><input type="text" id="date_liv" name="produit_krr" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-cartes").jqGrid({
+        url: '/eu-carte/data',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code', 'Date', 'Membre', 'Prix', 'Livrer', 'Livraison'],
+        height: 270, width: 817,
+        colModel: [
+            {name: 'id_demande', index: 'id_demande', width: 40, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'date_demande', index: 'date_demande', width: 70, sorttype: "int", editable: false, align: "left"},
+            {name: 'code_membre', index: 'code_membre', width: 160, editable: false, align: "left"},
+            //{name: 'code_cat', index: 'code_cat', width: 65, align: "left", editable: false},
+            //{name: 'code_Compte', index: 'code_Compte', width: 240, align: "left", editable: false},
+            {name: 'mont_carte', index: 'mont_carte', width: 90, align: "left", editable: false},
+            {name: 'livrer', index: 'livrer', width: 40, align: "left", editable: false},
+            {name: 'date_livraison', index: 'date_livraison', width: 70, align: "left", editable: true}
+        ],
+        rowNum: 100,
+        rowList: [100, 200, 300],
+        pager: '#pg-cartes',
+        sortname: "id_demande",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Demandes de cartes"
+    });
+
+    $("#tbl-cartes").jqGrid('navGrid', '#pg-cartes', {edit: false, add: false, del: false, search: true});
+    $(function() {
+        $('#view-content').puipanel();
+        $('#carte_field').puifieldset();
+        $("#pdialog").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 620,
+            modal: true,
+            buttons: {
+                "valider": function() {
+                    $.get('/eu-carte/traiter', {
+                        code: $('#id_carte').val()
+                    },
+                    function success(data) {
+                        if (data === true) {
+                            alert('Opération effectuée avec succes');
+                            jQuery("#tbl-cartes").jqGrid('setGridParam', {url: "/eu-carte/data?membre=" + $('#carte_membre').val() + "&compte=" + $('#code_carte').val() + "&date=" + $('#date_carte').val()}).trigger('reloadGrid');
+                        } else {
+                            alert("Echec de l'opération : " + data);
+                        }
+                    });
+                    $(this).dialog("close");
+                },
+                "Annuler": function() {
+                    $(this).dialog("close");
+                }
+            },
+            close: function() {
+                //allFields.val( "" ).removeClass( "ui-state-error" );
+            }
+        }
+    );
+    });
+    var pickerOpts = {
+        dateFormat: "dd/mm/yy",
+        changeMonth: true,
+        changeYear: true,
+        showOtherMonths: true
+    };
+    $(function() {
+        $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+        $("#date_carte").datepicker(pickerOpts);
+    });
+
+    $('#bt_show').button().click(function(e)
+    {
+        e.preventDefault();
+        jQuery("#tbl-cartes").jqGrid('setGridParam', {url: "/eu-carte/data?membre=" + $('#carte_membre').val() + "&compte=" + $('#code_carte').val() + "&date=" + $('#date_carte').val()}).trigger('reloadGrid');
+    });
+
+    $.get(
+    '/eu-carte/membre',
+    {type: '%'},
+    function success(data)
+    {
+        $('#carte_membre').autocomplete({"source": data});
+    });
+
+    $.get("/eu-carte/categorie", {type: '%', memb: ''},
+    function success(data)
+    {
+        var options = '<option/>';
+        for (var i = 0; i < data.length; i++) {
+            options += '<option value="' + data[i] + '">' + data[i] + ' </option>';
+        }
+        $('select#code_carte').html(options);
+    });
+
+    $("#livrer").button().click(function() {
+        var sel;
+        sel = $("#tbl-cartes").jqGrid('getGridParam', 'selrow');
+        if (sel > 0) {
+            data = $("#tbl-cartes").jqGrid('getRowData', sel);
+            $('#id_carte').val(data.id_demande);
+            $('#cmembre').val(data.code_membre);
+            $('#ccompte').val(data.code_Compte);
+            $('#ccarte').val(data.code_cat);
+            $("#date_liv").datepicker(pickerOpts);
+            $("#pdialog").dialog("open");
+        } else {
+            alert('Il faut sélectionner une ligne');
+        }
+
+    });
+
+</script>

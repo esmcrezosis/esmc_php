@@ -1,0 +1,53 @@
+<div id="view-content">
+    <div style="margin-bottom: 3px;">
+        <input id="editer" type="button" value="Editer" class="ui-widget button"/>
+    </div>
+    <table id="tbl-taxe"></table>
+    <div id="pg-taxe"></div>
+</div>
+
+<script type="text/javascript">
+    $("#tbl-taxe").jqGrid({
+        url:'/eu-taxe/data',
+        datatype: "json",
+        mtype: 'GET',
+        colNames:['','Libellé','Taux','Pays'],
+        height:500, width:827,
+        colModel:[
+            {name:'id_taxe',index:'id_taxe', width: 120, align:"left", editable: true, hidden:true},
+            {name:'libelle_taxe',index:'libelle_taxe', width: 300, align:"left", editable: true},
+            {name:'taux_taxe',index:'taux_taxe', width: 200, align:"left", editable: true},
+            {name:'libelle_pays',index:'libelle_pays', width: 300, editable: true,align:"left"}
+        ],
+        rowNum:20,
+		rownumbers:true,
+        rowList:[20,30,40],
+        pager: '#pg-taxe',
+        sortname:"id_taxe",
+        viewrecords: true,
+        sortorder: "ASC",
+        caption:"Liste des taxes"
+    });
+    $("#tbl-taxe").jqGrid('navGrid','#pg-taxe',{edit:false,add:false,del:false,search:true});
+	
+	$('#editer').click(function()
+    {
+        var rowsel;
+        rowsel = jQuery("#tbl-taxe").jqGrid('getGridParam','selrow');
+        if(rowsel)
+        {
+            data=jQuery("#tbl-taxe").jqGrid('getRowData',rowsel);
+            $.get('/eu-taxe/edit',{
+                id_taxe:data.id_taxe
+            },function success(data){
+                $("#content").html(data);
+            }); 
+            
+        }else{
+            alert('Aucune ligne sélectionnée');
+        }
+    });
+	
+	
+    $('#editer').button();
+</script>

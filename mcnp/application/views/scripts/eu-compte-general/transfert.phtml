@@ -1,0 +1,86 @@
+<div id="view-content" class="ui-widget">
+    <div id="c_header" class="ui-widget-header ui-corner-top" style="padding-left: 5px; height: 35px;">
+        <h4>Transfert de comptes</h4>
+    </div>
+    <div class="ui-widget-content ui-corner-bottom" style="height: 500px;">
+        <form id="rec_form" method="post" action="/eu-compte-general/transfert">
+            <table id="tab_capa" style="width: 500px; margin-top: 17px;margin-left: auto; margin-right: auto;">
+                <tr>
+                    <td><label for="compte_source">Transfert du * :</label></td>
+                    <td>
+                        <select class="validate[required]" type="text" id="type_compte" name="type_compte" value=""></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="compte_source">Code Compte Source * :</label></td>
+                    <td>
+                        <select class="validate[required]" type="text" id="compte_source" name="compte_source" value="<?php echo $this->compte_source; ?>"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="compte_dest">Code Compte Destination * :</label></td>
+                    <td>
+                        <select class="validate[required]" type="text" id="compte_dest" name="compte_dest" value="<?php echo $this->compte_dest; ?>"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="val_nat" style="color: red;">Montant *:</label></td>
+                    <td>
+                        <input size="23" class="validate[required]" type="text" id="mont_transfert" name="mont_transfert" value="<?php echo $this->mont_transfert; ?>"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="code_recu">ID transaction :</label></td>
+                    <td>
+                        <input size="23" type="text" id="code_recu" name="code_recu" value="<?php echo $this->code_recu; ?>"/>
+                    </td>
+                </tr>
+                <tr><td></td><td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Annuler"/></td></tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $("#rec_form").validationEngine();
+        $('#val').button();
+        $('#reset').button().click(function(e) {
+            $(location).attr("href", "/eu-compte-general/index");
+        });
+        $.get(
+                '/eu-compte-general/cg',
+                function success(data)
+                {
+                    var options = '<option value=""> </option>';
+                    for (var i = 0; i < data[0].length; i++) {
+                        options += '<option value="' + data[0][i] + '">' + data[1][i] + ' </option>';
+                    }
+                    $('select#compte_source').html(options);
+                    $('select#compte_dest').html(options);
+                });
+
+                $.get('/eu-compte-general/type',
+                        function success(data)
+                        {
+                            var options = '<option value=""> </option>';
+                            for (var i = 0; i < data[0].length; i++) {
+                                options += '<option value="' + data[0][i] + '">' + data[1][i] + ' </option>';
+                            }
+                            $('select#type_compte').html(options);
+                        });
+
+                        $('select#type_compte').change(function(e) {
+                            e.preventDefault();
+                            $.get('/eu-compte-general/comptes?code=' + $(this).val(),
+                                    function success(data)
+                                    {
+                                        var options = '<option value=""> </option>';
+                                        for (var i = 0; i < data[0].length; i++) {
+                                            options += '<option value="' + data[0][i] + '">' + data[1][i] + ' </option>';
+                                        }
+                                        $('select#compte_source').html(options);
+                                        $('select#compte_dest').html(options);
+                                    });
+                                });
+                    });
+</script>

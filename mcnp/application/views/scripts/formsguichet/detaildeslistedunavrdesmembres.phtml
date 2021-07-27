@@ -1,0 +1,22 @@
+<?php 
+
+$nom_membre = $this->nom_membre;
+$raison_sociale =  $this->raison_sociale;?>
+
+<?php if ($raison_sociale != NULL): ?>
+
+<div class="span12" style="text-align:left">
+    <div class="control-group">
+	      <label class="control-label" for="avr-produit-inexistant" style="font-weight:bold">
+	        Raison social de l'acheteur*:
+	      </label>
+	      <div class="controls">
+          <?php  echo $this->raison_sociale ;?>
+          </div>
+    </div>
+
+</div>
+
+
+<?php endif ?>       
+

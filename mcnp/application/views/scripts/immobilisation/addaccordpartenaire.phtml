@@ -1,0 +1,111 @@
+<?php $sessionmembre = new Zend_Session_Namespace('membre'); ?>
+<div class="well3">
+<div class="row-fluid">
+<div class="span12" style="text-align:left">
+
+<?php include("../application/layouts/scripts/menuperso.phtml"); ?>
+
+<blockquote><p> Approbation du partenaire </p></blockquote>
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="addlettre">
+  <?php if(isset($this->error) && $this->error!="") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $this->error; ?>
+  </div>
+  <?php } ?>
+  
+  <?php if(isset($sessionutilisateur->error) && $sessionutilisateur->error != "") { ?>
+  <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <?php echo $sessionutilisateur->error; $sessionutilisateur->error = ""; ?>
+  </div>
+  <?php } ?>
+
+<table class="table table-striped table-bordered table-hover table-condensed" id="example" style="font-size:11px;">  
+<thead>
+      <tr>
+	      <th colspan="5">Immobilisation intitulé : <?php echo ($this->entry->designation_immobilisation); ?> du  <?php echo ($this->entry->date_entree); ?></th>
+	  
+	  </tr>
+	  
+	  <tr>
+		  <th>Codification</th>
+		  <th>Famille</th>
+		  <th>Nature</th>
+		  <th>Valeur acquisition</th>
+		  <th>Fournisseur</th>
+	  </tr>
+</thead>
+
+<tbody>
+      <tr>
+	     <td><?php echo ($this->entry->code_identification); ?></td>
+	     <td><?php echo ($this->entry->famille_immobilisation); ?></td>
+	     <td><?php echo ($this->entry->nature_immobilisation); ?></td>
+	     <td><?php echo ($this->entry->valeur_acquisition); ?></td>
+		 <td><?php echo ($this->entry->code_membre_fournisseur); ?></td>
+	  </tr>
+</tbody>  
+</table>
+
+<div style="text-align:left">
+<div style="width:100%;border:1px solid #CCC;padding:5px;font-weight:bold; ">Contenu de la lettre</div>
+<div style="width:100%;border:1px solid #CCC;padding:5px;padding-bottom: 52px;margin-bottom: 15px;">
+<?php echo $this->entry->motif1; ?>
+</div>
+</div>
+
+<br/>
+
+<legend> Cadre réservé pour l'approbation du partenaire </legend>
+<div class="control-group">
+<label class="control-label" for="contenu"> Lettre d'approbation </label>
+<div class="controls">
+<textarea  name="contenu" id="contenu" placeholder="Lettre d'approbation" class="ckeditor" required></textarea>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="date_acquisition">Date restitution </label>
+<div class="controls">
+<input type="text" name="date_restitution" id="date_restitution" placeholder="Date restitution" class="input-large datepicker" data-provide="datepicker" />
+</div>
+</div>
+
+<div class="control-group">
+     <div class="controls">
+          <label for="valider" class="radio">
+		    <input  type="checkbox"  name="valider" id="valider" value="2" onclick="if(document.getElementById('valider').checked) { document.getElementById('rejeter').disabled = true;} else {document.getElementById('rejeter').disabled = false;}" /> 
+			VALIDER 
+		  </label>
+		  
+		  <label for="refuser" class="radio">
+		   <input  type="checkbox" name="rejeter" id="rejeter" value="1" onclick="if(document.getElementById('rejeter').checked)  {document.getElementById('valider').disabled = true;} else {document.getElementById('rejeter').disabled = false;}" /> 
+		   REJETER 
+		  </label>
+     </div>
+</div>
+ 
+<div class="form-actions">  
+<input name="ok" type="hidden" id="ok" value="ok" />
+<input type="hidden" name="id_lettre" id="id_lettre" placeholder="" value="<?php echo $this->entry->id_lettre; ?>" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enrégistrer</button>
+</div>                           
+  
+</form>
+
+</div>
+<div class="span3">
+<?php //include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+

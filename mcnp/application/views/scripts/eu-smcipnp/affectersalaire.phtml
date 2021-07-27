@@ -1,0 +1,279 @@
+<div id="view-content" class="ui-widget" style="font-size:12px">
+    <div id="c_header" class="ui-widget-header ui-corner-top" style="padding-left: 5px; height: 35px;">
+        <h4>Affectation de salaire aux employés</h4>
+    </div>
+    <div class="ui-widget-content ui-corner-bottom" style="height: 500px;">
+        <form id="affecte_form" method="Post" action="/eu-smcipnp/affecter">
+            <input type="hidden" name="cpteur" id="cpteur" value="1"/>
+            <table id="tab_fact" style="margin: 5px;">
+                <tr>
+                    <td>Salaire disponible :</td>
+                    <td><input id="sal_percu" type="text" name="sal_percu" value="" readonly="true" style="text-align:right"/></td>
+                </tr>
+            </table>
+            <table border="1" style="margin: 5px;" id="tab_salaire">
+                <thead>
+                    <tr style="text-align: left;">
+                        <th style="width: 170px;">Code membre</th><th style="width: 250px;">Nom</th><th style="width: 120px;">Salaire</th><th style="width:80px;">Début</th><th style="width:80px;">Fin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input id="num_membre1" type="text" name="num_membre1" value="" required="true" style="width: 170px;"/></td>
+                        <td><input id="nom1" type="text" name="nom1" value="" style="width: 250px;" readonly="readonly"/></td>
+                        <td><input id="salaire1" type="text" name="salaire1" value="" style="width: 120px;" class="validate[required,custom[onlyNumberSp]]"/></td>
+                        <td><input id="date_deb1" type="text" name="date_deb1" value="" style="width: 80px;"/></td>
+                        <td><input id="date_fin1" type="text" name="date_fin1" value="" style="width: 80px;"/></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <tr>
+                    <td><input id="add" type="button" value="Ajouter" onclick="addRow('tab_salaire')"/><input id="remove" type="button" value="Supprimer" onclick="deleteRow('tab_salaire')"/></td>
+                    <td></td>
+                    <td><input type="submit" id="val" value="Valider"/><input type="reset" id="reset" value="Réinitialiser"/></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <script>
+
+        var compteur = 1;
+        $(document).ready(function()
+        {
+            $('#val').button();
+            $('#reset').button();
+            $('#add').button();
+            $('#remove').button();
+
+            $.get("/eu-smcipnp/salairedispo",
+                    function success(data)
+                    {
+                        $("#sal_percu").val(data);
+                    });
+
+            $.get("/eu-smcipnp/membrephys",
+                    function success(data)
+                    {
+                        $("#num_membre1").autocomplete({"source": data});
+                    });
+
+            $('#num_membre1').blur(function(e)
+            {
+                if ($(this).val() != '')
+                {
+                    $.get(
+                            '/eu-smcipnp/recupnom',
+                            {
+                                num_membre: $(this).val()
+                            },
+                    function success(data)
+                    {
+                        if (data !== '') {
+                            $("#nom1").val(data);
+                        } else {
+                            alert('Ce membre n\existe pas!!!');
+                        }
+                    });
+                }
+                e.preventDefault();
+            });
+
+            $(function() {
+                var pickerOpts = {
+                    dateFormat: "dd-mm-yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    showOtherMonths: true
+                };
+                $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+                $("#date_deb1").datepicker(pickerOpts);
+            });
+
+            $(function() {
+                var pickerOpts = {
+                    dateFormat: "dd-mm-yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    showOtherMonths: true
+                };
+                $("#date_fin1").datepicker(pickerOpts);
+            });
+
+            //            $('#date_fin1').blur(function(e)
+            //            {             
+            //                if($('#date_fin1').val() < $("#date_deb1").val())
+            //                {                    
+            //                    alert('La date de fin doit être supérieur à la date de début');  
+            //                    $(this).focus();
+            //                };   
+            //                e.preventDefault();
+            //            });
+
+            $('#val').click(function(e) {
+                $.ajax({
+                    url: $('form').attr("action"),
+                    data: $('form').serialize(),
+                    type: 'post',
+                    success: processServerResponse
+                })
+                e.preventDefault();
+            });
+        });
+
+        function processServerResponse(data) {
+            if (data == 'alloc_sal') {
+                alert('Le salaire disponible sur votre compte est insuffisant');
+            }
+            else if (data == 'compte_err') {
+                alert('Pas de subvention reçu');
+            }
+            else if (data == 'echec') {
+                alert('Echec de l\'opération, vérifier votre saisie');
+            }
+            else if (data == 'salarie') {
+                alert('Vérifier les codes membre des salariés');
+            }
+            else if (data == 'good') {
+                alert('Affectation de salaires effectuée avec succès');
+                $(location).attr("href", "/eu-smcipnp/salaireaffecte");
+            }
+            else {
+                $('#message').html(data);
+            }
+        }
+        ;
+
+        function addRow(tableID) {
+
+            var table = document.getElementById(tableID);
+            var rowCount = table.rows.length;
+            var cpte = rowCount;
+            var row = table.insertRow(rowCount);
+
+            var cell1 = row.insertCell(0);
+            var element0 = document.createElement("input");
+            element0.type = "text";
+            element0.setAttribute("id", "num_membre" + cpte);
+            element0.setAttribute("name", "num_membre" + cpte);
+            element0.setAttribute("class", "validate[required]");
+            element0.setAttribute("style", "width:153px;text-align:left;font-weight:normal");
+            cell1.appendChild(element0);
+            $('#num_membre' + cpte).button();
+
+            var cell2 = row.insertCell(1);
+            var element1 = document.createElement("input");
+            element1.type = "text";
+            element1.setAttribute("id", "nom" + cpte);
+            element1.setAttribute("name", "nom" + cpte);
+            element1.setAttribute("style", "width:233px;text-align:left;font-weight:normal");
+            element1.setAttribute("readonly", "true");
+            cell2.appendChild(element1);
+            $('#nom' + cpte).button();
+
+            var cell3 = row.insertCell(2);
+            var element2 = document.createElement("input");
+            element2.type = "text";
+            element2.setAttribute("id", "salaire" + cpte);
+            element2.setAttribute("name", "salaire" + cpte);
+            element2.setAttribute("value", "");
+            element2.setAttribute("style", "width:102px;text-align:left;font-weight:normal");
+            cell3.appendChild(element2);
+            $('#salaire' + cpte).button();
+
+            var cell4 = row.insertCell(3);
+            var element3 = document.createElement("input");
+            element3.type = "text";
+            element3.setAttribute("id", "date_deb" + cpte);
+            element3.setAttribute("name", "date_deb" + cpte);
+            element3.setAttribute("style", "width:63px;text-align:left;font-weight:normal");
+            element3.setAttribute("value", "");
+            cell4.appendChild(element3);
+            $('#date_deb' + cpte).button();
+
+            var cell5 = row.insertCell(4);
+            var element4 = document.createElement("input");
+            element4.type = "text";
+            element4.setAttribute("id", "date_fin" + cpte);
+            element4.setAttribute("name", "date_fin" + cpte);
+            element4.setAttribute("style", "width:63px;text-align:left;font-weight:normal");
+            element4.setAttribute("value", "");
+            cell5.appendChild(element4);
+            $('#date_fin' + cpte).button();
+
+            $.get("/eu-smcipnp/membrephys",
+                    function success(data)
+                    {
+                        $("#num_membre" + cpte).autocomplete({"source": data});
+                    });
+
+            $('#num_membre' + cpte).blur(function(e)
+            {
+                if ($(this).val() != '')
+                {
+                    $.get(
+                            '/eu-smcipnp/recupnom',
+                            {
+                                num_membre: $(this).val()
+                            },
+                    function success(data)
+                    {
+                        if (data !== '') {
+                            $("#nom" + cpte).val(data);
+                        } else {
+                            alert('Ce membre n\existe pas!!!');
+                        }
+                    });
+                }
+                e.preventDefault();
+            });
+
+            $(function() {
+                var pickerOpts = {
+                    dateFormat: "dd-mm-yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    showOtherMonths: true
+                };
+                $.datepicker.setDefaults($.datepicker.regional[ "fr" ]);
+                $("#date_deb" + cpte).datepicker(pickerOpts);
+            });
+
+            $(function() {
+                var pickerOpts = {
+                    dateFormat: "dd-mm-yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    showOtherMonths: true
+                };
+                $("#date_fin" + cpte).datepicker(pickerOpts);
+            });
+
+            //            $('#date_fin'+cpte).blur(function(e)
+            //            {             
+            //                if($('#date_fin'+cpte).val() < $("#date_deb"+cpte).val())
+            //                {                    
+            //                    alert('La date de fin doit être supérieur à la date de début');  
+            //                    $(this).focus();
+            //                };   
+            //                e.preventDefault();
+            //            });
+            compteur = compteur + 1;
+            document.getElementById("cpteur").setAttribute('value', compteur);
+        }
+
+        function deleteRow(tableID) {
+            try {
+                var table = document.getElementById(tableID);
+                var rowCount = table.rows.length - 1;
+                if (rowCount > 1) {
+                    table.deleteRow(rowCount);
+                }
+                compteur = compteur - 1;
+                document.getElementById("cpteur").setAttribute('value', compteur);
+            } catch (e) {
+                alert(e);
+            }
+        }
+    </script>
+</div>	

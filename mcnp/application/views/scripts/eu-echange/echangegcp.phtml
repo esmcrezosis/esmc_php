@@ -1,0 +1,169 @@
+<div id="view-content" title="Echange <?php echo $this->cat; ?>" style="font-size: 12px;min-height: 520px;">
+    <form id="echange_form" method="Post" action="/eu-echange/echangegcp">
+        <table>
+            <tr>
+                <td style="text-align: right;"><label for="compte">Compte :</label></td>
+                <td>
+                    <select  id="compte" name="compte" value="<?php echo $this->compte ?>">
+                        <option value="GCP">GCP</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="e_membre">Membre :</label></td>
+                <td><input type="text" size="30" id="e_membre" name="e_membre" value="<?php echo $this->e_membre ?>" required="true"/></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="raison_soc">Raison sociale :</label></td><td><input size="30" type="text" id="raison_soc" name="raison_soc" value="<?php echo $this->raison_soc ?>" readonly="true"/></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="e_membre">Nom Représentant :</label></td>
+                <td><input size="30" type="text" id="nom_rep" name="nom_rep" value="<?php echo $this->nom_rep ?>" readonly="true"/>
+                    <input size="30" type="text" id="prenom_rep" name="prenom_rep" value="<?php echo $this->prenom_rep ?>" readonly="true"/>
+                    <button id="afficher" >Afficher</button></td></tr>
+            <tr>
+                <td colspan="2">
+                    <table id="gcp_table"></table>
+                    <div id="gcp_div"></div>
+                </td>
+            </tr>
+            <tr><td style="text-align: right;"><label for="montant">Montant :</label></td>
+                <td><input type="text" id="montant" name="montant" value="<?php echo $this->montant ?>" readonly="true" required="true"/></td></tr>
+            <tr><td></td><td><input type="submit" id="val"/><input type="reset" id="reset"/></td></tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $("#gcp_table").jqGrid({
+        url: '',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code', 'Compte', 'Membre', 'Montant', 'Nombre', 'Valeur/P', 'Montant echu', 'Solde', 'Debut', 'Fin', 'Debut tranche', 'Fin tranche '],
+        height: 220, width: 800,
+        colModel: [
+            {name: 'code_tpagcp', index: 'code_tpagcp', sorttype: "int", editable: true, align: "left", hidden: true},
+            {name: 'compte', index: 'compte', width: 160, sorttype: "int", editable: true, align: "left", hidden: true},
+            {name: 'membre', index: 'membre', width: 105, editable: true, align: "left"},
+            {name: 'mont_gcp', index: 'mont_gcp', width: 80, align: "right", editable: true},
+            {name: 'reste_ntf', index: 'reste_ntf', width: 60, sorttype: "int", editable: true, align: "left"},
+            {name: 'mont_tranche', index: 'mont_tranche', width: 100, sorttype: "int", editable: false, align: "left"},
+            {name: 'mont_echu', index: 'mont_echu', width: 100, sorttype: "int", editable: false, align: "left"},
+            {name: 'solde', index: 'solde', width: 100, sorttype: "int", editable: true, align: "left"},
+            {name: 'date_deb', index: 'date_deb', width: 80, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'date_fin', index: 'date_fin', width: 80, sorttype: "int", editable: true, align: "left", hidden: true},
+            {name: 'date_deb_tranche', index: 'date_deb_tranche', width: 80, sorttype: "int", editable: false, align: "left", hidden: true},
+            {name: 'date_fin_tranche', index: 'date_fin_tranche', width: 80, sorttype: "int", editable: true, align: "left"},
+        ],
+        rowNum: 10,
+        rowList: [10, 20, 30],
+        rownumbers: true,
+        pager: '#gcp-div',
+        sortname: "code_tpagcp",
+        multiselect: true,
+        viewrecords: true,
+        sortorder: "ASC",
+        caption: "Liste des GCP disponibles",
+        onSelectRow: function(id, status) {
+            var montant = $('#montant').val();
+            if (id !== 0 || id !== null) {
+                var data = jQuery('#gcp_table').jqGrid('getRowData', id);
+                var value = 0;
+                var tranche = data.mont_echu;
+                if (montant === '') {
+                    montant = 0;
+                } else {
+                    montant = parseFloat(montant, 10);
+                }
+                if (status === true) {
+                    value = parseFloat(montant) + parseFloat(tranche);
+                    $('#montant').val(value);
+                } else {
+                    value = montant - tranche;
+                    $('#montant').val(value);
+                }
+                lastsel = id;
+            }
+        },
+        onSelectAll: function(ids, status) {
+            var montant = $('#montant').val();
+            if (status) {
+                if (montant === '') {
+                    montant = 0;
+                } else {
+                    montant = parseFloat(montant, 10);
+                }
+                for (var i = 0; i < ids.length; i++) {
+                    var id = ids[i];
+                    var data = jQuery('#gcp_table').jqGrid('getRowData', id);
+                    var tranche = data.mont_echu;
+                    montant = montant + parseFloat(tranche);
+                }
+                $('#montant').val(montant);
+            } else {
+                $('#montant').val(0);
+            }
+        }
+    });
+    $("#gcp_table").jqGrid('navGrid', '#gcp_div', {edit: true, add: true, del: false, search: true});
+    $(document).ready(function()
+    {
+        $(function() {
+            $('#view-content').puipanel();
+            $('fieldset').puifieldset();
+        });
+        $.get("/eu-echange/membre?type=M",
+                function success(data)
+                {
+                    $('#e_membre').autocomplete({"source": data});
+                });
+
+                $('#e_membre').blur(function(e)
+                {
+                    e.preventDefault();
+                    if ($(this).val() !== '')
+                    {
+                        $.get(
+                                '/eu-echange/recupnom',
+                                {
+                                    num_membre: $(this).val()
+                                },
+                        function success(data)
+                        {
+                            $("#nom_rep").val(data[0]);
+                            $("#prenom_rep").val(data[1]);
+                            $("#raison_soc").val(data[2]);
+                        });
+                    }
+                });
+
+                $('#afficher').click(function(e)
+                {
+                    if ($('#e_membre').val() !== '') {
+                        jQuery("#gcp_table").jqGrid('setGridParam', {url: "/eu-echange/tpagcp?membre=" + $('#e_membre').val()}).trigger('reloadGrid');
+                    } else {
+                        alert('Il faut entrer un numero de membre');
+                    }
+                    e.preventDefault();
+                });
+
+                $('form#echange_form').submit(function(event) {
+                    event.preventDefault();
+                    var sel = jQuery("#gcp_table").jqGrid('getGridParam', 'selarrrow');
+                    $.post('/eu-echange/echgcp',
+                            {
+                                tpagcp: sel,
+                                compte: $('#compte').val(),
+                                membre: $('#e_membre').val(),
+                                montant: $('#montant').val()
+                            }
+                    , function(data) {
+                        if (data === 'succes') {
+                            alert('Opération effectuée avec succes');
+                            $(location).attr("href", "/eu-echange/index");
+                        } else {
+                            alert(data);
+                        }
+                    });
+                });
+            });
+</script>

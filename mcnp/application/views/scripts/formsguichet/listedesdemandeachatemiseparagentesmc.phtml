@@ -1,0 +1,31 @@
+<h3>Liste des demandes d'achat émises par les Agents ESMC</h3>
+
+<?php if(count($this->centraldesdemandesachat) > 0){?>
+
+<table class="table table-stripped">
+ 	<tr>
+ 		<th>Code membre du demandeur</th>
+		<th>Référence de la demande d'achat</th>
+		<th>Libellé de la demande d'achat</th>
+		<th>Actions</th>
+        
+ 	</tr>
+   </thead>
+   <tbody>
+   	  <?php foreach ($this->centraldesdemandesachat as $key => $value): ?>
+         <tr class="primary">
+            <td> <?php echo $value->code_membre ?> </td>
+            <td> <?php echo $value->reference_demande_achat ?> </td>
+            <td> <?php echo $value->libelle_demande_achat ?> </td>
+            <td> <a href="/formsguichet/editdetailsdelademandeachat/id/<?php echo $value->id_demande_achat ?>">Details</a> </td>         
+         </tr>
+
+ 	  <?php endforeach ?>       
+   
+    </tbody>
+</table>
+<?php } else {?>
+<div class="alert alert-info">
+  Aucune Demande d'achat n'a été encore émise
+</div>
+<?php }?>

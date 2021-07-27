@@ -1,0 +1,107 @@
+<style>
+    #container { height:auto;}
+</style>
+
+<div id="view-content" class="ui-widget">
+    <input id="cancel" type="button" value="Retour">
+    <br>
+    <div class="ui-widget-header ui-corner-top" style="height: 25px;padding-bottom: 10px; padding-left: 7px;">
+        <h3>Détail de la demande de la SMCIPNP</h3>
+    </div>
+    <div id="container" class="ui-widget-content ui-corner-bottom">
+
+        <div id="accordeon">
+            <h2><a href="#">Informations sur la SMCIPNP</a></h2>
+            <div id="smcipnp">
+                <table>
+                    <tr><td>Code SMCIPNP</td><td><input id="code_smcipnp" value="<?php echo $this->smcipnp->code_smcipnp; ?>" readonly="true" size="40"/></td>
+                        <td>Libellé SMCIPNP</td><td><input id="lib_smcipnp" value="<?php echo $this->smcipnp->lib_smcipnp; ?>" readonly="true" size="50"/></td>
+                    </tr>
+                    <tr><td>Code membre</td><td><input id="code_membre" value="<?php echo $this->smcipnp->code_membre; ?>" readonly="true"/></td>
+                        <td>Description</td><td>
+                            <textarea id="desc_smcipnp" readonly="true" style="text-align:left">
+                                <?php echo $this->smcipnp->desc_smcipnp; ?>
+                            </textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Date demande</td><td><input id="date_smcipnp" value="<?php echo $this->smcipnp->date_smcipnp; ?>" readonly="true"/></td>
+                        <td>Heure demande</td><td><input id="heure_smcipnp" value="<?php echo $this->smcipnp->heure_smcipnp; ?>" readonly="true"/></td>
+                    </tr>
+                    <tr><td>Montant demande</td><td><input id="mt_smcipnp" value="<?php echo $this->smcipnp->montant_smcipnp; ?>" readonly="true"/></td>
+                        <td>Code acteur</td><td><input id="code_acteur" value="<?php echo $this->smcipnp->code_acteur; ?>" readonly="true"/></td>
+                    </tr>
+                </table>
+            </div>
+            <h2><a href="#">Informations sur la domiciliation</a></h2>
+            <div id="domiciliation">
+                <table  style="height: 200px">
+                    <?php if (count($this->domici) == 1) { ?>
+                        <tr><td>Code domiciliation</td><td><input id="code_domici" value="<?php echo $this->domici->code_domicilier; ?>" readonly="true"  size="30"/></td>
+                            <td>Montant domicilié</td><td><input id="mt_domici" value="<?php echo $this->domici->montant_domicilier; ?>" readonly="true"/></td>
+                        </tr>
+                        <tr>
+                            <td>Code membre bénéficiaire</td><td><input id="code_membre_benef" value="<?php echo ucfirst($this->domici->code_membre_beneficiaire) ?>" readonly="true"/></td>
+                            <td>Nom bénéficiaire</td><td><input id="nom_benef" value="<?php echo ucfirst($this->benef->raison_sociale) ?>" readonly="true" size="25"/></td>
+                        </tr>
+                        <tr>
+                            <td>Code membre assureur</td><td><input id="code_membre_assurreur" value="<?php echo $this->domici->code_membre_assureur; ?>" readonly="true"/></td>
+                            <td>Nom assureur</td><td><input id="nom_assureur" value="<?php echo $this->ass->raison_sociale; ?>" readonly="true" size="25"/></td>
+                        </tr>
+                        <tr>  
+                            <td>Catégorie de ressource</td><td><input id="cat_ressource" value="<?php
+                    $cat = $this->domici->cat_ressource;
+                    if ($cat == 'nr') {
+                        echo 'Non réccurent';
+                    } else {
+                        echo 'Réccurent';
+                    }
+                        ?>" readonly="true"/></td>
+                            <td>Date de domiciliation</td><td><input id="date_domici" value="<?php echo $this->domici->date_domiciliation; ?>" readonly="true"/></td>
+                        </tr>
+                        </br>
+                        <table id="tbl-credit"></table>
+                        <div id="pg-credit"></div>
+                    <?php } ?>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        jQuery(function() {
+            $("#accordeon").accordion();
+        });
+        $("#tbl-credit").jqGrid({
+            url:"/eu-gac/listcredits?code_domici="+$('#code_domici').val(),
+            datatype: "json",
+            mtype: 'GET',
+            colNames:['Membre','Ressource','Mt placé','Mt crédit','Mt domicilié','Date dépôt'],
+            height:'100%', width:725,
+            colModel:[
+                {name:'code_membre',index:'code_membre', width: 150, editable: false,align:"left"},
+                {name:'produit',index:'produit', width: 120, align:"left", editable: false},
+                {name:'mt_place',index:'mt_place', width: 200, align:"right", editable: false,formatter:'number'},
+                {name:'mt_credit',index:'mt_credit', width: 200, align:"right", editable: false,formatter:'number'},
+                {name:'mt_domici',index:'mt_domici', width: 200, align:"right", editable: false,formatter:'number'},
+                {name:'date_depot',index:'date_depot', width: 120, align:"left", editable: false}
+            ],
+            rowNum:30,
+            rowList:[30,50,100],
+            rownumbers:true,
+            pager: '#pg-credit',
+            sortname:"datefin",
+            viewrecords: true,
+            sortorder: "ASC",
+            caption:"Comptes des crédits de la domiciliation"
+        });
+        $("#tbl-credit").jqGrid('navGrid','#pg-credit',{edit:false,add:false,del:false,search:true});
+        
+        $('#cancel').click(function(){
+            $.get('/eu-gac/smcipnpaccorde',function(data){
+                $("#view-content").html(data);
+            });
+        });
+        $('#cancel').button();
+        
+    </script>
+</div>

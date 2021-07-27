@@ -1,0 +1,75 @@
+<div id="view-content">
+    <div id="formdiv" class="ui-widget-content ui-corner-all" style="font-size:12px">
+        <div style="margin-bottom: 3px; width: 820px">
+            <fieldset>
+                <legend style=" font-weight:bold">Recherche</legend>
+                <table align="center">
+                    <tr>
+                        <td>Code membre</td><td><input type="text" id="code_membre" name="code_membre" size="22"/></td>
+                        <td>Numéro Bon<td><input type="text" id="bon" name="bon" size="8"/></td>
+                        <td>Date début</td><td><input type="text" id="date_debut" name="date_debut" size="10"/></td>
+                        <td>Date fin</td><td><input type="text" id="date_fin" name="date_fin" size="10"/></td>
+                        <td><input id="ok" type="button" value="OK" /></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <table id="tbl-det"></table>
+        <div id="pg-det"></div>  
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tbl-det").jqGrid({
+        url: '/eu-membre-fondateur11000/mfdetailrep?date_deb='+''+'&date_fin='+''+'&code_membre='+''+'&bon='+'',
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Code MF11000','Code membre', 'Date répartition', 'Montant reçu'],
+        height: 450, width: 820,
+        colModel: [
+            {name: 'code_mf11000', index: 'code_mf11000', width:180, sorttype: "int", editable: true, align: "left"},
+            {name: 'code_membre', index: 'code_membre', width:180, sorttype: "int", editable: true, align: "left"},
+            {name: 'date_rep', index: 'date_rep', width:120, editable: true, align: "left"},
+            {name: 'mont_recu', index: 'mont_recu', width:120, editable: true, align: "right",formatter:'number'},  
+        ],
+        rowNum: 10000,
+        rowList: [10000, 50000, 100000],
+        pager: '#pg-det',
+        sortname: "id_mf11000",
+        viewrecords: true,
+        rownumbers:true,
+        sortorder: "ASC",
+        caption: "Détail des répartitions des montants sur les comptes MF11000" ,
+        footerrow: true,
+        userDataOnFooter: true
+    });
+    $("#tbl-det").jqGrid('navGrid', '#pg-det', {edit: false, add: false, del: false, search: true}); 
+    
+    $(document).ready(function ()
+    { 
+        $.get( "/eu-membre-fondateur11000/membre",
+        function success(data)
+        {
+            $("#code_membre").autocomplete({"source":data});
+        });
+        $.get( "/eu-membre-fondateur11000/numero",
+        function success(data)
+        {
+            $("#bon").autocomplete({"source":data});
+        });
+        $(function(){
+            var pickerOpts = {
+                dateFormat: "dd/mm/yy",
+                changeMonth:true,
+                changeYear:true,
+                showOtherMonths: true
+            };
+            $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+            $("#date_debut").datepicker(pickerOpts);
+            $("#date_fin").datepicker(pickerOpts);
+        });
+        $('#ok').button();
+        $('#ok').click(function(){
+            jQuery("#tbl-det").jqGrid('setGridParam',{url:"/eu-membre-fondateur11000/mfdetailrep?date_deb="+$('#date_debut').val()+"&date_fin="+$('#date_fin').val()+"&code_membre="+$('#code_membre').val()+"&bon="+$('#bon').val()}).trigger('reloadGrid');
+        });  
+    })
+</script> 

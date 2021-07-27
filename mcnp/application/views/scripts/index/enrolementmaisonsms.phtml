@@ -1,0 +1,366 @@
+<script language="javascript1.3" src="<?php echo $this->baseUrl();?>/capasenrolement.js"></script>
+<div class="well3">
+<div class="row-fluid">
+<div class="span9" style="text-align:left">
+  <blockquote>
+    <p class="text-info">Enrôlement Maison</p></blockquote>
+
+<div class="">
+<form action="" method="post" enctype="multipart/form-data"  class="well form-horizontal" id="enrolement">
+  <?php if(isset($this->message) && $this->message!=""){?>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <?php echo $this->message; ?>
+    </div>
+  <?php }?>
+  
+  <legend>Code SMS</legend>
+  <div class="control-group">
+  <label class="control-label" for="creditcode">Code SMS *</label>
+  <div class="controls">
+  <input name="creditcode" type="text" id="creditcode" placeholder="Entrer le Code SMS reçu" required>
+	<span id="niv2"><button type="button" class="btn btn-info" onclick="ouvre_capasenrolement(document.getElementById('creditcode').value);">Vérifier</button></span>
+  </div>
+  </div>
+  
+  
+  <legend>Informations sur Immobilier</legend>
+<div class="">
+  
+<div class="span6">
+  
+  <div class="control-group">
+  <label class="control-label" for="type_acteur">Catégorie  *</label>
+  <div class="controls">
+  <select name="type_acteur" id="type_acteur" required>
+  <option value="">Choisir le type</option>
+    <option value="EI" <?php if($this->type_acteur == 'EI'){echo ' selected="selected"';}?>>EI</option>
+    <option value="OSE" <?php if($this->type_acteur == 'OSE'){echo ' selected="selected"';}?>>OSE</option>
+    <option value="PEI" <?php if($this->type_acteur == 'PEI'){echo ' selected="selected"';}?>>PEI</option>
+    <option value="POSE" <?php if($this->type_acteur == 'POSE'){echo ' selected="selected"';}?>>POSE</option>
+</select>
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="lib_type">Libellé type immobilier</label>
+  <div class="controls">
+<input type="text" name="lib_type" id="lib_type" value="<?php echo $this->lib_type; ?>" placeholder="Libellé type immobilier">
+  </div>
+  </div>
+  
+  <div class="control-group">
+  <label class="control-label" for="numero">Numéro maison</label>
+  <div class="controls">
+  <input type="text" name="numero" id="numero" value="<?php echo $this->numero; ?>" placeholder="Numéro maison">
+  </div>
+  </div>  
+  
+</div>
+  <div class="span6">
+    
+  <div class="control-group">
+  <label class="control-label" for="statut_juridique">Statut juridique *</label>
+  <div class="controls">
+  <select class="input-large" name="statut_juridique" id="statut_juridique" required>
+       <?php  $statutjuridique = new Application_Model_EuStatutJuridiqueMapper();
+		$selectstatutjuridique = $statutjuridique->fetchAll();?>
+               <option value="">Choisir un statut juridique</option>
+    <?php foreach ($selectstatutjuridique as $selectstatutjuridique): ?>
+               <option value="<?php echo $selectstatutjuridique->code_statut; ?>"><?php echo htmlentities($selectstatutjuridique->libelle_statut); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="design">Désignation *</label>
+  <div class="controls">
+  <input type="text" name="design" id="design" value="<?php echo $this->design; ?>" placeholder="Désignation" required>
+  </div>
+  </div>
+    
+
+<div class="control-group">
+  <label class="control-label" for="type_maison">Type maison *</label>
+  <div class="controls">
+  <select name="type_maison" id="type_maison" required>
+       <?php  $type_maison = new Application_Model_EuTypeMaisonMapper();
+		$selecttype_maison = $type_maison->fetchAll();?>
+               <option value="">Choisir un type maison</option>
+    <?php foreach ($selecttype_maison as $selecttype_maison): ?>
+               <option value="<?php echo $selecttype_maison->id_type_maison; ?>"><?php echo htmlentities($selecttype_maison->lib_type_maison); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+        
+  <div class="control-group">
+  <label class="control-label" for="desc">Description</label>
+  <div class="controls">
+    <textarea name="desc" id="desc"><?php echo $this->desc; ?></textarea>
+  </div>
+  </div>
+    
+  </div>
+
+  </div>
+
+
+  <legend>Propriétaire</legend>
+
+<div class="">
+  
+<div class="span6">
+  
+  <div class="control-group">
+  <label class="control-label" for="proprio">Code membre</label>
+  <div class="controls">
+<input type="text" name="proprio" id="proprio" value="<?php echo $this->proprio; ?>" placeholder="Code membre Propriétaire">
+  </div>
+  </div>
+    
+</div>
+  <div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="nom_rep">Nom & Prénom </label>
+  <div class="controls">
+  <input type="text" name="nom_rep" id="nom_rep" placeholder="Nom & Prénom">
+  </div>
+  </div>
+        
+  </div>
+
+  </div>
+
+
+
+
+  <legend>Charges</legend>
+
+
+<div class="">
+
+  <div class="span2">
+
+  <div class="control-group">
+  <label class="checkbox">
+  <input name="eau" type="checkbox" id="eau" value="1">
+  Eau
+</label>
+  </div>
+
+   <div class="control-group">
+  <label class="checkbox">
+  <input name="elect" type="checkbox" id="elect" value="1">
+  Electricit&eacute;
+</label>
+  </div>
+
+   <div class="control-group">
+  <label class="checkbox">
+  <input name="tel" type="checkbox" id="tel" value="1">
+  Téléphone
+</label>
+  </div>
+  
+   <div class="control-group">
+  <label class="checkbox">
+  <input name="wd" type="checkbox" id="wd" value="1">
+  Wc-Douche
+</label>
+  </div>
+    
+    </div>
+<div class="span5">
+
+  <div class="control-group">
+  <label class="control-label" for="frais_eau">Frais d'eau</label>
+  <div class="controls">
+  <input type="text" name="frais_eau" id="frais_eau" placeholder="Frais d'eau">
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="frais_elect">Frais d'électricité</label>
+  <div class="controls">
+  <input type="text" name="frais_elect" id="frais_elect" placeholder="Frais d'électricité">
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="frais_tel">Frais téléphoniques</label>
+  <div class="controls">
+  <input type="text" name="frais_tel" id="frais_tel" placeholder="Frais téléphoniques">
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="frais_vidange">Frais vidange</label>
+  <div class="controls">
+  <input type="text" name="frais_vidange" id="frais_vidange" placeholder="Frais vidange">
+  </div>
+  </div>
+    
+  </div>
+  
+<div class="span5">
+
+  <div class="control-group">
+  <label class="control-label" for="num_compteur">N°compteur eau</label>
+  <div class="controls">
+  <input type="text" name="num_compteur" id="num_compteur" placeholder="N°compteur eau">
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="num_police">N°police électricité</label>
+  <div class="controls">
+  <input type="text" name="num_police" id="num_police" placeholder="N°police électricité">
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="num_ligne">N°ligne téléphonique</label>
+  <div class="controls">
+  <input type="text" name="num_ligne" id="num_ligne" placeholder="N°ligne téléphonique">
+  </div>
+  </div>
+    
+    
+  </div>
+    </div>  
+  
+
+
+
+  
+
+  <legend>Autres informations</legend>
+
+
+<div class="">
+
+  <div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="taxe">Taxe</label>
+  <div class="controls">
+  <input type="text" name="taxe" id="taxe" placeholder="Taxe">
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="bp_membre">BP</label>
+  <div class="controls">
+  <input type="text" name="bp_membre" id="bp_membre" value="<?php echo $this->bp; ?>" placeholder="BP">
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="quartier_membre">Quartier *</label>
+  <div class="controls">
+  <input type="text" name="quartier_membre" id="quartier_membre" value="<?php echo $this->quartier_membre; ?>" placeholder="Quartier" required>
+  </div>
+  </div>
+
+
+  <div class="control-group">
+  <label class="control-label" for="ville_membre">Ville *</label>
+  <div class="controls">
+  <input type="text" name="ville_membre" id="ville_membre" value="<?php echo $this->ville; ?>" placeholder="Ville" required>
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="rue">Rue *</label>
+  <div class="controls">
+  <input type="text" name="rue" id="rue" value="<?php echo $this->rue; ?>" placeholder="Rue" required>
+  </div>
+  </div>
+  
+    </div>
+<div class="span6">
+
+  <div class="control-group">
+  <label class="control-label" for="email_membre">Email</label>
+  <div class="controls">
+  <input type="text" name="email_membre" id="email_membre" value="<?php echo $this->email; ?>" placeholder="Email">
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="portable_membre">Cellulaire *</label>
+  <div class="controls">
+  <input type="text" name="portable_membre" id="portable_membre" value="<?php echo $this->portable; ?>" placeholder="Cellulaire" required>
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="tel_membre">Téléphone</label>
+  <div class="controls">
+  <input type="text" name="tel_membre" id="tel_membre" value="<?php echo $this->tel; ?>" placeholder="Téléphone">
+  </div>
+  </div>
+    
+  <div class="control-group">
+  <label class="control-label" for="site_web">Site web</label>
+  <div class="controls">
+  <input type="text" name="site_web" id="site_web" value="<?php echo $this->site_web; ?>" placeholder="Site web">
+  </div>
+  </div>
+    
+<div class="control-group">
+  <label class="control-label" for="id_pays">Pays *</label>
+  <div class="controls">
+  <select name="id_pays" id="id_pays" required>
+       <?php  $pays = new Application_Model_EuPaysMapper();
+		$selectpays = $pays->fetchAll();?>
+               <option value="">Choisir un pays</option>
+    <?php foreach ($selectpays as $selectpays): ?>
+               <option value="<?php echo $selectpays->id_pays; ?>" <?php if($this->pays == $selectpays->id_pays){echo ' selected="selected"';}?>><?php echo htmlentities($selectpays->libelle_pays); ?></option>
+    <?php endforeach; ?>
+               </select>
+  </div>
+  </div>
+  
+  </div>
+  
+  </div>  
+  
+  
+  <legend></legend>
+  
+
+<div class="form-actions">
+<input name="frais_identification" type="hidden" id="frais_identification" value="<?php echo $this->fs; ?>" />
+<input name="reglement_membre" type="hidden" id="reglement_membre" value="N" />
+<input name="code_sms" type="hidden" id="code_sms" value="" />
+<input name="membre_reg" type="hidden" id="membre_reg" value="" />
+<input name="code_caps" type="hidden" id="code_caps" value="<?php echo $this->code; ?>" />
+<input name="cpteur" type="hidden" id="cpteur" value="1" />
+
+<input name="codesecret" type="hidden" id="codesecret" value="<?php echo $this->codesecret; ?>" />
+<input name="ok" type="hidden" id="ok" value="ok" />
+<button type="reset" class="btn">Annuler</button>
+<button type="submit" class="btn btn-primary">Enrôlement Maison</button>
+</div>
+
+
+</form>
+</div>
+
+</div>
+<div class="span3">
+<?php include("../application/layouts/scripts/droite.phtml"); ?>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
