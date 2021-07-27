@@ -1,0 +1,981 @@
+<?php
+class EuHtml2PdfContratController extends Zend_Controller_Action
+{
+	public function listAction()
+	{
+	  $auth = Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session('admin'));
+          $user = $auth->getIdentity();
+          $date_id = new Zend_Date(Zend_Date::ISO_8601);
+          $date_idd = clone $date_id;
+          $frais=1000;
+		//récupération des données
+                if ($_pOST['type_membre'] == 'p')  {
+                    
+		            $membre = new Application_Model_DbTable_EuMembre();
+                    $select = $membre->select(Zend_Db_Table::select_with_from_part);
+                    $select->setIntegrityCheck(false)
+                           ->join('eu_contrat', 'eu_contrat.code_membre = eu_membre.code_membre')
+                           ->join('eu_pays', 'eu_pays.id_pays = eu_membre.id_pays')  
+                           ->where('eu_contrat.id_contrat = ?',$_POST['id_contrat']);
+                    $data = $membre->fetchAll($select);
+					//insertion des frais d'identification dans la table placement
+					/*
+                    $op_mapper = new Application_Model_EuOperationMapper();
+                    $place = new Application_Model_EuOperation();
+                    $place->setDate_op($date_id->toString('yyyy-mm-dd'))
+                          ->setHeure_op($date_id->toString('hh:mm'))
+                          ->setId_utilisateur($user->id_utilisateur)
+                          ->setLib_op('Edition Contrat')
+                          ->setType_op('ec')
+                          ->setMontant_op($frais)
+                          ->setCode_membre($_POST['membre'])
+                          ->setCode_produit(null)
+                          ->setCode_cat(null);
+                    $op_mapper->save($place);
+					*/ 
+             }
+             else {
+                 
+                   $contrats = new Application_Model_DbTable_EuContrat();
+                   $select = $contrats->select(Zend_Db_Table::select_with_from_part);
+                   $select->setIntegrityCheck(false)
+                          ->join('eu_type_contrat', 'eu_type_contrat.id_type_contrat = eu_contrat.id_type_contrat')  
+                          ->where('eu_contrat.id_contrat = ?',$_POST['id_contrat']);
+                   $donnees = $contrats->fetchAll($select);
+                   foreach($donnees as $d)
+	               {
+                      $id_type_contrat=$d->id_type_contrat;
+                      $id_type_acteur=$d->id_type_acteur;
+                   }
+                   if ($id_type_contrat == 3) {
+                       
+                      $contrats = new Application_Model_DbTable_EuContrat();
+                      $select = $contrats->select(Zend_Db_Table::select_with_from_part);
+                      
+                      if ($id_type_acteur != null) {
+                            $select->setIntegrityCheck(false)
+                                   ->join('eu_membre', 'eu_membre.code_membre = eu_contrat.code_membre')
+                                   ->join('eu_type_contrat', 'eu_type_contrat.id_type_contrat = eu_contrat.id_type_contrat')
+                                   ->join('eu_type_creneau', 'eu_type_creneau.id_type_creneau = eu_contrat.id_type_creneau') 
+                                   ->join('eu_type_acteur', 'eu_type_acteur.id_type_acteur = eu_contrat.id_type_acteur')
+                                   ->join('eu_pays', 'eu_pays.id_pays = eu_contrat.id_pays') 
+                                   ->where('eu_contrat.id_contrat = ?',$_POST['id_contrat']);
+                            $data = $contrats->fetchAll($select);
+							//insertion des frais d'identification dans la table placement
+                            /*
+							$op_mapper = new Application_Model_EuOperationMapper();
+                            $place = new Application_Model_EuOperation();
+                            $place->setDate_op($date_id->toString('yyyy-mm-dd'))
+                                  ->setHeure_op($date_id->toString('hh:mm'))
+                                  ->setId_utilisateur($user->id_utilisateur)
+                                  ->setLib_op('Edition Contrat')
+                                  ->setType_op('ec')
+                                  ->setMontant_op($frais)
+                                  ->setCode_membre($_POST['membre'])
+                                  ->setCode_produit(null)
+                                  ->setCode_cat(null);
+                            $op_mapper->save($place);
+							*/
+                      }
+                      else {
+                            $select->setIntegrityCheck(false)
+                                   ->join('eu_membre', 'eu_membre.code_membre = eu_contrat.code_membre')
+                                   ->join('eu_type_contrat', 'eu_type_contrat.id_type_contrat = eu_contrat.id_type_contrat')
+                                   ->join('eu_type_creneau', 'eu_type_creneau.id_type_creneau = eu_contrat.id_type_creneau') 
+                                   ->join('eu_pays', 'eu_pays.id_pays = eu_contrat.id_pays') 
+                                   ->where('eu_contrat.id_contrat = ?',$_POST['id_contrat']);
+                            $data = $contrats->fetchAll($select);
+							//insertion des frais d'identification dans la table placement
+							/*
+                            $op_mapper = new Application_Model_EuOperationMapper();
+                            $place = new Application_Model_EuOperation();
+                            $place->setDate_op($date_id->toString('yyyy-mm-dd'))
+                                  ->setHeure_op($date_id->toString('hh:mm'))
+                                  ->setId_utilisateur($user->id_utilisateur)
+                                  ->setLib_op('Edition Contrat')
+                                  ->setType_op('ec')
+                                  ->setMontant_op($frais)
+                                  ->setCode_membre($_POST['membre'])
+                                  ->setCode_produit(null)
+                                  ->setCode_cat(null);
+                    $op_mapper->save($place);
+					*/
+                      }
+                 }
+                 else {
+                     
+                      $contrats = new Application_Model_DbTable_EuContrat();
+                      $select = $contrats->select(Zend_Db_Table::select_with_from_part);
+                      $select->setIntegrityCheck(false)
+                             ->join('eu_membre', 'eu_membre.code_membre = eu_contrat.code_membre')
+                             ->join('eu_type_contrat', 'eu_type_contrat.id_type_contrat = eu_contrat.id_type_contrat')
+                             ->join('eu_pays', 'eu_pays.id_pays = eu_contrat.id_pays') 
+                             ->where('eu_contrat.id_contrat = ?',$_POST['id_contrat']);
+                      $data = $contrats->fetchAll($select);
+					  //insertion des frais d'identification dans la table placement
+                     /* $op_mapper = new Application_Model_EuOperationMapper();
+                      $place = new Application_Model_EuOperation();
+                      $place->setDate_op($date_id->toString('yyyy-mm-dd'))
+                          ->setHeure_op($date_id->toString('hh:mm'))
+                          ->setId_utilisateur($user->id_utilisateur)
+                          ->setLib_op('Edition Contrat')
+                          ->setType_op('ec')
+                          ->setMontant_op($frais)
+                          ->setCode_membre($_POST['membre'])
+                          ->setCode_produit(null)
+                          ->setCode_cat(null);
+                      $op_mapper->save($place);
+					  */
+                 }
+                     
+            }
+		//création d document pdf
+		$pdf = new Default_Pdf_Contrat(); 
+                $pdf->pages = array_reverse($pdf->pages);
+		//création d'une nouvelle page au format A4
+		//la page est ajoutée au document pdf
+		//enregistrement de la page courante dans la variable $currentPage
+                
+		     $currentPage = new Default_Pdf_Page_Contrat(Zend_Pdf_Page::SIZE_A4);
+                     $pdf->pages[] =$currentPage;
+                     
+                     
+                    //$pdf->pages[] = ($page1 = $pdf->newPage('A4'));
+
+                     
+                // $pdf->pages[] = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
+		//$currentPage->setPageTitle();
+		//la boucle va permettre l'affichage de chaque utilisateur
+               
+	       foreach($data as $contrat)
+	       {        
+			//vérification de la position du curseur sur la page
+			//s'il ne reste plus suffisamment de place sur la page courante pour écrire,
+			//nous devrons ajouter une page à notre document pdf
+                          /// if(!$currentPage->checkPosition())
+			  // {
+				//création d'une nouvelle page et modification de la page courante
+				//$pdf->pages[] = $currentPage = new Default_Pdf_Page_Contrat(Zend_Pdf_Page::SIZE_A4);
+                                //ajout des données contrat
+			  // }
+                                $currentPage->addContrat($contrat);   
+                                $pdf->pages[] = ($page1 = $pdf->newPage('A4'));
+                                $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::font_times_bold);
+                                $page1->setFont($font,14);
+                                $page1->setFillColor(new Zend_Pdf_Color_GrayScale(1.0));
+                                $page1->drawRectangle(37,725,560,830);
+                                $page1->setLineColor(new Zend_Pdf_Color_GrayScale(0.0));
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                //unset($pdf->pages[0]);
+                                $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                $page1->setFillColor($rouge);
+		                $page1->drawText("mcnp",280,793,'utf-8');
+                                //Charger une image
+                                $image = Zend_Pdf_Image::imageWithPath(application_path.'/../public/images/logo.jpg');
+                                $page1->drawImage($image,55,775,105,825);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText("Marché de Crédit en Nature Pérenne",170,779,'utf-8');
+                                
+                                //déplacement du curseur vers la droite de 120 
+                                $font1 = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::font_times);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("arrete N°10/1533/oapi/dg/dga/dpi/ssd portant enrégistrement de la marque N°:63271 du 09 décembre 2009 sous N° 3200902614",100,768, 'utf-8');
+                                $page1->drawText("arrete N°10/2131/oapi/dg/dga/dpi/ssd portant enrégistrement de la marque N°:63869 du 15 février 2010 sous N° 32001000435",100,758, 'utf-8');
+                                $page1->drawText("227,Rue des Amandiers Tokoin-Nukafu b.p.:30038 lome-togo Tél:+(228)22260662/Site web:redemare.org/Adresse électronique:mcnp@yahoo.fr",60,750, 'utf-8');
+                                
+                                $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::font_times_bold);
+                                $page1->setFont($font,9);
+                                
+                                $page1->drawText("contrat d'achat dU pouvoir d'achat dU CREdIT en nature prepaye (apa ",60,740,'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->drawText("CNPr",432,740,'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText("et",460,740,'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->drawText("CNPnr",477,740,'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText(")",506,740,'utf-8');
+                                
+                                //déplacement du curseur vers la droite de 120 pixels
+		                $font1 = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::font_helvetica);
+                                $page1->setFont($font1,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                
+                                //déplacement du curseur vers la droite 
+                                $page1->drawText("Entre les soussignés :",40,715, 'utf-8');
+                                $page1->drawText("L’exploitant du",40,705,'utf-8');
+                                $page1->setFont($font,8);
+                                $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                $page1->setFillColor($rouge);
+                                $page1->drawText("mcnp ",95,705,'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("désigné par prestataire d’une part et ",120,705,'utf-8');
+                                $page1->drawText("(m. mme/mlle/Ets/Sté/ong/Association ",40,695, 'utf-8');
+                                $page1->drawText("d’autre part",40,685,'utf-8');
+                                $page1->drawText("En signant ce contrat, le membre accepte les conditions générales du Crédit en Nature Prépayé (",40,675, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("cnp",385,675, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText(" ) du Marché de Crédit en Nature ",400,675, 'utf-8');
+                                $page1->drawText("Pérenne (",40,665, 'utf-8');
+                                $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                $page1->setFillColor($rouge);
+                                $page1->setFont($font,8);
+                                $page1->drawText("mcnp",75,665, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText(").",98,665, 'utf-8');
+                                $page1->setFont($font,9);
+                                $page1->drawText("le credit en nature prepaye (",40,650,'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFont($font1,9);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("cnp",194,650,'utf-8');
+                                $page1->setFont($font,9);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font,9);
+                                $page1->drawText(" )",208,650,'utf-8');
+                                
+                                $font1 = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::font_helvetica);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("Le Crédit en Nature Prépayé",40,640, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("cnp",144,640,'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("est un Titre Privatif Numérique du Marché de Crédit en Nature Prépayé",163,640,'utf-8');
+                                $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                $page1->setFillColor($rouge);
+                                $page1->setFont($font,8);
+                                $page1->drawText("mcnp ",419,640,'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText(". ",445,640,'utf-8');
+                                $page1->drawText("Les Titres Privatifs Numériques sont des créances du ",40,630, 'utf-8');
+                                $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                $page1->setFillColor($rouge);
+                                $page1->setFont($font,8);
+                                $page1->drawText("mcnp",233,630,'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("dont le Fonds de Garantie du Financement en Nature",260,630,'utf-8');
+                                $page1->setFont($font,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText("(fgfn)",450,630,'utf-8');
+                                $page1->setFont($font1,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText("est le",480,630,'utf-8');
+                                $page1->drawText("payeur en dernier ressort. Le",40,620, 'utf-8');
+                                $page1->setFont($font,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText("fgfn",148,620, 'utf-8');
+                                $page1->setFont($font1,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText("est la somme des recettes numéraires des Titres Privatifs Numériques déposés auprès des",175,620, 'utf-8');
+                                $page1->drawText("banques pour garantir tout échange desdits titres contre de l’espèce bancaire.", 40,610,'utf-8');
+                                
+                                $page1->drawText("Le Titre ",40,600, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText(" cnp ",69,600, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("peut être récurrent ou non récurrent. Son montant en espèce dit",92,600, 'utf-8');
+                                $page1->setFont($font,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText("capa",322,600, 'utf-8');
+                                $page1->setFont($font1,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText("varie selon qu’il soit récurrent ou non récurrent.",349,600, 'utf-8');
+                                $page1->setFont($font,9);
+                                $page1->drawText("le credit en nature prepaye récurrent (",40,585,'utf-8');
+                                
+                                $page1->setFont($font1,9);
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPr",234,585,'utf-8');
+                                
+                                $page1->setFont($font,9);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font,9);
+                                $page1->drawText(")",255,585,'utf-8');
+                                
+                                
+                                $page1->setFont($font1,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                
+                                
+                                $page1->setFont($font1,8);
+                                $page1->drawText("Le Crédit en Nature Prépayé récurrent",40,575, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPr ",180,575,'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("regroupe deux types de titres : le ",204,575,'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("RPGr ",323,575, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("(Revenu Périodique Garanti récurrent) et l’",344,575, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("Ir",496,575, 'utf-8');
+                                
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("(Investissement récurrent).",40,565, 'utf-8');
+                                
+                                $page1->drawText("Le ",40,555, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPr",53,555, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("est un revenu récurrent affecté directement aux ",77,555, 'utf-8');
+                                $page1->setFont($font,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText("bps",248,555, 'utf-8');
+                                $page1->setFont($font1,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText(".Il ne se cumule pas mais se renouvelle à chaque période de façon",266,555, 'utf-8');
+                                $page1->drawText("illimitée. La période de renouvellement est de trente jours à ce jour. Cette période est variable.",40,545, 'utf-8');
+                                $page1->drawText("Le ",40,535, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPr",53,535, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("peut se transmettre de génération en génération aussi longtemps que durera la productivité exponentielle des Entreprises",76,535, 'utf-8');
+                                
+                                $page1->drawText("et Industries.",40,525, 'utf-8');
+                                
+                                $page1->drawText("Le capital du",40,515, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPr",90,515, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("est un débours et non une épargne. Il est fonction de la",115,515, 'utf-8');
+                                $page1->setFont($font,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText("pck.",315,515, 'utf-8');
+                                
+                                $page1->setFont($font,9);
+                                $page1->drawText("Le",40,500, 'utf-8');
+                                $page1->setFont($font1,8);
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPr",53,500, 'utf-8');
+                                $page1->setFont($font,9);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font,9);
+                                $page1->drawText(", un revenu non cumulable",74,500,'utf-8');
+                                
+                                $page1->setFont($font1,8);
+                                $page1->drawText("Le détenteur du titre",40,490, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPr ",113,490, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("ne peut avoir l’option de cumul.",137,490,'utf-8');
+                                
+                                $page1->drawText("Tout Crédit en Nature Prépayé récurrent",40,480, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPr ",188,480, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("est un titre dont le revenu n’est pas cumulable. Le ",211,480,'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPr ",390,480, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("doit être consommé",412,480, 'utf-8');
+                                
+                                $page1->drawText("périodiquement. S’il n’est pas consommé dans sa période indiquée, cette consommation n’est plus récupérable. Le revenu du",40,470, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPr ",488,470, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("attendra donc la période prochaine pour être renouvelé.",40,460, 'utf-8');
+                                $page1->setFont($font,9);
+                                $page1->drawText("la reconstitution par domiciliation du ",40,445, 'utf-8');
+                                $page1->setFont($font,8);
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->drawText("CNPr",252,445, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("Le capital du ",40,435, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPr ",88,435, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("peut à la demande et par sa suspension être reconstitué en espèce ou en nature par le procédé dit ",112,435, 'utf-8');
+                                
+                                $page1->setFont($font,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText(" KrR.",463,435, 'utf-8');
+                                $page1->setFont($font1,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("- Le capital du récurrent  se reconstitue en espèce lorsqu’il est revendu aux banques à concurrence du montant de son ",40,425, 'utf-8');
+                                $page1->setFont($font,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText(" capa.",462,425, 'utf-8');
+                                $page1->setFont($font1,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                
+                                $page1->drawText("- Le capital se reconstitue en nature lorsqu’il achète par anticipation en domiciliant le renouvellement du récurrent au terminal du",40,415, 'utf-8');
+                                $page1->drawText("fournisseur à concurrence du montant des ",40,405, 'utf-8');
+                                $page1->setFont($font,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText(" bps ",190,405, 'utf-8');
+                                $page1->setFont($font1,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText("acquis.",210,405, 'utf-8');
+                                
+                                
+                                $page1->drawText("a l’issue de ces deux sortes de reconstitution, le capital du récurrent s’achève.",40,395, 'utf-8');
+                                $page1->setFont($font,9);
+                                $page1->drawText("le credit en nature prepaye non récurrent (",40,380, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPnr",251,380, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font,9);
+                                $page1->drawText(")",277,380, 'utf-8');
+                                $page1->setFont($font1,8);
+                                $page1->drawText("Le ",40,370, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPnr ",52,370, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("regroupe aussi deux types de titres : le",81,370, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("RPGnr ",222,370, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("(Revenu Périodique Garanti non récurrent) et l’",249,370, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("Inr",418,370, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("(Investissement non ",430,370, 'utf-8');
+                                $page1->drawText("récurrent).",40,360, 'utf-8');
+                                
+                                $page1->drawText("Le ",40,350, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPnr ",52,350, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText(" est affecté de façon cumulée, directement aux",77,350, 'utf-8');
+                                $page1->setFont($font,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText("bps",247,350, 'utf-8');
+                                $page1->setFont($font1,8);
+                                $page1->drawText(". Il ne se renouvelle pas puisque son capital ne vise pas la pérennité du ",265,350, 'utf-8');
+                                
+                                $page1->drawText("revenu aux titulaires.",40,340, 'utf-8');
+                                
+                                $page1->drawText("Le ",40,330, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPnr ",52,330, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("est fonction des variables ",80,330, 'utf-8');
+                                $page1->setFont($font,8);
+                                $page1->drawText("pck ",172,330, 'utf-8');
+                                $page1->setFont($font1,8);
+                                $page1->drawText(" et ",191,330, 'utf-8');
+                                $page1->setFont($font,8);
+                                $page1->drawText("prk ",205,330, 'utf-8');
+                                $page1->setFont($font1,8);
+                                $page1->drawText(". Son capital est un débours et non une épargne. ",225,330, 'utf-8');
+                                
+                                $page1->setFont($font,9);
+                                $page1->drawText("reconstitution par domiciliation du ",40,315, 'utf-8');
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPnr",234,315, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                
+                                $page1->setFont($font1,8);
+                                $page1->drawText("Le ",40,305, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPnr ",52,305, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("constitue une domiciliation du remboursement périodique qui garantit la solvabilité du ",80,305, 'utf-8');
+                                $page1->setFont($font,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->drawText("bps",384,305, 'utf-8');
+                                $page1->setFont($font1,8);
+                                $page1->drawText("consommé sur le ",402,305, 'utf-8');
+                                $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                $page1->setFillColor($rouge);
+                                $page1->setFont($font,8);
+                                $page1->drawText("mcnp",467,305, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText(".Le ",494,305, 'utf-8');
+                                
+                                $page1->drawText("capital du  ",40,295, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPnr ",79,295, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("peut à la demande et par sa suspension être reconstitué par le procédé d’échange en espèce ou en nature.",108,295, 'utf-8');
+                                
+                                $page1->drawText("- Le capital du non récurrent  se reconstitue en espèce lorsqu’il est revendu aux banques à concurrence du montant de son ",40,285, 'utf-8');
+                                $page1->setFont($font,8);
+                                $page1->drawText("capa. ",480,285, 'utf-8');
+                                $page1->setFont($font1,8);
+                                $page1->drawText("- Le capital se reconstitue en nature lorsque son titulaire domicilie le payement ",40,275, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPnr ",321,275, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("ou la ",348,275, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("GCnr ",370,275, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("(",392,275, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("RPGnr ",397,275, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText(", ",422,275, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText(" Inr ",424,275, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText(") au ",440,275, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("te ",457,275, 'utf-8');
+                                $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                $page1->setFillColor($rouge);
+                                $page1->drawText("GCsc ",466,275, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("en ",489,275, 'utf-8'); 
+                                $page1->drawText("guise de commande ferme, en contrepartie du payement  .",40,265, 'utf-8');
+                                $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                $page1->setFillColor($rouge);
+                                $page1->setFont($font,8);
+                                $page1->drawText("smcipn ",245,265, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("aux fournisseurs.",280,265, 'utf-8');
+                                
+                                $page1->drawText("La reconstitution du capital ",40,255, 'utf-8');
+                                $bleu = new Zend_Pdf_Color_Rgb(0,0,1);
+                                $page1->setFillColor($bleu);
+                                $page1->setFont($font,8);
+                                $page1->drawText("CNPnr ",139,255, 'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("s’épuise avec le remboursement aux distributeurs. La domiciliation du capital du non récurrent ",168,255,'utf-8');
+                                
+                                $page1->drawText("se fait à l’issue d’engagement entre les distributeurs et les consommateurs.",40,245, 'utf-8');
+                                $page1->setFont($font,9); 
+                                $page1->drawText("force majeure",40,230,'utf-8');
+                                $page1->setFont($font1,8);
+                                $page1->drawText("Le ",40,220,'utf-8');
+                                $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                $page1->setFillColor($rouge);
+                                $page1->setFont($font,8);
+                                $page1->drawText("mcnp",53,220,'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font1,8);
+                                $page1->drawText("peut être interrompu en cas de force majeure.(Article 1148 du Code Civil)",80,220,'utf-8');
+                                $page1->setFont($font,9);
+                                $page1->drawText("interruption de L’exploitation du ",40,205,'utf-8');
+                                $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                $page1->setFillColor($rouge);
+                                $page1->setFont($font,8);
+                                $page1->drawText("mcnp",225,205,'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                
+                                $page1->setFont($font1,8);
+                                $page1->drawText("Ce contrat de pérennisation et/ou de domiciliation peut être interrompu en cas de force majeure. Si le cas de force majeure dépasse",40,195,'utf-8');
+                                $page1->drawText("les limites  de reconstitution, le contrat pourra être résilié quarante huit heures ou soixante douze heures (48H ou 72H) sans que le",40,185,'utf-8');
+                                $page1->drawText("membre puisse prétendre à une quelconque indemnité ou dommage intérêt.",40,175,'utf-8');
+                                $page1->drawText("Toutefois, la liquidation des actifs résultant de la période de crise, tiendra compte de la procédure du règlement à l’amiable suivante :",40,165,'utf-8');
+                                $page1->drawText("- le règlement des effets de commerce des Entreprises et industries,",40,155,'utf-8');
+                                $page1->drawText("- le règlement du ",40,145,'utf-8');
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page1->setFillColor($noir);
+                                $page1->setFont($font,8);
+                                $page1->drawText("capa ",104,145,'utf-8');
+                                $page1->setFont($font1,8);
+                                $page1->drawText("par répartition selon le quota de l’actif disponible et ceci en fonction du procédé : dernier venu, premier",130,145,'utf-8');
+                                $page1->drawText("servi.",40,135,'utf-8');
+                                $page1->setFont($font,9);
+                                $page1->drawText("entree en vigueur",40,120,'utf-8');
+                                $page1->setFont($font1,8);
+                                $page1->drawText("Ce présent contrat entre en vigueur dès sa signature et tient lieu de loi aux parties qui doivent l’exécuter de bonne foi conformément",40,110,'utf-8');
+                                $page1->drawText("à l’article 1104 du Code Civil.",40,100,'utf-8');
+                                $page1->drawText("gac regionale consortium gide/aja b.p.720 Sokodé-togo",160,15, 'utf-8');
+		                $page1->drawText("Tél.(228)22335623/25510566/92710805/99579417 Adresse électronique:gide2011@yahoo.com",140,8, 'utf-8');
+                                
+                                
+                                // Création d'une nouvelle page attachée au document
+                                $pdf->pages[] = ($page2 = $pdf->newPage('A4'));
+                                $page2->setFont($font,9);
+                                $page2->drawText("election de  domicile",40,800,'utf-8');
+                                $page2->setFont($font1,8);
+                                $page2->drawText("Pour l’exécution du présent contrat, les parties soussignées élisent leur domicile en leur demeure respective.",40,780,'utf-8');
+                                $page2->setFont($font,9);
+                                $page2->drawText("Coordonnées du souscripteur :",40,760,'utf-8');
+                                $page2->setFont($font1,8);
+                                $page2->drawText("Nom :........................................................................................................................................................................................................................",40,740, 'utf-8');
+                                $page2->drawText($contrat->nom_membre,150,740, 'utf-8');
+                                $page2->drawText("Prenom :....................................................................................................................................................................................................................",40,720, 'utf-8');
+                                $page2->drawText($contrat->prenom_membre,150,720,'utf-8');
+                                $page2->drawText("Profession :...............................................................................................................................................................................................................",40,700, 'utf-8');
+                                $page2->drawText($contrat->profession_membre,150,700,'utf-8');
+                                $page2->drawText("Nationalité :...............................................................................................................................................................................................................",40,680, 'utf-8');
+                                $page2->drawText($contrat->nationalite,150,680,'utf-8');
+                                $page2->drawText("bp :...........................................................................................................................................................................................................................",40,660, 'utf-8');
+                                $page2->drawText($contrat->bp_membre,150,660, 'utf-8');
+                                $page2->drawText("Ville :.........................................................................................................................................................................................................................",40,640, 'utf-8');
+                                $page2->drawText($contrat->ville_membre,150,640, 'utf-8');
+                                $page2->drawText("Adresse :...................................................................................................................................................................................................................",40,620, 'utf-8');
+                                $page2->drawText($contrat->quartier_membre,150,620, 'utf-8');
+                                $page2->drawText("Membre identifié N° :.................................................................................................................................................................................................",40,600, 'utf-8');
+                                $page2->setFont($font,8);
+				$page2->drawText('Pour la gac Centrale togo',40,580, 'utf-8');
+			        $page2->setFont($font1,8);
+				$page2->drawText($contrat->code_membre,150,600, 'utf-8');
+                                $datecontrat = new Zend_Date(Zend_Date::ISO_8601);
+                                $page2->drawText('Fait à Lomé ,le..................................................',360,580, 'utf-8'); 
+                                $page2->drawText($datecontrat->toString('dd/mm/yyyy'),420,580, 'utf-8');
+                                $page2->setFont($font,8);
+                                $page2->drawText('Signature précédée de la mention',360,560, 'utf-8');
+                                $page2->setFont($font1,8);
+                                $page2->drawText('Lu et approuvé',492,560, 'utf-8');
+				//$page2->setFont($font,8);
+                                //$page2->drawText("p.o gac Centrale Régionale",40,560, 'utf-8');
+                                //$page2->drawText("l'exploitant du ",40,560, 'utf-8');
+                                //$rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                // $page2->setFillColor($rouge);
+                                // $page2->drawText("mcnp",90,560, 'utf-8');
+				$page2->setFont($font1,8);
+                                $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                $page2->setFillColor($noir);
+                                $page2->drawText("gac regionale consortium gide/aja b.p.720 Sokodé-togo",160,15, 'utf-8');
+		                $page2->drawText("Tél.(228)22335623/25510566/92710805/99579417 Adresse électronique:gide2011@yahoo.com",140,8, 'utf-8');
+                    
+                                if($contrat->type_membre=='m') {
+                                      // Création d'une nouvelle page attachée au document
+                                      $pdf->pages[] = ($page3 = $pdf->newPage('A4'));
+                                      $page3->setFillColor(new Zend_Pdf_Color_GrayScale(1.0));
+                                      $page3->drawRectangle(37,725,560,830);
+                                      $page3->setLineColor(new Zend_Pdf_Color_GrayScale(0.0));
+                                      $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                      $page3->setFillColor($noir);
+                                      $page3->setFont($font,18); 
+                                      $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                      $page3->setFillColor($rouge);
+		                      $page3->drawText("mcnp",280,793,'utf-8');
+                                      //Charger une image
+                                      $image = Zend_Pdf_Image::imageWithPath(application_path.'/../public/images/logo.jpg');
+                                      $page3->drawImage($image,55,775,105,825);
+                                      $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                      $page3->setFillColor($noir);
+                                      $page3->setFont($font,14);
+                                      $page3->drawText("Marché de Crédit en Nature Pérenne",185,779,'utf-8');
+                                
+                                      //déplacement du curseur vers la droite de 120 
+                                      $font1 = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::font_times);
+                                      $page3->setFont($font1,8);
+                                      $page3->drawText("arrete N°10/1533/oapi/dg/dga/dpi/ssd portant enrégistrement de la marque N°:63271 du 09 décembre 2009 sous N° 3200902614",100,768, 'utf-8');
+                                      $page3->drawText("arrete N°10/2131/oapi/dg/dga/dpi/ssd portant enrégistrement de la marque N°:63869 du 15 février 2010 sous N° 32001000435",100,758, 'utf-8');
+                                      $page3->drawText("227,Rue des Amandiers Tokoin-Nukafu b.p.:30038 lome-togo Tél:+(228)22260662/Site web:www.eu-mcnp.com/Adresse électronique:mcnp@yahoo.fr",50,750, 'utf-8');
+                                      $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::font_times_bold);
+                                      $page3->setFont($font,9);
+                                      $page3->drawText("souscription au contrat de membre fondateur tenant lieu deS frais de licence de la marque ",50,740,'utf-8');
+                                      $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                      $page3->setFillColor($rouge);
+                                      $page3->drawText("mcnp",185,730,'utf-8');
+                                      $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                      $page3->setFillColor($noir);
+                                      $page3->drawText("et de cession de son infrastructure",215,730,'utf-8');
+									  
+                                     // $page3->drawText("N° : ",400,705,'utf-8');
+                                    // $page3->drawText($contrat->code_membre,425,705,'utf-8');
+                                      
+                                      $page3->setFont($font,12);
+                                      $page3->drawText("1.  souscripteur",240,668,'utf-8');
+                                      $page3->drawLine(255,666,347,666);
+                                      $page3->setFont($font1,9);
+                                      $page3->drawText("Il est souscrit au contrat de membre fondateur tenant lieu des frais de licence de la marque",40,654,'utf-8');
+                                      $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                      $page3->setFillColor($rouge);
+                                      $page3->setFont($font,9);
+                                      $page3->drawText("mcnp",369,654,'utf-8');
+                                      $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                      $page3->setFillColor($noir);
+                                      $page3->setFont($font1,9);
+                                      $page3->drawText("et la cession de son infrastructure par :",399,654,'utf-8');
+                                      
+                             $page3->drawText(" (m/Mme /Ets /Ste/ong/Association) : …………………………………………………………………………………………………………",40,642,'utf-8');
+                             $page3->drawText("………………………………………………………………………………………d'une somme de  dix mille (10 000) fcfa, en numéraire. ",40,630,'utf-8');
+                                      $page3->drawText("Ces frais de souscription sont effectués de manière définitive, donc non remboursables.",40,618,'utf-8');
+									  $page3->drawText("adresse : ……………………………………………………………………………………………………………………………………",40,606,'utf-8');
+									  
+									  
+                                      $page3->setFont($font,12);
+                                      $page3->drawText("2.  montant de souscription",240,576,'utf-8');
+                                      $page3->drawLine(257,574,430,574);
+                                      $page3->setFont($font1,9);
+                                      $page3->drawText("Le montant de souscription dans le cadre de ce présent contrat est fixé à la somme de ",40,562,'utf-8');
+									  $page3->setFont($font,9);
+                                      $page3->drawText("dix mille (10 000) fcfa indivisible.",350,562,'utf-8');
+                                      $page3->setFont($font,12);
+                                      $page3->drawText("3. quota des frais de souscription",240,532,'utf-8');
+                                      $page3->drawLine(257,530,477,530);
+                                      $page3->setFont($font1,9);
+                                      $page3->drawText("Les frais de souscription audit contrat ne peuvent dépasser le montant de dix mille (10 000) fcfa, par conséquent, il n’est souscrit que ce montant ",40,518,'utf-8');
+									  $page3->drawText("qui justifie sans équivoque, le droit équitable entre tous les souscripteurs.",40,506,'utf-8');
+									  
+                                      $page3->setFont($font,12);
+                                      $page3->drawText("4.  contrepartie pour la souscription",240,476,'utf-8');
+                                      $page3->drawLine(257,474,500,474);
+									  $page3->setFont($font1,9);
+                                      $page3->drawText("En contrepartie, le souscripteur devient membre de la",40,462,'utf-8');
+                                      $page3->setFont($font,9);
+                                      $page3->drawText("gac Centrale Togo ",230,462,'utf-8');
+                                      $page3->setFont($font1,9);
+                                      $page3->drawText("aussi longtemps",378,462,'utf-8');
+                                      
+                                      
+                                      $page3->drawText("qu’il justifie de son droit de licence sur la marque ",400,462,'utf-8');
+                                      $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                      $page3->setFillColor($rouge);
+                                      $page3->setFont($font,8);
+                                      $page3->drawText("mcnp",292,518,'utf-8');
+                                      $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                      $page3->setFillColor($noir);
+                                      $page3->setFont($font1,8);
+                                      
+									  
+                                      $page3->drawText("",130,402,'utf-8');
+                                      $page3->setFont($font,9);
+                                      $page3->drawText("5.  droit de souscrire au present contrat ",168,382,'utf-8');
+                                      $page3->drawLine(181,380,386,380);
+                                      $page3->setFont($font1,8);
+                                      $page3->drawText("Le droit de souscrire à ce contrat est réservé à tout Togolais et à tout résident sur le territoire",130,370,'utf-8');
+                                      
+                                      
+                                      $page3->drawText("togolais désireux de faire partir de la Constellation",130,358,'utf-8');
+                                      $page3->setFont($font,8);
+                                      $page3->drawText("gac Centrale Togo ",295,358,'utf-8');
+                                      $page3->setFont($font1,8);
+                                      $page3->drawText("et de jouir de la",367,358,'utf-8');
+                                      
+                                      $page3->drawText("qualité de concessionnaire de la marque ",130,346,'utf-8');
+                                      $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                      $page3->setFillColor($rouge);
+                                      $page3->setFont($font,8);
+                                      $page3->drawText("mcnp",262,346,'utf-8');
+                                      $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                      $page3->setFillColor($noir);
+                                      $page3->setFont($font1,8);
+                                      $page3->drawText(".",287,346,'utf-8');
+                                      
+                                      
+                                      
+                                      
+                                      $page3->setFont($font,9);
+                                      $page3->drawText("6.  lieu de souscription  ",168,326,'utf-8');
+                                      $page3->drawLine(181,324,285,324);
+                                      $page3->setFont($font1,8);
+                                      $page3->drawText("La présente souscription se fait aux différents endroits désignés par les Membres Fondateurs",130,314,'utf-8');
+                                      $page3->drawText("de l’association Fondation – ReDéMaRe qui sont chargés de constituer la",130,302,'utf-8');
+                                      $page3->setFont($font,8);
+                                      $page3->drawText("gac Centrale",368,302,'utf-8');
+                                      
+                                      $page3->setFont($font,8);
+                                      $page3->drawText("Togo",130,290,'utf-8');
+                                      $page3->setFont($font1,8);
+                                      $page3->drawText("conformément au «",150,290,'utf-8');
+                                      $page3->setFont($font,8);
+                                      $page3->drawText(" Contrat de licence",213,290,'utf-8');
+                                      
+                                      $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                      $page3->setFillColor($rouge);
+                                      $page3->drawText("mcnp ",280,290,'utf-8');
+                                      $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                      $page3->setFillColor($noir);
+                                      $page3->drawText("et de cession de son Infrastructure ",308,290,'utf-8');
+                                      $page3->setFont($font1,8);
+                                      $page3->drawText("».",428,290,'utf-8');
+                                      
+                                      
+                                      $page3->setFont($font,9);
+                                      $page3->drawText("7.  annexe",168,270,'utf-8');
+                                      $page3->drawLine(181,268,218,268);
+                                      $page3->setFont($font1,8);
+                                      
+                                      $page3->drawText("La souscription au présent contrat  emporte la signature du « ",130,258,'utf-8');
+                                      $page3->setFont($font,8);
+                                      $page3->drawText("Contrat de licence",328,258,'utf-8');
+                                      $rouge = new Zend_Pdf_Color_Rgb(1,0,0);
+                                      $page3->setFillColor($rouge);
+                                      $page3->drawText("mcnp ",393,258,'utf-8');
+                                      $noir = new Zend_Pdf_Color_Rgb(0,0,0);
+                                      $page3->setFillColor($noir);
+                                      $page3->drawText("et de",421,258,'utf-8');
+                                      $page3->drawText("cession de son Infrastructure",130,246,'utf-8');
+                                      $page3->setFont($font1,8);
+                                      $page3->drawText(" » pour lequel la présente souscription est faite et annexée.",230,246,'utf-8');
+                                      
+                                      $page3->drawText("Fait à Lomé, le…………………………",325,206,'utf-8');
+                                      $datecontrat = new Zend_Date(Zend_Date::ISO_8601);
+                                      $page3->drawText($datecontrat->toString('dd/mm/yyyy'),390,206, 'utf-8');
+                                      $page3->drawText("Pour le souscripteur",130,186,'utf-8');
+                                      $page3->setFont($font,9);
+                                      $page3->drawText("Essohamlon sama",325,146,'utf-8');
+                                      $page3->drawLine(326,144,400,144);
+                                      $page3->setFont($font1,8);
+                                      $page3->drawText("gac regionale consortium gide/aja b.p.720 Sokodé-togo",160,15, 'utf-8');
+		                      $page3->drawText("Tél.(228)22335623/25510566/92710805/99579417 Adresse électronique:gide2011@yahoo.com",140,8, 'utf-8');         
+                                }          
+                    }                     
+          
+		
+//permet de spécifier l'en-tête http
+		header('Content-Type: application/pdf; charset=utf-8');
+ 
+		//affichage de notre pdf
+		echo $pdf->render();
+                $this->view->data = $pdf->render();
+		//comme l'action affiche un pdf, nous allons désactiver l'affichage de la vue et du layout
+		//permet de désactiver l'affichage de la vue de l'action list
+		$this->_helper->viewRenderer->setNoRender(true);
+		//permet de désactiver l'affichage du layout
+		$this->_helper->layout->disableLayout();
+                
+        }     
+}
